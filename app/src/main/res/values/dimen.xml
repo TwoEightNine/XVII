@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="marginshape">4dp</dimen>
+    <dimen name="marginside">7dp</dimen>
+    <dimen name="endmarginshape">18dp</dimen>
+    <dimen name="frame_pad">5dp</dimen>
+    <dimen name="big_margin">30dp</dimen>
+    <dimen name="item_margin">7dp</dimen>
+
+    <dimen name="toolbar_elevation">5dp</dimen>
+    <dimen name="message_elevation">2dp</dimen>
+    <dimen name="splash_logo">150dp</dimen>
+    <dimen name="image_margin">5dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="margin8">8dp</dimen>
+    <dimen name="margin16">16dp</dimen>
+    <dimen name="audio_margin">10dp</dimen>
+    <dimen name="sticker_width">80dp</dimen>
+
+    <dimen name="drawer_width">100dp</dimen>
+    <dimen name="drawer_item_width">90dp</dimen>
+    <dimen name="tabs_height">38dp</dimen>
+    <dimen name="image_corners_radius">12dp</dimen>
+    <dimen name="sticker_height">50dp</dimen>
+    <dimen name="emoji_size">26sp</dimen>
+    <dimen name="loader_size">15dp</dimen>
+    <dimen name="typing_dot_size">7dp</dimen>
+    <dimen name="arc_width">450dp</dimen>
+
+    <!--chat-->
+    <dimen name="bottomsheet_height">350dp</dimen>
+    <dimen name="bottomsheet_thumb_height">38dp</dimen>
+    <dimen name="chat_photo_size">40dp</dimen>
+    <dimen name="chat_shape_radius">20dp</dimen>
+    <dimen name="chat_shape_min_height">40dp</dimen>
+    <dimen name="reply_button_size">60dp</dimen>
+    <dimen name="send_attach_height">68dp</dimen>
+
+    <!--profile-->
+    <dimen name="profile_ava_size">300dp</dimen>
+    <dimen name="profile_data_top_margin">270dp</dimen>
+    <dimen name="profile_arc_height">70dp</dimen>
+
+    <!--appearance-->
+    <dimen name="picker_outside_width">300dp</dimen>
+    <dimen name="picker_outside_height">130dp</dimen>
+    <dimen name="picker_inside_width">280dp</dimen>
+    <dimen name="picker_inside_height">110dp</dimen>
+    <dimen name="picker_large_side_width">160dp</dimen>
+    <dimen name="picker_small_side_width">110dp</dimen>
+    <dimen name="picker_small_side_height">50dp</dimen>
+    <dimen name="picker_space_width">10dp</dimen>
+    <dimen name="picker_space_height">10dp</dimen>
+    <dimen name="picker">220dp</dimen>
+</resources>

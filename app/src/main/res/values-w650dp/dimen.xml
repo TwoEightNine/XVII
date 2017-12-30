@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="arc_width">950dp</dimen>
+
+    <!--profile-->
+    <dimen name="profile_ava_size">600dp</dimen>
+    <dimen name="profile_data_top_margin">540dp</dimen>
+    <dimen name="profile_arc_height">150dp</dimen>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.twoeightnine.root.xvii.views.SquareLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/background"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_margin="4dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/ivThumb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:src="@drawable/ic_check_circle"
+            android:id="@+id/ivCheck"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
+
+    </FrameLayout>
+
+
+
+</com.twoeightnine.root.xvii.views.SquareLinearLayout>

@@ -1,0 +1,254 @@
+<resources>
+    <string name="app_name">XVII</string>
+    <string name="about_app">About</string>
+    <string name="app_vers" translatable="false">%1$s\nver. %2$s</string>
+    <string name="vk_group">Our group in VK</string>
+    <string name="settings">Settings</string>
+    <string name="share">Share XVII on my wall</string>
+    <string name="search">Search</string>
+
+    <string name="last_seen">last seen: %s</string>
+    <string name="status">Status</string>
+    <string name="bdate">Birth date</string>
+    <string name="city">City</string>
+    <string name="hometown">Hometown</string>
+    <string name="send">Send</string>
+    <string name="relation">Relation</string>
+    <string name="write_message"> Write message</string>
+    <string name="added">Added</string>
+    <string name="photo_title">Photo</string>
+    <string name="doenloaded">%s has been downloaded</string>
+    <string name="beOffline">Be offline (as soon as possible)</string>
+    <string name="markasRead">Mark messages as read</string>
+    <string name="show_typing">Show typing</string>
+    <string name="feedback">Feedback</string>
+    <string name="copied">%s has been copied to clipboard</string>
+    <string name="save">Save</string>
+    <string name="prefs">Preferences</string>
+    <string name="fiends">Friends</string>
+    <string name="friends">friends</string>
+    <string name="followers">followers</string>
+    <string name="mutual" translatable="false">mutual</string>
+    <string name="dialogs">Dialogs</string>
+    <string name="mphone">Mobile phone</string>
+    <string name="hphone">Home phone</string>
+    <string name="site">Site</string>
+    <string name="facebook" translatable="false">Facebook</string>
+    <string name="twitter" translatable="false">Twitter</string>
+    <string name="vibrate">Vibrate on new messages</string>
+    <string name="sound">Sound notifications</string>
+    <string name="logout">Log out</string>
+    <string name="assertion_enable" translatable="false">Ask PIN (in dev)</string>
+    <string name="fwd_message">%d forwarded</string>
+    <string name="error">Error</string>
+    <string name="choose_photo">Choose photo</string>
+    <string name="bytes">%d B</string>
+    <string name="kilobytes">%d kB</string>
+    <string name="megabytes">%d MB</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="kick_chat">Out of chat</string>
+    <string name="invite_chat">In chat</string>
+    <string name="kick_chat_full">%s is out of chat now</string>
+    <string name="invite_chat_full">%s is in chat now</string>
+    <string name="link">Link</string>
+    <string name="in_dev" translatable="false">In development</string>
+    <string name="wall_post">Wall post</string>
+    <string name="copy">Copy</string>
+    <string name="reply">Reply</string>
+    <string name="decrypt">Decrypt</string>
+    <string name="logout_again">Press again to log out</string>
+    <string name="decrypted">DECRYPT: %s</string>
+    <string name="unread100" translatable="false">99+</string>
+    <string name="accounts">Accounts</string>
+    <string name="new_acc">Add new account..</string>
+    <string name="acc_changed">Account was changed. App is being restarted..</string>
+    <string name="rate">Rate</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="delete">Delete</string>
+    <string name="read">Read</string>
+    <string name="current_dialog">Current dialog</string>
+    <string name="message_sent">Message was sent</string>
+    <string name="meme_storage">Meme storage</string>
+    <string name="delete_meme">Delete this meme?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="join_us">Follow us for getting the freshest news about app</string>
+    <string name="stickers">Stickers</string>
+    <string name="download">Download</string>
+    <string name="add_to_saved">Add to saved</string>
+    <string name="added_to_saved">Photo has been added to saved photos</string>
+    <string name="notifications">Notifications</string>
+    <string name="general">General</string>
+    <string name="auth_error">Auth error</string>
+    <string name="delete_acc">Delete this account?</string>
+    <string name="show_notif">Show notifications</string>
+    <string name="show_name">Show sender\'s name</string>
+    <string name="about">About</string>
+    <string name="try_again">Try again</string>
+    <string name="loading_error">Loading error</string>
+    <string name="no_internet">Turn on the Internet first</string>
+    <string name="cannot_delete_acc">You cannot delete running account</string>
+    <string name="already_acc">This account is already in use</string>
+    <string name="error_message">Attachments</string>
+    <string name="typing">typing</string>
+    <string name="voice_message">Voice message</string>
+    <string name="choose_dialog">Choose dialog</string>
+    <string name="light_theme">Light theme</string>
+    <string name="theme_changed">Theme is changed. App is being restarted..</string>
+    <string name="enc_on">Encryption is on now</string>
+    <string name="enc_off">ENCRYPTION IS OFF</string>
+    <string name="clear" translatable="false">CLR</string>
+    <string name="forgot_pin">Forgot your PIN?</string>
+    <string name="incorrect_pin">Incorrect</string>
+    <string name="confirm_pin">Confirm your PIN</string>
+    <string name="enter_pin">Enter PIN</string>
+    <string name="enter_new_pin">Enter new PIN</string>
+    <string name="reset">Reset</string>
+    <string name="edit">Edit</string>
+    <string name="updated_succ">Updated successfully</string>
+    <string name="reset_succ">Reset successfully</string>
+    <string name="dont_match">PINs don\'t match</string>
+    <string name="reset_pin">Reset PIN?</string>
+    <string name="reset_pin_desc">All personal data will be reset in this case</string>
+    <string name="have_pin">You already have a PIN</string>
+    <string name="pin_settings">PIN settings</string>
+    <string name="instagram" translatable="false">Instagram</string>
+    <string name="skype" translatable="false">Skype</string>
+    <string name="attachments">Attachments</string>
+    <string name="attached">Attached</string>
+    <string name="important">Important</string>
+    <string name="markAsImportant">Mark as important</string>
+    <string name="unmarkImportant" translatable="false">Unmark important</string>
+    <string name="not_playable_video">Video is not playable</string>
+    <string name="docs">Docs</string>
+    <string name="photos">Photos</string>
+    <string name="videos">Videos</string>
+    <string name="links">Links</string>
+    <string name="choose_attachment">Choose attachment</string>
+    <string name="vk_materials">VK materials</string>
+    <string name="forward">Forward</string>
+    <string name="appearance">Appearance</string>
+    <string name="themes">Themes</string>
+    <string name="fonts" translatable="false">Fonts</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="chat">Chat</string>
+    <string name="leave_chat">Leave chat</string>
+    <string name="chat_title_updated">Chat title was updated: \"%s\"</string>
+    <string name="new_dialog">New conversation</string>
+    <string name="offline_hint">Pay attention that offline mode will not work on EVERY VK client no more. This is caused by VK API that turns online status on automatically every time you refresh dialogs. Not handy, we understand, but that is.. Fortunately, you can enable \"almost\" offline that will make you offline, but you last seen time will change. Enabling manual updating also allows you to stay offline until you send a message.</string>
+    <string name="alias" translatable="false">Alias</string>
+    <string name="delete_attachments">Delete all attachments?</string>
+    <string name="ten_attachments">You cannot add more than 10 attachments</string>
+    <string name="chat_back_exists">Chat background is selected</string>
+    <string name="change">Change</string>
+    <string name="chat_back">Chat background</string>
+    <string name="confirm">Confirm</string>
+    <string name="chats_notifs">Chat notifications</string>
+    <string name="show_content">Show message content</string>
+    <string name="mute">Mute list</string>
+    <string name="change_keys">Change keys</string>
+    <string name="random_key">Generate randomly</string>
+    <string name="user_key">Enter own key</string>
+    <string name="default_key">Use default key</string>
+    <string name="key_reset">Keys were reset to default</string>
+    <string name="generating_keys">Generating keys\nIt may take up to several minutes\n Just for your security</string>
+    <string name="key_set">Keys were set successfully</string>
+    <string name="key_exchanged">Keys were exchanged</string>
+    <string name="secure_length">Please use long phrases</string>
+    <string name="messages">Messages</string>
+    <string name="no_exchg_in_chats">Key exchange is not available in this chat</string>
+    <string name="encryption">Encryption</string>
+    <string name="restart_app">Restarting app..</string>
+    <string name="content_hidden">Content hidden</string>
+    <string name="share_text">
+        What do I love this messenger for?\n
+        It is stylish and ergonomic, taking few memory in storage and handy in any case! Equipping with stealth-features,
+        supporting encryption and having huge set of themes, this messenger has captured my heart!\n
+        Do you not have it yet? Then get it now in Google Play!\n
+        #xvii #app #vk #android #messenger
+    </string>
+    <string name="shared">Shared successfully</string>
+    <string name="cannot_create_chat">Cannot create chat</string>
+    <string name="chat_created">Created successfully</string>
+    <string name="denied">Access denied</string>
+    <string name="audio_denied">Prohibited by VK</string>
+    <string name="permissions_info">App need to have an access to your files for sending and downloading images and your microphone for sending voice messages</string>
+    <string name="conversation">conversation</string>
+    <string name="community">community</string>
+    <string name="open_chat">Open chat</string>
+    <string name="want_delete">Really want to delete?</string>
+    <string name="rename">Rename</string>
+    <string name="left_chat">You left this chat</string>
+    <string name="uncaught_exception">Unexpected error occurred</string>
+    <string name="send_report">Send report</string>
+    <string name="report_sent">Report was sent</string>
+    <string name="describe_actions">Describe what happened</string>
+    <string name="describe_hint">i opened settings</string>
+    <string name="update">Update</string>
+    <string name="update_available">Update available</string>
+    <string name="registration_date">Registration date</string>
+    <string name="id" translatable="false">ID</string>
+    <string name="add_to_docs">Add to docs</string>
+    <string name="added_to_docs">Successfully added to docs</string>
+    <string name="doc">Doc</string>
+    <string name="manual_update">Update dialogs manually</string>
+    <string name="clear_cache">Clear cache</string>
+    <string name="cache_cleared">Cache cleared</string>
+    <string name="wanna_logout">Really want to log out?</string>
+    <string name="like_app">Do you like XVII?\nRate it now!</string>
+    <string name="not_now">Not now</string>
+    <string name="never">Never</string>
+    <string name="unable_to_add_to_gallery">Unable to add to gallery. It will be added automatically later</string>
+    <string name="swipe_right_hint">Swipe right to attach media</string>
+    <string name="generation_dh_hint">Make sure your interlocutor has installed XVII and opened the dialog with you. It is necessary for key exchange.\nWarning! Keys are valid only for one session. Leaving this dialog means destroying and forgetting the keys forever!</string>
+    <string name="key_xchg_failed">The interlocutor have not supported the exchange. Failed!</string>
+    <string name="fingerprint">Fingerprint</string>
+    <string name="decrypting_image">Image is being decrypted</string>
+    <string name="invalid_file">Unable to decrypt this file</string>
+    <string name="fingerprint_hint">This image and this text were generated from the encryption key. If they look the same on your interlocutor\'s device and the keys were set, be sure that no one breaks your privacy. Otherwise your conversation is not secure!</string>
+    <string name="quote" translatable="false">You are <b>not</b> your job. You\'re <b>not</b> how much money you have in the bank. You\'re <b>not</b> the car you drive. You\'re <b>not</b> the contents of your wallet. You\'re <b>not</b> your fucking khakis. You\'re the all-singing, all-dancing <b>crap of the world</b></string>
+
+    <string-array name="relations">
+        <item>single</item>
+        <item>in a relationship</item>
+        <item>engaged</item>
+        <item>married</item>
+        <item>complicated</item>
+        <item>actively searching</item>
+        <item>in love</item>
+        <item>in civil onion</item>
+    </string-array>
+
+    <plurals name="messages">
+        <item quantity="one">%d new message</item>
+        <item quantity="other">%d new messages</item>
+    </plurals>
+    <plurals name="attach">
+        <item quantity="one">%d attachment</item>
+        <item quantity="other">%d attachments</item>
+    </plurals>
+    <string name="aboutBig">
+        <b>XVII Messenger (by TwoEightNine)</b>\n
+        version: %s\n
+    </string>
+
+    <string name="online">online</string>
+    <string name="online_full">online (last seen: %s)</string>
+    <string name="offline">offline</string>
+    <string name="offline_full">offline (last seen: %s)</string>
+    
+    <string name="error_1">Unknown method passed</string>
+    <string name="error_5">User authorisation failed</string>
+    <string name="error_6">Too many requests per second</string>
+    <string name="error_7">Permission to perform this action is denied</string>
+    <string name="error_9">Flood control</string>
+    <string name="error_10">Internal server error</string>
+    <string name="error_14">Captcha needed</string>
+    <string name="error_15">Access denied</string>
+    <string name="error_17">Validation required</string>
+    <string name="error_200plus">Access denied</string>
+    <string name="error_500plus">Permission denied</string>
+
+</resources>
+

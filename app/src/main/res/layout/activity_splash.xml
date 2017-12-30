@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:background="@color/background"
+    android:id="@+id/rlContainer"
+    android:tag="main"
+    android:layout_height="match_parent">
+
+    <!--<ImageView-->
+        <!--android:id="@+id/ivGradient"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:src="@drawable/shape_circular_splash"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <ImageView
+        android:id="@+id/ivAppLogo"
+        android:src="@drawable/xvii512"
+        android:layout_width="@dimen/splash_logo"
+        android:layout_height="@dimen/splash_logo"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rlBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/chat_shape_min_height"
+        android:paddingEnd="@dimen/endmarginshape"
+        android:paddingRight="@dimen/endmarginshape">
+
+
+        <LinearLayout
+            android:elevation="2dp"
+            android:clickable="false"
+            android:id="@+id/llMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/marginshape"
+            android:layout_marginLeft="@dimen/marginside"
+            android:layout_marginStart="@dimen/marginside"
+            android:layout_marginTop="@dimen/marginshape"
+            android:background="@drawable/shape_message"
+            android:minWidth="110dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:maxLines="1"
+                android:text="26.12.2923 32.19"
+                android:textColor="@color/other_text"
+                android:textSize="10sp" />
+
+
+            <TextView
+                android:textColorLink="@color/link_color"
+                android:autoLink="web"
+                android:id="@+id/tvBody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="mgae"
+                android:textColor="@color/main_text"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/llMessageContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlImportant"
+            android:visibility="gone"
+            android:layout_alignLeft="@+id/llMessage"
+            android:layout_alignTop="@+id/llMessage"
+            android:elevation="4dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp">
+            <!--<ImageView-->
+                <!--android:src="@drawable/ic_star"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:layout_width="15dp"-->
+                <!--android:layout_height="15dp" />-->
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <!--<View-->
+    <!--android:id="@+id/vWider"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp" />-->
+
+</RelativeLayout>

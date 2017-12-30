@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.twoeightnine.root.xvii.views.FriendsLinearLayout
+    android:id="@+id/measured"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/llItem"
+        android:weightSum="100"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_weight="80"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:layout_margin="6dp"
+            android:id="@+id/ivOnlineDot"
+            android:src="@drawable/dotshape"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+    </RelativeLayout>
+
+        <TextView
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_weight="25"
+            android:text="sdsdsd"
+            android:textColor="@color/main_text"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp" />
+
+
+    </LinearLayout>
+
+
+
+</com.twoeightnine.root.xvii.views.FriendsLinearLayout>

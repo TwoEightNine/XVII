@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="Info size"
+        android:id="@+id/menu_info_sort" />
+
+    <item
+        android:title="Count"
+        android:id="@+id/menu_count_sort" />
+
+    <item
+        android:title="User ID"
+        android:id="@+id/menu_id_sort" />
+
+    <item
+        android:title="User ID desc"
+        android:id="@+id/menu_id_sort_desc" />
+
+    <item
+        android:title="Time"
+        android:id="@+id/menu_time_sort" />
+
+</menu>

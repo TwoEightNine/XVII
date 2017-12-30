@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="primary">#8e30d8</color>-->
+    <!--<color name="primary_dark">#8e30d8</color>-->
+    <!--&lt;!&ndash;<color name="primary_light">#CFBEF7</color>&ndash;&gt;-->
+    <!--&lt;!&ndash;<color name="primary_light_hard">#BFAEE7</color>&ndash;&gt;-->
+    <!--&lt;!&ndash;<color name="accent">#9C27B0</color>&ndash;&gt;-->
+    <!--<color name="primary_text">#212121</color>-->
+    <!--<color name="secondary_text">#656565</color>-->
+    <!--&lt;!&ndash;<color name="icons">#fff</color>&ndash;&gt;-->
+    <!--&lt;!&ndash;<color name="divider">#BDBDBD</color>&ndash;&gt;-->
+    <!--<color name="link_color">#55f</color>-->
+
+    <!--<color name="background">#fff</color>-->
+    <!--<color name="popup">#fff</color>-->
+    <!--<color name="toolbar">#8e30d8</color>-->
+    <!--<color name="icons">#fff</color>-->
+    <!--<color name="online">#8e30d8</color>-->
+    <!--<color name="divider">#888</color>-->
+    <!--<color name="main_text">#222</color>-->
+    <!--<color name="other_text">#555</color>-->
+    <!--<color name="fab">#92b</color>-->
+    <!--<color name="accent">#8e30d8</color>-->
+    <!--<color name="shape">#9268a5</color>-->
+    <!--<color name="selected_mess">#ddd</color>-->
+    <!--<color name="placeholder">#888</color>-->
+
+    <!--<color name="toolbar_text">@color/icons</color>-->
+    <!--<color name="toolbar_subtext">#ddd</color>-->
+
+    <!--<color name="dark_drawables">#6e10b8</color>-->
+
+    <!--<color name="mess_shape_wrapped">#def</color>-->
+    <!--<color name="mess_shape_wrapper">#cbf</color>-->
+
+    <!--<color name="shape_typing">#8000</color>-->
+
+    <!--<color name="search_bar">#def</color>-->
+
+    <!--<color name="splash_color">#8e30d8</color>-->
+    <!--<color name="pinpad">#ae50f8</color>-->
+    <!--<color name="pinpad_pressed">#be60ff</color>-->
+
+    <color name="primary">#888</color>
+    <color name="primary_dark">#222</color>
+    <!--<color name="primary_light">#CFBEF7</color>-->
+    <!--<color name="primary_light_hard">#BFAEE7</color>-->
+    <!--<color name="accent">#9C27B0</color>-->
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#656565</color>
+    <!--<color name="icons">#fff</color>-->
+    <!--<color name="divider">#BDBDBD</color>-->
+    <color name="link_color">#55f</color>
+
+    <color name="background">#fff</color>
+    <color name="popup">#fff</color>
+    <color name="toolbar">#fff</color>
+    <color name="icons">#fff</color>
+    <color name="online">#8e30d8</color>
+    <color name="divider">#bbb</color>
+    <color name="main_text">#222</color>
+    <color name="other_text">#555</color>
+    <color name="minor_text">#888</color>
+    <color name="fab">#92b</color>
+    <color name="accent">#666</color>
+    <color name="shape">#9268a5</color>
+    <color name="selected_mess">#5aaa</color>
+    <color name="placeholder">#888</color>
+
+    <color name="toolbar_text">@color/icons</color>
+    <color name="toolbar_subtext">#ddd</color>
+
+    <color name="dark_drawables">#6e10b8</color>
+
+    <color name="mess_shape_wrapped">#def</color>
+    <color name="mess_shape_wrapper">#cbf</color>
+
+    <color name="shape_typing">#8000</color>
+
+    <color name="search_bar">#fff</color>
+
+    <color name="splash_color">#8e30d8</color>
+    <color name="pinpad">#ae50f8</color>
+    <color name="pinpad_pressed">#be60ff</color>
+</resources>

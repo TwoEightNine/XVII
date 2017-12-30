@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/rlContainer"
+    android:tag="main"
+    android:background="@color/popup"
+    android:layout_height="@dimen/bottomsheet_height">
+
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/tvTime"
+            android:textColor="@color/toolbar_text"
+            android:textSize="25sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="00:00"
+            android:textAllCaps="true" />
+
+
+        <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_margin="12dp"
+            android:background="@drawable/shape_alpha_circle">
+
+            <ImageView
+                android:id="@+id/ivMic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_mic" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:layout_centerInParent="true"
+                android:id="@+id/ivSend"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/selector_rect"
+                android:src="@drawable/ic_send"
+                android:tag="main" />
+
+            <com.twoeightnine.root.xvii.views.LoaderView
+                android:visibility="invisible"
+                android:layout_centerInParent="true"
+                android:id="@+id/loader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

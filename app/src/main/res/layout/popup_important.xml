@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/popup"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="@drawable/selector_rect"
+        android:id="@+id/llCopy"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/TextViewStyle.Medium.Gray"
+            android:text="@string/copy"
+            android:layout_margin="@dimen/margin16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/selector_rect"
+        android:id="@+id/llDelete"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/TextViewStyle.Medium.Gray"
+            android:text="@string/delete"
+            android:layout_margin="@dimen/margin16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/selector_rect"
+        android:id="@+id/llForward"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/TextViewStyle.Medium.Gray"
+            android:text="@string/forward"
+            android:layout_margin="@dimen/margin16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

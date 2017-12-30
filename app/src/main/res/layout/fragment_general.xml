@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/big_margin"
+            android:orientation="vertical">
+
+
+            <Switch
+                android:id="@+id/switchOffline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="@dimen/frame_pad"
+                android:text="@string/beOffline"
+                android:textColor="@color/main_text" />
+
+            <Switch
+                android:id="@+id/switchTyping"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="@dimen/frame_pad"
+                android:text="@string/show_typing"
+                android:textColor="@color/main_text" />
+
+            <Switch
+                android:id="@+id/switchRead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="@dimen/frame_pad"
+                android:text="@string/markasRead"
+                android:textColor="@color/main_text" />
+
+            <Switch
+                android:id="@+id/switchManualUpd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="@dimen/frame_pad"
+                android:text="@string/manual_update"
+                android:textColor="@color/main_text" />
+
+            <TextView
+                android:id="@+id/tvClearCache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/selector_rect"
+                android:clickable="true"
+                android:padding="16dp"
+                android:text="@string/clear_cache"
+                android:textColor="@color/main_text"
+                android:textSize="18sp" />
+
+            <!--<Switch-->
+            <!--android:visibility="gone"-->
+            <!--android:id="@+id/switchAssert"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:layout_margin="@dimen/frame_pad"-->
+            <!--android:textColor="@color/main_text"-->
+            <!--android:text="@string/assertion_enable" />-->
+
+            <TextView
+                style="@style/TextViewStyle.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="@string/offline_hint" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:clickable="true">
+
+    <ScrollView
+        android:layout_marginTop="?actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/rlChatBack"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:id="@+id/ivPreview"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:src="@drawable/ic_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:text="@string/chat_back"
+                    android:textColor="@color/main_text" />
+
+            </RelativeLayout>
+
+            <Switch
+                android:id="@+id/switchNight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/light_theme"
+                android:textColor="@color/main_text" />
+
+            <LinearLayout
+                android:id="@+id/llPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <RelativeLayout
+                    android:layout_gravity="center"
+                    android:id="@+id/rlMain"
+                    android:layout_width="@dimen/picker_outside_width"
+                    android:layout_height="@dimen/picker_outside_height">
+
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal"
+                        android:layout_width="@dimen/picker_inside_width"
+                        android:layout_height="@dimen/picker_inside_height">
+
+                        <RelativeLayout
+                            android:id="@+id/rlDark"
+                            android:layout_width="@dimen/picker_large_side_width"
+                            android:layout_height="match_parent" />
+                        
+                        <android.support.v4.widget.Space
+                            android:layout_width="@dimen/picker_space_width"
+                            android:layout_height="match_parent" />
+                        
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="@dimen/picker_small_side_width"
+                            android:layout_height="match_parent">
+
+                            <RelativeLayout
+                                android:id="@+id/rlLight"
+                                android:layout_width="@dimen/picker_small_side_width"
+                                android:layout_height="@dimen/picker_small_side_height" />
+
+                            <android.support.v4.widget.Space
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/picker_space_height" />
+
+                            <RelativeLayout
+                                android:id="@+id/rlExtraLight"
+                                android:layout_width="@dimen/picker_small_side_width"
+                                android:layout_height="@dimen/picker_small_side_height" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <com.flask.colorpicker.ColorPickerView
+                    android:id="@+id/picker"
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/picker"
+                    android:layout_height="wrap_content"
+                    app:density="12"
+                    app:lightnessSlider="true"
+                    app:wheelType="FLOWER"
+                    app:lightnessSliderView="@+id/pickerLight"
+                    />
+
+                <com.flask.colorpicker.slider.LightnessSlider
+                    android:layout_gravity="center"
+                    android:id="@+id/pickerLight"
+                    android:layout_width="@dimen/picker"
+                    android:layout_height="48dp"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+    <RelativeLayout
+        android:elevation="12dp"
+        android:id="@+id/rlBottom"
+        android:background="@color/popup"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.twoeightnine.root.xvii.views.LoaderView
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:tag="main"
+            android:background="@color/popup"
+            android:id="@+id/rlHideBottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottomsheet_thumb_height">
+
+            <ImageView
+                android:id="@+id/ivHideBottom"
+                android:layout_marginRight="12dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_chevron_down"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/bottomsheet_thumb_height" />
+
+            <TextView
+                tools:text="Tut ya viebal ves russkiy IT"
+                android:id="@+id/tvTitle"
+                android:layout_centerInParent="true"
+                android:textSize="18sp"
+                android:textColor="@color/toolbar_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_marginTop="@dimen/bottomsheet_thumb_height"
+            android:clickable="true"
+            android:id="@+id/flBottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottomsheet_height" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/toolbar" />
+
+</FrameLayout>

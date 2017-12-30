@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <ImageView
+        android:src="@android:color/transparent"
+        android:id="@+id/ivBackground"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="92dp"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_marginTop="?actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+            android:id="@+id/swipeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:srl_direction="bottom">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvChatList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+        <LinearLayout
+            android:background="@color/background"
+            android:elevation="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/send_attach_height">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/send_attach_height" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+
+        <include layout="@layout/toolbar" />
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:background="@color/background"
+            android:layout_alignBottom="@+id/toolbar"
+            android:layout_marginLeft="72dp"
+            android:elevation="4dp"
+            android:tag="main"
+            android:layout_marginBottom="3dp"
+            android:id="@+id/rlTyping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginRight="2dp"
+                android:id="@+id/tvTyping"
+                android:textSize="16dp"
+                android:text="@string/typing"
+                android:textColor="@color/toolbar_subtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.twoeightnine.root.xvii.views.TypingView
+                android:id="@+id/typingView"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tvTyping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <android.support.v4.widget.Space
+                android:layout_toRightOf="@+id/typingView"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:elevation="12dp"
+        android:id="@+id/rlBottom"
+        android:background="@color/popup"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.twoeightnine.root.xvii.views.LoaderView
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:tag="main"
+            android:background="@color/popup"
+            android:id="@+id/rlHideBottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottomsheet_thumb_height">
+
+            <ImageView
+                android:id="@+id/ivHideBottom"
+                android:layout_marginRight="12dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_chevron_down"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/bottomsheet_thumb_height" />
+
+            <TextView
+                tools:text="Tut ya viebal ves russkiy IT"
+                android:id="@+id/tvTitle"
+                android:layout_centerInParent="true"
+                android:textSize="18sp"
+                android:textColor="@color/toolbar_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_marginTop="@dimen/bottomsheet_thumb_height"
+            android:clickable="true"
+            android:id="@+id/flBottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottomsheet_height" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:tag="api20"
+        android:elevation="5dp"
+        android:id="@+id/rlReply"
+        android:layout_marginBottom="200dp"
+        android:layout_gravity="bottom|right"
+        android:background="@drawable/shape_reply"
+        android:layout_width="@dimen/reply_button_size"
+        android:layout_height="@dimen/reply_button_size">
+
+        <ImageView
+            android:tag="dark"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabHasMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="72dp"
+        android:layout_marginRight="@dimen/margin16"
+        android:src="@drawable/ic_chevron_down"
+        android:visibility="invisible"
+        app:backgroundTint="@color/fab" />
+
+
+    <RelativeLayout
+        android:visibility="invisible"
+        android:id="@+id/rlChatTutorial"
+        android:layout_gravity="bottom"
+        android:background="@drawable/hint_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivArrow"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_arrow_right_long"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp" />
+
+        <TextView
+            android:layout_marginBottom="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/ivArrow"
+            android:textSize="22sp"
+            android:text="@string/swipe_right_hint"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
+
+
+
+</com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:exitFadeDuration="200"
+    android:enterFadeDuration="200"
+    >
+    <item android:drawable="@drawable/shape_click" android:state_pressed="true" />
+    <item android:drawable="@android:color/transparent" />
+
+</selector>

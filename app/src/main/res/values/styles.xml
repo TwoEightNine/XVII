@@ -1,0 +1,108 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
+    <style name="ColoredToolbar" parent="@style/ThemeOverlay.AppCompat">
+        <item name="android:textColorSecondary">@color/icons</item>
+        <item name="android:textColorPrimary">@color/icons</item>
+
+        <!-- Menu text-->
+        <item name="actionMenuTextColor">@color/icons</item>
+        <item name="android:actionMenuTextColor">@color/icons</item>
+        <!-- This will change drawer icon -->
+        <item name="drawerArrowStyle">@style/WhiteDrawerIconStyle</item>
+        <!-- background of the  -->
+        <item name="android:background">@color/primary</item>
+    </style>
+
+
+    <style name="WhiteDrawerIconStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/icons</item>
+    </style>
+
+    <style name="StyledToast">
+        <item name="android:textColor">@color/icons</item>
+        <item name="android:colorBackground">@color/primary</item>
+        <item name="android:alpha">255</item>
+
+    </style>
+
+    <style name="StyledToastError">
+        <item name="android:textColor">@color/icons</item>
+        <item name="android:colorBackground">#f66</item>
+        <item name="android:alpha">255</item>
+
+    </style>
+
+    <style name="AppTheme.ToolBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="homeAsUpIndicator">@drawable/ic_back</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="colorControlNormal">@color/icons</item>
+        <item name="colorAccent">@color/primary</item>
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <item name="actionBarStyle">@style/ActionBarStyle</item>
+    </style>
+
+
+    <style name="ActionBarStyle" parent="@style/Theme.AppCompat.Light">
+        <item name="android:titleTextStyle">@style/ActionBarStyle.Title</item>
+        <item name="titleTextStyle">@style/ActionBarStyle.Title</item>
+        <item name="android:subtitleTextStyle">@style/ActionBarStyle.Subtitle</item>
+        <item name="subtitleTextStyle">@style/ActionBarStyle.Subtitle</item>
+    </style>
+
+    <style name="ActionBarStyle.Title" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ActionBarStyle.Subtitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextViewStyle">
+        <item name="android:textColor">@color/main_text</item>
+    </style>
+
+    <style name="TextViewStyle.Small">
+        <item name="android:textSize">15sp</item>
+
+    </style>
+
+    <style name="TextViewStyle.Medium">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextViewStyle.Large">
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="TextViewStyle.Small.Gray" parent="TextViewStyle.Small">
+        <item name="android:textColor">@color/main_text</item>
+    </style>
+
+    <style name="TextViewStyle.Medium.Gray" parent="TextViewStyle.Medium">
+        <item name="android:textColor">@color/main_text</item>
+    </style>
+
+    <style name="TextViewStyle.Medium.Gray.Title" parent="TextViewStyle.Medium.Gray">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+</resources>

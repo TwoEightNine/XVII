@@ -1,0 +1,54 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext {
+        kotlinVersion = '1.1.60'
+        gradleVersion = '3.0.1'
+        realmVersion = '3.5.0'
+        aptVersion = '1.8'
+    }
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradleVersion"
+        classpath "com.neenbedankt.gradle.plugins:android-apt:$aptVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "io.realm:realm-gradle-plugin:$realmVersion"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+        google()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    appCompatVersion = '25.0.1'
+    butterKnifeVersion = '8.5.1'
+    gsonVersion = '2.8.0'
+    retrofitVersion = '2.3.0'
+    rxJavaVersion = '2.1.7'
+    rxAndroidVersion = '2.0.1'
+    okhttpVersion = '3.8.0'
+    daggerVersion = '2.7'
+    jsrVersion = '1.0'
+    picassoVersion = '2.5.2'
+    circleImageViewVersion = '2.1.0'
+    swipyVersion = '1.2.3@aar'
+    materialSearchViewVersion = '1.4.0'
+    junitVersion = '4.12'
+    colorpickerVersion = '0.0.13'
+    glideVersion = '4.0.0'
+}

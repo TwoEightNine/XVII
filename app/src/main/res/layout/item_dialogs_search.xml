@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="@dimen/item_margin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlItemContainer"
+        android:layout_marginBottom="@dimen/item_margin">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/placeholder"
+            android:layout_marginStart="@dimen/item_margin"
+            android:layout_marginLeft="@dimen/item_margin"
+            android:layout_marginTop="@dimen/item_margin"
+            android:id="@+id/civPhoto"
+            app:civ_border_color="@color/icons"/>
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:id="@+id/tvTitle"
+            android:textColor="@color/main_text"
+            android:singleLine="true"
+            android:textSize="18sp"
+            android:layout_toEndOf="@+id/civPhoto"
+            android:layout_toRightOf="@+id/civPhoto"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="@dimen/frame_pad"/>
+
+        <ImageView
+            android:tag="main"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:id="@+id/ivOnlineDot"
+            android:src="@drawable/dotshape"
+            android:layout_alignBottom="@+id/civPhoto"
+            android:layout_alignEnd="@+id/civPhoto"
+            android:layout_alignRight="@+id/civPhoto" />
+
+
+    </RelativeLayout>
+
+    <!--<View-->
+    <!--android:layout_marginLeft="88dp"-->
+    <!--android:layout_gravity="bottom"-->
+    <!--android:background="@drawable/divider"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1px" />-->
+
+
+</FrameLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="12dp">
+
+    <TextView
+        style="@style/TextViewStyle.Large"
+        android:textColor="@color/main_text"
+        android:text="@string/fingerprint"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/ivGravatar"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:layout_width="180dp"
+        android:layout_height="180dp" />
+
+    <TextView
+        style="@style/TextViewStyle.Small"
+        android:id="@+id/tvPrint"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:fontFamily="monospace"
+        android:textColor="@color/main_text"
+        tools:text="A4 56 75 98 15 83 74 98\nA4 56 75 98 15 83 74 98\nA4 56 75 98 15 83 74 98\nA4 56 75 98 15 83 74 98\n"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/fingerprint_hint"
+        style="@style/TextViewStyle.Small"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

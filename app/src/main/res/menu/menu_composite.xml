@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="Feed"
+        android:icon="@drawable/ic_meme"
+        android:id="@+id/menu_feed"
+        app:showAsAction="always" />
+
+    <item
+        android:title="@string/important"
+        android:id="@+id/menu_important"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_search"
+        android:title="@string/search_hint"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="always"
+        android:orderInCategory="101" />
+
+    <item
+        android:id="@+id/menu_encrypt"
+        android:title="@string/encryption"
+        android:checkable="true"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/menu_keys"
+        android:title="@string/change_keys"
+        app:showAsAction="never" />
+
+    <item
+        android:title="@string/attachments"
+        android:id="@+id/menu_attachments"
+        app:showAsAction="never" />
+
+</menu>

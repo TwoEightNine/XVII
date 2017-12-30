@@ -1,0 +1,238 @@
+<resources>
+    <string name="app_name">XVII</string>
+    <string name="about_app">À propos</string>
+    <string name="vk_group">Notre communauté</string>
+    <string name="settings">Paramètres</string>
+    <string name="share">Partager XVII sur mon mur</string>
+    <string name="search">Rechercher</string>
+
+    <string name="last_seen">était en ligne: %s</string>
+    <string name="status">Statut</string>
+    <string name="bdate">Anniversaire</string>
+    <string name="city">Ville</string>
+    <string name="hometown">Ville natale</string>
+    <string name="send">Envoyer</string>
+    <string name="relation">Relation</string>
+    <string name="write_message"> Écrire un message</string>
+    <string name="added">Ajouté</string>
+    <string name="photo_title">Photo</string>
+    <string name="doenloaded">%s a été téléchargé</string>
+    <string name="beOffline">Être pa en ligne (plus tôt possible)</string>
+    <string name="markasRead">Marquer comme lus</string>
+    <string name="show_typing">Montrer à taper</string>
+    <string name="feedback">Rétroaction</string>
+    <string name="copied">%s a été copié dans le presse-papiers</string>
+    <string name="fiends">Amis</string>
+    <string name="friends">amis</string>
+    <string name="followers">suiveurs</string>
+    <string name="dialogs">Conversations</string>
+    <string name="mphone">Portable</string>
+    <string name="hphone">Téléphone</string>
+    <string name="site">Site</string>
+    <string name="vibrate">Vibrer pour des nouveaus messages</string>
+    <string name="sound">Notifications sonores</string>
+    <string name="logout">Quitter</string>
+    <string name="fwd_message">%d transférés</string>
+    <string name="error">Erreur</string>
+    <string name="choose_photo">Choisir une photo</string>
+    <string name="bytes">%d B</string>
+    <string name="kilobytes">%d kB</string>
+    <string name="megabytes">%d MB</string>
+    <string name="kick_chat">Out of chat</string>
+    <string name="invite_chat">In chat</string>
+    <string name="kick_chat_full">%s is out of chat now</string>
+    <string name="invite_chat_full">%s is in chat now</string>
+    <string name="link">Lien</string>
+    <string name="wall_post">Post dans mur</string>
+    <string name="copy">Copier</string>
+    <string name="reply">Reponder</string>
+    <string name="decrypt">Décrypter</string>
+    <string name="decrypted">CHIFF.: %s</string>
+    <string name="accounts">Comptes</string>
+    <string name="new_acc">Ajouter un nouveau compte..</string>
+    <string name="acc_changed">Un compte été changé. L\'app se redémarrer..</string>
+    <string name="rate">Évaluer</string>
+    <string name="gallery">Gallerie</string>
+    <string name="camera">Camera</string>
+    <string name="delete">Supprimer</string>
+    <string name="read">Lire</string>
+    <string name="message_sent">Un message a été envoyé</string>
+    <string name="meme_storage">Mème storage</string>
+    <string name="delete_meme">Supprimer ce mème?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="join_us">Suives-nous for getting the freshest news about app</string>
+    <string name="stickers">Autocollants</string>
+    <string name="download">Télécharger</string>
+    <string name="add_to_saved">Ajouter à des enregistrées</string>
+    <string name="added_to_saved">Photo a été ajouté à des enregistrées</string>
+    <string name="notifications">Notifications</string>
+    <string name="general">Général</string>
+    <string name="auth_error">Erreur d\'auth</string>
+    <string name="delete_acc">Supprimer ce compte?</string>
+    <string name="show_notif">Montrer des notifications</string>
+    <string name="show_name">Montrer un nom d\'envoyeur</string>
+    <string name="about">À propos</string>
+    <string name="try_again">Réessayer</string>
+    <string name="loading_error">Erreur de téléchargeur</string>
+    <string name="no_internet">Allumez l\'Internet</string>
+    <string name="cannot_delete_acc">Vous ne pouvez pas supprimer le compte actif</string>
+    <string name="already_acc">C\'est un compte actif</string>
+    <string name="error_message">Attachments</string>
+    <string name="typing">écrit</string>
+    <string name="voice_message">Message vocal</string>
+    <string name="choose_dialog">Choisir une conversation</string>
+    <string name="light_theme">Des couleurs claires</string>
+    <string name="theme_changed">Thème est changé. L\'app se redémarrer..</string>
+    <string name="enc_on">Le chiffrement est allumé</string>
+    <string name="enc_off">LE CHIFFREMENT EST ÉTEINT</string>
+    <string name="forgot_pin">Vous oubliez votre code d\'accès?</string>
+    <string name="incorrect_pin">Faux</string>
+    <string name="confirm_pin">Confirmez votre code d\'accès</string>
+    <string name="enter_pin">Entrez le code d\'accès</string>
+    <string name="enter_new_pin">Entrez un nouveau code d\'accès</string>
+    <string name="reset">Remettre à zéro</string>
+    <string name="edit">Modifier</string>
+    <string name="updated_succ">Mis à jour avec succès</string>
+    <string name="reset_succ">Remis à zéro avec succès</string>
+    <string name="dont_match">Les codes d\'accèss sont differents</string>
+    <string name="reset_pin">Remettre à zéro le code d\'accès?</string>
+    <string name="reset_pin_desc">All personal data will be reset in this case</string>
+    <string name="have_pin">Vous avez déjà un code d\'accès</string>
+    <string name="pin_settings">Paramètres de code d\'accès</string>
+    <string name="attachments">Attachments</string>
+    <string name="attached">Attaché</string>
+    <string name="important">Important</string>
+    <string name="markAsImportant">Marque comme important</string>
+    <string name="not_playable_video">Vidéo n\'est pas jouable</string>
+    <string name="docs">Docs</string>
+    <string name="photos">Photos</string>
+    <string name="videos">Vidéos</string>
+    <string name="links">Liens</string>
+    <string name="choose_attachment">Choisir un attachment</string>
+    <string name="vk_materials">Matériaux de VK</string>
+    <string name="forward">Envoyer</string>
+    <string name="appearance">Apparence</string>
+    <string name="themes">Thèmes</string>
+    <string name="privacy_policy">Politique de confidentialité</string>
+    <string name="chat">Chat</string>
+    <string name="leave_chat">Quitter le chat</string>
+    <string name="chat_title_updated">Nom du chat était mis à jour: \"%s\"</string>
+    <string name="new_dialog">Nouvelle conversation</string>
+    <string name="offline_hint">Pay attention that offline mode will not work on EVERY VK client no more. This is caused by VK API that turns online status on automatically every time you refresh dialogs. Not handy, we understand, but that is.. Fortunately, you can enable \"almost\" offline that will make you offline, but you last seen time will change. Enabling manual updating also allows you to stay offline until you send a message.</string>
+    <string name="delete_attachments">Supprimer tous des attachments?</string>
+    <string name="ten_attachments">Vous ne pouvez pas ajouter plus de 10 attachments</string>
+    <string name="chat_back_exists">Le fond du chat est sélecté</string>
+    <string name="change">Changer</string>
+    <string name="chat_back">Fond du chat</string>
+    <string name="confirm">Confirmer</string>
+    <string name="chats_notifs">Notifications des chats</string>
+    <string name="show_content">Montrer le contenu des messages</string>
+    <string name="mute">Liste des bruits</string>
+    <string name="change_keys">Changer les clés</string>
+    <string name="random_key">Générer au hasard</string>
+    <string name="user_key">Entrer une propre clé</string>
+    <string name="default_key">Utiliser une clé par défaut</string>
+    <string name="key_reset">Les clés étaient remises à zero par défaut</string>
+    <string name="generating_keys">On est en train de générer des clés\nPour votre securité</string>
+    <string name="key_set">Les clés étaient mises avec succès</string>
+    <string name="key_exchanged">Les clés étaient échangé</string>
+    <string name="secure_length">Utilisez des mots longues</string>
+    <string name="messages">Messages</string>
+    <string name="no_exchg_in_chats">L\'échange des clés n\'est pas disponible dans ce chat</string>
+    <string name="encryption">Chiffrement</string>
+    <string name="restart_app">On rédemarre l\'app..</string>
+    <string name="content_hidden">Contenu caché</string>
+    <string name="share_text">
+        What do I love this messenger for?\n
+        It is stylish and ergonomic, taking few memory in storage and handy in any case! Equipping with stealth-features,
+        supporting encryption and having huge set of themes, this messenger has captured my heart!\n
+        Do you not have it yet? Then get it now in Google Play!\n
+        #xvii #app #vk #android #messenger
+    </string>
+    <string name="shared">Partagé avec succès</string>
+    <string name="cannot_create_chat">Pas disponible pour creater un chat</string>
+    <string name="chat_created">Creaté avec succès</string>
+    <string name="denied">Accés refusé</string>
+    <string name="audio_denied">Rejetée par VK</string>
+    <string name="permissions_info">App need to have an access to your files for sending and downloading images and your microphone for sending voice messages</string>
+    <string name="conversation">conversation</string>
+    <string name="community">communauté</string>
+    <string name="open_chat">Ouvrir chat</string>
+    <string name="want_delete">Vous voulez réellement supprimer?</string>
+    <string name="rename">Changer un nom</string>
+    <string name="left_chat">Vous avez quitté ce chat</string>
+    <string name="uncaught_exception">Unexpected error occurred</string>
+    <string name="send_report">Envoyer un rapport</string>
+    <string name="report_sent">Le rapport était envoyé</string>
+    <string name="describe_actions">Describez le problème</string>
+    <string name="describe_hint">j\'ai ouvert des paramétres</string>
+    <string name="update">Mettre à jour</string>
+    <string name="registration_date">Jour de la registration</string>
+    <string name="add_to_docs">Ajouter aux docs</string>
+    <string name="added_to_docs">Ajouté aux docs avec succès</string>
+    <string name="doc">Doc</string>
+    <string name="manual_update">Mettre à jour des conversations manuellement</string>
+    <string name="clear_cache">Supprimer la cache</string>
+    <string name="cache_cleared">La cache est supprimé</string>
+    <string name="wanna_logout">Vous voulez réellement quitter?</string>
+    <string name="like_app">Adorez XVII?\nÉvaluez-le maintenant!</string>
+    <string name="not_now">Pas maintenant</string>
+    <string name="never">Jamais</string>
+    <string name="unable_to_add_to_gallery">Incapable d\'ajouter à la gallerie. Il va être ajouté bientôt</string>
+    <string name="swipe_right_hint">Swipe right to attach media</string>
+    <string name="generation_dh_hint">Make sure your interlocutor has installed XVII and opened the dialog with you. It is necessary for key exchange.\nWarning! Keys are valid only for one session. Leaving this dialog means destroying and forgetting the keys forever!</string>
+    <string name="key_xchg_failed">The interlocutor have not supported the exchange. Failed!</string>
+    <string name="fingerprint">Fingerprint</string>
+    <string name="decrypting_image">Image is being decrypted</string>
+    <string name="invalid_file">Unable to decrypt this file</string>
+    <string name="fingerprint_hint">This image and this text were generated from the encryption key. If they look the same on your interlocutor\'s device and the keys were set, be sure that no one breaks your privacy. Otherwise your conversation is not secure!</string>
+
+    <string-array name="relations">
+        <item>célibataire</item>
+        <item>en couple</item>
+        <item>engaged</item>
+        <item>marié(e)</item>
+        <item>complicated</item>
+        <item>actively searching</item>
+        <item>in love</item>
+        <item>in civil onion</item>
+    </string-array>
+
+    <plurals name="messages">
+        <item quantity="one">%d nouveau message</item>
+        <item quantity="other">%d nouveaux messages</item>
+    </plurals>
+    <plurals name="attach">
+        <item quantity="one">%d attachment</item>
+        <item quantity="other">%d attachments</item>
+    </plurals>
+    <string name="aboutBig">
+        <b>XVII Messenger (par TwoEightNine)</b>\n
+        version: %s\n
+    </string>
+
+    <string name="online">en ligne</string>
+    <string name="online_full">en ligne (était vu: %s)</string>
+    <string name="offline">pas en ligne</string>
+    <string name="offline_full">pas en ligne (était vu: %s)</string>
+
+    <string name="error_1">Unknown method passed</string>
+    <string name="error_5">User authorisation failed</string>
+    <string name="error_6">Too many requests per second</string>
+    <string name="error_7">Permission to perform this action is denied</string>
+    <string name="error_9">Flood control</string>
+    <string name="error_10">Internal server error</string>
+    <string name="error_14">Captcha needed</string>
+    <string name="error_15">Access denied</string>
+    <string name="error_17">Validation required</string>
+    <string name="error_200plus">Access denied</string>
+    <string name="error_500plus">Permission denied</string>
+    <string name="prefs">Préferés</string>
+    <string name="save">Enregistrer</string>
+    <string name="logout_again">Pressez encore pour quitter</string>
+    <string name="current_dialog">Conversation actif</string>
+    <string name="update_available">Mis à jour est disponible</string>
+
+</resources>
+

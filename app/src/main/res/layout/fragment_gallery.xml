@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/flContainer"
+    android:background="@color/background"
+    android:layout_height="@dimen/bottomsheet_height">
+
+    <GridView
+        android:numColumns="4"
+        android:id="@+id/gvGallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.design.widget.FloatingActionButton
+        app:backgroundTint="@color/fab"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="12dp"
+        android:id="@+id/fabDone"
+        android:src="@drawable/ic_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</FrameLayout>

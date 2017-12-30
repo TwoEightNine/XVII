@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:clickable="true"
+    android:id="@+id/llContainer"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/big_margin"
+        android:orientation="vertical">
+
+
+        <Switch
+            android:id="@+id/switchShowNotification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/frame_pad"
+            android:text="@string/show_notif"
+            android:textColor="@color/main_text" />
+
+        <Switch
+            android:id="@+id/switchChats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/frame_pad"
+            android:text="@string/chats_notifs"
+            android:textColor="@color/main_text" />
+
+        <Switch
+        android:id="@+id/switchShowName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="@dimen/frame_pad"
+        android:textColor="@color/main_text"
+        android:text="@string/show_name" />
+
+        <Switch
+            android:id="@+id/switchVibrate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/frame_pad"
+            android:text="@string/vibrate"
+            android:textColor="@color/main_text" />
+
+        <Switch
+            android:id="@+id/switchSound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/frame_pad"
+            android:text="@string/sound"
+            android:textColor="@color/main_text" />
+
+        <Switch
+            android:id="@+id/switchContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/frame_pad"
+            android:text="@string/show_content"
+            android:textColor="@color/main_text" />
+
+        <Switch
+            android:visibility="gone"
+            android:layout_marginTop="21dp"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="end"
+            android:id="@+id/switchEgg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

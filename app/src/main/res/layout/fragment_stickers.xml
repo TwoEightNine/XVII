@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/rlContainer"
+    android:background="@color/background"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/flStickerContainer"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/sticker_height"
+        android:layout_height="match_parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:elevation="12dp"
+        android:background="@color/popup"
+        android:id="@+id/rvStickers"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sticker_height" />
+
+</RelativeLayout>
