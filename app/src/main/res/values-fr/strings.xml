@@ -38,10 +38,10 @@
     <string name="bytes">%d B</string>
     <string name="kilobytes">%d kB</string>
     <string name="megabytes">%d MB</string>
-    <string name="kick_chat">Out of chat</string>
-    <string name="invite_chat">In chat</string>
-    <string name="kick_chat_full">%s is out of chat now</string>
-    <string name="invite_chat_full">%s is in chat now</string>
+    <string name="kick_chat">Pas dans le chat</string>
+    <string name="invite_chat">Dans le chat</string>
+    <string name="kick_chat_full">%s n\'est pas dans le chat</string>
+    <string name="invite_chat_full">%s est dans le chat</string>
     <string name="link">Lien</string>
     <string name="wall_post">Post dans mur</string>
     <string name="copy">Copier</string>
@@ -97,7 +97,7 @@
     <string name="reset_succ">Remis à zéro avec succès</string>
     <string name="dont_match">Les codes d\'accèss sont differents</string>
     <string name="reset_pin">Remettre à zéro le code d\'accès?</string>
-    <string name="reset_pin_desc">All personal data will be reset in this case</string>
+    <string name="reset_pin_desc">Tous information personnel seront rémis dans cette cas!</string>
     <string name="have_pin">Vous avez déjà un code d\'accès</string>
     <string name="pin_settings">Paramètres de code d\'accès</string>
     <string name="attachments">Attachments</string>
@@ -144,18 +144,18 @@
     <string name="restart_app">On rédemarre l\'app..</string>
     <string name="content_hidden">Contenu caché</string>
     <string name="share_text">
-        What do I love this messenger for?\n
-        It is stylish and ergonomic, taking few memory in storage and handy in any case! Equipping with stealth-features,
-        supporting encryption and having huge set of themes, this messenger has captured my heart!\n
-        Do you not have it yet? Then get it now in Google Play!\n
+        De que aime-je XVII?\n
+        C\'est élégant et ergonomique, pris peu de memoire et practique dans tous les cas! Equipé de stealth-fonctions,
+        soutenu un chiffrement et eu beaucoup de thèmes, cette application a capturé mon cœur!\n
+        Est-ce que vous n\'avez pas ça? Obtenez-le maintenant dans Google Play!\n
         #xvii #app #vk #android #messenger
     </string>
     <string name="shared">Partagé avec succès</string>
-    <string name="cannot_create_chat">Pas disponible pour creater un chat</string>
+    <string name="cannot_create_chat">Pas disponible de creater un chat</string>
     <string name="chat_created">Creaté avec succès</string>
     <string name="denied">Accés refusé</string>
     <string name="audio_denied">Rejetée par VK</string>
-    <string name="permissions_info">App need to have an access to your files for sending and downloading images and your microphone for sending voice messages</string>
+    <string name="permissions_info">L\'app veut avoir l\'accès à vos fichiers pour envoyer et télécharger des photos et votre microphone pour envoyer un message vocal</string>
     <string name="conversation">conversation</string>
     <string name="community">communauté</string>
     <string name="open_chat">Ouvrir chat</string>
@@ -180,23 +180,23 @@
     <string name="not_now">Pas maintenant</string>
     <string name="never">Jamais</string>
     <string name="unable_to_add_to_gallery">Incapable d\'ajouter à la gallerie. Il va être ajouté bientôt</string>
-    <string name="swipe_right_hint">Swipe right to attach media</string>
-    <string name="generation_dh_hint">Make sure your interlocutor has installed XVII and opened the dialog with you. It is necessary for key exchange.\nWarning! Keys are valid only for one session. Leaving this dialog means destroying and forgetting the keys forever!</string>
-    <string name="key_xchg_failed">The interlocutor have not supported the exchange. Failed!</string>
-    <string name="fingerprint">Fingerprint</string>
-    <string name="decrypting_image">Image is being decrypted</string>
-    <string name="invalid_file">Unable to decrypt this file</string>
-    <string name="fingerprint_hint">This image and this text were generated from the encryption key. If they look the same on your interlocutor\'s device and the keys were set, be sure that no one breaks your privacy. Otherwise your conversation is not secure!</string>
+    <string name="swipe_right_hint">Glissez à droite pour attacher médias</string>
+    <string name="generation_dh_hint">Souyez sûr que votre interlocuteur a installé XVII et ouvert la conversation avec vous. C\'est necessaire pour l\'échangement des clés.\Attention! Les clés sont seulement valides dans cette session. Après avoir quitté cette conversation les clés seront supprimés pour toujors!</string>
+    <string name="key_xchg_failed">L\'interlocuteur n\'a pas soutenu l\'échangement. Erreur!</string>
+    <string name="fingerprint">Empreinte digitale</string>
+    <string name="decrypting_image">La photo est été décrypté</string>
+    <string name="invalid_file">Disponible de décrypter ce fichier</string>
+    <string name="fingerprint_hint">Cette photo et ce texte étaient généré de les clés de chiffrement. S\'ils sont les mêmes dans un appareil de votre interlocuteur et les clés étaient mises, soyez sûr que personne ne va pas casser votre confidentialité. Sinon, votre conversation n\'est pas securicée!</string>
 
     <string-array name="relations">
         <item>célibataire</item>
         <item>en couple</item>
-        <item>engaged</item>
+        <item>fiancé</item>
         <item>marié(e)</item>
-        <item>complicated</item>
-        <item>actively searching</item>
-        <item>in love</item>
-        <item>in civil onion</item>
+        <item>compliqué</item>
+        <item>à la recherche</item>
+        <item>amoureux</item>
+        <item>en faux ménage</item>
     </string-array>
 
     <plurals name="messages">
@@ -217,17 +217,18 @@
     <string name="offline">pas en ligne</string>
     <string name="offline_full">pas en ligne (était vu: %s)</string>
 
-    <string name="error_1">Unknown method passed</string>
-    <string name="error_5">User authorisation failed</string>
-    <string name="error_6">Too many requests per second</string>
-    <string name="error_7">Permission to perform this action is denied</string>
-    <string name="error_9">Flood control</string>
-    <string name="error_10">Internal server error</string>
-    <string name="error_14">Captcha needed</string>
-    <string name="error_15">Access denied</string>
-    <string name="error_17">Validation required</string>
-    <string name="error_200plus">Access denied</string>
-    <string name="error_500plus">Permission denied</string>
+    <string name="error_1">Méthode inconnu passé</string>
+    <string name="error_5">Erreur de l\'autorisation</string>
+    <string name="error_6">Beaucoup de requêtes pas seconde</string>
+    <string name="error_7">Une permission est rejetée</string>
+    <string name="error_9">Les inondations</string>
+    <string name="error_10">Erreur interne du serveur</string>
+    <string name="error_14">Captcha est nécessaire</string>
+    <string name="error_15">L\'accès est rejetée</string>
+    <string name="error_17">Une validation est requie</string>
+    <string name="error_200plus">L\'accès est rejetée</string>
+    <string name="error_500plus">La permission est rejetée</string>
+
     <string name="prefs">Préferés</string>
     <string name="save">Enregistrer</string>
     <string name="logout_again">Pressez encore pour quitter</string>
