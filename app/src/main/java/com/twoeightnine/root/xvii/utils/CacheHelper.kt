@@ -15,12 +15,8 @@ object CacheHelper {
         Log.i(tag, text)
     }
 
-    private val realm by lazy {
-        Realm.getDefaultInstance()
-    }
-
     private fun saveUsers(users: MutableList<User>) {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         users.forEach {
             realm.copyToRealmOrUpdate(UserDb(it))
@@ -39,7 +35,7 @@ object CacheHelper {
     }
 
     private fun saveMessages(messages: MutableList<Message>) {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         messages.forEach {
             realm.copyToRealmOrUpdate(MessageDb(it))
@@ -58,7 +54,7 @@ object CacheHelper {
     }
 
     private fun saveGroups(groups: MutableList<Group>) {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         groups.forEach {
             realm.copyToRealmOrUpdate(GroupDb(it))
@@ -77,7 +73,7 @@ object CacheHelper {
     }
 
     private fun getMessages(chatId: Int): MutableList<Message> {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         val res: MutableList<Message>
         if (chatId > 2000000000) {
             res = realm.where(MessageDb::class.java)
@@ -112,7 +108,7 @@ object CacheHelper {
      * returns existing users + ids of users to request from server
      */
     private fun getUsers(userIds: MutableList<Int>): Pair<MutableList<User>, String> {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         val users = mutableListOf<User>()
         for (pos in userIds.indices.reversed()) {
             val userId = userIds[pos]
@@ -143,7 +139,7 @@ object CacheHelper {
     }
 
     private fun getAllUsers(): HashMap<Int, User> {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         val result = hashMapOf<Int, User>()
         realm.where(UserDb::class.java)
                 .findAll()
@@ -166,7 +162,7 @@ object CacheHelper {
      * returns existing groups + ids of groups to request from server
      */
     private fun getGroups(groupIds: MutableList<Int>): Pair<MutableList<Group>, String> {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         val groups = mutableListOf<Group>()
         for (pos in groupIds.indices.reversed()) {
             val groupId = groupIds[pos]
@@ -191,7 +187,7 @@ object CacheHelper {
     }
 
     private fun getDialogs(): MutableList<Message> {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         return realm.where(MessageDb::class.java)
                 .findAllSorted("id", Sort.DESCENDING)
                 .where()
@@ -211,7 +207,7 @@ object CacheHelper {
     }
 
     private fun deleteAllMessages() {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         realm.where(MessageDb::class.java)
                 .findAll()
@@ -226,7 +222,7 @@ object CacheHelper {
     }
 
     private fun deleteAllGroups() {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         realm.where(GroupDb::class.java)
                 .findAll()
@@ -241,7 +237,7 @@ object CacheHelper {
     }
 
     private fun deleteAllUsers() {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         realm.where(UserDb::class.java)
                 .findAll()
@@ -256,7 +252,7 @@ object CacheHelper {
     }
 
     private fun deleteDialog(chatId: Int) {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         if (chatId > 2000000000) {
             realm.where(MessageDb::class.java)
@@ -280,7 +276,7 @@ object CacheHelper {
     }
 
     private fun deleteMessages(mids: MutableList<Int>) {
-//        val realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         mids.forEach {
             realm.where(MessageDb::class.java)

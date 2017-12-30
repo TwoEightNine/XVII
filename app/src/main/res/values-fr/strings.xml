@@ -17,7 +17,7 @@
     <string name="added">Ajouté</string>
     <string name="photo_title">Photo</string>
     <string name="doenloaded">%s a été téléchargé</string>
-    <string name="beOffline">Être pa en ligne (plus tôt possible)</string>
+    <string name="beOffline">Être pas en ligne (plus tôt possible)</string>
     <string name="markasRead">Marquer comme lus</string>
     <string name="show_typing">Montrer à taper</string>
     <string name="feedback">Rétroaction</string>
