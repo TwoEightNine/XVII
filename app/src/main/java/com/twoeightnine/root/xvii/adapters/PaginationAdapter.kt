@@ -49,11 +49,12 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int) = when (viewType) {
-        STUB_LOAD -> LoaderViewHolder(inflater.inflate(R.layout.item_loader, parent, false))
-        STUB_TRY -> TryViewHolder(inflater.inflate(R.layout.item_try_again, parent, false))
-        else -> createHolder(parent, viewType)
-    }
+                                    viewType: Int) =
+        when (viewType) {
+            STUB_LOAD -> LoaderViewHolder(inflater.inflate(R.layout.item_loader, parent, false))
+            STUB_TRY -> TryViewHolder(inflater.inflate(R.layout.item_try_again, parent, false))
+            else -> createHolder(parent, viewType)
+        }
 
     abstract fun createHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
 
@@ -81,18 +82,20 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
         }
 
 
-    fun lastVisiblePosition() = if (layoutManager != null) {
-        (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-    } else {
-        -1
-    }
+    fun lastVisiblePosition() =
+        if (layoutManager != null) {
+            (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+        } else {
+            -1
+        }
 
 
-    fun firstVisiblePosition() = if (layoutManager != null) {
-        (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-    } else {
-        -1
-    }
+    fun firstVisiblePosition() =
+        if (layoutManager != null) {
+            (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+        } else {
+            -1
+        }
 
     fun startLoading() {
         isLoading = true

@@ -16,7 +16,7 @@ import com.twoeightnine.root.xvii.views.emoji.Emoji
 
 object EmojiHelper {
 
-    private val emojis = mutableListOf<Emoji>()
+    val emojis = mutableListOf<Emoji>()
     private val beginnings = mutableSetOf<Char>()
     private val cache: LruCache<String, Bitmap> = LruCache(10)
     private val isRiva = Build.MODEL.endsWith("S500C")
@@ -60,9 +60,7 @@ object EmojiHelper {
             if (!blind!! && VERSION.SDK_INT > 15) {
                 makeSafe = false
             }
-            for (i in emojis.indices) {
-                val res = emojis[i].res
-                val key = emojis[i].code
+            for ((res, key) in emojis) {
                 var index = 0
                 while (true) {
                     index = text.indexOf(key, index)

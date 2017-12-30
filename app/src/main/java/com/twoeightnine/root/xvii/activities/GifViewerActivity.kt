@@ -105,7 +105,8 @@ class GifViewerActivity: AppCompatActivity() {
                 .commit()
     }
 
-    private fun getNameFromTitle(title: String) = if (title.endsWith(".gif", true)) {
+    private fun getNameFromTitle(title: String) =
+        if (title.endsWith(".gif", true)) {
             getNameFromUrl(title)
         } else {
             "${getNameFromUrl(title)}.gif"

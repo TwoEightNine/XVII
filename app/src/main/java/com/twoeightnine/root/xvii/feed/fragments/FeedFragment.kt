@@ -118,10 +118,12 @@ class FeedFragment: BaseFragment() {
         null
     }
 
-    private fun getFeedObservable() = if (isRecommended)
-        api.getRecommended(Session.token, 100)
-    else
-        api.getFeed(Session.token, 50, adapter.nextFrom)
+    private fun getFeedObservable() =
+        if (isRecommended) {
+            api.getRecommended(Session.token, 100)
+        } else {
+            api.getFeed(Session.token, 50, adapter.nextFrom)
+        }
 
     override fun onNew(view: View) {
         loadMore()
@@ -135,8 +137,8 @@ class FeedFragment: BaseFragment() {
         inflater?.inflate(R.menu.menu_feed, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem?) =
+        when (item?.itemId) {
             R.id.menu_recommended -> {
                 isRecommended = !isRecommended
                 initAdapter()
@@ -145,5 +147,5 @@ class FeedFragment: BaseFragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
+
 }

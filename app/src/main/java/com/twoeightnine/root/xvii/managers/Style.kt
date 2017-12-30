@@ -70,7 +70,8 @@ object Style {
         return Color.argb(255, shiftColor(red, coeff), shiftColor(green, coeff), shiftColor(blue, coeff))
     }
 
-    private fun shiftColor(color: Int, shift: Int) = if (shift > 0) {
+    private fun shiftColor(color: Int, shift: Int) =
+        if (shift > 0) {
             255 - shift + color * shift / 255
         } else {
             color * -shift / 255

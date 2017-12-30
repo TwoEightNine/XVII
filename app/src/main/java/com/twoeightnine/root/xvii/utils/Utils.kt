@@ -132,12 +132,11 @@ fun copyToClip(text: String) {
     clipboard.text = text
 }
 
-fun getSize(context: Context, bytes: Int) = if (bytes < 1024) {
-        context.getString(R.string.bytes, bytes)
-    } else if (bytes < 1048576) {
-        context.getString(R.string.kilobytes, bytes / 1024)
-    } else {
-        context.getString(R.string.megabytes, bytes / 1048576)
+fun getSize(context: Context, bytes: Int) =
+    when {
+        bytes < 1024 -> context.getString(R.string.bytes, bytes)
+        bytes < 1048576 -> context.getString(R.string.kilobytes, bytes / 1024)
+        else -> context.getString(R.string.megabytes, bytes / 1048576)
     }
 
 fun streamToBytes(input: InputStream): ByteArray {
@@ -346,11 +345,12 @@ fun getRestartIntent(context: Context): Intent {
             + ". Does an activity specify the DEFAULT category in its intent filter?")
 }
 
-fun getPollFrom(userId: Int, chatId: Int) = when {
-    chatId != 0 -> 2000000000 + chatId
-    userId < 0 -> 1000000000 - userId //group is negative - (-..) == +
-    else -> userId
-}
+fun getPollFrom(userId: Int, chatId: Int) =
+    when {
+        chatId != 0 -> 2000000000 + chatId
+        userId < 0 -> 1000000000 - userId //group is negative - (-..) == +
+        else -> userId
+    }
 
 fun getRelation(context: Context, relation: Int): String {
     if (relation == 0)

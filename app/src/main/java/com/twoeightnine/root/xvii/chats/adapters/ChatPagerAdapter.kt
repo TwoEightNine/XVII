@@ -16,10 +16,11 @@ class ChatPagerAdapter(fragmentManager: FragmentManager,
     var attachFrag = ChatAttachFragment.newInstance(attachListener)
     var sendFrag = ChatSendFragment.newInstance(sendListener, longSendListener, typingListener, emojiListener, viewAttachmentsListener)
 
-    override fun getItem(position: Int) = when(position) {
-        0 -> attachFrag
-        else -> sendFrag
-    }
+    override fun getItem(position: Int) =
+        when(position) {
+            0 -> attachFrag
+            else -> sendFrag
+        }
 
     override fun getCount() = 2
 }

@@ -53,7 +53,8 @@ class Attachment : Parcelable, Serializable {
         parcel.writeSerializable(photo)
     }
 
-    override fun toString() = when (type) {
+    override fun toString() =
+        when (type) {
             TYPE_PHOTO -> "$type${photo!!.ownerId}_${photo!!.id}"
             TYPE_AUDIO -> "$type${audio!!.ownerId}_${audio!!.id}"
             TYPE_VIDEO -> "$type${video!!.ownerId}_${video!!.id}"

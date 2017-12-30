@@ -36,16 +36,17 @@ class EmojiPagerAdapter(private var listener: (Emoji) -> Unit) : PagerAdapter() 
         container?.removeView(obj as View)
     }
 
-    override fun getPageTitle(position: Int) = when (position) {
-        1 -> "face"
-        2 -> "animal"
-        3 -> "food"
-        4 -> "nature"
-        5 -> "people"
-        6 -> "symbols"
-        7 -> "other"
-        else -> "recent"
-    }.toUpperCase()
+    override fun getPageTitle(position: Int) =
+        when (position) {
+            1 -> "face"
+            2 -> "animal"
+            3 -> "food"
+            4 -> "nature"
+            5 -> "people"
+            6 -> "symbols"
+            7 -> "other"
+            else -> "recent"
+        }.toUpperCase()
 
     override fun getCount() = views.size
 
