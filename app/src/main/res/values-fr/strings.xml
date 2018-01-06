@@ -17,7 +17,7 @@
     <string name="added">Ajouté</string>
     <string name="photo_title">Photo</string>
     <string name="doenloaded">%s a été téléchargé</string>
-    <string name="beOffline">Être pas en ligne (plus tôt possible)</string>
+    <string name="beOffline">Être hors ligne (plus tôt possible)</string>
     <string name="markasRead">Marquer comme lus</string>
     <string name="show_typing">Montrer à taper</string>
     <string name="feedback">Rétroaction</string>
@@ -119,7 +119,7 @@
     <string name="leave_chat">Quitter le chat</string>
     <string name="chat_title_updated">Nom du chat était mis à jour: \"%s\"</string>
     <string name="new_dialog">Nouvelle conversation</string>
-    <string name="offline_hint">Pay attention that offline mode will not work on EVERY VK client no more. This is caused by VK API that turns online status on automatically every time you refresh dialogs. Not handy, we understand, but that is.. Fortunately, you can enable \"almost\" offline that will make you offline, but you last seen time will change. Enabling manual updating also allows you to stay offline until you send a message.</string>
+    <string name="offline_hint">Attention! Tous clients ne peuvent plus appuyer mode hors ligne. C\'est causé par VK API qui allume le statut automatiquement chaque fois aprés mis á jour. Heureusement, vous pouvez allumer mode \"presque\" hors ligne qui vous fera hors ligne, mais votre last seen time sera changé. Enabling manual updating also allows you to stay offline until you send a message.</string>
     <string name="delete_attachments">Supprimer tous des attachments?</string>
     <string name="ten_attachments">Vous ne pouvez pas ajouter plus de 10 attachments</string>
     <string name="chat_back_exists">Le fond du chat est sélecté</string>
@@ -214,8 +214,8 @@
 
     <string name="online">en ligne</string>
     <string name="online_full">en ligne (était vu: %s)</string>
-    <string name="offline">pas en ligne</string>
-    <string name="offline_full">pas en ligne (était vu: %s)</string>
+    <string name="offline">hors ligne</string>
+    <string name="offline_full">hors ligne (était vu: %s)</string>
 
     <string name="error_1">Méthode inconnu passé</string>
     <string name="error_5">Erreur de l\'autorisation</string>

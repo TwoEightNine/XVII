@@ -79,7 +79,7 @@ class NotificationsFragment : BaseFragment() {
     private fun saveSwitches() {
         Prefs.showNotifs = showNotification.isChecked
         Prefs.showNotifsChats = chats.isChecked
-        Prefs.showName = showName.isEnabled && showName.isChecked;
+        Prefs.showName = showName.isEnabled && showName.isChecked
         Prefs.vibrate = vibrate.isEnabled && vibrate.isChecked
         Prefs.sound = sound.isEnabled && sound.isChecked
         Prefs.showContent = content.isEnabled && content.isChecked

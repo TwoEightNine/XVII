@@ -136,7 +136,7 @@
     <string name="leave_chat">Leave chat</string>
     <string name="chat_title_updated">Chat title was updated: \"%s\"</string>
     <string name="new_dialog">New conversation</string>
-    <string name="offline_hint">Pay attention that offline mode will not work on EVERY VK client no more. This is caused by VK API that turns online status on automatically every time you refresh dialogs. Not handy, we understand, but that is.. Fortunately, you can enable \"almost\" offline that will make you offline, but you last seen time will change. Enabling manual updating also allows you to stay offline until you send a message.</string>
+    <string name="offline_hint">Pay attention that offline mode will not work on EVERY VK client no more. This is caused by VK API that turns online status on automatically every time you refresh dialogs. Not handy, we understand, but that is.. Fortunately, you can enable \"almost\" offline that will make you offline, but your last seen time will be changed. Enabling manual updating also allows you to stay offline until you send a message.</string>
     <string name="alias" translatable="false">Alias</string>
     <string name="delete_attachments">Delete all attachments?</string>
     <string name="ten_attachments">You cannot add more than 10 attachments</string>
