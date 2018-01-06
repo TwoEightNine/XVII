@@ -45,7 +45,7 @@ class VoiceRecordFragment: BaseFragment(), Titleable {
     @Inject
     lateinit var api: ApiService
 
-    private val duration = 40000L
+    private val duration = 60000L
     private val warnOver = 5000L
 
     @BindView(R.id.rlContainer)

@@ -210,9 +210,8 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
         }
     }
 
-
-
     inner class ViewBinder(view: View) {
+
         @BindView(R.id.tvTitle)
         lateinit var tvTitle: TextView
         @BindView(R.id.tvValue)

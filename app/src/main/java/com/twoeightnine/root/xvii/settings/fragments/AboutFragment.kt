@@ -121,7 +121,7 @@ class AboutFragment : BaseFragment() {
         apiUtils.shareToWall(
                 Session.uid,
                 getString(R.string.share_text),
-                "https://play.google.com/store/apps/details?id=" + context.packageName,
+                "https://play.google.com/store/apps/details?id=${context.packageName}",
                 { showCommon(context, R.string.shared) }
         )
     }

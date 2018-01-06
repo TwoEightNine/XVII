@@ -78,19 +78,13 @@ object Prefs {
         get() = data.getBoolean(VIBRATE, true)
         set(vibrate) = data.edit().putBoolean(VIBRATE, vibrate).apply()
 
-    val showNotifs: Boolean
+    var showNotifs: Boolean
         get() = data.getBoolean(SHOW_NOTIF, true)
+        set(showNotif) = data.edit().putBoolean(SHOW_NOTIF, showNotif).apply()
 
-    fun setShowNotif(showNotif: Boolean) {
-        data.edit().putBoolean(SHOW_NOTIF, showNotif).apply()
-    }
-
-    val showNotifsChats: Boolean
+    var showNotifsChats: Boolean
         get() = data.getBoolean(SHOW_NOTIF_CHATS, true)
-
-    fun setShowNotifChats(showNotif: Boolean) {
-        data.edit().putBoolean(SHOW_NOTIF_CHATS, showNotif).apply()
-    }
+    set(showNotif) = data.edit().putBoolean(SHOW_NOTIF_CHATS, showNotif).apply()
 
     var showName: Boolean
         get() = data.getBoolean(SHOW_NAME, false)

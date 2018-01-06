@@ -91,6 +91,12 @@ class FeedAdapter(context: Context,
         } else {
             vholder.ivPreview.visibility = View.GONE
         }
+        if (wp.photoAttachments.size > 1) {
+            vholder.tvPageCounter.visibility = View.VISIBLE
+            vholder.tvPageCounter.text = "${wp.photoAttachments.size}"
+        } else {
+            vholder.tvPageCounter.visibility = View.GONE
+        }
         val like = ContextCompat.getDrawable(context, R.drawable.ic_favorite_fill)
         val nLike = ContextCompat.getDrawable(context, R.drawable.ic_favorite)
         Style.forDrawable(like, Style.MAIN_TAG)
@@ -168,6 +174,8 @@ class FeedAdapter(context: Context,
         lateinit var ivViews: ImageView
         @BindView(R.id.tvViews)
         lateinit var tvViews: TextView
+        @BindView(R.id.tvPageCounter)
+        lateinit var tvPageCounter: TextView
 
         init {
             ButterKnife.bind(this, itemView)

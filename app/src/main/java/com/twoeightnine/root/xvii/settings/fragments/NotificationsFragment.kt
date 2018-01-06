@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.Switch
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.fragments.EggFragment
@@ -76,8 +77,8 @@ class NotificationsFragment : BaseFragment() {
     }
 
     private fun saveSwitches() {
-        Prefs.setShowNotif(showNotification.isChecked)
-        Prefs.setShowNotifChats(chats.isChecked)
+        Prefs.showNotifs = showNotification.isChecked
+        Prefs.showNotifsChats = chats.isChecked
         Prefs.showName = showName.isEnabled && showName.isChecked;
         Prefs.vibrate = vibrate.isEnabled && vibrate.isChecked
         Prefs.sound = sound.isEnabled && sound.isChecked
@@ -93,7 +94,7 @@ class NotificationsFragment : BaseFragment() {
         ButterKnife.bind(this, view)
         initSwitches()
         Style.forAll(llContainer)
-        if (Math.random() > 0.85) {
+        if (Math.random() > 0.85 || BuildConfig.DEBUG) {
             val handler = Handler()
             egg.visibility = View.VISIBLE
             egg.setOnCheckedChangeListener {
@@ -106,7 +107,7 @@ class NotificationsFragment : BaseFragment() {
                             handler.postDelayed({ rootActivity.loadFragment(EggFragment()) }, 1000L)
                         }
                         else -> {
-                            eggState = 1
+                            eggState++
                             handler.postDelayed({ egg.isChecked = false }, 500L)
                         }
                     }
