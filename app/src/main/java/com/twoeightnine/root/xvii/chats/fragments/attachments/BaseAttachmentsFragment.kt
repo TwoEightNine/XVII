@@ -38,7 +38,7 @@ abstract class BaseAttachmentsFragment<T> : BaseFragment() {
     }
 
     private fun getAttachments() {
-        api.getHistoryAttachments(Session.token, peerId, getMedia(), count, nextFrom ?: "")
+        api.getHistoryAttachments(peerId, getMedia(), count, nextFrom ?: "")
                 .subscribeSmart({
                     response ->
                     onLoaded(response)

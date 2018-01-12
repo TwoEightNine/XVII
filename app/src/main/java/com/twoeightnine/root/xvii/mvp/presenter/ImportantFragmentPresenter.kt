@@ -22,7 +22,7 @@ class ImportantFragmentPresenter(api: ApiService): BasePresenter<ImportantFragme
         if (offset == 0) {
             messages.clear()
         }
-        api.getImportantMessages(Session.token, COUNT, offset)
+        api.getImportantMessages(COUNT, offset)
                 .compose(applySchedulers())
                 .subscribeSmart({
                     response ->
@@ -49,7 +49,7 @@ class ImportantFragmentPresenter(api: ApiService): BasePresenter<ImportantFragme
             view?.onHistoryLoaded(history)
             return
         }
-        api.getUsers(Session.token, userIds, User.FIELDS)
+        api.getUsers(userIds, User.FIELDS)
                 .subscribeSmart({
                     response ->
                     response.map { users.put(it.id, it) }
@@ -82,7 +82,7 @@ class ImportantFragmentPresenter(api: ApiService): BasePresenter<ImportantFragme
     }
 
     fun deleteMessages(mids: MutableList<Int>) {
-        api.deleteMessages(Session.token, mids.joinToString(separator = ","))
+        api.deleteMessages(mids.joinToString(separator = ","))
                 .subscribeSmart({
                     view?.onMessagesDeleted(mids)
                 }, {})

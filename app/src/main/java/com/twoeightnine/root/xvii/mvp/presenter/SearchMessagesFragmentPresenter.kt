@@ -28,7 +28,7 @@ class SearchMessagesFragmentPresenter(api: ApiService): BasePresenter<SearchMess
         if (offset == 0) {
             dialogsSearched.clear()
         }
-        api.searchDialogs(Session.token, q, COUNT_HISTORY, "photo_100")
+        api.searchDialogs(q, COUNT_HISTORY, "photo_100")
                 .subscribeSmart({
                     response ->
                     dialogsBuffer.clear()

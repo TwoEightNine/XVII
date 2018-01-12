@@ -68,7 +68,7 @@ class ExceptionActivity : AppCompatActivity() {
             sendLater = message.substring(maxSize)
             message = message.substring(0, maxSize)
         }
-        api.send(Session.token, -Api.GROUP, message, "", "", 0, "", "")
+        api.send(-Api.GROUP, message, "", "", 0, "", "")
                 .subscribeSmart({
                     response ->
                     deleteReport(response)
@@ -84,7 +84,7 @@ class ExceptionActivity : AppCompatActivity() {
     }
 
     private fun deleteReport(mid: Int) {
-        api.deleteMessages(Session.token, "$mid")
+        api.deleteMessages("$mid")
                 .subscribeSmart({}, {})
     }
 

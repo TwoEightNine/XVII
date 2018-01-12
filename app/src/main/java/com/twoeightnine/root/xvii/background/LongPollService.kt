@@ -166,7 +166,7 @@ class LongPollService : Service() {
     }
 
     private fun updateLongPoll() {
-        api.getLongPollServer(Session.token)
+        api.getLongPollServer()
                 .subscribeSmart({
                     response ->
                     checkHistory(response)
@@ -187,7 +187,7 @@ class LongPollService : Service() {
         }
 
         if (events < 1000) events = 1000
-        api.getLongPollHistory(Session.token, oldTs, events)
+        api.getLongPollHistory(oldTs, events)
                 .subscribeSmart({
                     response ->
                     sendHistory(response, ts)

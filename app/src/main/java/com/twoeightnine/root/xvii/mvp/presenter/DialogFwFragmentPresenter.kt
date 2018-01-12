@@ -26,7 +26,7 @@ class DialogFwFragmentPresenter(api: ApiService) : BasePresenter<DialogFwFragmen
         if (offset == 0) {
             dialogs.clear()
         }
-        api.getDialogs(Session.token, offset, countHistory)
+        api.getDialogs(offset, countHistory)
                 .subscribeSmart({
                     response ->
                     dialogsBuffer.clear()
@@ -44,7 +44,7 @@ class DialogFwFragmentPresenter(api: ApiService) : BasePresenter<DialogFwFragmen
     }
 
     private fun loadUsers(userIds: String) {
-        api.getUsers(Session.token, userIds, User.FIELDS)
+        api.getUsers(userIds, User.FIELDS)
                 .subscribeSmart({
                     response ->
                     response.map { users.put(it.id, it) }
@@ -73,7 +73,7 @@ class DialogFwFragmentPresenter(api: ApiService) : BasePresenter<DialogFwFragmen
             .joinToString(separator = ",")
 
     private fun loadGroups(groupIds: String) {
-        api.getGroups(Session.token, groupIds)
+        api.getGroups(groupIds)
                 .subscribeSmart({
                     response ->
                     response.map { groups.put(it.id, it) }

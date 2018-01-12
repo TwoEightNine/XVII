@@ -83,7 +83,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         if (offset == 0) {
             messages.clear()
         }
-        api.getHistory(Session.token, count, offset, userId())
+        api.getHistory(count, offset, userId())
                 .compose(applySchedulers())
                 .subscribeSmart({
                     response ->
@@ -112,7 +112,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 insertUsers(history, withClear, cache)
                 return@getUsersAsync
             }
-            api.getUsers(Session.token, it.second, User.FIELDS)
+            api.getUsers(it.second, User.FIELDS)
                     .subscribeSmart({
                         response ->
                         response.map { users.put(it.id, it) }
@@ -157,7 +157,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         if (dialog.chatId > 0) {
             flowable = api
                     .sendChat(
-                            Session.token,
                             dialog.chatId,
                             message,
                             attachUtils.forwarded,
@@ -167,7 +166,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         } else {
             flowable = api
                     .send(
-                            Session.token,
                             dialog.userId,
                             message,
                             attachUtils.forwarded,
@@ -196,7 +194,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     fun deleteMessages(mids: MutableList<Int>) {
-        api.deleteMessages(Session.token, mids.joinToString(separator = ","))
+        api.deleteMessages(mids.joinToString(separator = ","))
                 .subscribeSmart({
                     view?.onMessagesDeleted(mids)
                 }, {})
@@ -207,7 +205,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         if (dialog.chatId > 0) {
             flowable = api
                     .sendChat(
-                            Session.token,
                             dialog.chatId,
                             "",
                             null, null, sticker.id, null, null
@@ -215,7 +212,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         } else {
             flowable = api
                     .send(
-                            Session.token,
                             dialog.userId,
                             "",
                             null, null, sticker.id, null, null
@@ -266,7 +262,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     fun markAsImportant(mids: MutableList<Int>, important: Int) {
-        api.markMessagesAsImportant(Session.token, mids.joinToString(separator = ","), important)
+        api.markMessagesAsImportant(mids.joinToString(separator = ","), important)
                 .subscribeSmart({}, {})
     }
 
@@ -282,7 +278,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     private fun getPhotoUploadServer(path: String, isSticker: Boolean = false) {
-        api.getPhotoUploadServer(Session.token)
+        api.getPhotoUploadServer()
                 .subscribeSmart({
                     uploadPhoto(path, it, isSticker)
                 }, {
@@ -310,7 +306,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     private fun savePhoto(uploaded: Uploaded, isSticker: Boolean = false) {
         api.saveMessagePhoto(
-                Session.token,
                 uploaded.photo ?: "",
                 uploaded.hash ?: "",
                 uploaded.server
@@ -328,7 +323,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     private fun getDocUploadServer(fileName: String) {
-        api.getDocUploadServer(Session.token, "doc")
+        api.getDocUploadServer("doc")
                 .subscribeSmart({
                     uploadDoc(it.uploadUrl ?: "", fileName)
                 }, {
@@ -355,7 +350,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     private fun saveDoc(file: String) {
-        api.saveDoc(Session.token, file)
+        api.saveDoc(file)
                 .subscribeSmart({
                     attachUtils.add(Attachment(it[0]))
                 }, {
@@ -465,7 +460,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                             view?.onHideTyping()
                         }
                         if (TextUtils.isEmpty(event.message) || event.info!!.hasAttachments()) {
-                            api.getMessageById(Session.token, "${event.mid}")
+                            api.getMessageById("${event.mid}")
                                     .subscribeSmart({
                                         response ->
                                         val message = setMessageTitles(users, response.items[0], 0)

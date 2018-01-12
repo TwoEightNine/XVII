@@ -27,22 +27,22 @@ class ApiUtils {
     }
 
     fun setOffline() {
-        api.setOffline(Session.token)
+        api.setOffline()
                 .subscribeSmart({}, {})
     }
 
     fun setActivity(userId: Int) {
-        api.setActivity(Session.token, userId)
+        api.setActivity(userId)
                 .subscribeSmart({}, {})
     }
 
     fun markAsRead(messageIds: String) {
-        api.markAsRead(Session.token, messageIds)
+        api.markAsRead(messageIds)
                 .subscribeSmart({}, {})
     }
 
     fun checkAccount(token: String, uid: Int, success: () -> Unit, fail: (String) -> Unit, later: (String) -> Unit) {
-        api.getUsers(token, "$uid", User.FIELDS)
+        api.getUsers("$uid", User.FIELDS)
                 .subscribeSmart({
                     response ->
                     val user = response[0]
@@ -62,7 +62,7 @@ class ApiUtils {
     }
 
     fun showPhoto(context: Context, photoId: String, accessKey: String?) {
-        api.getPhotoById(Session.token, photoId, accessKey ?: "")
+        api.getPhotoById(photoId, accessKey ?: "")
                 .subscribeSmart({
                     response ->
                     if (response.size == 0) {
@@ -78,7 +78,6 @@ class ApiUtils {
 
     fun openVideo(context: Context, video: Video) {
         api.getVideos(
-                Session.token,
                 video.videoId,
                 video.accessKey ?: "",
                 1, 0
@@ -97,7 +96,7 @@ class ApiUtils {
     }
 
     fun saveToAlbum(context: Context, ownerId: Int, photoId: Int, accessKey: String) {
-        api.copyPhoto(Session.token, ownerId, photoId, accessKey)
+        api.copyPhoto(ownerId, photoId, accessKey)
                 .subscribeSmart({
                     showCommon(context, R.string.added_to_saved)
                 }, {
@@ -106,7 +105,7 @@ class ApiUtils {
     }
 
     fun saveDoc(context: Context, ownerId: Int, docId: Int, accessKey: String) {
-        api.addDoc(Session.token, ownerId, docId, accessKey)
+        api.addDoc(ownerId, docId, accessKey)
                 .subscribeSmart({
                     showCommon(context, R.string.added_to_docs)
                 }, {
@@ -115,7 +114,7 @@ class ApiUtils {
     }
 
     fun checkMembership(callback: (Boolean) -> Unit) {
-        api.isGroupMember(Session.token, Api.GROUP, Session.uid)
+        api.isGroupMember(Api.GROUP, Session.uid)
                 .subscribeSmart({
                     callback.invoke(it == 1)
                 }, {
@@ -125,13 +124,13 @@ class ApiUtils {
     }
 
     fun joinGroup() {
-        api.joinGroup(Session.token, Api.GROUP)
+        api.joinGroup(Api.GROUP)
                 .subscribeSmart({}, {})
     }
 
     fun shareToWall(ownerId: Int, message: String, attachments: String = "",
                     onSuccess: () -> Unit = {}, onError: (String) -> Unit = {}) {
-        api.postToWall(Session.token, ownerId, message, attachments)
+        api.postToWall(ownerId, message, attachments)
                 .subscribeSmart({
                     onSuccess.invoke()
                 }, onError)
@@ -140,7 +139,7 @@ class ApiUtils {
     fun updateStickers() {
         if (time() - Prefs.lastStickersUpdate < stickersUpdPeriod) return
 
-        api.getStickers(Session.token)
+        api.getStickers()
                 .subscribeSmart({
                     response ->
                     val ids = mutableListOf<Int>()
@@ -156,7 +155,7 @@ class ApiUtils {
     }
 
     fun trackVisitor(onSuccess: () -> Unit = {}) {
-        api.trackVisitor(Session.token)
+        api.trackVisitor()
                 .subscribeSmart({
                     onSuccess.invoke()
                 }, {})

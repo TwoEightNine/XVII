@@ -65,7 +65,7 @@ class PhotoAttachFragment : BaseAttachFragment<Photo>(), SimpleAdapter.OnMultiSe
     }
 
     fun load() {
-        api.getPhotos(Session.token, Session.uid, "saved", count, adapter.count)
+        api.getPhotos(Session.uid, "saved", count, adapter.count)
                 .subscribeSmart({
                     response ->
                     adapter.stopLoading(response.items)

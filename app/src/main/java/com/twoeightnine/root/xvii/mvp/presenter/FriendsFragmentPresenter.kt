@@ -17,7 +17,6 @@ class FriendsFragmentPresenter(api: ApiService): BasePresenter<FriendsFragmentVi
     fun loadFriends(offset: Int = 0) {
         view?.showLoading()
         api.getFriends(
-                Session.token,
                 User.FIELDS,
                 COUNT,
                 offset
@@ -42,7 +41,7 @@ class FriendsFragmentPresenter(api: ApiService): BasePresenter<FriendsFragmentVi
 
     fun searchUsers(q: String, offset: Int = 0) {
         view?.showLoading()
-        api.search(Session.token, q, User.FIELDS, COUNT, offset)
+        api.search(q, User.FIELDS, COUNT, offset)
                 .subscribeSmart({
                     response ->
                     if (offset == 0) {
@@ -58,7 +57,7 @@ class FriendsFragmentPresenter(api: ApiService): BasePresenter<FriendsFragmentVi
     fun loadUsers(users: MutableList<Int>) {
         view?.showLoading()
         val userIds = users.joinToString(separator = ",")
-        api.getUsers(Session.token, userIds, User.FIELDS)
+        api.getUsers(userIds, User.FIELDS)
                 .subscribeSmart({
                     response ->
                     view?.hideLoading()
@@ -72,7 +71,7 @@ class FriendsFragmentPresenter(api: ApiService): BasePresenter<FriendsFragmentVi
 
     fun createChat(userIds: String) {
         view?.showLoading()
-        api.createChat(Session.token, userIds)
+        api.createChat(userIds)
                 .subscribeSmart({
                     response ->
                     view?.hideLoading()

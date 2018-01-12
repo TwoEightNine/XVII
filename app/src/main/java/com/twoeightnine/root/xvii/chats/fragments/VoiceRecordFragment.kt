@@ -94,7 +94,7 @@ class VoiceRecordFragment: BaseFragment(), Titleable {
     }
 
     private fun onDoneRecording() {
-        api.getDocUploadServer(Session.token, "audio_message")
+        api.getDocUploadServer("audio_message")
                 .subscribeSmart({
                     uploadDoc(it.uploadUrl!!)
                 }, {
@@ -120,7 +120,7 @@ class VoiceRecordFragment: BaseFragment(), Titleable {
     }
 
     private fun saveDoc(file: String) {
-        api.saveDoc(Session.token, file)
+        api.saveDoc(file)
                 .subscribeSmart({
                     response ->
                     listener?.invoke(response[0])

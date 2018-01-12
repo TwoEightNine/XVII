@@ -25,7 +25,7 @@ class SearchUsersPresenter(api: ApiService): BasePresenter<SearchUsersFragmentVi
         if (offset == 0) {
             users.clear()
         }
-        api.search(Session.token, q, User.FIELDS, COUNT, offset)
+        api.search(q, User.FIELDS, COUNT, offset)
                 .subscribeSmart({
                     response ->
                     if (offset == 0) {

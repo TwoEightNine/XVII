@@ -15,7 +15,7 @@ class ChatInfoFragmentPresenter(api: ApiService): BasePresenter<ChatInfoFragment
     fun loadUsers() {
         view?.showLoading()
         val userIds = message.chatActive?.joinToString(separator = ",") ?: ""
-        api.getUsers(Session.token, userIds, User.FIELDS)
+        api.getUsers(userIds, User.FIELDS)
                 .subscribeSmart({
                     response ->
                     view?.onUsersLoaded(response)
@@ -25,7 +25,7 @@ class ChatInfoFragmentPresenter(api: ApiService): BasePresenter<ChatInfoFragment
     }
 
     fun leaveChat() {
-        api.removeUser(Session.token, message.chatId ,Session.uid)
+        api.removeUser(message.chatId ,Session.uid)
                 .subscribeSmart({
                     response ->
                     if (response == 1) {
@@ -40,7 +40,7 @@ class ChatInfoFragmentPresenter(api: ApiService): BasePresenter<ChatInfoFragment
 
     fun renameChat(title: String) {
         if (title == message.title) return
-        api.renameChat(Session.token, message.chatId, title)
+        api.renameChat(message.chatId, title)
                 .subscribeSmart({
                     response ->
                     if (response == 1) {

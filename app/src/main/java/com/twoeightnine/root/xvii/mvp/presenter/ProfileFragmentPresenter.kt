@@ -19,7 +19,7 @@ class ProfileFragmentPresenter(api: ApiService,
 
     fun loadUser() {
         view?.showLoading()
-        api.getUsers(Session.token, "$userId", User.FIELDS)
+        api.getUsers("$userId", User.FIELDS)
                 .subscribeSmart({
                     response ->
                     user = response[0]
@@ -57,7 +57,7 @@ class ProfileFragmentPresenter(api: ApiService,
         }
         photos.clear()
         view?.showLoading()
-        api.getPhotos(Session.token, userId, "profile", COUNT, 0)
+        api.getPhotos(userId, "profile", COUNT, 0)
                 .subscribeSmart({
                     response ->
                     photos.addAll(response.items)

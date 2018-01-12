@@ -33,7 +33,7 @@ class VideoAttachFragment : BaseAttachFragment<Video>() {
     }
 
     fun load() {
-        api.getVideos(Session.token, "", "", count, adapter.count)
+        api.getVideos("", "", count, adapter.count)
                 .subscribeSmart({
                     response ->
                     adapter.stopLoading(response.items)

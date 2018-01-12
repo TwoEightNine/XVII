@@ -67,7 +67,7 @@ class FeedFragment: BaseFragment() {
 
     private fun onLike(pos: Int) {
         val wp = adapter.items[pos]
-        api.like(Session.token, wp.sourceId, wp.postId)
+        api.like(wp.sourceId, wp.postId)
                 .subscribeSmart({
                     response ->
                     adapter.items[pos].likes?.count = response.likes
@@ -120,9 +120,9 @@ class FeedFragment: BaseFragment() {
 
     private fun getFeedObservable() =
         if (isRecommended) {
-            api.getRecommended(Session.token, 100)
+            api.getRecommended(100)
         } else {
-            api.getFeed(Session.token, 50, adapter.nextFrom)
+            api.getFeed(50, adapter.nextFrom)
         }
 
     override fun onNew(view: View) {

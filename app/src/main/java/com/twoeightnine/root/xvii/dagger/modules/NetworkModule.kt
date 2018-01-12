@@ -1,6 +1,7 @@
 package com.twoeightnine.root.xvii.dagger.modules
 
 import android.content.Context
+import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
@@ -10,6 +11,7 @@ import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.consts.Api
 import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.dagger.MusicService
+import com.twoeightnine.root.xvii.dagger.TokenAndVersionInterceptor
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.isOnline
 import dagger.Module
@@ -46,20 +48,26 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    fun provideTokenAndVersionInterceptor(): TokenAndVersionInterceptor = TokenAndVersionInterceptor()
+
+    @Provides
+    @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         val log = HttpLoggingInterceptor()
         log.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
         return log
     }
 
-
     @Provides
     @Singleton
-    fun provideOkHttpClient(context: Context, loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideOkHttpClient(context: Context,
+                            loggingInterceptor: HttpLoggingInterceptor,
+                            tokenAndVersionInterceptor: TokenAndVersionInterceptor): OkHttpClient {
         val file = File(context.cacheDir, "cache")
         val cache = Cache(file, cacheSize)
         return OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .addInterceptor(tokenAndVersionInterceptor)
                 .addInterceptor(offline)
                 .readTimeout(timeout, TimeUnit.SECONDS)
                 .writeTimeout(timeout, TimeUnit.SECONDS)

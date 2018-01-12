@@ -65,7 +65,7 @@ class WallPostFragment : BaseFragment() {
 
     private fun getWallPostRequest() {
         loader.visibility = View.VISIBLE
-        api.getWallPostById(Session.token, postId ?: "")
+        api.getWallPostById(postId ?: "")
                 .subscribeSmart({
                     response ->
                     loader.visibility = View.GONE
@@ -160,7 +160,7 @@ class WallPostFragment : BaseFragment() {
 
         ivLike.setOnClickListener {
             ivLike.setImageDrawable(like)
-            api.like(Session.token, wp.ownerId, wp.id)
+            api.like(wp.ownerId, wp.id)
                     .subscribeSmart({
                         response ->
                         tvLikes.text = response.likes.toString()

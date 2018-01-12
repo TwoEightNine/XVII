@@ -48,7 +48,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
             dialogs.clear()
         }
         this.withClear = withClear
-        api.getDialogs(Session.token, offset, COUNT_HISTORY)
+        api.getDialogs(offset, COUNT_HISTORY)
                 .subscribeSmart({
                     response ->
                     dialogsBuffer.clear()
@@ -105,7 +105,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
             insertUsers(cache)
             return
         }
-        api.getUsers(Session.token, userIds, User.FIELDS)
+        api.getUsers(userIds, User.FIELDS)
                 .subscribeSmart({
                     response ->
                     CacheHelper.saveUsersAsync(response)
@@ -167,7 +167,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
             insertGroups(cache)
             return
         }
-        api.getGroups(Session.token, groupIds)
+        api.getGroups(groupIds)
                 .subscribeSmart({
                     response ->
                     CacheHelper.saveGroupsAsync(response)
@@ -191,7 +191,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
     }
 
     fun loadGroup(event: LongPollEvent) {
-        api.getGroups(Session.token, "${event.userId - 1000000000}")
+        api.getGroups("${event.userId - 1000000000}")
                 .subscribeSmart({
                     response ->
                     response.forEach {
@@ -208,7 +208,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
     }
 
     fun loadUser(event: LongPollEvent) {
-        api.getUsers(Session.token, "${event.userId}", User.FIELDS)
+        api.getUsers("${event.userId}", User.FIELDS)
                 .subscribeSmart({
                     response ->
                     response.forEach { users.put(it.id, it) }
@@ -241,9 +241,9 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
     fun deleteDialog(dialog: Message, position: Int) {
         val flowable: Flowable<ServerResponse<Int>>
         if (dialog.chatId == 0) {
-            flowable = api.deleteDialogUser(Session.token, dialog.userId, COUNT_DELETE)
+            flowable = api.deleteDialogUser(dialog.userId, COUNT_DELETE)
         } else {
-            flowable = api.deleteDialogChat(Session.token, dialog.chatId, COUNT_DELETE)
+            flowable = api.deleteDialogChat(dialog.chatId, COUNT_DELETE)
         }
         flowable
                 .subscribeSmart({
@@ -256,7 +256,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
     }
 
     fun readDialog(dialog: Message) {
-        api.markAsRead(Session.token, "${dialog.id}")
+        api.markAsRead("${dialog.id}")
                 .compose(applySchedulers())
                 .subscribe()
     }

@@ -33,7 +33,7 @@ class DocAttachFragment : BaseAttachFragment<Doc>() {
     }
 
     fun load() {
-        api.getDocs(Session.token, count, adapter.count)
+        api.getDocs(count, adapter.count)
                 .subscribeSmart({
                     response ->
                     adapter.stopLoading(response.items)
