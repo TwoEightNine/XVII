@@ -17,10 +17,7 @@ import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.ImportantFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.ImportantFragmentView
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
-import com.twoeightnine.root.xvii.utils.copyToClip
-import com.twoeightnine.root.xvii.utils.getContextPopup
-import com.twoeightnine.root.xvii.utils.showDeleteDialog
-import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.*
 import javax.inject.Inject
 
 class ImportantFragment: BaseFragment(), ImportantFragmentView {
@@ -30,6 +27,8 @@ class ImportantFragment: BaseFragment(), ImportantFragmentView {
 
     @Inject
     lateinit var presenter: ImportantFragmentPresenter
+    @Inject
+    lateinit var apiUtils: ApiUtils
 
     lateinit var adapter: ChatAdapter
 
@@ -54,6 +53,8 @@ class ImportantFragment: BaseFragment(), ImportantFragmentView {
                 {}, this::onLongClick,
                 { rootActivity.loadFragment(ProfileFragment.newInstance(it)) },
                 {},
+                { apiUtils.showPhoto(context, it.photoId, it.accessKey) },
+                { apiUtils.openVideo(context, it) },
                 true
         )
         val llm = LinearLayoutManager(activity)

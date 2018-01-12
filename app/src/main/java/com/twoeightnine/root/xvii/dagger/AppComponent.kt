@@ -1,12 +1,11 @@
 package com.twoeightnine.root.xvii.dagger
 
 import com.twoeightnine.root.xvii.activities.ExceptionActivity
+import com.twoeightnine.root.xvii.activities.GifViewerActivity
 import com.twoeightnine.root.xvii.activities.LoginActivity
+import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.background.LongPollService
-import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
-import com.twoeightnine.root.xvii.chats.fragments.ChatInfoFragment
-import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
-import com.twoeightnine.root.xvii.chats.fragments.VoiceRecordFragment
+import com.twoeightnine.root.xvii.chats.fragments.*
 import com.twoeightnine.root.xvii.chats.fragments.attach.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.VideoAttachFragment
@@ -26,8 +25,13 @@ import com.twoeightnine.root.xvii.friends.fragments.FriendsAllFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment
 import com.twoeightnine.root.xvii.music.MusicFragment
+import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
+import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import com.twoeightnine.root.xvii.settings.fragments.AboutFragment
+import com.twoeightnine.root.xvii.settings.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.utils.ApiUtils
+import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -38,6 +42,9 @@ interface AppComponent {
     //activities
     fun inject(loginActivity: LoginActivity)
     fun inject(exceptionActivity: ExceptionActivity)
+    fun inject(rootActivity: RootActivity)
+    fun inject(imageViewerActivity: ImageViewerActivity)
+    fun inject(gifViewerActivity: GifViewerActivity)
 
     //fragments
     fun inject(dialogsFragment: DialogsFragment)
@@ -61,9 +68,14 @@ interface AppComponent {
     fun inject(feedFragment: FeedFragment)
     fun inject(dialogFwFragment: DialogFwFragment)
     fun inject(chatInfoFragment: ChatInfoFragment)
+    fun inject(aboutFragment: AboutFragment)
+    fun inject(accountsFragment: AccountsFragment)
+    fun inject(attachedFragment: AttachedFragment)
 
     //other
-    fun inject(apiUtils: ApiUtils)
+//    fun inject(apiUtils: ApiUtils)
     fun inject(longPollService: LongPollService)
+    fun inject(chatFragmentPresenter: ChatFragmentPresenter)
+    fun inject(dialogsFragmentPresenter: DialogsFragmentPresenter)
 
 }

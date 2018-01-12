@@ -5,11 +5,14 @@ import android.widget.ListView
 import android.widget.RelativeLayout
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.attachments.AttachmentsAdapter
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.model.Attachment
+import com.twoeightnine.root.xvii.utils.ApiUtils
 import com.twoeightnine.root.xvii.utils.AttachUtils
+import javax.inject.Inject
 
 class AttachedFragment: BaseFragment() {
 
@@ -28,6 +31,9 @@ class AttachedFragment: BaseFragment() {
     @BindView(R.id.rlClose)
     lateinit var rlClose: RelativeLayout
 
+    @Inject
+    lateinit var apiUtils: ApiUtils
+
     lateinit var attachUtils: AttachUtils
     lateinit var adapter: AttachmentsAdapter
 
@@ -36,11 +42,16 @@ class AttachedFragment: BaseFragment() {
     override fun bindViews(view: View) {
         super.bindViews(view)
         ButterKnife.bind(this, view)
+        App.appComponent?.inject(this)
         initAdapter()
     }
 
     fun initAdapter() {
-        adapter = AttachmentsAdapter({ onRemove(it) })
+        adapter = AttachmentsAdapter(
+                { onRemove(it) },
+                { apiUtils.showPhoto(context, it.photoId, it.accessKey) },
+                { apiUtils.openVideo(context, it) }
+        )
         adapter.add(attachUtils.attachments)
         rlClose.setOnClickListener {
             attachUtils.forwarded = ""

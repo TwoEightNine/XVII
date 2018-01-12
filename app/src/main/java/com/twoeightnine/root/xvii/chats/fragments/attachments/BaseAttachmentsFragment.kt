@@ -7,6 +7,7 @@ import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.response.AttachmentsResponse
+import com.twoeightnine.root.xvii.utils.ApiUtils
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import javax.inject.Inject
@@ -20,6 +21,9 @@ abstract class BaseAttachmentsFragment<T> : BaseFragment() {
 
     @Inject
     lateinit var api: ApiService
+
+    @Inject
+    lateinit var apiUtils: ApiUtils
 
     val count = 200
 

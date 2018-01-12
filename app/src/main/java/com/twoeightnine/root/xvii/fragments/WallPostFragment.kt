@@ -50,6 +50,9 @@ class WallPostFragment : BaseFragment() {
     @Inject
     lateinit var api: ApiService
 
+    @Inject
+    lateinit var apiUtils: ApiUtils
+
     override fun bindViews(view: View) {
         ButterKnife.bind(this, view)
         App.appComponent?.inject(this)
@@ -97,7 +100,11 @@ class WallPostFragment : BaseFragment() {
 
                     Attachment.TYPE_PHOTO -> {
                         val photo = att.photo
-                        holder.llContainer.addView(getPhotoWall(photo!!, rootActivity))
+                        holder.llContainer.addView(getPhotoWall(
+                                photo!!,
+                                rootActivity,
+                                { apiUtils.showPhoto(activity, it.photoId, it.accessKey) }
+                        ))
                     }
 
                     Attachment.TYPE_DOC -> {
@@ -121,7 +128,11 @@ class WallPostFragment : BaseFragment() {
 
                     Attachment.TYPE_VIDEO -> {
                         val video = att.video
-                        holder.llContainer.addView(getVideo(video!!, rootActivity))
+                        holder.llContainer.addView(getVideo(
+                                video!!,
+                                rootActivity,
+                                { apiUtils.openVideo(context, it) }
+                        ))
                     }
                 }
             }

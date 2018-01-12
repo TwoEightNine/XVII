@@ -16,9 +16,11 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.utils.*
+import javax.inject.Inject
 
 class ImageViewerActivity : AppCompatActivity() {
 
@@ -41,12 +43,16 @@ class ImageViewerActivity : AppCompatActivity() {
     private var position: Int = 0
     private var fileMode = false
 
+    @Inject
+    lateinit var apiUtils: ApiUtils
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_image_viewer)
         ButterKnife.bind(this)
+        App.appComponent?.inject(this)
         initData()
         val urls = when{
             photos != null -> getUrlsFromPhotos(photos!!)
@@ -83,7 +89,7 @@ class ImageViewerActivity : AppCompatActivity() {
             if (photos == null || photos!!.size == 0) return@setOnClickListener
 
             val photo = photos!![viewPager.currentItem]
-            ApiUtils().saveToAlbum(this, photo.ownerId ?: 0, photo.id ?: 0, photo.accessKey ?: "")
+            apiUtils.saveToAlbum(this, photo.ownerId ?: 0, photo.id ?: 0, photo.accessKey ?: "")
         }
         if (fileMode) {
             onTap()

@@ -12,6 +12,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.background.LongPollService
 import com.twoeightnine.root.xvii.dagger.ApiService
+import com.twoeightnine.root.xvii.dagger.AppComponent
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
@@ -32,6 +33,7 @@ import okhttp3.RequestBody
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(api) {
 
@@ -48,7 +50,9 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     lateinit var dialog: Message
     var isShown = true
     var isEncrypted = false
-    var utils = ApiUtils()
+
+    @Inject
+    lateinit var utils: ApiUtils
 
     private var receiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, intent: Intent) {
@@ -58,6 +62,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     init {
         subscribe()
+        App.appComponent?.inject(this)
     }
 
     fun subscribe() {

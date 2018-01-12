@@ -10,12 +10,16 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
 import com.twoeightnine.root.xvii.model.Attachment
+import com.twoeightnine.root.xvii.model.Photo
+import com.twoeightnine.root.xvii.model.Video
 import com.twoeightnine.root.xvii.utils.getDoc
 import com.twoeightnine.root.xvii.utils.getEncrypted
 import com.twoeightnine.root.xvii.utils.getPhoto
 import com.twoeightnine.root.xvii.utils.getVideo
 
-class AttachmentsAdapter(private val listener: ((Int) -> Unit)?) : SimpleAdapter<Attachment>() {
+class AttachmentsAdapter(private val listener: ((Int) -> Unit)?,
+                         private val onPhotoClick: (Photo) -> Unit = {},
+                         private val onVideoClick: (Video) -> Unit = {}) : SimpleAdapter<Attachment>() {
 
     override fun getView(pos: Int, view: View?, viewGroup: ViewGroup): View {
         var view = view
@@ -31,7 +35,7 @@ class AttachmentsAdapter(private val listener: ((Int) -> Unit)?) : SimpleAdapter
             Attachment.TYPE_PHOTO -> {
                 val photo = att.photo
                 if (photo != null)
-                    holder.llContainer.addView(getPhoto(photo, App.context))
+                    holder.llContainer.addView(getPhoto(photo, App.context, onPhotoClick))
             }
 
             Attachment.TYPE_DOC -> {
@@ -48,7 +52,7 @@ class AttachmentsAdapter(private val listener: ((Int) -> Unit)?) : SimpleAdapter
             Attachment.TYPE_VIDEO -> {
                 val video = att.video
                 if (video != null)
-                    holder.llContainer.addView(getVideo(video, App.context))
+                    holder.llContainer.addView(getVideo(video, App.context, onVideoClick))
             }
         }
         holder.rlClose.setOnClickListener { listener?.invoke(pos) }

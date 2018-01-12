@@ -6,6 +6,7 @@ import android.widget.ListView
 import android.widget.RelativeLayout
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.managers.Session
@@ -16,6 +17,7 @@ import com.twoeightnine.root.xvii.settings.adapters.AccountsAdapter
 import com.twoeightnine.root.xvii.utils.*
 import io.realm.Realm
 import io.realm.RealmQuery
+import javax.inject.Inject
 
 class AccountsFragment: BaseFragment() {
 
@@ -23,6 +25,9 @@ class AccountsFragment: BaseFragment() {
     lateinit var rlAddAccount: RelativeLayout
     @BindView(R.id.lvAccounts)
     lateinit var lvAccounts: ListView
+
+    @Inject
+    lateinit var apiUtils: ApiUtils
 
     private lateinit var adapter: AccountsAdapter
 
@@ -32,6 +37,7 @@ class AccountsFragment: BaseFragment() {
     override fun bindViews(view: View) {
         ButterKnife.bind(this, view)
         initAdapter()
+        App.appComponent?.inject(this)
         rlAddAccount.setOnClickListener {
             Session.token = ""
             restartApp(getString(R.string.restart_app))
@@ -56,7 +62,7 @@ class AccountsFragment: BaseFragment() {
             } else {
                 selectedAccount = account
                 selectedPosition = pos
-                ApiUtils().checkAccount(account.token ?: "", account.uid, this::onSuccess, this::onFail, { onSuccess() })
+                apiUtils.checkAccount(account.token ?: "", account.uid, this::onSuccess, this::onFail, { onSuccess() })
             }
         }
         lvAccounts.setOnItemLongClickListener {

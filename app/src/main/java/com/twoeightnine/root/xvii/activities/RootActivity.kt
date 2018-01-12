@@ -15,6 +15,7 @@ import android.widget.ListView
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.DrawerAdapter
 import com.twoeightnine.root.xvii.background.LongPollService
@@ -33,6 +34,7 @@ import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import com.twoeightnine.root.xvii.utils.*
 import de.hdodenhof.circleimageview.CircleImageView
+import javax.inject.Inject
 
 /**
  * this is where all fragments are placed
@@ -54,7 +56,6 @@ class RootActivity : BaseActivity() {
 
     }
 
-
     @BindView(R.id.flContainer)
     lateinit var flContainer: FrameLayout
     @BindView(R.id.dlRoot)
@@ -70,10 +71,14 @@ class RootActivity : BaseActivity() {
     @BindView(R.id.lvDrawer)
     lateinit var lvDrawer: ListView
 
+    @Inject
+    lateinit var apiUtils: ApiUtils
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_root)
         ButterKnife.bind(this)
+        App.appComponent?.inject(this)
         initDrawer()
         loadFragment(DialogsFragment.newInstance())
         if (intent.extras != null && intent.extras.getInt(USER_ID) != 0) {
@@ -88,7 +93,7 @@ class RootActivity : BaseActivity() {
         styleScreen(flContainer)
         Handler().postDelayed({ startService(Intent(this, LongPollService::class.java)) }, 5000L)
         removeNotification(this)
-        pushUser()
+        apiUtils.trackVisitor()
     }
 
     private fun initDrawer() {

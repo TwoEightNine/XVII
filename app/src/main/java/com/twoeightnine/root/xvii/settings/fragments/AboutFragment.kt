@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.TestLandscapeActivity
@@ -19,6 +20,7 @@ import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.utils.*
+import javax.inject.Inject
 
 /**
  * Created by root on 2/2/17.
@@ -46,10 +48,12 @@ class AboutFragment : BaseFragment() {
 
     private lateinit var crashTest: String
 
-    private var apiUtils = ApiUtils()
+    @Inject
+    lateinit var apiUtils: ApiUtils
 
     override fun bindViews(view: View) {
         ButterKnife.bind(this, view)
+        App.appComponent?.inject(this)
         initViews()
         apiUtils.checkMembership({ if (!it) showJoinDialog() })
     }

@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -13,7 +14,6 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.PrimeGeneratorService
 import com.twoeightnine.root.xvii.consts.Api
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
@@ -25,11 +25,12 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
+
     lateinit var web: WebView
     lateinit var llLoader: LinearLayout
 
     @Inject
-    lateinit var api: ApiService
+    lateinit var apiUtils: ApiUtils
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +55,11 @@ class LoginActivity : BaseActivity() {
         if (token.isEmpty()) {
             toLogIn()
         } else {
-            ApiUtils().checkAccount(token, uid, { toPin() }, { toLogIn() }, { toPin() })
+            apiUtils.checkAccount(token, uid, { toPin() }, { toLogIn() }, { toPin() })
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun toLogIn() {
         web.visibility = View.GONE
         web.settings?.javaScriptEnabled = true
@@ -65,23 +67,9 @@ class LoginActivity : BaseActivity() {
         val man = CookieManager.getInstance()
         man.removeAllCookie()
         web.settings?.javaScriptCanOpenWindowsAutomatically = true
-        web.setWebViewClient(object : WebViewClient() {
-            override fun onPageFinished(view: WebView, url: String) {
-                super.onPageFinished(view, url)
-                llLoader.visibility = View.GONE
-                if (url.startsWith(Api.REDIRECT_URL)) {
-                    doneWithThis(url)
-                }
-            }
-        })
-        val url = "https://oauth.vk.com/authorize?" +
-                "client_id=${Api.APP_ID}&" +
-                "scope=${Api.SCOPE_ALL}&" +
-                "redirect_uri=${Api.REDIRECT_URL}&" +
-                "display=touch&" +
-                "v=${Api.VERSION}&" +
-                "response_type=token"
-        web.loadUrl(url)
+        web.webViewClient = ParsingWebClient()
+
+        web.loadUrl(LOGIN_URL)
         if (!isOnline()) {
             showCommon(this, R.string.no_internet)
             finish()
@@ -124,7 +112,7 @@ class LoginActivity : BaseActivity() {
         Session.token = token
         Session.uid = uid
 
-        ApiUtils().checkAccount(
+        apiUtils.checkAccount(
                 Session.token,
                 Session.uid,
                 this::onChecked,
@@ -175,5 +163,31 @@ class LoginActivity : BaseActivity() {
         Session.longPoll = LongPollServer("", "", 0)
         startActivity(intent)
         finish()
+    }
+
+    companion object {
+
+        private val LOGIN_URL = "https://oauth.vk.com/authorize?" +
+                "client_id=${Api.APP_ID}&" +
+                "scope=${Api.SCOPE_ALL}&" +
+                "redirect_uri=${Api.REDIRECT_URL}&" +
+                "display=touch&" +
+                "v=${Api.VERSION}&" +
+                "response_type=token"
+
+    }
+
+    /**
+     * handles redirect and calls token parsing
+     */
+    private inner class ParsingWebClient : WebViewClient() {
+
+        override fun onPageFinished(view: WebView, url: String) {
+            super.onPageFinished(view, url)
+            llLoader.visibility = View.GONE
+            if (url.startsWith(Api.REDIRECT_URL)) {
+                doneWithThis(url)
+            }
+        }
     }
 }

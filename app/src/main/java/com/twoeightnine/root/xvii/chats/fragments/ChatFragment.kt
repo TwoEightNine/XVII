@@ -97,6 +97,9 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
     @Inject
     lateinit var presenter: ChatFragmentPresenter
+    @Inject
+    lateinit var apiUtils: ApiUtils
+
     lateinit var adapter: ChatAdapter
     lateinit var pagerAdapter: ChatPagerAdapter
     lateinit var bottomSheetHelper: BottomSheetHelper
@@ -209,7 +212,9 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 this::onClick,
                 this::onLongClick,
                 { rootActivity.loadFragment(ProfileFragment.newInstance(it)) },
-                this::onDocDecryptClicked
+                this::onDocDecryptClicked,
+                { apiUtils.showPhoto(context, it.photoId, it.accessKey) },
+                { apiUtils.openVideo(context, it) }
         )
         adapter.trier = { loadMore(adapter.itemCount) }
         adapter.multiListener = this

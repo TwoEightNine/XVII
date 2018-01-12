@@ -22,10 +22,7 @@ import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
 import com.twoeightnine.root.xvii.fragments.WallPostFragment
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.Attachment
-import com.twoeightnine.root.xvii.model.Audio
-import com.twoeightnine.root.xvii.model.Doc
-import com.twoeightnine.root.xvii.model.Message
+import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.utils.*
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -38,6 +35,8 @@ class ChatAdapter(context: Context,
                   private val longClickListener: (Int) -> Boolean,
                   private val userClickListener: (Int) -> Unit,
                   private val decryptCallback: (Doc) -> Unit = {},
+                  private val onPhotoClick: (Photo) -> Unit = {},
+                  private val onVideoClick: (Video) -> Unit = {},
                   private val isImportant: Boolean = false) : PaginationAdapter<Message>(context, loader) {
     var isAtEnd: Boolean = false
         private set
@@ -167,7 +166,7 @@ class ChatAdapter(context: Context,
 
                     Attachment.TYPE_PHOTO -> {
                         val photo = atts[i].photo
-                        viewHolder.llMessageContainer.addView(getPhoto(photo!!, context))
+                        viewHolder.llMessageContainer.addView(getPhoto(photo!!, context, onPhotoClick))
                     }
 
                     Attachment.TYPE_STICKER -> {
@@ -198,7 +197,7 @@ class ChatAdapter(context: Context,
 
                     Attachment.TYPE_VIDEO -> {
                         val video = atts[i].video
-                        viewHolder.llMessageContainer.addView(getVideo(video!!, context))
+                        viewHolder.llMessageContainer.addView(getVideo(video!!, context, onVideoClick))
                     }
 
                     Attachment.TYPE_DOC -> {

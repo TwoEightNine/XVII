@@ -10,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.WebFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoaderView
 import java.io.File
+import javax.inject.Inject
 
 /**
  * now gif viewer uses WebView due to vk jackass hq
@@ -58,6 +60,9 @@ class GifViewerActivity: AppCompatActivity() {
         }
     }
 
+    @Inject
+    lateinit var apiUtils: ApiUtils
+
     private lateinit var url: String
     private lateinit var accessKey: String
     private lateinit var title: String
@@ -65,14 +70,14 @@ class GifViewerActivity: AppCompatActivity() {
 
     private var ownerId = 0
     private var docId = 0
+    private var removeAfter = true
 
     private lateinit var name: String
-
-    private var removeAfter = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gif_viewer)
+        App.appComponent?.inject(this)
         ButterKnife.bind(this)
         if (intent.extras != null) {
             url = intent.extras.getString(URL)
@@ -92,7 +97,7 @@ class GifViewerActivity: AppCompatActivity() {
             visibilitor(rlBottom)
         }
         btnSaveToDocs.setOnClickListener {
-            ApiUtils().saveDoc(this, ownerId, docId, accessKey)
+            apiUtils.saveDoc(this, ownerId, docId, accessKey)
         }
         btnDownload.setOnClickListener {
             downloadFile(this, url, name, "gif", { showCommon(this, getString(R.string.doenloaded, getString(R.string.doc))) })

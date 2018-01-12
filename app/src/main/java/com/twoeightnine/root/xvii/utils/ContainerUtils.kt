@@ -16,18 +16,19 @@ import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.*
 import org.w3c.dom.Text
 
-fun getPhoto(photo: Photo, context: Context): View {
+fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
     Picasso.with(context)
             .loadUrl(photo.almostMax)
             .resize(pxFromDp(context, 250), pxFromDp(context, 300))
             .centerCrop()
             .into(included.findViewById<ImageView>(R.id.ivInternal))
-    included.setOnClickListener { ApiUtils().showPhoto(context, photo.photoId, photo.accessKey) }
+//    included.setOnClickListener { apiUtils.showPhoto(context, photo.photoId, photo.accessKey) }
+    included.setOnClickListener { onClick.invoke(photo) }
     return included
 }
 
-fun getPhotoWall(photo: Photo, activity: RootActivity): View {
+fun getPhotoWall(photo: Photo, activity: RootActivity, onClick: (Photo) -> Unit = {}): View {
     val iv = ImageView(activity)
     val width = screenWidth(activity)
     val scale = width * 1.0f / photo.width!!
@@ -41,7 +42,7 @@ fun getPhotoWall(photo: Photo, activity: RootActivity): View {
             .resize(width, ivHeight.toInt())
             .centerCrop()
             .into(iv)
-    iv.setOnClickListener { ApiUtils().showPhoto(activity, photo.photoId, photo.accessKey) }
+    iv.setOnClickListener { onClick.invoke(photo) }
     return iv
 }
 
@@ -136,7 +137,7 @@ fun getLink(link: Link, context: Context): View {
     return included
 }
 
-fun getVideo(video: Video, context: Context): View {
+fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
     Picasso.with(context)
             .loadUrl(video.maxPhoto)
@@ -144,6 +145,6 @@ fun getVideo(video: Video, context: Context): View {
             .centerCrop()
             .into(included.findViewById<ImageView>(R.id.ivVideo))
     included.findViewById<TextView>(R.id.tvDuration).text = secToTime(video.duration)
-    included.setOnClickListener { ApiUtils().openVideo(context, video) }
+    included.setOnClickListener { onClick.invoke(video) }
     return included
 }

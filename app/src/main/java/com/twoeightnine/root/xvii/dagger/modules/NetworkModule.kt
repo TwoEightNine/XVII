@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.dagger.MusicService
 import com.twoeightnine.root.xvii.dagger.TokenAndVersionInterceptor
 import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.utils.ApiUtils
 import com.twoeightnine.root.xvii.utils.isOnline
 import dagger.Module
 import dagger.Provides
@@ -95,6 +96,10 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideApiUtils(api: ApiService): ApiUtils = ApiUtils(api)
 
     @Provides
     @Singleton

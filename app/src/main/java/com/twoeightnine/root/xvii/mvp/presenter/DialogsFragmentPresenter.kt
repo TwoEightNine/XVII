@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.mvp.view.DialogsFragmentView
 import com.twoeightnine.root.xvii.response.ServerResponse
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.Flowable
+import javax.inject.Inject
 
 open class DialogsFragmentPresenter(override var api: ApiService) : BasePresenter<DialogsFragmentView>(api) {
 
@@ -30,6 +31,9 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
 
     var withClear: Boolean = false
 
+    @Inject
+    lateinit var apiUtils: ApiUtils
+
     var receiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, intent: Intent) {
             onUpdate((intent.extras.getSerializable(LongPollService.RESULT) as LongPollResponse).updates ?: mutableListOf())
@@ -38,6 +42,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
 
     init {
         LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(LongPollService.NAME))
+        App.appComponent?.inject(this)
     }
 
     open fun getSaved() = dialogs
@@ -276,7 +281,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
 
     fun setOffline() {
         if (Prefs.beOffline) {
-            ApiUtils().setOffline()
+            apiUtils.setOffline()
         }
     }
 

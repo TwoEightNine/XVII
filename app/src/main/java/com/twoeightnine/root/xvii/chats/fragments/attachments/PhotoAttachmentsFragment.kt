@@ -24,7 +24,7 @@ class PhotoAttachmentsFragment : BaseAttachmentsFragment<Photo>() {
         adapter = PhotoAttachmentsAdapter(
                 context,
                 { loadMore() },
-                { ApiUtils().showPhoto(activity, it.photoId, it.accessKey) }
+                { apiUtils.showPhoto(activity, it.photoId, it.accessKey) }
         )
         adapter.setAdapter(gvPhotos)
     }

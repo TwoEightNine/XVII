@@ -15,16 +15,9 @@ import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import java.util.*
 import javax.inject.Inject
 
-class ApiUtils {
+class ApiUtils @Inject constructor(val api: ApiService) {
 
     private val stickersUpdPeriod = 60 * 60 * 24 * 3 //3 days
-
-    @Inject
-    lateinit var api: ApiService
-
-    init {
-        App.appComponent?.inject(this)
-    }
 
     fun setOffline() {
         api.setOffline()
@@ -159,10 +152,6 @@ class ApiUtils {
                 .subscribeSmart({
                     onSuccess.invoke()
                 }, {})
-
-    }
-
-    fun updateLongPoll() {
 
     }
 }

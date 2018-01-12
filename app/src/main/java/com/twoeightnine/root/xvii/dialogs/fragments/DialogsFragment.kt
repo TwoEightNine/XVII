@@ -47,6 +47,9 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
 
     @Inject
     open lateinit var presenter: DialogsFragmentPresenter
+    @Inject
+    lateinit var apiUtils: ApiUtils
+
     open lateinit var adapter: DialogsAdapter
 
     var isForwarded = false
@@ -64,7 +67,7 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
 
     override fun onNew(view: View) {
         presenter.loadCachedDialogs()
-        ApiUtils().updateStickers()
+        apiUtils.updateStickers()
     }
 
     override fun onRecovered(view: View) {

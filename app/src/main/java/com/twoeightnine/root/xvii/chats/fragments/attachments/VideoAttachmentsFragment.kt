@@ -20,7 +20,7 @@ class VideoAttachmentsFragment : BaseAttachmentsFragment<Video>() {
 
     override fun initAdapter() {
         App.appComponent?.inject(this)
-        adapter = VideoAttachmentsAdapter({ loadMore() }, { ApiUtils().openVideo(activity, it) })
+        adapter = VideoAttachmentsAdapter({ loadMore() }, { apiUtils.openVideo(activity, it) })
         lvVideos.adapter = adapter
     }
 
