@@ -154,4 +154,25 @@ class ApiUtils @Inject constructor(val api: ApiService) {
                 }, {})
 
     }
+
+    fun downloadFile(url: String,
+                     fileName: String,
+                     onSuccess: (String) -> Unit = {},
+                     onError: (String) -> Unit = {}) {
+        api.downloadFile(url)
+                .compose(applySchedulers())
+                .subscribe({
+                    val written = writeResponseBodyToDisk(it, fileName)
+                    if (written) {
+                        onSuccess.invoke(fileName)
+                    } else {
+                        onError.invoke("Error downloading $fileName: not written")
+                    }
+                }, {
+                    it.printStackTrace()
+                    val errorMsg = it.message ?: "download file error: null error"
+                    Lg.wtf(errorMsg)
+                    onError.invoke(errorMsg)
+                })
+    }
 }

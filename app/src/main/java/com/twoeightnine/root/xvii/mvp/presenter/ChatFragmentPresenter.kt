@@ -375,17 +375,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
             callback.invoke(fileName)
             return
         }
-        api.downloadFile(doc.url)
-                .compose(applySchedulers())
-                .subscribe({
-                    val written = writeResponseBodyToDisk(it, fileName)
-                    if (written) {
-                        callback.invoke(fileName)
-                    }
-                }, {
-                    it.printStackTrace()
-                    Lg.wtf("downloading error ${doc.url} ${it.message}")
-                })
+        utils.downloadFile(doc.url, fileName, callback)
     }
 
     fun decryptDoc(context: Context, doc: Doc, callback: (String) -> Unit) {

@@ -21,7 +21,7 @@ import javax.inject.Inject
 /**
  * now gif viewer uses WebView due to vk jackass hq
  * i hate them
- * je les haïs
+ * je les hais
  */
 class GifViewerActivity: AppCompatActivity() {
 
@@ -39,26 +39,6 @@ class GifViewerActivity: AppCompatActivity() {
     lateinit var rlTop: RelativeLayout
     @BindView(R.id.llBottom)
     lateinit var rlBottom: LinearLayout
-
-    companion object {
-        val URL = "url"
-        val ACCESS_KEY = "accessKey"
-        val TTILE = "title"
-        val PREVIEW = "preview"
-        val OWNER_ID = "ownerId"
-        val DOC_ID = "docId"
-
-        fun showGif(context: Context, ownerId: Int, docId: Int, url: String, accessKey: String, title: String, preview: String) {
-            val intent = Intent(context, GifViewerActivity::class.java)
-            intent.putExtra(URL, url)
-            intent.putExtra(ACCESS_KEY, accessKey)
-            intent.putExtra(TTILE, title)
-            intent.putExtra(PREVIEW, preview)
-            intent.putExtra(OWNER_ID, ownerId)
-            intent.putExtra(DOC_ID, docId)
-            context.startActivity(intent)
-        }
-    }
 
     @Inject
     lateinit var apiUtils: ApiUtils
@@ -82,7 +62,7 @@ class GifViewerActivity: AppCompatActivity() {
         if (intent.extras != null) {
             url = intent.extras.getString(URL)
             accessKey = intent.extras.getString(ACCESS_KEY)
-            title = intent.extras.getString(TTILE)
+            title = intent.extras.getString(TITLE)
             preview = intent.extras.getString(PREVIEW)
             ownerId = intent.extras.getInt(OWNER_ID)
             docId = intent.extras.getInt(DOC_ID)
@@ -111,10 +91,10 @@ class GifViewerActivity: AppCompatActivity() {
     }
 
     private fun getNameFromTitle(title: String) =
-        if (title.endsWith(".gif", true)) {
+        if (title.endsWith(GIF_EXT, true)) {
             getNameFromUrl(title)
         } else {
-            "${getNameFromUrl(title)}.gif"
+            "${getNameFromUrl(title)}$GIF_EXT"
         }
 
     private fun visibilitor(vg: ViewGroup) {
@@ -125,6 +105,28 @@ class GifViewerActivity: AppCompatActivity() {
         super.onDestroy()
         if (removeAfter) {
             File(name).delete()
+        }
+    }
+
+    companion object {
+
+        val URL = "url"
+        val ACCESS_KEY = "accessKey"
+        val TITLE = "title"
+        val PREVIEW = "preview"
+        val OWNER_ID = "ownerId"
+        val DOC_ID = "docId"
+        val GIF_EXT = ".gif"
+
+        fun showGif(context: Context, ownerId: Int, docId: Int, url: String, accessKey: String, title: String, preview: String) {
+            val intent = Intent(context, GifViewerActivity::class.java)
+            intent.putExtra(URL, url)
+            intent.putExtra(ACCESS_KEY, accessKey)
+            intent.putExtra(TITLE, title)
+            intent.putExtra(PREVIEW, preview)
+            intent.putExtra(OWNER_ID, ownerId)
+            intent.putExtra(DOC_ID, docId)
+            context.startActivity(intent)
         }
     }
 }
