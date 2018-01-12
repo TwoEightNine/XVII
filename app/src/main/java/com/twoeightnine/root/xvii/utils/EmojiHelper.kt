@@ -43,7 +43,6 @@ object EmojiHelper {
         return count
     }
 
-
     fun getEmojied(context: Context, text: String,
                    builder: SpannableStringBuilder = SpannableStringBuilder(text),
                    makeSafe: Boolean = true): SpannableStringBuilder {
@@ -60,7 +59,7 @@ object EmojiHelper {
             if (!blind!! && VERSION.SDK_INT > 15) {
                 makeSafe = false
             }
-            for ((res, key) in emojis) {
+            for ((key, res) in emojis) {
                 var index = 0
                 while (true) {
                     index = text.indexOf(key, index)
@@ -94,7 +93,6 @@ object EmojiHelper {
             Lg.i("error in emoji: $ex")
         }
         return builder
-
     }
 
     private fun initBlind(context: Context) = (context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager).isEnabled
