@@ -20,6 +20,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.DrawerAdapter
 import com.twoeightnine.root.xvii.background.LongPollService
 import com.twoeightnine.root.xvii.background.MediaPlayerAsyncTask
+import com.twoeightnine.root.xvii.background.NotificationService
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.fragments.BaseFragment
@@ -91,7 +92,7 @@ class RootActivity : BaseActivity() {
             Lg.i("open chat ${intent.extras.getInt(USER_ID)}")
         }
         styleScreen(flContainer)
-        Handler().postDelayed({ startService(Intent(this, LongPollService::class.java)) }, 5000L)
+        Handler().postDelayed({ startNotificationService(this) }, 5000L)
         removeNotification(this)
         apiUtils.trackVisitor()
     }
@@ -187,7 +188,7 @@ class RootActivity : BaseActivity() {
         super.onResume()
         if (!Session.isActive()) {
             Lg.i("Service wasn't active since ${getTime(Session.serviceLastAction, true, "HH:mm:ss")}. Start again")
-            Handler().postDelayed({ startService(Intent(this, LongPollService::class.java)) }, 5000L)
+            Handler().postDelayed({ startNotificationService(this) }, 5000L)
         }
     }
 

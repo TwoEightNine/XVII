@@ -10,14 +10,12 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.LongPollService
+import com.twoeightnine.root.xvii.background.NotificationService
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Account
-import com.twoeightnine.root.xvii.utils.restartApp
-import com.twoeightnine.root.xvii.utils.sha256
-import com.twoeightnine.root.xvii.utils.showCommon
-import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import io.realm.Realm
 
@@ -118,7 +116,7 @@ class PinActivity : BaseActivity() {
 
             ACTION_ENTER -> {
                 startActivity(Intent(this, RootActivity::class.java))
-                startService(Intent(this, LongPollService::class.java))
+                startNotificationService(this)
                 finish()
             }
 

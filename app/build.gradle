@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId "com.twoeightnine.root.xvii"
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 25
         versionCode 80
         versionName "4.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

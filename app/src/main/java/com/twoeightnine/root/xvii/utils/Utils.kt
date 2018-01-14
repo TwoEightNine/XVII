@@ -36,6 +36,7 @@ import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.LongPollService
+import com.twoeightnine.root.xvii.background.NotificationService
 import com.twoeightnine.root.xvii.consts.Api
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Style
@@ -125,6 +126,10 @@ fun rate(context: Context) {
 
 fun showError(context: Context?, @StringRes text: Int) {
     showError(context, context?.getString(text) ?: "")
+}
+
+fun startNotificationService(context: Context) {
+    context.startService(Intent(context, NotificationService::class.java))
 }
 
 fun copyToClip(text: String) {

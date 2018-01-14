@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name="com.twoeightnine.root.xvii.App"
@@ -28,7 +29,19 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-        <service android:name=".background.LongPollService" />
+        <receiver
+            android:name=".background.RestarterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="restartAction" />
+            </intent-filter>
+        </receiver>
+        
+        <!--<service android:name=".background.LongPollService" />-->
+
+        <service android:name=".background.NotificationService" />
 
         <service android:name=".background.PrimeGeneratorService" />
 
