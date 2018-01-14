@@ -14,7 +14,6 @@ import io.realm.RealmConfiguration
 
 class App : Application() {
 
-
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
@@ -31,7 +30,6 @@ class App : Application() {
         Realm.setDefaultConfiguration(realmConfig)
 
     }
-
 
     companion object {
         lateinit var context: Context

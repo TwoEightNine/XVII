@@ -104,10 +104,10 @@ interface ApiService {
                  @Query("fields") fields: String): Flowable<ServerResponse<MutableList<User>>>
 
     @GET("users.search")
-    fun search(@Query("q") q: String,
-               @Query("fields") fields: String,
-               @Query("count") count: Int,
-               @Query("offset") offset: Int): Flowable<ServerResponse<ListResponse<User>>>
+    fun searchUsers(@Query("q") q: String,
+                    @Query("fields") fields: String,
+                    @Query("count") count: Int,
+                    @Query("offset") offset: Int): Flowable<ServerResponse<ListResponse<User>>>
 
     //friends
     @GET("friends.get?order=hints")
@@ -118,6 +118,12 @@ interface ApiService {
     @GET("friends.getOnline")
     fun getOnlineFriends(@Query("count") count: Int,
                          @Query("offset") offset: Int): Flowable<ServerResponse<List<Int>>>
+
+    @GET("friends.search")
+    fun searchFriends(@Query("q") q: String,
+                    @Query("fields") fields: String,
+                    @Query("count") count: Int,
+                    @Query("offset") offset: Int): Flowable<ServerResponse<ListResponse<User>>>
 
     //photos
     @GET("photos.getById")

@@ -80,7 +80,6 @@ open class BaseFragment: Fragment() {
         }
     }
 
-
     fun setTitle(title: CharSequence) {
         toolbar?.title = title
         val actionBar = rootActivity.supportActionBar

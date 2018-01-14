@@ -1,20 +1,24 @@
 package com.twoeightnine.root.xvii.mvp.presenter
 
 import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.SearchUsersFragmentView
+import com.twoeightnine.root.xvii.response.ListResponse
+import com.twoeightnine.root.xvii.response.ServerResponse
 import com.twoeightnine.root.xvii.utils.subscribeSmart
+import io.reactivex.Flowable
+import io.reactivex.functions.BiFunction
+
+typealias UserResponse = ServerResponse<ListResponse<User>>
 
 class SearchUsersPresenter(api: ApiService): BasePresenter<SearchUsersFragmentView>(api) {
 
-    val COUNT = 40
+    private val userIdPattern = Regex("""^(id)?\d{1,9}$""")
+    private val count = 100
 
-    var query = ""
-        private set
-
-    val users: MutableList<User> = mutableListOf()
+    private var query = ""
+    private val users: MutableList<User> = mutableListOf()
 
     fun getSaved() = users
 
@@ -25,18 +29,57 @@ class SearchUsersPresenter(api: ApiService): BasePresenter<SearchUsersFragmentVi
         if (offset == 0) {
             users.clear()
         }
-        api.search(q, User.FIELDS, COUNT, offset)
-                .subscribeSmart({
-                    response ->
-                    if (offset == 0) {
-                        view?.onUsersClear()
-                    }
-                    users.addAll(response.items)
-                    view?.onUsersLoaded(response.items)
-                }, {
-                    error ->
-                    view?.showError(error)
-                })
+        val parsedUid = getUidFromQuery(query)
+        if (parsedUid in 1..1000000000) {
+            api.getUsers("$parsedUid", User.FIELDS)
+                    .subscribeSmart({
+                        response ->
+                        if (offset == 0) {
+                            view?.onUsersClear()
+                        }
+                        users.addAll(response)
+                        view?.onUsersLoaded(response)
+                    }, {
+                        view?.showError(it)
+                    })
+        } else {
+            Flowable.zip(
+                    api.searchFriends(q, User.FIELDS, count, offset),
+                    api.searchUsers(q, User.FIELDS, count, offset),
+                    ResponseCombinerFunction())
+                    .subscribeSmart({ response ->
+                        if (offset == 0) {
+                            view?.onUsersClear()
+                        }
+                        users.addAll(response.items)
+                        view?.onUsersLoaded(response.items)
+                    }, {
+                        view?.showError(it)
+                    })
+        }
+    }
+
+    private fun getUidFromQuery(q: String)
+        = if (userIdPattern.matches(q)) {
+            try {
+                userIdPattern.find(q)
+                        ?.value
+                        ?.replace("id", "")
+                        ?.toInt() ?: 0
+            } catch (e: NumberFormatException) {
+                0
+            }
+        } else {
+            0
+        }
+
+    private inner class ResponseCombinerFunction :
+            BiFunction<UserResponse, UserResponse, UserResponse> {
+
+        override fun apply(t1: UserResponse, t2: UserResponse): UserResponse {
+            t1.response?.items?.addAll(t2.response?.items ?: arrayListOf())
+            return t1
+        }
     }
 
 }

@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.mvp.presenter
 
 import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.FriendsFragmentView
@@ -41,7 +40,7 @@ class FriendsFragmentPresenter(api: ApiService): BasePresenter<FriendsFragmentVi
 
     fun searchUsers(q: String, offset: Int = 0) {
         view?.showLoading()
-        api.search(q, User.FIELDS, COUNT, offset)
+        api.searchUsers(q, User.FIELDS, COUNT, offset)
                 .subscribeSmart({
                     response ->
                     if (offset == 0) {
