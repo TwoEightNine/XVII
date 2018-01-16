@@ -17,7 +17,8 @@ class TextInputAlertDialog(context: Context,
                            var title: String,
                            hint: String,
                            var listener: ((String) -> Unit)?,
-                           useFilter: Boolean = true): AlertDialog(context) {
+                           stylize: Boolean = true,
+                           useFilter: Boolean = false): AlertDialog(context) {
 
     @BindView(R.id.tvTitle)
     lateinit var tvTitle: TextView
@@ -50,7 +51,7 @@ class TextInputAlertDialog(context: Context,
             etInput.filters = arrayOf(filter)
         }
         setView(view)
-        if (useFilter) { //kostylyok
+        if (stylize) {
             Style.forImageView(ivDone, Style.DARK_TAG)
         }
     }

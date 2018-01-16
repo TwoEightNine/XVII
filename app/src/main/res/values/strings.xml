@@ -202,6 +202,8 @@
     <string name="delete_for_all">Delete for all users</string>
     <string name="delete_only_for_me">Delete only for me</string>
     <string name="wanna_delete_messages">Do you really want to delete these messages?</string>
+    <string name="edit_message">Edit message</string>
+    <string name="unable_to_edit_message">Unable to edit this message</string>
     <string name="unable_to_add_to_gallery">Unable to add to gallery. It will be added automatically later</string>
     <string name="swipe_right_hint">Swipe right to attach media</string>
     <string name="generation_dh_hint">Make sure your interlocutor has installed XVII and opened the dialog with you. It is necessary for key exchange.\nWarning! Keys are valid only for one session. Leaving this dialog means destroying and forgetting the keys forever!</string>

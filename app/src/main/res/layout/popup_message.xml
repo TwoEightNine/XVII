@@ -22,6 +22,21 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llEdit"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/TextViewStyle.Medium.Gray"
+            android:text="@string/edit"
+            android:layout_margin="@dimen/margin16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/llReply"
         android:clickable="true"
         android:layout_width="match_parent"

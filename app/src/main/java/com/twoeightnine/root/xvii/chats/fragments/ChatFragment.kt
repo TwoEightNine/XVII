@@ -343,9 +343,9 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
         val message = adapter.items[position]
         getContextPopup(activity, R.layout.popup_message, {
-            v ->
-            when (v.id) {
+            when (it.id) {
                 R.id.llCopy -> copyToClip(message.body ?: "")
+                R.id.llEdit -> showEditMessageDialog(message)
                 R.id.llReply -> presenter.attachUtils.forwarded = "${message.id}"
                 R.id.llForward -> {
                     rootActivity.loadFragment(DialogFwFragment.newInstance("${message.id}"))
@@ -416,6 +416,19 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 .create()
         dialog.show()
         Style.forDialog(dialog)
+    }
+
+    private fun showEditMessageDialog(message: Message) {
+        if (message.isOut && time() - message.date < 3600) {
+            TextInputAlertDialog(
+                    context,
+                    getString(R.string.edit_message),
+                    message.body ?: "",
+                    { presenter.editMessage(message.id, it) }
+            ).show()
+        } else {
+            showError(context, R.string.unable_to_edit_message)
+        }
     }
 
     private fun onDocDecryptClicked(doc: Doc) {
@@ -769,6 +782,16 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                     adapter.removeAt(pos)
                     break
                 }
+            }
+        }
+    }
+
+    override fun onMessageEdited(mid: Int, newText: String) {
+        for (pos in adapter.items.indices) {
+            if (adapter.items[pos].id == mid) {
+                val mess = adapter.items[pos]
+                mess.body = newText
+                adapter.update(pos, mess)
             }
         }
     }

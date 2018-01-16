@@ -209,6 +209,17 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 })
     }
 
+    fun editMessage(mid: Int, text: String) {
+        api.editMessage(userId(), text, mid)
+                .subscribeSmart({
+                    if (it == 1) {
+                        view?.onMessageEdited(mid, text)
+                    }
+                }, {
+                    view?.showError(it)
+                })
+    }
+
     fun sendSticker(sticker: Attachment.Sticker) {
         val flowable: Flowable<ServerResponse<Int>>
         if (dialog.chatId > 0) {

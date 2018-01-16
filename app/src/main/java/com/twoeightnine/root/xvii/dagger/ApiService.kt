@@ -42,6 +42,11 @@ interface ApiService {
     fun deleteMessages(@Query("message_ids") messageIds: String,
                        @Query("delete_for_all") deleteForAll: Int): Flowable<ServerResponse<JSONObject>>
 
+    @GET("messages.edit?keep_snippets=1&keep_forward_messages=1")
+    fun editMessage(@Query("peer_id") peerId: Int,
+                    @Query("message") message: String,
+                    @Query("message_id") messageId: Int): Flowable<ServerResponse<Int>>
+
     @GET("messages.send")
     fun send(@Query("user_id") userId: Int,
              @Query("message") message: String,
