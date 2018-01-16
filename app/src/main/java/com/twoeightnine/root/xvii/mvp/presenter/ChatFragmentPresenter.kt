@@ -198,11 +198,15 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 })
     }
 
-    fun deleteMessages(mids: MutableList<Int>) {
-        api.deleteMessages(mids.joinToString(separator = ","))
+    fun deleteMessages(mids: MutableList<Int>, forAll: Boolean, quiet: Boolean = false) {
+        api.deleteMessages(mids.joinToString(separator = ","), if (forAll) 1 else 0)
                 .subscribeSmart({
                     view?.onMessagesDeleted(mids)
-                }, {})
+                }, {
+                    if (!quiet) {
+                        view?.showError(it)
+                    }
+                })
     }
 
     fun sendSticker(sticker: Attachment.Sticker) {
@@ -471,7 +475,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                                     })
                         } else {
                             if (event.message.contains("KeyEx{")) {
-                                deleteMessages(mutableListOf(event.mid))
+                                deleteMessages(mutableListOf(event.mid), false, true)
                                 if (event.out == 0) {
                                     view?.onKeyReceived(Html.fromHtml(event.message).toString(), crypto.isWaiting)
                                 }

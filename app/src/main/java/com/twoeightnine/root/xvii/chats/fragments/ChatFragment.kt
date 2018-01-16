@@ -350,10 +350,18 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 R.id.llForward -> {
                     rootActivity.loadFragment(DialogFwFragment.newInstance("${message.id}"))
                 }
-                R.id.llDelete -> showDeleteDialog(activity, {
-                    presenter.deleteMessages(mutableListOf(message.id))
-                    CacheHelper.deleteMessagesAsync(mutableListOf(message.id))
-                })
+                R.id.llDelete -> {
+                    val callback = {
+                        forAll: Boolean ->
+                        presenter.deleteMessages(mutableListOf(message.id), forAll)
+                        CacheHelper.deleteMessagesAsync(mutableListOf(message.id))
+                    }
+                    if (message.isOut && time() - message.date < 3600) {
+                        showDeleteMessagesDialog(callback)
+                    } else {
+                        showDeleteDialog(activity, { callback.invoke(false) })
+                    }
+                }
                 R.id.llDecrypt -> {
                     message.body = getDecrypted(message.body)
                     adapter.notifyItemChanged(position)
@@ -372,8 +380,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         val selectedList = adapter.multiSelectRaw
         val selected = adapter.multiSelect
         getContextPopup(activity, R.layout.popup_message_multiselect, {
-            v ->
-            when (v.id) {
+            when (it.id) {
                 R.id.llReply -> {
                     presenter.attachUtils.forwarded = selected
                     adapter.clearMultiSelect()
@@ -386,11 +393,11 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                     adapter.clearMultiSelect()
                 }
                 R.id.llDelete -> {
-                    showDeleteDialog(activity, {
-                        presenter.deleteMessages(selectedList)
+                    showDeleteMessagesDialog {
+                        presenter.deleteMessages(selectedList, it)
                         CacheHelper.deleteMessagesAsync(selectedList)
                         adapter.clearMultiSelect()
-                    })
+                    }
                 }
                 R.id.llMarkImportant -> {
                     presenter.markAsImportant(selectedList, 1)
@@ -398,6 +405,17 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 }
             }
         }).show()
+    }
+
+    private fun showDeleteMessagesDialog(callback: (Boolean) -> Unit) {
+        val dialog = AlertDialog.Builder(context)
+                .setMessage(R.string.wanna_delete_messages)
+                .setNeutralButton(R.string.delete_for_all, { _, _ -> callback.invoke(true) })
+                .setPositiveButton(R.string.delete_only_for_me, { _, _ -> callback.invoke(false) })
+                .setNegativeButton(android.R.string.cancel, null)
+                .create()
+        dialog.show()
+        Style.forDialog(dialog)
     }
 
     private fun onDocDecryptClicked(doc: Doc) {

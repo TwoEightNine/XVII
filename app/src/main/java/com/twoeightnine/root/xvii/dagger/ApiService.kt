@@ -39,7 +39,8 @@ interface ApiService {
                          @Query("count") count: Int): Flowable<ServerResponse<Int>>
 
     @GET("messages.delete")
-    fun deleteMessages(@Query("message_ids") messageIds: String): Flowable<ServerResponse<JSONObject>>
+    fun deleteMessages(@Query("message_ids") messageIds: String,
+                       @Query("delete_for_all") deleteForAll: Int): Flowable<ServerResponse<JSONObject>>
 
     @GET("messages.send")
     fun send(@Query("user_id") userId: Int,

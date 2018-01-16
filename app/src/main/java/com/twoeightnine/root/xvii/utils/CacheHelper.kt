@@ -282,7 +282,7 @@ object CacheHelper {
             realm.where(MessageDb::class.java)
                     .equalTo("id", it)
                     .findFirst()
-                    .deleteFromRealm()
+                    ?.deleteFromRealm()
         }
         realm.commitTransaction()
     }

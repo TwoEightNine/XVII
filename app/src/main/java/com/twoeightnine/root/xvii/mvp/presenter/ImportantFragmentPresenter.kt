@@ -82,7 +82,7 @@ class ImportantFragmentPresenter(api: ApiService): BasePresenter<ImportantFragme
     }
 
     fun deleteMessages(mids: MutableList<Int>) {
-        api.deleteMessages(mids.joinToString(separator = ","))
+        api.deleteMessages(mids.joinToString(separator = ","), 0)
                 .subscribeSmart({
                     view?.onMessagesDeleted(mids)
                 }, {})

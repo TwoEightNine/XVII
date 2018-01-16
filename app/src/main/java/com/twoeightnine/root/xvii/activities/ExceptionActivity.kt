@@ -84,7 +84,7 @@ class ExceptionActivity : AppCompatActivity() {
     }
 
     private fun deleteReport(mid: Int) {
-        api.deleteMessages("$mid")
+        api.deleteMessages("$mid", 0)
                 .subscribeSmart({}, {})
     }
 
