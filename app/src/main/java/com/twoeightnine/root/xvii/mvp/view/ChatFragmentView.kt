@@ -19,6 +19,7 @@ interface ChatFragmentView: BaseView {
     fun onKeyExchangeFailed()
     fun onMessagesDeleted(mids: MutableList<Int>)
     fun onMessageEdited(mid: Int, newText: String)
+    fun onPhotoUploaded(path: String)
     fun onCacheRestored()
 
 }

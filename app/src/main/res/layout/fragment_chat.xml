@@ -142,7 +142,11 @@
             android:id="@+id/tabsBottom"
             android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:layout_below="@+id/rlHideBottom" />
+            android:layout_below="@+id/rlHideBottom"
+            app:tabMode="scrollable"
+            app:tabIndicatorColor="@color/toolbar_text"
+            app:tabSelectedTextColor="@color/toolbar_text"
+            app:tabTextColor="@color/toolbar_subtext"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vpAttach"

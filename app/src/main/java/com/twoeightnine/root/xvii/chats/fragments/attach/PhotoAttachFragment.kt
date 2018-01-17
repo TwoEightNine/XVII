@@ -41,6 +41,7 @@ class PhotoAttachFragment : BaseAttachFragment<Photo>(), SimpleAdapter.OnMultiSe
                             .map { Attachment(it) }
                             .toMutableList()
             )
+            adapter.clearMultiSelect()
         }
         fabDne.hide()
         adapter = PhotoAttachmentsAdapter(

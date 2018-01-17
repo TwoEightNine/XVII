@@ -49,6 +49,7 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
         adapter.add(getAllShownImagesPath())
         fabDone.setOnClickListener {
             listener?.invoke(adapter.multiSelectRaw)
+            adapter.clearMultiSelect()
         }
         fabDone.hide()
         adapter.multiListener = this

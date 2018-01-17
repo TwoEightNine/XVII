@@ -22,6 +22,9 @@ class ChatInputController(private val ivSend: ImageView,
                           private val onMicClick: () -> Unit = {},
                           private val onAttachClick: () -> Unit = {}) {
 
+    private var attachedCount = 0
+    private val loadingQueue = arrayListOf<Any>()
+
     init {
         ivSend.setOnClickListener { onSendClick.invoke() }
         ivMic.setOnClickListener { onMicClick.invoke() }
@@ -33,21 +36,30 @@ class ChatInputController(private val ivSend: ImageView,
         etInput.addTextChangedListener(ChatTextWatcher())
     }
 
-    fun showAttachmentLoading() {
-        pbAttach.visibility = View.VISIBLE
+    fun addItemAsBeingLoaded(item: Any) {
+        loadingQueue.add(item)
+        invalidateProgress()
     }
 
-    fun hideAttachmentLoading() {
-        pbAttach.visibility = View.GONE
+    fun removeItemAsLoaded(item: Any) {
+        loadingQueue.remove(item)
+        invalidateProgress()
     }
 
     fun setAttachedCount(count: Int) {
+        attachedCount = count
         if (count == 0) {
             rlAttachCount.visibility = View.GONE
+            if (etInput.text.toString().isBlank()) {
+                switchToMic()
+            } else {
+                switchToSend()
+            }
         } else {
             rlAttachCount.visibility = View.VISIBLE
             val text = if (count == 10) "+" else count.toString()
             tvAttachCount.text = text
+            switchToSend()
         }
     }
 
@@ -63,6 +75,24 @@ class ChatInputController(private val ivSend: ImageView,
         }
     }
 
+    private fun invalidateProgress() {
+        if (loadingQueue.isEmpty()) {
+            pbAttach.visibility = View.GONE
+        } else {
+            pbAttach.visibility = View.VISIBLE
+        }
+    }
+
+    private fun switchToSend() {
+        ivSend.visibility = View.VISIBLE
+        ivMic.visibility = View.GONE
+    }
+
+    private fun switchToMic() {
+        ivSend.visibility = View.GONE
+        ivMic.visibility = View.VISIBLE
+    }
+
     private inner class ChatTextWatcher : TextWatcher {
 
         override fun afterTextChanged(s: Editable?) {}
@@ -70,12 +100,10 @@ class ChatInputController(private val ivSend: ImageView,
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            if (s?.length == 0) {
-                ivSend.visibility = View.GONE
-                ivMic.visibility = View.VISIBLE
+            if (s?.isBlank() ?: true && attachedCount == 0) {
+                switchToMic()
             } else {
-                ivSend.visibility = View.VISIBLE
-                ivMic.visibility = View.GONE
+                switchToSend()
             }
         }
     }

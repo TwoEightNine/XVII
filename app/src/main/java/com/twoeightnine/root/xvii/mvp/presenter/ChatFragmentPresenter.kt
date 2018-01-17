@@ -315,7 +315,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         api.uploadPhoto(uploadServer.uploadUrl ?: "", body)
                 .compose(applySchedulers())
                 .subscribe({
-                    savePhoto(it, isSticker)
+                    savePhoto(it, path, isSticker)
                 }, {
                     error ->
                     val message = error.message ?: "null"
@@ -324,7 +324,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 })
     }
 
-    private fun savePhoto(uploaded: Uploaded, isSticker: Boolean = false) {
+    private fun savePhoto(uploaded: Uploaded, path: String, isSticker: Boolean = false) {
         api.saveMessagePhoto(
                 uploaded.photo ?: "",
                 uploaded.hash ?: "",
@@ -335,6 +335,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                     if (isSticker) {
                         send("")
                     }
+                    view?.onPhotoUploaded(path)
                 }, {
                     error ->
                     view?.showError(error)

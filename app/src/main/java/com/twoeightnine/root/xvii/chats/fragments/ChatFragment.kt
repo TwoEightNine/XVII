@@ -32,11 +32,15 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
 import com.twoeightnine.root.xvii.chats.BottomSheetController
 import com.twoeightnine.root.xvii.chats.ChatInputController
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
 import com.twoeightnine.root.xvii.chats.adapters.ChatPagerAdapter
 import com.twoeightnine.root.xvii.chats.fragments.attach.BottomAttachFragment
+import com.twoeightnine.root.xvii.chats.fragments.attach.DocAttachFragment
+import com.twoeightnine.root.xvii.chats.fragments.attach.PhotoAttachFragment
+import com.twoeightnine.root.xvii.chats.fragments.attach.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attachments.AttachmentsFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogFwFragment
 import com.twoeightnine.root.xvii.fragments.BaseFragment
@@ -116,6 +120,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     @Inject
     lateinit var apiUtils: ApiUtils
 
+    private lateinit var pagerAdapter: CommonPagerAdapter
     private lateinit var bottomSheet: BottomSheetController<RelativeLayout>
     private lateinit var inputController: ChatInputController
     private lateinit var adapter: ChatAdapter
@@ -147,7 +152,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     override fun bindViews(view: View) {
         ButterKnife.bind(this, view)
         initAdapter()
-//        initPager()
         initInput()
         initEmojiKb()
         initRefresh()
@@ -166,6 +170,8 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             }
             restartApp()
         }
+        initPager()
+
 //        Style.forAll(rlReply)
         Style.forViewGroupColor(rlHideBottom)
         Style.forFAB(fabHasMore)
@@ -262,47 +268,19 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun initPager() {
-//        pagerAdapter = ChatPagerAdapter(
-//                childFragmentManager,
-//                { onSend(it) },
-//                {
-//                    viewPager.setCurrentItem(0, true)
-//                    true
-//                },
-//                this::onEmojiClicked,
-//                { presenter.setTyping() },
-//                { onAttach(it) },
-//                { onShowAttachments() }
-//        )
-//        viewPager.adapter = pagerAdapter
-//        viewPager.currentItem = 1
-//        val handler = Handler()
-//        if (!Prefs.chatPassed) {
-//            rlChatTutorial.visibility = View.VISIBLE
-//            rlChatTutorial.setOnClickListener {
-//                rlChatTutorial.visibility = View.GONE
-//                Prefs.chatPassed = true
-//                try {
-//                    handler.postDelayed({ viewPager.setCurrentItem(0, true) }, 300L)
-//                    handler.postDelayed({ viewPager.setCurrentItem(1, true) }, 1000L)
-//                } catch (e: Exception) {}
-//            }
-//        }
+        pagerAdapter = CommonPagerAdapter(childFragmentManager)
+        pagerAdapter.add(AttachedFragment.newInstance(presenter.attachUtils), "Attached")
+        pagerAdapter.add(GalleryFragment.newInstance(this::onImagesSelected), "Device")
+        pagerAdapter.add(StickersFragment.newInstance(this::onStickerSelected), "Stickers")
+        pagerAdapter.add(PhotoAttachFragment.newInstance(this::onAttachmentsSelected), "Photos")
+        pagerAdapter.add(VideoAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, "Videos")
+        pagerAdapter.add(DocAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, "Docs")
+        vpAttach.adapter = pagerAdapter
+        vpAttach.offscreenPageLimit = 5
+        tabsBottom.setupWithViewPager(vpAttach, true)
     }
 
     private fun initEmojiKb() {
-//        val emojiListener: (Emoji) -> Unit = {
-//            emoji ->
-//            val start = etInput.selectionStart
-//            val end = etInput.selectionEnd
-//            if (start < 0) {
-//                etInput.append(emoji.code)
-//            } else {
-//                etInput.text.replace(Math.min(start, end),
-//                        Math.max(start, end), emoji.code, 0,
-//                        emoji.code.length)
-//            }
-//        }
         emojiKeyboard = EmojiKeyboard(flContainer, activity, inputController::addEmoji)
         emojiKeyboard.setSizeForSoftKeyboard()
         emojiKeyboard.onSoftKeyboardOpenCloseListener =
@@ -325,20 +303,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
     private fun initBottomSheet() {
         bottomSheet = BottomSheetController(rlBottom)
-//        bottomSheetHelper = BottomSheetHelper(
-//                rlBottom,
-//                rlHideBottom,
-//                tvTitle,
-//                R.id.flBottom,
-//                childFragmentManager,
-//                resources.getDimensionPixelSize(R.dimen.bottomsheet_thumb_height) +
-//                        resources.getDimensionPixelSize(R.dimen.bottomsheet_height)
-//        )
-//        replierHelper = ReplierHelper(
-//                rlReply,
-//                { showMultiSelectPopup() },
-//                resources.getDimensionPixelSize(R.dimen.reply_button_size)
-//        )
     }
 
     private fun initInput() {
@@ -348,7 +312,10 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 { onEmojiClicked() },
                 { onSend(etInput.text.toString()) },
                 {  },
-                { bottomSheet.open() }
+                {
+                    vpAttach.currentItem = 1 // gallery
+                    bottomSheet.open()
+                }
         )
     }
 
@@ -597,39 +564,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         if (text.isNotEmpty() || presenter.attachUtils.count > 0) {
             presenter.send(text)
             etInput.setText("")
-        } else {
-//            viewPager.setCurrentItem(0, true)
-        }
-    }
-
-    private fun onAttach(viewId: Int) {
-        if (arePermissionsGranted()) {
-            when (viewId) {
-//                R.id.ivMemes -> bottomSheetHelper.openBottomSheet(
-//                        MemeFragment.newInstance(this::onImageSelected),
-//                        getString(R.string.meme_storage)
-//                )
-//                R.id.ivStickers -> bottomSheetHelper.openBottomSheet(
-//                        StickersFragment.newInstance(this::onStickerSelected),
-//                        getString(R.string.stickers)
-//                )
-//                R.id.ivGallery -> bottomSheetHelper.openBottomSheet(
-//                        GalleryFragment.newInstance(this::onImagesSelected),
-//                        getString(R.string.gallery)
-//                )
-//                R.id.ivCamera -> imut.dispatchTakePictureIntent(this)
-//                R.id.ivVoice -> bottomSheetHelper.openBottomSheet(
-//                        VoiceRecordFragment.newInstance(this::onVoiceLoaded),
-//                        getString(R.string.voice_message)
-//                )
-//                R.id.ivMaterials -> bottomSheetHelper.openBottomSheet(
-//                        BottomAttachFragment.newInstance(this::onAttachmentsSelected),
-//                        getString(R.string.vk_materials)
-//                )
-
-            }
-        } else {
-            showPermissionDialog()
         }
     }
 
@@ -662,33 +596,30 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         attachments.forEach {
             presenter.attachUtils.add(it)
         }
-//        bottomSheetHelper.closeBottomSheet()
+        bottomSheet.close()
     }
 
     private fun onImagesSelected(paths: MutableList<String>) {
-        paths.forEach { presenter.attachPhoto(it, context = context) }
-//        bottomSheetHelper.closeBottomSheet()
+        paths.forEach {
+            presenter.attachPhoto(it, context = context)
+            inputController.addItemAsBeingLoaded(it)
+        }
+        bottomSheet.close()
     }
 
     private fun onImageSelected(path: String) {
-//        if (path == Meme.MARKER) {
-//            bottomSheetHelper.openBottomSheet(GalleryFragment.newInstance {
-//                bottomSheetHelper.openBottomSheet(MemeFragment.newInstance(this::onImageSelected, it), getString(R.string.meme_storage))
-//            }, getString(R.string.gallery))
-//        } else {
-//            presenter.attachPhoto(path, context = context)
-//            bottomSheetHelper.closeBottomSheet()
-//        }
+
     }
 
     private fun onVoiceLoaded(doc: Doc) {
         presenter.attachUtils.add(Attachment(doc))
-//        bottomSheetHelper.closeBottomSheet()
+        bottomSheet.close()
+        inputController.removeItemAsLoaded(doc)
     }
 
     private fun onStickerSelected(sticker: Attachment.Sticker) {
         presenter.sendSticker(sticker)
-//        bottomSheetHelper.closeBottomSheet()
+        bottomSheet.close()
     }
 
     private fun getDecrypted(text: String?)
@@ -729,6 +660,10 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         showError(activity, error)
         swipeContainer.isRefreshing = false
         Lg.wtf("in chat error: $error")
+    }
+
+    override fun onPhotoUploaded(path: String) {
+        inputController.removeItemAsLoaded(path)
     }
 
     override fun onHistoryLoaded(history: MutableList<Message>) {
