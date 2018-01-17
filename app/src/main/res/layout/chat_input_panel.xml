@@ -12,18 +12,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <ImageView
-            android:tag="dark"
-            android:id="@+id/ivSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+        <FrameLayout
             android:layout_centerVertical="true"
+            android:id="@+id/flSendContainer"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="6dp"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="6dp"
-            android:src="@drawable/ic_send" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:visibility="gone"
+                android:tag="dark"
+                android:id="@+id/ivSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_send" />
+
+            <ImageView
+                android:tag="dark"
+                android:id="@+id/ivMic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mic_small" />
+
+        </FrameLayout>
 
         <RelativeLayout
             android:layout_marginLeft="6dp"
@@ -31,19 +45,40 @@
             android:layout_marginBottom="6dp"
             android:layout_centerVertical="true"
             android:id="@+id/rlAttachContainer"
-            android:background="@drawable/shape_frame_input"
-            android:layout_width="wrap_content"
-            android:minWidth="40dp"
-            android:layout_height="wrap_content">
+            android:layout_width="28dp"
+            android:layout_height="28dp">
 
-            <TextView
-                android:id="@+id/tvAttachCount"
-                android:textSize="18sp"
-                android:text="6"
-                style="@style/TextViewStyle.Large"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <ProgressBar
+                android:id="@+id/pbAttach"
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
+
+            <ImageView
+                android:tag="dark"
+                android:src="@drawable/ic_attach"
+                android:id="@+id/ivAttach"
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
+
+            <RelativeLayout
+                android:id="@+id/rlAttachCount"
+                android:background="@drawable/shape_circle_attached"
+                android:layout_alignParentRight="true"
+                android:layout_width="14dp"
+                android:layout_height="14dp">
+
+                <TextView
+                    android:id="@+id/tvAttachCount"
+                    android:maxLength="1"
+                    android:layout_centerInParent="true"
+                    android:textSize="8sp"
+                    android:textStyle="bold"
+                    android:text="3"
+                    android:textColor="@color/main_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -56,7 +91,7 @@
             android:background="@drawable/shape_frame_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/ivSend">
+            android:layout_toLeftOf="@+id/flSendContainer">
 
             <ImageView
                 android:tag="dark"
