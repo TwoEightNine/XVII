@@ -145,7 +145,7 @@
         android:elevation="12dp"
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
-        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+        app:layout_behavior="com.twoeightnine.root.xvii.views.UserLockBottomSheetBehavior">
 
         <com.twoeightnine.root.xvii.views.LoaderView
             android:layout_width="wrap_content"
@@ -165,6 +165,14 @@
                 android:text="@string/attachments"
                 android:textColor="@color/main_text"
                 android:textSize="17sp" />
+
+            <ImageView
+                android:src="@drawable/ic_clear"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="12dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
 
         </RelativeLayout>
 

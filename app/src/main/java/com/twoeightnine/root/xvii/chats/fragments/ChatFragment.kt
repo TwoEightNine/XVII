@@ -12,6 +12,7 @@ import android.os.Handler
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
@@ -310,7 +311,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun initBottomSheet() {
-        bottomSheet = BottomSheetController(rlBottom)
+        bottomSheet = BottomSheetController(rlBottom, rlHideBottom)
     }
 
     private fun initVoice() {
@@ -479,11 +480,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         adapter.notifyDataSetChanged()
     }
 
-    private fun onShowAttachments() {
-//        bottomSheetHelper.openBottomSheet(AttachedFragment.newInstance(presenter.attachUtils), getString(R.string.attached))
-    }
-
-
     private fun onEmojiClicked() {
         if (!emojiKeyboard.isShowing) {
             if (emojiKeyboard.isKeyBoardOpen) {
@@ -625,16 +621,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             inputController.addItemAsBeingLoaded(it)
         }
         bottomSheet.close()
-    }
-
-    private fun onImageSelected(path: String) {
-
-    }
-
-    private fun onVoiceLoaded(doc: Doc) {
-        presenter.attachUtils.add(Attachment(doc))
-        bottomSheet.close()
-        inputController.removeItemAsLoaded(doc)
     }
 
     override fun onVoiceUploaded(path: String) {
