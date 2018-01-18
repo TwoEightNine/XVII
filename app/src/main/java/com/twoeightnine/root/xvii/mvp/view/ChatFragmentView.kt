@@ -20,6 +20,7 @@ interface ChatFragmentView: BaseView {
     fun onMessagesDeleted(mids: MutableList<Int>)
     fun onMessageEdited(mid: Int, newText: String)
     fun onPhotoUploaded(path: String)
+    fun onVoiceUploaded(path: String)
     fun onCacheRestored()
 
 }

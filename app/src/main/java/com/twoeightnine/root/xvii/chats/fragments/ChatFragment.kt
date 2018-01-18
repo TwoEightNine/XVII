@@ -35,6 +35,7 @@ import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
 import com.twoeightnine.root.xvii.chats.BottomSheetController
 import com.twoeightnine.root.xvii.chats.ChatInputController
+import com.twoeightnine.root.xvii.chats.VoiceRecordingController
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
 import com.twoeightnine.root.xvii.chats.adapters.ChatPagerAdapter
 import com.twoeightnine.root.xvii.chats.fragments.attach.BottomAttachFragment
@@ -106,6 +107,11 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     @BindView(R.id.vpAttach)
     lateinit var vpAttach: ViewPager
 
+    @BindView(R.id.rlRecord)
+    lateinit var rlRecord: RelativeLayout
+    @BindView(R.id.tvRecord)
+    lateinit var tvRecord: TextView
+
     private lateinit var message: Message
 
     var fwdMessages = ""
@@ -123,6 +129,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     private lateinit var pagerAdapter: CommonPagerAdapter
     private lateinit var bottomSheet: BottomSheetController<RelativeLayout>
     private lateinit var inputController: ChatInputController
+    private lateinit var voiceController: VoiceRecordingController
     private lateinit var adapter: ChatAdapter
     private lateinit var emojiKeyboard: EmojiKeyboard
 
@@ -156,6 +163,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         initEmojiKb()
         initRefresh()
         initBottomSheet()
+        initVoice()
         App.appComponent?.inject(this)
         try {
             presenter.view = this
@@ -305,13 +313,25 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         bottomSheet = BottomSheetController(rlBottom)
     }
 
+    private fun initVoice() {
+        voiceController = VoiceRecordingController(
+                rlRecord, tvRecord, context.cacheDir,
+                {
+                    inputController.addItemAsBeingLoaded(it)
+                    presenter.attachVoice(it)
+                },
+                { showError(context, it) }
+        )
+    }
+
     private fun initInput() {
         inputController = ChatInputController(
                 ivSend, ivMic, ivAttach, pbAttach, rlAttachCount,
                 tvAttachCount, ivEMoji, etInput,
                 { onEmojiClicked() },
                 { onSend(etInput.text.toString()) },
-                {  },
+                { voiceController.startRecording() },
+                { voiceController.stopRecording() },
                 {
                     vpAttach.currentItem = 1 // gallery
                     bottomSheet.open()
@@ -615,6 +635,11 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         presenter.attachUtils.add(Attachment(doc))
         bottomSheet.close()
         inputController.removeItemAsLoaded(doc)
+    }
+
+    override fun onVoiceUploaded(path: String) {
+        inputController.removeItemAsLoaded(path)
+        onSend(etInput.text.toString())
     }
 
     private fun onStickerSelected(sticker: Attachment.Sticker) {

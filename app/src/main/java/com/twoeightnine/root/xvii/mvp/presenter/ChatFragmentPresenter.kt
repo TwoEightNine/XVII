@@ -343,6 +343,51 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 })
     }
 
+    fun attachVoice(path: String) {
+        getVoiceUploadServer(path)
+    }
+
+    private fun getVoiceUploadServer(path: String) {
+        api.getDocUploadServer("audio_message")
+                .subscribeSmart({
+                    uploadVoice(path, it.uploadUrl!!)
+                }, {
+                    Lg.wtf("getting upload server error: $it")
+                    view?.showError(it)
+                })
+    }
+
+    private fun uploadVoice(path: String, url: String) {
+        val file = File(path)
+        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+        api.uploadDoc(url, body)
+                .compose(applySchedulers())
+                .subscribe({
+                    response ->
+                    saveVoice(path, response.file!!)
+                }, {
+                    Lg.wtf("uploading error: $it")
+                    view?.showError(it.message ?: "null")
+                })
+    }
+
+    private fun saveVoice(path: String, file: String) {
+        api.saveDoc(file)
+                .subscribeSmart({
+                    response ->
+                    if (response.size > 0) {
+                        attachUtils.add(Attachment(response[0]))
+                        view?.onVoiceUploaded(path)
+                    }
+                }, {
+                    error ->
+                    Lg.wtf("saving voice error: $error")
+                    view?.showError(error)
+                })
+    }
+
     private fun getDocUploadServer(fileName: String) {
         api.getDocUploadServer("doc")
                 .subscribeSmart({

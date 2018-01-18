@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.chats
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import com.twoeightnine.root.xvii.views.emoji.Emoji
@@ -19,7 +20,8 @@ class ChatInputController(private val ivSend: ImageView,
                           private val etInput: EditText,
                           private val onEmojiClick: () -> Unit = {},
                           private val onSendClick: () -> Unit = {},
-                          private val onMicClick: () -> Unit = {},
+                          private val onMicPress: () -> Unit = {},
+                          private val onMicRelease: () -> Unit = {},
                           private val onAttachClick: () -> Unit = {}) {
 
     private var attachedCount = 0
@@ -27,13 +29,13 @@ class ChatInputController(private val ivSend: ImageView,
 
     init {
         ivSend.setOnClickListener { onSendClick.invoke() }
-        ivMic.setOnClickListener { onMicClick.invoke() }
         ivEmoji.setOnClickListener { onEmojiClick.invoke() }
         ivAttach.setOnClickListener { onAttachClick.invoke() }
         pbAttach.visibility = View.GONE
         setAttachedCount(0)
 
         etInput.addTextChangedListener(ChatTextWatcher())
+        ivMic.setOnTouchListener(MicTouchListener())
     }
 
     fun addItemAsBeingLoaded(item: Any) {
@@ -91,6 +93,22 @@ class ChatInputController(private val ivSend: ImageView,
     private fun switchToMic() {
         ivSend.visibility = View.GONE
         ivMic.visibility = View.VISIBLE
+    }
+
+    private inner class MicTouchListener : View.OnTouchListener {
+
+        override fun onTouch(v: View?, event: MotionEvent?)
+             = when (event?.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    onMicPress.invoke()
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    onMicRelease.invoke()
+                    true
+                }
+                else -> true
+            }
     }
 
     private inner class ChatTextWatcher : TextWatcher {

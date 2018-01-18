@@ -135,9 +135,7 @@ class VoiceRecordFragment: BaseFragment(), Titleable {
         timer.start()
         val anim = AnimationUtils.loadAnimation(context, R.anim.voice)
         ivMic.startAnimation(anim)
-        val destDir = context.cacheDir
-        val file = File(destDir, "voice.amr")
-        fileName = file.absolutePath
+
         recorder = MediaRecorder()
         if (recorder != null) {
             recorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
