@@ -305,7 +305,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         pagerAdapter.add(StickersFragment.newInstance(this::onStickerSelected), getString(R.string.stickers))
         pagerAdapter.add(PhotoAttachFragment.newInstance(this::onAttachmentsSelected), getString(R.string.photos))
         pagerAdapter.add(VideoAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, getString(R.string.videos))
-        pagerAdapter.add(DocAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, getString(R.string.videos))
+        pagerAdapter.add(DocAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, getString(R.string.docs))
         vpAttach.adapter = pagerAdapter
         vpAttach.offscreenPageLimit = 5
         tabsBottom.setupWithViewPager(vpAttach, true)
