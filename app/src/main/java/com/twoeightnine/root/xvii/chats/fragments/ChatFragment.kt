@@ -113,6 +113,17 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     @BindView(R.id.tvRecord)
     lateinit var tvRecord: TextView
 
+    @BindView(R.id.rlMultiAction)
+    lateinit var rlMultiAcrion: RelativeLayout
+    @BindView(R.id.ivCancelMulti)
+    lateinit var ivCancelMulti: ImageView
+    @BindView(R.id.ivMenuMulti)
+    lateinit var ivMenuMulti: ImageView
+    @BindView(R.id.ivForwardMulti)
+    lateinit var ivForwardMulti: ImageView
+    @BindView(R.id.ivReplyMulti)
+    lateinit var ivReplyMulti: ImageView
+
     private lateinit var message: Message
 
     var fwdMessages = ""
@@ -165,6 +176,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         initRefresh()
         initBottomSheet()
         initVoice()
+        initMultiAction()
         App.appComponent?.inject(this)
         try {
             presenter.view = this
@@ -181,7 +193,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         }
         initPager()
 
-//        Style.forAll(rlReply)
+        Style.forAll(rlMultiAcrion)
         Style.forViewGroupColor(rlHideBottom)
         Style.forFAB(fabHasMore)
         Style.forViewGroupColor(rlTyping)
@@ -340,6 +352,18 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         )
     }
 
+    private fun initMultiAction() {
+        ivCancelMulti.setOnClickListener {
+            adapter.clearMultiSelect()
+        }
+        ivMenuMulti.setOnClickListener { showMultiSelectPopup() }
+        ivForwardMulti.setOnClickListener { rootActivity.loadFragment(DialogFwFragment.newInstance(adapter.multiSelect)) }
+        ivReplyMulti.setOnClickListener {
+            presenter.attachUtils.forwarded = adapter.multiSelect
+            adapter.clearMultiSelect()
+        }
+    }
+
     fun loadMore(offset: Int) {
         if (isOnline()) {
             presenter.loadHistory(offset)
@@ -393,24 +417,18 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
     private fun showMultiSelectPopup() {
         val selectedList = adapter.multiSelectRaw
-        val selected = adapter.multiSelect
         getContextPopup(activity, R.layout.popup_message_multiselect, {
             when (it.id) {
-                R.id.llReply -> {
-                    presenter.attachUtils.forwarded = selected
-                    adapter.clearMultiSelect()
-                }
-                R.id.llForward -> {
-                    rootActivity.loadFragment(DialogFwFragment.newInstance(selected))
-                }
                 R.id.llDecrypt -> {
                     decrypt(selectedList)
                     adapter.clearMultiSelect()
                 }
                 R.id.llDelete -> {
                     showDeleteMessagesDialog {
-                        presenter.deleteMessages(selectedList, it)
-                        CacheHelper.deleteMessagesAsync(selectedList)
+                        // i haven't found how to make copy
+                        val mids = MutableList(selectedList.size, { selectedList[it] })
+                        presenter.deleteMessages(mids, it)
+                        CacheHelper.deleteMessagesAsync(mids)
                         adapter.clearMultiSelect()
                     }
                 }
@@ -466,11 +484,11 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     override fun onNonEmpty() {
-//        replierHelper.openItem()
+        rlMultiAcrion.visibility = View.VISIBLE
     }
 
     override fun onEmpty() {
-//        replierHelper.closeItem()
+        rlMultiAcrion.visibility = View.GONE
     }
 
     private fun decrypt(mids: MutableList<Int>) {
@@ -748,14 +766,11 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     override fun onMessagesDeleted(mids: MutableList<Int>) {
-        for (mid in mids) {
-            for (pos in adapter.items.indices) {
-                if (adapter.items[pos].id == mid) {
-                    adapter.removeAt(pos)
-                    break
-                }
-            }
-        }
+        Lg.i("mids = $mids")
+        adapter.items
+                .filter { it.id in mids }
+                .forEach { adapter.remove(it) }
+
     }
 
     override fun onMessageEdited(mid: Int, newText: String) {

@@ -237,8 +237,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                             null, null, sticker.id, null, null
                     )
         }
-        flowable
-                .subscribeSmart({
+        flowable.subscribeSmart({
                     if (Prefs.beOffline) {
                         utils.setOffline()
                     }
