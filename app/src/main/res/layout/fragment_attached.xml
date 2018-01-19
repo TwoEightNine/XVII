@@ -14,12 +14,13 @@
 
         <TextView
             android:layout_centerVertical="true"
-            style="@style/TextViewStyle.Large"
+            style="@style/TextViewStyle.Medium"
             android:text="@string/messages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <RelativeLayout
+            android:layout_marginRight="10dp"
             android:id="@+id/rlClose"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"

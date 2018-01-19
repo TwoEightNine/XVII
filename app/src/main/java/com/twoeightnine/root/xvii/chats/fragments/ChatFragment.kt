@@ -98,6 +98,8 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     lateinit var ivEMoji: ImageView
     @BindView(R.id.etInput)
     lateinit var etInput: EditText
+    @BindView(R.id.rlInputContainer)
+    lateinit var rlInputContainer: RelativeLayout
 
     @BindView(R.id.rlHideBottom)
     lateinit var rlHideBottom: RelativeLayout
@@ -197,6 +199,13 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         Style.forViewGroupColor(rlHideBottom)
         Style.forFAB(fabHasMore)
         Style.forViewGroupColor(rlTyping)
+        Style.forAll(rlBack)
+        Style.forTabLayout(tabsBottom)
+        if (Build.VERSION.SDK_INT >= 21) {
+            val d2 = rlInputContainer.background
+            Style.forFrame(d2)
+            rlInputContainer.background = d2
+        }
         if (fwdMessages.isNotEmpty()) {
             handler.postDelayed({ presenter.attachUtils.forwarded = fwdMessages }, 1000L)
         }
@@ -299,6 +308,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         vpAttach.adapter = pagerAdapter
         vpAttach.offscreenPageLimit = 5
         tabsBottom.setupWithViewPager(vpAttach, true)
+        vpAttach.currentItem = 1 // gallery
     }
 
     private fun initEmojiKb() {
@@ -323,7 +333,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun initBottomSheet() {
-        bottomSheet = BottomSheetController(rlBottom, rlHideBottom)
+        bottomSheet = BottomSheetController(rlBottom, rlHideBottom, { vpAttach.currentItem = 1 }) // reset to gallery
     }
 
     private fun initVoice() {
@@ -345,10 +355,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 { onSend(etInput.text.toString()) },
                 { voiceController.startRecording() },
                 { voiceController.stopRecording(!it) },
-                {
-                    vpAttach.currentItem = 1 // gallery
-                    bottomSheet.open()
-                }
+                { bottomSheet.open() }
         )
     }
 

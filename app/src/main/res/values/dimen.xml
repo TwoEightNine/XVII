@@ -30,7 +30,7 @@
     <dimen name="arc_width">450dp</dimen>
 
     <!--chat-->
-    <dimen name="bottomsheet_height">350dp</dimen>
+    <dimen name="bottomsheet_height">450dp</dimen>
     <dimen name="bottomsheet_thumb_height">38dp</dimen>
     <dimen name="chat_photo_size">40dp</dimen>
     <dimen name="chat_shape_radius">20dp</dimen>

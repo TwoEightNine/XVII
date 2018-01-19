@@ -229,7 +229,7 @@
         android:background="@color/background"
         android:elevation="12dp"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="0dp"
+        app:behavior_peekHeight="00dp"
         app:layout_behavior="com.twoeightnine.root.xvii.views.UserLockBottomSheetBehavior">
 
         <com.twoeightnine.root.xvii.views.LoaderView
@@ -238,6 +238,7 @@
             android:layout_centerInParent="true" />
 
         <RelativeLayout
+            android:tag="main"
             android:id="@+id/rlHideBottom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottomsheet_thumb_height"
@@ -248,7 +249,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/attachments"
-                android:textColor="@color/main_text"
+                android:textColor="@color/toolbar_text"
                 android:textSize="17sp" />
 
             <ImageView
