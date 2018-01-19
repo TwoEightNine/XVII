@@ -114,7 +114,7 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
         var corrupted = 0
         while (cursor.moveToNext()) {
             val absolutePathOfImage = cursor.getString(columnIndexData)
-            if (absolutePathOfImage != null && File(absolutePathOfImage).exists()) {
+            if (absolutePathOfImage != null /*&& File(absolutePathOfImage).exists()*/) {
                 listOfAllImages.add(absolutePathOfImage)
             } else {
                 corrupted++

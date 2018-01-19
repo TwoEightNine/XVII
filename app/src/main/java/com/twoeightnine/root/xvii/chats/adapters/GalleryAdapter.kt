@@ -23,7 +23,7 @@ class GalleryAdapter(loader: ((Int) -> Unit)?,
         val holder = view?.tag as GalleryViewHolder
         holder.ivThumb.setImageResource(R.drawable.placeholder)
         if (path == CAMERA_MARKER) {
-            holder.ivThumb.setImageResource(R.drawable.ic_camera)
+            holder.ivThumb.setImageResource(R.drawable.layer_camera)
         } else {
             Glide.with(App.context)
                     .load("file://$path")
