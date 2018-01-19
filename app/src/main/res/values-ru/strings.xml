@@ -241,5 +241,12 @@
     <string name="error_17">Необходимо подтверждение профиля</string>
     <string name="error_200plus">Доступ ограничен</string>
     <string name="error_500plus">Не разрешено</string>
+    <string name="delete_for_all">Удалить для всех</string>
+    <string name="delete_only_for_me">Удалить только для меня</string>
+    <string name="wanna_delete_messages">Вы действительно хотите удалить эти сообщения?</string>
+    <string name="edit_message">Редактирование</string>
+    <string name="unable_to_edit_message">Невозможно отредактировать это сообщение</string>
+    <string name="device_photos">Устройство</string>
+    <string name="mic_hint">Потяните для отмены</string>
 
 </resources>

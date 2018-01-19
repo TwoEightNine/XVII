@@ -41,7 +41,7 @@ class VoiceRecordingController(private val rlRecording: RelativeLayout,
         }
     }
 
-    fun stopRecording() {
+    fun stopRecording(cancelled: Boolean = false) {
         rlRecording.visibility = View.GONE
         timer.cancel()
         try {
@@ -54,7 +54,7 @@ class VoiceRecordingController(private val rlRecording: RelativeLayout,
             e.printStackTrace()
             recorder = null
         }
-        if (timer.lastDuration >= RECORD_MIN_DURATION) {
+        if (timer.lastDuration >= RECORD_MIN_DURATION && !cancelled) {
             onRecorded.invoke(fileName)
         }
     }

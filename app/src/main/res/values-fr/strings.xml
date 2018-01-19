@@ -232,8 +232,15 @@
     <string name="prefs">Préferés</string>
     <string name="save">Enregistrer</string>
     <string name="logout_again">Pressez encore pour quitter</string>
-    <string name="current_dialog">Conversation actif</string>
+    <string name="current_dialog">Conversation active</string>
     <string name="update_available">Mis à jour est disponible</string>
+    <string name="delete_for_all">Supprimer pour tous</string>
+    <string name="delete_only_for_me">Supprimer pour moi</string>
+    <string name="wanna_delete_messages">Voulez-vous réellement supprimer ces messages?</string>
+    <string name="edit_message">Modifier</string>
+    <string name="unable_to_edit_message">Disponible de modifier</string>
+    <string name="device_photos">Appareil</string>
+    <string name="mic_hint">Glisser pour annuler</string>
 
 </resources>
 

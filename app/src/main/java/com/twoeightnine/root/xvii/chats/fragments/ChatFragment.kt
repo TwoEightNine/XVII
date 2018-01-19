@@ -278,12 +278,12 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
     private fun initPager() {
         pagerAdapter = CommonPagerAdapter(childFragmentManager)
-        pagerAdapter.add(AttachedFragment.newInstance(presenter.attachUtils), "Attached")
-        pagerAdapter.add(GalleryFragment.newInstance(this::onImagesSelected), "Device")
-        pagerAdapter.add(StickersFragment.newInstance(this::onStickerSelected), "Stickers")
-        pagerAdapter.add(PhotoAttachFragment.newInstance(this::onAttachmentsSelected), "Photos")
-        pagerAdapter.add(VideoAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, "Videos")
-        pagerAdapter.add(DocAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, "Docs")
+        pagerAdapter.add(AttachedFragment.newInstance(presenter.attachUtils), getString(R.string.attached))
+        pagerAdapter.add(GalleryFragment.newInstance(this::onImagesSelected), getString(R.string.device_photos))
+        pagerAdapter.add(StickersFragment.newInstance(this::onStickerSelected), getString(R.string.stickers))
+        pagerAdapter.add(PhotoAttachFragment.newInstance(this::onAttachmentsSelected), getString(R.string.photos))
+        pagerAdapter.add(VideoAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, getString(R.string.videos))
+        pagerAdapter.add(DocAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, getString(R.string.videos))
         vpAttach.adapter = pagerAdapter
         vpAttach.offscreenPageLimit = 5
         tabsBottom.setupWithViewPager(vpAttach, true)
@@ -332,7 +332,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 { onEmojiClicked() },
                 { onSend(etInput.text.toString()) },
                 { voiceController.startRecording() },
-                { voiceController.stopRecording() },
+                { voiceController.stopRecording(!it) },
                 {
                     vpAttach.currentItem = 1 // gallery
                     bottomSheet.open()
@@ -371,7 +371,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                         presenter.deleteMessages(mutableListOf(message.id), forAll)
                         CacheHelper.deleteMessagesAsync(mutableListOf(message.id))
                     }
-                    if (message.isOut && time() - message.date < 3600) {
+                    if (message.isOut && time() - message.date < 3600 * 24) {
                         showDeleteMessagesDialog(callback)
                     } else {
                         showDeleteDialog(activity, { callback.invoke(false) })
@@ -434,7 +434,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun showEditMessageDialog(message: Message) {
-        if (message.isOut && time() - message.date < 3600) {
+        if (message.isOut && time() - message.date < 3600 * 24) {
             TextInputAlertDialog(
                     context,
                     getString(R.string.edit_message),

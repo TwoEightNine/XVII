@@ -21,7 +21,7 @@ class ChatInputController(private val ivSend: ImageView,
                           private val onEmojiClick: () -> Unit = {},
                           private val onSendClick: () -> Unit = {},
                           private val onMicPress: () -> Unit = {},
-                          private val onMicRelease: () -> Unit = {},
+                          private val onMicRelease: (Boolean) -> Unit = {},
                           private val onAttachClick: () -> Unit = {}) {
 
     private var attachedCount = 0
@@ -97,18 +97,26 @@ class ChatInputController(private val ivSend: ImageView,
 
     private inner class MicTouchListener : View.OnTouchListener {
 
+        private val cancelThreshold = 200
+
+        private var xPress = 0f
+
         override fun onTouch(v: View?, event: MotionEvent?)
              = when (event?.action) {
                 MotionEvent.ACTION_DOWN -> {
+                    xPress = event.x
                     onMicPress.invoke()
                     true
                 }
                 MotionEvent.ACTION_UP -> {
-                    onMicRelease.invoke()
+                    val diff = xDiff(event)
+                    onMicRelease.invoke(diff <= cancelThreshold)
                     true
                 }
                 else -> true
             }
+
+        private fun xDiff(event: MotionEvent) = xPress - event.x
     }
 
     private inner class ChatTextWatcher : TextWatcher {

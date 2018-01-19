@@ -214,6 +214,9 @@
     <string name="fingerprint_hint">This image and this text were generated from the encryption key. If they look the same on your interlocutor\'s device and the keys were set, be sure that no one breaks your privacy. Otherwise your conversation is not secure!</string>
     <string name="quote" translatable="false">You are <b>not</b> your job. You\'re <b>not</b> how much money you have in the bank. You\'re <b>not</b> the car you drive. You\'re <b>not</b> the contents of your wallet. You\'re <b>not</b> your fucking khakis. You\'re the all-singing, all-dancing <b>crap of the world</b></string>
 
+    <string name="device_photos">Device</string>
+    <string name="mic_hint">Slide to cancel</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>

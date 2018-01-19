@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout
 
@@ -105,32 +105,67 @@
             android:src="@drawable/ic_chevron_down"
             android:visibility="invisible"
             app:backgroundTint="@color/fab" />
-        
+
         <RelativeLayout
             android:visibility="gone"
             android:id="@+id/rlRecord"
-            android:layout_gravity="center"
-            android:background="@drawable/shape_voice_recording"
-            android:layout_width="160dp"
-            android:layout_height="160dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/ic_mic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:layout_centerInParent="true"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:background="@drawable/shape_voice_recording">
 
-            <TextView
-                android:id="@+id/tvRecord"
-                tools:text="13:37"
-                android:textSize="22sp"
-                android:textColor="#fff"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"
+                    android:src="@drawable/ic_mic" />
+
+                <TextView
+                    android:id="@+id/tvRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="22dp"
+                    android:textColor="#fff"
+                    android:textSize="23sp"
+                    tools:text="13:37" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_margin="6dp"
+                android:background="@drawable/shape_mic_hint"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="12dp"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_alignParentRight="true"
+                android:layout_width="match_parent"
+                android:layout_height="44dp" >
+
+                <TextView
+                    android:id="@+id/tvMicHint"
+                    android:textAllCaps="true"
+                    android:layout_centerInParent="true"
+                    android:textSize="14sp"
+                    android:textColor="#fff"
+                    android:text="@string/mic_hint"
+                    android:maxLines="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:layout_toLeftOf="@+id/tvMicHint"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_left"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp" />
+
+            </RelativeLayout>
+
 
 
         </RelativeLayout>
@@ -167,12 +202,12 @@
                 android:textSize="17sp" />
 
             <ImageView
-                android:src="@drawable/ic_clear"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="12dp"
                 android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/ic_clear" />
 
         </RelativeLayout>
 
@@ -181,10 +216,10 @@
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:layout_below="@+id/rlHideBottom"
-            app:tabMode="scrollable"
             app:tabIndicatorColor="@color/toolbar_text"
+            app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/toolbar_text"
-            app:tabTextColor="@color/toolbar_subtext"/>
+            app:tabTextColor="@color/toolbar_subtext" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vpAttach"

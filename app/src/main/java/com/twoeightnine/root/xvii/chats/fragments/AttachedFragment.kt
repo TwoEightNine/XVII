@@ -38,12 +38,13 @@ class AttachedFragment: BaseFragment() {
     lateinit var adapter: AttachmentsAdapter
 
     private val removeList: MutableList<Attachment> = mutableListOf()
+    private var viewsBind = false
 
     override fun bindViews(view: View) {
         super.bindViews(view)
         ButterKnife.bind(this, view)
         App.appComponent?.inject(this)
-        initAdapter()
+        viewsBind = true
     }
 
     fun initAdapter() {
@@ -61,6 +62,15 @@ class AttachedFragment: BaseFragment() {
         lvAttachments.adapter = adapter
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser && viewsBind) {
+            initAdapter()
+        } else {
+            attachUtils.remove(removeList)
+        }
+    }
+
     private fun onRemove(pos: Int) {
         removeList.add(adapter.items[pos])
         adapter.remove(pos)
@@ -68,8 +78,4 @@ class AttachedFragment: BaseFragment() {
 
     override fun getLayout() = R.layout.fragment_attached
 
-    override fun onStop() {
-        super.onStop()
-        attachUtils.remove(removeList)
-    }
 }
