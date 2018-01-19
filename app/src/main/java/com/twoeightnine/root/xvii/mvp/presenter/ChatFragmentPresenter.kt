@@ -178,8 +178,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                             0, null, null
                     )
         }
-        flowable
-                .subscribeSmart({
+        flowable.subscribeSmart({
                     if (Prefs.beOffline) {
                         utils.setOffline()
                     }
@@ -289,7 +288,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         if (isEncrypted && context != null && BuildConfig.DEBUG) {
             crypto.encryptFileAsync(context, path) {
                 Lg.i("encrypted successfully $it")
-                getDocUploadServer(it)
+                getDocUploadServer(path, it)
             }
         } else {
             getPhotoUploadServer(path, isSticker)
@@ -387,10 +386,10 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 })
     }
 
-    private fun getDocUploadServer(fileName: String) {
+    private fun getDocUploadServer(path: String, fileName: String) {
         api.getDocUploadServer("doc")
                 .subscribeSmart({
-                    uploadDoc(it.uploadUrl ?: "", fileName)
+                    uploadDoc(path, it.uploadUrl ?: "", fileName)
                 }, {
                     error ->
                     Lg.wtf("getting upload server doc error: $error")
@@ -398,7 +397,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 })
     }
 
-    private fun uploadDoc(url: String, fileName: String) {
+    private fun uploadDoc(path: String, url: String, fileName: String) {
         val file = File(fileName)
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
         val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
@@ -406,7 +405,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         api.uploadDoc(url, body)
                 .compose(com.twoeightnine.root.xvii.utils.applySchedulers())
                 .subscribe({
-                    saveDoc(it.file!!)
+                    saveDoc(path, it.file!!)
                 }, {
                     error ->
                     Lg.wtf("uploading doc error: $error")
@@ -414,10 +413,11 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 })
     }
 
-    private fun saveDoc(file: String) {
+    private fun saveDoc(path: String, file: String) {
         api.saveDoc(file)
                 .subscribeSmart({
                     attachUtils.add(Attachment(it[0]))
+                    view?.onPhotoUploaded(path)
                 }, {
                     error ->
                     Lg.wtf("saving doc error: $error")
