@@ -219,6 +219,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 }
             }
         }
+        checkPermissions()
     }
 
     private fun onAttachCounterChanged(count: Int) {
@@ -353,9 +354,21 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 tvAttachCount, ivEMoji, etInput,
                 { onEmojiClicked() },
                 { onSend(etInput.text.toString()) },
-                { voiceController.startRecording() },
+                {
+                    if (arePermissionsGranted()) {
+                        voiceController.startRecording()
+                    } else {
+                        showPermissionDialog()
+                    }
+                },
                 { voiceController.stopRecording(!it) },
-                { bottomSheet.open() }
+                {
+                    if (arePermissionsGranted()) {
+                        bottomSheet.open()
+                    } else {
+                        showPermissionDialog()
+                    }
+                }
         )
     }
 
@@ -371,13 +384,19 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         }
     }
 
-    fun loadMore(offset: Int) {
+    private fun checkPermissions() {
+        if (!arePermissionsGranted()) {
+            showPermissionDialog()
+        }
+    }
+
+    private fun loadMore(offset: Int) {
         if (isOnline()) {
             presenter.loadHistory(offset)
         }
     }
 
-    fun onClick(position: Int) {
+    private fun onClick(position: Int) {
         if (position !in adapter.items.indices) return
         val message = adapter.items[position]
         adapter.multiSelect(message.id)

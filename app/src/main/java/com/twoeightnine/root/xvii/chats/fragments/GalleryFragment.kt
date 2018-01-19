@@ -16,6 +16,7 @@ import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.ImageUtils
+import com.twoeightnine.root.xvii.utils.showError
 
 class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected {
 
@@ -36,6 +37,7 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
 
     private lateinit var adapter: GalleryAdapter
     private lateinit var imut: ImageUtils
+    private var viewsBind = false
 
     var listener: ((MutableList<String>) -> Unit)? = null
 
@@ -43,15 +45,20 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
         super.bindViews(view)
         ButterKnife.bind(this, view)
         imut = ImageUtils(activity)
-        initAdapter()
+//        initAdapter()
         Style.forFAB(fabDone)
+        viewsBind = true
     }
 
     fun initAdapter() {
         adapter = GalleryAdapter({}, {})
         gvGallery.adapter = adapter
         adapter.add(GalleryAdapter.CAMERA_MARKER)
-        adapter.add(getAllShownImagesPath())
+        try {
+            adapter.add(getAllShownImagesPath())
+        } catch (e: SecurityException) {
+//            showError(context, e.message ?: "Permission denied")
+        }
         fabDone.setOnClickListener {
             listener?.invoke(adapter.multiSelectRaw)
             adapter.clearMultiSelect()
@@ -78,6 +85,13 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
             adapter.clearMultiSelect()
         } else {
             Lg.wtf("camera: path is null but request code is $requestCode and data = $data")
+        }
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser && viewsBind) {
+            initAdapter()
         }
     }
 
