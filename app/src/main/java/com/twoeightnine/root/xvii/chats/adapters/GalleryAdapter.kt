@@ -22,15 +22,23 @@ class GalleryAdapter(loader: ((Int) -> Unit)?,
         }
         val holder = view?.tag as GalleryViewHolder
         holder.ivThumb.setImageResource(R.drawable.placeholder)
-        Glide.with(App.context)
-                .load("file://$path")
-                .into(holder.ivThumb)
+        if (path == CAMERA_MARKER) {
+            holder.ivThumb.setImageResource(R.drawable.ic_camera)
+        } else {
+            Glide.with(App.context)
+                    .load("file://$path")
+                    .into(holder.ivThumb)
+        }
         if (path in multiSelectRaw) {
             holder.ivCheck.visibility = View.VISIBLE
         } else {
             holder.ivCheck.visibility = View.GONE
         }
         return view
+    }
+
+    companion object {
+        val CAMERA_MARKER = "cameraMarker"
     }
 
     inner class GalleryViewHolder(view: View) {
