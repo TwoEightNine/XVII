@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.chats
 
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
@@ -98,6 +99,7 @@ class ChatInputController(private val ivSend: ImageView,
     private inner class MicTouchListener : View.OnTouchListener {
 
         private val cancelThreshold = 200
+        private val delayTimer = MicClickTimer { onMicPress.invoke() }
 
         private var xPress = 0f
 
@@ -105,10 +107,11 @@ class ChatInputController(private val ivSend: ImageView,
              = when (event?.action) {
                 MotionEvent.ACTION_DOWN -> {
                     xPress = event.x
-                    onMicPress.invoke()
+                    delayTimer.start()
                     true
                 }
                 MotionEvent.ACTION_UP -> {
+                    delayTimer.cancel()
                     val diff = xDiff(event)
                     onMicRelease.invoke(diff <= cancelThreshold)
                     true
@@ -117,6 +120,14 @@ class ChatInputController(private val ivSend: ImageView,
             }
 
         private fun xDiff(event: MotionEvent) = xPress - event.x
+    }
+
+    private inner class MicClickTimer(private val callback: () -> Unit): CountDownTimer(150L, 150L) {
+        override fun onFinish() {
+            callback.invoke()
+        }
+
+        override fun onTick(millisUntilFinished: Long) {}
     }
 
     private inner class ChatTextWatcher : TextWatcher {
