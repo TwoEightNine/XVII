@@ -241,6 +241,7 @@
     <string name="unable_to_edit_message">Disponible de modifier</string>
     <string name="device_photos">Appareil</string>
     <string name="mic_hint">Glisser pour annuler</string>
+    <string name="invalid_user_id">Mauvais compte</string>
 
 </resources>
 

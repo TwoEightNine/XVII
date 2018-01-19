@@ -248,5 +248,6 @@
     <string name="unable_to_edit_message">Невозможно отредактировать это сообщение</string>
     <string name="device_photos">Устройство</string>
     <string name="mic_hint">Потяните для отмены</string>
+    <string name="invalid_user_id">Неадекватный аккаунт o_O</string>
 
 </resources>

@@ -101,7 +101,7 @@ class LoginActivity : BaseActivity() {
         try {
             uid = extract(url, "user_id=(\\d*)").toInt()
         } catch (e: Exception) {
-            onFailed("Invalid user ID")
+            onFailed(getString(R.string.invalid_user_id))
             return
         }
         Lg.i("LOGIN: token obtained ...${token.substring(token.length - 6)}")

@@ -216,6 +216,7 @@
 
     <string name="device_photos">Device</string>
     <string name="mic_hint">Slide to cancel</string>
+    <string name="invalid_user_id">Invalid user ID</string>
 
     <string-array name="relations">
         <item>single</item>
