@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.ImageUtils
 import com.twoeightnine.root.xvii.utils.showError
+import java.io.File
 
 class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected {
 
@@ -110,13 +111,17 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
         val cursor = activity.contentResolver.query(uri, projection, null, null, "${MediaColumns.DATE_MODIFIED} DESC")
         val columnIndexData = cursor.getColumnIndexOrThrow(MediaColumns.DATA)
 
+        var corrupted = 0
         while (cursor.moveToNext()) {
             val absolutePathOfImage = cursor.getString(columnIndexData)
-            if (absolutePathOfImage != null) {
+            if (absolutePathOfImage != null && File(absolutePathOfImage).exists()) {
                 listOfAllImages.add(absolutePathOfImage)
             } else {
-                Lg.wtf("gallery open: string is null")
+                corrupted++
             }
+        }
+        if (corrupted > 1) {
+            Lg.wtf("gallery open: string is null or file does not exist for $corrupted corrupted images")
         }
         cursor.close()
         return listOfAllImages
