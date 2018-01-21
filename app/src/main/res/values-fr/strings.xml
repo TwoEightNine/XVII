@@ -242,6 +242,14 @@
     <string name="device_photos">Appareil</string>
     <string name="mic_hint">Glisser pour annuler</string>
     <string name="invalid_user_id">Mauvais compte</string>
+    <string name="faces">Faces</string>
+    <string name="animals">Animaux</string>
+    <string name="food">Repas</string>
+    <string name="nature">Nature</string>
+    <string name="people">Peuple</string>
+    <string name="symbols">Symboles</string>
+    <string name="other">Autres</string>
+    <string name="recent">Récents</string>
 
 </resources>
 

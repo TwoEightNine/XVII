@@ -249,5 +249,13 @@
     <string name="device_photos">Устройство</string>
     <string name="mic_hint">Потяните для отмены</string>
     <string name="invalid_user_id">Неадекватный аккаунт o_O</string>
+    <string name="faces">Лица</string>
+    <string name="animals">Животные</string>
+    <string name="food">Еда</string>
+    <string name="nature">Природа</string>
+    <string name="people">Люди</string>
+    <string name="symbols">Символы</string>
+    <string name="other">Другие</string>
+    <string name="recent">Недавние</string>
 
 </resources>

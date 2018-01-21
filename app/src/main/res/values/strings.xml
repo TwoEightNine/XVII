@@ -242,6 +242,16 @@
         version: %s\n
     </string>
 
+    <string name="faces">faces</string>
+    <string name="animals">animals</string>
+    <string name="food">food</string>
+    <string name="nature">nature</string>
+    <string name="people">people</string>
+    <string name="symbols">symbols</string>
+    <string name="other">other</string>
+    <string name="recent">recent</string>
+
+
     <string name="online">online</string>
     <string name="online_full">online (last seen: %s)</string>
     <string name="offline">offline</string>

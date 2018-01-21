@@ -37,16 +37,19 @@ class EmojiPagerAdapter(private var listener: (Emoji) -> Unit) : PagerAdapter() 
     }
 
     override fun getPageTitle(position: Int) =
-        when (position) {
-            1 -> "face"
-            2 -> "animal"
-            3 -> "food"
-            4 -> "nature"
-            5 -> "people"
-            6 -> "symbols"
-            7 -> "other"
-            else -> "recent"
-        }.toUpperCase()
+            with(App.context) {
+                when (position) {
+                    1 -> getString(R.string.faces)
+                    2 -> getString(R.string.animals)
+                    3 -> getString(R.string.food)
+                    4 -> getString(R.string.nature)
+                    5 -> getString(R.string.people)
+                    6 -> getString(R.string.symbols)
+                    7 -> getString(R.string.other)
+                    else -> getString(R.string.recent)
+                }.toUpperCase()
+            }
+
 
     override fun getCount() = views.size
 
