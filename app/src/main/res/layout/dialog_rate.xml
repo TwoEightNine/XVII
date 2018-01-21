@@ -17,7 +17,7 @@
 
     <TextView
         android:layout_gravity="center"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:gravity="center"
@@ -36,7 +36,7 @@
         <TextView
             android:gravity="center"
             android:layout_margin="8dp"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/other_text"
             android:text="@string/never"
             android:id="@+id/tvNever"
@@ -47,7 +47,7 @@
         <TextView
             android:gravity="center"
             android:layout_margin="8dp"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/other_text"
             android:text="@string/not_now"
             android:id="@+id/tvNotNow"
@@ -58,7 +58,7 @@
         <TextView
             android:gravity="center"
             android:layout_margin="8dp"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/main_text"
             android:text="@string/rate"
             android:id="@+id/tvRate"

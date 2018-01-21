@@ -368,7 +368,8 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                     } else {
                         showPermissionDialog()
                     }
-                }
+                },
+                { presenter.setTyping() }
         )
     }
 
@@ -416,8 +417,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                     rootActivity.loadFragment(DialogFwFragment.newInstance("${message.id}"))
                 }
                 R.id.llDelete -> {
-                    val callback = {
-                        forAll: Boolean ->
+                    val callback = { forAll: Boolean ->
                         presenter.deleteMessages(mutableListOf(message.id), forAll)
                         CacheHelper.deleteMessagesAsync(mutableListOf(message.id))
                     }
@@ -577,7 +577,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 true
             }
             R.id.menu_fingerprint -> {
-                val fingerprint =  presenter.crypto.getFingerPrint()
+                val fingerprint = presenter.crypto.getFingerPrint()
                 FingerPrintAlertDialog(context, fingerprint).show()
                 true
             }
@@ -587,8 +587,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
     private fun showKeysDialog() {
         getContextPopup(activity, R.layout.popup_keys, {
-            v ->
-            when (v.id) {
+            when (it.id) {
                 R.id.llRandomKey -> {
                     if (message.chatId == 0 && message.userId > 0 && message.userId < 1000000000) {
                         presenter.isEncrypted = false
@@ -812,7 +811,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     private fun keyGenerationHint() {
         val alertDialog = AlertDialog.Builder(context)
                 .setMessage(R.string.generation_dh_hint)
-                .setPositiveButton(android.R.string.ok, { _,_ -> presenter.startKeyExchange() })
+                .setPositiveButton(android.R.string.ok, { _, _ -> presenter.startKeyExchange() })
                 .create()
         alertDialog.show()
         Style.forDialog(alertDialog)

@@ -23,7 +23,8 @@ class ChatInputController(private val ivSend: ImageView,
                           private val onSendClick: () -> Unit = {},
                           private val onMicPress: () -> Unit = {},
                           private val onMicRelease: (Boolean) -> Unit = {},
-                          private val onAttachClick: () -> Unit = {}) {
+                          private val onAttachClick: () -> Unit = {},
+                          private val onTypingInvoke: () -> Unit = {}) {
 
     private var attachedCount = 0
     private val loadingQueue = arrayListOf<Any>()
@@ -141,6 +142,9 @@ class ChatInputController(private val ivSend: ImageView,
                 switchToMic()
             } else {
                 switchToSend()
+            }
+            if ((s?.length ?: 0) % 10 == 3) {
+                onTypingInvoke.invoke()
             }
         }
     }
