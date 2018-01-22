@@ -57,7 +57,8 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
         adapter.add(GalleryAdapter.CAMERA_MARKER)
         try {
             adapter.add(getAllShownImagesPath())
-        } catch (e: SecurityException) {
+        } catch (e: Exception) {
+            Lg.wtf("error in gallery: ${e.message}")
 //            showError(context, e.message ?: "Permission denied")
         }
         fabDone.setOnClickListener {
