@@ -137,14 +137,14 @@ class AppearanceFragment : BaseFragment() {
 
     private fun getFromGallery() {
         if (hasPermissions()) {
-            bottomSheetHelper.openBottomSheet(GalleryFragment.newInstance {
+            bottomSheetHelper.openBottomSheet(GalleryFragment.newInstance({
                 bottomSheetHelper.closeBottomSheet()
                 if (it.size > 0) {
                     convertPhoto(it[0])
                 } else {
                     showError(activity, R.string.error)
                 }
-            }, getString(R.string.gallery))
+            }, true), getString(R.string.gallery))
         } else {
             val dialog = AlertDialog.Builder(activity)
                     .setMessage(R.string.permissions_info)

@@ -22,9 +22,10 @@ import java.io.File
 class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected {
 
     companion object {
-        fun newInstance(listener: ((MutableList<String>) -> Unit)?): GalleryFragment {
+        fun newInstance(listener: ((MutableList<String>) -> Unit)?, fromSettings: Boolean = false): GalleryFragment {
             val frag = GalleryFragment()
             frag.listener = listener
+            frag.fromSettings = fromSettings
             return frag
         }
     }
@@ -40,6 +41,7 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
     private lateinit var imut: ImageUtils
     private var viewsBind = false
 
+    var fromSettings = false
     var listener: ((MutableList<String>) -> Unit)? = null
 
     override fun bindViews(view: View) {
@@ -47,6 +49,9 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
         ButterKnife.bind(this, view)
         imut = ImageUtils(activity)
 //        initAdapter()
+        if (fromSettings) {
+            initAdapter()
+        }
         Style.forFAB(fabDone)
         viewsBind = true
     }
@@ -54,7 +59,9 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
     fun initAdapter() {
         adapter = GalleryAdapter({}, {})
         gvGallery.adapter = adapter
-        adapter.add(GalleryAdapter.CAMERA_MARKER)
+        if (!fromSettings) {
+            adapter.add(GalleryAdapter.CAMERA_MARKER)
+        }
         try {
             adapter.add(getAllShownImagesPath())
         } catch (e: Exception) {
