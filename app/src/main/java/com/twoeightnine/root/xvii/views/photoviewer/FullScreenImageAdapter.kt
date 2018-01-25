@@ -11,12 +11,15 @@ import android.widget.RelativeLayout
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.managers.Lg
 
 class FullScreenImageAdapter(private val activity: Activity,
                              private val urls: MutableList<String>,
                              private var dismissListener: (() -> Unit)?,
                              private var tapListener: (() -> Unit)?) : PagerAdapter() {
+
     private lateinit var inflater: LayoutInflater
+    private val tivManager = ActiveTivManager(3)
 
     override fun getCount() = urls.size
 
@@ -26,6 +29,8 @@ class FullScreenImageAdapter(private val activity: Activity,
         inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val viewLayout = inflater.inflate(R.layout.item_fullscreen_image, container, false)
         val imgDisplay = viewLayout.findViewById<TouchImageView>(R.id.tivImage)
+        tivManager.saveTiv(position, imgDisplay)
+        Lg.i("pos $position new image")
         imgDisplay.dismissListener = dismissListener
         imgDisplay.tapListener = tapListener
         val url = urls[position]
@@ -58,6 +63,8 @@ class FullScreenImageAdapter(private val activity: Activity,
         container.addView(viewLayout)
         return viewLayout
     }
+
+    fun canSlide(pos: Int) = tivManager.getTiv(pos)?.canSlide()
 
     private fun getImageSize(path: String): Pair<Int, Int> {
         val options = BitmapFactory.Options()
