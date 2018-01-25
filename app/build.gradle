@@ -12,10 +12,12 @@ android {
         applicationId "com.twoeightnine.root.xvii"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 82
-        versionName "4.8.1"
+        versionCode 83
+        versionName "4.8.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        project.ext.set("archivesBaseName", "xvii" + defaultConfig.versionName)
     }
+
     buildTypes {
         release {
             minifyEnabled false

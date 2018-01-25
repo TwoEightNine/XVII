@@ -20,7 +20,6 @@ class TypingView : LinearLayout {
         init()
     }
 
-
     private fun init() {
         orientation = VERTICAL
 
