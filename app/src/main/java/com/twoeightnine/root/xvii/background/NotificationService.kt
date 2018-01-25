@@ -236,23 +236,27 @@ class NotificationService : Service() {
                     getString(R.string.content_hidden)
                 }
 
-                val realm = Realm.getDefaultInstance()
-                val user = User(realm
-                        .where(UserDb::class.java)
-                        .equalTo("id", event.userId)
-                        .findFirst())
-                val userName = if (event.userId in 0..2000000000) {
-                    user.fullName()
-                } else {
-                    event.title
-                }
-                if (showName && event.userId in 0..2000000000) {
-                    loadBitmapIcon(user.photoMax, {
-                        showNotification(content, event.userId, userName, userName, it)
-                    })
+                try {
+                    val realm = Realm.getDefaultInstance()
+                    val realmData = realm
+                            .where(UserDb::class.java)
+                            .equalTo("id", event.userId)
+                    val realmUser = realmData.findFirst()
+                    val userName = if (realmUser != null && event.userId in 0..2000000000) {
+                        User(realmUser).fullName()
+                    } else {
+                        event.title
+                    }
+                    if (realmUser != null && showName && event.userId in 0..2000000000) {
+                        loadBitmapIcon(User(realmUser).photoMax, {
+                            showNotification(content, event.userId, userName, userName, it)
+                        })
 
-                } else {
-                    showNotification(content, event.userId, userName)
+                    } else {
+                        showNotification(content, event.userId, userName)
+                    }
+                } catch (e: Exception) {
+                    showNotification(content, event.userId, event.message)
                 }
             }
         }
