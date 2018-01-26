@@ -56,6 +56,15 @@
                 android:text="@string/manual_update"
                 android:textColor="@color/main_text" />
 
+            <Switch
+                android:id="@+id/switchStoreKeys"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="@dimen/frame_pad"
+                android:text="@string/store_keys"
+                android:textColor="@color/main_text" />
+
             <TextView
                 android:id="@+id/tvClearCache"
                 android:layout_width="match_parent"

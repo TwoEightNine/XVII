@@ -578,7 +578,8 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             }
             R.id.menu_fingerprint -> {
                 val fingerprint = presenter.crypto.getFingerPrint()
-                FingerPrintAlertDialog(context, fingerprint).show()
+                val keyType = presenter.crypto.keyType
+                FingerPrintAlertDialog(context, fingerprint, keyType).show()
                 true
             }
             else -> super.onOptionsItemSelected(item)

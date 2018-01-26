@@ -1,23 +1,26 @@
 package com.twoeightnine.root.xvii.utils.crypto
 
 import android.content.Context
-import android.provider.MediaStore
 import android.util.Base64
-import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.managers.KeyStorage
 import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.Flowable
 import java.math.BigInteger
 
-class CryptoUtil(private val uid: Int,
-                 private val cid: Int) {
+class CryptoUtil(private val userId: Int,
+                 private val chatId: Int) {
 
-    lateinit var diffieHellman: DiffieHellman
+    private lateinit var diffieHellman: DiffieHellman
 
-    private var key256 = sha256Raw(getDefaultKey(uid, cid).toByteArray())
-    private var aesIv = md5Raw(getDefaultKey(uid, cid).toByteArray())
+    private var key256 = sha256Raw(getStartingKey(userId, chatId).toByteArray())
+    private var aesIv = md5Raw(getStartingKey(userId, chatId).toByteArray())
 
     var isWaiting = false
+    lateinit var keyType: KeyType
+        private set
 
     /**
      * generates g, p, A
@@ -46,6 +49,7 @@ class CryptoUtil(private val uid: Int,
         val B = strToNums(str)[0]
         diffieHellman.publicOther = B
         updateKeys()
+        keyType = KeyType.RANDOM
     }
 
     /**
@@ -57,6 +61,7 @@ class CryptoUtil(private val uid: Int,
         val common = strToNums(str)
         diffieHellman = DiffieHellman(common[0], common[1], common[2])
         updateKeys()
+        keyType = KeyType.RANDOM
         return "KeyEx{${numToStr(diffieHellman.publicOwn)}}"
     }
 
@@ -86,6 +91,17 @@ class CryptoUtil(private val uid: Int,
         return "${Math.min(uid, cid)}${Math.max(uid, cid)}"
     }
 
+    private fun getStartingKey(uid: Int, cid: Int): String {
+        val savedKey = KeyStorage.getCustomKey(cid)
+        return if (savedKey == null) {
+            keyType = KeyType.DEFAULT
+            getDefaultKey(uid, cid)
+        } else {
+            keyType = KeyType.CUSTOM
+            savedKey
+        }
+    }
+
     private fun updateKeys() {
         printKey()
         val bytes = diffieHellman.key.toByteArray()
@@ -94,18 +110,11 @@ class CryptoUtil(private val uid: Int,
         aesIv = md5Raw(bytes)
     }
 
-    private fun bytesToString(bytes: ByteArray): String {
-        var res = ""
-        for (byte in bytes) {
-            res += byte.toChar()
-        }
-        return res
-    }
-
     fun resetKeys() {
-
-        key256 = sha256Raw(getDefaultKey(uid, cid).toByteArray())
-        aesIv = md5Raw(getDefaultKey(uid, cid).toByteArray())
+        keyType = KeyType.DEFAULT
+        KeyStorage.removeCustomKey(chatId)
+        key256 = sha256Raw(getDefaultKey(userId, chatId).toByteArray())
+        aesIv = md5Raw(getDefaultKey(userId, chatId).toByteArray())
     }
 
     fun printKeys() {
@@ -114,6 +123,12 @@ class CryptoUtil(private val uid: Int,
     }
 
     fun setUserKey(key: String) {
+        if (Prefs.storeCustomKeys) {
+            KeyStorage.saveCustomKey(chatId, key)
+        } else {
+            KeyStorage.removeCustomKey(chatId)
+        }
+        keyType = KeyType.CUSTOM
         key256 = sha256Raw(key.toByteArray())
         aesIv = md5Raw(key.toByteArray())
     }
@@ -176,5 +191,11 @@ class CryptoUtil(private val uid: Int,
 
         val EXTENSION = ".xvii"
 
+    }
+
+    enum class KeyType(val stringRes: Int) {
+        DEFAULT(R.string.default_key_type),
+        CUSTOM(R.string.custom_key_type),
+        RANDOM(R.string.random_key_type)
     }
 }

@@ -54,8 +54,20 @@ object KeyStorage {
         get() = pref.getInt(TS, 0)
         set(value) = pref.edit().putInt(TS, value).apply()
 
+    fun saveCustomKey(peerId: Int, key: String) {
+        pref.edit().putString(getPeerKey(peerId), key).apply()
+    }
+
+    fun removeCustomKey(peerId: Int) {
+        pref.edit().remove(getPeerKey(peerId)).apply()
+    }
+
+    fun getCustomKey(peerId: Int) = pref.getString(getPeerKey(peerId), null)
+
     fun isObsolete() = time() - ts > STORAGE_DURATION
 
     fun isDefault() = prime == DEFAULT_PRIME
+
+    private fun getPeerKey(peerId: Int) = "peer$peerId"
 
 }

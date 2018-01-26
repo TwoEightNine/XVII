@@ -257,5 +257,10 @@
     <string name="symbols">Символы</string>
     <string name="other">Другие</string>
     <string name="recent">Недавние</string>
+    <string name="store_keys">Хранить пользовательские ключи</string>
+    <string name="key_type">Тип ключа: %s</string>
+    <string name="default_key_type">По умолчанию</string>
+    <string name="custom_key_type">Пользовательский</string>
+    <string name="random_key_type">Случайный (DHE)</string>
 
 </resources>

@@ -5,6 +5,7 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.utils.secToTime
 import java.io.File
 import java.io.IOException
@@ -44,17 +45,20 @@ class VoiceRecordingController(private val rlRecording: RelativeLayout,
     fun stopRecording(cancelled: Boolean = false) {
         rlRecording.visibility = View.GONE
         timer.cancel()
-        try {
+        val successfully = try {
             if (recorder != null) {
                 recorder!!.stop()
                 recorder!!.release()
                 recorder = null
             }
-        } catch (e: IllegalStateException) {
+            true
+        } catch (e: Exception) {
             e.printStackTrace()
+            Lg.wtf("stop recording: ${e.message}")
             recorder = null
+            false
         }
-        if (timer.lastDuration >= RECORD_MIN_DURATION && !cancelled) {
+        if (timer.lastDuration >= RECORD_MIN_DURATION && !cancelled && successfully) {
             onRecorded.invoke(fileName)
         }
     }

@@ -30,6 +30,8 @@ class GeneralFragment : BaseFragment() {
     lateinit var swTyping: Switch
     @BindView(R.id.switchManualUpd)
     lateinit var swManual: Switch
+    @BindView(R.id.switchStoreKeys)
+    lateinit var swStoreKeys: Switch
     @BindView(R.id.tvClearCache)
     lateinit var tvClearCache: TextView
 
@@ -57,6 +59,7 @@ class GeneralFragment : BaseFragment() {
         swRead.isChecked = Prefs.markAsRead
         swTyping.isChecked = Prefs.showTyping
         swManual.isChecked = Prefs.manualUpdating
+        swStoreKeys.isChecked = Prefs.storeCustomKeys
     }
 
     private fun saveSwitches() {
@@ -64,6 +67,7 @@ class GeneralFragment : BaseFragment() {
         Prefs.markAsRead = swRead.isChecked
         Prefs.showTyping = swTyping.isChecked
         Prefs.manualUpdating = swManual.isChecked
+        Prefs.storeCustomKeys = swStoreKeys.isChecked
     }
 
     override fun onStop() {

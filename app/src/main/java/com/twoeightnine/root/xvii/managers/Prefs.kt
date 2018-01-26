@@ -18,6 +18,7 @@ object Prefs {
     private val MARK = "markAsRead"
     private val TYPING = "typing"
     private val MANUAL_UPD = "manualUpd"
+    private val STORE_CUSTOM_KEYS = "storeCustomKeys"
 
     //notifications
     private val VIBRATE = "vibrate"
@@ -72,6 +73,10 @@ object Prefs {
     var manualUpdating: Boolean
         get() = data.getBoolean(MANUAL_UPD, false)
         set(value) = data.edit().putBoolean(MANUAL_UPD, value).apply()
+
+    var storeCustomKeys
+        get() = data.getBoolean(STORE_CUSTOM_KEYS, false)
+        set(value) = data.edit().putBoolean(STORE_CUSTOM_KEYS, value).apply()
 
     //notifications
     var vibrate: Boolean

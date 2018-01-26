@@ -250,6 +250,11 @@
     <string name="symbols">Symboles</string>
     <string name="other">Autres</string>
     <string name="recent">Récents</string>
+    <string name="store_keys">Stocker les clés personnalisé</string>
+    <string name="key_type">Type des clés: %s</string>
+    <string name="default_key_type">Défaut</string>
+    <string name="custom_key_type">Personnalisé</string>
+    <string name="random_key_type">Au hasard (DHE)</string>
 
 </resources>
 
