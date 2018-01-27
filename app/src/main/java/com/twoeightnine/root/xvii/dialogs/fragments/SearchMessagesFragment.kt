@@ -96,8 +96,10 @@ class SearchMessagesFragment: BaseFragment(), SearchMessagesFragmentView {
 
             override fun onSearchViewShown() {}
         })
-        searchView.showSearch()
-        searchView.showKeyboard(searchView)
+        searchView.post {
+            searchView.showSearch()
+            searchView.showKeyboard(searchView)
+        }
     }
 
     override fun onNew(view: View) {

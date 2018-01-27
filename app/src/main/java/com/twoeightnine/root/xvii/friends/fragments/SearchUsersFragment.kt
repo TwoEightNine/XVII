@@ -93,7 +93,10 @@ class SearchUsersFragment: BaseFragment(), SearchUsersFragmentView {
 
             override fun onSearchViewShown() {}
         })
-        searchView.showSearch()
+        searchView.post {
+            searchView.showSearch()
+            searchView.showKeyboard(searchView)
+        }
     }
 
     private fun loadMore(offset: Int = 0) {
