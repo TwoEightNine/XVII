@@ -115,9 +115,9 @@ class LoginActivity : BaseActivity() {
         apiUtils.checkAccount(
                 Session.token,
                 Session.uid,
-                this::onChecked,
-                this::onFailed,
-                this::onLater
+                ::onChecked,
+                ::onFailed,
+                ::onLater
         )
     }
 

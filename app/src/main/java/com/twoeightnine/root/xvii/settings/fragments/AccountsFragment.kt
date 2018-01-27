@@ -62,7 +62,7 @@ class AccountsFragment: BaseFragment() {
             } else {
                 selectedAccount = account
                 selectedPosition = pos
-                apiUtils.checkAccount(account.token ?: "", account.uid, this::onSuccess, this::onFail, { onSuccess() })
+                apiUtils.checkAccount(account.token ?: "", account.uid, ::onSuccess, ::onFail, { onSuccess() })
             }
         }
         lvAccounts.setOnItemLongClickListener {

@@ -50,7 +50,7 @@ class ImportantFragment: BaseFragment(), ImportantFragmentView {
         adapter = ChatAdapter(
                 activity,
                 { presenter.loadHistory(it) },
-                {}, this::onLongClick,
+                {}, ::onLongClick,
                 { rootActivity.loadFragment(ProfileFragment.newInstance(it)) },
                 {},
                 { apiUtils.showPhoto(context, it.photoId, it.accessKey) },

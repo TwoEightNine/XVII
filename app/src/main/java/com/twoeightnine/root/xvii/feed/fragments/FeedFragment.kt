@@ -52,8 +52,8 @@ class FeedFragment: BaseFragment() {
         adapter = FeedAdapter(
                 activity,
                 { loadMore() },
-                this::onClick,
-                this::onLike,
+                ::onClick,
+                ::onLike,
                 screenWidth(activity)
         )
         rvFeed.layoutManager = LinearLayoutManager(activity)

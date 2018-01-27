@@ -59,7 +59,7 @@ class ImageViewerActivity : AppCompatActivity() {
             filePath != null -> arrayListOf(filePath!!)
             else -> arrayListOf()
         }
-        adapter = FullScreenImageAdapter(this, urls, this::onDismiss, this::onTap)
+        adapter = FullScreenImageAdapter(this, urls, ::onDismiss, ::onTap)
         viewPager.adapter = adapter
         setPosition(position)
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {

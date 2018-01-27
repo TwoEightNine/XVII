@@ -184,7 +184,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             presenter.view = this
             presenter.dialog = message
             presenter.initCrypto()
-            presenter.initAttachments(activity, this::onAttachCounterChanged)
+            presenter.initAttachments(activity, ::onAttachCounterChanged)
             presenter.subscribe()
         } catch (e: Exception) {
             Lg.i("bindViews: " + e.message)
@@ -261,11 +261,11 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     fun initAdapter() {
         adapter = ChatAdapter(
                 activity,
-                this::loadMore,
-                this::onClick,
-                this::onLongClick,
+                ::loadMore,
+                ::onClick,
+                ::onLongClick,
                 { rootActivity.loadFragment(ProfileFragment.newInstance(it)) },
-                this::onDocDecryptClicked,
+                ::onDocDecryptClicked,
                 { apiUtils.showPhoto(context, it.photoId, it.accessKey) },
                 { apiUtils.openVideo(context, it) }
         )
@@ -301,9 +301,9 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     private fun initPager() {
         pagerAdapter = CommonPagerAdapter(childFragmentManager)
         pagerAdapter.add(AttachedFragment.newInstance(presenter.attachUtils), getString(R.string.attached))
-        pagerAdapter.add(GalleryFragment.newInstance(this::onImagesSelected), getString(R.string.device_photos))
-        pagerAdapter.add(StickersFragment.newInstance(this::onStickerSelected), getString(R.string.stickers))
-        pagerAdapter.add(PhotoAttachFragment.newInstance(this::onAttachmentsSelected), getString(R.string.photos))
+        pagerAdapter.add(GalleryFragment.newInstance(::onImagesSelected), getString(R.string.device_photos))
+        pagerAdapter.add(StickersFragment.newInstance(::onStickerSelected), getString(R.string.stickers))
+        pagerAdapter.add(PhotoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.photos))
         pagerAdapter.add(VideoAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, getString(R.string.videos))
         pagerAdapter.add(DocAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, getString(R.string.docs))
         vpAttach.adapter = pagerAdapter
