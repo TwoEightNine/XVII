@@ -45,7 +45,7 @@ class WallPostFragment : BaseFragment() {
     lateinit var loader: LoaderView
 
     var postId: String? = null
-    lateinit private var postResponse: WallPostResponse
+    private lateinit var postResponse: WallPostResponse
 
     @Inject
     lateinit var api: ApiService
@@ -168,17 +168,30 @@ class WallPostFragment : BaseFragment() {
             ivLike.setImageDrawable(noLike)
         }
         tvLikes.text = wp.likes.count.toString()
-
+        val flowableLike = api.like(wp.ownerId, wp.id)
+        val flowableUnlike = api.unlike(wp.ownerId, wp.id)
         ivLike.setOnClickListener {
-            ivLike.setImageDrawable(like)
-            api.like(wp.ownerId, wp.id)
-                    .subscribeSmart({
-                        response ->
-                        tvLikes.text = response.likes.toString()
-                    }, {
-                        showError(rootActivity, it)
-                        ivLike.setImageDrawable(noLike)
-                    })
+            if (wp.likes.userLikes == 0) {
+                ivLike.setImageDrawable(like)
+                flowableLike
+                        .subscribeSmart({ response ->
+                            wp.likes.userLikes = 1
+                            tvLikes.text = response.likes.toString()
+                        }, {
+                            showError(rootActivity, it)
+                            ivLike.setImageDrawable(noLike)
+                        })
+            } else {
+                ivLike.setImageDrawable(noLike)
+                flowableUnlike
+                        .subscribeSmart({ response ->
+                            wp.likes.userLikes = 0
+                            tvLikes.text = response.likes.toString()
+                        }, {
+                            showError(rootActivity, it)
+                            ivLike.setImageDrawable(like)
+                        })
+            }
         }
     }
 

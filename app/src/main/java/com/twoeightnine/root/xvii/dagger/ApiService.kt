@@ -213,6 +213,10 @@ interface ApiService {
     fun like(@Query("owner_id") ownerId: Int,
              @Query("item_id") itemId: Int): Flowable<ServerResponse<LikesResponse>>
 
+    @GET("likes.delete?type=post")
+    fun unlike(@Query("owner_id") ownerId: Int,
+             @Query("item_id") itemId: Int): Flowable<ServerResponse<LikesResponse>>
+
     @GET("wall.post")
     fun postToWall(@Query("owner_id") ownerId: Int,
                    @Query("message") message: String,
