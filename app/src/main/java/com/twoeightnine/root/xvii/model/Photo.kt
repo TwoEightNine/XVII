@@ -54,11 +54,10 @@ class Photo : Parcelable, Serializable {
         text = p.readString()
         date = p.readInt()
         postId = p.readInt()
+        accessKey = p.readString()
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
+    override fun describeContents() = 0
 
     override fun writeToParcel(parcel: Parcel, i: Int) {
         parcel.writeInt(id ?: 0)
@@ -75,7 +74,7 @@ class Photo : Parcelable, Serializable {
         parcel.writeString(text)
         parcel.writeInt(date ?: 0)
         parcel.writeInt(postId ?: 0)
-
+        parcel.writeString(accessKey)
     }
 
     val maxPhoto: String

@@ -61,6 +61,9 @@ class ApiUtils @Inject constructor(val api: ApiService) {
                     if (response.size == 0) {
                         showError(context, R.string.denied)
                     } else {
+                        response.forEach {
+                            it.accessKey = accessKey
+                        }
                         ImageViewerActivity.viewImages(context, response)
                     }
                 }, {

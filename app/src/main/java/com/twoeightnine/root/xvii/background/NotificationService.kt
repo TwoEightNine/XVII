@@ -67,9 +67,7 @@ class NotificationService : Service() {
         return START_STICKY
     }
 
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent) = null
 
     override fun onCreate() {
         super.onCreate()
