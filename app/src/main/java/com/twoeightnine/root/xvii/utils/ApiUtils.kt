@@ -132,6 +132,13 @@ class ApiUtils @Inject constructor(val api: ApiService) {
                 }, onError)
     }
 
+    fun repost(obj: String, onSuccess: () -> Unit = {}, onError: (String) -> Unit = {}) {
+        api.repost(obj)
+                .subscribeSmart({
+                    onSuccess.invoke()
+                }, onError)
+    }
+
     fun updateStickers() {
         if (time() - Prefs.lastStickersUpdate < stickersUpdPeriod) return
 

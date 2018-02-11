@@ -122,11 +122,10 @@ class AboutFragment : BaseFragment() {
     }
 
     private fun share() {
-        apiUtils.shareToWall(
-                Session.uid,
-                getString(R.string.share_text),
-                "https://play.google.com/store/apps/details?id=${context.packageName}",
-                { showCommon(context, R.string.shared) }
+        apiUtils.repost(
+                Api.SHARE_POST,
+                { showCommon(context, R.string.shared) },
+                { showError(context, it) }
         )
     }
 }
