@@ -200,6 +200,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         Style.forFAB(fabHasMore)
         Style.forViewGroupColor(rlTyping)
         Style.forAll(rlBack)
+        Style.forAll(rlMultiAcrion)
         Style.forTabLayout(tabsBottom)
         if (Build.VERSION.SDK_INT >= 21) {
             val d2 = rlInputContainer.background
