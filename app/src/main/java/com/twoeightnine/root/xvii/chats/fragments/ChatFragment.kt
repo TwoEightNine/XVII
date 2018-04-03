@@ -164,7 +164,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             return fragment
         }
 
-        val REQUEST_PERMISSIONS = 3301
+        const val REQUEST_PERMISSIONS = 3301
 
     }
 

@@ -88,6 +88,9 @@ class RootActivity : BaseActivity() {
             val message = Message(
                     0, 0, userId, 0, 0, title, "", null
             )
+            if (userId > 2000000000) {
+                message.chatId = userId - 2000000000
+            }
             loadFragment(ChatFragment.newInstance(message))
             Lg.i("open chat ${intent.extras.getInt(USER_ID)}")
         }
