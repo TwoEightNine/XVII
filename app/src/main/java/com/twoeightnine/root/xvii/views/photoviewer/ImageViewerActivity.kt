@@ -30,7 +30,7 @@ class ImageViewerActivity : AppCompatActivity() {
     @BindView(R.id.tvPosition)
     lateinit var tvPosition: TextView
     @BindView(R.id.vpImage)
-    lateinit var viewPager: ViewPager
+    lateinit var viewPager: StopableViewPager
     @BindView(R.id.llBottom)
     lateinit var llBottom: LinearLayout
     @BindView(R.id.btnSaveToAlbum)

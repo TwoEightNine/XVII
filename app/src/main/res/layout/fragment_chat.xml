@@ -94,6 +94,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:tag="api20"
                 android:visibility="gone"
                 android:clickable="true"
                 android:elevation="6dp"

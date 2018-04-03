@@ -81,7 +81,7 @@ class TouchImageView : AppCompatImageView {
                 MotionEvent.ACTION_UP -> {
                     val xDiff = Math.abs(curr.x - start.x).toInt()
                     val yDiff = Math.abs(curr.y - start.y).toInt()
-                    if (xDiff * 2 < yDiff && yDiff > DISMISS_MIN && mode == DRAG) {
+                    if (xDiff * 2 < yDiff && yDiff > DISMISS_MIN && mode == DRAG && !canSlide()) {
                         dismissListener?.invoke()
 
                     }
@@ -215,6 +215,8 @@ class TouchImageView : AppCompatImageView {
         }
         fixTrans()
     }
+
+    fun canSlide() = saveScale > 1.1f
 
     companion object {
 

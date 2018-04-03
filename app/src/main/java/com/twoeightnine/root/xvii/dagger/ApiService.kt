@@ -222,6 +222,9 @@ interface ApiService {
                    @Query("message") message: String,
                    @Query("attachments") attachments: String): Flowable<ServerResponse<JSONObject>>
 
+    @GET("wall.repost")
+    fun repost(@Query("object") obj: String): Flowable<ServerResponse<JSONObject>>
+
     @GET("newsfeed.get?filters=post")
     fun getFeed(@Query("count") count: Int,
                 @Query("start_from") startFrom: String): Flowable<ServerResponse<FeedResponse>>
