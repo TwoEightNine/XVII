@@ -232,6 +232,10 @@ interface ApiService {
     @GET("newsfeed.getRecommended?max_photos=10")
     fun getRecommended(@Query("count") count: Int): Flowable<ServerResponse<FeedResponse>>
 
+    @GET("newsfeed.search?extended=1")
+    fun searchFeed(@Query("q") q: String,
+                   @Query("count") count: Int): Flowable<ServerResponse<FeedResponse>>
+
     //longpoll
     @GET
     @Headers(NO_TOKEN_HEADER)

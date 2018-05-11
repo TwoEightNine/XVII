@@ -34,8 +34,6 @@ class FeedFragment: BaseFragment() {
 
     private lateinit var adapter: FeedAdapter
 
-    private var isRecommended = true
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle("Scroll feeed everyday")
@@ -62,7 +60,9 @@ class FeedFragment: BaseFragment() {
 
     private fun onClick(pos: Int) {
         val wp = adapter.items[pos]
-        rootActivity.loadFragment(WallPostFragment.newInstance("${wp.sourceId}_${wp.postId}"))
+        val src = if (wp.sourceId == 0) wp.ownerId else wp.sourceId
+        val id = if (wp.postId == 0) wp.id else wp.postId
+        rootActivity.loadFragment(WallPostFragment.newInstance("${src}_$id"))
     }
 
     private fun onLike(pos: Int) {
@@ -84,17 +84,24 @@ class FeedFragment: BaseFragment() {
         getFeedObservable()
                 .subscribeSmart({
                     response ->
+                    Lg.i("resp = $response")
                     val wallPosts = response.items ?: return@subscribeSmart
+                    Lg.i("posts = $wallPosts")
 
                     val groups = response.groups
                     val profiles = response.profiles
+                    Lg.i("prof = $profiles")
 
                     for (pos in wallPosts.indices) {
                         val wallPost = wallPosts[pos]
-                        if (wallPost.sourceId >= 0 && profiles != null) {
+                        if (wallPost.sourceId > 0 && profiles != null) {
                             wallPost.profile = getProfileById(profiles, wallPost.sourceId)
                         } else if (wallPost.sourceId < 0 && groups != null) {
                             wallPost.group = getGroupById(groups, -wallPost.sourceId)
+                        } else if (wallPost.fromId > 0 && profiles != null) {
+                            wallPost.profile = getProfileById(profiles, wallPost.fromId)
+                        } else if (wallPost.fromId < 0 && groups != null) {
+                            wallPost.group = getGroupById(groups, -wallPost.fromId)
                         }
                     }
                     adapter.stopLoading(wallPosts)
@@ -119,11 +126,12 @@ class FeedFragment: BaseFragment() {
     }
 
     private fun getFeedObservable() =
-        if (isRecommended) {
-            api.getRecommended(100)
-        } else {
-            api.getFeed(50, adapter.nextFrom)
-        }
+            when (state) {
+                RECOMM -> api.getRecommended(100)
+                FEED -> api.getFeed(50, adapter.nextFrom)
+                else -> api.searchFeed("#xvii", 200)
+            }
+
 
     override fun onNew(view: View) {
         loadMore()
@@ -140,7 +148,7 @@ class FeedFragment: BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem?) =
         when (item?.itemId) {
             R.id.menu_recommended -> {
-                isRecommended = !isRecommended
+                switchState()
                 initAdapter()
                 loadMore()
                 true
@@ -148,4 +156,15 @@ class FeedFragment: BaseFragment() {
             else -> super.onOptionsItemSelected(item)
         }
 
+    private fun switchState() {
+        state = (state + 1) % COUNT
+    }
+
+    companion object {
+        var state = 0
+
+        const val RECOMM = 0
+        const val FEED = 1
+        const val COUNT = 3
+    }
 }
