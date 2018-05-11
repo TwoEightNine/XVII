@@ -84,13 +84,10 @@ class FeedFragment: BaseFragment() {
         getFeedObservable()
                 .subscribeSmart({
                     response ->
-                    Lg.i("resp = $response")
                     val wallPosts = response.items ?: return@subscribeSmart
-                    Lg.i("posts = $wallPosts")
 
                     val groups = response.groups
                     val profiles = response.profiles
-                    Lg.i("prof = $profiles")
 
                     for (pos in wallPosts.indices) {
                         val wallPost = wallPosts[pos]
@@ -129,7 +126,7 @@ class FeedFragment: BaseFragment() {
             when (state) {
                 RECOMM -> api.getRecommended(100)
                 FEED -> api.getFeed(50, adapter.nextFrom)
-                else -> api.searchFeed("#xvii", 200)
+                else -> api.searchFeed(TAGS[state - 2], 200)
             }
 
 
@@ -165,6 +162,8 @@ class FeedFragment: BaseFragment() {
 
         const val RECOMM = 0
         const val FEED = 1
-        const val COUNT = 3
+
+        val TAGS = arrayOf("#xvii")
+        val COUNT = TAGS.size + 2
     }
 }
