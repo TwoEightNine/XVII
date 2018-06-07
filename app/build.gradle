@@ -13,7 +13,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 89
-        versionName "4.8.7"
+        versionName "4.8.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         project.ext.set("archivesBaseName", "xvii" + defaultConfig.versionName)
     }
