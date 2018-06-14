@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        kotlinVersion = '1.2.21'
+        kotlinVersion = '1.2.50'
         gradleVersion = '3.0.1'
         realmVersion = '3.5.0'
         aptVersion = '1.8'
