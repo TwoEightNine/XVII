@@ -172,9 +172,9 @@ class ChatAdapter(context: Context,
                     Attachment.TYPE_STICKER -> {
                         included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
                         val stickPath = atts[i].sticker!!.photoMax
-                        if (!stickPath.isNotEmpty()) {
+                        if (stickPath.isNotEmpty()) {
                             Picasso.with(context)
-                                    .load(atts[i].sticker!!.photoMax)
+                                    .load(stickPath)
                                     .into(included.findViewById<ImageView>(R.id.ivInternal))
                         }
                         viewHolder.llMessageContainer.addView(included)
