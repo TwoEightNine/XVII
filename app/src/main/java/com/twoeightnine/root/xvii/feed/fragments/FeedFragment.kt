@@ -67,7 +67,7 @@ class FeedFragment: BaseFragment() {
 
     private fun onLike(pos: Int) {
         val wp = adapter.items[pos]
-        api.like(wp.sourceId, wp.postId)
+        api.like(wp.owner(), wp.item())
                 .subscribeSmart({
                     response ->
                     adapter.items[pos].likes?.count = response.likes

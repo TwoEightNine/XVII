@@ -57,6 +57,10 @@ class WallPost {
             return photos
         }
 
+    fun owner() = if (sourceId != 0) sourceId else ownerId
+
+    fun item() = if (postId != 0) postId else id
+
     inner class Likes {
         var count: Int = 0
         @SerializedName("user_likes")
