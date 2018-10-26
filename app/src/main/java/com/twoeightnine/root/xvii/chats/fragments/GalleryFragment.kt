@@ -6,6 +6,7 @@ import android.provider.MediaStore.MediaColumns
 import android.support.design.widget.FloatingActionButton
 import android.view.View
 import android.widget.GridView
+import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
@@ -16,6 +17,7 @@ import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.ImageUtils
+import com.twoeightnine.root.xvii.utils.PermissionHelper
 import com.twoeightnine.root.xvii.utils.showError
 import java.io.File
 
@@ -36,9 +38,12 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
     lateinit var gvGallery: GridView
     @BindView(R.id.fabDone)
     lateinit var fabDone: FloatingActionButton
+    @BindView(R.id.ivRefresh)
+    lateinit var ivRefresh: ImageView
 
     private lateinit var adapter: GalleryAdapter
     private lateinit var imut: ImageUtils
+    private lateinit var permissionHelper: PermissionHelper
     private var viewsBind = false
 
     var fromSettings = false
@@ -48,12 +53,16 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
         super.bindViews(view)
         ButterKnife.bind(this, view)
         imut = ImageUtils(activity)
-//        initAdapter()
+        permissionHelper = PermissionHelper(this)
         if (fromSettings) {
             initAdapter()
         }
         Style.forFAB(fabDone)
         viewsBind = true
+        ivRefresh.setOnClickListener { checkPermissions() }
+        if (!permissionHelper.hasStoragePermissions()) {
+            ivRefresh.visibility = View.VISIBLE
+        }
     }
 
     fun initAdapter() {
@@ -66,7 +75,6 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
             adapter.add(getAllShownImagesPath())
         } catch (e: Exception) {
             Lg.wtf("error in gallery: ${e.message}")
-//            showError(context, e.message ?: "Permission denied")
         }
         fabDone.setOnClickListener {
             listener?.invoke(adapter.multiSelectRaw)
@@ -83,6 +91,16 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
             } else {
                 imut.dispatchTakePictureIntent(this)
             }
+        }
+    }
+
+    private fun checkPermissions() {
+        permissionHelper.doOrRequest(
+                arrayOf(PermissionHelper.READ_STORAGE, PermissionHelper.WRITE_STORAGE),
+                R.string.no_access_to_storage,
+                R.string.need_access_to_storage) {
+            ivRefresh.visibility = View.GONE
+            initAdapter()
         }
     }
 
@@ -122,7 +140,7 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
         var corrupted = 0
         while (cursor.moveToNext()) {
             val absolutePathOfImage = cursor.getString(columnIndexData)
-            if (absolutePathOfImage != null /*&& File(absolutePathOfImage).exists()*/) {
+            if (absolutePathOfImage != null) {
                 listOfAllImages.add(absolutePathOfImage)
             } else {
                 corrupted++

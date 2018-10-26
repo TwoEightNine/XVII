@@ -19,6 +19,6 @@ class RestarterBroadcastReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        val RESTART_ACTION = "restartAction"
+        const val RESTART_ACTION = "restartAction"
     }
 }

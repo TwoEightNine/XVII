@@ -146,6 +146,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     private lateinit var voiceController: VoiceRecordingController
     private lateinit var adapter: ChatAdapter
     private lateinit var emojiKeyboard: EmojiKeyboard
+    private lateinit var permissionHelper: PermissionHelper
 
     private val handler = Handler()
 
@@ -220,7 +221,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 }
             }
         }
-        checkPermissions()
+        permissionHelper = PermissionHelper(this)
     }
 
     private fun onAttachCounterChanged(count: Int) {
@@ -335,7 +336,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun initBottomSheet() {
-        bottomSheet = BottomSheetController(rlBottom, rlHideBottom, { vpAttach.currentItem = 1 }) // reset to gallery
+        bottomSheet = BottomSheetController(rlBottom, rlHideBottom) { vpAttach.currentItem = 1 } // reset to gallery
     }
 
     private fun initVoice() {
@@ -356,20 +357,16 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 { onEmojiClicked() },
                 { onSend(etInput.text.toString()) },
                 {
-                    if (arePermissionsGranted()) {
+                    permissionHelper.doOrRequest(
+                            PermissionHelper.RECORD_AUDIO,
+                            R.string.no_access_to_mic,
+                            R.string.need_access_to_mic
+                    ) {
                         voiceController.startRecording()
-                    } else {
-                        showPermissionDialog()
                     }
                 },
                 { voiceController.stopRecording(!it) },
-                {
-                    if (arePermissionsGranted()) {
-                        bottomSheet.open()
-                    } else {
-                        showPermissionDialog()
-                    }
-                },
+                { bottomSheet.open() },
                 { presenter.setTyping() }
         )
     }
@@ -383,12 +380,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         ivReplyMulti.setOnClickListener {
             presenter.attachUtils.forwarded = adapter.multiSelect
             adapter.clearMultiSelect()
-        }
-    }
-
-    private fun checkPermissions() {
-        if (!arePermissionsGranted()) {
-            showPermissionDialog()
         }
     }
 
@@ -409,7 +400,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         if (position !in adapter.items.indices) return true
 
         val message = adapter.items[position]
-        getContextPopup(activity, R.layout.popup_message, {
+        getContextPopup(activity, R.layout.popup_message) {
             when (it.id) {
                 R.id.llCopy -> copyToClip(message.body ?: "")
                 R.id.llEdit -> showEditMessageDialog(message)
@@ -438,13 +429,13 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                             if (message.isImportant) 0 else 1
                     )
             }
-        }).show()
+        }.show()
         return true
     }
 
     private fun showMultiSelectPopup() {
         val selectedList = adapter.multiSelectRaw
-        getContextPopup(activity, R.layout.popup_message_multiselect, {
+        getContextPopup(activity, R.layout.popup_message_multiselect) {
             when (it.id) {
                 R.id.llDecrypt -> {
                     decrypt(selectedList)
@@ -453,7 +444,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 R.id.llDelete -> {
                     showDeleteMessagesDialog {
                         // i haven't found how to make copy
-                        val mids = MutableList(selectedList.size, { selectedList[it] })
+                        val mids = MutableList(selectedList.size) { selectedList[it] }
                         presenter.deleteMessages(mids, it)
                         CacheHelper.deleteMessagesAsync(mids)
                         adapter.clearMultiSelect()
@@ -464,14 +455,14 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                     adapter.clearMultiSelect()
                 }
             }
-        }).show()
+        }.show()
     }
 
     private fun showDeleteMessagesDialog(callback: (Boolean) -> Unit) {
         val dialog = AlertDialog.Builder(context)
                 .setMessage(R.string.wanna_delete_messages)
-                .setNeutralButton(R.string.delete_for_all, { _, _ -> callback.invoke(true) })
-                .setPositiveButton(R.string.delete_only_for_me, { _, _ -> callback.invoke(false) })
+                .setNeutralButton(R.string.delete_for_all) { _, _ -> callback.invoke(true) }
+                .setPositiveButton(R.string.delete_only_for_me) { _, _ -> callback.invoke(false) }
                 .setNegativeButton(android.R.string.cancel, null)
                 .create()
         dialog.show()
@@ -588,7 +579,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun showKeysDialog() {
-        getContextPopup(activity, R.layout.popup_keys, {
+        getContextPopup(activity, R.layout.popup_keys) {
             when (it.id) {
                 R.id.llRandomKey -> {
                     if (message.chatId == 0 && message.userId > 0 && message.userId < 1000000000) {
@@ -605,7 +596,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                     showCommon(activity, R.string.key_reset)
                 }
             }
-        }).show()
+        }.show()
     }
 
     private fun showKeyInputDialog() {
@@ -631,13 +622,13 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     private fun showPermissionDialog() {
         val dialog = AlertDialog.Builder(activity)
                 .setMessage(R.string.permissions_info)
-                .setPositiveButton(android.R.string.ok, { _, _ ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     requestPermissions(arrayOf(
                             Manifest.permission.READ_EXTERNAL_STORAGE,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.RECORD_AUDIO
                     ), REQUEST_PERMISSIONS)
-                })
+                }
                 .create()
         dialog.show()
         Style.forDialog(dialog)

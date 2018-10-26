@@ -337,9 +337,9 @@ class ChatAdapter(context: Context,
 
     companion object {
 
-        val OUT = 0
-        val IN_CHAT = 1
-        val IN_USER = 2
+        const val OUT = 0
+        const val IN_CHAT = 1
+        const val IN_USER = 2
 
         var MEDIA_WIDTH: Int = 0
     }
