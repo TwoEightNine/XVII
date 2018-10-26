@@ -1,10 +1,6 @@
 package com.twoeightnine.root.xvii.settings.fragments
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.*
@@ -23,8 +19,6 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoadingDialog
 
 class AppearanceFragment : BaseFragment() {
-
-    private val requestPermission = 420
 
     @BindView(R.id.rlChatBack)
     lateinit var rlChatBack: RelativeLayout
@@ -124,7 +118,7 @@ class AppearanceFragment : BaseFragment() {
                     .centerCrop()
                     .into(ivPreview)
         }
-        rlChatBack.setOnClickListener { openGallery() }
+        rlChatBack.setOnClickListener { showDialog() }
         picker.addOnColorChangedListener {
             currentColor = picker.selectedColor
             applyColors()
@@ -137,12 +131,6 @@ class AppearanceFragment : BaseFragment() {
                 R.string.no_access_to_storage,
                 R.string.need_access_to_storage
         ) {
-            getFromGallery()
-        }
-    }
-
-    private fun getFromGallery() {
-        if (hasPermissions()) {
             bottomSheetHelper.openBottomSheet(GalleryFragment.newInstance({
                 bottomSheetHelper.closeBottomSheet()
                 if (it.size > 0) {
@@ -151,20 +139,6 @@ class AppearanceFragment : BaseFragment() {
                     showError(activity, R.string.error)
                 }
             }, true), getString(R.string.gallery))
-        } else {
-            val dialog = AlertDialog.Builder(activity)
-                    .setMessage(R.string.permissions_info)
-                    .setPositiveButton(android.R.string.ok, {
-                        _, _ ->
-                        requestPermissions(arrayOf(
-                                Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                requestPermission)
-                    })
-                    .create()
-            dialog.show()
-            Style.forDialog(dialog)
-
         }
     }
 
@@ -172,13 +146,13 @@ class AppearanceFragment : BaseFragment() {
         if (Prefs.chatBack.isNotEmpty()) {
             val dialog = AlertDialog.Builder(context)
                     .setMessage(R.string.chat_back_exists)
-                    .setPositiveButton(R.string.change) { _, _ -> getFromGallery() }
+                    .setPositiveButton(R.string.change) { _, _ -> openGallery() }
                     .setNegativeButton(R.string.delete) { _, _ -> deletePhoto() }
                     .create()
             dialog.show()
             Style.forDialog(dialog)
         } else {
-            getFromGallery()
+            openGallery()
         }
     }
 
@@ -209,11 +183,4 @@ class AppearanceFragment : BaseFragment() {
             restartApp(getString(R.string.theme_changed))
         }
     }
-
-    private fun hasPermissions() = Build.VERSION.SDK_INT < 23 ||
-            ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                    PackageManager.PERMISSION_GRANTED &&
-
-                    ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                            PackageManager.PERMISSION_GRANTED
 }
