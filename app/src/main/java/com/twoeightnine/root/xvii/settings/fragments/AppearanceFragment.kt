@@ -56,6 +56,7 @@ class AppearanceFragment : BaseFragment() {
 
     private lateinit var imut: ImageUtils
     private lateinit var bottomSheetHelper: BottomSheetHelper
+    private lateinit var permissionHelper: PermissionHelper
 
     private var isNightBefore: Boolean = false
     private var colorBefore: Int = 0
@@ -82,6 +83,7 @@ class AppearanceFragment : BaseFragment() {
                 childFragmentManager,
                 resources.getDimensionPixelSize(R.dimen.bottomsheet_height)
         )
+        permissionHelper = PermissionHelper(this)
     }
 
     override fun getLayout() = R.layout.fragment_appearance
@@ -122,16 +124,20 @@ class AppearanceFragment : BaseFragment() {
                     .centerCrop()
                     .into(ivPreview)
         }
-        rlChatBack.setOnClickListener {
-            if (Prefs.chatBack.isNotEmpty()) {
-                showDialog()
-            } else {
-                getFromGallery()
-            }
-        }
+        rlChatBack.setOnClickListener { openGallery() }
         picker.addOnColorChangedListener {
             currentColor = picker.selectedColor
             applyColors()
+        }
+    }
+
+    private fun openGallery() {
+        permissionHelper.doOrRequest(
+                arrayOf(PermissionHelper.READ_STORAGE, PermissionHelper.WRITE_STORAGE),
+                R.string.no_access_to_storage,
+                R.string.need_access_to_storage
+        ) {
+            getFromGallery()
         }
     }
 

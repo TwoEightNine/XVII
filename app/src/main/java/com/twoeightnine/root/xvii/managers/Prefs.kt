@@ -9,44 +9,44 @@ import java.util.*
 
 object Prefs {
     
-    private val NAME = "prefPref"
+    private const val NAME = "prefPref"
 
-    private var PIN = "pin"
+    private const val PIN = "pin"
 
     //general
-    private val BE_OFFLINE = "beOffline"
-    private val MARK = "markAsRead"
-    private val TYPING = "typing"
-    private val MANUAL_UPD = "manualUpd"
-    private val STORE_CUSTOM_KEYS = "storeCustomKeys"
+    private const val BE_OFFLINE = "beOffline"
+    private const val MARK = "markAsRead"
+    private const val TYPING = "typing"
+    private const val MANUAL_UPD = "manualUpd"
+    private const val STORE_CUSTOM_KEYS = "storeCustomKeys"
 
     //notifications
-    private val VIBRATE = "vibrate"
-    private val SHOW_NOTIF = "showNotif"
-    private val SHOW_NOTIF_CHATS = "showNotifChats"
-    private val SHOW_NAME = "showName"
-    private val SHOW_CONTENT = "showContent"
-    private val SOUND = "sound"
-    private val MUTE_LIST = "muteList"
+    private const val VIBRATE = "vibrate"
+    private const val SHOW_NOTIF = "showNotif"
+    private const val SHOW_NOTIF_CHATS = "showNotifChats"
+    private const val SHOW_NAME = "showName"
+    private const val SHOW_CONTENT = "showContent"
+    private const val SOUND = "sound"
+    private const val MUTE_LIST = "muteList"
 
     //appearance
-    private val NIGHT = "night"
-    private val COLOR = "color"
-    private val CHAT_BACK = "chatBack"
-    private val DEFAULT_COLOR = 0xff8833dd
+    private const val NIGHT = "night"
+    private const val COLOR = "color"
+    private const val CHAT_BACK = "chatBack"
+    private const val DEFAULT_COLOR = 0xff8833dd
 
     //other
-    private val RECENT_STICKERS = "recentStickers"
-    private val AVAILABLE_STICKERS = "availableStickers"
-    private val RECENT_EMOJIS = "recentEmojis"
-    private val PLAYER_URL = "playerUrl"
-    private val PLAYER_TIME = "playerTime"
-    private val CHAT_PASSED = "chatPassed1"
-    private val SADBOY = "SADBOY"
-    private val COUNT = "count"
-    private val LAST_EVENT = "lastEventId"
-    private val SHOW_RATE = "showRate"
-    private val LAST_STICKERS_UPD = "lastStickersUpd"
+    private const val RECENT_STICKERS = "recentStickers"
+    private const val AVAILABLE_STICKERS = "availableStickers"
+    private const val RECENT_EMOJIS = "recentEmojis"
+    private const val PLAYER_URL = "playerUrl"
+    private const val PLAYER_TIME = "playerTime"
+    private const val CHAT_PASSED = "chatPassed1"
+    private const val SADBOY = "SADBOY"
+    private const val COUNT = "count"
+    private const val LAST_EVENT = "lastEventId"
+    private const val SHOW_RATE = "showRate"
+    private const val LAST_STICKERS_UPD = "lastStickersUpd"
     
     private val data: SharedPreferences by lazy {
         App.context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
