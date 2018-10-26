@@ -32,7 +32,7 @@ class EggFragment: BaseFragment() {
                 .resize(width, height)
                 .centerCrop()
                 .into(ivBack)
-        tvText.setText(Html.fromHtml(getString(R.string.quote)))
+        tvText.text = Html.fromHtml(getString(R.string.quote))
 
     }
 

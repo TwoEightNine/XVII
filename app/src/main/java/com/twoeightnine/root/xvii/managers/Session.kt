@@ -8,20 +8,21 @@ import com.twoeightnine.root.xvii.utils.time
 
 object Session {
 
-    private val NAME = "sessionPref"
+    private const val NAME = "sessionPref"
 
-    private val TOKEN = "token"
-    private val UID = "uid"
-    private val FULLNAME = "fullname"
-    private val PHOTO = "photo"
+    private const val TOKEN = "token"
+    private const val UID = "uid"
+    private const val FULLNAME = "fullname"
+    private const val PHOTO = "photo"
 
-    private val SERVER = "server"
-    private val KEY = "key"
-    private val TS = "ts"
-    private val COOKIES = "cookies"
-    private val SERVICE_LAST_ACTION = "serviceLastAction"
+    private const val SERVER = "server"
+    private const val KEY = "key"
+    private const val TS = "ts"
+    private const val COOKIES = "cookies"
+    private const val SERVICE_LAST_ACTION = "serviceLastAction"
+    private const val PIN_LAST_PROMPT = "pinLastPrompt"
 
-    private val activeTimeThreshold = 30
+    private const val ACTIVE_TIME_THRESHOLD = 30
 
     private val pref: SharedPreferences by lazy {
         App.context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
@@ -74,10 +75,10 @@ object Session {
         set(value) = pref.edit().putStringSet(COOKIES, value).apply()
 
     var serviceLastAction
-        get() = pref.getInt(SERVICE_LAST_ACTION, 0)
+        get() = pref.getInt(PIN_LAST_PROMPT, 0)
         set (value) {
-            pref.edit().putInt(SERVICE_LAST_ACTION, value).apply()
+            pref.edit().putInt(PIN_LAST_PROMPT, value).apply()
         }
 
-    fun isActive() = time() - serviceLastAction < activeTimeThreshold
+    fun isActive() = time() - serviceLastAction < ACTIVE_TIME_THRESHOLD
 }
