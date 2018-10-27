@@ -1,66 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:id="@+id/rlContainer"
-    android:background="@color/splash_color"
-    android:tag="main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/splash_color"
+    android:orientation="vertical"
+    android:tag="main">
 
     <RelativeLayout
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
 
         <TextView
-            android:layout_centerHorizontal="true"
-            tools:text="Enter new PIN"
-            android:textSize="24sp"
-            android:textColor="@color/toolbar_text"
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp"
+            android:textColor="@color/toolbar_text"
+            android:textSize="22sp"
+            tools:text="Enter new PIN" />
 
         <TextView
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/tvTitle"
-            android:textColor="@color/toolbar_text"
-            android:gravity="center"
-            tools:text="●●●"
-            android:textSize="35sp"
-            android:layout_centerHorizontal="true"
             android:id="@+id/tvPinDots"
-            android:background="@drawable/shape_pinpad"
             android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_below="@+id/tvTitle"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_height="40dp" />
+            android:layout_marginTop="3dp"
+            android:background="@drawable/shape_pinpad"
+            android:gravity="center"
+            android:textColor="@color/toolbar_text"
+            android:textSize="28sp"
+            tools:text="●●●" />
 
         <com.twoeightnine.root.xvii.views.PinPadView
-            android:layout_below="@+id/tvPinDots"
-            android:layout_marginTop="20dp"
-            android:layout_centerInParent="true"
             android:id="@+id/pinPad"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvPinDots"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="3dp" />
 
         <TextView
             android:id="@+id/tvForgot"
-            android:text="@string/forgot_pin"
-            android:textSize="18sp"
-            android:layout_below="@+id/pinPad"
-            android:paddingTop="20dp"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/toolbar_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pinPad"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="24dp"
+            android:paddingTop="8dp"
+            android:text="@string/forgot_pin"
+            android:textColor="@color/toolbar_text"
+            android:textSize="16sp" />
 
     </RelativeLayout>
-
-
-
 
 
 </RelativeLayout>

@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:title="Picturer"
+        android:icon="@drawable/ic_photo"
+        android:id="@+id/picturer_menu"
+        app:showAsAction="always" />
+
+    <item
         android:title="Feed"
         android:icon="@drawable/ic_meme"
         android:id="@+id/feed_menu"

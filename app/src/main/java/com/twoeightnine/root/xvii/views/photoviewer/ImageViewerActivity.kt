@@ -72,7 +72,7 @@ class ImageViewerActivity : AppCompatActivity() {
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
-        viewPager
+        viewPager.currentItem = position
         btnDownload.setOnClickListener {
             if (photos == null || photos!!.size == 0) return@setOnClickListener
 

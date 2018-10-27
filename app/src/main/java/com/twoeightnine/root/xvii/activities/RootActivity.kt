@@ -34,6 +34,7 @@ import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.views.PinAlertDialog
 import de.hdodenhof.circleimageview.CircleImageView
 import javax.inject.Inject
 
@@ -189,7 +190,9 @@ class RootActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        Lg.i("check and show")
+        if (Session.needToPromptPin()) {
+            PinAlertDialog(this, PinAlertDialog.ACTION_ENTER).show()
+        }
         if (!Session.isActive()) {
             Lg.i("Service wasn't active since ${getTime(Session.serviceLastAction, true, "HH:mm:ss")}. Start again")
             Handler().postDelayed({ startNotificationService(this) }, 5000L)

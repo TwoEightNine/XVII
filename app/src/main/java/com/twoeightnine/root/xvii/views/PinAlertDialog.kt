@@ -44,6 +44,7 @@ class PinAlertDialog(context: Context,
 
         init()
         Style.forAll(rlContainer)
+        setCancelable(false)
     }
 
     private fun onPin(key: Int) {
@@ -103,6 +104,7 @@ class PinAlertDialog(context: Context,
         when (action) {
 
             ACTION_ENTER -> {
+                Session.pinLastPromptResult = time()
                 dismiss()
             }
 

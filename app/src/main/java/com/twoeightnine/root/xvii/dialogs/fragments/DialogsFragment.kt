@@ -25,6 +25,7 @@ import com.twoeightnine.root.xvii.model.LongPollEvent
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.DialogsFragmentView
+import com.twoeightnine.root.xvii.picturer.PicturerFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.RateAlertDialog
 import java.util.*
@@ -130,7 +131,7 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
         if (position !in adapter.items.indices) return true
 
         val message = adapter.items[position]
-        getContextPopup(activity, R.layout.popup_dialogs, {
+        getContextPopup(activity, R.layout.popup_dialogs) {
             view ->
             when (view.id) {
 
@@ -154,7 +155,7 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
                 }
 
             }
-        }).show()
+        }.show()
         return true
     }
 
@@ -164,6 +165,10 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
                 rootActivity.loadFragment(FeedFragment())
                 true
             }
+//            R.id.picturer_menu-> {
+//                rootActivity.loadFragment(PicturerFragment())
+//                true
+//            }
             R.id.menu_search_users -> {
                 rootActivity.loadFragment(SearchMessagesFragment())
                 true

@@ -23,6 +23,7 @@ object Session {
     private const val PIN_LAST_PROMPT = "pinLastPrompt"
 
     private const val ACTIVE_TIME_THRESHOLD = 30
+    private const val PIN_THRESHOLD = 300
 
     private val pref: SharedPreferences by lazy {
         App.context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
@@ -75,10 +76,16 @@ object Session {
         set(value) = pref.edit().putStringSet(COOKIES, value).apply()
 
     var serviceLastAction
-        get() = pref.getInt(PIN_LAST_PROMPT, 0)
+        get() = pref.getInt(SERVICE_LAST_ACTION, 0)
         set (value) {
-            pref.edit().putInt(PIN_LAST_PROMPT, value).apply()
+            pref.edit().putInt(SERVICE_LAST_ACTION, value).apply()
         }
 
+    var pinLastPromptResult
+        get() = pref.getInt(PIN_LAST_PROMPT, 0)
+        set(value) = pref.edit().putInt(PIN_LAST_PROMPT, value).apply()
+
     fun isActive() = time() - serviceLastAction < ACTIVE_TIME_THRESHOLD
+
+    fun needToPromptPin() = Prefs.pin.isNotEmpty() && time() - pinLastPromptResult > PIN_THRESHOLD
 }
