@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:id="@+id/rlContainer"
     android:background="@color/splash_color"
-    android:tag="main"
+    android:tag="dark"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 

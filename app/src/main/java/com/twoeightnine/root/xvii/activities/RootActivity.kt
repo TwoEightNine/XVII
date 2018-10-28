@@ -190,9 +190,6 @@ class RootActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (Session.needToPromptPin()) {
-            PinAlertDialog(this, PinAlertDialog.ACTION_ENTER).show()
-        }
         if (!Session.isActive()) {
             Lg.i("Service wasn't active since ${getTime(Session.serviceLastAction, true, "HH:mm:ss")}. Start again")
             Handler().postDelayed({ startNotificationService(this) }, 5000L)

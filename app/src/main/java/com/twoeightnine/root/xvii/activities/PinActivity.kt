@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -67,9 +68,14 @@ class PinActivity : BaseActivity() {
 
             PinPadView.OK -> onOkPressed()
 
-            else -> if (pin.length < LENGTH) {
-                pin += key
-                tvPinDots.text = "${tvPinDots.text}●"
+            else -> {
+                if (pin.length < LENGTH) {
+                    pin += key
+                    tvPinDots.text = "${tvPinDots.text}●"
+                }
+                if (currentStage == ACTION_ENTER && action == ACTION_ENTER && isPinCorrect()) {
+                    onCorrect()
+                }
             }
         }
     }
@@ -91,6 +97,7 @@ class PinActivity : BaseActivity() {
             ACTION_CONFIRM -> if (pin == confirmedPin) {
                 showCommon(this, R.string.updated_succ)
                 Prefs.pin = sha256("$pin$SALT")
+                Session.pinLastPromptResult = time()
                 finish()
             } else {
                 currentStage = ACTION_SET
@@ -115,8 +122,7 @@ class PinActivity : BaseActivity() {
         when (action) {
 
             ACTION_ENTER -> {
-                startActivity(Intent(this, RootActivity::class.java))
-                startNotificationService(this)
+                Session.pinLastPromptResult = time()
                 finish()
             }
 
@@ -162,9 +168,10 @@ class PinActivity : BaseActivity() {
         tvPinDots.text = ""
     }
 
-    fun init() {
+    private fun init() {
         pinPad.listener = { onPin(it) }
         tvForgot.visibility = View.INVISIBLE
+        if (action == ACTION_ENTER) pinPad.hideOk()
 
         when (action) {
             ACTION_SET -> {
@@ -181,18 +188,32 @@ class PinActivity : BaseActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if (action != ACTION_ENTER) {
+            super.onBackPressed()
+        }
+    }
+
     companion object {
 
-        private val PROMPTS = 2
+        fun launch(context: Context, action: String) {
+            val intent = Intent(context, PinActivity::class.java)
+            with(intent) {
+                putExtra(ACTION, action)
+            }
+            context.startActivity(intent)
+        }
 
-        val ACTION = "action"
-        val ACTION_SET = "actionSet"
-        val ACTION_ENTER = "actionEnter"
-        val ACTION_EDIT = "actionEdit"
-        val ACTION_RESET = "actionReset"
-        val ACTION_CONFIRM = "actionConfirm"
+        private const val PROMPTS = 2
 
-        private val LENGTH = 8
-        private val SALT = "oi|6yw4-c5g846-d5c53s9mx"
+        const val ACTION = "action"
+        const val ACTION_SET = "actionSet"
+        const val ACTION_ENTER = "actionEnter"
+        const val ACTION_EDIT = "actionEdit"
+        const val ACTION_RESET = "actionReset"
+        const val ACTION_CONFIRM = "actionConfirm"
+
+        private const val LENGTH = 8
+        private const val SALT = "oi|6yw4-c5g846-d5c53s9mx"
     }
 }

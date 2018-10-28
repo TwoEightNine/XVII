@@ -14,6 +14,7 @@ import butterknife.ButterKnife
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
+import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.model.WallPost
@@ -78,7 +79,8 @@ class FeedAdapter(context: Context,
 
             vholder.ivPreview.visibility = View.VISIBLE
             val photo = wp.photoAttachments[0]
-            val scaleFactor = photo.width?.toFloat() ?: 500 / 1f / screenWidth.toFloat()
+            Lg.i("${photo.width} ${photo.height}")
+            val scaleFactor = (photo.width ?: 500) / screenWidth.toFloat()
             vholder.ivPreview.layoutParams.height = ((photo.height ?: 400) / scaleFactor).toInt()
             vholder.ivPreview.layoutParams.width = screenWidth
 

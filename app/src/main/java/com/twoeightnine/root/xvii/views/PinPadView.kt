@@ -28,7 +28,11 @@ class PinPadView : GridLayout {
         init()
     }
 
-    fun init() {
+    fun hideOk() {
+        getChildAt(childCount - 1).visibility = View.GONE
+    }
+
+    private fun init() {
         columnCount = 3
         orientation = GridLayout.HORIZONTAL
         rowCount = 4

@@ -93,21 +93,17 @@ class SettingsFragment: BaseFragment() {
     }
 
     private fun pin() {
-        val intent = Intent(activity, PinActivity::class.java)
         val pin = Prefs.pin
         if (TextUtils.isEmpty(pin)) {
-            intent.putExtra(PinActivity.ACTION, PinActivity.ACTION_SET)
-            startActivity(intent)
+            PinActivity.launch(context, PinActivity.ACTION_SET)
         } else {
             val dialog = AlertDialog.Builder(activity)
                     .setMessage(R.string.have_pin)
                     .setPositiveButton(R.string.edit) { _, _ ->
-                        intent.putExtra(PinActivity.ACTION, PinActivity.ACTION_EDIT)
-                        startActivity(intent)
+                        PinActivity.launch(context, PinActivity.ACTION_EDIT)
                     }
                     .setNegativeButton(R.string.reset) { _, _ ->
-                        intent.putExtra(PinActivity.ACTION, PinActivity.ACTION_RESET)
-                        startActivity(intent)
+                        PinActivity.launch(context, PinActivity.ACTION_RESET)
                     }
                     .create()
 

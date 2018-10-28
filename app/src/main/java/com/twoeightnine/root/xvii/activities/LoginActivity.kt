@@ -81,18 +81,11 @@ class LoginActivity : BaseActivity() {
     private fun toPin() {
         updateAccount()
         toDialogs()
-//        if (Prefs.pin.isNotEmpty()) {
-//            val intent = Intent(this, PinActivity::class.java)
-//            intent.putExtra(PinActivity.ACTION, PinActivity.ACTION_ENTER)
-//            startActivity(intent)
-//            finish()
-//        } else {
-//            toDialogs()
-//        }
     }
 
     private fun toDialogs() {
         startActivity(Intent(this, RootActivity::class.java))
+        startNotificationService(this)
         this.finish()
     }
 
