@@ -78,8 +78,8 @@ class FeedAdapter(context: Context,
 
             vholder.ivPreview.visibility = View.VISIBLE
             val photo = wp.photoAttachments[0]
-            val scaleFactor = photo.width!!.toFloat() / 1f / screenWidth.toFloat()
-            vholder.ivPreview.layoutParams.height = (photo.height!! / scaleFactor).toInt()
+            val scaleFactor = photo.width?.toFloat() ?: 500 / 1f / screenWidth.toFloat()
+            vholder.ivPreview.layoutParams.height = ((photo.height ?: 400) / scaleFactor).toInt()
             vholder.ivPreview.layoutParams.width = screenWidth
 
             Picasso.with(context)

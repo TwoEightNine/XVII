@@ -67,7 +67,7 @@ class ImageViewerActivity : AppCompatActivity() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
-                setPosition(position + 1)
+                setPosition(position)
             }
 
             override fun onPageScrollStateChanged(state: Int) {}
@@ -108,7 +108,7 @@ class ImageViewerActivity : AppCompatActivity() {
             fileMode = true
         }
         filePath = intent.getStringExtra(PATH)
-        position = intent.getIntExtra(POSITION, 1)
+        position = intent.getIntExtra(POSITION, 0)
     }
 
     private fun onDismiss() {
@@ -121,7 +121,7 @@ class ImageViewerActivity : AppCompatActivity() {
     }
 
     private fun setPosition(position: Int) {
-        tvPosition.text = "$position/${photos?.size ?: 1}"
+        tvPosition.text = "${position + 1}/${photos?.size ?: 1}"
     }
 
     private fun getUrlsFromPhotos(photos: MutableList<Photo>) = photos
@@ -134,9 +134,9 @@ class ImageViewerActivity : AppCompatActivity() {
 
     companion object {
 
-        var PHOTOS = "urls"
-        var POSITION = "position"
-        var PATH = "path"
+        const val PHOTOS = "urls"
+        const val POSITION = "position"
+        const val PATH = "path"
 
         fun viewImages(context: Context, photos: MutableList<Photo>, position: Int) {
             val intent = Intent(context, ImageViewerActivity::class.java)
@@ -146,7 +146,7 @@ class ImageViewerActivity : AppCompatActivity() {
         }
 
         fun viewImages(context: Context, urls: MutableList<Photo>) {
-            viewImages(context, urls, 1)
+            viewImages(context, urls, 0)
         }
 
         fun viewImage(context: Context, filePath: String) {

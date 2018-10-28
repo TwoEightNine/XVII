@@ -58,8 +58,8 @@ class PinPadView : GridLayout {
 
     companion object {
 
-        val OK = -1
-        val DELETE = -2
+        const val OK = -1
+        const val DELETE = -2
     }
 
 }

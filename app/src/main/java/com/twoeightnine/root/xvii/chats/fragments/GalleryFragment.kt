@@ -58,6 +58,7 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
             initAdapter()
         }
         Style.forFAB(fabDone)
+        Style.forImageView(ivRefresh, Style.MAIN_TAG)
         viewsBind = true
         ivRefresh.setOnClickListener { checkPermissions() }
         if (!permissionHelper.hasStoragePermissions()) {
