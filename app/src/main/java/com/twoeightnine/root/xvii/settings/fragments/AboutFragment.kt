@@ -67,7 +67,7 @@ class AboutFragment : BaseFragment() {
             )
             rootActivity.loadFragment(ChatFragment.newInstance(message))
         }
-        tvRate.setOnClickListener { _ -> rate(context) }
+        tvRate.setOnClickListener { _ -> rate(safeActivity) }
         tvPrivacy.setOnClickListener { _ ->
             rootActivity.loadFragment(WebFragment.newInstance(
                     "file:///android_asset/privacy.html",
@@ -101,7 +101,7 @@ class AboutFragment : BaseFragment() {
 
     private fun showLogDialog() {
         val logs = Lg.logs.joinToString(separator = "\n")
-        val dialog = AlertDialog.Builder(activity)
+        val dialog = AlertDialog.Builder(safeActivity)
                 .setMessage(logs)
                 .setPositiveButton("copy", { _, _ -> copyToClip(logs)})
                 .setNegativeButton("close", null)
@@ -111,7 +111,7 @@ class AboutFragment : BaseFragment() {
     }
 
     private fun showJoinDialog() {
-        val dialog = AlertDialog.Builder(activity)
+        val dialog = AlertDialog.Builder(safeActivity)
                 .setMessage(R.string.join_us)
                 .setPositiveButton(android.R.string.ok, { _, _ -> apiUtils.joinGroup() })
                 .setNegativeButton(android.R.string.cancel, null)

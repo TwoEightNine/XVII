@@ -20,7 +20,7 @@ class LinkAttachmentsFragment : BaseAttachmentsFragment<Link>() {
 
     override fun initAdapter() {
         App.appComponent?.inject(this)
-        adapter = LinkAttachmentsAdapter({ loadMore() }, { simpleUrlIntent(activity, it.url) })
+        adapter = LinkAttachmentsAdapter({ loadMore() }, { simpleUrlIntent(safeActivity, it.url) })
         adapter.setAdapter(lvLinks)
     }
 

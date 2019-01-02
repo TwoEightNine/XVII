@@ -24,16 +24,16 @@ class EmojiPagerAdapter(private var listener: (Emoji) -> Unit) : PagerAdapter() 
         views.add(getView(EmojiHelper.otherRange))
     }
 
-    override fun instantiateItem(container: ViewGroup?, position: Int): Any {
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = views[position]
-        container?.addView(view)
+        container.addView(view)
         return view
     }
 
-    override fun isViewFromObject(view: View?, obj: Any?) = view == obj
+    override fun isViewFromObject(view: View, obj: Any) = view == obj
 
-    override fun destroyItem(container: ViewGroup?, position: Int, obj: Any?) {
-        container?.removeView(obj as View)
+    override fun destroyItem(container: ViewGroup, position: Int, obj: Any) {
+        container.removeView(obj as View)
     }
 
     override fun getPageTitle(position: Int) =

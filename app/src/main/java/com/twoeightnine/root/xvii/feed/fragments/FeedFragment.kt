@@ -48,11 +48,11 @@ class FeedFragment: BaseFragment() {
 
     private fun initAdapter() {
         adapter = FeedAdapter(
-                activity,
+                safeActivity,
                 { loadMore() },
                 ::onClick,
                 ::onLike,
-                screenWidth(activity)
+                screenWidth(safeActivity)
         )
         rvFeed.layoutManager = LinearLayoutManager(activity)
         rvFeed.adapter = adapter

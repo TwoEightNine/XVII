@@ -103,7 +103,7 @@ class ImageUtils(private val activity: Activity) {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 val pckg = "${BuildConfig.APPLICATION_ID}.provider"
-                val photoUri = FileProvider.getUriForFile(activity, pckg, photoFile)
+                val photoUri = FileProvider.getUriForFile(activity, pckg, photoFile!!)
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                 val resInfoList = activity.packageManager.queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY)
                 for (resolveInfo in resInfoList) {

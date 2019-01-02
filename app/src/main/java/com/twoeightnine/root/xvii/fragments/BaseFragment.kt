@@ -1,14 +1,17 @@
 package com.twoeightnine.root.xvii.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.view.*
 import butterknife.BindView
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.managers.Style
 
@@ -21,7 +24,13 @@ open class BaseFragment: Fragment() {
     private var isNew = false
     private var isSearchOpen = false
 
-    protected lateinit var rootActivity: RootActivity
+    protected lateinit var rootActivity: BaseActivity
+
+    protected val safeActivity: FragmentActivity
+        get() = activity ?: throw Exception()
+
+    protected val safeContext: Context
+        get() = context ?: throw Exception()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +43,9 @@ open class BaseFragment: Fragment() {
         isNew = false
     }
 
-    override fun onCreateView(inflater: LayoutInflater?,
+    override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?) = inflater?.inflate(getLayout(), null)
+                              savedInstanceState: Bundle?) = inflater.inflate(getLayout(), null)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,7 +59,7 @@ open class BaseFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        rootActivity = activity as RootActivity
+        rootActivity = activity as BaseActivity
         initToolbar()
         styleScreen()
     }

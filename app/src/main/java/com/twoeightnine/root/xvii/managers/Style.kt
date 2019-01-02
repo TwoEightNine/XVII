@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DialogTitle
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
@@ -242,13 +243,13 @@ object Style {
     fun forDialog(dialog: AlertDialog?) {
         if (dialog == null) return
         val context = App.context
-        dialog.findViewById(R.id.contentPanel)?.setBackgroundColor(ContextCompat.getColor(context, R.color.popup))
-        dialog.findViewById(R.id.buttonPanel)?.setBackgroundColor(ContextCompat.getColor(context, R.color.popup))
-        dialog.findViewById(R.id.topPanel)?.setBackgroundColor(ContextCompat.getColor(context, R.color.popup))
-        (dialog.findViewById(R.id.alertTitle) as DialogTitle).setTextColor(ContextCompat.getColor(context, R.color.main_text))
-        (dialog.findViewById(android.R.id.message) as TextView).setTextColor(ContextCompat.getColor(context, R.color.main_text))
-        (dialog.findViewById(android.R.id.button1) as Button).setTextColor(ContextCompat.getColor(context, R.color.other_text))
-        (dialog.findViewById(android.R.id.button2) as Button).setTextColor(ContextCompat.getColor(context, R.color.other_text))
+        dialog.findViewById<View>(R.id.contentPanel)?.setBackgroundColor(ContextCompat.getColor(context, R.color.popup))
+        dialog.findViewById<View>(R.id.buttonPanel)?.setBackgroundColor(ContextCompat.getColor(context, R.color.popup))
+        dialog.findViewById<View>(R.id.topPanel)?.setBackgroundColor(ContextCompat.getColor(context, R.color.popup))
+        dialog.findViewById<DialogTitle>(R.id.alertTitle)?.setTextColor(ContextCompat.getColor(context, R.color.main_text))
+        dialog.findViewById<TextView>(android.R.id.message)?.setTextColor(ContextCompat.getColor(context, R.color.main_text))
+        dialog.findViewById<Button>(android.R.id.button1)?.setTextColor(ContextCompat.getColor(context, R.color.other_text))
+        dialog.findViewById<Button>(android.R.id.button2)?.setTextColor(ContextCompat.getColor(context, R.color.other_text))
     }
 
     private fun ignore(): Boolean {

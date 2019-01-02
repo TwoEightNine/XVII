@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter
 /**
  * base PagerAdapter, the most common
  */
-class CommonPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+open class CommonPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
     private val fragments = ArrayList<Fragment>()
     private val titles = ArrayList<String>()

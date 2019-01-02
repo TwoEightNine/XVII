@@ -17,13 +17,13 @@ class UserLockBottomSheetBehavior<V : View> : BottomSheetBehavior<V> {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    override fun onInterceptTouchEvent(parent: CoordinatorLayout?,
+    override fun onInterceptTouchEvent(parent: CoordinatorLayout,
                                        child: V,
-                                       event: MotionEvent?) = false
+                                       event: MotionEvent) = false
 
-    override fun onTouchEvent(parent: CoordinatorLayout?,
+    override fun onTouchEvent(parent: CoordinatorLayout,
                               child: V,
-                              event: MotionEvent?) = false
+                              event: MotionEvent) = false
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout,
                                      child: V,

@@ -50,7 +50,7 @@ class StickersFragment: BaseFragment(), Titleable {
     }
 
     fun initAdapter() {
-        adapter = StickerCatAdapter(activity, {
+        adapter = StickerCatAdapter(safeActivity, {
             pack -> loadFragment(StickerGridFragment.newInstance(pack, listener))
         })
         rvStickers.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)

@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.chats.fragments.attach
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
 import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.model.Attachment
+import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -21,7 +23,10 @@ open class BaseAttachFragment<T> : Fragment() {
 
     lateinit protected var adapter: SimplePaginationAdapter<T>
 
-    override fun onCreateView(inflater: LayoutInflater?,
+    protected val safeActivity: FragmentActivity
+        get() = activity ?: throw Exception()
+
+    override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?) = View.inflate(context, getLayout(), null)
 
@@ -30,9 +35,9 @@ open class BaseAttachFragment<T> : Fragment() {
 
     open fun getLayout() = R.layout.activity_root
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ButterKnife.bind(this, view!!)
+        ButterKnife.bind(this, view)
         initAdapter()
         adapter.startLoading()
     }

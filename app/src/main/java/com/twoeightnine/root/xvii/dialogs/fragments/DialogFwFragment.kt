@@ -71,7 +71,7 @@ class DialogFwFragment : BaseFragment(), DialogFwFragmentView {
 
     fun initAdapter() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = DialogsAdapter(activity, { loadMore(it) }, { onClick(it) }, { true })
+        adapter = DialogsAdapter(safeActivity, { loadMore(it) }, { onClick(it) }, { true })
         adapter.trier = { loadMore(adapter.itemCount) }
         recyclerView.adapter = adapter
     }

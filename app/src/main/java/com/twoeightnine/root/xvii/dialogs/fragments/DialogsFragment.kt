@@ -12,6 +12,7 @@ import butterknife.ButterKnife
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
@@ -90,18 +91,18 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
 
     open fun initAdapter() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = DialogsAdapter(activity, { loadMore(it) }, { onClick(it) }, { onLongClick(it) })
+        adapter = DialogsAdapter(safeActivity, { loadMore(it) }, { onClick(it) }, { onLongClick(it) })
         adapter.trier = { loadMore(adapter.itemCount) }
         recyclerView.adapter = adapter
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
-        inflater?.inflate(R.menu.dialog_menu, menu)
-        menu?.findItem(R.id.feed_menu)?.isVisible = equalsDevUids(Session.uid)
-        menu?.findItem(R.id.picturer_menu)?.isVisible = equalsDevUids(Session.uid)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+//        super.onCreateOptionsMenu(menu, inflater)
+//        menu?.clear()
+//        inflater?.inflate(R.menu.dialog_menu, menu)
+//        menu?.findItem(R.id.feed_menu)?.isVisible = equalsDevUids(Session.uid)
+//        menu?.findItem(R.id.picturer_menu)?.isVisible = equalsDevUids(Session.uid)
+//    }
 
     open fun loadMore(offset: Int) {
         if (isOnline()) {
@@ -111,17 +112,19 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
 
     fun onClick(position: Int) {
         if (position !in adapter.items.indices) return
+
+        val message = adapter.items[position]
         if (isForwarded) {
             rootActivity.onBackPressed()
-            rootActivity.loadFragment(ChatFragment.newInstance(adapter.items[position], fwdMessages))
+            ChatActivity.launch(activity, message.userId, message.title ?: "", fwdMessages)
         } else {
-            rootActivity.loadFragment(ChatFragment.newInstance(adapter.items[position]))
+            ChatActivity.launch(activity, message.userId, message.title ?: "")
         }
     }
 
     private fun showRateDialog() {
         try {
-            RateAlertDialog(context).show()
+            RateAlertDialog(safeActivity).show()
         } catch (e: Exception) {
             Lg.wtf("rate dialog ${e.message}")
             e.printStackTrace()
@@ -132,11 +135,11 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
         if (position !in adapter.items.indices) return true
 
         val message = adapter.items[position]
-        getContextPopup(activity, R.layout.popup_dialogs) {
+        getContextPopup(safeActivity, R.layout.popup_dialogs) {
             view ->
             when (view.id) {
 
-                R.id.llDelete -> showDeleteDialog(activity, {
+                R.id.llDelete -> showDeleteDialog(safeActivity, {
                     presenter.deleteDialog(message, position)
                     CacheHelper.deleteDialogAsync(getPeerId(message.userId, message.chatId))
                 })

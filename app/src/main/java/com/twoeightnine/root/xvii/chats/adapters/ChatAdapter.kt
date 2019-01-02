@@ -255,11 +255,11 @@ class ChatAdapter(context: Context,
         return Html.fromHtml(result)
     }
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         //        super.onAttachedToRecyclerView(recyclerView);
-        layoutManager = recyclerView!!.layoutManager
+        layoutManager = recyclerView.layoutManager
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 isAtEnd = lastVisiblePosition() == items.size - 1
                 if (dy >= 0)

@@ -34,7 +34,7 @@ class FriendsOnlineFragment: BaseFragment() {
     }
 
     private fun initAdapter() {
-        adapter = UsersAdapter(activity, { loadMore?.invoke(it) }, {
+        adapter = UsersAdapter(safeActivity, { loadMore?.invoke(it) }, {
             val user = adapter.items[it]
             rootActivity.loadFragment(ProfileFragment.newInstance(user.id))
         })

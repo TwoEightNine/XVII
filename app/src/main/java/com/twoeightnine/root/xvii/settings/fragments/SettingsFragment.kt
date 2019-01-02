@@ -43,7 +43,7 @@ class SettingsFragment: BaseFragment() {
     override fun getLayout() = R.layout.fragment_settings
 
     private fun initAdapter() {
-        adapter = SettingsAdapter(activity)
+        adapter = SettingsAdapter(safeActivity)
         adapter.add(Item(getString(R.string.general), GeneralFragment()))
         adapter.add(Item(getString(R.string.notifications), NotificationsFragment()))
         adapter.add(Item(getString(R.string.appearance), AppearanceFragment()))
@@ -69,7 +69,7 @@ class SettingsFragment: BaseFragment() {
     }
 
     private fun showLogoutDialog() {
-        val dialog = AlertDialog.Builder(activity)
+        val dialog = AlertDialog.Builder(safeActivity)
                 .setMessage(R.string.wanna_logout)
                 .setPositiveButton(android.R.string.ok, { _, _ -> logout() })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -95,15 +95,15 @@ class SettingsFragment: BaseFragment() {
     private fun pin() {
         val pin = Prefs.pin
         if (TextUtils.isEmpty(pin)) {
-            PinActivity.launch(context, PinActivity.ACTION_SET)
+            PinActivity.launch(safeActivity, PinActivity.ACTION_SET)
         } else {
-            val dialog = AlertDialog.Builder(activity)
+            val dialog = AlertDialog.Builder(safeActivity)
                     .setMessage(R.string.have_pin)
                     .setPositiveButton(R.string.edit) { _, _ ->
-                        PinActivity.launch(context, PinActivity.ACTION_EDIT)
+                        PinActivity.launch(safeActivity, PinActivity.ACTION_EDIT)
                     }
                     .setNegativeButton(R.string.reset) { _, _ ->
-                        PinActivity.launch(context, PinActivity.ACTION_RESET)
+                        PinActivity.launch(safeActivity, PinActivity.ACTION_RESET)
                     }
                     .create()
 

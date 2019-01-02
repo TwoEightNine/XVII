@@ -57,7 +57,7 @@ class FriendsAllFragment: BaseFragment(), BaseAdapter.OnMultiSelected {
     }
 
     private fun initAdapter() {
-        adapter = UsersAdapter(activity, { loadMore?.invoke(it) }, ::onClick)
+        adapter = UsersAdapter(safeActivity, { loadMore?.invoke(it) }, ::onClick)
         adapter.multiListener = this
         rvUsers.layoutManager = LinearLayoutManager(activity)
         rvUsers.adapter = adapter

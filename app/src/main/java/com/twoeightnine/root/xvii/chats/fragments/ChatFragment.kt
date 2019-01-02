@@ -185,7 +185,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             presenter.view = this
             presenter.dialog = message
             presenter.initCrypto()
-            presenter.initAttachments(activity, ::onAttachCounterChanged)
+            presenter.initAttachments(safeActivity, ::onAttachCounterChanged)
             presenter.subscribe()
         } catch (e: Exception) {
             Lg.i("bindViews: " + e.message)
@@ -248,11 +248,11 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             onChangeOnline(message.online == 1)
             imut = ImageUtils(rootActivity)
             toolbar?.setOnClickListener {
-                hideKeyboard(activity)
+                hideKeyboard(safeActivity)
                 if (message.chatId == 0 && message.userId > 0) {
-                    rootActivity.loadFragment(ProfileFragment.newInstance(message.userId))
+//                    rootActivity.loadFragment(ProfileFragment.newInstance(message.userId))
                 } else if (message.chatId != 0) {
-                    rootActivity.loadFragment(ChatInfoFragment.newInstance(message))
+//                    rootActivity.loadFragment(ChatInfoFragment.newInstance(message))
                 }
             }
         } catch (e: UninitializedPropertyAccessException) {
@@ -262,14 +262,14 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
     fun initAdapter() {
         adapter = ChatAdapter(
-                activity,
+                safeActivity,
                 ::loadMore,
                 ::onClick,
                 ::onLongClick,
-                { rootActivity.loadFragment(ProfileFragment.newInstance(it)) },
+                { /*rootActivity.loadFragment(ProfileFragment.newInstance(it))*/ },
                 ::onDocDecryptClicked,
-                { apiUtils.showPhoto(context, it.photoId, it.accessKey) },
-                { apiUtils.openVideo(context, it) }
+                { apiUtils.showPhoto(safeActivity, it.photoId, it.accessKey) },
+                { apiUtils.openVideo(safeActivity, it) }
         )
         adapter.trier = { loadMore(adapter.itemCount) }
         adapter.multiListener = this
@@ -280,7 +280,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
         fabHasMore.setOnClickListener { rvChatList.scrollToPosition(adapter.itemCount - 1) }
         rvChatList.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (fabHasMore.visibility != View.VISIBLE &&
@@ -315,7 +315,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun initEmojiKb() {
-        emojiKeyboard = EmojiKeyboard(flContainer, activity, inputController::addEmoji)
+        emojiKeyboard = EmojiKeyboard(flContainer, safeActivity, inputController::addEmoji)
         emojiKeyboard.setSizeForSoftKeyboard()
         emojiKeyboard.onSoftKeyboardOpenCloseListener =
                 object : EmojiKeyboard.OnSoftKeyboardOpenCloseListener {
@@ -341,7 +341,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
     private fun initVoice() {
         voiceController = VoiceRecordingController(
-                rlRecord, tvRecord, context.cacheDir,
+                rlRecord, tvRecord, safeContext.cacheDir,
                 {
                     inputController.addItemAsBeingLoaded(it)
                     presenter.attachVoice(it)
@@ -376,7 +376,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             adapter.clearMultiSelect()
         }
         ivMenuMulti.setOnClickListener { showMultiSelectPopup() }
-        ivForwardMulti.setOnClickListener { rootActivity.loadFragment(DialogFwFragment.newInstance(adapter.multiSelect)) }
+//        ivForwardMulti.setOnClickListener { rootActivity.loadFragment(DialogFwFragment.newInstance(adapter.multiSelect)) }
         ivReplyMulti.setOnClickListener {
             presenter.attachUtils.forwarded = adapter.multiSelect
             adapter.clearMultiSelect()
@@ -400,7 +400,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         if (position !in adapter.items.indices) return true
 
         val message = adapter.items[position]
-        getContextPopup(activity, R.layout.popup_message) {
+        getContextPopup(safeActivity, R.layout.popup_message) {
             when (it.id) {
                 R.id.llCopy -> copyToClip(message.body ?: "")
                 R.id.llEdit -> showEditMessageDialog(message)
@@ -416,7 +416,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                     if (message.isOut && time() - message.date < 3600 * 24) {
                         showDeleteMessagesDialog(callback)
                     } else {
-                        showDeleteDialog(activity, { callback.invoke(false) })
+                        showDeleteDialog(safeActivity, { callback.invoke(false) })
                     }
                 }
                 R.id.llDecrypt -> {
@@ -435,7 +435,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
     private fun showMultiSelectPopup() {
         val selectedList = adapter.multiSelectRaw
-        getContextPopup(activity, R.layout.popup_message_multiselect) {
+        getContextPopup(safeActivity, R.layout.popup_message_multiselect) {
             when (it.id) {
                 R.id.llDecrypt -> {
                     decrypt(selectedList)
@@ -459,7 +459,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun showDeleteMessagesDialog(callback: (Boolean) -> Unit) {
-        val dialog = AlertDialog.Builder(context)
+        val dialog = AlertDialog.Builder(safeContext)
                 .setMessage(R.string.wanna_delete_messages)
                 .setNeutralButton(R.string.delete_for_all) { _, _ -> callback.invoke(true) }
                 .setPositiveButton(R.string.delete_only_for_me) { _, _ -> callback.invoke(false) }
@@ -472,7 +472,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     private fun showEditMessageDialog(message: Message) {
         if (message.isOut && time() - message.date < 3600 * 24) {
             TextInputAlertDialog(
-                    context,
+                    safeContext,
                     getString(R.string.edit_message),
                     message.body ?: "",
                     { presenter.editMessage(message.id, it) }
@@ -485,16 +485,16 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     private fun onDocDecryptClicked(doc: Doc) {
         dialogLoading?.dismiss()
         dialogLoading = LoadingDialog(
-                context,
-                context.getString(R.string.decrypting_image)
+                safeContext,
+                safeContext.getString(R.string.decrypting_image)
         )
         dialogLoading?.show()
-        presenter.decryptDoc(context, doc) {
+        presenter.decryptDoc(safeContext, doc) {
             dialogLoading?.dismiss()
             if (it.isNotEmpty()) {
                 val fileForLog = if (BuildConfig.DEBUG) it else ""
                 Lg.i("show decrypted $fileForLog")
-                ImageViewerActivity.viewImage(context, "file://$it")
+                ImageViewerActivity.viewImage(safeContext, "file://$it")
             } else {
                 showError(context, R.string.invalid_file)
             }
@@ -523,7 +523,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             } else {
                 etInput.isFocusableInTouchMode = true
                 etInput.requestFocus()
-                val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val inputMethodManager = safeContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.showSoftInput(etInput, InputMethodManager
                         .SHOW_IMPLICIT)
                 emojiKeyboard.showAtBottomPending()
@@ -554,7 +554,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 true
             }
             R.id.menu_keys -> {
-                hideKeyboard(activity)
+                hideKeyboard(safeActivity)
                 showKeysDialog()
                 true
             }
@@ -565,13 +565,13 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                         else
                             2000000000 + message.chatId
                 ))
-                hideKeyboard(activity)
+                hideKeyboard(safeActivity)
                 true
             }
             R.id.menu_fingerprint -> {
                 val fingerprint = presenter.crypto.getFingerPrint()
                 val keyType = presenter.crypto.keyType
-                FingerPrintAlertDialog(context, fingerprint, keyType).show()
+                FingerPrintAlertDialog(safeContext, fingerprint, keyType).show()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -579,12 +579,12 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun showKeysDialog() {
-        getContextPopup(activity, R.layout.popup_keys) {
+        getContextPopup(safeActivity, R.layout.popup_keys) {
             when (it.id) {
                 R.id.llRandomKey -> {
                     if (message.chatId == 0 && message.userId > 0 && message.userId < 1000000000) {
                         presenter.isEncrypted = false
-                        activity.invalidateOptionsMenu()
+                        safeActivity.invalidateOptionsMenu()
                         keyGenerationHint()
                     } else {
                         showError(activity, R.string.no_exchg_in_chats)
@@ -601,12 +601,12 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
     private fun showKeyInputDialog() {
         TextInputAlertDialog(
-                activity,
+                safeActivity,
                 getString(R.string.user_key),
                 getString(R.string.secure_length), {
             presenter.setUserKey(it)
             presenter.isEncrypted = true
-            activity.invalidateOptionsMenu()
+            safeActivity.invalidateOptionsMenu()
             showCommon(activity, getString(R.string.key_set))
         }
         ).show()
@@ -620,7 +620,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun showPermissionDialog() {
-        val dialog = AlertDialog.Builder(activity)
+        val dialog = AlertDialog.Builder(safeActivity)
                 .setMessage(R.string.permissions_info)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     requestPermissions(arrayOf(
@@ -633,16 +633,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         dialog.show()
         Style.forDialog(dialog)
     }
-
-    private fun arePermissionsGranted() =
-            Build.VERSION.SDK_INT < 23 ||
-                    ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                            PackageManager.PERMISSION_GRANTED &&
-                            ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                                    PackageManager.PERMISSION_GRANTED &&
-                            ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) ==
-                                    PackageManager.PERMISSION_GRANTED
-
 
     private fun onAttachmentsSelected(attachments: MutableList<Attachment>) {
         attachments.forEach {
@@ -802,7 +792,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun keyGenerationHint() {
-        val alertDialog = AlertDialog.Builder(context)
+        val alertDialog = AlertDialog.Builder(safeContext)
                 .setMessage(R.string.generation_dh_hint)
                 .setPositiveButton(android.R.string.ok, { _, _ -> presenter.startKeyExchange() })
                 .create()
@@ -813,7 +803,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     override fun onKeyGenerating() {
         dialogLoading?.dismiss()
         dialogLoading = LoadingDialog(
-                activity,
+                safeActivity,
                 getString(R.string.generating_keys),
                 false
         )
@@ -834,7 +824,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
     override fun onKeysExchanged() {
         presenter.isEncrypted = true
-        activity.invalidateOptionsMenu()
+        safeActivity.invalidateOptionsMenu()
         showCommon(activity, R.string.key_exchanged)
     }
 

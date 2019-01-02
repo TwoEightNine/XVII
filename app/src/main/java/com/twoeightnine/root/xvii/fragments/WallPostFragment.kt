@@ -103,7 +103,7 @@ class WallPostFragment : BaseFragment() {
                         holder.llContainer.addView(getPhotoWall(
                                 photo!!,
                                 rootActivity,
-                                { apiUtils.showPhoto(activity, it.photoId, it.accessKey) }
+                                { apiUtils.showPhoto(safeActivity, it.photoId, it.accessKey) }
                         ))
                     }
 
@@ -131,7 +131,7 @@ class WallPostFragment : BaseFragment() {
                         holder.llContainer.addView(getVideo(
                                 video!!,
                                 rootActivity,
-                                { apiUtils.openVideo(context, it) }
+                                { apiUtils.openVideo(safeActivity, it) }
                         ))
                     }
                 }

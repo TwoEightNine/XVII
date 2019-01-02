@@ -52,7 +52,7 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
     override fun bindViews(view: View) {
         super.bindViews(view)
         ButterKnife.bind(this, view)
-        imut = ImageUtils(activity)
+        imut = ImageUtils(safeActivity)
         permissionHelper = PermissionHelper(this)
         if (fromSettings) {
             initAdapter()
@@ -135,7 +135,7 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
         val listOfAllImages: MutableList<String> = mutableListOf()
         val uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaColumns.DATE_MODIFIED)
-        val cursor = activity.contentResolver.query(uri, projection, null, null, "${MediaColumns.DATE_MODIFIED} DESC")
+        val cursor = safeActivity.contentResolver.query(uri, projection, null, null, "${MediaColumns.DATE_MODIFIED} DESC")
         val columnIndexData = cursor.getColumnIndexOrThrow(MediaColumns.DATA)
 
         var corrupted = 0

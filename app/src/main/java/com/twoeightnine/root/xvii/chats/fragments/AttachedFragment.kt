@@ -50,8 +50,8 @@ class AttachedFragment: BaseFragment() {
     fun initAdapter() {
         adapter = AttachmentsAdapter(
                 { onRemove(it) },
-                { apiUtils.showPhoto(context, it.photoId, it.accessKey) },
-                { apiUtils.openVideo(context, it) }
+                { apiUtils.showPhoto(context ?: throw Exception(), it.photoId, it.accessKey) },
+                { apiUtils.openVideo(context ?: throw Exception(), it) }
         )
         adapter.add(attachUtils.attachments)
         rlClose.setOnClickListener {

@@ -112,7 +112,7 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
     }
 
     override fun onPhotosLoaded(photos: MutableList<Photo>) {
-        ImageViewerActivity.viewImages(activity, photos)
+        ImageViewerActivity.viewImages(safeActivity, photos)
     }
 
     override fun onFoafLoaded(date: String) {
@@ -149,15 +149,15 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
             add(R.string.city, user.city?.title)
         }
         add(R.string.hometown, user.hometown)
-        add(R.string.relation, getRelation(activity, user.relation ?: 0))
+        add(R.string.relation, getRelation(safeActivity, user.relation ?: 0))
         add(R.string.mphone, user.mobilePhone,
-                { callIntent(activity, user.mobilePhone ?: "") },
+                { callIntent(safeActivity, user.mobilePhone ?: "") },
                 {
                     copy(user.mobilePhone, R.string.mphone)
                     true
                 })
         add(R.string.hphone, user.homePhone,
-                { callIntent(activity, user.homePhone ?: "") },
+                { callIntent(safeActivity, user.homePhone ?: "") },
                 {
                     copy(user.homePhone, R.string.hphone)
                     true
@@ -192,7 +192,7 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
     }
 
     private fun goTo(url: String?) {
-        simpleUrlIntent(activity, url ?: return)
+        simpleUrlIntent(safeActivity, url ?: return)
     }
 
     private fun add(@StringRes title: Int,

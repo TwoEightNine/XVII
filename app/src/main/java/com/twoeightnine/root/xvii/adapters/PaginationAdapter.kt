@@ -26,11 +26,11 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
     var isDone: Boolean = false
     protected var layoutManager: RecyclerView.LayoutManager? = null
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        layoutManager = recyclerView!!.layoutManager
+        layoutManager = recyclerView.layoutManager
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy <= 0)
                     return

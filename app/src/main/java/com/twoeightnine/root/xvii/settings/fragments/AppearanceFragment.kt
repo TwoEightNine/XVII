@@ -65,7 +65,7 @@ class AppearanceFragment : BaseFragment() {
         currentColor = colorBefore
         initViews()
         applyColors()
-        imut = ImageUtils(activity)
+        imut = ImageUtils(safeActivity)
         Style.forImageView(ivPreview, Style.MAIN_TAG)
         Style.forSwitch(night)
         Style.forViewGroupColor(rlHideBottom)
@@ -144,7 +144,7 @@ class AppearanceFragment : BaseFragment() {
 
     private fun showDialog() {
         if (Prefs.chatBack.isNotEmpty()) {
-            val dialog = AlertDialog.Builder(context)
+            val dialog = AlertDialog.Builder(safeActivity)
                     .setMessage(R.string.chat_back_exists)
                     .setPositiveButton(R.string.change) { _, _ -> openGallery() }
                     .setNegativeButton(R.string.delete) { _, _ -> deletePhoto() }
@@ -162,7 +162,7 @@ class AppearanceFragment : BaseFragment() {
     }
 
     private fun convertPhoto(path: String) {
-        val newPath = getCroppedImagePath(activity, path)
+        val newPath = getCroppedImagePath(safeActivity, path)
         Prefs.chatBack = newPath
         hideDialog(newPath)
     }

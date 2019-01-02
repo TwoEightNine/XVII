@@ -79,7 +79,7 @@ class ChatInfoFragment: BaseFragment(), ChatInfoFragmentView {
     }
 
     fun initAdapter() {
-        adapter = UsersAdapter(activity, {}, {
+        adapter = UsersAdapter(safeActivity, {}, {
             val user = adapter.items[it]
             rootActivity.loadFragment(ProfileFragment.newInstance(user.id))
         })

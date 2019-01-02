@@ -29,7 +29,7 @@ class EmojiFragment: Fragment() {
     private lateinit var listener: (Emoji) -> Unit
     private val emojis = mutableListOf<Emoji>()
 
-    override fun onCreateView(inflater: LayoutInflater?,
+    override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?) = View.inflate(activity, R.layout.fragment_emoji, null)
 

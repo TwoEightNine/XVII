@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/flContainer"
-    android:background="@color/background"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    <include layout="@layout/toolbar" />
+    <!--<include layout="@layout/toolbar" />-->
 
     <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
-        android:layout_marginTop="?actionBarSize"
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,11 +19,11 @@
 
     </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
-    <com.miguelcatalan.materialsearchview.MaterialSearchView
-        android:elevation="5dp"
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize" />
+    <!--<com.miguelcatalan.materialsearchview.MaterialSearchView-->
+    <!--android:elevation="5dp"-->
+    <!--android:id="@+id/searchView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="?actionBarSize" />-->
 
 
 </RelativeLayout>

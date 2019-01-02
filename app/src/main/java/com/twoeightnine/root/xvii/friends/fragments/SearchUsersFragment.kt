@@ -51,9 +51,9 @@ class SearchUsersFragment: BaseFragment(), SearchUsersFragmentView {
     }
 
     private fun initAdapter() {
-        adapter = UsersAdapter(activity, { loadMore(it) }, {
+        adapter = UsersAdapter(safeActivity, { loadMore(it) }, {
             val user = adapter.items[it]
-            hideKeyboard(activity)
+            hideKeyboard(safeActivity)
             rootActivity.loadFragment(ProfileFragment.newInstance(user.id))
         })
         rvUsers.layoutManager = LinearLayoutManager(activity)
@@ -93,10 +93,11 @@ class SearchUsersFragment: BaseFragment(), SearchUsersFragmentView {
 
             override fun onSearchViewShown() {}
         })
-        searchView.post {
-            searchView.showSearch()
-            searchView.showKeyboard(searchView)
-        }
+        searchView.clearFocus()
+//        searchView.post {
+//            searchView.showSearch()
+//            searchView.showKeyboard(searchView)
+//        }
     }
 
     private fun loadMore(offset: Int = 0) {

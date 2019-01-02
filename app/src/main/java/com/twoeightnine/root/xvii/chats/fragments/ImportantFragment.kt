@@ -48,13 +48,13 @@ class ImportantFragment: BaseFragment(), ImportantFragmentView {
     fun initAdapter() {
         rvImportant.layoutManager = LinearLayoutManager(activity)
         adapter = ChatAdapter(
-                activity,
+                safeActivity,
                 { presenter.loadHistory(it) },
                 {}, ::onLongClick,
                 { rootActivity.loadFragment(ProfileFragment.newInstance(it)) },
                 {},
-                { apiUtils.showPhoto(context, it.photoId, it.accessKey) },
-                { apiUtils.openVideo(context, it) },
+                { apiUtils.showPhoto(safeContext, it.photoId, it.accessKey) },
+                { apiUtils.openVideo(safeContext, it) },
                 true
         )
         val llm = LinearLayoutManager(activity)
@@ -67,10 +67,10 @@ class ImportantFragment: BaseFragment(), ImportantFragmentView {
         if (position !in adapter.items.indices) return true
 
         val message = adapter.items[position]
-        getContextPopup(activity, R.layout.popup_important, {
+        getContextPopup(safeActivity, R.layout.popup_important, {
             when (it.id) {
                 R.id.llCopy -> copyToClip(message.body ?: "")
-                R.id.llDelete -> showDeleteDialog(activity, { presenter.deleteMessages(mutableListOf(message.id)) })
+                R.id.llDelete -> showDeleteDialog(safeActivity, { presenter.deleteMessages(mutableListOf(message.id)) })
                 R.id.llForward -> rootActivity.loadFragment(DialogFwFragment.newInstance("${message.id}"))
             }
         }).show()

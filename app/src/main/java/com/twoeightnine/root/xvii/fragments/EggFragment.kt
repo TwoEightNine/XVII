@@ -25,7 +25,7 @@ class EggFragment: BaseFragment() {
         super.bindViews(view)
         ButterKnife.bind(this, view)
         val scale = 500f / 335f
-        val width = screenWidth(activity)
+        val width = screenWidth(safeActivity)
         val height = (width / scale).toInt()
         Picasso.with(activity)
                 .load("https://s-media-cache-ak0.pinimg.com/originals/22/6e/f8/226ef80405ed0da0b726c13d4a0bc9a1.jpg")

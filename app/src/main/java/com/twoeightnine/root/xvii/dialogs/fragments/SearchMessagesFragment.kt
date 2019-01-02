@@ -60,7 +60,7 @@ class SearchMessagesFragment: BaseFragment(), SearchMessagesFragmentView {
 
     fun initAdapter() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = SearchMessagesAdapter(activity, { loadMore(it) }, { onClick(it) }, { onLongClick(it) })
+        adapter = SearchMessagesAdapter(safeActivity, { loadMore(it) }, { onClick(it) }, { onLongClick(it) })
         recyclerView.adapter = adapter
     }
 
@@ -127,7 +127,7 @@ class SearchMessagesFragment: BaseFragment(), SearchMessagesFragmentView {
     }
 
     fun onClick(position: Int) {
-        hideKeyboard(activity)
+        hideKeyboard(safeActivity)
         rootActivity.loadFragment(ChatFragment.newInstance(adapter.items[position]))
     }
 

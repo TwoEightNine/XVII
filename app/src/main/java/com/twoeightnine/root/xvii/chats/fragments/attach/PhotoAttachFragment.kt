@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.utils.subscribeSmart
+import java.lang.Exception
 
 class PhotoAttachFragment : BaseAttachFragment<Photo>(), SimpleAdapter.OnMultiSelected {
 
@@ -45,7 +46,7 @@ class PhotoAttachFragment : BaseAttachFragment<Photo>(), SimpleAdapter.OnMultiSe
         }
         fabDne.hide()
         adapter = PhotoAttachmentsAdapter(
-                activity,
+                safeActivity,
                 { load() },
                 {
                     adapter.multiSelect(it)

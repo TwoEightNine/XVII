@@ -1,17 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
-def appCompat = "25.0.1"
+def appCompat = "28.0.0"
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion appCompat
     defaultConfig {
         applicationId "com.twoeightnine.root.xvii"
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion 21
+        targetSdkVersion 28
         versionCode 90
         versionName "4.8.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -26,7 +27,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '28.0.3'
 }
 
 dependencies {
@@ -38,7 +39,7 @@ dependencies {
     compile "com.android.support:design:$appCompat"
     compile "com.android.support:recyclerview-v7:$appCompat"
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     compile "com.jakewharton:butterknife:$butterKnifeVersion"
     kapt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 
@@ -71,6 +72,10 @@ dependencies {
 kapt {
     generateStubs = true
 }
+
+//androidExtensions {
+//    experimental = true
+//}
 
 repositories {
     mavenCentral()

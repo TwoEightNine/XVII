@@ -83,7 +83,7 @@ class VoiceRecordFragment: BaseFragment(), Titleable {
             tvTime.text = cntDnToTime(l)
             if (!almostOver && l < warnOver) {
                 almostOver = true
-                tvTime.setTextColor(ContextCompat.getColor(context, R.color.error))
+                tvTime.setTextColor(ContextCompat.getColor(safeContext, R.color.error))
             }
         }
 

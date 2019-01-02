@@ -76,6 +76,7 @@
 
         <activity android:name=".activities.TestLandscapeActivity"
             android:screenOrientation="landscape" />
+        <activity android:name=".chats.ChatActivity" />
     </application>
 
 </manifest>

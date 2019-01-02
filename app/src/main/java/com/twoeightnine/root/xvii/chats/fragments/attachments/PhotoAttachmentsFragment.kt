@@ -22,9 +22,9 @@ class PhotoAttachmentsFragment : BaseAttachmentsFragment<Photo>() {
         fabDone.visibility = View.GONE
         App.appComponent?.inject(this)
         adapter = PhotoAttachmentsAdapter(
-                context,
+                safeActivity,
                 { loadMore() },
-                { apiUtils.showPhoto(activity, it.photoId, it.accessKey) }
+                { apiUtils.showPhoto(safeActivity, it.photoId, it.accessKey) }
         )
         adapter.setAdapter(gvPhotos)
     }

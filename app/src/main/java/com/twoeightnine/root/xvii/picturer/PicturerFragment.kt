@@ -108,11 +108,11 @@ class PicturerFragment : BaseFragment(), PicturerView {
 
     private fun onImageClick(pos: Int) {
         if (selected) {
-            ImageViewerActivity.viewImages(context, photos.map { it!! }.toMutableList(), pos)
+            ImageViewerActivity.viewImages(safeActivity, photos.map { it!! }.toMutableList(), pos)
         } else {
             val url = photos[pos]?.maxPhoto
             if (checkbox.isChecked && url != null) {
-                downloadFile(context, url, getNameFromUrl(url), DownloadFileAsyncTask.PIC, {
+                downloadFile(safeActivity, url, getNameFromUrl(url), DownloadFileAsyncTask.PIC, {
                     showCommon(context, "Downloaded!")
                 })
             }

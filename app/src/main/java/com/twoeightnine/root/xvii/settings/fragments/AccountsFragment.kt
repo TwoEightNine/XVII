@@ -71,7 +71,7 @@ class AccountsFragment: BaseFragment() {
             if (account.token == Session.token) {
                 showError(activity, R.string.cannot_delete_acc)
             } else {
-                showDeleteDialog(activity, { deleteAccount(i) })
+                showDeleteDialog(safeActivity, { deleteAccount(i) })
             }
             true
         }

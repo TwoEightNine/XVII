@@ -84,7 +84,7 @@ class BottomSheetHelper(private var bottomSheet: RelativeLayout,
         try {
             fragmentManager
                     .beginTransaction()
-                    .remove(fragmentManager.findFragmentById(container))
+                    .remove(fragmentManager.findFragmentById(container)!!)
                     .commit()
         } catch (e: Exception) {
             e.printStackTrace()

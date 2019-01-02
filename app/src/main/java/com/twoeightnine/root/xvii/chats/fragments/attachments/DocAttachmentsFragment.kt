@@ -20,7 +20,7 @@ class DocAttachmentsFragment : BaseAttachmentsFragment<Doc>() {
 
     override fun initAdapter() {
         App.appComponent?.inject(this)
-        adapter = DocAttachmentsAdapter({ loadMore() }, { simpleUrlIntent(context, it.url ?: "") })
+        adapter = DocAttachmentsAdapter({ loadMore() }, { simpleUrlIntent(safeActivity, it.url ?: "") })
         lvDocs.adapter = adapter
     }
 

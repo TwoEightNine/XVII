@@ -10,6 +10,7 @@ import android.support.v4.content.PermissionChecker
 import android.support.v7.app.AlertDialog
 import android.util.SparseArray
 import com.twoeightnine.root.xvii.managers.Style
+import java.lang.Exception
 
 class PermissionHelper {
 
@@ -28,7 +29,7 @@ class PermissionHelper {
         this.activity = activity
     }
 
-    constructor(fragment: Fragment) : this(fragment.activity) {
+    constructor(fragment: Fragment) : this(fragment.activity ?: throw Exception()) {
         this.fragment = fragment
     }
 
