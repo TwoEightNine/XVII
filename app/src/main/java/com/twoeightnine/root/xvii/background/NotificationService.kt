@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
@@ -278,6 +279,7 @@ class NotificationService : Service() {
                 .setSmallIcon(R.drawable.ic_message)
                 .setContentTitle(title)
                 .setContentText(Html.fromHtml(content))
+                .setLights(Color.RED, 500, 500)
                 .setContentIntent(pIntent)
 
         val mNotifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
