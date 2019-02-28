@@ -24,7 +24,7 @@ open class BaseFragment: Fragment() {
     private var isNew = false
     private var isSearchOpen = false
 
-    protected lateinit var rootActivity: BaseActivity
+    protected lateinit var rootActivity: RootActivity
 
     protected val safeActivity: FragmentActivity
         get() = activity ?: throw Exception()
@@ -59,7 +59,7 @@ open class BaseFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        rootActivity = activity as BaseActivity
+        rootActivity = activity as RootActivity
         initToolbar()
         styleScreen()
     }

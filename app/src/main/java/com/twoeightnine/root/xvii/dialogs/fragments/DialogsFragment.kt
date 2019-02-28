@@ -12,7 +12,6 @@ import butterknife.ButterKnife
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
@@ -96,13 +95,13 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
         recyclerView.adapter = adapter
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-//        super.onCreateOptionsMenu(menu, inflater)
-//        menu?.clear()
-//        inflater?.inflate(R.menu.dialog_menu, menu)
-//        menu?.findItem(R.id.feed_menu)?.isVisible = equalsDevUids(Session.uid)
-//        menu?.findItem(R.id.picturer_menu)?.isVisible = equalsDevUids(Session.uid)
-//    }
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu?.clear()
+        inflater?.inflate(R.menu.dialog_menu, menu)
+        menu?.findItem(R.id.feed_menu)?.isVisible = equalsDevUids(Session.uid)
+        menu?.findItem(R.id.picturer_menu)?.isVisible = equalsDevUids(Session.uid)
+    }
 
     open fun loadMore(offset: Int) {
         if (isOnline()) {
@@ -112,13 +111,11 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
 
     fun onClick(position: Int) {
         if (position !in adapter.items.indices) return
-
-        val message = adapter.items[position]
         if (isForwarded) {
             rootActivity.onBackPressed()
-            ChatActivity.launch(activity, message.userId, message.title ?: "", fwdMessages)
+            rootActivity.loadFragment(ChatFragment.newInstance(adapter.items[position], fwdMessages))
         } else {
-            ChatActivity.launch(activity, message.userId, message.title ?: "")
+            rootActivity.loadFragment(ChatFragment.newInstance(adapter.items[position]))
         }
     }
 

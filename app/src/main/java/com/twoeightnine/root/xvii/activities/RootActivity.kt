@@ -4,10 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.NavigationView
-import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
-import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
@@ -20,11 +18,9 @@ import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.DrawerAdapter
-import com.twoeightnine.root.xvii.adapters.RootPagerAdapter
 import com.twoeightnine.root.xvii.background.LongPollService
 import com.twoeightnine.root.xvii.background.MediaPlayerAsyncTask
 import com.twoeightnine.root.xvii.background.NotificationService
-import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.fragments.BaseFragment
@@ -38,7 +34,6 @@ import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.LockableViewPager
 import com.twoeightnine.root.xvii.views.PinAlertDialog
 import de.hdodenhof.circleimageview.CircleImageView
 import javax.inject.Inject
@@ -52,21 +47,31 @@ class RootActivity : BaseActivity() {
 
         var player: MediaPlayerAsyncTask? = null
 
-        const val USER_ID = "userId"
-        const val TITLE = "title"
+        val USER_ID = "userId"
+        val TITLE = "title"
 
-        const val DIALOGS: String = "DialogsFragment"
-        const val FRIENDS: String = "FriendsFragment"
-        const val SETTINGS: String = "SettingsFragment"
-        const val PROFILE: String = "ProfileFragment"
-        const val CHAT: String = "ChatFragment"
+        val DIALOGS: String = "DialogsFragment"
+        val FRIENDS: String = "FriendsFragment"
+        val SETTINGS: String = "SettingsFragment"
+        val PROFILE: String = "ProfileFragment"
+        val CHAT: String = "ChatFragment"
 
     }
 
-    @BindView(R.id.viewPager)
-    lateinit var viewPager: LockableViewPager
-    @BindView(R.id.tabs)
-    lateinit var tabs: TabLayout
+    @BindView(R.id.flContainer)
+    lateinit var flContainer: FrameLayout
+    @BindView(R.id.dlRoot)
+    lateinit var dlRoot: DrawerLayout
+    @BindView(R.id.navigationView)
+    lateinit var navigationView: NavigationView
+    @BindView(R.id.llDrawer)
+    lateinit var llDrawer: LinearLayout
+    @BindView(R.id.civAvatar)
+    lateinit var civAvatar: CircleImageView
+    @BindView(R.id.tvFullName)
+    lateinit var tvFullName: TextView
+    @BindView(R.id.lvDrawer)
+    lateinit var lvDrawer: ListView
 
     @Inject
     lateinit var apiUtils: ApiUtils
@@ -76,63 +81,61 @@ class RootActivity : BaseActivity() {
         setContentView(R.layout.activity_root)
         ButterKnife.bind(this)
         App.appComponent?.inject(this)
-        initFragments()
-//        initDrawer()
-//        loadFragment(DialogsFragment.newInstance())
-        val extras = intent.extras
-        if (extras != null && extras.getInt(USER_ID) != 0) {
-            val userId = extras.getInt(USER_ID)
-            val title = extras.getString(TITLE) ?: ""
-            ChatActivity.launch(this, userId, title)
+        initDrawer()
+        loadFragment(DialogsFragment.newInstance())
+        if (intent.extras != null && intent.extras.getInt(USER_ID) != 0) {
+            val userId = intent.extras.getInt(USER_ID)
+            val title = intent.extras.getString(TITLE)
+            val message = Message(
+                    0, 0, userId, 0, 0, title, "", null
+            )
+            if (userId > 2000000000) {
+                message.chatId = userId - 2000000000
+            }
+            loadFragment(ChatFragment.newInstance(message))
+            Lg.i("open chat ${intent.extras.getInt(USER_ID)}")
         }
-//        styleScreen(flContainer)
+        styleScreen(flContainer)
         Handler().postDelayed({ startNotificationService(this) }, 5000L)
         removeNotification(this)
         apiUtils.trackVisitor()
     }
 
-    private fun initFragments() {
-        viewPager.isLocked = true
-        viewPager.adapter = RootPagerAdapter(supportFragmentManager)
-        tabs.setupWithViewPager(viewPager, true)
-
+    private fun initDrawer() {
+        val toggle = ActionBarDrawerToggle(
+                this, dlRoot, R.string.about_app, R.string.about_app)
+        dlRoot.setDrawerListener(toggle)
+        toggle.syncState()
+        val adapter = DrawerAdapter()
+        adapter.add(DrawerItem(getString(R.string.dialogs), R.drawable.ic_dialogs))
+        adapter.add(DrawerItem(getString(R.string.fiends), R.drawable.ic_friends))
+        adapter.add(DrawerItem(getString(R.string.settings), R.drawable.ic_settings))
+        lvDrawer.adapter = adapter
+        lvDrawer.setOnItemClickListener { _, _, i, _ ->
+            val item = adapter.getItem(i)
+            when (item.resId) {
+                R.drawable.ic_friends -> loadFragment(FriendsFragment.newInstance(), true)
+                R.drawable.ic_settings -> loadFragment(SettingsFragment.newInstance(), true)
+                R.drawable.ic_dialogs -> loadFragment(DialogsFragment.newInstance(), true)
+            }
+            hideKeyboard(this)
+            dlRoot.closeDrawer(GravityCompat.START)
+        }
+        if (Prefs.isNight) {
+            navigationView.setBackgroundColor(Style.getFromMain()[1])
+        }
+        initUser()
     }
 
-//    private fun initDrawer() {
-//        val toggle = ActionBarDrawerToggle(
-//                this, dlRoot, R.string.about_app, R.string.about_app)
-//        dlRoot.setDrawerListener(toggle)
-//        toggle.syncState()
-//        val adapter = DrawerAdapter()
-//        adapter.add(DrawerItem(getString(R.string.dialogs), R.drawable.ic_dialogs))
-//        adapter.add(DrawerItem(getString(R.string.fiends), R.drawable.ic_friends))
-//        adapter.add(DrawerItem(getString(R.string.settings), R.drawable.ic_settings))
-//        lvDrawer.adapter = adapter
-//        lvDrawer.setOnItemClickListener { _, _, i, _ ->
-//            val item = adapter.getItem(i)
-//            when (item.resId) {
-//                R.drawable.ic_friends -> loadFragment(FriendsFragment.newInstance(), true)
-//                R.drawable.ic_settings -> loadFragment(SettingsFragment.newInstance(), true)
-//                R.drawable.ic_dialogs -> loadFragment(DialogsFragment.newInstance(), true)
-//            }
-//            hideKeyboard(this)
-////            dlRoot.closeDrawer(GravityCompat.START)
-//        }
-////        if (Prefs.isNight) {
-////            navigationView.setBackgroundColor(Style.getFromMain()[1])
-////        }
-////        initUser()
-//    }
-
-//    private fun initUser() {
-//        tvFullName.text = Session.fullName
-//        civAvatar.loadPhoto(Session.photo)
-//        civAvatar.setOnClickListener {
-//            loadFragment(ProfileFragment.newInstance(Session.uid))
-//            hideKeyboard(this)
-//            dlRoot.closeDrawer(GravityCompat.START)
-//        }
-//    }
+    private fun initUser() {
+        tvFullName.text = Session.fullName
+        civAvatar.loadPhoto(Session.photo)
+        civAvatar.setOnClickListener {
+            loadFragment(ProfileFragment.newInstance(Session.uid))
+            hideKeyboard(this)
+            dlRoot.closeDrawer(GravityCompat.START)
+        }
+    }
 
     /**
      * different logic for keeping DialogFragment always in the back stack
@@ -200,33 +203,33 @@ class RootActivity : BaseActivity() {
      *  - go home (never actually close)
      */
     override fun onBackPressed() {
-//        if (dlRoot.isDrawerOpen(GravityCompat.START)) {
-//            dlRoot.closeDrawer(GravityCompat.START)
-//        } else if (supportFragmentManager.backStackEntryCount > 0) {
-//            val topFrag = supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount - 1]
-//            if (topFrag is BaseFragment && topFrag.onBackPressed()) {
-//                return
-//            } else if (supportFragmentManager.backStackEntryCount > 1) {
-//                supportFragmentManager.popBackStack()
-//            } else {
-//                val intent = Intent(Intent.ACTION_MAIN)
-//                intent.addCategory(Intent.CATEGORY_HOME)
-//                startActivity(intent)
-//            }
-//        } else {
+        if (dlRoot.isDrawerOpen(GravityCompat.START)) {
+            dlRoot.closeDrawer(GravityCompat.START)
+        } else if (supportFragmentManager.backStackEntryCount > 0) {
+            val topFrag = supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount - 1]
+            if (topFrag is BaseFragment && topFrag.onBackPressed()) {
+                return
+            } else if (supportFragmentManager.backStackEntryCount > 1) {
+                supportFragmentManager.popBackStack()
+            } else {
+                val intent = Intent(Intent.ACTION_MAIN)
+                intent.addCategory(Intent.CATEGORY_HOME)
+                startActivity(intent)
+            }
+        } else {
             val intent = Intent(Intent.ACTION_MAIN)
             intent.addCategory(Intent.CATEGORY_HOME)
             startActivity(intent)
-//        }
+        }
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            android.R.id.home -> {
-//                dlRoot.openDrawer(GravityCompat.START)
-//                true
-//            }
-//            else -> false
-//        }
-//    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                dlRoot.openDrawer(GravityCompat.START)
+                true
+            }
+            else -> false
+        }
+    }
 }
