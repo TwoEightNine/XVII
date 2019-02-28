@@ -16,7 +16,8 @@ import com.twoeightnine.root.xvii.managers.Style
 class TextInputAlertDialog(context: Context,
                            var title: String,
                            hint: String,
-                           var listener: ((String) -> Unit)?,
+                           presetText: String = "",
+                           var listener: ((String) -> Unit)? = null,
                            stylize: Boolean = true,
                            useFilter: Boolean = false): AlertDialog(context) {
 
@@ -36,6 +37,7 @@ class TextInputAlertDialog(context: Context,
         }
         tvTitle.text = title
         etInput.hint = hint
+        etInput.setText(presetText)
         if (useFilter) {
             val filter = object : InputFilter {
                 override fun filter(source: CharSequence?, start: Int, end: Int, p3: Spanned?, p4: Int, p5: Int): CharSequence? {

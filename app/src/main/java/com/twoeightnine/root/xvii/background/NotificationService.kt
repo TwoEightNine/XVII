@@ -279,7 +279,7 @@ class NotificationService : Service() {
                 .setSmallIcon(R.drawable.ic_message)
                 .setContentTitle(title)
                 .setContentText(Html.fromHtml(content))
-                .setLights(Color.RED, 500, 500)
+                .setLights(Color.GRAY, 500, 500)
                 .setContentIntent(pIntent)
 
         val mNotifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

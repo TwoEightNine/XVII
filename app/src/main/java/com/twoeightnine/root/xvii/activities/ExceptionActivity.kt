@@ -53,7 +53,7 @@ class ExceptionActivity : AppCompatActivity() {
         val dialog = TextInputAlertDialog(
                 this,
                 getString(R.string.describe_actions),
-                getString(R.string.describe_hint),
+                getString(R.string.describe_hint), "",
                 { sendError("CRASH REPORT:\n$it\n\n$error") },
                 false
                 )

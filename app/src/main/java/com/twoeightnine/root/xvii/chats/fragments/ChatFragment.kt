@@ -473,7 +473,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         if (message.isOut && time() - message.date < 3600 * 24) {
             TextInputAlertDialog(
                     safeContext,
-                    getString(R.string.edit_message),
+                    getString(R.string.edit_message), "",
                     message.body ?: "",
                     { presenter.editMessage(message.id, it) }
             ).show()
@@ -603,7 +603,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         TextInputAlertDialog(
                 safeActivity,
                 getString(R.string.user_key),
-                getString(R.string.secure_length), {
+                getString(R.string.secure_length), "", {
             presenter.setUserKey(it)
             presenter.isEncrypted = true
             safeActivity.invalidateOptionsMenu()
@@ -659,8 +659,8 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         bottomSheet.close()
     }
 
-    private fun getDecrypted(text: String?)
-            = getString(R.string.decrypted, presenter.crypto.decrypt(text ?: ""))
+    private fun getDecrypted(text: String?) = getString(R.string.decrypted, presenter.crypto.decrypt(text
+            ?: ""))
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
