@@ -36,6 +36,7 @@ import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
 import com.twoeightnine.root.xvii.chats.BottomSheetController
 import com.twoeightnine.root.xvii.chats.ChatInputController
+import com.twoeightnine.root.xvii.chats.VoiceRecorder
 import com.twoeightnine.root.xvii.chats.VoiceRecordingController
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
 import com.twoeightnine.root.xvii.chats.adapters.ChatPagerAdapter
@@ -143,7 +144,8 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     private lateinit var pagerAdapter: CommonPagerAdapter
     private lateinit var bottomSheet: BottomSheetController<RelativeLayout>
     private lateinit var inputController: ChatInputController
-    private lateinit var voiceController: VoiceRecordingController
+    //    private lateinit var voiceController: VoiceRecordingController
+    private lateinit var voiceController: VoiceRecorder
     private lateinit var adapter: ChatAdapter
     private lateinit var emojiKeyboard: EmojiKeyboard
     private lateinit var permissionHelper: PermissionHelper
@@ -211,14 +213,12 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         if (fwdMessages.isNotEmpty()) {
             handler.postDelayed({ presenter.attachUtils.forwarded = fwdMessages }, 1000L)
         }
-        if (Build.VERSION.SDK_INT >= 16) {
-            if (Prefs.chatBack.isNotEmpty()) {
-                try {
-                    flContainer.backgroundImage = Drawable.createFromPath(Prefs.chatBack)
-                } catch (e: Exception) {
-                    Prefs.chatBack = ""
-                    showError(activity, e.message ?: "background not found")
-                }
+        if (Prefs.chatBack.isNotEmpty()) {
+            try {
+                flContainer.backgroundImage = Drawable.createFromPath(Prefs.chatBack)
+            } catch (e: Exception) {
+                Prefs.chatBack = ""
+                showError(activity, e.message ?: "background not found")
             }
         }
         permissionHelper = PermissionHelper(this)
@@ -250,9 +250,9 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             toolbar?.setOnClickListener {
                 hideKeyboard(safeActivity)
                 if (message.chatId == 0 && message.userId > 0) {
-//                    rootActivity.loadFragment(ProfileFragment.newInstance(message.userId))
+                    rootActivity.loadFragment(ProfileFragment.newInstance(message.userId))
                 } else if (message.chatId != 0) {
-//                    rootActivity.loadFragment(ChatInfoFragment.newInstance(message))
+                    rootActivity.loadFragment(ChatInfoFragment.newInstance(message))
                 }
             }
         } catch (e: UninitializedPropertyAccessException) {
@@ -266,7 +266,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 ::loadMore,
                 ::onClick,
                 ::onLongClick,
-                { /*rootActivity.loadFragment(ProfileFragment.newInstance(it))*/ },
+                { rootActivity.loadFragment(ProfileFragment.newInstance(it)) },
                 ::onDocDecryptClicked,
                 { apiUtils.showPhoto(safeActivity, it.photoId, it.accessKey) },
                 { apiUtils.openVideo(safeActivity, it) }
@@ -340,14 +340,32 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun initVoice() {
-        voiceController = VoiceRecordingController(
-                rlRecord, tvRecord, safeContext.cacheDir,
-                {
-                    inputController.addItemAsBeingLoaded(it)
-                    presenter.attachVoice(it)
-                },
-                { showError(context, it) }
-        )
+//        voiceController = VoiceRecordingController(
+//                rlRecord, tvRecord, safeContext.cacheDir,
+//                {
+//                    inputController.addItemAsBeingLoaded(it)
+//                    presenter.attachVoice(it)
+//                },
+//                { showError(context, it) }
+//        )
+        voiceController = VoiceRecorder(safeContext, object : VoiceRecorder.RecorderCallback {
+            override fun onVisibilityChanged(visible: Boolean) {
+                rlRecord.visibility = if (visible) View.VISIBLE else View.GONE
+            }
+
+            override fun onTimeUpdated(time: Int) {
+                tvRecord.text = secToTime(time)
+            }
+
+            override fun onRecorded(fileName: String) {
+                inputController.addItemAsBeingLoaded(fileName)
+                presenter.attachVoice(fileName)
+            }
+
+            override fun onError(error: String) {
+                showError(context, error)
+            }
+        })
     }
 
     private fun initInput() {
@@ -365,7 +383,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                         voiceController.startRecording()
                     }
                 },
-                { voiceController.stopRecording(!it) },
+                { voiceController.stopRecording(it) },
                 { bottomSheet.open() },
                 { presenter.setTyping() }
         )
@@ -376,7 +394,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             adapter.clearMultiSelect()
         }
         ivMenuMulti.setOnClickListener { showMultiSelectPopup() }
-//        ivForwardMulti.setOnClickListener { rootActivity.loadFragment(DialogFwFragment.newInstance(adapter.multiSelect)) }
+        ivForwardMulti.setOnClickListener { rootActivity.loadFragment(DialogFwFragment.newInstance(adapter.multiSelect)) }
         ivReplyMulti.setOnClickListener {
             presenter.attachUtils.forwarded = adapter.multiSelect
             adapter.clearMultiSelect()

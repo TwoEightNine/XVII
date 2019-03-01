@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import com.twoeightnine.root.xvii.views.emoji.Emoji
+import kotlin.math.abs
 
 /**
  * Created by msnthrp on 17/01/18.
@@ -97,33 +98,52 @@ class ChatInputController(private val ivSend: ImageView,
         ivMic.visibility = View.VISIBLE
     }
 
+    /**
+     * invokes end of recording
+     * supports cancelling by swipe
+     */
     private inner class MicTouchListener : View.OnTouchListener {
 
         private val cancelThreshold = 200
-        private val delayTimer = MicClickTimer { onMicPress.invoke() }
+        private val delayTimer = MicClickTimer { onMicPress() }
 
         private var xPress = 0f
 
-        override fun onTouch(v: View?, event: MotionEvent?)
-             = when (event?.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    xPress = event.x
-                    delayTimer.start()
-                    true
-                }
-                MotionEvent.ACTION_UP -> {
-                    delayTimer.cancel()
-                    val diff = xDiff(event)
-                    onMicRelease.invoke(diff <= cancelThreshold)
-                    true
-                }
-                else -> true
+        override fun onTouch(v: View?, event: MotionEvent?) = when (event?.action) {
+            MotionEvent.ACTION_DOWN -> {
+                xPress = event.x
+                delayTimer.start()
+                true
             }
 
-        private fun xDiff(event: MotionEvent) = xPress - event.x
+            MotionEvent.ACTION_MOVE -> {
+                if (shouldCancel(event)) {
+                    stop(true)
+                    true
+                } else {
+                    false
+                }
+            }
+
+            MotionEvent.ACTION_UP -> {
+                stop(shouldCancel(event))
+                true
+            }
+            else -> true
+        }
+
+        private fun stop(cancel: Boolean) {
+            delayTimer.cancel()
+            onMicRelease(cancel)
+        }
+
+        private fun shouldCancel(event: MotionEvent) = abs(xPress - event.x) > cancelThreshold
     }
 
-    private inner class MicClickTimer(private val callback: () -> Unit): CountDownTimer(150L, 150L) {
+    /**
+     * adds delay before invoking
+     */
+    private inner class MicClickTimer(private val callback: () -> Unit) : CountDownTimer(150L, 150L) {
         override fun onFinish() {
             callback.invoke()
         }

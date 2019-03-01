@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 import com.google.gson.annotations.SerializedName
+import com.twoeightnine.root.xvii.utils.secToTime
 
 import java.io.Serializable
 
@@ -47,7 +48,7 @@ class Audio : Parcelable, Serializable {
         url = msg?.linkMp3
         duration = msg?.duration ?: 0
         this.title = title
-        this.artist = title
+        this.artist = secToTime(duration)
     }
 
     override fun describeContents() = 0
