@@ -91,7 +91,7 @@ class NotificationService : Service() {
         showNotifChats = Prefs.showNotifsChats
         sound = Prefs.sound
         ledLights = Prefs.ledLights
-        if (!Prefs.isNight) {
+        if (Prefs.isNight) {
             color = Prefs.color
         }
         muteList = Prefs.muteList
