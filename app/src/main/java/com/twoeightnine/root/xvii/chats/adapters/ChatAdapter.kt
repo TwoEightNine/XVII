@@ -157,7 +157,11 @@ class ChatAdapter(context: Context,
         viewHolder.llMessageContainer.removeAllViews()
 
         if (message.attachments != null && message.attachments!!.size > 0) {
-            viewHolder.llMessage.layoutParams.width = MEDIA_WIDTH
+            if (message.attachments?.get(0)?.type == Attachment.TYPE_STICKER) {
+                viewHolder.llMessage.layoutParams.width = pxFromDp(context, 180)
+            } else {
+                viewHolder.llMessage.layoutParams.width = MEDIA_WIDTH
+            }
             val atts = message.attachments
             for (i in atts!!.indices) {
                 val included: View
@@ -170,7 +174,7 @@ class ChatAdapter(context: Context,
                     }
 
                     Attachment.TYPE_STICKER -> {
-                        included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
+                        included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null, false)
                         val stickPath = atts[i].sticker!!.photoMax
                         if (stickPath.isNotEmpty()) {
                             Picasso.with(context)
@@ -243,7 +247,7 @@ class ChatAdapter(context: Context,
 
     }
 
-    private fun isDecrypted(body: String): Boolean{
+    private fun isDecrypted(body: String): Boolean {
         val prefix = context.getString(R.string.decrypted, "")
         return body.startsWith(prefix)
     }
@@ -315,11 +319,14 @@ class ChatAdapter(context: Context,
         lateinit var llMessage: LinearLayout
         @BindView(R.id.tvDate)
         lateinit var tvDate: TextView
-        @BindView(R.id.readStateDot) @JvmField
+        @BindView(R.id.readStateDot)
+        @JvmField
         var readStateDot: ImageView? = null
-        @BindView(R.id.civPhoto) @JvmField
+        @BindView(R.id.civPhoto)
+        @JvmField
         var civPhoto: CircleImageView? = null
-        @BindView(R.id.tvName) @JvmField
+        @BindView(R.id.tvName)
+        @JvmField
         var tvName: TextView? = null
         @BindView(R.id.llMessageContainer)
         lateinit var llMessageContainer: LinearLayout

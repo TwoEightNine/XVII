@@ -146,6 +146,7 @@
     <string name="confirm">Confirm</string>
     <string name="chats_notifs">Chat notifications</string>
     <string name="show_content">Show message content</string>
+    <string name="led_lights">Blink LED</string>
     <string name="mute">Mute list</string>
     <string name="change_keys">Change keys</string>
     <string name="random_key">Generate randomly</string>

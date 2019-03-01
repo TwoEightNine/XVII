@@ -145,6 +145,7 @@
     </string>
     <string name="shared">Успешно отправлено на стену</string>
     <string name="show_content">Показывать содержимое сообщения</string>
+    <string name="led_lights">Включать LED</string>
     <string name="show_name">Показывать имя отправителя</string>
     <string name="show_notif">Показывать уведомления</string>
     <string name="show_typing">Показывать, когда печатаю</string>

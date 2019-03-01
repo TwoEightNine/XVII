@@ -128,6 +128,7 @@
     <string name="confirm">Confirmer</string>
     <string name="chats_notifs">Notifications des chats</string>
     <string name="show_content">Montrer le contenu des messages</string>
+    <string name="led_lights">Cligner la diode</string>
     <string name="mute">Liste des bruits</string>
     <string name="change_keys">Changer les clés</string>
     <string name="random_key">Générer au hasard</string>

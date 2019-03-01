@@ -62,6 +62,15 @@
             android:textColor="@color/main_text" />
 
         <Switch
+            android:id="@+id/switchLights"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/frame_pad"
+            android:text="@string/led_lights"
+            android:textColor="@color/main_text" />
+
+        <Switch
             android:id="@+id/switchContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

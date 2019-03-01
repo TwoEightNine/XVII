@@ -28,6 +28,7 @@ object Prefs {
     private const val SHOW_CONTENT = "showContent"
     private const val SOUND = "sound"
     private const val MUTE_LIST = "muteList"
+    private const val LED_LIGHTS = "ledLights"
 
     //appearance
     private const val NIGHT = "night"
@@ -98,6 +99,10 @@ object Prefs {
     var sound: Boolean
         get() = data.getBoolean(SOUND, false)
         set(sound) = data.edit().putBoolean(SOUND, sound).apply()
+
+    var ledLights: Boolean
+        get() = data.getBoolean(LED_LIGHTS, false)
+        set(ledLights) = data.edit().putBoolean(LED_LIGHTS, ledLights).apply()
 
     var muteList: MutableList<Int>
         get() {

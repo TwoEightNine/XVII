@@ -32,6 +32,8 @@ class NotificationsFragment : BaseFragment() {
     lateinit var sound: Switch
     @BindView(R.id.switchContent)
     lateinit var content: Switch
+    @BindView(R.id.switchLights)
+    lateinit var ledLights: Switch
     @BindView(R.id.llContainer)
     lateinit var llContainer: LinearLayout
     @BindView(R.id.switchEgg)
@@ -46,6 +48,7 @@ class NotificationsFragment : BaseFragment() {
             chats.isChecked = Prefs.showNotifsChats
             vibrate.isChecked = Prefs.vibrate
             sound.isChecked = Prefs.sound
+            ledLights.isChecked = Prefs.ledLights
             content.isChecked = Prefs.showContent
         } else {
             showNotification.isChecked = false
@@ -53,6 +56,7 @@ class NotificationsFragment : BaseFragment() {
             chats.isEnabled = false
             vibrate.isEnabled = false
             sound.isEnabled = false
+            ledLights.isEnabled = false
             content.isEnabled = false
         }
         showNotification.setOnCheckedChangeListener { _, b ->
@@ -60,12 +64,14 @@ class NotificationsFragment : BaseFragment() {
             vibrate.isEnabled = b
             sound.isEnabled = b
             chats.isEnabled = b
+            ledLights.isEnabled = b
             content.isEnabled = b
             if (!b) {
                 showName.isChecked = false
                 vibrate.isChecked = false
                 sound.isChecked = false
                 chats.isChecked = false
+                ledLights.isChecked = false
                 content.isChecked = false
             }
         }
@@ -82,6 +88,7 @@ class NotificationsFragment : BaseFragment() {
         Prefs.showName = showName.isEnabled && showName.isChecked
         Prefs.vibrate = vibrate.isEnabled && vibrate.isChecked
         Prefs.sound = sound.isEnabled && sound.isChecked
+        Prefs.ledLights = ledLights.isEnabled && ledLights.isChecked
         Prefs.showContent = content.isEnabled && content.isChecked
     }
 

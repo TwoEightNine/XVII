@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.orangegangsters:swipy:1.2.3@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/swipy-1.2.3.aar/c02aab152e48fc1205e2acf9d4a91276/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/swipy-1.2.3.aar/c02aab152e48fc1205e2acf9d4a91276/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/swipy-1.2.3.aar/c02aab152e48fc1205e2acf9d4a91276/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.orangegangsters/swipy/1.2.3/d91feec96cb2730989252f3db882667b5bcfedb6/swipy-1.2.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

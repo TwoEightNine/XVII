@@ -154,7 +154,6 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
                     }
                     Prefs.muteList = muteList
                 }
-
             }
         }.show()
         return true

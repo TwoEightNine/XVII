@@ -46,8 +46,10 @@ class NotificationService : Service() {
     private var showNotifChats: Boolean = false
     private var showName: Boolean = false
     private var sound: Boolean = false
+    private var ledLights: Boolean = false
     private var showContent: Boolean = false
     private var muteList: MutableList<Int>? = null
+    private var color: Int = Color.WHITE
     private var users = hashMapOf<Int, User>()
 
     private var token: String? = null
@@ -88,6 +90,10 @@ class NotificationService : Service() {
         showNotif = Prefs.showNotifs
         showNotifChats = Prefs.showNotifsChats
         sound = Prefs.sound
+        ledLights = Prefs.ledLights
+        if (!Prefs.isNight) {
+            color = Prefs.color
+        }
         muteList = Prefs.muteList
         showContent = Prefs.showContent
         if (users.isEmpty()) {
@@ -281,8 +287,11 @@ class NotificationService : Service() {
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
                 .setContentText(Html.fromHtml(content))
-                .setLights(Color.RED, 500, 500)
                 .setContentIntent(pIntent)
+
+        if (ledLights) {
+            mBuilder.setLights(color, 500, 500)
+        }
 
         val mNotifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mNotifyMgr.notify(peerId, mBuilder.build())
