@@ -267,7 +267,7 @@ class ChatAdapter(context: Context,
 
                 val total = itemCount
                 val first = firstVisiblePosition()
-                if (!isDone && !isLoading && first <= PaginationAdapter.Companion.THRESHOLD) {
+                if (!isDone && !isLoading && first <= PaginationAdapter.THRESHOLD) {
                     loader.invoke(total)
                     startLoading()
                 }

@@ -278,17 +278,19 @@ class NotificationService : Service() {
                 .setLargeIcon(icon)
                 .setSmallIcon(R.drawable.ic_message)
                 .setContentTitle(title)
+                .setAutoCancel(true)
+                .setWhen(System.currentTimeMillis())
                 .setContentText(Html.fromHtml(content))
                 .setLights(Color.RED, 500, 500)
                 .setContentIntent(pIntent)
 
         val mNotifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        mNotifyMgr.notify(NOTIFICATION, mBuilder.build())
+        mNotifyMgr.notify(peerId, mBuilder.build())
     }
 
     private fun closeNotification() {
         val mNotifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        mNotifyMgr.cancel(NOTIFICATION)
+        mNotifyMgr.cancelAll()
     }
 
     private fun vibrate() {
