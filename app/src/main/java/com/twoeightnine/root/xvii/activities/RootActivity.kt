@@ -206,7 +206,13 @@ class RootActivity : BaseActivity() {
         if (dlRoot.isDrawerOpen(GravityCompat.START)) {
             dlRoot.closeDrawer(GravityCompat.START)
         } else if (supportFragmentManager.backStackEntryCount > 0) {
-            val topFrag = supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount - 1]
+            val topFrag = try {
+                supportFragmentManager.fragments[supportFragmentManager.backStackEntryCount - 1]
+            } catch (e: Exception) {
+                Lg.wtf("onBackPressed: ${e.message}")
+                e.printStackTrace()
+                null
+            }
             if (topFrag is BaseFragment && topFrag.onBackPressed()) {
                 return
             } else if (supportFragmentManager.backStackEntryCount > 1) {
