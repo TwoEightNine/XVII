@@ -1,8 +1,7 @@
-package com.twoeightnine.root.xvii.background
+package com.twoeightnine.root.xvii.background.notifications
 
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -17,7 +16,6 @@ import android.support.v4.content.LocalBroadcastManager
 import android.text.Html
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
-import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Lg
@@ -30,11 +28,16 @@ import com.twoeightnine.root.xvii.model.UserDb
 import com.twoeightnine.root.xvii.model.response.LongPollHistoryResponse
 import com.twoeightnine.root.xvii.model.response.LongPollResponse
 import com.twoeightnine.root.xvii.utils.*
+import io.reactivex.disposables.CompositeDisposable
 import io.realm.Realm
 import javax.inject.Inject
+import android.app.NotificationChannel
+import android.os.Build
+import android.content.Context.NOTIFICATION_SERVICE
+import com.twoeightnine.root.xvii.R
 
 
-class NotificationService : Service() {
+class NotificationsCore(private val context: Context) {
 
     @Inject
     lateinit var api: ApiService
@@ -57,30 +60,26 @@ class NotificationService : Service() {
 
     private val handler = Handler()
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Thread {
-            while (true) {
-                if (!isRunning) {
-                    isRunning = true
-                    initPrefs()
-                    l("on ${longPollServer?.ts}")
-                    getUpdates()
-                }
-                Thread.sleep(WAIT_DELAY)
+    private val disposables = CompositeDisposable()
+
+    fun run() {
+        while (true) {
+            if (!isRunning) {
+                isRunning = true
+                initPrefs()
+                l("on ${longPollServer?.ts}")
+                getUpdates()
             }
-        }.start()
-        return START_STICKY
+            Thread.sleep(WAIT_DELAY)
+        }
     }
 
-    override fun onBind(intent: Intent) = null
-
-    override fun onCreate() {
-        super.onCreate()
+    fun onCreate() {
         App.appComponent?.inject(this)
         l("created")
     }
 
-    override fun onDestroy() {
+    fun onDestroy() {
         l("destroyed")
         restartService()
     }
@@ -126,13 +125,13 @@ class NotificationService : Service() {
                     }
                 }, { error ->
                     Lg.wtf("SERVICE got error: ${error.message}")
-                    if (error.message?.startsWith("Unable") ?: false) { //no internet
+                    if (error.message?.startsWith("Unable") == true) { //no internet
                         handler.postDelayed({ restartService() }, NO_INTERNET_DELAY)
                     } else {
                         Lg.i("updating reason: ${error.message}")
                         updateLongPoll()
                     }
-                })
+                }).let { disposables.add(it) }
     }
 
     private fun sendResult(response: LongPollResponse) {
@@ -146,7 +145,7 @@ class NotificationService : Service() {
         val extras = Bundle()
         extras.putSerializable(RESULT, response)
         intentResult.putExtras(extras)
-        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intentResult)
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intentResult)
         checkForNotif(response)
         cacheResponse(response)
         restartService()
@@ -171,7 +170,7 @@ class NotificationService : Service() {
                     checkHistory(response)
                 }, {
                     handler.postDelayed({ restartService() }, NO_INTERNET_DELAY)
-                })
+                }).let { disposables.add(it) }
     }
 
     private fun checkHistory(longPoll: LongPollServer) {
@@ -192,7 +191,7 @@ class NotificationService : Service() {
                 }, {
                     Lg.wtf("history error: $it")
                     restartService()
-                })
+                }).let { disposables.add(it) }
     }
 
     private fun sendHistory(historyResponse: LongPollHistoryResponse, newTs: Int) {
@@ -209,7 +208,6 @@ class NotificationService : Service() {
     private fun restartService() {
         isRunning = false
         l("restarting")
-        sendBroadcast(Intent(RestarterBroadcastReceiver.RESTART_ACTION))
     }
 
     private fun checkForNotif(response: LongPollResponse) {
@@ -225,7 +223,7 @@ class NotificationService : Service() {
                     event.out == 0 &&
                     showNotif) {
 
-                if (muteList?.contains(event.userId) ?: false) return
+                if (muteList?.contains(event.userId) == true) return
 
                 if (showNotifChats || event.userId < 2000000000) {
 
@@ -240,7 +238,7 @@ class NotificationService : Service() {
                 val content = if (showContent) {
                     event.message
                 } else {
-                    getString(R.string.content_hidden)
+                    context.getString(R.string.content_hidden)
                 }
 
                 try {
@@ -255,9 +253,9 @@ class NotificationService : Service() {
                         event.title
                     }
                     if (realmUser != null && showName && event.userId in 0..2000000000) {
-                        loadBitmapIcon(User(realmUser).photoMax, {
+                        loadBitmapIcon(User(realmUser).photoMax) {
                             showNotification(content, event.userId, userName, userName, it)
-                        })
+                        }
 
                     } else {
                         showNotification(content, event.userId, userName)
@@ -272,20 +270,31 @@ class NotificationService : Service() {
     private fun showNotification(content: String,
                                  peerId: Int,
                                  userName: String,
-                                 title: String = getString(R.string.app_name),
-                                 icon: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.xvii128)) {
-        val intent = Intent(this, RootActivity::class.java)
+                                 title: String = context.getString(R.string.app_name),
+                                 icon: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.xvii128)) {
+        val intent = Intent(context, RootActivity::class.java)
         intent.putExtra(RootActivity.USER_ID, peerId)
         intent.putExtra(RootActivity.TITLE, userName)
         val pIntent = PendingIntent.getActivity(
-                this,
+                context,
                 0,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         )
-        val mBuilder = NotificationCompat.Builder(this)
+
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = context.getString(R.string.app_name)
+            val descriptionText = context.getString(R.string.app_name)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
+            mChannel.description = descriptionText
+            notificationManager.createNotificationChannel(mChannel)
+        }
+
+        val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setLargeIcon(icon)
-                .setSmallIcon(R.drawable.ic_message)
+                .setSmallIcon(com.twoeightnine.root.xvii.R.drawable.ic_message)
                 .setContentTitle(title)
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
@@ -296,23 +305,22 @@ class NotificationService : Service() {
             mBuilder.setLights(color, 500, 500)
         }
 
-        val mNotifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        mNotifyMgr.notify(peerId, mBuilder.build())
+        notificationManager.notify(peerId, mBuilder.build())
     }
 
     private fun closeNotification() {
-        val mNotifyMgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val mNotifyMgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mNotifyMgr.cancelAll()
     }
 
     private fun vibrate() {
-        val vi = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        val vi = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         vi.vibrate(VIBRATE_DELAY)
     }
 
     private fun playRingtone() {
         RingtoneManager.getRingtone(
-                applicationContext,
+                context,
                 RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         ).play()
     }
@@ -322,9 +330,10 @@ class NotificationService : Service() {
     }
 
     companion object {
-        var NOTIFICATION = 1337
         var NAME = "huyhuyhuy"
         var RESULT = "Result"
+
+        private const val CHANNEL_ID = "xvii.notifications"
 
         private val VIBRATE_DELAY = 200L
         private val WAIT_DELAY = 1000L

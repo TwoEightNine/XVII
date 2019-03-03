@@ -10,8 +10,6 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.LongPollService
-import com.twoeightnine.root.xvii.background.NotificationService
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style

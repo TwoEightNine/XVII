@@ -43,11 +43,15 @@
 
         <!--<service android:name=".background.LongPollService" />-->
 
-        <service android:name=".background.NotificationService" />
+        <service android:name=".background.notifications.NotificationService" />
 
-        <service android:name=".background.PrimeGeneratorService" />
+        <service android:name=".background.prime.PrimeGeneratorService" />
         <service
-            android:name=".background.NotificationJobIntentService"
+            android:name=".background.notifications.NotificationJobIntentService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name=".background.prime.PrimeGeneratorJobIntentService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 

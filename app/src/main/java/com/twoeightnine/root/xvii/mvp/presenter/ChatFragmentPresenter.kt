@@ -10,9 +10,8 @@ import android.text.Html
 import android.text.TextUtils
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
-import com.twoeightnine.root.xvii.background.LongPollService
+import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
 import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.dagger.AppComponent
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
@@ -56,7 +55,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     private var receiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, intent: Intent) {
-            onUpdate((intent.extras.getSerializable(LongPollService.RESULT) as LongPollResponse).updates ?: mutableListOf())
+            onUpdate((intent.extras.getSerializable(NotificationsCore.RESULT) as LongPollResponse).updates ?: mutableListOf())
         }
     }
 
@@ -67,7 +66,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun subscribe() {
         if (!isRegistered) {
-            LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(LongPollService.NAME))
+            LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(NotificationsCore.NAME))
             isRegistered = true
         }
     }

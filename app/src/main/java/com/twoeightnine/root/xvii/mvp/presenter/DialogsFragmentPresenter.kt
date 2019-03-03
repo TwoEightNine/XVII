@@ -6,10 +6,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.support.v4.content.LocalBroadcastManager
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.background.LongPollService
+import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
 import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.response.LongPollResponse
 import com.twoeightnine.root.xvii.mvp.BasePresenter
@@ -36,12 +35,12 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
 
     var receiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, intent: Intent) {
-            onUpdate((intent.extras.getSerializable(LongPollService.RESULT) as LongPollResponse).updates ?: mutableListOf())
+            onUpdate((intent.extras.getSerializable(NotificationsCore.RESULT) as LongPollResponse).updates ?: mutableListOf())
         }
     }
 
     init {
-        LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(LongPollService.NAME))
+        LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(NotificationsCore.NAME))
         App.appComponent?.inject(this)
     }
 

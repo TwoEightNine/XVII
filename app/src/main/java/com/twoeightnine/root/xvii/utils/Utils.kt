@@ -35,9 +35,10 @@ import com.squareup.picasso.RequestCreator
 import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.LongPollService
-import com.twoeightnine.root.xvii.background.NotificationJobIntentService
-import com.twoeightnine.root.xvii.background.NotificationService
+import com.twoeightnine.root.xvii.background.notifications.NotificationJobIntentService
+import com.twoeightnine.root.xvii.background.notifications.NotificationService
+import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorJobIntentService
+import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.consts.Api
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Style
@@ -132,13 +133,27 @@ fun showError(context: Context?, @StringRes text: Int) {
 fun startNotificationService(context: Context) {
     try {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            context.startService(Intent(context, NotificationService::class.java))
+            NotificationService.launch(context)
         } else {
-            NotificationJobIntentService.launch(context)
+            NotificationJobIntentService.enqueue(context)
         }
     } catch (e: Exception) {
         e.printStackTrace()
         Lg.wtf("start service error: ${e.message}")
+    }
+}
+
+
+fun startPrimeGenerator(context: Context) {
+    try {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            PrimeGeneratorService.launch(context)
+        } else {
+            PrimeGeneratorJobIntentService.launch(context)
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        Lg.wtf("start prime generator error: ${e.message}")
     }
 }
 
@@ -334,7 +349,7 @@ fun restartApp() {
 fun removeNotification(context: Context) {
     try {
         (context.getSystemService(Context.NOTIFICATION_SERVICE)
-                as NotificationManager).cancel(LongPollService.NOTIFICATION)
+                as NotificationManager).cancelAll()
     } catch (e: Exception) {
         Lg.i("remove notif: ${e.message}")
     }

@@ -18,9 +18,7 @@ import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.DrawerAdapter
-import com.twoeightnine.root.xvii.background.LongPollService
 import com.twoeightnine.root.xvii.background.MediaPlayerAsyncTask
-import com.twoeightnine.root.xvii.background.NotificationService
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.fragments.BaseFragment
@@ -34,7 +32,6 @@ import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.PinAlertDialog
 import de.hdodenhof.circleimageview.CircleImageView
 import javax.inject.Inject
 

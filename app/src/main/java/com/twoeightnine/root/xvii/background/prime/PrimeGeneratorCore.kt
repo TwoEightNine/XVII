@@ -1,7 +1,5 @@
-package com.twoeightnine.root.xvii.background
+package com.twoeightnine.root.xvii.background.prime
 
-import android.app.Service
-import android.content.Intent
 import com.twoeightnine.root.xvii.managers.KeyStorage
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.utils.applySchedulers
@@ -18,16 +16,14 @@ import java.util.*
  * generates safe prime for DH-2048
  */
 
-class PrimeGeneratorService : Service() {
+class PrimeGeneratorCore {
 
     private val secureRandom = SecureRandom()
 
     private val composite = CompositeDisposable()
     private var isCancelled = false
 
-    override fun onBind(intent: Intent?) = null
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    fun run() {
         if (KeyStorage.isDefault() || KeyStorage.isObsolete()) {
             for (i in 1..2) {
                 val s = Flowable.fromCallable { generate(i) }
@@ -45,7 +41,6 @@ class PrimeGeneratorService : Service() {
         } else {
             l("already generated at ${getTime(KeyStorage.ts, true)}")
         }
-        return START_STICKY
     }
 
     private fun generate(number: Int) {

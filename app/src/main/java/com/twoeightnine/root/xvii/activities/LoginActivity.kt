@@ -12,10 +12,9 @@ import android.webkit.WebViewClient
 import android.widget.LinearLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.PrimeGeneratorService
+import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.consts.Api
 import com.twoeightnine.root.xvii.managers.Lg
-import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.Account
 import com.twoeightnine.root.xvii.model.LongPollServer
@@ -35,11 +34,7 @@ class LoginActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        try {
-            startService(Intent(this, PrimeGeneratorService::class.java))
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        startPrimeGenerator(this)
 
         web = findViewById(R.id.webView) as WebView
         llLoader = findViewById(R.id.llLoader) as LinearLayout
