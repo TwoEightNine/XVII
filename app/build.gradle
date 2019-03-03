@@ -13,8 +13,8 @@ android {
         applicationId "com.twoeightnine.root.xvii"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 93
-        versionName "4.9.2"
+        versionCode 94
+        versionName "4.9.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         project.ext.set("archivesBaseName", "xvii" + defaultConfig.versionName)
     }
@@ -72,6 +72,8 @@ dependencies {
     testCompile "junit:junit:$junitVersion"
     compile "com.github.QuadFlask:colorpicker:$colorpickerVersion"
     compile "com.github.bumptech.glide:glide:$glideVersion"
+
+//    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
 }
 

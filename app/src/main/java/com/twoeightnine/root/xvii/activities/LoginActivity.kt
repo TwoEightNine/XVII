@@ -35,7 +35,11 @@ class LoginActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        startService(Intent(this, PrimeGeneratorService::class.java))
+        try {
+            startService(Intent(this, PrimeGeneratorService::class.java))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         web = findViewById(R.id.webView) as WebView
         llLoader = findViewById(R.id.llLoader) as LinearLayout

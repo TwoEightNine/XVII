@@ -36,6 +36,7 @@ import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.LongPollService
+import com.twoeightnine.root.xvii.background.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.NotificationService
 import com.twoeightnine.root.xvii.consts.Api
 import com.twoeightnine.root.xvii.managers.Lg
@@ -129,7 +130,16 @@ fun showError(context: Context?, @StringRes text: Int) {
 }
 
 fun startNotificationService(context: Context) {
-    context.startService(Intent(context, NotificationService::class.java))
+    try {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            context.startService(Intent(context, NotificationService::class.java))
+        } else {
+            NotificationJobIntentService.launch(context)
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        Lg.wtf("start service error: ${e.message}")
+    }
 }
 
 fun copyToClip(text: String) {

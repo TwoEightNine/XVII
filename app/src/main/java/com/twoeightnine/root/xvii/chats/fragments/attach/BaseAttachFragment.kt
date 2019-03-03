@@ -21,7 +21,7 @@ open class BaseAttachFragment<T> : Fragment() {
 
     var listener: ((Attachment) -> Unit)? = null
 
-    lateinit protected var adapter: SimplePaginationAdapter<T>
+    protected lateinit var adapter: SimplePaginationAdapter<T>
 
     protected val safeActivity: FragmentActivity
         get() = activity ?: throw Exception()
@@ -31,7 +31,7 @@ open class BaseAttachFragment<T> : Fragment() {
                               savedInstanceState: Bundle?) = View.inflate(context, getLayout(), null)
 
     @Inject
-    open protected lateinit var api: ApiService
+    protected open lateinit var api: ApiService
 
     open fun getLayout() = R.layout.activity_root
 

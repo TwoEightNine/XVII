@@ -5,6 +5,7 @@ import com.twoeightnine.root.xvii.activities.GifViewerActivity
 import com.twoeightnine.root.xvii.activities.LoginActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.background.LongPollService
+import com.twoeightnine.root.xvii.background.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.NotificationService
 import com.twoeightnine.root.xvii.chats.fragments.*
 import com.twoeightnine.root.xvii.chats.fragments.attach.DocAttachFragment
@@ -79,6 +80,7 @@ interface AppComponent {
 //    fun inject(apiUtils: ApiUtils)
     fun inject(longPollService: LongPollService)
     fun inject(notificationService: NotificationService)
+    fun inject(notfJobIntentService: NotificationJobIntentService)
     fun inject(chatFragmentPresenter: ChatFragmentPresenter)
     fun inject(dialogsFragmentPresenter: DialogsFragmentPresenter)
 

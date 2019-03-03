@@ -263,7 +263,7 @@ interface ApiService {
                 @Query("id") id: Int): Flowable<ResponseBody>
 
     //other
-    @GET()
+    @GET
     @Headers(NO_TOKEN_HEADER)
     fun downloadFile(@Url url: String): Flowable<ResponseBody>
 

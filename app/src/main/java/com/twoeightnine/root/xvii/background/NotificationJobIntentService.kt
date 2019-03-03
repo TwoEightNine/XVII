@@ -12,6 +12,7 @@ import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Vibrator
+import android.support.v4.app.JobIntentService
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.LocalBroadcastManager
 import android.text.Html
@@ -30,11 +31,12 @@ import com.twoeightnine.root.xvii.model.UserDb
 import com.twoeightnine.root.xvii.model.response.LongPollHistoryResponse
 import com.twoeightnine.root.xvii.model.response.LongPollResponse
 import com.twoeightnine.root.xvii.utils.*
+import io.reactivex.Single
 import io.realm.Realm
 import javax.inject.Inject
 
 
-class NotificationService : Service() {
+class NotificationJobIntentService : JobIntentService() {
 
     @Inject
     lateinit var api: ApiService
@@ -57,32 +59,31 @@ class NotificationService : Service() {
 
     private val handler = Handler()
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Thread {
-            while (true) {
-                if (!isRunning) {
-                    isRunning = true
-                    initPrefs()
-                    l("on ${longPollServer?.ts}")
-                    getUpdates()
-                }
-                Thread.sleep(WAIT_DELAY)
-            }
-        }.start()
-        return START_STICKY
+    init {
+        App.appComponent?.inject(this)
     }
 
-    override fun onBind(intent: Intent) = null
+    override fun onHandleWork(p0: Intent) {
+        while (true) {
+            if (!isRunning) {
+                isRunning = true
+                initPrefs()
+                l("on ${longPollServer?.ts}")
+                getUpdates()
+            }
+            Thread.sleep(WAIT_DELAY)
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
-        App.appComponent?.inject(this)
         l("created")
     }
 
     override fun onDestroy() {
         l("destroyed")
         restartService()
+        startNotificationService(App.context)
     }
 
     private fun initPrefs() {
@@ -209,7 +210,7 @@ class NotificationService : Service() {
     private fun restartService() {
         isRunning = false
         l("restarting")
-        sendBroadcast(Intent(RestarterBroadcastReceiver.RESTART_ACTION))
+//        sendBroadcast(Intent(RestarterBroadcastReceiver.RESTART_ACTION))
     }
 
     private fun checkForNotif(response: LongPollResponse) {
@@ -326,8 +327,14 @@ class NotificationService : Service() {
         var NAME = "huyhuyhuy"
         var RESULT = "Result"
 
+        const val JOB_ID = 23764
+
         private val VIBRATE_DELAY = 200L
         private val WAIT_DELAY = 1000L
         private val NO_INTERNET_DELAY = 5000L
+
+        fun launch(context: Context, intent: Intent = Intent(context, NotificationJobIntentService::class.java)) {
+            JobIntentService.enqueueWork(context, NotificationJobIntentService::class.java, JOB_ID, intent)
+        }
     }
 }
