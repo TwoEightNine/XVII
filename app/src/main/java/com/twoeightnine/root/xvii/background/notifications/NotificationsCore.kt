@@ -289,6 +289,8 @@ class NotificationsCore(private val context: Context) {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
             mChannel.description = descriptionText
+            mChannel.setSound(null, null)
+
             notificationManager.createNotificationChannel(mChannel)
         }
 
