@@ -19,7 +19,7 @@ class StickerGridFragment : BaseFragment() {
 
     companion object {
 
-        val RECENT_COUNT = 48
+        const val RECENT_COUNT = 50
 
         fun newInstance(pack: StickerPack, listener: ((Attachment.Sticker) -> Unit)?): StickerGridFragment {
             val frag = StickerGridFragment()

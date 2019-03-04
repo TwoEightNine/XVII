@@ -28,7 +28,6 @@ class StickerAdapter : SimpleAdapter<Attachment.Sticker>() {
         Picasso.with(App.context)
                 .load(sticker.photo256)
                 .into(holder.ivSticker)
-//        holder.ivSticker.loadUrl(sticker.photo256)
         return view
     }
 

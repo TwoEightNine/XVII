@@ -15,7 +15,7 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.StickerPack
 
-class StickersFragment: BaseFragment(), Titleable {
+class StickersFragment : BaseFragment(), Titleable {
 
     companion object {
         fun newInstance(listener: ((Attachment.Sticker) -> Unit)?): StickersFragment {
@@ -50,9 +50,9 @@ class StickersFragment: BaseFragment(), Titleable {
     }
 
     fun initAdapter() {
-        adapter = StickerCatAdapter(safeActivity, {
-            pack -> loadFragment(StickerGridFragment.newInstance(pack, listener))
-        })
+        adapter = StickerCatAdapter(safeActivity) { pack ->
+            loadFragment(StickerGridFragment.newInstance(pack, listener))
+        }
         rvStickers.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         fillPack()
         rvStickers.adapter = adapter
