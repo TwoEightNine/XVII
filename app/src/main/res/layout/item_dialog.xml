@@ -1,144 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="@dimen/item_margin">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/rlItemContainer"
-        android:layout_marginBottom="@dimen/item_margin">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/placeholder"
-            android:layout_marginStart="@dimen/item_margin"
-            android:layout_marginLeft="@dimen/item_margin"
-            android:layout_marginTop="@dimen/item_margin"
             android:id="@+id/civPhoto"
-            app:civ_border_color="@color/icons"/>
+            android:layout_width="@dimen/dialogs_photo_size"
+            android:layout_height="@dimen/dialogs_photo_size"
+            android:layout_margin="@dimen/item_margin"
+            android:src="@drawable/placeholder"
+            app:civ_border_color="@color/icons" />
 
         <RelativeLayout
-            android:background="@drawable/shape_alpha_circle"
             android:id="@+id/rlMute"
+            android:layout_width="@dimen/dialogs_photo_size"
+            android:layout_height="@dimen/dialogs_photo_size"
             android:layout_marginStart="@dimen/item_margin"
-            android:layout_marginLeft="@dimen/item_margin"
             android:layout_marginTop="@dimen/item_margin"
-            android:layout_width="60dp"
-            android:layout_height="60dp">
+            android:background="@drawable/shape_alpha_circle">
 
             <ImageView
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_mute"
                 android:layout_width="36dp"
-                android:layout_height="36dp" />
+                android:layout_height="36dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_mute" />
 
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/llText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:id="@+id/tvTitle"
-            android:textColor="@color/main_text"
-            android:singleLine="true"
-            android:textSize="17sp"
-            android:layout_alignTop="@+id/civPhoto"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
             android:layout_toEndOf="@+id/civPhoto"
-            android:layout_toRightOf="@+id/civPhoto"
-            android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="@dimen/frame_pad"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/tvBody"
-            android:layout_below="@+id/tvTitle"
-            android:layout_alignStart="@+id/tvTitle"
-            android:layout_alignLeft="@+id/tvTitle"
-            android:layout_marginTop="@dimen/frame_pad"
-            android:textSize="14sp"
-            android:textColor="@color/other_text"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:layout_toStartOf="@+id/ivUnreadDotOut"
-            android:layout_toLeftOf="@+id/ivUnreadDotOut" />
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="Medium Text"
+                android:textColor="@color/main_text"
+                android:textSize="17sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/tvDate"
-            android:layout_below="@+id/tvTitle"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:layout_marginRight="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/frame_pad"
-            android:textSize="12sp"
-            android:textColor="@color/other_text"
-            android:singleLine="true"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp">
+
+                <TextView
+                    android:id="@+id/tvBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_toStartOf="@+id/ivUnreadDotOut"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Small Text"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/other_text"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:maxLines="1"
+                    android:text="Small Text"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/other_text"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/ivUnreadDotOut"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="6dp"
+                    android:layout_toStartOf="@+id/tvDate" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <ImageView
-            android:tag="main"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
             android:id="@+id/ivOnlineDot"
-            android:src="@drawable/dotshape"
-            android:layout_alignBottom="@+id/civPhoto"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_alignEnd="@+id/civPhoto"
-            android:layout_alignRight="@+id/civPhoto" />
-
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:id="@+id/ivUnreadDotOut"
-            android:layout_marginRight="4dp"
-            android:layout_marginBottom="2dp"
-            android:layout_alignBottom="@+id/tvDate"
-            android:layout_toLeftOf="@+id/tvDate"
-            android:layout_toStartOf="@+id/tvDate" />
+            android:layout_alignBottom="@+id/civPhoto"
+            android:src="@drawable/dotshape"
+            android:tag="main" />
 
         <RelativeLayout
             android:id="@+id/rlUnreadCount"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
             android:layout_alignTop="@+id/civPhoto"
-            android:layout_alignRight="@+id/civPhoto"
             android:layout_alignEnd="@+id/civPhoto"
             android:background="@drawable/unread_count_shape"
-            android:layout_width="wrap_content"
             android:minWidth="20dp"
-            android:tag="main"
-            android:layout_height="20dp">
+            android:tag="main">
 
             <TextView
-                android:textStyle="bold"
                 android:id="@+id/tvUnreadCount"
-                android:layout_margin="2dp"
-                android:textSize="12sp"
-                android:textColor="@color/background"
-                android:text="1"
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="2dp"
+                android:text="1"
+                android:textColor="@color/background"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
 
     </RelativeLayout>
 
-    <View
-        android:layout_marginLeft="80dp"
-        android:layout_gravity="bottom"
-        android:background="@color/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1px" />
+    <!--<View-->
+    <!--android:layout_marginLeft="80dp"-->
+    <!--android:layout_gravity="bottom"-->
+    <!--android:background="@color/divider"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1px" />-->
 
 
 </FrameLayout>

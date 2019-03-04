@@ -72,10 +72,8 @@ open class DialogsAdapter(context: Context,
                     message.body ?: "",
                     Html.fromHtml(getMessageBody(App.context, message)) as SpannableStringBuilder
             )
-            holder.tvBody.maxLines = 1
         } else {
             holder.tvBody.text = Html.fromHtml(getMessageBody(App.context, message))
-            holder.tvBody.maxLines = 2
         }
         holder.tvDate.text = getTime(message.date)
 

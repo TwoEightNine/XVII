@@ -54,4 +54,7 @@
     <dimen name="picker_space_width">10dp</dimen>
     <dimen name="picker_space_height">10dp</dimen>
     <dimen name="picker">220dp</dimen>
+
+    <!--dialogs-->
+    <dimen name="dialogs_photo_size">55dp</dimen>
 </resources>
