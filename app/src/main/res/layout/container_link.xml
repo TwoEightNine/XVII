@@ -6,16 +6,17 @@
     <ImageView
         android:id="@+id/ivPhoto"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:layout_toEndOf="@+id/ivPhoto"
         android:layout_toRightOf="@+id/ivPhoto"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
 
         <TextView
@@ -31,8 +32,8 @@
             style="@style/TextViewStyle.Small.Gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxLines="1"
             android:text="Captionhtgyhrty65yyrty" />
 
     </LinearLayout>

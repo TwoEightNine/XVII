@@ -14,7 +14,6 @@ import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.*
-import org.w3c.dom.Text
 
 fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)

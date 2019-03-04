@@ -92,7 +92,7 @@ class WallPostFragment : BaseFragment() {
         Picasso.with(rootActivity)
                 .loadUrl(group.photo100)
                 .into(holder.civAvatar)
-        holder.tvDate.text = getTime(post.date, true)
+        holder.tvDate.text = getTime(post.date, full = true)
         holder.tvPost.text = post.text
         if (post.attachments != null) {
             for (i in 0 until post.attachments.size) {

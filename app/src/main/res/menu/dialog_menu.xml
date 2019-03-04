@@ -2,28 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:title="Picturer"
-        android:icon="@drawable/ic_photo"
-        android:id="@+id/picturer_menu"
-        app:showAsAction="always" />
+    <!--<item-->
+    <!--android:title="Picturer"-->
+    <!--android:icon="@drawable/ic_photo"-->
+    <!--android:id="@+id/picturer_menu"-->
+    <!--app:showAsAction="always" />-->
 
-    <item
-        android:title="Feed"
-        android:icon="@drawable/ic_meme"
-        android:id="@+id/feed_menu"
-        app:showAsAction="always" />
-
-    <item
-        android:title="@string/important"
-        android:id="@+id/important_menu"
-        app:showAsAction="never" />
+    <!--<item-->
+    <!--android:title="Feed"-->
+    <!--android:icon="@drawable/ic_meme"-->
+    <!--android:id="@+id/feed_menu"-->
+    <!--app:showAsAction="always" />-->
 
     <item
         android:id="@+id/menu_search_users"
-        android:title="@string/search_hint"
         android:icon="@drawable/ic_search"
-        app:showAsAction="always"
-        android:orderInCategory="101" />
+        android:title="@string/search_hint"
+        app:showAsAction="always" />
 
+    <item
+        android:id="@+id/important_menu"
+        android:icon="@drawable/ic_star_outline"
+        android:title="@string/important"
+        app:showAsAction="always" />
 </menu>

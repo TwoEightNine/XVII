@@ -188,7 +188,7 @@ class RootActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         if (!Session.isActive()) {
-            Lg.i("Service wasn't active since ${getTime(Session.serviceLastAction, true, "HH:mm:ss")}. Start again")
+            Lg.i("Service wasn't active since ${getTime(Session.serviceLastAction, format = "HH:mm:ss")}. Start again")
             Handler().postDelayed({ startNotificationService(this) }, 5000L)
         }
     }

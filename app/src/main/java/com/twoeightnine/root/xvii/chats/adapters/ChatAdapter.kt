@@ -119,7 +119,7 @@ class ChatAdapter(context: Context,
             }
         }
 
-        viewHolder.tvDate.text = getTime(message.date, true)
+        viewHolder.tvDate.text = getTime(message.date, full = true)
 
         if (viewHolder.civPhoto != null) {
             val photoAva = message.photo

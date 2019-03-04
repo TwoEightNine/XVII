@@ -66,7 +66,7 @@ class FeedAdapter(context: Context,
         }
         vholder.rlHeader.setOnClickListener { onClick?.invoke(position) }
         vholder.tvPost.setOnClickListener { onClick?.invoke(position) }
-        vholder.tvDate.text = getTime(wp.date, true)
+        vholder.tvDate.text = getTime(wp.date, full = true)
 
         if (wp.group == null && wp.profile == null) {
             return

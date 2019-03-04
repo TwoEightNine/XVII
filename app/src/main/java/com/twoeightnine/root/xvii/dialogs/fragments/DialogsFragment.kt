@@ -99,8 +99,6 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
         super.onCreateOptionsMenu(menu, inflater)
         menu?.clear()
         inflater?.inflate(R.menu.dialog_menu, menu)
-        menu?.findItem(R.id.feed_menu)?.isVisible = equalsDevUids(Session.uid)
-        menu?.findItem(R.id.picturer_menu)?.isVisible = equalsDevUids(Session.uid)
     }
 
     open fun loadMore(offset: Int) {
@@ -161,14 +159,6 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when(item?.itemId) {
-            R.id.feed_menu -> {
-                rootActivity.loadFragment(FeedFragment())
-                true
-            }
-            R.id.picturer_menu-> {
-                rootActivity.loadFragment(PicturerFragment())
-                true
-            }
             R.id.menu_search_users -> {
                 rootActivity.loadFragment(SearchMessagesFragment())
                 true
@@ -178,7 +168,6 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-
         }
     }
 

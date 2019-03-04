@@ -39,7 +39,7 @@ class PrimeGeneratorCore {
                 composite.add(s)
             }
         } else {
-            l("already generated at ${getTime(KeyStorage.ts, true)}")
+            l("already generated at ${getTime(KeyStorage.ts, full = true)}")
         }
     }
 

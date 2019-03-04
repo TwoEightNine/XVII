@@ -113,7 +113,7 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
     }
 
     override fun onFoafLoaded(date: String) {
-        add(R.string.registration_date, date)
+        add(R.string.registration_date, formatDate(date).toLowerCase())
     }
 
     override fun onUserLoaded(user: User) {
@@ -127,58 +127,31 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
             )))
         }
         if (!user.deactivated.isNullOrEmpty()) return
-        tvLastSeen.text = getString(R.string.last_seen, getTime(user.lastSeen?.time ?: 0, true))
+        tvLastSeen.text = getString(R.string.last_seen, getTime(user.lastSeen?.time
+                ?: 0, full = true))
         ivOnline.visibility = if ((user.online ?: 0) == 1) View.VISIBLE else View.GONE
-        add(R.string.link, user.getLink(), { /*goTo(user.getLink())*/ }, {
-            copy(user.getLink(), R.string.link)
-            true
-        })
-        add(R.string.id, "${user.id}", null, {
-            copy("${user.id}", R.string.id)
-            true
-        })
-        add(R.string.status, user.status, null, {
-            copy(user.status, R.string.status)
-            true
-        })
-        add(R.string.bdate, user.bdate)
+        add(R.string.link, user.getLink(), { /*goTo(user.getLink())*/ }) { copy(user.getLink(), R.string.link) }
+        add(R.string.id, "${user.id}", null) { copy("${user.id}", R.string.id) }
+        add(R.string.status, user.status, null) { copy(user.status, R.string.status) }
+        add(R.string.bdate, formatDate(formatBdate(user.bdate)).toLowerCase())
         if (user.city != null) {
             add(R.string.city, user.city?.title)
         }
         add(R.string.hometown, user.hometown)
         add(R.string.relation, getRelation(safeActivity, user.relation ?: 0))
         add(R.string.mphone, user.mobilePhone,
-                { callIntent(safeActivity, user.mobilePhone ?: "") },
                 {
-                    copy(user.mobilePhone, R.string.mphone)
-                    true
-                })
+                    callIntent(safeActivity, user.mobilePhone ?: "")
+                }) { copy(user.mobilePhone, R.string.mphone) }
         add(R.string.hphone, user.homePhone,
-                { callIntent(safeActivity, user.homePhone ?: "") },
                 {
-                    copy(user.homePhone, R.string.hphone)
-                    true
-                })
-        add(R.string.facebook, user.facebook, null, {
-            copy(user.facebook, R.string.facebook)
-            true
-        })
-        add(R.string.site, user.site, { goTo(user.site) }, {
-            copy(user.site, R.string.site)
-            true
-        })
-        add(R.string.twitter, user.twitter, null, {
-            copy(user.twitter, R.string.twitter)
-            true
-        })
-        add(R.string.instagram, user.instagram, null, {
-            copy(user.instagram, R.string.instagram)
-            true
-        })
-        add(R.string.skype, user.skype, null, {
-            copy(user.skype, R.string.skype)
-            true
-        })
+                    callIntent(safeActivity, user.homePhone ?: "")
+                }) { copy(user.homePhone, R.string.hphone) }
+        add(R.string.facebook, user.facebook, null) { copy(user.facebook, R.string.facebook) }
+        add(R.string.site, user.site, { goTo(user.site) }) { copy(user.site, R.string.site) }
+        add(R.string.twitter, user.twitter, null) { copy(user.twitter, R.string.twitter) }
+        add(R.string.instagram, user.instagram, null) { copy(user.instagram, R.string.instagram) }
+        add(R.string.skype, user.skype, null) { copy(user.skype, R.string.skype) }
         tvFriendsCount.text = shortifyNumber(user.counters?.friends ?: 0)
         tvFollowersCount.text = shortifyNumber(user.counters?.followers ?: 0)
     }
@@ -193,16 +166,19 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
     }
 
     private fun add(@StringRes title: Int,
-            value: String?,
-            onClick: ((View) -> Unit)? = null,
-            onLongClick: ((View) -> Boolean)? = null) {
+                    value: String?,
+                    onClick: ((View) -> Unit)? = null,
+                    onLongClick: ((View) -> Unit)? = null) {
         if (!value.isNullOrEmpty()) {
             val view = View.inflate(activity, R.layout.item_user_field, null)
             val binder = ViewBinder(view)
             binder.tvTitle.text = getString(title)
             binder.tvValue.text = value
             binder.rlItem.setOnClickListener(onClick)
-            binder.rlItem.setOnLongClickListener(onLongClick)
+            binder.rlItem.setOnLongClickListener {
+                onLongClick?.invoke(it)
+                true
+            }
             llContainer.addView(view)
         }
     }

@@ -140,7 +140,7 @@ class User : Parcelable, Serializable {
     inner class LastSeen {
         var time: Int = 0
 
-        override fun toString() = getTime(time, true)
+        override fun toString() = getTime(time, full = true)
     }
 
     inner class Counters {

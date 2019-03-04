@@ -77,7 +77,7 @@ open class DialogsAdapter(context: Context,
             holder.tvBody.text = Html.fromHtml(getMessageBody(App.context, message))
             holder.tvBody.maxLines = 2
         }
-        holder.tvDate.text = getTime(message.date, false)
+        holder.tvDate.text = getTime(message.date)
 
         if (message.online == 1) {
             holder.ivOnlineDot.visibility = View.VISIBLE
