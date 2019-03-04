@@ -90,6 +90,7 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
 
     open fun initAdapter() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.itemAnimator = null
         adapter = DialogsAdapter(safeActivity, { loadMore(it) }, { onClick(it) }, { onLongClick(it) })
         adapter.trier = { loadMore(adapter.itemCount) }
         recyclerView.adapter = adapter

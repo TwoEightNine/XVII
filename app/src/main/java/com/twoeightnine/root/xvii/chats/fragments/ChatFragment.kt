@@ -278,6 +278,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         llm.stackFromEnd = true
         rvChatList.layoutManager = llm
         rvChatList.adapter = adapter
+        rvChatList.itemAnimator = null
 
         fabHasMore.setOnClickListener { rvChatList.scrollToPosition(adapter.itemCount - 1) }
         rvChatList.setOnScrollListener(object : RecyclerView.OnScrollListener() {
