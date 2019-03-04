@@ -1,58 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/rlItemContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rlItemContainer"
-        android:background="@drawable/selector_rect"
-        android:padding="@dimen/item_margin">
+        android:background="@drawable/selector_rect">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/placeholder"
-            android:layout_marginStart="@dimen/item_margin"
-            android:layout_marginLeft="@dimen/item_margin"
-            android:layout_marginTop="@dimen/item_margin"
             android:id="@+id/civPhoto"
-            app:civ_border_color="@color/icons"/>
+            android:layout_width="@dimen/dialogs_photo_size"
+            android:layout_height="@dimen/dialogs_photo_size"
+            android:layout_margin="@dimen/item_margin"
+            android:src="@drawable/placeholder"
+            app:civ_border_color="@color/icons" />
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:id="@+id/tvTitle"
-            android:textColor="@color/main_text"
-            android:singleLine="true"
-            android:textSize="18sp"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/civPhoto"
-            android:layout_marginStart="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/frame_pad"/>
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/civPhoto"
+            android:singleLine="true"
+            android:text="Medium Text"
+            android:textColor="@color/main_text"
+            android:textSize="18sp" />
 
         <ImageView
-            android:tag="main"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
             android:id="@+id/ivOnlineDot"
-            android:src="@drawable/dotshape"
-            android:layout_alignBottom="@+id/civPhoto"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_alignEnd="@+id/civPhoto"
-            android:layout_alignRight="@+id/civPhoto" />
+            android:layout_alignBottom="@+id/civPhoto"
+            android:src="@drawable/dotshape"
+            android:tag="main" />
 
     </RelativeLayout>
 
-    <View
-        android:layout_marginLeft="90dp"
-        android:layout_below="@+id/rlItemContainer"
-        android:background="@color/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1px" />
+    <!--<View-->
+    <!--android:layout_marginLeft="90dp"-->
+    <!--android:layout_below="@+id/rlItemContainer"-->
+    <!--android:background="@color/divider"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1px" />-->
 
 
 </RelativeLayout>
