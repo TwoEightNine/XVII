@@ -58,7 +58,7 @@
 
     <include layout="@layout/toolbar" />
 
-    <com.twoeightnine.root.xvii.views.LoaderView
+    <ProgressBar
         android:id="@+id/loader"
         android:visibility="gone"
         android:layout_centerInParent="true"

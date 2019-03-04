@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -42,7 +43,7 @@ class WallPostFragment : BaseFragment() {
     @BindView(R.id.tvLikes)
     lateinit var tvLikes: TextView
     @BindView(R.id.loader)
-    lateinit var loader: LoaderView
+    lateinit var loader: ProgressBar
 
     var postId: String? = null
     private lateinit var postResponse: WallPostResponse

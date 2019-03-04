@@ -30,7 +30,7 @@ class GifViewerActivity: AppCompatActivity() {
     @BindView(R.id.tvTitle)
     lateinit var tvTitle: TextView
     @BindView(R.id.loader)
-    lateinit var loader: LoaderView
+    lateinit var loader: ProgressBar
     @BindView(R.id.btnSaveToDocs)
     lateinit var btnSaveToDocs: Button
     @BindView(R.id.btnDownload)

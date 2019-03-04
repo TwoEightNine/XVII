@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ProgressBar
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
@@ -31,7 +32,7 @@ class FriendsFragment : BaseFragment(), FriendsFragmentView {
     @BindView(R.id.tabs)
     lateinit var tabs: TabLayout
     @BindView(R.id.loader)
-    lateinit var loader: LoaderView
+    lateinit var loader: ProgressBar
 
 
     private lateinit var pagerAdapter: CommonPagerAdapter

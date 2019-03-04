@@ -29,7 +29,7 @@
 
     </LinearLayout>
 
-    <com.twoeightnine.root.xvii.views.LoaderView
+    <ProgressBar
         android:visibility="invisible"
         android:id="@+id/loader"
         android:layout_centerInParent="true"

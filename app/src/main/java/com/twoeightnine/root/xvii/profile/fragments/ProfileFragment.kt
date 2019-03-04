@@ -3,10 +3,7 @@ package com.twoeightnine.root.xvii.profile.fragments
 import android.graphics.Color
 import android.support.annotation.StringRes
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
@@ -40,7 +37,7 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
     @BindView(R.id.llContainer)
     lateinit var llContainer: LinearLayout
     @BindView(R.id.loader)
-    lateinit var loader: LoaderView
+    lateinit var loader: ProgressBar
     @BindView(R.id.tvName)
     lateinit var tvName: TextView
     @BindView(R.id.tvLastSeen)

@@ -268,7 +268,7 @@
         app:behavior_peekHeight="00dp"
         app:layout_behavior="com.twoeightnine.root.xvii.views.UserLockBottomSheetBehavior">
 
-        <com.twoeightnine.root.xvii.views.LoaderView
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />

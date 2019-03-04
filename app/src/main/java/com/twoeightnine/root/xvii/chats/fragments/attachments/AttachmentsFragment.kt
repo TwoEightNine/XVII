@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.widget.ProgressBar
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
@@ -21,7 +22,7 @@ class AttachmentsFragment: BaseFragment() {
     @BindView(R.id.viewPager)
     lateinit var viewPager: ViewPager
     @BindView(R.id.loader)
-    lateinit var loader: LoaderView
+    lateinit var loader: ProgressBar
 
     lateinit var adapter: CommonPagerAdapter
 
