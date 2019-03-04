@@ -194,12 +194,12 @@ class PinActivity : BaseActivity() {
 
     companion object {
 
-        fun launch(context: Context, action: String) {
-            val intent = Intent(context, PinActivity::class.java)
-            with(intent) {
+        fun launch(context: Context?, action: String) {
+            context ?: return
+
+            context.startActivity(Intent(context, PinActivity::class.java).apply {
                 putExtra(ACTION, action)
-            }
-            context.startActivity(intent)
+            })
         }
 
         private const val PROMPTS = 2
