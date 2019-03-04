@@ -63,10 +63,10 @@ class VoiceRecordFragment: BaseFragment(), Titleable {
         super.bindViews(view)
         ButterKnife.bind(this, view)
         App.appComponent?.inject(this)
-        ivSend.setOnClickListener({
+        ivSend.setOnClickListener {
             stopRecording()
             onDoneRecording()
-        })
+        }
 
         Style.forViewGroupColor(rlContainer)
         startRecording()

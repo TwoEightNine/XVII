@@ -93,8 +93,11 @@ interface ApiService {
     @GET("store.getStickersKeywords")
     fun getStickers(): Flowable<ServerResponse<StickersResponse>>
 
-    @GET("messages.setActivity?type=typing")
-    fun setActivity(@Query("user_id") userId: Int): Flowable<ServerResponse<Int>>
+    @GET("messages.setActivity")
+    fun setActivity(
+            @Query("user_id") userId: Int,
+            @Query("type") type: String
+    ): Flowable<ServerResponse<Int>>
 
     @GET("messages.removeChatUser")
     fun removeUser(@Query("chat_id") chatId: Int,
@@ -127,9 +130,9 @@ interface ApiService {
 
     @GET("friends.search")
     fun searchFriends(@Query("q") q: String,
-                    @Query("fields") fields: String,
-                    @Query("count") count: Int,
-                    @Query("offset") offset: Int): Flowable<ServerResponse<ListResponse<User>>>
+                      @Query("fields") fields: String,
+                      @Query("count") count: Int,
+                      @Query("offset") offset: Int): Flowable<ServerResponse<ListResponse<User>>>
 
     //photos
     @GET("photos.getById")
@@ -215,7 +218,7 @@ interface ApiService {
 
     @GET("likes.delete?type=post")
     fun unlike(@Query("owner_id") ownerId: Int,
-             @Query("item_id") itemId: Int): Flowable<ServerResponse<LikesResponse>>
+               @Query("item_id") itemId: Int): Flowable<ServerResponse<LikesResponse>>
 
     @GET("wall.post")
     fun postToWall(@Query("owner_id") ownerId: Int,

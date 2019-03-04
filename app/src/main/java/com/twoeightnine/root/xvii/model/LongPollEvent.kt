@@ -64,7 +64,7 @@ class LongPollEvent(upd: MutableList<Any>) {
 
                     ONLINE, OFFLINE -> userId = -(upd[1] as Double).toInt()
 
-                    TYPING_IN_USER -> userId = (upd[1] as Double).toInt()
+                    TYPING_IN_USER, RECORDING_VOICE -> userId = (upd[1] as Double).toInt()
 
                     TYPING_IN_CHAT -> {
                         userId = (upd[1] as Double).toInt()
@@ -187,14 +187,15 @@ class LongPollEvent(upd: MutableList<Any>) {
 
     companion object {
 
-        val NEW_MESSAGE = 4
-        val READ_IN = 6
-        val READ_OUT = 7
-        val ONLINE = 8
-        val OFFLINE = 9
-        val TYPING_IN_USER = 61
-        val TYPING_IN_CHAT = 62
-        val NEW_COUNT = 80
+        const val NEW_MESSAGE = 4
+        const val READ_IN = 6
+        const val READ_OUT = 7
+        const val ONLINE = 8
+        const val OFFLINE = 9
+        const val TYPING_IN_USER = 61
+        const val TYPING_IN_CHAT = 62
+        const val RECORDING_VOICE = 64
+        const val NEW_COUNT = 80
     }
 
 }

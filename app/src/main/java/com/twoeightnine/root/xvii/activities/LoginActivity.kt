@@ -10,6 +10,7 @@ import android.webkit.CookieSyncManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorService
@@ -25,8 +26,8 @@ import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
 
-    lateinit var web: WebView
-    lateinit var llLoader: LinearLayout
+    private lateinit var web: WebView
+    private lateinit var rlLoader: RelativeLayout
 
     @Inject
     lateinit var apiUtils: ApiUtils
@@ -36,8 +37,8 @@ class LoginActivity : BaseActivity() {
         setContentView(R.layout.activity_login)
         startPrimeGenerator(this)
 
-        web = findViewById(R.id.webView) as WebView
-        llLoader = findViewById(R.id.llLoader) as LinearLayout
+        web = findViewById(R.id.webView)
+        rlLoader = findViewById(R.id.rlLoader)
         App.appComponent?.inject(this)
 
         checkToken()
@@ -99,7 +100,7 @@ class LoginActivity : BaseActivity() {
         }
         Lg.i("LOGIN: token obtained ...${token.substring(token.length - 6)}")
 
-        llLoader.visibility = View.VISIBLE
+        rlLoader.visibility = View.VISIBLE
         web.visibility = View.GONE
 
         Session.token = token
@@ -177,7 +178,7 @@ class LoginActivity : BaseActivity() {
 
         override fun onPageFinished(view: WebView, url: String) {
             super.onPageFinished(view, url)
-            llLoader.visibility = View.GONE
+            rlLoader.visibility = View.GONE
             if (url.startsWith(Api.REDIRECT_URL)) {
                 doneWithThis(url)
             }

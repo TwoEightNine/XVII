@@ -94,6 +94,41 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rlRecordingVoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/toolbar"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="72dp"
+                android:background="@color/background"
+                android:elevation="4dp"
+                android:tag="main"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvRecordingVoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:text="@string/recording_voice"
+                    android:textColor="@color/toolbar_subtext"
+                    android:textSize="16dp" />
+
+                <com.twoeightnine.root.xvii.views.TypingView
+                    android:id="@+id/typingViewVoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tvRecordingVoice" />
+
+                <android.support.v4.widget.Space
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/typingViewVoice" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:tag="api20"
                 android:visibility="gone"
                 android:clickable="true"

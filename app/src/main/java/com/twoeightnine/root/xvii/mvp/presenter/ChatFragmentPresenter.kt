@@ -101,14 +101,14 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun loadCachedHistory() {
         view?.showLoading()
-        CacheHelper.getMessagesAsync(userId(), { loadUsers(it, cache = true) })
+        CacheHelper.getMessagesAsync(userId()) { loadUsers(it, cache = true) }
     }
 
     fun getSaved() = messages
 
     private fun loadUsers(history: MutableList<Message>, withClear: Boolean = false, cache: Boolean = false) {
         val userIds = getAllIds(history)
-        CacheHelper.getUsersAsync(userIds, {
+        CacheHelper.getUsersAsync(userIds) {
             it.first.forEach {
                 users.put(it.id, it)
             }
@@ -125,7 +125,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                         error ->
                         view?.showError(error)
                     })
-        })
+        }
 
     }
 
@@ -274,6 +274,10 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         }
     }
 
+    fun setAudioMessaging() {
+        utils.setActivity(userId(), ApiUtils.ACTIVITY_VOICE)
+    }
+
     fun markAsRead(mid: Int) {
         utils.markAsRead("$mid")
     }
@@ -284,7 +288,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     fun attachPhoto(path: String, isSticker: Boolean = false, context: Context? = null) {
-        if (isEncrypted && context != null && BuildConfig.DEBUG) {
+        if (isEncrypted && context != null) {
             crypto.encryptFileAsync(context, path) {
                 Lg.i("encrypted successfully $it")
                 getDocUploadServer(path, it)
@@ -573,6 +577,12 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                         if (isShown) {
                             view?.onShowTyping()
                         }
+                    }
+                }
+
+                LongPollEvent.RECORDING_VOICE -> {
+                    if (userId() == event.userId && isShown) {
+                        view?.onShowRecordingVoice()
                     }
                 }
             }

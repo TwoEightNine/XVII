@@ -80,6 +80,7 @@
     <string name="already_acc">C\'est un compte actif</string>
     <string name="error_message">Attachments</string>
     <string name="typing">écrit</string>
+    <string name="recording_voice">enregistre l\'audio</string>
     <string name="voice_message">Message vocal</string>
     <string name="choose_dialog">Choisir une conversation</string>
     <string name="light_theme">Des couleurs claires</string>

@@ -158,6 +158,7 @@
     <string name="themes">Темы</string>
     <string name="try_again">Попробовать снова</string>
     <string name="typing">печатает</string>
+    <string name="recording_voice">записывает аудио</string>
     <string name="updated_succ">Обновлено успешно</string>
     <string name="user_key">Ввести свой ключ</string>
     <string name="vibrate">Вибрировать</string>

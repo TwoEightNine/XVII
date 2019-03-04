@@ -92,6 +92,7 @@
     <string name="already_acc">This account is already in use</string>
     <string name="error_message">Attachments</string>
     <string name="typing">typing</string>
+    <string name="recording_voice">recording audio</string>
     <string name="voice_message">Voice message</string>
     <string name="choose_dialog">Choose dialog</string>
     <string name="light_theme">Light theme</string>

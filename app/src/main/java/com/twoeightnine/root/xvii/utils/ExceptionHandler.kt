@@ -38,7 +38,7 @@ class ExceptionHandler(private var context: Context): Thread.UncaughtExceptionHa
                 .append(Build.MODEL)
                 .append(lineSeparator)
                 .append("SDK: ")
-                .append(Build.VERSION.SDK)
+                .append(Build.VERSION.SDK_INT)
                 .append(lineSeparator)
 
         Lg.wtf(errorReport.toString())

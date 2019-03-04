@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
-import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.VideoViewerActivity
 import com.twoeightnine.root.xvii.consts.Api
@@ -17,15 +16,20 @@ import javax.inject.Inject
 
 class ApiUtils @Inject constructor(val api: ApiService) {
 
-    private val stickersUpdPeriod = 60 * 60 * 24 * 3 //3 days
+    companion object {
+        private const val STICKERS_UPD_DELAY = 60 * 60 * 24 * 3 //3 days
+
+        const val ACTIVITY_TYPING = "typing"
+        const val ACTIVITY_VOICE = "audiomessage"
+    }
 
     fun setOffline() {
         api.setOffline()
                 .subscribeSmart({}, {})
     }
 
-    fun setActivity(userId: Int) {
-        api.setActivity(userId)
+    fun setActivity(userId: Int, type: String = ACTIVITY_TYPING) {
+        api.setActivity(userId, type)
                 .subscribeSmart({}, {})
     }
 
@@ -140,7 +144,7 @@ class ApiUtils @Inject constructor(val api: ApiService) {
     }
 
     fun updateStickers() {
-        if (time() - Prefs.lastStickersUpdate < stickersUpdPeriod) return
+        if (time() - Prefs.lastStickersUpdate < STICKERS_UPD_DELAY) return
 
         api.getStickers()
                 .subscribeSmart({

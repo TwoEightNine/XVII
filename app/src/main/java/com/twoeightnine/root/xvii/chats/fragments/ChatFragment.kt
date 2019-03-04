@@ -80,6 +80,8 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     lateinit var fabHasMore: FloatingActionButton
     @BindView(R.id.rlTyping)
     lateinit var rlTyping: RelativeLayout
+    @BindView(R.id.rlRecordingVoice)
+    lateinit var rlRecordingVoice: RelativeLayout
 
     @BindView(R.id.rlBack)
     lateinit var rlBack: RelativeLayout
@@ -144,7 +146,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     private lateinit var pagerAdapter: CommonPagerAdapter
     private lateinit var bottomSheet: BottomSheetController<RelativeLayout>
     private lateinit var inputController: ChatInputController
-    //    private lateinit var voiceController: VoiceRecordingController
     private lateinit var voiceController: VoiceRecorder
     private lateinit var adapter: ChatAdapter
     private lateinit var emojiKeyboard: EmojiKeyboard
@@ -340,14 +341,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     private fun initVoice() {
-//        voiceController = VoiceRecordingController(
-//                rlRecord, tvRecord, safeContext.cacheDir,
-//                {
-//                    inputController.addItemAsBeingLoaded(it)
-//                    presenter.attachVoice(it)
-//                },
-//                { showError(context, it) }
-//        )
         voiceController = VoiceRecorder(safeContext, object : VoiceRecorder.RecorderCallback {
             override fun onVisibilityChanged(visible: Boolean) {
                 rlRecord.visibility = if (visible) View.VISIBLE else View.GONE
@@ -355,6 +348,9 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
             override fun onTimeUpdated(time: Int) {
                 tvRecord.text = secToTime(time)
+                if (time % 5 == 1) {
+                    presenter.setAudioMessaging()
+                }
             }
 
             override fun onRecorded(fileName: String) {
@@ -767,6 +763,15 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
 
     override fun onHideTyping() {
         rlTyping.visibility = View.INVISIBLE
+    }
+
+    override fun onShowRecordingVoice() {
+        rlRecordingVoice.visibility = View.VISIBLE
+        handler.postDelayed({ onHideRecordingVoice() }, 4800L)
+    }
+
+    override fun onHideRecordingVoice() {
+        rlRecordingVoice.visibility = View.INVISIBLE
     }
 
     override fun onChangeOnline(isOnline: Boolean) {
