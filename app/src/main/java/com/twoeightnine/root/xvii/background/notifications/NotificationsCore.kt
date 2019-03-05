@@ -227,11 +227,13 @@ class NotificationsCore(private val context: Context) {
 
                 if (showNotifChats || event.userId < 2000000000) {
 
-                    if (allowVibrate) {
-                        vibrate()
-                    }
-                    if (sound) {
-                        playRingtone()
+                    if (!isInForeground()) {
+                        if (allowVibrate) {
+                            vibrate()
+                        }
+                        if (sound) {
+                            playRingtone()
+                        }
                     }
                 }
 

@@ -1,9 +1,8 @@
 package com.twoeightnine.root.xvii.utils
 
-import android.app.Activity
-import android.app.AlarmManager
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
+import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.content.*
 import android.content.Intent.*
 import android.graphics.Bitmap
@@ -734,6 +733,13 @@ fun writeResponseBodyToDisk(body: ResponseBody, fileName: String): Boolean {
         e.printStackTrace()
         return false
     }
+}
+
+
+fun isInForeground(): Boolean {
+    val appProcessInfo = ActivityManager.RunningAppProcessInfo()
+    ActivityManager.getMyMemoryState(appProcessInfo)
+    return appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE
 }
 
 
