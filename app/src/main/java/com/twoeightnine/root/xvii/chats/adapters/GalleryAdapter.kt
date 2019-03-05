@@ -38,7 +38,7 @@ class GalleryAdapter(loader: ((Int) -> Unit)?,
     }
 
     companion object {
-        val CAMERA_MARKER = "cameraMarker"
+        const val CAMERA_MARKER = "cameraMarker"
     }
 
     inner class GalleryViewHolder(view: View) {

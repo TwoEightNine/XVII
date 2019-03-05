@@ -7,10 +7,10 @@ import com.twoeightnine.root.xvii.utils.time
 
 object Lg {
 
-    private val TAG = "vktag"
-    private val LOGS_COUNT = 500
+    private const val TAG = "vktag"
+    private const val LOGS_COUNT = 500
 
-    val logs = mutableListOf<String>()
+    val logs by lazy { arrayListOf<String>() }
 
     fun i(s: String) {
         Log.i(TAG, s)

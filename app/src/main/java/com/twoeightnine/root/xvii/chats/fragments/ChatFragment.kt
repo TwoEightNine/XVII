@@ -4,16 +4,12 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -37,10 +33,7 @@ import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
 import com.twoeightnine.root.xvii.chats.BottomSheetController
 import com.twoeightnine.root.xvii.chats.ChatInputController
 import com.twoeightnine.root.xvii.chats.VoiceRecorder
-import com.twoeightnine.root.xvii.chats.VoiceRecordingController
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
-import com.twoeightnine.root.xvii.chats.adapters.ChatPagerAdapter
-import com.twoeightnine.root.xvii.chats.fragments.attach.BottomAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.VideoAttachFragment
@@ -52,7 +45,6 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Doc
-import com.twoeightnine.root.xvii.model.Meme
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatFragmentView
@@ -62,7 +54,6 @@ import com.twoeightnine.root.xvii.views.FingerPrintAlertDialog
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
-import com.twoeightnine.root.xvii.views.emoji.Emoji
 import com.twoeightnine.root.xvii.views.emoji.EmojiKeyboard
 import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import javax.inject.Inject

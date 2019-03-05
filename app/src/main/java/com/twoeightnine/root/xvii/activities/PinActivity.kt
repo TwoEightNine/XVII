@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.util.AndroidRuntimeException
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
@@ -197,9 +199,14 @@ class PinActivity : BaseActivity() {
         fun launch(context: Context?, action: String) {
             context ?: return
 
-            context.startActivity(Intent(context, PinActivity::class.java).apply {
-                putExtra(ACTION, action)
-            })
+            try {
+                context.startActivity(Intent(context, PinActivity::class.java).apply {
+                    putExtra(ACTION, action)
+                })
+            } catch (e: AndroidRuntimeException) {
+                e.printStackTrace()
+                Lg.wtf("error launching pin with $action: ${e.message}")
+            }
         }
 
         private const val PROMPTS = 2

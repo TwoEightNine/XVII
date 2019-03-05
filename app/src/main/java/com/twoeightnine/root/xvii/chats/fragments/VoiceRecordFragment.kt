@@ -32,13 +32,13 @@ import javax.inject.Inject
 
 class VoiceRecordFragment: BaseFragment(), Titleable {
 
-    companion object {
-        fun newInstance(listener: (Doc) -> Unit): VoiceRecordFragment {
-            val frag = VoiceRecordFragment()
-            frag.listener = listener
-            return frag
-        }
-    }
+//    companion object {
+//        fun newInstance(listener: (Doc) -> Unit): VoiceRecordFragment {
+//            val frag = VoiceRecordFragment()
+//            frag.listener = listener
+//            return frag
+//        }
+//    }
 
     override fun getTitle() = getString(R.string.voice_message)
 
@@ -166,7 +166,6 @@ class VoiceRecordFragment: BaseFragment(), Titleable {
             e.printStackTrace()
             recorder = null
         }
-
     }
 
     private fun cntDnToTime(tick: Long): String {
