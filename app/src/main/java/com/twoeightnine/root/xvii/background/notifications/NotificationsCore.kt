@@ -8,9 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.RingtoneManager
-import android.os.Bundle
-import android.os.Handler
-import android.os.Vibrator
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.LocalBroadcastManager
 import android.text.Html
@@ -32,8 +29,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.realm.Realm
 import javax.inject.Inject
 import android.app.NotificationChannel
-import android.os.Build
-import android.content.Context.NOTIFICATION_SERVICE
+import android.os.*
 import com.twoeightnine.root.xvii.R
 
 
@@ -59,8 +55,18 @@ class NotificationsCore(private val context: Context) {
     private var isRunning = false
 
     private val handler = Handler()
-
     private val disposables = CompositeDisposable()
+
+    private val vibrator by lazy { context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator }
+    private val ringtone by lazy {
+        RingtoneManager.getRingtone(
+                context,
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        )
+    }
+    private val notificationManager by lazy {
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
 
     fun run() {
         while (true) {
@@ -216,7 +222,9 @@ class NotificationsCore(private val context: Context) {
             if (event.type == LongPollEvent.NEW_COUNT) {
                 val decrease = lastCount > event.count
                 lastCount = event.count
-                if (decrease) closeNotification()
+                if (decrease) {
+                    notificationManager.cancelAll()
+                }
             }
 
             if (event.type == LongPollEvent.NEW_MESSAGE &&
@@ -229,10 +237,10 @@ class NotificationsCore(private val context: Context) {
 
                     if (!isInForeground()) {
                         if (allowVibrate) {
-                            vibrate()
+                            vibrator.vibrate(VIBRATE_DELAY)
                         }
                         if (sound) {
-                            playRingtone()
+                            ringtone.play()
                         }
                     }
                 }
@@ -269,11 +277,14 @@ class NotificationsCore(private val context: Context) {
         }
     }
 
-    private fun showNotification(content: String,
-                                 peerId: Int,
-                                 userName: String,
-                                 title: String = context.getString(R.string.app_name),
-                                 icon: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.xvii128)) {
+    private fun showNotification(
+            content: String,
+            peerId: Int,
+            userName: String,
+            title: String = context.getString(R.string.app_name),
+            icon: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.xvii128)
+    ) {
+
         val intent = Intent(context, RootActivity::class.java)
         intent.putExtra(RootActivity.USER_ID, peerId)
         intent.putExtra(RootActivity.TITLE, userName)
@@ -284,49 +295,33 @@ class NotificationsCore(private val context: Context) {
                 PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.app_name)
             val descriptionText = context.getString(R.string.app_name)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
-            mChannel.description = descriptionText
-            mChannel.setSound(null, null)
+            val channel = NotificationChannel(CHANNEL_ID, name, importance)
+            channel.description = descriptionText
+            channel.setSound(null, null)
 
-            notificationManager.createNotificationChannel(mChannel)
+            notificationManager.createNotificationChannel(channel)
         }
 
-        val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setLargeIcon(icon)
                 .setSmallIcon(com.twoeightnine.root.xvii.R.drawable.ic_message)
                 .setContentTitle(title)
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
                 .setContentText(Html.fromHtml(content))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentIntent(pIntent)
 
         if (ledLights) {
-            mBuilder.setLights(color, 500, 500)
+            builder.setLights(color, 500, 500)
         }
 
-        notificationManager.notify(peerId, mBuilder.build())
-    }
-
-    private fun closeNotification() {
-        val mNotifyMgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        mNotifyMgr.cancelAll()
-    }
-
-    private fun vibrate() {
-        val vi = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        vi.vibrate(VIBRATE_DELAY)
-    }
-
-    private fun playRingtone() {
-        RingtoneManager.getRingtone(
-                context,
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        ).play()
+        notificationManager.notify(peerId, builder.build())
     }
 
     private fun l(s: String) {
@@ -339,8 +334,8 @@ class NotificationsCore(private val context: Context) {
 
         private const val CHANNEL_ID = "xvii.notifications"
 
-        private val VIBRATE_DELAY = 200L
-        private val WAIT_DELAY = 1000L
-        private val NO_INTERNET_DELAY = 5000L
+        private const val VIBRATE_DELAY = 150L
+        private const val WAIT_DELAY = 1000L
+        private const val NO_INTERNET_DELAY = 5000L
     }
 }
