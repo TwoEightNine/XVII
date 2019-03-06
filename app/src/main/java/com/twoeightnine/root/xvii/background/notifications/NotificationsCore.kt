@@ -237,7 +237,7 @@ class NotificationsCore(private val context: Context) {
 
                     if (!isInForeground()) {
                         if (allowVibrate) {
-                            vibrator.vibrate(VIBRATE_DELAY)
+                            vibrate()
                         }
                         if (sound) {
                             ringtone.play()
@@ -324,6 +324,14 @@ class NotificationsCore(private val context: Context) {
         notificationManager.notify(peerId, builder.build())
     }
 
+    private fun vibrate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(VIBRATE_DELAY, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(VIBRATE_DELAY)
+        }
+    }
+
     private fun l(s: String) {
         Lg.i("[service] $s")
     }
@@ -334,7 +342,7 @@ class NotificationsCore(private val context: Context) {
 
         private const val CHANNEL_ID = "xvii.notifications"
 
-        private const val VIBRATE_DELAY = 150L
+        private const val VIBRATE_DELAY = 80L
         private const val WAIT_DELAY = 1000L
         private const val NO_INTERNET_DELAY = 5000L
     }
