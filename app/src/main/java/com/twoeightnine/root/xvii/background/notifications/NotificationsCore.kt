@@ -201,7 +201,7 @@ class NotificationsCore(private val context: Context) {
     }
 
     private fun sendHistory(historyResponse: LongPollHistoryResponse, newTs: Int) {
-        Lg.i(historyResponse.toStringSafe())
+        Lg.i(if (BuildConfig.DEBUG) historyResponse.toString() else historyResponse.toStringSafe())
         CacheHelper.saveMessagesAsync(historyResponse.messages?.items ?: mutableListOf())
         val rawUpds = mutableListOf<MutableList<Any>>()
         historyResponse.messages?.items?.forEach {
@@ -342,7 +342,7 @@ class NotificationsCore(private val context: Context) {
 
         private const val CHANNEL_ID = "xvii.notifications"
 
-        private const val VIBRATE_DELAY = 80L
+        private const val VIBRATE_DELAY = 60L
         private const val WAIT_DELAY = 1000L
         private const val NO_INTERNET_DELAY = 5000L
     }
