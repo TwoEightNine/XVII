@@ -184,6 +184,14 @@ class ChatAdapter(context: Context,
                         viewHolder.llMessageContainer.addView(included)
                     }
 
+                    Attachment.TYPE_GRAFFITI -> {
+                        included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
+                        Picasso.with(context)
+                                .load(atts[i].graffiti!!.url)
+                                .into(included.findViewById<ImageView>(R.id.ivInternal))
+                        viewHolder.llMessageContainer.addView(included)
+                    }
+
                     Attachment.TYPE_GIFT -> {
                         included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
                         Picasso.with(context)
@@ -208,16 +216,28 @@ class ChatAdapter(context: Context,
                     }
 
                     Attachment.TYPE_DOC -> {
-                        val doc = atts[i].doc
-                        if (doc!!.isVoiceMessage) {
-                            viewHolder.llMessageContainer.addView(
-                                    getAudio(Audio(doc, context.getString(R.string.voice_message)), context))
-                        } else if (doc.isGif) {
-                            viewHolder.llMessageContainer.addView(getGif(doc, context))
-                        } else if (doc.isEncrypted) {
-                            viewHolder.llMessageContainer.addView(getEncrypted(doc, context, decryptCallback))
-                        } else {
-                            viewHolder.llMessageContainer.addView(getDoc(doc, context))
+                        val doc = atts[i].doc ?: return
+                        when {
+                            doc.isVoiceMessage -> {
+                                viewHolder.llMessageContainer.addView(
+                                        getAudio(Audio(doc, context.getString(R.string.voice_message)), context))
+                            }
+                            doc.isGif -> {
+                                viewHolder.llMessageContainer.addView(getGif(doc, context))
+                            }
+                            doc.isGraffiti -> {
+                                included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
+                                Picasso.with(context)
+                                        .load(doc.preview!!.graffiti!!.src)
+                                        .into(included.findViewById<ImageView>(R.id.ivInternal))
+                                viewHolder.llMessageContainer.addView(included)
+                            }
+                            doc.isEncrypted -> {
+                                viewHolder.llMessageContainer.addView(getEncrypted(doc, context, decryptCallback))
+                            }
+                            else -> {
+                                viewHolder.llMessageContainer.addView(getDoc(doc, context))
+                            }
                         }
                     }
 

@@ -9,7 +9,7 @@ import java.util.*
  * Created by root on 10/14/16.
  */
 
-class Doc: Serializable {
+class Doc : Serializable {
     val id: Int = 0
     @SerializedName("owner_id")
     val ownerId: Int = 0
@@ -27,6 +27,12 @@ class Doc: Serializable {
     val isGif: Boolean
         get() = type == 3 &&
                 ext == "gif"
+
+    val isGraffiti: Boolean
+        get() = type == 4 &&
+                ext == "png" &&
+                preview != null &&
+                preview.graffiti != null
 
     val isVoiceMessage: Boolean
         get() = type == 5 &&
@@ -46,6 +52,7 @@ class Doc: Serializable {
         val audioMsg: AudioMsg? = null
         @SerializedName("photo")
         val photo: PhotoPreview? = null
+        val graffiti: Graffiti? = null
 
         inner class AudioMsg {
 
@@ -65,6 +72,11 @@ class Doc: Serializable {
 
             }
 
+        }
+
+        inner class Graffiti {
+
+            val src: String? = null
         }
     }
 }

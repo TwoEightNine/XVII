@@ -14,4 +14,4 @@ data class UserStat(
         var count: Int = Prefs.count,
         var name: String = Session.fullName,
         var photo: String = Session.photo
-        )
+)

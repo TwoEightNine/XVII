@@ -19,6 +19,8 @@ class Attachment : Parcelable, Serializable {
     var wall: WallPost? = null
     var gift: Gift? = null
 
+    val graffiti: Graffiti? = null
+
     constructor(p: Parcel) {
         type = p.readString()
         photo = p.readSerializable() as Photo
@@ -97,14 +99,15 @@ class Attachment : Parcelable, Serializable {
 
     companion object {
 
-        val TYPE_PHOTO = "photo"
-        val TYPE_STICKER = "sticker"
-        val TYPE_AUDIO = "audio"
-        val TYPE_LINK = "link"
-        val TYPE_VIDEO = "video"
-        val TYPE_DOC = "doc"
-        val TYPE_WALL = "wall"
-        val TYPE_GIFT = "gift"
+        const val TYPE_PHOTO = "photo"
+        const val TYPE_STICKER = "sticker"
+        const val TYPE_AUDIO = "audio"
+        const val TYPE_LINK = "link"
+        const val TYPE_VIDEO = "video"
+        const val TYPE_DOC = "doc"
+        const val TYPE_WALL = "wall"
+        const val TYPE_GIFT = "gift"
+        const val TYPE_GRAFFITI = "graffiti"
 
         val CREATOR: Parcelable.Creator<Attachment> = object : Parcelable.Creator<Attachment> {
             override fun createFromParcel(parcel: Parcel): Attachment {
