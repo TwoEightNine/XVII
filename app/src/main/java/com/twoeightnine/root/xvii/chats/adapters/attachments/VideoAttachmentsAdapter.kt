@@ -2,16 +2,13 @@ package com.twoeightnine.root.xvii.chats.adapters.attachments
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
 import com.twoeightnine.root.xvii.model.Video
 import com.twoeightnine.root.xvii.utils.loadUrl
 import com.twoeightnine.root.xvii.utils.secToTime
+import kotlinx.android.synthetic.main.item_attachments_video.view.*
 
 
 class VideoAttachmentsAdapter(loader: ((Int) -> Unit)?,
@@ -25,26 +22,21 @@ class VideoAttachmentsAdapter(loader: ((Int) -> Unit)?,
             view!!.tag = VideoViewHolder(view)
         }
         val holder = view.tag as VideoViewHolder
-        holder.tvDuration.text = secToTime(video.duration)
-        holder.ivVideo.loadUrl(video.maxPhoto)
-        holder.ivVideo.setOnClickListener {
-            listener?.invoke(video)
-        }
-        holder.tvTitle.text = video.title
+        holder.bind(video)
         return view
     }
 
-    inner class VideoViewHolder(view: View) {
+    inner class VideoViewHolder(private val view: View) {
 
-        @BindView(R.id.ivVideo)
-        lateinit var ivVideo: ImageView
-        @BindView(R.id.tvDuration)
-        lateinit var tvDuration: TextView
-        @BindView(R.id.tvTitle)
-        lateinit var tvTitle: TextView
-
-        init {
-            ButterKnife.bind(this, view)
+        fun bind(video: Video) {
+            with(view) {
+                tvDuration.text = secToTime(video.duration)
+                ivVideo.loadUrl(video.maxPhoto)
+                ivVideo.setOnClickListener {
+                    listener?.invoke(video)
+                }
+                tvTitle.text = video.title
+            }
         }
     }
 }

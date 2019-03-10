@@ -3,18 +3,10 @@ package com.twoeightnine.root.xvii.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import com.google.android.material.navigation.NavigationView
-import androidx.fragment.app.Fragment
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.ListView
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.DrawerAdapter
@@ -33,6 +25,7 @@ import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import com.twoeightnine.root.xvii.utils.*
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_root.*
 import javax.inject.Inject
 
 /**
@@ -55,28 +48,12 @@ class RootActivity : BaseActivity() {
 
     }
 
-    @BindView(R.id.flContainer)
-    lateinit var flContainer: FrameLayout
-    @BindView(R.id.dlRoot)
-    lateinit var dlRoot: androidx.drawerlayout.widget.DrawerLayout
-    @BindView(R.id.navigationView)
-    lateinit var navigationView: NavigationView
-    @BindView(R.id.llDrawer)
-    lateinit var llDrawer: LinearLayout
-    @BindView(R.id.civAvatar)
-    lateinit var civAvatar: CircleImageView
-    @BindView(R.id.tvFullName)
-    lateinit var tvFullName: TextView
-    @BindView(R.id.lvDrawer)
-    lateinit var lvDrawer: ListView
-
     @Inject
     lateinit var apiUtils: ApiUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_root)
-        ButterKnife.bind(this)
         App.appComponent?.inject(this)
         initDrawer()
         loadFragment(DialogsFragment.newInstance())

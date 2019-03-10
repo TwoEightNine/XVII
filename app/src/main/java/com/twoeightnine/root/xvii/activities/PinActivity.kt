@@ -6,10 +6,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import android.util.AndroidRuntimeException
 import android.view.View
-import android.widget.RelativeLayout
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -19,6 +15,7 @@ import com.twoeightnine.root.xvii.model.Account
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import io.realm.Realm
+import kotlinx.android.synthetic.main.activity_pin.*
 
 /**
  * Created by root on 3/17/17.
@@ -29,17 +26,6 @@ class PinActivity : BaseActivity() {
     private var action: String? = null
     private var currentStage: String? = null
 
-    @BindView(R.id.tvTitle)
-    lateinit var tvTitle: TextView
-    @BindView(R.id.tvPinDots)
-    lateinit var tvPinDots: TextView
-    @BindView(R.id.pinPad)
-    lateinit var pinPad: PinPadView
-    @BindView(R.id.tvForgot)
-    lateinit var tvForgot: TextView
-    @BindView(R.id.rlContainer)
-    lateinit var rlContainer: RelativeLayout
-
     private var pin = ""
     private var confirmedPin = ""
 
@@ -49,7 +35,6 @@ class PinActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pin)
-        ButterKnife.bind(this)
         if (intent.extras != null) {
             action = intent.extras.getString(ACTION)
         } else {

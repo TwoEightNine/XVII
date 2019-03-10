@@ -1,15 +1,11 @@
 package com.twoeightnine.root.xvii.adapters
 
 import android.content.Context
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import kotlinx.android.synthetic.main.item_try_again.view.*
 
 
 abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
@@ -158,16 +154,14 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
     }
 
 
-    inner class LoaderViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
+    inner class LoaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    inner class TryViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
-
-        @BindView(R.id.llTryAgain)
-        lateinit var llTryAgain: LinearLayout
+    inner class TryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         init {
-            ButterKnife.bind(this, view)
-            llTryAgain.setOnClickListener { trier?.invoke() }
+            with(itemView) {
+                llTryAgain.setOnClickListener { trier?.invoke() }
+            }
         }
     }
 

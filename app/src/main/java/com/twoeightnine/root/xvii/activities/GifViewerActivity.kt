@@ -7,14 +7,12 @@ import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.WebFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoaderView
+import kotlinx.android.synthetic.main.activity_gif_viewer.*
 import java.io.File
 import javax.inject.Inject
 
@@ -24,21 +22,6 @@ import javax.inject.Inject
  * je les hais
  */
 class GifViewerActivity: AppCompatActivity() {
-
-    @BindView(R.id.ivGif)
-    lateinit var ivGif: ImageView
-    @BindView(R.id.tvTitle)
-    lateinit var tvTitle: TextView
-    @BindView(R.id.loader)
-    lateinit var loader: ProgressBar
-    @BindView(R.id.btnSaveToDocs)
-    lateinit var btnSaveToDocs: Button
-    @BindView(R.id.btnDownload)
-    lateinit var btnDownload: Button
-    @BindView(R.id.rlTop)
-    lateinit var rlTop: RelativeLayout
-    @BindView(R.id.llBottom)
-    lateinit var rlBottom: LinearLayout
 
     @Inject
     lateinit var apiUtils: ApiUtils
@@ -58,7 +41,6 @@ class GifViewerActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gif_viewer)
         App.appComponent?.inject(this)
-        ButterKnife.bind(this)
         if (intent.extras != null) {
             url = intent.extras.getString(URL)
             accessKey = intent.extras.getString(ACCESS_KEY)
@@ -74,7 +56,7 @@ class GifViewerActivity: AppCompatActivity() {
         name = "file://${Environment.getExternalStoragePublicDirectory(DownloadFileAsyncTask.DEFAULT_PATH)}/$name"
         ivGif.setOnClickListener {
             visibilitor(rlTop)
-            visibilitor(rlBottom)
+            visibilitor(llBottom)
         }
         btnSaveToDocs.setOnClickListener {
             apiUtils.saveDoc(this, ownerId, docId, accessKey)

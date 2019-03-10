@@ -2,13 +2,10 @@ package com.twoeightnine.root.xvii.adapters
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.model.DrawerItem
+import kotlinx.android.synthetic.main.item_drawer.view.*
 
 class DrawerAdapter : SimpleAdapter<DrawerItem>() {
 
@@ -20,19 +17,17 @@ class DrawerAdapter : SimpleAdapter<DrawerItem>() {
             view.tag = DrawerViewHolder(view)
         }
         val holder = view?.tag as DrawerViewHolder
-        holder.tvDrawer.text = item.title
-        holder.ivDrawer.setImageResource(item.resId)
+        holder.bind(item)
         return view
     }
 
-    inner class DrawerViewHolder(view: View) {
-        @BindView(R.id.ivDrawer)
-        lateinit var ivDrawer: ImageView
-        @BindView(R.id.tvDrawer)
-        lateinit var tvDrawer: TextView
+    inner class DrawerViewHolder(private val view: View) {
 
-        init {
-            ButterKnife.bind(this, view)
+        fun bind(drawerItem: DrawerItem) {
+            with(view) {
+                tvDrawer.text = drawerItem.title
+                ivDrawer.setImageResource(drawerItem.resId)
+            }
         }
     }
 }

@@ -7,16 +7,16 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 /**
  * base PagerAdapter, the most common
  */
-open class CommonPagerAdapter(fm: androidx.fragment.app.FragmentManager) : androidx.fragment.app.FragmentStatePagerAdapter(fm) {
+open class CommonPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
-    private val fragments = ArrayList<androidx.fragment.app.Fragment>()
+    private val fragments = ArrayList<Fragment>()
     private val titles = ArrayList<String>()
 
     override fun getItem(position: Int) = fragments[position]
 
     override fun getCount() = fragments.size
 
-    fun add(f: androidx.fragment.app.Fragment, title: String) {
+    fun add(f: Fragment, title: String) {
         fragments.add(f)
         titles.add(title)
     }

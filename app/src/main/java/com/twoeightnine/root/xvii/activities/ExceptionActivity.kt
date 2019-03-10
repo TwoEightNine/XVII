@@ -5,8 +5,6 @@ import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.consts.Api
@@ -17,14 +15,10 @@ import com.twoeightnine.root.xvii.utils.showCommon
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
+import kotlinx.android.synthetic.main.activity_exception.*
 import javax.inject.Inject
 
 class ExceptionActivity : AppCompatActivity() {
-
-    @BindView(R.id.tvStack)
-    lateinit var tvStack: TextView
-    @BindView(R.id.btnReport)
-    lateinit var btnReport: Button
 
     companion object {
         val ERROR = "error"
@@ -36,7 +30,6 @@ class ExceptionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exception)
-        ButterKnife.bind(this)
         App.appComponent?.inject(this)
         var error = ""
         if (intent.extras != null) {

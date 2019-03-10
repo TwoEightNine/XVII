@@ -3,13 +3,11 @@ package com.twoeightnine.root.xvii.chats.adapters.attachments
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.utils.loadUrl
+import kotlinx.android.synthetic.main.item_photo_attachment.view.*
 
 class PhotoAttachmentsAdapter(var context: Context,
                               loader: ((Int) -> Unit)?,
@@ -23,28 +21,25 @@ class PhotoAttachmentsAdapter(var context: Context,
             view!!.tag = PhotoViewHolder(view)
         }
         val holder = view.tag as PhotoViewHolder
-        holder.ivPhoto.loadUrl(photo.optimalPhoto)
-        holder.ivPhoto.setOnClickListener {
-            listener?.invoke(photo)
-        }
-        if (photo in multiSelectRaw) {
-            holder.ivCheck.visibility = View.VISIBLE
-        } else {
-            holder.ivCheck.visibility = View.GONE
-        }
+        holder.bind(photo)
         return view
     }
 
 
-    inner class PhotoViewHolder(view: View) {
+    inner class PhotoViewHolder(private val view: View) {
 
-        @BindView(R.id.ivPhoto)
-        lateinit var ivPhoto: ImageView
-        @BindView(R.id.ivCheck)
-        lateinit var ivCheck: ImageView
-
-        init {
-            ButterKnife.bind(this, view)
+        fun bind(photo: Photo) {
+            with(view) {
+                ivPhoto.loadUrl(photo.optimalPhoto)
+                ivPhoto.setOnClickListener {
+                    listener?.invoke(photo)
+                }
+                if (photo in multiSelectRaw) {
+                    ivCheck.visibility = View.VISIBLE
+                } else {
+                    ivCheck.visibility = View.GONE
+                }
+            }
         }
     }
 

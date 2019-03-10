@@ -46,8 +46,6 @@ dependencies {
     compile "androidx.recyclerview:recyclerview:$appCompat"
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    compile "com.jakewharton:butterknife:$butterKnifeVersion"
-    kapt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 
     compile "com.google.code.gson:gson:$gsonVersion"
 

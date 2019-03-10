@@ -6,9 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
+import kotlinx.android.synthetic.main.activity_video_viewer.*
 
 class VideoViewerActivity: AppCompatActivity() {
 
@@ -23,15 +22,11 @@ class VideoViewerActivity: AppCompatActivity() {
         val URL = "url"
     }
 
-    @BindView(R.id.webView)
-    lateinit var webView: WebView
-
     private lateinit var url: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_viewer)
-        ButterKnife.bind(this)
         if (intent.extras != null) {
             url = intent.extras.getString(URL)
         } else {

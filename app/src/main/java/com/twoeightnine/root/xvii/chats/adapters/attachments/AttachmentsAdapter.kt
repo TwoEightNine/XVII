@@ -2,10 +2,6 @@ package com.twoeightnine.root.xvii.chats.adapters.attachments
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
@@ -16,6 +12,7 @@ import com.twoeightnine.root.xvii.utils.getDoc
 import com.twoeightnine.root.xvii.utils.getEncrypted
 import com.twoeightnine.root.xvii.utils.getPhoto
 import com.twoeightnine.root.xvii.utils.getVideo
+import kotlinx.android.synthetic.main.item_attachment.view.*
 
 class AttachmentsAdapter(private val listener: ((Int) -> Unit)?,
                          private val onPhotoClick: (Photo) -> Unit = {},
@@ -29,45 +26,42 @@ class AttachmentsAdapter(private val listener: ((Int) -> Unit)?,
             view!!.tag = ViewHolder(view)
         }
         val holder = view.tag as ViewHolder
-        holder.llContainer.removeAllViews()
-        when (att.type) {
-
-            Attachment.TYPE_PHOTO -> {
-                val photo = att.photo
-                if (photo != null)
-                    holder.llContainer.addView(getPhoto(photo, App.context, onPhotoClick))
-            }
-
-            Attachment.TYPE_DOC -> {
-                val doc = att.doc
-                if (doc != null) {
-                    if (doc.isEncrypted) {
-                        holder.llContainer.addView(getEncrypted(doc, App.context))
-                    } else {
-                        holder.llContainer.addView(getDoc(doc, App.context))
-                    }
-                }
-            }
-
-            Attachment.TYPE_VIDEO -> {
-                val video = att.video
-                if (video != null)
-                    holder.llContainer.addView(getVideo(video, App.context, onVideoClick))
-            }
-        }
-        holder.rlClose.setOnClickListener { listener?.invoke(pos) }
+        holder.bind(att, pos)
         return view
     }
 
-    inner class ViewHolder(view: View) {
+    inner class ViewHolder(private val view: View) {
 
-        @BindView(R.id.llContainer)
-        lateinit var llContainer: LinearLayout
-        @BindView(R.id.rlClose)
-        lateinit var rlClose: RelativeLayout
+        fun bind(attachment: Attachment, pos: Int) {
+            with(view) {
+                llContainer.removeAllViews()
+                when (attachment.type) {
 
-        init {
-            ButterKnife.bind(this, view)
+                    Attachment.TYPE_PHOTO -> {
+                        val photo = attachment.photo
+                        if (photo != null)
+                            llContainer.addView(getPhoto(photo, App.context, onPhotoClick))
+                    }
+
+                    Attachment.TYPE_DOC -> {
+                        val doc = attachment.doc
+                        if (doc != null) {
+                            if (doc.isEncrypted) {
+                                llContainer.addView(getEncrypted(doc, App.context))
+                            } else {
+                                llContainer.addView(getDoc(doc, App.context))
+                            }
+                        }
+                    }
+
+                    Attachment.TYPE_VIDEO -> {
+                        val video = attachment.video
+                        if (video != null)
+                            llContainer.addView(getVideo(video, App.context, onVideoClick))
+                    }
+                }
+                rlClose.setOnClickListener { listener?.invoke(pos) }
+            }
         }
     }
 }
