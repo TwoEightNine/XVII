@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.chats.fragments.attach
 
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
+import com.google.android.material.tabs.TabLayout
+import androidx.viewpager.widget.ViewPager
 import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -27,7 +27,7 @@ class BottomAttachFragment: BaseFragment(), Titleable {
     @BindView(R.id.tabsAttachments)
     lateinit var tabs: TabLayout
     @BindView(R.id.viewPager)
-    lateinit var viewPager: ViewPager
+    lateinit var viewPager: androidx.viewpager.widget.ViewPager
 
     lateinit var pagerAdapter: CommonPagerAdapter
     var listener: ((MutableList<Attachment>) -> Unit)? = null

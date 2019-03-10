@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.chats.fragments.attachments
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
+import com.google.android.material.tabs.TabLayout
+import androidx.viewpager.widget.ViewPager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -20,7 +20,7 @@ class AttachmentsFragment: BaseFragment() {
     @BindView(R.id.tabs)
     lateinit var tabs: TabLayout
     @BindView(R.id.viewPager)
-    lateinit var viewPager: ViewPager
+    lateinit var viewPager: androidx.viewpager.widget.ViewPager
     @BindView(R.id.loader)
     lateinit var loader: ProgressBar
 

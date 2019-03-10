@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class ImportantFragment: BaseFragment(), ImportantFragmentView {
 
     @BindView(R.id.rvImportant)
-    lateinit var rvImportant: RecyclerView
+    lateinit var rvImportant: androidx.recyclerview.widget.RecyclerView
 
     @Inject
     lateinit var presenter: ImportantFragmentPresenter
@@ -46,7 +46,7 @@ class ImportantFragment: BaseFragment(), ImportantFragmentView {
     }
 
     fun initAdapter() {
-        rvImportant.layoutManager = LinearLayoutManager(activity)
+        rvImportant.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         adapter = ChatAdapter(
                 safeActivity,
                 { presenter.loadHistory(it) },
@@ -57,7 +57,7 @@ class ImportantFragment: BaseFragment(), ImportantFragmentView {
                 { apiUtils.openVideo(safeContext, it) },
                 true
         )
-        val llm = LinearLayoutManager(activity)
+        val llm = androidx.recyclerview.widget.LinearLayoutManager(activity)
         llm.stackFromEnd = true
         rvImportant.layoutManager = llm
         rvImportant.adapter = adapter

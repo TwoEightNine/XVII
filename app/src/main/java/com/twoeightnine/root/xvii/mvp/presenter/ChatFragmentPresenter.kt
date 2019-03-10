@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Environment
-import android.support.v4.content.LocalBroadcastManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.text.Html
 import android.text.TextUtils
 import com.twoeightnine.root.xvii.App
@@ -66,7 +66,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun subscribe() {
         if (!isRegistered) {
-            LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(NotificationsCore.NAME))
+            androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(NotificationsCore.NAME))
             isRegistered = true
         }
     }
@@ -594,7 +594,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
             userId() < 0 && event.userId - 1000000000 == -userId()
 
     fun unsubscribe() {
-        LocalBroadcastManager.getInstance(App.context).unregisterReceiver(receiver)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(App.context).unregisterReceiver(receiver)
         isRegistered = false
     }
 

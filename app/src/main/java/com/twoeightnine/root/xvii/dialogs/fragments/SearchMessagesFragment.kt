@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.dialogs.fragments
 
 import android.os.CountDownTimer
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class SearchMessagesFragment: BaseFragment(), SearchMessagesFragmentView {
 
     @BindView(R.id.recyclerView)
-    lateinit var recyclerView: RecyclerView
+    lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     @BindView(R.id.swipeRefresh)
     lateinit var swipeRefresh: SwipyRefreshLayout
     @BindView(R.id.searchView)
@@ -59,7 +59,7 @@ class SearchMessagesFragment: BaseFragment(), SearchMessagesFragmentView {
     }
 
     fun initAdapter() {
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         adapter = SearchMessagesAdapter(safeActivity, { loadMore(it) }, { onClick(it) }, { onLongClick(it) })
         recyclerView.adapter = adapter
     }

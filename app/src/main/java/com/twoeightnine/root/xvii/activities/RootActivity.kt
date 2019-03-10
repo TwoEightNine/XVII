@@ -3,11 +3,11 @@ package com.twoeightnine.root.xvii.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
+import com.google.android.material.navigation.NavigationView
+import androidx.fragment.app.Fragment
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -58,7 +58,7 @@ class RootActivity : BaseActivity() {
     @BindView(R.id.flContainer)
     lateinit var flContainer: FrameLayout
     @BindView(R.id.dlRoot)
-    lateinit var dlRoot: DrawerLayout
+    lateinit var dlRoot: androidx.drawerlayout.widget.DrawerLayout
     @BindView(R.id.navigationView)
     lateinit var navigationView: NavigationView
     @BindView(R.id.llDrawer)
@@ -139,7 +139,7 @@ class RootActivity : BaseActivity() {
      * + it prevents recreating top fragment if it is called
      * + it removes top fragment (if fragment is not Dialogs)
      */
-    fun loadFragment(frag: Fragment, clearStack: Boolean = false, tag: String = frag.javaClass.simpleName) {
+    fun loadFragment(frag: androidx.fragment.app.Fragment, clearStack: Boolean = false, tag: String = frag.javaClass.simpleName) {
         val count = supportFragmentManager.backStackEntryCount
         if (count > 0) {
             val topName = supportFragmentManager.getBackStackEntryAt(count - 1).name

@@ -1,14 +1,14 @@
 package com.twoeightnine.root.xvii.views.photoviewer
 
 import android.content.Context
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.view.MotionEvent
 
 /**
  * Created by twoeightnine on 1/25/18.
  */
-class StopableViewPager : ViewPager {
+class StopableViewPager : androidx.viewpager.widget.ViewPager {
 
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
     constructor(context: Context) : super(context)

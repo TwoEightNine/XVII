@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.chats.fragments
 import android.content.Intent
 import android.provider.MediaStore
 import android.provider.MediaStore.MediaColumns
-import android.support.design.widget.FloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
 import android.widget.GridView
 import android.widget.ImageView

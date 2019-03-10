@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.utils
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
@@ -14,7 +14,7 @@ class BottomSheetHelper(private var bottomSheet: RelativeLayout,
                         private var thumb: RelativeLayout,
                         private var title: TextView,
                         private var container: Int,
-                        private var fragmentManager: FragmentManager,
+                        private var fragmentManager: androidx.fragment.app.FragmentManager,
                         private var bottomSheetHeightPx: Int) {
 
     companion object {
@@ -43,7 +43,7 @@ class BottomSheetHelper(private var bottomSheet: RelativeLayout,
         }
     }
 
-    fun openBottomSheet(frag: Fragment, title: String = "") {
+    fun openBottomSheet(frag: androidx.fragment.app.Fragment, title: String = "") {
         if (!isBottomOpen()) {
             val bottomParams = bottomSheet.layoutParams as FrameLayout.LayoutParams
             bottomParams.bottomMargin = -(bottomSheetHeightPx)
@@ -72,7 +72,7 @@ class BottomSheetHelper(private var bottomSheet: RelativeLayout,
         }
     }
 
-    private fun loadFragment(frag: Fragment, title: String = "") {
+    private fun loadFragment(frag: androidx.fragment.app.Fragment, title: String = "") {
         fragmentManager
                 .beginTransaction()
                 .replace(container, frag)

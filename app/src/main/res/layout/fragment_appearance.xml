@@ -84,7 +84,7 @@
                             android:layout_width="@dimen/picker_large_side_width"
                             android:layout_height="match_parent" />
                         
-                        <android.support.v4.widget.Space
+                        <androidx.legacy.widget.Space
                             android:layout_width="@dimen/picker_space_width"
                             android:layout_height="match_parent" />
                         
@@ -98,7 +98,7 @@
                                 android:layout_width="@dimen/picker_small_side_width"
                                 android:layout_height="@dimen/picker_small_side_height" />
 
-                            <android.support.v4.widget.Space
+                            <androidx.legacy.widget.Space
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/picker_space_height" />
 

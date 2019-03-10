@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.friends.fragments
 
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -31,7 +31,7 @@ class FriendsAllFragment: BaseFragment(), BaseAdapter.OnMultiSelected {
     @BindView(R.id.fabDoneCreating)
     lateinit var fabDoneCreating: FloatingActionButton
     @BindView(R.id.rvUsers)
-    lateinit var rvUsers: RecyclerView
+    lateinit var rvUsers: androidx.recyclerview.widget.RecyclerView
 
     lateinit var adapter: UsersAdapter
 
@@ -59,7 +59,7 @@ class FriendsAllFragment: BaseFragment(), BaseAdapter.OnMultiSelected {
     private fun initAdapter() {
         adapter = UsersAdapter(safeActivity, { loadMore?.invoke(it) }, ::onClick)
         adapter.multiListener = this
-        rvUsers.layoutManager = LinearLayoutManager(activity)
+        rvUsers.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         rvUsers.adapter = adapter
     }
 

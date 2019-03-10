@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.views
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView

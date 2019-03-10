@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
-def appCompat = "28.0.0"
+def appCompat = '1.0.0-beta01'
 
 android {
     compileSdkVersion 28
@@ -15,7 +15,7 @@ android {
         targetSdkVersion 28
         versionCode 98
         versionName "4.9.7"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.ext.set("archivesBaseName", "xvii" + defaultConfig.versionName)
     }
     testOptions {
@@ -38,12 +38,12 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.android.support:appcompat-v7:$appCompat"
-    compile "com.android.support:design:$appCompat"
-    compile "com.android.support:recyclerview-v7:$appCompat"
+    compile "androidx.appcompat:appcompat:$appCompat"
+    compile "com.google.android.material:material:$appCompat"
+    compile "androidx.recyclerview:recyclerview:$appCompat"
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     compile "com.jakewharton:butterknife:$butterKnifeVersion"

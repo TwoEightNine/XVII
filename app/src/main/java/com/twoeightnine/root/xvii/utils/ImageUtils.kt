@@ -6,8 +6,8 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.support.v4.app.Fragment
-import android.support.v4.content.FileProvider
+import androidx.fragment.app.Fragment
+import androidx.core.content.FileProvider
 import android.text.TextUtils
 import android.util.Log
 import com.twoeightnine.root.xvii.BuildConfig
@@ -87,7 +87,7 @@ class ImageUtils(private val activity: Activity) {
         return image
     }
 
-    fun dispatchTakePictureIntent(frag: Fragment? = null) {
+    fun dispatchTakePictureIntent(frag: androidx.fragment.app.Fragment? = null) {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(activity.packageManager) != null) {

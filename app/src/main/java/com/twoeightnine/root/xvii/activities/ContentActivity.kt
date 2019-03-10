@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.activities
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 
 abstract class ContentActivity : BaseActivity() {

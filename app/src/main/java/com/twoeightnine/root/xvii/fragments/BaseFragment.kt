@@ -2,12 +2,12 @@ package com.twoeightnine.root.xvii.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.annotation.Nullable
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.Toolbar
+import androidx.annotation.LayoutRes
+import androidx.annotation.Nullable
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.core.content.ContextCompat
+import androidx.appcompat.widget.Toolbar
 import android.view.*
 import butterknife.BindView
 import com.twoeightnine.root.xvii.R
@@ -15,7 +15,7 @@ import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.managers.Style
 
-open class BaseFragment: Fragment() {
+open class BaseFragment: androidx.fragment.app.Fragment() {
 
     @Nullable
     @BindView(R.id.toolbar) @JvmField
@@ -26,7 +26,7 @@ open class BaseFragment: Fragment() {
 
     protected lateinit var rootActivity: RootActivity
 
-    protected val safeActivity: FragmentActivity
+    protected val safeActivity: androidx.fragment.app.FragmentActivity
         get() = activity ?: throw Exception()
 
     protected val safeContext: Context

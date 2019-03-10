@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.feed
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +37,7 @@ class FeedAdapter(context: Context,
 
     var nextFrom = ""
 
-    override fun createHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun createHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         return FeedViewHolder(View.inflate(context, R.layout.item_wall_preview, null))
     }
 
@@ -49,7 +49,7 @@ class FeedAdapter(context: Context,
 
     override fun isStubTry(obj: WallPost) = WallPost.isStubTry(obj)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         val wp = items[position]
         val vholder: FeedViewHolder
         if (holder is FeedViewHolder) {
@@ -154,7 +154,7 @@ class FeedAdapter(context: Context,
         }
     }
 
-    internal inner class FeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    internal inner class FeedViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         @BindView(R.id.rlHeader)
         lateinit var rlHeader: RelativeLayout

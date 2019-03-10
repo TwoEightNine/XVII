@@ -3,11 +3,11 @@ package com.twoeightnine.root.xvii.utils
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
-import android.support.annotation.StringRes
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.PermissionChecker
-import android.support.v7.app.AlertDialog
+import androidx.annotation.StringRes
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.core.content.PermissionChecker
+import androidx.appcompat.app.AlertDialog
 import android.util.SparseArray
 import com.twoeightnine.root.xvii.managers.Style
 import java.lang.Exception
@@ -16,7 +16,7 @@ class PermissionHelper {
 
     private var activity: Activity
     private val callbacks = SparseArray<(() -> Unit)?>()
-    private var fragment: Fragment? = null
+    private var fragment: androidx.fragment.app.Fragment? = null
 
     /**
      * should be >=0 and use least 16 bits
@@ -29,7 +29,7 @@ class PermissionHelper {
         this.activity = activity
     }
 
-    constructor(fragment: Fragment) : this(fragment.activity ?: throw Exception()) {
+    constructor(fragment: androidx.fragment.app.Fragment) : this(fragment.activity ?: throw Exception()) {
         this.fragment = fragment
     }
 

@@ -1,14 +1,14 @@
 package com.twoeightnine.root.xvii.adapters
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 
 /**
  * Created by root on 8/30/16.
  */
 
-abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var context: Context) : RecyclerView.Adapter<VH>() {
+abstract class BaseAdapter<T, VH : androidx.recyclerview.widget.RecyclerView.ViewHolder>(protected var context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<VH>() {
 
     open val items: MutableList<T> = mutableListOf()
 

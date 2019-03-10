@@ -2,8 +2,8 @@ package com.twoeightnine.root.xvii.chats.adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Html
 import android.text.Spanned
 import android.text.TextUtils
@@ -46,7 +46,7 @@ class ChatAdapter(context: Context,
         isAtEnd = true
     }
 
-    override fun createHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun createHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         return when (viewType) {
             OUT -> ChatViewHolder(inflater.inflate(R.layout.item_message_out, null))
             IN_CHAT -> ChatViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
@@ -63,7 +63,7 @@ class ChatAdapter(context: Context,
 
     override fun isStubTry(obj: Message) = Message.isStubTry(obj)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         val message = items[position]
         if (holder is ChatViewHolder) {
             putViews(holder, message, 0, position)
@@ -279,11 +279,11 @@ class ChatAdapter(context: Context,
         return Html.fromHtml(result)
     }
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+    override fun onAttachedToRecyclerView(recyclerView: androidx.recyclerview.widget.RecyclerView) {
         //        super.onAttachedToRecyclerView(recyclerView);
         layoutManager = recyclerView.layoutManager
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        recyclerView.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 isAtEnd = lastVisiblePosition() == items.size - 1
                 if (dy >= 0)
@@ -328,7 +328,7 @@ class ChatAdapter(context: Context,
         notifyDataSetChanged()
     }
 
-    inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ChatViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
 
         @BindView(R.id.rlBack)

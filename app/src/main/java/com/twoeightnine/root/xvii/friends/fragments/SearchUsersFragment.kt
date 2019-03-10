@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.friends.fragments
 
 import android.os.CountDownTimer
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -25,7 +25,7 @@ class SearchUsersFragment: BaseFragment(), SearchUsersFragmentView {
     lateinit var presenter: SearchUsersPresenter
 
     @BindView(R.id.rvUsers)
-    lateinit var rvUsers: RecyclerView
+    lateinit var rvUsers: androidx.recyclerview.widget.RecyclerView
     @BindView(R.id.searchView)
     lateinit var searchView: MaterialSearchView
 
@@ -56,7 +56,7 @@ class SearchUsersFragment: BaseFragment(), SearchUsersFragmentView {
             hideKeyboard(safeActivity)
             rootActivity.loadFragment(ProfileFragment.newInstance(user.id))
         })
-        rvUsers.layoutManager = LinearLayoutManager(activity)
+        rvUsers.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         rvUsers.adapter = adapter
     }
 

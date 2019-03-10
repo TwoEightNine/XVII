@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.FrameLayout
 import butterknife.BindView
@@ -26,7 +26,7 @@ class StickersFragment : BaseFragment(), Titleable {
     }
 
     @BindView(R.id.rvStickers)
-    lateinit var rvStickers: RecyclerView
+    lateinit var rvStickers: androidx.recyclerview.widget.RecyclerView
     @BindView(R.id.flStickerContainer)
     lateinit var flContainer: FrameLayout
 
@@ -53,12 +53,12 @@ class StickersFragment : BaseFragment(), Titleable {
         adapter = StickerCatAdapter(safeActivity) { pack ->
             loadFragment(StickerGridFragment.newInstance(pack, listener))
         }
-        rvStickers.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        rvStickers.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         fillPack()
         rvStickers.adapter = adapter
     }
 
-    fun loadFragment(frag: Fragment) {
+    fun loadFragment(frag: androidx.fragment.app.Fragment) {
         childFragmentManager
                 .beginTransaction()
                 .setCustomAnimations(R.anim.enter_left, R.anim.exit_right, R.anim.enter_left, R.anim.exit_right)

@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.orangegangsters:swipy:1.2.3@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/swipy-1.2.3.aar/6c53b964955772731f0560981e54faba/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-swipy-1.2.3.aar/76d53f69f597d54cc2f7433c1ba6534e/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/swipy-1.2.3.aar/6c53b964955772731f0560981e54faba/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/swipy-1.2.3.aar/6c53b964955772731f0560981e54faba/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-swipy-1.2.3.aar/76d53f69f597d54cc2f7433c1ba6534e/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-swipy-1.2.3.aar/76d53f69f597d54cc2f7433c1ba6534e/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

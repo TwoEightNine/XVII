@@ -2,8 +2,8 @@ package com.twoeightnine.root.xvii.settings.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
@@ -55,7 +55,7 @@ class SettingsFragment: BaseFragment() {
         lvPrefs.adapter = adapter
         lvPrefs.setOnItemClickListener { _, _, i, _ ->
             val obj = adapter.getItem(i).obj
-            if (obj is Fragment) {
+            if (obj is androidx.fragment.app.Fragment) {
                 rootActivity.loadFragment(obj)
             } else  {
                 (obj as () -> Unit).invoke()

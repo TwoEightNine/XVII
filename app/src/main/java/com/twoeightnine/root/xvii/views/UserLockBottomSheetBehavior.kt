@@ -1,9 +1,9 @@
 package com.twoeightnine.root.xvii.views
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import android.view.MotionEvent
-import android.support.design.widget.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import android.util.AttributeSet
 import android.view.View
 
@@ -17,30 +17,30 @@ class UserLockBottomSheetBehavior<V : View> : BottomSheetBehavior<V> {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    override fun onInterceptTouchEvent(parent: CoordinatorLayout,
+    override fun onInterceptTouchEvent(parent: androidx.coordinatorlayout.widget.CoordinatorLayout,
                                        child: V,
                                        event: MotionEvent) = false
 
-    override fun onTouchEvent(parent: CoordinatorLayout,
+    override fun onTouchEvent(parent: androidx.coordinatorlayout.widget.CoordinatorLayout,
                               child: V,
                               event: MotionEvent) = false
 
-    override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout,
+    override fun onStartNestedScroll(coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout,
                                      child: V,
                                      directTargetChild: View,
                                      target: View,
                                      nestedScrollAxes: Int) = false
 
-    override fun onNestedPreScroll(coordinatorLayout: CoordinatorLayout,
+    override fun onNestedPreScroll(coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout,
                                    child: V,
                                    target: View, dx: Int, dy: Int,
                                    consumed: IntArray) {}
 
-    override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout,
+    override fun onStopNestedScroll(coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout,
                                     child: V,
                                     target: View) {}
 
-    override fun onNestedPreFling(coordinatorLayout: CoordinatorLayout,
+    override fun onNestedPreFling(coordinatorLayout: androidx.coordinatorlayout.widget.CoordinatorLayout,
                                   child: V, target: View,
                                   velocityX: Float, velocityY: Float) = false
 
@@ -53,7 +53,7 @@ class UserLockBottomSheetBehavior<V : View> : BottomSheetBehavior<V> {
          * @return The [BottomSheetBehavior] associated with the `view`.
          */
         fun <V : View> from(view: V): UserLockBottomSheetBehavior<V> {
-            val params = view.layoutParams as? CoordinatorLayout.LayoutParams
+            val params = view.layoutParams as? androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
                     ?: throw IllegalArgumentException("The view is not a child of CoordinatorLayout")
             val behavior = params.behavior as? UserLockBottomSheetBehavior<*>
                     ?: throw IllegalArgumentException("The view is not associated with BottomSheetBehavior")

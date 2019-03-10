@@ -1,12 +1,12 @@
 package com.twoeightnine.root.xvii.adapters
 
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.FragmentManager
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 
-class RootPagerAdapter(fm : FragmentManager) : CommonPagerAdapter(fm) {
+class RootPagerAdapter(fm : androidx.fragment.app.FragmentManager) : CommonPagerAdapter(fm) {
 
     init {
         add(DialogsFragment.newInstance(), "Chats")

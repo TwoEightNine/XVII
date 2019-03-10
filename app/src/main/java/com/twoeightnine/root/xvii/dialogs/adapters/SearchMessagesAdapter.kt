@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.dialogs.adapters
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -25,7 +25,7 @@ class SearchMessagesAdapter(context: Context,
         return SearchDialogViewHolder(View.inflate(context, R.layout.item_dialog_search, null))
     }
 
-    override fun onBindViewHolder(vholder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(vholder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         val message = items[position]
         val holder: SearchDialogViewHolder
         if (vholder is SearchDialogViewHolder) {
@@ -56,7 +56,7 @@ class SearchMessagesAdapter(context: Context,
 
     override fun isStubTry(obj: Message) = Message.isStubTry(obj)
 
-    inner class SearchDialogViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class SearchDialogViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
         @BindView(R.id.civPhoto)
         lateinit var civPhoto: CircleImageView

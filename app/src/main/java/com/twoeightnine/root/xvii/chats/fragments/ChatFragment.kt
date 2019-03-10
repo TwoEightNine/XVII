@@ -8,12 +8,12 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabLayout
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -63,7 +63,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     @BindView(R.id.flContainer)
     lateinit var flContainer: SizeNotifierFrameLayout
     @BindView(R.id.rvChatList)
-    lateinit var rvChatList: RecyclerView
+    lateinit var rvChatList: androidx.recyclerview.widget.RecyclerView
     @BindView(R.id.swipeContainer)
     lateinit var swipeContainer: SwipyRefreshLayout
 
@@ -102,7 +102,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     @BindView(R.id.tabsBottom)
     lateinit var tabsBottom: TabLayout
     @BindView(R.id.vpAttach)
-    lateinit var vpAttach: ViewPager
+    lateinit var vpAttach: androidx.viewpager.widget.ViewPager
 
     @BindView(R.id.rlRecord)
     lateinit var rlRecord: RelativeLayout
@@ -265,15 +265,15 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         )
         adapter.trier = { loadMore(adapter.itemCount) }
         adapter.multiListener = this
-        val llm = LinearLayoutManager(activity)
+        val llm = androidx.recyclerview.widget.LinearLayoutManager(activity)
         llm.stackFromEnd = true
         rvChatList.layoutManager = llm
         rvChatList.adapter = adapter
         rvChatList.itemAnimator = null
 
         fabHasMore.setOnClickListener { rvChatList.scrollToPosition(adapter.itemCount - 1) }
-        rvChatList.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        rvChatList.setOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (fabHasMore.visibility != View.VISIBLE &&

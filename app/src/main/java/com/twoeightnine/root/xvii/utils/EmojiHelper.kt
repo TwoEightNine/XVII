@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Build.VERSION
-import android.support.v4.util.LruCache
+import androidx.collection.LruCache
 import android.text.SpannableStringBuilder
 import android.text.style.ImageSpan
 import android.view.accessibility.AccessibilityManager
@@ -18,7 +18,7 @@ object EmojiHelper {
 
     val emojis = mutableListOf<Emoji>()
     private val beginnings = mutableSetOf<Char>()
-    private val cache: LruCache<String, Bitmap> = LruCache(10)
+    private val cache: androidx.collection.LruCache<String, Bitmap> = androidx.collection.LruCache(10)
     private val isRiva = Build.MODEL.endsWith("S500C")
 
     private var size: Int = 36

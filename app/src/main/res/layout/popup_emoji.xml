@@ -15,11 +15,11 @@
         <!--app:tabSelectedTextColor="@color/main_text"-->
         <!--app:tabTextColor="@color/other_text"/>-->
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-        <android.support.v4.view.PagerTitleStrip
+        <androidx.viewpager.widget.PagerTitleStrip
             android:elevation="12dp"
             android:id="@+id/pager_title_strip"
             android:layout_width="match_parent"
@@ -29,6 +29,6 @@
             android:textColor="@color/main_text"
             android:paddingTop="5dp"
             android:paddingBottom="5dp" />
-    </android.support.v4.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>

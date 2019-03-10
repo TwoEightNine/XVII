@@ -15,10 +15,10 @@ import android.os.Environment
 import android.os.Handler
 import android.os.SystemClock
 import android.provider.MediaStore
-import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
 import android.text.Html
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -560,7 +560,7 @@ fun getCroppedImagePath(activity: Activity, original: String): String {
 fun showDeleteDialog(context: Context,
                      onDelete: () -> Unit = {},
                      message: String = context.getString(R.string.want_delete)) {
-    val dialog = android.support.v7.app.AlertDialog.Builder(context)
+    val dialog = androidx.appcompat.app.AlertDialog.Builder(context)
             .setMessage(message)
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(android.R.string.ok, { _, _ -> onDelete.invoke()})

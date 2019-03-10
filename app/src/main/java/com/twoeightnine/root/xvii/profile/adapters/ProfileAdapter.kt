@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.profile.adapters
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
@@ -26,7 +26,7 @@ class ProfileAdapter(context: Context) : BaseAdapter<UserField, ProfileAdapter.U
         holder.rlItem.setOnLongClickListener(field.onLongClick)
     }
 
-    inner class UserFieldViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class UserFieldViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
         @BindView(R.id.rlItem)
         lateinit var rlItem: RelativeLayout

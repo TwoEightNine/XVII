@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.dialogs.adapters
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
@@ -41,7 +41,7 @@ open class DialogsAdapter(context: Context,
                               viewType: Int) = DialogViewHolder(inflater.inflate(R.layout.item_dialog, parent, false))
 
 
-    override fun onBindViewHolder(vholder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(vholder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         val message = items[position]
         val holder: DialogViewHolder
         if (vholder is DialogViewHolder) {
@@ -124,7 +124,7 @@ open class DialogsAdapter(context: Context,
         return context.getString(R.string.error_message)
     }
 
-    inner class DialogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class DialogViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         @BindView(R.id.civPhoto)
         lateinit var civPhoto: CircleImageView

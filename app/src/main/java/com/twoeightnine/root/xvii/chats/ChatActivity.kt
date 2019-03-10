@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.chats
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.ContentActivity
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
@@ -29,7 +29,7 @@ class ChatActivity : ContentActivity() {
 
     override fun getLayoutId() = R.layout.activity_content
 
-    override fun getFragment(args: Bundle?): Fragment {
+    override fun getFragment(args: Bundle?): androidx.fragment.app.Fragment {
         val userId = args?.getInt(USER_ID) ?: 0
         val title = args?.getString(TITLE) ?: ""
         val forwarded = args?.getString(FORWARDED) ?: ""

@@ -8,8 +8,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.RingtoneManager
-import android.support.v4.app.NotificationCompat
-import android.support.v4.content.LocalBroadcastManager
+import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.text.Html
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
@@ -152,7 +152,7 @@ class NotificationsCore(private val context: Context) {
         val extras = Bundle()
         extras.putSerializable(RESULT, response)
         intentResult.putExtras(extras)
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intentResult)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(context).sendBroadcast(intentResult)
         checkForNotif(response)
         cacheResponse(response)
         restartService()

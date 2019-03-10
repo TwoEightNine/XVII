@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.friends.fragments
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -21,7 +21,7 @@ class FriendsOnlineFragment: BaseFragment() {
     }
 
     @BindView(R.id.rvUsers)
-    lateinit var rvUsers: RecyclerView
+    lateinit var rvUsers: androidx.recyclerview.widget.RecyclerView
 
     lateinit var adapter: UsersAdapter
 
@@ -38,7 +38,7 @@ class FriendsOnlineFragment: BaseFragment() {
             val user = adapter.items[it]
             rootActivity.loadFragment(ProfileFragment.newInstance(user.id))
         })
-        rvUsers.layoutManager = LinearLayoutManager(activity)
+        rvUsers.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         rvUsers.adapter = adapter
     }
 

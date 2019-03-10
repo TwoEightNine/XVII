@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.views.photoviewer
 import android.app.Activity
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.support.v4.view.PagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,7 @@ import com.twoeightnine.root.xvii.managers.Lg
 class FullScreenImageAdapter(private val activity: Activity,
                              private val urls: MutableList<String>,
                              private var dismissListener: (() -> Unit)?,
-                             private var tapListener: (() -> Unit)?) : PagerAdapter() {
+                             private var tapListener: (() -> Unit)?) : androidx.viewpager.widget.PagerAdapter() {
 
     private lateinit var inflater: LayoutInflater
     private val tivManager = ActiveTivManager(3)

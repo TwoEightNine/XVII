@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -45,7 +45,7 @@ class ChatInfoFragment: BaseFragment(), ChatInfoFragmentView {
     @BindView(R.id.rlRename)
     lateinit var rlRename: RelativeLayout
     @BindView(R.id.rvUsers)
-    lateinit var rvUsers: RecyclerView
+    lateinit var rvUsers: androidx.recyclerview.widget.RecyclerView
 
     lateinit private var adapter: UsersAdapter
     lateinit var message: Message
@@ -83,7 +83,7 @@ class ChatInfoFragment: BaseFragment(), ChatInfoFragmentView {
             val user = adapter.items[it]
             rootActivity.loadFragment(ProfileFragment.newInstance(user.id))
         })
-        rvUsers.layoutManager = LinearLayoutManager(activity)
+        rvUsers.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         rvUsers.adapter = adapter
     }
 

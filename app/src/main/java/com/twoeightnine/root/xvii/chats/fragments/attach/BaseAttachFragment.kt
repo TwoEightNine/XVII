@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.chats.fragments.attach
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import java.lang.Exception
 import javax.inject.Inject
 
 
-open class BaseAttachFragment<T> : Fragment() {
+open class BaseAttachFragment<T> : androidx.fragment.app.Fragment() {
 
     open val count = 200
 
@@ -23,7 +23,7 @@ open class BaseAttachFragment<T> : Fragment() {
 
     protected lateinit var adapter: SimplePaginationAdapter<T>
 
-    protected val safeActivity: FragmentActivity
+    protected val safeActivity: androidx.fragment.app.FragmentActivity
         get() = activity ?: throw Exception()
 
     override fun onCreateView(inflater: LayoutInflater,

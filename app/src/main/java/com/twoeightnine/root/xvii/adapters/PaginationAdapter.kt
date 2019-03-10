@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.adapters
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -14,7 +14,7 @@ import com.twoeightnine.root.xvii.adapters.BaseAdapter
 
 abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
                                                               protected var loader: (Int) -> Unit,
-                                                              private val offsetSize: Int = PaginationAdapter.OFFSET_SIZE) : BaseAdapter<T, RecyclerView.ViewHolder>(context) {
+                                                              private val offsetSize: Int = PaginationAdapter.OFFSET_SIZE) : BaseAdapter<T, androidx.recyclerview.widget.RecyclerView.ViewHolder>(context) {
     protected var isLoaderAdded: Boolean = false
     protected var isTrierAdded: Boolean = false
 
@@ -24,13 +24,13 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
     var isLoading: Boolean = false
         protected set
     var isDone: Boolean = false
-    protected var layoutManager: RecyclerView.LayoutManager? = null
+    protected var layoutManager: androidx.recyclerview.widget.RecyclerView.LayoutManager? = null
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+    override fun onAttachedToRecyclerView(recyclerView: androidx.recyclerview.widget.RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         layoutManager = recyclerView.layoutManager
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        recyclerView.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy <= 0)
                     return
@@ -56,7 +56,7 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
             else -> createHolder(parent, viewType)
         }
 
-    abstract fun createHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
+    abstract fun createHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder
 
     open var stubLoadItem: T? = null
         get() = null
@@ -84,7 +84,7 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
 
     fun lastVisiblePosition() =
         if (layoutManager != null) {
-            (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+            (layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findLastVisibleItemPosition()
         } else {
             -1
         }
@@ -92,7 +92,7 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
 
     fun firstVisiblePosition() =
         if (layoutManager != null) {
-            (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+            (layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findFirstVisibleItemPosition()
         } else {
             -1
         }
@@ -158,9 +158,9 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
     }
 
 
-    inner class LoaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class LoaderViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 
-    inner class TryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class TryViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
         @BindView(R.id.llTryAgain)
         lateinit var llTryAgain: LinearLayout

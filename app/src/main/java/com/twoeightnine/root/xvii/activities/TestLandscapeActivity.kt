@@ -1,6 +1,6 @@
 package com.twoeightnine.root.xvii.activities
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * used for testing app behavior in landscape mode

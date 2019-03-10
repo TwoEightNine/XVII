@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.support.v4.content.LocalBroadcastManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
 import com.twoeightnine.root.xvii.dagger.ApiService
@@ -40,7 +40,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
     }
 
     init {
-        LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(NotificationsCore.NAME))
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(NotificationsCore.NAME))
         App.appComponent?.inject(this)
     }
 

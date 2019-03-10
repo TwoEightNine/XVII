@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.profile.fragments
 
 import android.graphics.Color
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import android.view.View
 import android.widget.*
 import butterknife.BindView

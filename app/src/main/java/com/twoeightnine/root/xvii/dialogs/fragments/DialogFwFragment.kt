@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.dialogs.fragments
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class DialogFwFragment : BaseFragment(), DialogFwFragmentView {
 
     @BindView(R.id.recyclerView)
-    open lateinit var recyclerView: RecyclerView
+    open lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     @BindView(R.id.swipeRefresh)
     open lateinit var swipeRefresh: SwipyRefreshLayout
 
@@ -70,7 +70,7 @@ class DialogFwFragment : BaseFragment(), DialogFwFragmentView {
     }
 
     fun initAdapter() {
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         adapter = DialogsAdapter(safeActivity, { loadMore(it) }, { onClick(it) }, { true })
         adapter.trier = { loadMore(adapter.itemCount) }
         recyclerView.adapter = adapter

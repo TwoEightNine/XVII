@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.friends.adapters
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +21,7 @@ class UsersAdapter(context: Context,
                    loader: (Int) -> Unit,
                    var listener: (Int) -> Unit) : PaginationAdapter<User>(context, loader) {
 
-    override fun createHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun createHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         return UserViewHolder(inflater.inflate(R.layout.item_user, null))
     }
 
@@ -33,7 +33,7 @@ class UsersAdapter(context: Context,
 
     override var stubTryItem: User? = User.stubTry
 
-    override fun onBindViewHolder(vholder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(vholder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         val user = items[position]
         val holder: UserViewHolder
         if (vholder is UserViewHolder) {
@@ -74,7 +74,7 @@ class UsersAdapter(context: Context,
         }
     }
 
-    inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class UserViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         @BindView(R.id.civPhoto)
         lateinit var civPhoto: ImageView

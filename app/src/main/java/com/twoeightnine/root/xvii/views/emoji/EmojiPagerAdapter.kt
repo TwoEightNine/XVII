@@ -1,6 +1,6 @@
 package com.twoeightnine.root.xvii.views.emoji
 
-import android.support.v4.view.PagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
@@ -9,7 +9,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.EmojiHelper
 
-class EmojiPagerAdapter(private var listener: (Emoji) -> Unit) : PagerAdapter() {
+class EmojiPagerAdapter(private var listener: (Emoji) -> Unit) : androidx.viewpager.widget.PagerAdapter() {
 
     val views = mutableListOf<View>()
 
