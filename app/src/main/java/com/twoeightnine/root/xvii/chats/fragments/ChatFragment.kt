@@ -861,6 +861,10 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         presenter.unsubscribe()
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+    }
+
     override fun onBackPressed(): Boolean {
         if (bottomSheet.isOpen()) {
             bottomSheet.close()

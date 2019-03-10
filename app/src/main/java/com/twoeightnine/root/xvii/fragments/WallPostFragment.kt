@@ -2,6 +2,8 @@ package com.twoeightnine.root.xvii.fragments
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -65,6 +67,11 @@ class WallPostFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.wall_post))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu?.clear()
     }
 
     private fun getWallPostRequest() {

@@ -88,6 +88,7 @@ class NotificationsCore(private val context: Context) {
     fun onDestroy() {
         l("destroyed")
         restartService()
+        startNotificationService(context)
     }
 
     private fun initPrefs() {

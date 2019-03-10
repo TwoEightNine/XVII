@@ -735,7 +735,6 @@ fun writeResponseBodyToDisk(body: ResponseBody, fileName: String): Boolean {
     }
 }
 
-
 fun isInForeground(): Boolean {
     val appProcessInfo = ActivityManager.RunningAppProcessInfo()
     ActivityManager.getMyMemoryState(appProcessInfo)

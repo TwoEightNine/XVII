@@ -12,9 +12,9 @@ class StickerPack(private val startId: Int,
     fun getStickerUrl(i: Int) = "https://vk.com/images/stickers/${getSticker(i)}/256b.png"
 
     companion object {
-        var RECENT = StickerPack(0, 0)
-            private set
-        var AVAILABLE: StickerPack = StickerPack(-1, 0)
-            private set
+        val RECENT = StickerPack(0, 0)
+
+        val AVAILABLE: StickerPack = StickerPack(-1, 0)
+
     }
 }

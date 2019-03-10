@@ -85,7 +85,7 @@ object Session {
         get() = pref.getInt(PIN_LAST_PROMPT, 0)
         set(value) = pref.edit().putInt(PIN_LAST_PROMPT, value).apply()
 
-    fun isActive() = time() - serviceLastAction < ACTIVE_TIME_THRESHOLD
+    fun isServiceActive() = time() - serviceLastAction < ACTIVE_TIME_THRESHOLD
 
     fun needToPromptPin() = Prefs.pin.isNotEmpty() && time() - pinLastPromptResult > PIN_THRESHOLD
 }
