@@ -2,13 +2,11 @@ package com.twoeightnine.root.xvii.views.emoji
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
+import com.twoeightnine.root.xvii.utils.loadUrl
+import kotlinx.android.synthetic.main.item_emoji.view.*
 
 class EmojiGridAdapter: SimpleAdapter<Emoji>() {
 
@@ -20,19 +18,16 @@ class EmojiGridAdapter: SimpleAdapter<Emoji>() {
             view.tag = EmojiViewHolder(view)
         }
         val holder = view?.tag as EmojiViewHolder
-        Picasso.with(App.context)
-                .load("file:///android_asset/emoji/${emoji.res}")
-                .into(holder.ivEmoji)
+        holder.bind(emoji)
         return view
     }
 
-    inner class EmojiViewHolder(view: View) {
+    inner class EmojiViewHolder(private val view: View) {
 
-        @BindView(R.id.ivEmoji)
-        lateinit var ivEmoji: ImageView
-
-        init {
-            ButterKnife.bind(this, view)
+        fun bind(emoji: Emoji) {
+            with(view) {
+                ivEmoji.loadUrl("file:///android_asset/emoji/${emoji.res}")
+            }
         }
 
     }

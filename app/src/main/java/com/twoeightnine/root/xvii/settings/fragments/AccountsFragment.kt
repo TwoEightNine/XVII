@@ -2,10 +2,6 @@ package com.twoeightnine.root.xvii.settings.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ListView
-import android.widget.RelativeLayout
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.BaseFragment
@@ -17,14 +13,10 @@ import com.twoeightnine.root.xvii.settings.adapters.AccountsAdapter
 import com.twoeightnine.root.xvii.utils.*
 import io.realm.Realm
 import io.realm.RealmQuery
+import kotlinx.android.synthetic.main.fragment_accounts.*
 import javax.inject.Inject
 
 class AccountsFragment: BaseFragment() {
-
-    @BindView(R.id.rlAddAccount)
-    lateinit var rlAddAccount: RelativeLayout
-    @BindView(R.id.lvAccounts)
-    lateinit var lvAccounts: ListView
 
     @Inject
     lateinit var apiUtils: ApiUtils
@@ -35,7 +27,6 @@ class AccountsFragment: BaseFragment() {
     private var selectedPosition = -1
 
     override fun bindViews(view: View) {
-        ButterKnife.bind(this, view)
         initAdapter()
         App.appComponent?.inject(this)
         rlAddAccount.setOnClickListener {

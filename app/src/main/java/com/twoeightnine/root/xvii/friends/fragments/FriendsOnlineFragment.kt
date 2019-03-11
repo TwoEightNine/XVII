@@ -3,12 +3,11 @@ package com.twoeightnine.root.xvii.friends.fragments
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.friends.adapters.UsersAdapter
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import kotlinx.android.synthetic.main.fragment_friends_simple.*
 
 class FriendsOnlineFragment: BaseFragment() {
 
@@ -20,16 +19,12 @@ class FriendsOnlineFragment: BaseFragment() {
         }
     }
 
-    @BindView(R.id.rvUsers)
-    lateinit var rvUsers: androidx.recyclerview.widget.RecyclerView
-
     lateinit var adapter: UsersAdapter
 
     var loadMore: ((Int) -> Unit)? = null
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         initAdapter()
     }
 

@@ -2,17 +2,13 @@ package com.twoeightnine.root.xvii.settings.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.Switch
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.showCommon
+import kotlinx.android.synthetic.main.fragment_general.*
 
 /**
  * Created by root on 2/2/17.
@@ -20,23 +16,7 @@ import com.twoeightnine.root.xvii.utils.showCommon
 
 class GeneralFragment : BaseFragment() {
 
-    @BindView(R.id.llContainer)
-    lateinit var llContainer: LinearLayout
-    @BindView(R.id.switchOffline)
-    lateinit var swOffline: Switch
-    @BindView(R.id.switchRead)
-    lateinit var swRead: Switch
-    @BindView(R.id.switchTyping)
-    lateinit var swTyping: Switch
-    @BindView(R.id.switchManualUpd)
-    lateinit var swManual: Switch
-    @BindView(R.id.switchStoreKeys)
-    lateinit var swStoreKeys: Switch
-    @BindView(R.id.tvClearCache)
-    lateinit var tvClearCache: TextView
-
     override fun bindViews(view: View) {
-        ButterKnife.bind(this, view)
         initSwitches()
         tvClearCache.setOnClickListener {
             with (CacheHelper) {
@@ -55,19 +35,19 @@ class GeneralFragment : BaseFragment() {
     }
 
     private fun initSwitches() {
-        swOffline.isChecked = Prefs.beOffline
-        swRead.isChecked = Prefs.markAsRead
-        swTyping.isChecked = Prefs.showTyping
-        swManual.isChecked = Prefs.manualUpdating
-        swStoreKeys.isChecked = Prefs.storeCustomKeys
+        switchOffline.isChecked = Prefs.beOffline
+        switchRead.isChecked = Prefs.markAsRead
+        switchTyping.isChecked = Prefs.showTyping
+        switchManualUpd.isChecked = Prefs.manualUpdating
+        switchStoreKeys.isChecked = Prefs.storeCustomKeys
     }
 
     private fun saveSwitches() {
-        Prefs.beOffline = swOffline.isChecked
-        Prefs.markAsRead = swRead.isChecked
-        Prefs.showTyping = swTyping.isChecked
-        Prefs.manualUpdating = swManual.isChecked
-        Prefs.storeCustomKeys = swStoreKeys.isChecked
+        Prefs.beOffline = switchOffline.isChecked
+        Prefs.markAsRead = switchRead.isChecked
+        Prefs.showTyping = switchTyping.isChecked
+        Prefs.manualUpdating = switchManualUpd.isChecked
+        Prefs.storeCustomKeys = switchStoreKeys.isChecked
     }
 
     override fun onStop() {

@@ -4,9 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import android.widget.FrameLayout
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.Titleable
 import com.twoeightnine.root.xvii.chats.adapters.StickerCatAdapter
@@ -14,6 +11,7 @@ import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.StickerPack
+import kotlinx.android.synthetic.main.fragment_stickers.*
 
 class StickersFragment : BaseFragment(), Titleable {
 
@@ -25,11 +23,6 @@ class StickersFragment : BaseFragment(), Titleable {
         }
     }
 
-    @BindView(R.id.rvStickers)
-    lateinit var rvStickers: androidx.recyclerview.widget.RecyclerView
-    @BindView(R.id.flStickerContainer)
-    lateinit var flContainer: FrameLayout
-
     var listener: ((Attachment.Sticker) -> Unit)? = null
 
     private lateinit var adapter: StickerCatAdapter
@@ -38,7 +31,6 @@ class StickersFragment : BaseFragment(), Titleable {
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         initAdapter()
         if (Prefs.recentStickers.isNotEmpty()) {
             loadFragment(StickerGridFragment.newInstance(adapter.items[0], listener))

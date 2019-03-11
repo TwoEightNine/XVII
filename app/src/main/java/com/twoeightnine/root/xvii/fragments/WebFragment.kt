@@ -6,11 +6,10 @@ import android.view.MenuInflater
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
+import kotlinx.android.synthetic.main.fragment_web.*
 
-class WebFragment: BaseFragment() {
+class WebFragment : BaseFragment() {
 
     companion object {
 
@@ -23,15 +22,11 @@ class WebFragment: BaseFragment() {
 
     }
 
-    @BindView(R.id.webView)
-    lateinit var webView: WebView
-
     private var url: String? = null
     private var title: String? = null
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 // do your handling codes here, which url is the requested url
@@ -47,7 +42,8 @@ class WebFragment: BaseFragment() {
         try {
             super.onActivityCreated(savedInstanceState)
             updateTitle(title ?: url ?: "")
-        } catch (e: Exception) {}
+        } catch (e: Exception) {
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

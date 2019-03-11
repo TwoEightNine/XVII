@@ -2,13 +2,10 @@ package com.twoeightnine.root.xvii.fragments
 
 import android.text.Html
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.screenWidth
+import kotlinx.android.synthetic.main.fragment_egg.*
 
 /**
  * Created by chuck palahniuk on 8/18/17.
@@ -16,14 +13,8 @@ import com.twoeightnine.root.xvii.utils.screenWidth
 
 class EggFragment: BaseFragment() {
 
-    @BindView(R.id.ivBack)
-    lateinit var ivBack: ImageView
-    @BindView(R.id.tvText)
-    lateinit var tvText: TextView
-
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         val scale = 500f / 335f
         val width = screenWidth(safeActivity)
         val height = (width / scale).toInt()

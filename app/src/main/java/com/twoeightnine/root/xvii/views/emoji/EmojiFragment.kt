@@ -5,15 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
+import kotlinx.android.synthetic.main.fragment_emoji.*
 
 class EmojiFragment: androidx.fragment.app.Fragment() {
-
-    @BindView(R.id.gvEmoji)
-    lateinit var gvEmoji: GridView
 
     companion object {
         fun newInstance(listener: (Emoji) -> Unit, emojis: MutableList<Emoji>): EmojiFragment {
@@ -35,7 +30,6 @@ class EmojiFragment: androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ButterKnife.bind(this, view)
         adapter = EmojiGridAdapter()
         adapter.add(emojis)
         gvEmoji.adapter = adapter

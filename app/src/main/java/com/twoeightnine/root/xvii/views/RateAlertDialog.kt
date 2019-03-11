@@ -3,25 +3,15 @@ package com.twoeightnine.root.xvii.views
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
 import android.view.View
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.rate
+import kotlinx.android.synthetic.main.dialog_rate.*
 
 class RateAlertDialog(context: Context): AlertDialog(context) {
 
-    @BindView(R.id.tvRate)
-    lateinit var tvRate: TextView
-    @BindView(R.id.tvNotNow)
-    lateinit var tvNotNow: TextView
-    @BindView(R.id.tvNever)
-    lateinit var tvNever: TextView
-
     init {
         val view = View.inflate(context, R.layout.dialog_rate, null)
-        ButterKnife.bind(this, view)
         tvRate.setOnClickListener {
             rate(context)
             Prefs.showRate = false

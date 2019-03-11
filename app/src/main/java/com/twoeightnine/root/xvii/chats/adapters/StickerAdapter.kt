@@ -2,14 +2,12 @@ package com.twoeightnine.root.xvii.chats.adapters
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
 import com.twoeightnine.root.xvii.model.Attachment
+import com.twoeightnine.root.xvii.utils.loadUrl
+import kotlinx.android.synthetic.main.item_sticker.view.*
 
 /**
  * Created by root on 1/10/17.
@@ -25,19 +23,16 @@ class StickerAdapter : SimpleAdapter<Attachment.Sticker>() {
             view!!.tag = StickerViewHolder(view)
         }
         val holder = view.tag as StickerViewHolder
-        Picasso.with(App.context)
-                .load(sticker.photo256)
-                .into(holder.ivSticker)
+        holder.bind(sticker)
         return view
     }
 
-    inner class StickerViewHolder(view: View) {
+    inner class StickerViewHolder(private val view: View) {
 
-        @BindView(R.id.ivSticker)
-        lateinit var ivSticker: ImageView
-
-        init {
-            ButterKnife.bind(this, view)
+        fun bind(sticker: Attachment.Sticker) {
+            with(view) {
+                ivSticker.loadUrl(sticker.photo256)
+            }
         }
     }
 }

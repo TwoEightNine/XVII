@@ -4,13 +4,11 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.model.StickerPack
+import com.twoeightnine.root.xvii.utils.loadUrl
+import kotlinx.android.synthetic.main.item_sticker_cat.view.*
 
 /**
  * Created by your mama on 7/11/17.
@@ -24,26 +22,20 @@ class StickerCatAdapter(context: Context,
 
 
     override fun onBindViewHolder(holder: StickerCatViewHolder, position: Int) {
-        val pack = items[position]
-        if (pack.isRecent) {
-            holder.ivItem.setImageResource(R.drawable.ic_recent)
-        } else if (pack.isAvailable) {
-            holder.ivItem.setImageResource(R.drawable.ic_feed)
-        } else {
-            Picasso.with(context)
-                    .load(pack.getStickerUrl(0))
-                    .into(holder.ivItem)
-        }
+        holder.bind(items[position])
     }
 
     inner class StickerCatViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
-        @BindView(R.id.ivStickerItem)
-        lateinit var ivItem: ImageView
 
-        init {
-            ButterKnife.bind(this, view)
-            ivItem.setOnClickListener {
-                listener?.invoke(items[adapterPosition])
+        fun bind(pack: StickerPack) {
+            with(itemView) {
+                when {
+                    pack.isRecent -> ivStickerItem.setImageResource(R.drawable.ic_recent)
+                    pack.isAvailable -> ivStickerItem.setImageResource(R.drawable.ic_feed)
+                    else -> {
+                        ivStickerItem.loadUrl(pack.getStickerUrl(0))
+                    }
+                }
             }
         }
     }

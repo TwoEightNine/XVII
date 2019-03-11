@@ -10,33 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.utils.*
+import kotlinx.android.synthetic.main.activity_image_viewer.*
 import javax.inject.Inject
 
 class ImageViewerActivity : AppCompatActivity() {
-
-    @BindView(R.id.rlTop)
-    lateinit var rlTop: RelativeLayout
-    @BindView(R.id.tvPosition)
-    lateinit var tvPosition: TextView
-    @BindView(R.id.vpImage)
-    lateinit var viewPager: StopableViewPager
-    @BindView(R.id.llBottom)
-    lateinit var llBottom: LinearLayout
-    @BindView(R.id.btnSaveToAlbum)
-    lateinit var btnSave: Button
-    @BindView(R.id.btnDownload)
-    lateinit var btnDownload: Button
 
     private var adapter: FullScreenImageAdapter? = null
     private var photos: MutableList<Photo>? = null
@@ -52,7 +34,6 @@ class ImageViewerActivity : AppCompatActivity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_image_viewer)
-        ButterKnife.bind(this)
         App.appComponent?.inject(this)
         initData()
         val urls = when{
@@ -61,9 +42,9 @@ class ImageViewerActivity : AppCompatActivity() {
             else -> arrayListOf()
         }
         adapter = FullScreenImageAdapter(this, urls, ::onDismiss, ::onTap)
-        viewPager.adapter = adapter
+        vpImage.adapter = adapter
         setPosition(position)
-        viewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+        vpImage.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
@@ -72,11 +53,11 @@ class ImageViewerActivity : AppCompatActivity() {
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
-        viewPager.currentItem = position
+        vpImage.currentItem = position
         btnDownload.setOnClickListener {
             if (photos == null || photos!!.size == 0) return@setOnClickListener
 
-            val url = photos!![viewPager.currentItem].maxPhoto
+            val url = photos!![vpImage.currentItem].maxPhoto
             val fileName = getNameFromUrl(url)
             downloadFile(
                     this,
@@ -86,10 +67,10 @@ class ImageViewerActivity : AppCompatActivity() {
                     { showCommon(this, getString(R.string.doenloaded, fileName)) }
             )
         }
-        btnSave.setOnClickListener {
+        btnSaveToAlbum.setOnClickListener {
             if (photos == null || photos!!.size == 0) return@setOnClickListener
 
-            val photo = photos!![viewPager.currentItem]
+            val photo = photos!![vpImage.currentItem]
             Lg.i("photo: ${photo.ownerId} ${photo.id} ${photo.accessKey}")
             apiUtils.saveToAlbum(this, photo.ownerId ?: 0, photo.id ?: 0, photo.accessKey ?: "")
         }

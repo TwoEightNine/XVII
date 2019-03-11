@@ -3,16 +3,13 @@ package com.twoeightnine.root.xvii.settings.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.Switch
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.fragments.EggFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
+import kotlinx.android.synthetic.main.fragment_notifications.*
 
 /**
  * Created by root on 2/2/17.
@@ -20,59 +17,40 @@ import com.twoeightnine.root.xvii.managers.Style
 
 class NotificationsFragment : BaseFragment() {
 
-    @BindView(R.id.switchShowNotification)
-    lateinit var showNotification: Switch
-    @BindView(R.id.switchShowName)
-    lateinit var showName: Switch
-    @BindView(R.id.switchChats)
-    lateinit var chats: Switch
-    @BindView(R.id.switchVibrate)
-    lateinit var vibrate: Switch
-    @BindView(R.id.switchSound)
-    lateinit var sound: Switch
-    @BindView(R.id.switchContent)
-    lateinit var content: Switch
-    @BindView(R.id.switchLights)
-    lateinit var ledLights: Switch
-    @BindView(R.id.llContainer)
-    lateinit var llContainer: LinearLayout
-    @BindView(R.id.switchEgg)
-    lateinit var egg: Switch
-
     private var eggState = 0
 
     private fun initSwitches() {
         if (Prefs.showNotifs) {
-            showNotification.isChecked = true
-            showName.isChecked = Prefs.showName
-            chats.isChecked = Prefs.showNotifsChats
-            vibrate.isChecked = Prefs.vibrate
-            sound.isChecked = Prefs.sound
-            ledLights.isChecked = Prefs.ledLights
-            content.isChecked = Prefs.showContent
+            switchShowNotification.isChecked = true
+            switchShowName.isChecked = Prefs.showName
+            switchChats.isChecked = Prefs.showNotifsChats
+            switchVibrate.isChecked = Prefs.vibrate
+            switchSound.isChecked = Prefs.sound
+            switchLights.isChecked = Prefs.ledLights
+            switchContent.isChecked = Prefs.showContent
         } else {
-            showNotification.isChecked = false
-            showName.isEnabled = false
-            chats.isEnabled = false
-            vibrate.isEnabled = false
-            sound.isEnabled = false
-            ledLights.isEnabled = false
-            content.isEnabled = false
+            switchShowNotification.isChecked = false
+            switchShowName.isEnabled = false
+            switchChats.isEnabled = false
+            switchVibrate.isEnabled = false
+            switchSound.isEnabled = false
+            switchLights.isEnabled = false
+            switchContent.isEnabled = false
         }
-        showNotification.setOnCheckedChangeListener { _, b ->
-            showName.isEnabled = b
-            vibrate.isEnabled = b
-            sound.isEnabled = b
-            chats.isEnabled = b
-            ledLights.isEnabled = b
-            content.isEnabled = b
+        switchShowNotification.setOnCheckedChangeListener { _, b ->
+            switchShowName.isEnabled = b
+            switchVibrate.isEnabled = b
+            switchSound.isEnabled = b
+            switchChats.isEnabled = b
+            switchLights.isEnabled = b
+            switchContent.isEnabled = b
             if (!b) {
-                showName.isChecked = false
-                vibrate.isChecked = false
-                sound.isChecked = false
-                chats.isChecked = false
-                ledLights.isChecked = false
-                content.isChecked = false
+                switchShowName.isChecked = false
+                switchVibrate.isChecked = false
+                switchSound.isChecked = false
+                switchChats.isChecked = false
+                switchLights.isChecked = false
+                switchContent.isChecked = false
             }
         }
     }
@@ -83,13 +61,13 @@ class NotificationsFragment : BaseFragment() {
     }
 
     private fun saveSwitches() {
-        Prefs.showNotifs = showNotification.isChecked
-        Prefs.showNotifsChats = chats.isChecked
-        Prefs.showName = showName.isEnabled && showName.isChecked
-        Prefs.vibrate = vibrate.isEnabled && vibrate.isChecked
-        Prefs.sound = sound.isEnabled && sound.isChecked
-        Prefs.ledLights = ledLights.isEnabled && ledLights.isChecked
-        Prefs.showContent = content.isEnabled && content.isChecked
+        Prefs.showNotifs = switchShowNotification.isChecked
+        Prefs.showNotifsChats = switchChats.isChecked
+        Prefs.showName = switchShowName.isEnabled && switchShowName.isChecked
+        Prefs.vibrate = switchVibrate.isEnabled && switchVibrate.isChecked
+        Prefs.sound = switchSound.isEnabled && switchSound.isChecked
+        Prefs.ledLights = switchLights.isEnabled && switchLights.isChecked
+        Prefs.showContent = switchContent.isEnabled && switchContent.isChecked
     }
 
     override fun onStop() {
@@ -98,24 +76,23 @@ class NotificationsFragment : BaseFragment() {
     }
 
     override fun bindViews(view: View) {
-        ButterKnife.bind(this, view)
         initSwitches()
         Style.forAll(llContainer)
         if (Math.random() > 0.85 || BuildConfig.DEBUG) {
             val handler = Handler()
-            egg.visibility = View.VISIBLE
-            egg.setOnCheckedChangeListener {
+            switchEgg.visibility = View.VISIBLE
+            switchEgg.setOnCheckedChangeListener {
                 _, isChecked ->
                 if (isChecked) {
                     when (eggState) {
                         1 -> {
                             eggState = -2
-                            handler.postDelayed({ egg.isChecked = false }, 500L)
+                            handler.postDelayed({ switchEgg.isChecked = false }, 500L)
                             handler.postDelayed({ rootActivity.loadFragment(EggFragment()) }, 1000L)
                         }
                         else -> {
                             eggState++
-                            handler.postDelayed({ egg.isChecked = false }, 500L)
+                            handler.postDelayed({ switchEgg.isChecked = false }, 500L)
                         }
                     }
                 }

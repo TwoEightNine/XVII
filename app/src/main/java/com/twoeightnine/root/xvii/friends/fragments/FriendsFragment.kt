@@ -8,9 +8,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.ProgressBar
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
@@ -23,17 +20,10 @@ import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.showCommon
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.views.LoaderView
+import kotlinx.android.synthetic.main.fragment_friends.*
 import javax.inject.Inject
 
 class FriendsFragment : BaseFragment(), FriendsFragmentView {
-
-    @BindView(R.id.viewPager)
-    lateinit var viewPager: androidx.viewpager.widget.ViewPager
-    @BindView(R.id.tabs)
-    lateinit var tabs: TabLayout
-    @BindView(R.id.loader)
-    lateinit var loader: ProgressBar
-
 
     private lateinit var pagerAdapter: CommonPagerAdapter
 
@@ -54,7 +44,6 @@ class FriendsFragment : BaseFragment(), FriendsFragmentView {
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         initAdapter()
         App.appComponent?.inject(this)
         presenter.view = this

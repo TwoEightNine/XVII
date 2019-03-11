@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -18,14 +16,10 @@ import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.DialogFwFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.DialogFwFragmentView
 import com.twoeightnine.root.xvii.utils.showCommon
+import kotlinx.android.synthetic.main.fragment_dialogs.*
 import javax.inject.Inject
 
 class DialogFwFragment : BaseFragment(), DialogFwFragmentView {
-
-    @BindView(R.id.recyclerView)
-    open lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
-    @BindView(R.id.swipeRefresh)
-    open lateinit var swipeRefresh: SwipyRefreshLayout
 
     companion object {
         fun newInstance(fwdMessages: String): DialogFwFragment {
@@ -54,7 +48,6 @@ class DialogFwFragment : BaseFragment(), DialogFwFragmentView {
     override fun getLayout() = R.layout.fragment_dialogs
 
     override fun bindViews(view: View) {
-        ButterKnife.bind(this, view)
         initAdapter()
         initRefresh()
         App.appComponent?.inject(this)

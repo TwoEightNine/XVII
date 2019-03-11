@@ -9,17 +9,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.core.content.ContextCompat
 import androidx.appcompat.widget.Toolbar
 import android.view.*
-import butterknife.BindView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.managers.Style
+import kotlinx.android.synthetic.main.toolbar.*
 
 open class BaseFragment: androidx.fragment.app.Fragment() {
-
-    @Nullable
-    @BindView(R.id.toolbar) @JvmField
-    var toolbar: Toolbar? = null
 
     private var isNew = false
     private var isSearchOpen = false
@@ -82,8 +78,8 @@ open class BaseFragment: androidx.fragment.app.Fragment() {
                 actionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
                 actionBar.setHomeButtonEnabled(true)
                 actionBar.setDisplayUseLogoEnabled(false)
-                toolbar!!.setTitleTextColor(ContextCompat.getColor(rootActivity, R.color.toolbar_text))
-                toolbar!!.setSubtitleTextColor(ContextCompat.getColor(rootActivity, R.color.toolbar_subtext))
+                toolbar?.setTitleTextColor(ContextCompat.getColor(rootActivity, R.color.toolbar_text))
+                toolbar?.setSubtitleTextColor(ContextCompat.getColor(rootActivity, R.color.toolbar_subtext))
             }
 
         }

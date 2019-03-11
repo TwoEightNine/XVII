@@ -1,8 +1,5 @@
 package com.twoeightnine.root.xvii.chats.fragments.attach
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import android.widget.GridView
-import butterknife.BindView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
@@ -13,6 +10,7 @@ import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.utils.subscribeSmart
+import kotlinx.android.synthetic.main.fragment_attachments_photo.*
 import java.lang.Exception
 
 class PhotoAttachFragment : BaseAttachFragment<Photo>(), SimpleAdapter.OnMultiSelected {
@@ -25,18 +23,13 @@ class PhotoAttachFragment : BaseAttachFragment<Photo>(), SimpleAdapter.OnMultiSe
         }
     }
 
-    @BindView(R.id.gvPhotos)
-    lateinit var gvPhotos: GridView
-    @BindView(R.id.fabDone)
-    lateinit var fabDne: FloatingActionButton
-
     var list: ((MutableList<Attachment>) -> Unit)? = null
 
     override fun getLayout() = R.layout.fragment_attachments_photo
 
     override fun initAdapter() {
         App.appComponent?.inject(this)
-        fabDne.setOnClickListener {
+        fabDone.setOnClickListener {
             list?.invoke(
                     adapter.multiSelectRaw
                             .map { Attachment(it) }
@@ -44,7 +37,7 @@ class PhotoAttachFragment : BaseAttachFragment<Photo>(), SimpleAdapter.OnMultiSe
             )
             adapter.clearMultiSelect()
         }
-        fabDne.hide()
+        fabDone.hide()
         adapter = PhotoAttachmentsAdapter(
                 safeActivity,
                 { load() },
@@ -55,15 +48,15 @@ class PhotoAttachFragment : BaseAttachFragment<Photo>(), SimpleAdapter.OnMultiSe
         )
         adapter.multiListener = this
         gvPhotos.adapter = adapter
-        Style.forFAB(fabDne)
+        Style.forFAB(fabDone)
     }
 
     override fun onNonEmpty() {
-        fabDne.show()
+        fabDone.show()
     }
 
     override fun onEmpty() {
-        fabDne.hide()
+        fabDone.hide()
     }
 
     fun load() {

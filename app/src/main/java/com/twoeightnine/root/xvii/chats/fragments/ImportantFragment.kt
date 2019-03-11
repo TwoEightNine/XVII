@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
@@ -18,12 +16,10 @@ import com.twoeightnine.root.xvii.mvp.presenter.ImportantFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.ImportantFragmentView
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.*
+import kotlinx.android.synthetic.main.fragment_important.*
 import javax.inject.Inject
 
 class ImportantFragment: BaseFragment(), ImportantFragmentView {
-
-    @BindView(R.id.rvImportant)
-    lateinit var rvImportant: androidx.recyclerview.widget.RecyclerView
 
     @Inject
     lateinit var presenter: ImportantFragmentPresenter
@@ -34,7 +30,6 @@ class ImportantFragment: BaseFragment(), ImportantFragmentView {
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         App.appComponent?.inject(this)
         presenter.view = this
         initAdapter()

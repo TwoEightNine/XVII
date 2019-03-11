@@ -4,8 +4,6 @@ import android.os.CountDownTimer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -17,6 +15,7 @@ import com.twoeightnine.root.xvii.mvp.view.SearchUsersFragmentView
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.hideKeyboard
+import kotlinx.android.synthetic.main.fragment_users_search.*
 import javax.inject.Inject
 
 class SearchUsersFragment: BaseFragment(), SearchUsersFragmentView {
@@ -24,18 +23,12 @@ class SearchUsersFragment: BaseFragment(), SearchUsersFragmentView {
     @Inject
     lateinit var presenter: SearchUsersPresenter
 
-    @BindView(R.id.rvUsers)
-    lateinit var rvUsers: androidx.recyclerview.widget.RecyclerView
-    @BindView(R.id.searchView)
-    lateinit var searchView: MaterialSearchView
-
     private lateinit var adapter: UsersAdapter
 
     private var timer: CountDownTimer? = null
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         initAdapter()
         initSearchView()
         App.appComponent?.inject(this)
@@ -94,10 +87,6 @@ class SearchUsersFragment: BaseFragment(), SearchUsersFragmentView {
             override fun onSearchViewShown() {}
         })
         searchView.clearFocus()
-//        searchView.post {
-//            searchView.showSearch()
-//            searchView.showKeyboard(searchView)
-//        }
     }
 
     private fun loadMore(offset: Int = 0) {

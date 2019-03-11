@@ -12,8 +12,8 @@
         android:src="@drawable/xvii512"
         android:layout_gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_width="200dp"
-        android:layout_height="200dp" />
+        android:layout_width="150dp"
+        android:layout_height="150dp" />
 
     <TextView
         android:layout_gravity="center"

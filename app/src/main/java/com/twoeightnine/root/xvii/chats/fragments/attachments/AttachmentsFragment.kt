@@ -6,23 +6,14 @@ import androidx.viewpager.widget.ViewPager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.ProgressBar
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.views.LoaderView
+import kotlinx.android.synthetic.main.fragment_attachments_history.*
 
 class AttachmentsFragment: BaseFragment() {
-
-    @BindView(R.id.tabs)
-    lateinit var tabs: TabLayout
-    @BindView(R.id.viewPager)
-    lateinit var viewPager: androidx.viewpager.widget.ViewPager
-    @BindView(R.id.loader)
-    lateinit var loader: ProgressBar
 
     lateinit var adapter: CommonPagerAdapter
 
@@ -38,7 +29,6 @@ class AttachmentsFragment: BaseFragment() {
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         initAdapter()
     }
 

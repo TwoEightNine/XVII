@@ -4,9 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import android.view.View
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
@@ -20,6 +17,7 @@ import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.utils.*
+import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
 
 /**
@@ -28,34 +26,15 @@ import javax.inject.Inject
 
 class AboutFragment : BaseFragment() {
 
-    @BindView(R.id.tvFeedback)
-    lateinit var tvFeedback: TextView
-    @BindView(R.id.tvRate)
-    lateinit var tvRate: TextView
-    @BindView(R.id.tvPrivacy)
-    lateinit var tvPrivacy: TextView
-    @BindView(R.id.tvShare)
-    lateinit var tvShare: TextView
-    @BindView(R.id.tvAboutApp)
-    lateinit var tvAboutApp: TextView
-    @BindView(R.id.tvDebug)
-    lateinit var tvDebug: TextView
-
-    @BindView(R.id.tvCrash)
-    lateinit var tvCrash: TextView
-    @BindView(R.id.tvLandscape)
-    lateinit var tvLandscape: TextView
-
     private lateinit var crashTest: String
 
     @Inject
     lateinit var apiUtils: ApiUtils
 
     override fun bindViews(view: View) {
-        ButterKnife.bind(this, view)
         App.appComponent?.inject(this)
         initViews()
-        apiUtils.checkMembership({ if (!it) showJoinDialog() })
+        apiUtils.checkMembership { if (!it) showJoinDialog() }
     }
 
     override fun getLayout() = R.layout.fragment_about

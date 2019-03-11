@@ -4,14 +4,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.friends.adapters.UsersAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import kotlinx.android.synthetic.main.fragment_friends_advanced.*
 
 class FriendsAllFragment: BaseFragment(), BaseAdapter.OnMultiSelected {
 
@@ -26,13 +25,6 @@ class FriendsAllFragment: BaseFragment(), BaseAdapter.OnMultiSelected {
 
     }
 
-    @BindView(R.id.fabCreateChat)
-    lateinit var fabCreateChat: FloatingActionButton
-    @BindView(R.id.fabDoneCreating)
-    lateinit var fabDoneCreating: FloatingActionButton
-    @BindView(R.id.rvUsers)
-    lateinit var rvUsers: androidx.recyclerview.widget.RecyclerView
-
     lateinit var adapter: UsersAdapter
 
     private var multiSelectMode = false
@@ -42,7 +34,6 @@ class FriendsAllFragment: BaseFragment(), BaseAdapter.OnMultiSelected {
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         initAdapter()
         initFabs()
         Style.forFAB(fabCreateChat)

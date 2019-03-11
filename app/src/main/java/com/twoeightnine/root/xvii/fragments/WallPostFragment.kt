@@ -6,12 +6,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -25,6 +19,8 @@ import com.twoeightnine.root.xvii.response.WallPostResponse
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoaderView
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.content_wall_post.view.*
+import kotlinx.android.synthetic.main.fragment_wall_post.*
 import javax.inject.Inject
 
 class WallPostFragment : BaseFragment() {
@@ -38,15 +34,6 @@ class WallPostFragment : BaseFragment() {
         }
     }
 
-    @BindView(R.id.llRoot)
-    lateinit var llRoot: LinearLayout
-    @BindView(R.id.ivLike)
-    lateinit var ivLike: ImageView
-    @BindView(R.id.tvLikes)
-    lateinit var tvLikes: TextView
-    @BindView(R.id.loader)
-    lateinit var loader: ProgressBar
-
     var postId: String? = null
     private lateinit var postResponse: WallPostResponse
 
@@ -57,7 +44,6 @@ class WallPostFragment : BaseFragment() {
     lateinit var apiUtils: ApiUtils
 
     override fun bindViews(view: View) {
-        ButterKnife.bind(this, view)
         App.appComponent?.inject(this)
         getWallPostRequest()
     }
@@ -77,8 +63,7 @@ class WallPostFragment : BaseFragment() {
     private fun getWallPostRequest() {
         loader.visibility = View.VISIBLE
         api.getWallPostById(postId ?: "")
-                .subscribeSmart({
-                    response ->
+                .subscribeSmart({ response ->
                     loader.visibility = View.GONE
                     postResponse = response
                     if (response.items.size > 0) {
@@ -205,19 +190,11 @@ class WallPostFragment : BaseFragment() {
 
 
     inner class WallViewHolder(view: View) {
-        @BindView(R.id.civAvatar)
-        lateinit var civAvatar: CircleImageView
-        @BindView(R.id.tvTitle)
-        lateinit var tvTitle: TextView
-        @BindView(R.id.tvDate)
-        lateinit var tvDate: TextView
-        @BindView(R.id.tvPost)
-        lateinit var tvPost: TextView
-        @BindView(R.id.llContainer)
-        lateinit var llContainer: LinearLayout
 
-        init {
-            ButterKnife.bind(this, view)
-        }
+        val civAvatar = view.civAvatar
+        val tvTitle = view.tvTitle
+        val tvDate = view.tvDate
+        val tvPost = view.tvPost
+        val llContainer = view.llContainer
     }
 }

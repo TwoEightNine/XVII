@@ -3,11 +3,6 @@ package com.twoeightnine.root.xvii.settings.fragments
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import android.view.View
-import android.widget.*
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.flask.colorpicker.ColorPickerView
-import com.flask.colorpicker.slider.LightnessSlider
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -17,36 +12,9 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoadingDialog
+import kotlinx.android.synthetic.main.fragment_appearance.*
 
 class AppearanceFragment : BaseFragment() {
-
-    @BindView(R.id.rlChatBack)
-    lateinit var rlChatBack: RelativeLayout
-    @BindView(R.id.ivPreview)
-    lateinit var ivPreview: ImageView
-    @BindView(R.id.switchNight)
-    lateinit var night: Switch
-    @BindView(R.id.llPicker)
-    lateinit var llPicker: LinearLayout
-    @BindView(R.id.rlDark)
-    lateinit var rlDark: RelativeLayout
-    @BindView(R.id.rlMain)
-    lateinit var rlMain: RelativeLayout
-    @BindView(R.id.rlLight)
-    lateinit var rlLight: RelativeLayout
-    @BindView(R.id.rlExtraLight)
-    lateinit var rlExtraLight: RelativeLayout
-    @BindView(R.id.rlBottom)
-    lateinit var rlBottom: RelativeLayout
-    @BindView(R.id.rlHideBottom)
-    lateinit var rlHideBottom: RelativeLayout
-    @BindView(R.id.tvTitle)
-    lateinit var tvTitle: TextView
-
-    @BindView(R.id.picker)
-    lateinit var picker: ColorPickerView
-    @BindView(R.id.pickerLight)
-    lateinit var lightness: LightnessSlider
 
     private lateinit var imut: ImageUtils
     private lateinit var bottomSheetHelper: BottomSheetHelper
@@ -60,14 +28,13 @@ class AppearanceFragment : BaseFragment() {
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         colorBefore = Prefs.color
         currentColor = colorBefore
         initViews()
         applyColors()
         imut = ImageUtils(safeActivity)
         Style.forImageView(ivPreview, Style.MAIN_TAG)
-        Style.forSwitch(night)
+        Style.forSwitch(switchNight)
         Style.forViewGroupColor(rlHideBottom)
         bottomSheetHelper = BottomSheetHelper(
                 rlBottom,
@@ -97,7 +64,7 @@ class AppearanceFragment : BaseFragment() {
 
     private fun initViews() {
         isNightBefore = Prefs.isNight
-        night.setOnCheckedChangeListener { _, b ->
+        switchNight.setOnCheckedChangeListener { _, b ->
             Prefs.isNight = b
             if (b) {
                 llPicker.visibility = View.VISIBLE
@@ -110,7 +77,7 @@ class AppearanceFragment : BaseFragment() {
         } else {
             llPicker.visibility = View.GONE
         }
-        night.isChecked = isNightBefore
+        switchNight.isChecked = isNightBefore
         if (Prefs.chatBack.isNotEmpty()) {
             Picasso.with(context)
                     .load("file://${Prefs.chatBack}")
@@ -177,8 +144,8 @@ class AppearanceFragment : BaseFragment() {
 
     override fun onStop() {
         super.onStop()
-        if (isNightBefore != night.isChecked ||
-                night.isChecked && currentColor != colorBefore) {
+        if (isNightBefore != switchNight.isChecked ||
+                switchNight.isChecked && currentColor != colorBefore) {
             Prefs.color = currentColor
             restartApp(getString(R.string.theme_changed))
         }

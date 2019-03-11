@@ -4,12 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
 import com.twoeightnine.root.xvii.settings.Item
+import kotlinx.android.synthetic.main.item_settings.view.*
 
 class SettingsAdapter(context: Context) : SimpleAdapter<Item>() {
 
@@ -23,17 +21,16 @@ class SettingsAdapter(context: Context) : SimpleAdapter<Item>() {
             view!!.tag = ViewHolder(view)
         }
         val holder = view.tag as ViewHolder
-        holder.tvTitle.text = item.title
+        holder.bind(item)
         return view
     }
 
-    inner class ViewHolder(view: View) {
+    inner class ViewHolder(private val view: View) {
 
-        @BindView(R.id.tvTitle)
-        lateinit var tvTitle: TextView
-
-        init {
-            ButterKnife.bind(this, view)
+        fun bind(item: Item) {
+            with(view) {
+                tvTitle.text = item.title
+            }
         }
     }
 }

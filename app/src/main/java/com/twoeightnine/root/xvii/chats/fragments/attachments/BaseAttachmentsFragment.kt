@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.chats.fragments.attachments
 
 import android.view.View
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
 import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.fragments.BaseFragment
@@ -28,7 +27,6 @@ abstract class BaseAttachmentsFragment<T> : BaseFragment() {
     val count = 200
 
     override fun bindViews(view: View) {
-        ButterKnife.bind(this, view)
         initAdapter()
         adapter.startLoading()
     }

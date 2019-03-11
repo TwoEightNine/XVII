@@ -5,13 +5,9 @@ import android.content.Context
 import android.text.InputFilter
 import android.text.Spanned
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Style
+import kotlinx.android.synthetic.main.dialog_enter_text.*
 
 class TextInputAlertDialog(context: Context,
                            var title: String,
@@ -21,16 +17,8 @@ class TextInputAlertDialog(context: Context,
                            stylize: Boolean = true,
                            useFilter: Boolean = false): AlertDialog(context) {
 
-    @BindView(R.id.tvTitle)
-    lateinit var tvTitle: TextView
-    @BindView(R.id.etInput)
-    lateinit var etInput: EditText
-    @BindView(R.id.ivDone)
-    lateinit var ivDone: ImageView
-
     init {
         val view = View.inflate(context, R.layout.dialog_enter_text, null)
-        ButterKnife.bind(this, view)
         ivDone.setOnClickListener {
             listener?.invoke(etInput.text.toString())
             dismiss()

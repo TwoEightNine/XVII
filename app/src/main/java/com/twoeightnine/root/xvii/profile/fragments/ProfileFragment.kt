@@ -3,9 +3,6 @@ package com.twoeightnine.root.xvii.profile.fragments
 import android.graphics.Color
 import androidx.annotation.StringRes
 import android.view.View
-import android.widget.*
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
@@ -22,36 +19,11 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoaderView
 import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.item_user_field.view.*
 import javax.inject.Inject
 
 class ProfileFragment : BaseFragment(), ProfileFragmentView {
-
-    @BindView(R.id.rlArc)
-    lateinit var rlArc: RelativeLayout
-    @BindView(R.id.llHeader)
-    lateinit var llHeader: LinearLayout
-    @BindView(R.id.rlBack)
-    lateinit var rlBack: RelativeLayout
-    @BindView(R.id.civPhoto)
-    lateinit var civPhoto: CircleImageView
-    @BindView(R.id.llContainer)
-    lateinit var llContainer: LinearLayout
-    @BindView(R.id.loader)
-    lateinit var loader: ProgressBar
-    @BindView(R.id.tvName)
-    lateinit var tvName: TextView
-    @BindView(R.id.tvLastSeen)
-    lateinit var tvLastSeen: TextView
-    @BindView(R.id.ivOnline)
-    lateinit var ivOnline: ImageView
-    @BindView(R.id.llCounters)
-    lateinit var llCounters: LinearLayout
-    @BindView(R.id.tvFriendsCOunt)
-    lateinit var tvFriendsCount: TextView
-    @BindView(R.id.tvFollowersCount)
-    lateinit var tvFollowersCount: TextView
-    @BindView(R.id.rlChat)
-    lateinit var rlChat: RelativeLayout
 
     private var userId = 0
 
@@ -72,7 +44,6 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         stylize()
     }
 
@@ -152,7 +123,7 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
         add(R.string.twitter, user.twitter, null) { copy(user.twitter, R.string.twitter) }
         add(R.string.instagram, user.instagram, null) { copy(user.instagram, R.string.instagram) }
         add(R.string.skype, user.skype, null) { copy(user.skype, R.string.skype) }
-        tvFriendsCount.text = shortifyNumber(user.counters?.friends ?: 0)
+        tvFriendsCOunt.text = shortifyNumber(user.counters?.friends ?: 0)
         tvFollowersCount.text = shortifyNumber(user.counters?.followers ?: 0)
     }
 
@@ -171,29 +142,16 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
                     onLongClick: ((View) -> Unit)? = null) {
         if (!value.isNullOrEmpty()) {
             val view = View.inflate(activity, R.layout.item_user_field, null)
-            val binder = ViewBinder(view)
-            binder.tvTitle.text = getString(title)
-            binder.tvValue.text = value
-            binder.rlItem.setOnClickListener(onClick)
-            binder.rlItem.setOnLongClickListener {
-                onLongClick?.invoke(it)
-                true
+            with(view) {
+                tvTitle.text = getString(title)
+                tvValue.text = value
+                rlItem.setOnClickListener(onClick)
+                rlItem.setOnLongClickListener {
+                    onLongClick?.invoke(it)
+                    true
+                }
             }
             llContainer.addView(view)
-        }
-    }
-
-    inner class ViewBinder(view: View) {
-
-        @BindView(R.id.tvTitle)
-        lateinit var tvTitle: TextView
-        @BindView(R.id.tvValue)
-        lateinit var tvValue: TextView
-        @BindView(R.id.rlItem)
-        lateinit var rlItem: RelativeLayout
-
-        init {
-            ButterKnife.bind(this, view)
         }
     }
 }

@@ -1,15 +1,13 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
 import android.view.View
-import android.widget.GridView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.StickerAdapter
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.StickerPack
+import kotlinx.android.synthetic.main.fragment_sticker_grid.*
 
 /**
  * Created by root on 3/7/17.
@@ -29,9 +27,6 @@ class StickerGridFragment : BaseFragment() {
         }
     }
 
-    @BindView(R.id.gvStickers)
-    lateinit var gvStickers: GridView
-
     lateinit var pack: StickerPack
     private lateinit var adapter: StickerAdapter
 
@@ -42,7 +37,6 @@ class StickerGridFragment : BaseFragment() {
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         adapter = StickerAdapter()
         recent = Prefs.recentStickers
         avail = Prefs.availableStickers

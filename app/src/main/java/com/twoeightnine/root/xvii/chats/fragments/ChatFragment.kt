@@ -21,8 +21,6 @@ import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection
 import com.twoeightnine.root.xvii.App
@@ -56,69 +54,12 @@ import com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import com.twoeightnine.root.xvii.views.emoji.EmojiKeyboard
 import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
+import kotlinx.android.synthetic.main.chat_input_panel.*
+import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelected {
-
-    @BindView(R.id.flContainer)
-    lateinit var flContainer: SizeNotifierFrameLayout
-    @BindView(R.id.rvChatList)
-    lateinit var rvChatList: androidx.recyclerview.widget.RecyclerView
-    @BindView(R.id.swipeContainer)
-    lateinit var swipeContainer: SwipyRefreshLayout
-
-    @BindView(R.id.fabHasMore)
-    lateinit var fabHasMore: FloatingActionButton
-    @BindView(R.id.rlTyping)
-    lateinit var rlTyping: RelativeLayout
-    @BindView(R.id.rlRecordingVoice)
-    lateinit var rlRecordingVoice: RelativeLayout
-
-    @BindView(R.id.rlBack)
-    lateinit var rlBack: RelativeLayout
-    @BindView(R.id.ivSend)
-    lateinit var ivSend: ImageView
-    @BindView(R.id.ivMic)
-    lateinit var ivMic: ImageView
-    @BindView(R.id.pbAttach)
-    lateinit var pbAttach: ProgressBar
-    @BindView(R.id.ivAttach)
-    lateinit var ivAttach: ImageView
-    @BindView(R.id.rlAttachCount)
-    lateinit var rlAttachCount: RelativeLayout
-    @BindView(R.id.tvAttachCount)
-    lateinit var tvAttachCount: TextView
-    @BindView(R.id.ivEmoji)
-    lateinit var ivEMoji: ImageView
-    @BindView(R.id.etInput)
-    lateinit var etInput: EditText
-    @BindView(R.id.rlInputContainer)
-    lateinit var rlInputContainer: RelativeLayout
-
-    @BindView(R.id.rlHideBottom)
-    lateinit var rlHideBottom: RelativeLayout
-    @BindView(R.id.rlBottom)
-    lateinit var rlBottom: RelativeLayout
-    @BindView(R.id.tabsBottom)
-    lateinit var tabsBottom: TabLayout
-    @BindView(R.id.vpAttach)
-    lateinit var vpAttach: androidx.viewpager.widget.ViewPager
-
-    @BindView(R.id.rlRecord)
-    lateinit var rlRecord: RelativeLayout
-    @BindView(R.id.tvRecord)
-    lateinit var tvRecord: TextView
-
-    @BindView(R.id.rlMultiAction)
-    lateinit var rlMultiAcrion: RelativeLayout
-    @BindView(R.id.ivCancelMulti)
-    lateinit var ivCancelMulti: ImageView
-    @BindView(R.id.ivMenuMulti)
-    lateinit var ivMenuMulti: ImageView
-    @BindView(R.id.ivForwardMulti)
-    lateinit var ivForwardMulti: ImageView
-    @BindView(R.id.ivReplyMulti)
-    lateinit var ivReplyMulti: ImageView
 
     private lateinit var message: Message
 
@@ -166,7 +107,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     override fun getLayout() = R.layout.fragment_chat
 
     override fun bindViews(view: View) {
-        ButterKnife.bind(this, view)
         initAdapter()
         initInput()
         initEmojiKb()
@@ -190,12 +130,12 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         }
         initPager()
 
-        Style.forAll(rlMultiAcrion)
+        Style.forAll(rlMultiAction)
         Style.forViewGroupColor(rlHideBottom)
         Style.forFAB(fabHasMore)
         Style.forViewGroupColor(rlTyping)
         Style.forAll(rlBack)
-        Style.forAll(rlMultiAcrion)
+        Style.forAll(rlMultiAction)
         Style.forTabLayout(tabsBottom)
         if (Build.VERSION.SDK_INT >= 21) {
             val d2 = rlInputContainer.background
@@ -359,7 +299,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     private fun initInput() {
         inputController = ChatInputController(
                 ivSend, ivMic, ivAttach, pbAttach, rlAttachCount,
-                tvAttachCount, ivEMoji, etInput,
+                tvAttachCount, ivEmoji, etInput,
                 { onEmojiClicked() },
                 { onSend(etInput.text.toString()) },
                 {
@@ -508,11 +448,11 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     override fun onNonEmpty() {
-        rlMultiAcrion.visibility = View.VISIBLE
+        rlMultiAction.visibility = View.VISIBLE
     }
 
     override fun onEmpty() {
-        rlMultiAcrion.visibility = View.GONE
+        rlMultiAction.visibility = View.GONE
     }
 
     private fun decrypt(mids: MutableList<Int>) {

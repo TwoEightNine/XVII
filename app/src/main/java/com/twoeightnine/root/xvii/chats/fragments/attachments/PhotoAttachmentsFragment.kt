@@ -2,21 +2,15 @@ package com.twoeightnine.root.xvii.chats.fragments.attachments
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
-import android.widget.GridView
-import butterknife.BindView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.attachments.PhotoAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.response.AttachmentsResponse
 import com.twoeightnine.root.xvii.utils.ApiUtils
+import kotlinx.android.synthetic.main.fragment_attachments_photo.*
 
 class PhotoAttachmentsFragment : BaseAttachmentsFragment<Photo>() {
-
-    @BindView(R.id.gvPhotos)
-    lateinit var gvPhotos: GridView
-    @BindView(R.id.fabDone)
-    lateinit var fabDone: FloatingActionButton
 
     override fun initAdapter() {
         fabDone.visibility = View.GONE

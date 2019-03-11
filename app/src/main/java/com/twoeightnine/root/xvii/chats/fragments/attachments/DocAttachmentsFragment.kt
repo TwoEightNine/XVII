@@ -1,18 +1,14 @@
 package com.twoeightnine.root.xvii.chats.fragments.attachments
 
-import android.widget.ListView
-import butterknife.BindView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.attachments.DocAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.Doc
 import com.twoeightnine.root.xvii.response.AttachmentsResponse
 import com.twoeightnine.root.xvii.utils.simpleUrlIntent
+import kotlinx.android.synthetic.main.fragment_attachments_doc.*
 
 class DocAttachmentsFragment : BaseAttachmentsFragment<Doc>() {
-
-    @BindView(R.id.lvDocs)
-    lateinit var lvDocs: ListView
 
     override fun getLayout() = R.layout.fragment_attachments_doc
 

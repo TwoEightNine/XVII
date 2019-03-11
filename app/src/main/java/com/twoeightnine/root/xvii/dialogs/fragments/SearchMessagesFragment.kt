@@ -4,8 +4,6 @@ import android.os.CountDownTimer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
 import com.twoeightnine.root.xvii.App
@@ -18,16 +16,10 @@ import com.twoeightnine.root.xvii.mvp.presenter.SearchMessagesFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.SearchMessagesFragmentView
 import com.twoeightnine.root.xvii.utils.hideKeyboard
 import com.twoeightnine.root.xvii.utils.showCommon
+import kotlinx.android.synthetic.main.fragment_dialogs.*
 import javax.inject.Inject
 
 class SearchMessagesFragment: BaseFragment(), SearchMessagesFragmentView {
-
-    @BindView(R.id.recyclerView)
-    lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
-    @BindView(R.id.swipeRefresh)
-    lateinit var swipeRefresh: SwipyRefreshLayout
-    @BindView(R.id.searchView)
-    lateinit var searchView: MaterialSearchView
 
     var timer: CountDownTimer? = null
 
@@ -46,7 +38,6 @@ class SearchMessagesFragment: BaseFragment(), SearchMessagesFragmentView {
     lateinit var adapter: SearchMessagesAdapter
 
     override fun bindViews(view: View) {
-        ButterKnife.bind(this, view)
         initAdapter()
         initRefresh()
         initSearchView()

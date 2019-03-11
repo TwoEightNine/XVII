@@ -6,10 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.EditText
-import android.widget.RelativeLayout
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.dagger.ApiService
@@ -24,6 +20,7 @@ import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.loadPhoto
 import com.twoeightnine.root.xvii.utils.showCommon
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.fragment_chat_info.*
 import javax.inject.Inject
 
 class ChatInfoFragment: BaseFragment(), ChatInfoFragmentView {
@@ -35,17 +32,6 @@ class ChatInfoFragment: BaseFragment(), ChatInfoFragmentView {
             return frag
         }
     }
-
-    @BindView(R.id.civPhoto)
-    lateinit var civPhoto: CircleImageView
-    @BindView(R.id.etTitle)
-    lateinit var etTitle: EditText
-    @BindView(R.id.rlLeave)
-    lateinit var rlLeave: RelativeLayout
-    @BindView(R.id.rlRename)
-    lateinit var rlRename: RelativeLayout
-    @BindView(R.id.rvUsers)
-    lateinit var rvUsers: androidx.recyclerview.widget.RecyclerView
 
     lateinit private var adapter: UsersAdapter
     lateinit var message: Message
@@ -61,7 +47,6 @@ class ChatInfoFragment: BaseFragment(), ChatInfoFragmentView {
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         civPhoto.loadPhoto(message.photo)
         etTitle.setText(message.title)
         initAdapter()

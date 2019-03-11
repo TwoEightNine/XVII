@@ -8,9 +8,6 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.ListView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.fragments.BaseFragment
@@ -23,11 +20,9 @@ import com.twoeightnine.root.xvii.settings.adapters.SettingsAdapter
 import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.restartApp
 import io.realm.Realm
+import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment: BaseFragment() {
-
-    @BindView(R.id.lvPrefs)
-    lateinit var lvPrefs: ListView
 
     companion object {
         fun newInstance() = SettingsFragment()
@@ -36,7 +31,6 @@ class SettingsFragment: BaseFragment() {
     private lateinit var adapter: SettingsAdapter
 
     override fun bindViews(view: View) {
-        ButterKnife.bind(this, view)
         initAdapter()
     }
 
@@ -58,7 +52,7 @@ class SettingsFragment: BaseFragment() {
             if (obj is androidx.fragment.app.Fragment) {
                 rootActivity.loadFragment(obj)
             } else  {
-                (obj as () -> Unit).invoke()
+                (obj as? () -> Unit)?.invoke()
             }
         }
     }

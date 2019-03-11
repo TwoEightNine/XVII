@@ -1,7 +1,5 @@
 package com.twoeightnine.root.xvii.chats.fragments.attach
 
-import android.widget.ListView
-import butterknife.BindView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.attachments.VideoAttachmentsAdapter
@@ -10,6 +8,7 @@ import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Video
 import com.twoeightnine.root.xvii.utils.showCommon
 import com.twoeightnine.root.xvii.utils.subscribeSmart
+import kotlinx.android.synthetic.main.fragment_attachments_video.*
 
 class VideoAttachFragment : BaseAttachFragment<Video>() {
 
@@ -20,9 +19,6 @@ class VideoAttachFragment : BaseAttachFragment<Video>() {
             return frag
         }
     }
-
-    @BindView(R.id.lvVideos)
-    lateinit var lvVideos: ListView
 
     override fun getLayout() = R.layout.fragment_attachments_video
 

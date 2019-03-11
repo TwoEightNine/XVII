@@ -1,7 +1,5 @@
 package com.twoeightnine.root.xvii.chats.fragments.attach
 
-import android.widget.ListView
-import butterknife.BindView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.attachments.DocAttachmentsAdapter
@@ -10,6 +8,7 @@ import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Doc
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.utils.subscribeSmart
+import kotlinx.android.synthetic.main.fragment_attachments_doc.*
 
 class DocAttachFragment : BaseAttachFragment<Doc>() {
 
@@ -20,9 +19,6 @@ class DocAttachFragment : BaseAttachFragment<Doc>() {
             return frag
         }
     }
-
-    @BindView(R.id.lvDocs)
-    lateinit var lvDocs: ListView
 
     override fun getLayout() = R.layout.fragment_attachments_doc
 

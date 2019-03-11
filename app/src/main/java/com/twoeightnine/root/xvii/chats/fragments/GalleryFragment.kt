@@ -5,10 +5,6 @@ import android.provider.MediaStore
 import android.provider.MediaStore.MediaColumns
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
-import android.widget.GridView
-import android.widget.ImageView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
 import com.twoeightnine.root.xvii.chats.Titleable
@@ -19,6 +15,7 @@ import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.ImageUtils
 import com.twoeightnine.root.xvii.utils.PermissionHelper
 import com.twoeightnine.root.xvii.utils.showError
+import kotlinx.android.synthetic.main.fragment_gallery.*
 import java.io.File
 
 class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected {
@@ -34,13 +31,6 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
 
     override fun getTitle() = getString(R.string.gallery)
 
-    @BindView(R.id.gvGallery)
-    lateinit var gvGallery: GridView
-    @BindView(R.id.fabDone)
-    lateinit var fabDone: FloatingActionButton
-    @BindView(R.id.ivRefresh)
-    lateinit var ivRefresh: ImageView
-
     private lateinit var adapter: GalleryAdapter
     private lateinit var imut: ImageUtils
     private lateinit var permissionHelper: PermissionHelper
@@ -51,7 +41,6 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        ButterKnife.bind(this, view)
         imut = ImageUtils(safeActivity)
         permissionHelper = PermissionHelper(this)
         if (fromSettings) {
