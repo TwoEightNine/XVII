@@ -220,7 +220,7 @@
     <string name="random_key_type">Au hasard (DHE)</string>
     <string name="no_access_to_mic">Aucun accès au micro</string>
     <string name="no_access_to_storage">Aucun accès au storage</string>
-    <string name="need_access_to_mic">XVII veut avoir un accès au micro pour enregistrer des messages vocals</string>
+    <string name="need_access_to_mic">XVII veut avoir un accès au micro pour enregistrer des messages vocaux</string>
     <string name="need_access_to_storage">XVII veut avoir un accès au storage pour attacher ou sauvegarder des fichiers</string>
 
 </resources>

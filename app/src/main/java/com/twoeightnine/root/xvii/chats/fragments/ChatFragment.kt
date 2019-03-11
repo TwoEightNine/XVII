@@ -137,11 +137,10 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         Style.forAll(rlBack)
         Style.forAll(rlMultiAction)
         Style.forTabLayout(tabsBottom)
-        if (Build.VERSION.SDK_INT >= 21) {
-            val d2 = rlInputContainer.background
-            Style.forFrame(d2)
-            rlInputContainer.background = d2
-        }
+        val d2 = rlInputContainer.background
+        Style.forFrame(d2)
+        rlInputContainer.background = d2
+
         if (fwdMessages.isNotEmpty()) {
             handler.postDelayed({ presenter.attachUtils.forwarded = fwdMessages }, 1000L)
         }

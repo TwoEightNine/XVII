@@ -25,10 +25,10 @@ import com.twoeightnine.root.xvii.utils.pxFromDp
 object Style {
     private var STROKE = 3
 
-    val MAIN_TAG = "main"
-    val LIGHT_TAG = "light"
-    val DARK_TAG = "dark"
-    val API_20_TAG = "api20"
+    const val MAIN_TAG = "main"
+    const val LIGHT_TAG = "light"
+    const val DARK_TAG = "dark"
+    const val API_20_TAG = "api20"
 
     private var isDay: Boolean = false
 
@@ -72,27 +72,21 @@ object Style {
     }
 
     private fun shiftColor(color: Int, shift: Int) =
-        if (shift > 0) {
-            255 - shift + color * shift / 255
-        } else {
-            color * -shift / 255
-        }
+            if (shift > 0) {
+                255 - shift + color * shift / 255
+            } else {
+                color * -shift / 255
+            }
 
 
     fun setStatusBar(activity: Activity, color: Int = mainColor) {
         if (ignore()) return
-        if (is21Sdk()) {
-            val window = activity.window
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = color
-        }
+
+        val window = activity.window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = color
     }
-
-    private fun is16Sdk() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
-
-
-    private fun is21Sdk() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 
     private fun l(s: String) {
         Log.i("styler", s)
@@ -105,9 +99,9 @@ object Style {
 
     fun forEditText(et: EditText, tag: String) {
         //goddamn pre-lollipop
-        if (API_20_TAG == tag && !is21Sdk()) {
-            et.setTextColor(0xffffffff.toInt())
-        }
+//        if (API_20_TAG == tag && !is21Sdk()) {
+//            et.setTextColor(0xffffffff.toInt())
+//        }
     }
 
     private fun forEditText(et: EditText) {
@@ -149,7 +143,7 @@ object Style {
             }
         } else if (d is ColorDrawable) {
             d.color = color
-        } else if (is21Sdk() && d is VectorDrawable) {
+        } else if (d is VectorDrawable) {
             d.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
         }
     }
@@ -179,11 +173,11 @@ object Style {
         if (tag == null || tag !is String) return
 
         //GODDAMN PRE-LOLLIPOP
-        if (API_20_TAG == tag && !is21Sdk()) {
-            vg.setBackgroundColor(mainColor)
-        }
+//        if (API_20_TAG == tag && !is21Sdk()) {
+//            vg.setBackgroundColor(mainColor)
+//        }
 
-        if (is16Sdk() && API_20_TAG != tag) {
+        if (API_20_TAG != tag) {
             val d = vg.background
             forDrawable(d, tag, changeStroke)
             vg.background = d
@@ -215,18 +209,8 @@ object Style {
     fun forSwitch(s: Switch) {
         if (ignore()) return
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            val thumbStates = StateListDrawable()
-            thumbStates.addState(intArrayOf(android.R.attr.state_checked), ColorDrawable(mainColor))
-            thumbStates.addState(intArrayOf(-android.R.attr.state_enabled), ColorDrawable(mainColor))
-            thumbStates.addState(intArrayOf(), ColorDrawable(lightColor))
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                s.thumbDrawable = thumbStates
-            }
-        } else {
-            s.thumbDrawable.setColorFilter(mainColor, PorterDuff.Mode.SRC_ATOP)
-            s.trackDrawable.setColorFilter(lightColor, PorterDuff.Mode.SRC_ATOP)
-        }
+        s.thumbDrawable.setColorFilter(mainColor, PorterDuff.Mode.SRC_ATOP)
+        s.trackDrawable.setColorFilter(lightColor, PorterDuff.Mode.SRC_ATOP)
     }
 
     fun forFAB(fab: FloatingActionButton) {
@@ -235,9 +219,7 @@ object Style {
     }
 
     private fun forProgressBar(pb: ProgressBar) {
-        if (is21Sdk()) {
-            pb.progressTintList = ColorStateList.valueOf(mainColor)
-        }
+        pb.progressTintList = ColorStateList.valueOf(mainColor)
     }
 
     fun forDialog(dialog: AlertDialog?) {

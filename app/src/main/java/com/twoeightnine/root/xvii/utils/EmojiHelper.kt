@@ -56,7 +56,7 @@ object EmojiHelper {
             if (isRiva && VERSION.SDK_INT == 22) {
                 makeSafe = false
             }
-            if (!blind!! && VERSION.SDK_INT > 15) {
+            if (!blind!!) {
                 makeSafe = false
             }
             for ((key, res) in emojis) {

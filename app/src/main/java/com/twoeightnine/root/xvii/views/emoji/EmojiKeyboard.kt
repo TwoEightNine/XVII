@@ -112,19 +112,7 @@ class EmojiKeyboard : PopupWindow {
     }
 
     private val usableScreenHeight: Int
-        get() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                val metrics = DisplayMetrics()
-
-                val windowManager = mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-                windowManager.defaultDisplay.getMetrics(metrics)
-
-                return metrics.heightPixels
-
-            } else {
-                return rootView.rootView.height
-            }
-        }
+        get() = rootView.rootView.height
 
     /**
      * Manually set the popup window size
@@ -141,7 +129,7 @@ class EmojiKeyboard : PopupWindow {
         val view = View.inflate(mContext, R.layout.popup_emoji, null)
         val vpEmoji = view.findViewById<androidx.viewpager.widget.ViewPager>(R.id.viewPager)
 //        val tabs = view.findViewById(R.id.tabs) as TabLayout
-        val pagerAdapter = EmojiPagerAdapter({
+        val pagerAdapter = EmojiPagerAdapter {
             onEmojiClickListener.invoke(it)
             val emojis = Prefs.recentEmojis
             if (it in emojis) {
@@ -152,7 +140,7 @@ class EmojiKeyboard : PopupWindow {
                 emojis.removeAt(emojis.size - 1)
             }
             Prefs.recentEmojis = emojis
-        })
+        }
         vpEmoji.adapter = pagerAdapter
         vpEmoji.currentItem = 1
         return view

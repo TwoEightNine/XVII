@@ -74,18 +74,17 @@ fun showCommon(context: Context?, text: String) {
     if (context == null) return
 
     val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        val view = toast.view
-        val tvToast = view.findViewById<TextView>(android.R.id.message)
-        tvToast.textSize = 17f
-        tvToast.setPadding(12, 0, 12, 0)
-        tvToast.text = text
-        tvToast.setTextColor(ContextCompat.getColor(context, R.color.toolbar_text))
-        tvToast.gravity = Gravity.CENTER_HORIZONTAL
-        val d = ContextCompat.getDrawable(context, R.drawable.shape_toast)
-        Style.forDrawable(d, Style.MAIN_TAG, false)
-        view.background = d
-    }
+    val view = toast.view
+    val tvToast = view.findViewById<TextView>(android.R.id.message)
+    tvToast.textSize = 17f
+    tvToast.setPadding(12, 0, 12, 0)
+    tvToast.text = text
+    tvToast.setTextColor(ContextCompat.getColor(context, R.color.toolbar_text))
+    tvToast.gravity = Gravity.CENTER_HORIZONTAL
+    val d = ContextCompat.getDrawable(context, R.drawable.shape_toast)
+    Style.forDrawable(d, Style.MAIN_TAG, false)
+    view.background = d
+
     toast.show()
 }
 
@@ -97,16 +96,15 @@ fun showError(context: Context?, text: String) {
     if (context == null) return
 
     val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        val view = toast.view
-        val tvToast = view.findViewById<TextView>(android.R.id.message)
-        tvToast.textSize = 18f
-        tvToast.setPadding(12, 0, 12, 0)
-        tvToast.text = text
-        tvToast.setTextColor(ContextCompat.getColor(context, android.R.color.white))
-        tvToast.gravity = Gravity.CENTER_HORIZONTAL
-        view.background = ContextCompat.getDrawable(context, R.drawable.shape_toast_red)
-    }
+    val view = toast.view
+    val tvToast = view.findViewById<TextView>(android.R.id.message)
+    tvToast.textSize = 18f
+    tvToast.setPadding(12, 0, 12, 0)
+    tvToast.text = text
+    tvToast.setTextColor(ContextCompat.getColor(context, android.R.color.white))
+    tvToast.gravity = Gravity.CENTER_HORIZONTAL
+    view.background = ContextCompat.getDrawable(context, R.drawable.shape_toast_red)
+
     toast.show()
 }
 
@@ -162,11 +160,11 @@ fun copyToClip(text: String) {
 }
 
 fun getSize(context: Context, bytes: Int) =
-    when {
-        bytes < 1024 -> context.getString(R.string.bytes, bytes)
-        bytes < 1048576 -> context.getString(R.string.kilobytes, bytes / 1024)
-        else -> context.getString(R.string.megabytes, bytes / 1048576)
-    }
+        when {
+            bytes < 1024 -> context.getString(R.string.bytes, bytes)
+            bytes < 1048576 -> context.getString(R.string.kilobytes, bytes / 1024)
+            else -> context.getString(R.string.megabytes, bytes / 1048576)
+        }
 
 fun streamToBytes(input: InputStream): ByteArray {
     try {
@@ -263,7 +261,8 @@ fun simpleUrlIntent(context: Context, url: String?) {
 }
 
 fun <T> applySchedulers(): (t: Flowable<T>) -> Flowable<T> {
-    return { flowable: Flowable<T> -> flowable
+    return { flowable: Flowable<T> ->
+        flowable
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
@@ -275,11 +274,10 @@ fun String.matchesXviiKey() = length > CryptoUtil.PREFIX.length + CryptoUtil.POS
 
 
 fun <T> Flowable<ServerResponse<T>>.subscribeSmart(response: (T) -> Unit,
-                                                     error: (String) -> Unit,
-                                                     newtError: (String) -> Unit = error): Disposable {
+                                                   error: (String) -> Unit,
+                                                   newtError: (String) -> Unit = error): Disposable {
     return this.compose(applySchedulers())
-            .subscribe({
-                resp ->
+            .subscribe({ resp ->
                 if (resp.response != null) {
                     response.invoke(resp.response)
                 } else if (resp.error != null) {
@@ -296,8 +294,7 @@ fun <T> Flowable<ServerResponse<T>>.subscribeSmart(response: (T) -> Unit,
                     }
 
                 }
-            }, {
-                err ->
+            }, { err ->
                 newtError.invoke(err.message ?: "null")
             })
 }
@@ -375,11 +372,11 @@ fun getRestartIntent(context: Context): Intent {
 }
 
 fun getPollFrom(userId: Int, chatId: Int) =
-    when {
-        chatId != 0 -> 2000000000 + chatId
-        userId < 0 -> 1000000000 - userId //group is negative - (-..) == +
-        else -> userId
-    }
+        when {
+            chatId != 0 -> 2000000000 + chatId
+            userId < 0 -> 1000000000 - userId //group is negative - (-..) == +
+            else -> userId
+        }
 
 fun getRelation(context: Context, relation: Int): String {
     if (relation == 0)
@@ -563,7 +560,7 @@ fun showDeleteDialog(context: Context,
     val dialog = androidx.appcompat.app.AlertDialog.Builder(context)
             .setMessage(message)
             .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(android.R.string.ok, { _, _ -> onDelete.invoke()})
+            .setPositiveButton(android.R.string.ok, { _, _ -> onDelete.invoke() })
             .create()
     dialog.show()
     Style.forDialog(dialog)
@@ -608,7 +605,7 @@ fun getTotalRAM(): String {
             tb > 1 -> twoDecimalForm.format(tb) + (" TB")
             gb > 1 -> twoDecimalForm.format(gb) + (" GB")
             mb > 1 -> twoDecimalForm.format(mb) + (" MB")
-            else ->  twoDecimalForm.format(totRam) + (" KB")
+            else -> twoDecimalForm.format(totRam) + (" KB")
         }
 
 
