@@ -3,10 +3,8 @@
     <string name="app_name">XVII</string>
     <string name="about">О приложении</string>
     <string name="about_app">О приложении</string>
-    <string name="acc_changed">Аккаунт был изменен. Приложение перезапускается..</string>
     <string name="accounts">Аккаунты</string>
     <string name="add_to_saved">Добавить в сохранённые</string>
-    <string name="added">Добавлено</string>
     <string name="added_to_saved">Фото было добавлено в сохранённые</string>
     <string name="already_acc">Этот аккаунт используется в данный момент</string>
     <string name="appearance">Оформление</string>
@@ -17,7 +15,6 @@
     <string name="bdate">День рождения</string>
     <string name="beOffline">Быть не в сети (насколько возможно)</string>
     <string name="bytes">%d Б</string>
-    <string name="camera">Камера</string>
     <string name="cannot_create_chat">Невозможно создать чат</string>
     <string name="cannot_delete_acc">Вы не можете удалить действующий аккаунт</string>
     <string name="change">Изменить</string>
@@ -28,25 +25,18 @@
     <string name="chat_created">Создан успешно</string>
     <string name="chat_title_updated">Название беседы изменено: %s</string>
     <string name="chats_notifs">Уведомления в чатах</string>
-    <string name="choose_attachment">Выберите прикрепление</string>
     <string name="choose_dialog">Выберите диалог</string>
-    <string name="choose_photo">Выберите фото</string>
     <string name="city">Город</string>
     <string name="community">сообщество</string>
-    <string name="confirm">Подтвердить</string>
     <string name="confirm_pin">Подтвердите PIN</string>
     <string name="content_hidden">Содержимое скрыто</string>
     <string name="conversation">беседа</string>
     <string name="copied">%s в буфере обмена</string>
     <string name="copy">Копировать</string>
-    <string name="current_dialog">Текущий диалог</string>
     <string name="decrypt">Расшифровать</string>
     <string name="decrypted">ШИФР: %s</string>
     <string name="default_key">Использовать стандартный ключ</string>
     <string name="delete">Удалить</string>
-    <string name="delete_acc">Удалить этот аккаунт?</string>
-    <string name="delete_attachments">Удалить все прикрепления?</string>
-    <string name="delete_meme">Удалить этот мемчик?</string>
     <string name="denied">Доступ ограничен</string>
     <string name="dialogs">Диалоги</string>
     <string name="docs">Документы</string>
@@ -92,33 +82,25 @@
     <string name="links">Ссылки</string>
     <string name="loading_error">Ошибка загрузки</string>
     <string name="logout">Выйти</string>
-    <string name="logout_again">Нажмите сновы для выхода</string>
     <string name="markAsImportant">Отметить важным</string>
     <string name="markasRead">Отмечать прочитанным</string>
     <string name="megabytes">%d МБ</string>
-    <string name="meme_storage">Мемчики</string>
-    <string name="message_sent">Сообщение отправлено</string>
     <string name="messages">Сообщения</string>
     <string name="mphone">Мобильный</string>
     <string name="mute">Игнор-лист</string>
     <string name="new_acc">Добавить новый аккаунт</string>
     <string name="new_dialog">Новая беседа</string>
-    <string name="no">Нет</string>
     <string name="no_exchg_in_chats">Обмен ключами невозможен в этом чате</string>
     <string name="no_internet">Сперва включите Интернет</string>
     <string name="not_playable_video">Видео не воспроизводится</string>
     <string name="notifications">Уведомления</string>
     <string name="offline">не в сети</string>
-    <string name="offline_full">не в сети (был: %s)</string>
     <string name="offline_hint">
         Обращаем Ваше внимание, что офлайн больше не будет работать НИ В ОДНОМ клиенте. Связано это с тем, что сервера ВКонтакте теперь автоматически ставят статус \"в сети\" всякий раз, когда вы обновляете диалоги, новости или даже прочитываете сообщение. Неудобно, понимаем, но выхода нет.. К счастью, Вы можете включить \"почти невидимку\", которая сохранит Ваш статус \"не в сети\", однако все равно обновит время захода. Ручное обновление также позволить Вам остаться \"не в сети\", но до первой отправки сообщения.</string>
     <string name="online">в сети</string>
-    <string name="online_full">в сети (был: %s)</string>
     <string name="permissions_info">Приложению необходим доступ к Вашим файлам для отправки и сохранения изображений, а также к микрофону для отправки голосовых сообщений</string>
-    <string name="photo_title">Фото</string>
     <string name="photos">Фото</string>
     <string name="pin_settings">Настройки PIN</string>
-    <string name="prefs">Предпочтения</string>
     <string name="privacy_policy">Политика конфиденциальности</string>
     <string name="random_key">Генерировать случайно</string>
     <string name="rate">Оценить</string>
@@ -131,18 +113,9 @@
     <string name="reset_pin_desc">Все данные будут сброшены</string>
     <string name="reset_succ">Сброшено успешно</string>
     <string name="restart_app">Перезагрузка приложения..</string>
-    <string name="save">Сохранить</string>
-    <string name="search">Поиск</string>
     <string name="secure_length">Используйте длинные фразы</string>
-    <string name="send">Отправить</string>
     <string name="settings">Настройки</string>
     <string name="share">Рассказать об XVII на стене</string>
-    <string name="share_text">За что я люблю этот мессенджер?\n
-        Он стильный и эргономичный, не занимает много места и удобен во всех отношениях! Оснащенный стелс-функциями,
-        поддерживающий шифрование и имеющий огромный набор тем, этот мессенджер захватил моё сердце!\n
-        У тебя ещё его нет? Тогда качай быстрее в Google Play!\n
-        #xvii #app #vk #android #messenger
-    </string>
     <string name="shared">Успешно отправлено на стену</string>
     <string name="show_content">Показывать содержимое сообщения</string>
     <string name="led_lights">Включать LED</string>
@@ -155,7 +128,6 @@
     <string name="stickers">Стикеры</string>
     <string name="ten_attachments">Вы не можете добавить более 10 прикреплений</string>
     <string name="theme_changed">Тема изменена. Приложение перезапускается..</string>
-    <string name="themes">Темы</string>
     <string name="try_again">Попробовать снова</string>
     <string name="typing">печатает</string>
     <string name="recording_voice">записывает аудио</string>
@@ -163,13 +135,10 @@
     <string name="user_key">Ввести свой ключ</string>
     <string name="vibrate">Вибрировать</string>
     <string name="videos">Видео</string>
-    <string name="vk_group">Наша группа ВКонтакте</string>
-    <string name="vk_materials">Материалы ВК</string>
     <string name="voice_message">Голосовое сообщение</string>
     <string name="wall_post">Запись со стены</string>
     <string name="want_delete">Действительно хотите удалить?</string>
     <string name="write_message">Сообщение..</string>
-    <string name="yes">Да</string>
     <string name="open_chat">Открыть чат</string>
     <string name="generating_keys">Генерация ключей\nМожеть занять несколько минут\n Для Вашей безопасности</string>
 
@@ -178,8 +147,6 @@
     <string name="report_sent">Репорт отправлен</string>
     <string name="describe_actions">Опишите, что произошло</string>
     <string name="describe_hint">я открыл настройки</string>
-    <string name="update">Обновить</string>
-    <string name="update_available">Доступно обновление</string>
     <string name="registration_date">Дата регистрации</string>
     <string name="add_to_docs">Добавить в документы</string>
     <string name="manual_update">Обновлять диалоги вручную</string>
@@ -199,7 +166,6 @@
     <string name="not_now">Не сейчас</string>
     <string name="never">Никогда</string>
     <string name="unable_to_add_to_gallery">Невозможно добавть в галерею. Будет автоматически добавлена позже</string>
-    <string name="swipe_right_hint">Сдвиньте вправо для доступа к медиа</string>
 
     <string-array name="relations">
         <item>один</item>
@@ -212,12 +178,6 @@
         <item>в гражданском браке</item>
     </string-array>
 
-    <plurals name="messages">
-        <item quantity="one">%d сообщение</item>
-        <item quantity="few">%d сообщения</item>
-        <item quantity="other">%d сообщений</item>
-        <item quantity="many">%d сообщений</item>
-    </plurals>
     <plurals name="attach">
         <item quantity="one">%d прикрепление</item>
         <item quantity="few">%d прикрепления</item>

@@ -32,7 +32,6 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
-                        android:id="@+id/rlArc"
                         android:layout_width="@dimen/arc_width"
                         android:layout_height="@dimen/profile_arc_height"
                         android:layout_gravity="center"

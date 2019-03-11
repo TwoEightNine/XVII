@@ -16,9 +16,7 @@ import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.mvp.presenter.ProfileFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.ProfileFragmentView
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.LoaderView
 import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.item_user_field.view.*
 import javax.inject.Inject

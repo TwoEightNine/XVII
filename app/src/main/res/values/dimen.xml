@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="marginshape">4dp</dimen>
     <dimen name="marginside">7dp</dimen>
@@ -9,14 +8,9 @@
     <dimen name="big_margin">30dp</dimen>
     <dimen name="item_margin">7dp</dimen>
 
-    <dimen name="toolbar_elevation">5dp</dimen>
-    <dimen name="message_elevation">2dp</dimen>
-    <dimen name="splash_logo">150dp</dimen>
     <dimen name="image_margin">5dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="margin8">8dp</dimen>
     <dimen name="margin16">16dp</dimen>
-    <dimen name="audio_margin">10dp</dimen>
     <dimen name="sticker_width">80dp</dimen>
 
     <dimen name="drawer_width">100dp</dimen>
@@ -35,8 +29,6 @@
     <dimen name="chat_photo_size">40dp</dimen>
     <dimen name="chat_shape_radius">20dp</dimen>
     <dimen name="chat_shape_min_height">40dp</dimen>
-    <dimen name="reply_button_size">60dp</dimen>
-    <dimen name="send_attach_height">68dp</dimen>
 
     <!--profile-->
     <dimen name="profile_ava_size">300dp</dimen>

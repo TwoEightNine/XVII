@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.twoeightnine.root.xvii.views.FriendsLinearLayout
-    android:id="@+id/measured"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.twoeightnine.root.xvii.views.FriendsLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="8dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/llItem"
         android:weightSum="100"
         android:orientation="vertical"
         android:layout_width="match_parent"

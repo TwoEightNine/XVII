@@ -30,7 +30,6 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/ivAddAccount"
             android:text="@string/new_acc"
-            android:id="@+id/tvAddAccount"
             style="@style/TextViewStyle.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

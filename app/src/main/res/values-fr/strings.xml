@@ -1,21 +1,16 @@
 <resources>
     <string name="app_name">XVII</string>
     <string name="about_app">À propos</string>
-    <string name="vk_group">Notre communauté</string>
     <string name="settings">Paramètres</string>
     <string name="share">Partager XVII sur mon mur</string>
-    <string name="search">Rechercher</string>
 
     <string name="last_seen">était en ligne: %s</string>
     <string name="status">Statut</string>
     <string name="bdate">Anniversaire</string>
     <string name="city">Ville</string>
     <string name="hometown">Ville natale</string>
-    <string name="send">Envoyer</string>
     <string name="relation">Relation</string>
     <string name="write_message"> Écrire un message</string>
-    <string name="added">Ajouté</string>
-    <string name="photo_title">Photo</string>
     <string name="doenloaded">%s a été téléchargé</string>
     <string name="beOffline">Être hors ligne (plus tôt possible)</string>
     <string name="markasRead">Marquer comme lus</string>
@@ -34,7 +29,6 @@
     <string name="logout">Quitter</string>
     <string name="fwd_message">%d transférés</string>
     <string name="error">Erreur</string>
-    <string name="choose_photo">Choisir une photo</string>
     <string name="bytes">%d B</string>
     <string name="kilobytes">%d kB</string>
     <string name="megabytes">%d MB</string>
@@ -50,17 +44,10 @@
     <string name="decrypted">CHIFF.: %s</string>
     <string name="accounts">Comptes</string>
     <string name="new_acc">Ajouter un nouveau compte..</string>
-    <string name="acc_changed">Un compte été changé. L\'app se redémarrer..</string>
     <string name="rate">Évaluer</string>
     <string name="gallery">Gallerie</string>
-    <string name="camera">Camera</string>
     <string name="delete">Supprimer</string>
     <string name="read">Lire</string>
-    <string name="message_sent">Un message a été envoyé</string>
-    <string name="meme_storage">Mème storage</string>
-    <string name="delete_meme">Supprimer ce mème?</string>
-    <string name="yes">Oui</string>
-    <string name="no">Non</string>
     <string name="join_us">Suives-nous for getting the freshest news about app</string>
     <string name="stickers">Autocollants</string>
     <string name="download">Télécharger</string>
@@ -69,7 +56,6 @@
     <string name="notifications">Notifications</string>
     <string name="general">Général</string>
     <string name="auth_error">Erreur d\'auth</string>
-    <string name="delete_acc">Supprimer ce compte?</string>
     <string name="show_notif">Montrer des notifications</string>
     <string name="show_name">Montrer un nom d\'envoyeur</string>
     <string name="about">À propos</string>
@@ -110,23 +96,18 @@
     <string name="photos">Photos</string>
     <string name="videos">Vidéos</string>
     <string name="links">Liens</string>
-    <string name="choose_attachment">Choisir un attachment</string>
-    <string name="vk_materials">Matériaux de VK</string>
     <string name="forward">Envoyer</string>
     <string name="appearance">Apparence</string>
-    <string name="themes">Thèmes</string>
     <string name="privacy_policy">Politique de confidentialité</string>
     <string name="chat">Chat</string>
     <string name="leave_chat">Quitter le chat</string>
     <string name="chat_title_updated">Nom du chat était mis à jour: \"%s\"</string>
     <string name="new_dialog">Nouvelle conversation</string>
     <string name="offline_hint">Attention! Tous clients ne peuvent plus appuyer mode hors ligne. C\'est causé par VK API qui allume le statut automatiquement chaque fois aprés mis á jour. Heureusement, vous pouvez allumer mode \"presque\" hors ligne qui vous fera hors ligne, mais votre last seen time sera changé. Enabling manual updating also allows you to stay offline until you send a message.</string>
-    <string name="delete_attachments">Supprimer tous des attachments?</string>
     <string name="ten_attachments">Vous ne pouvez pas ajouter plus de 10 attachments</string>
     <string name="chat_back_exists">Le fond du chat est sélecté</string>
     <string name="change">Changer</string>
     <string name="chat_back">Fond du chat</string>
-    <string name="confirm">Confirmer</string>
     <string name="chats_notifs">Notifications des chats</string>
     <string name="show_content">Montrer le contenu des messages</string>
     <string name="led_lights">Cligner la diode</string>
@@ -145,13 +126,6 @@
     <string name="encryption">Chiffrement</string>
     <string name="restart_app">On rédemarre l\'app..</string>
     <string name="content_hidden">Contenu caché</string>
-    <string name="share_text">
-        De que aime-je XVII?\n
-        C\'est élégant et ergonomique, pris peu de memoire et practique dans tous les cas! Equipé de stealth-fonctions,
-        soutenu un chiffrement et eu beaucoup de thèmes, cette application a capturé mon cœur!\n
-        Est-ce que vous n\'avez pas ça? Obtenez-le maintenant dans Google Play!\n
-        #xvii #app #vk #android #messenger
-    </string>
     <string name="shared">Partagé avec succès</string>
     <string name="cannot_create_chat">Pas disponible de creater un chat</string>
     <string name="chat_created">Creaté avec succès</string>
@@ -169,7 +143,6 @@
     <string name="report_sent">Le rapport était envoyé</string>
     <string name="describe_actions">Describez le problème</string>
     <string name="describe_hint">j\'ai ouvert des paramétres</string>
-    <string name="update">Mettre à jour</string>
     <string name="registration_date">Jour de la registration</string>
     <string name="add_to_docs">Ajouter aux docs</string>
     <string name="added_to_docs">Ajouté aux docs avec succès</string>
@@ -182,7 +155,6 @@
     <string name="not_now">Pas maintenant</string>
     <string name="never">Jamais</string>
     <string name="unable_to_add_to_gallery">Incapable d\'ajouter à la gallerie. Il va être ajouté bientôt</string>
-    <string name="swipe_right_hint">Glissez à droite pour attacher médias</string>
     <string name="generation_dh_hint">Souyez sûr que votre interlocuteur a installé XVII et ouvert la conversation avec vous. C\'est necessaire pour l\'échangement des clés.\Attention! Les clés sont seulement valides dans cette session. Après avoir quitté cette conversation les clés seront supprimés pour toujors!</string>
     <string name="key_xchg_failed">L\'interlocuteur n\'a pas soutenu l\'échangement. Erreur!</string>
     <string name="fingerprint">Empreinte digitale</string>
@@ -201,10 +173,6 @@
         <item>en faux ménage</item>
     </string-array>
 
-    <plurals name="messages">
-        <item quantity="one">%d nouveau message</item>
-        <item quantity="other">%d nouveaux messages</item>
-    </plurals>
     <plurals name="attach">
         <item quantity="one">%d attachment</item>
         <item quantity="other">%d attachments</item>
@@ -215,9 +183,7 @@
     </string>
 
     <string name="online">en ligne</string>
-    <string name="online_full">en ligne (était vu: %s)</string>
     <string name="offline">hors ligne</string>
-    <string name="offline_full">hors ligne (était vu: %s)</string>
 
     <string name="error_1">Méthode inconnu passé</string>
     <string name="error_5">Erreur de l\'autorisation</string>
@@ -231,11 +197,6 @@
     <string name="error_200plus">L\'accès est rejetée</string>
     <string name="error_500plus">La permission est rejetée</string>
 
-    <string name="prefs">Préferés</string>
-    <string name="save">Enregistrer</string>
-    <string name="logout_again">Pressez encore pour quitter</string>
-    <string name="current_dialog">Conversation active</string>
-    <string name="update_available">Mis à jour est disponible</string>
     <string name="delete_for_all">Supprimer pour tous</string>
     <string name="delete_only_for_me">Supprimer pour moi</string>
     <string name="wanna_delete_messages">Voulez-vous réellement supprimer ces messages?</string>

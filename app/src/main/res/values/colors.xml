@@ -5,7 +5,6 @@
     <!--<color name="primary_light">#CFBEF7</color>-->
     <!--<color name="primary_light_hard">#BFAEE7</color>-->
     <!--<color name="accent">#9C27B0</color>-->
-    <color name="primary_text">#212121</color>
     <color name="secondary_text">#656565</color>
     <!--<color name="icons">#fff</color>-->
     <!--<color name="divider">#BDBDBD</color>-->
@@ -16,7 +15,6 @@
     <color name="toolbar">#000</color>
     <color name="icons">#fff</color>
     <color name="online">#fff</color>
-    <color name="divider">#444</color>
     <color name="main_text">#ccc</color>
     <color name="other_text">#999</color>
     <color name="minor_text">#555</color>
@@ -24,24 +22,12 @@
     <color name="accent">#fff</color>
     <color name="shape">#222</color>
     <color name="selected_mess">#6333</color>
-    <color name="placeholder">#888</color>
     <color name="black_transparent">#4000</color>
 
     <color name="toolbar_text">@color/main_text</color>
     <color name="toolbar_subtext">@color/other_text</color>
 
-    <color name="dark_drawables">@color/icons</color>
-
-    <color name="mess_shape_wrapper">@color/popup</color>
-    <color name="mess_shape_wrapped">@color/background</color>
-
-    <color name="shape_typing">#5fff</color>
-
-    <color name="search_bar">@color/icons</color>
-
     <color name="splash_color">#000</color>
 
     <color name="error">#d23</color>
-    <color name="pinpad">#444</color>
-    <color name="pinpad_pressed">#555</color>
 </resources>
