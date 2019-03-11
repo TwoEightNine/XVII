@@ -120,7 +120,7 @@ class ChatAdapter(context: Context,
     inner class ChatViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         fun bind(message: Message, level: Int = 0) {
-            putViews(message, level)
+            putViews(itemView, message, level)
             with(itemView) {
                 rlBack.setOnClickListener { clickListener.invoke(adapterPosition) }
                 rlBack.setOnLongClickListener { longClickListener.invoke(adapterPosition) }
@@ -129,8 +129,8 @@ class ChatAdapter(context: Context,
             }
         }
 
-        private fun putViews(message: Message, level: Int) {
-            with(itemView) {
+        private fun putViews(view: View, message: Message, level: Int) {
+            with(view) {
                 if (level == 0) {
                     if (multiSelectRaw.contains(message.id)) {
                         rlBack.setBackgroundColor(ContextCompat.getColor(context, R.color.selected_mess))
@@ -319,7 +319,7 @@ class ChatAdapter(context: Context,
                     for (i in fwdMesses!!.indices) {
                         val included = inflater.inflate(R.layout.item_message_in_chat, null)
                         included.tag = true
-                        putViews(fwdMesses[i], level + 1)
+                        putViews(included, fwdMesses[i], level + 1)
                         llMessageContainer.addView(included)
                     }
                 }
