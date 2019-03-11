@@ -72,6 +72,7 @@ class RootActivity : BaseActivity() {
         styleScreen(flContainer)
         Handler().postDelayed({ startNotificationService(this) }, 5000L)
         removeNotification(this)
+        startNotificationAlarm(this)
         apiUtils.trackVisitor()
     }
 

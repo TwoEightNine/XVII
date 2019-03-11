@@ -34,6 +34,7 @@ import com.squareup.picasso.RequestCreator
 import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.RestarterBroadcastReceiver
 import com.twoeightnine.root.xvii.background.notifications.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.notifications.NotificationService
 import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorJobIntentService
@@ -152,6 +153,21 @@ fun startPrimeGenerator(context: Context) {
         e.printStackTrace()
         Lg.wtf("start prime generator error: ${e.message}")
     }
+}
+
+fun startNotificationAlarm(context: Context) {
+    val intent = Intent(context, RestarterBroadcastReceiver::class.java).apply {
+        action = RestarterBroadcastReceiver.RESTART_ACTION
+    }
+    val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+    val alarms = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    alarms.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            System.currentTimeMillis() + AlarmManager.INTERVAL_HOUR,
+            AlarmManager.INTERVAL_HOUR,
+            pendingIntent
+    )
+    Lg.i("notification alarm started")
 }
 
 fun copyToClip(text: String) {

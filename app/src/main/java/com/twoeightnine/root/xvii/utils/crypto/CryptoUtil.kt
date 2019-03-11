@@ -10,8 +10,10 @@ import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.Flowable
 import java.math.BigInteger
 
-class CryptoUtil(private val userId: Int,
-                 private val chatId: Int) {
+class CryptoUtil(
+        private val userId: Int,
+        private val chatId: Int
+) {
 
     private lateinit var diffieHellman: DiffieHellman
 

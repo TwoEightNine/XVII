@@ -4,6 +4,7 @@ import com.twoeightnine.root.xvii.activities.ExceptionActivity
 import com.twoeightnine.root.xvii.activities.GifViewerActivity
 import com.twoeightnine.root.xvii.activities.LoginActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
+import com.twoeightnine.root.xvii.background.RestarterBroadcastReceiver
 import com.twoeightnine.root.xvii.background.notifications.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.notifications.NotificationService
 import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
@@ -74,5 +75,6 @@ interface AppComponent {
     fun inject(notificationsCore: NotificationsCore)
     fun inject(chatFragmentPresenter: ChatFragmentPresenter)
     fun inject(dialogsFragmentPresenter: DialogsFragmentPresenter)
+    fun inject(restarterBroadcastReceiver: RestarterBroadcastReceiver)
 
 }
