@@ -11,6 +11,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.DrawerAdapter
 import com.twoeightnine.root.xvii.background.MediaPlayerAsyncTask
+import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.fragments.BaseFragment
@@ -129,7 +130,7 @@ class RootActivity : BaseActivity() {
             }
 
             if (clearStack && supportFragmentManager.backStackEntryCount > 1) {
-                for(i in 1 until supportFragmentManager.backStackEntryCount) {
+                for (i in 1 until supportFragmentManager.backStackEntryCount) {
                     supportFragmentManager.popBackStackImmediate()
                 }
             }
@@ -165,9 +166,9 @@ class RootActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!Session.isServiceActive()) {
+        if (!NotificationsCore.isRunning()) {
             Lg.i("Service wasn't active since " +
-                    "${getTime(Session.serviceLastAction, format = "HH:mm:ss")}. Start again")
+                    "${getTime(NotificationsCore.lastRun, format = "HH:mm:ss")}. Start again")
             Handler().postDelayed({ startNotificationService(this) }, 1000L)
         }
     }

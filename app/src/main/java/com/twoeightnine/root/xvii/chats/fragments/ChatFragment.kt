@@ -688,21 +688,21 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     override fun onShowTyping() {
-        rlTyping.visibility = View.VISIBLE
+        rlTyping?.visibility = View.VISIBLE
         handler.postDelayed({ onHideTyping() }, 4800L)
     }
 
     override fun onHideTyping() {
-        rlTyping.visibility = View.INVISIBLE
+        rlTyping?.visibility = View.INVISIBLE
     }
 
     override fun onShowRecordingVoice() {
-        rlRecordingVoice.visibility = View.VISIBLE
+        rlRecordingVoice?.visibility = View.VISIBLE
         handler.postDelayed({ onHideRecordingVoice() }, 4800L)
     }
 
     override fun onHideRecordingVoice() {
-        rlRecordingVoice.visibility = View.INVISIBLE
+        rlRecordingVoice?.visibility = View.INVISIBLE
     }
 
     override fun onChangeOnline(isOnline: Boolean) {
@@ -798,10 +798,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     override fun onDetach() {
         super.onDetach()
         presenter.unsubscribe()
-    }
-
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
     }
 
     override fun onBackPressed(): Boolean {

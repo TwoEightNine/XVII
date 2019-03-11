@@ -110,10 +110,10 @@ class NotificationsCore(private val context: Context) {
                 users = it
             }
         }
-        Session.serviceLastAction = time()
     }
 
     private fun getUpdates() {
+        lastRun = time()
         api.connect(
                 "https://" + longPollServer!!.server!!,
                 longPollServer!!.key ?: "",
@@ -338,13 +338,23 @@ class NotificationsCore(private val context: Context) {
     }
 
     companion object {
-        var NAME = "huyhuyhuy"
-        var RESULT = "Result"
+
+        const val NAME = "huyhuyhuy"
+        const val RESULT = "Result"
 
         private const val CHANNEL_ID = "xvii.notifications"
 
         private const val VIBRATE_DELAY = 60L
         private const val WAIT_DELAY = 1000L
         private const val NO_INTERNET_DELAY = 5000L
+
+        private const val LAST_RUN_ALLOWED_DELAY = 1000L * 35
+
+        /**
+         * watches for running
+         */
+        var lastRun = 0
+
+        fun isRunning() = time() - lastRun < LAST_RUN_ALLOWED_DELAY
     }
 }
