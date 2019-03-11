@@ -284,37 +284,6 @@ fun <T> applySchedulers(): (t: Flowable<T>) -> Flowable<T> {
     }
 }
 
-fun String.matchesXviiKey() = length > CryptoUtil.PREFIX.length + CryptoUtil.POSTFIX.length &&
-        this.substring(0, CryptoUtil.PREFIX.length) == CryptoUtil.PREFIX &&
-        this.substring(length - CryptoUtil.POSTFIX.length) == CryptoUtil.POSTFIX
-
-
-fun <T> Flowable<ServerResponse<T>>.subscribeSmart(response: (T) -> Unit,
-                                                   error: (String) -> Unit,
-                                                   newtError: (String) -> Unit = error): Disposable {
-    return this.compose(applySchedulers())
-            .subscribe({ resp ->
-                if (resp.response != null) {
-                    response.invoke(resp.response)
-                } else if (resp.error != null) {
-                    val errorMsg = resp.error.friendlyMessage()
-                    val errCode = resp.error.code
-                    when (errCode) {
-                        Error.TOO_MANY -> {
-                            Thread {
-                                SystemClock.sleep(330)
-                                this.subscribeSmart(response, error)
-                            }.start()
-                        }
-                        else -> error.invoke(errorMsg ?: "null")
-                    }
-
-                }
-            }, { err ->
-                newtError.invoke(err.message ?: "null")
-            })
-}
-
 fun getContextPopup(context: Context, @LayoutRes layout: Int, listener: (View) -> Unit): AlertDialog {
     val view = View.inflate(context, layout, null)
 
@@ -453,14 +422,14 @@ fun getFromPeerId(peerId: Int) = intArrayOf(if (peerId > 2000000000) 0 else peer
 
 fun ImageView.loadUrl(url: String?) {
     if (url == null) return
-    Picasso.with(App.context)
+    Picasso.get()
             .loadUrl(url)
             .into(this)
 }
 
 fun CircleImageView.loadPhoto(url: String?) {
     if (url == null) return
-    Picasso.with(App.context)
+    Picasso.get()
             .load(url)
             .placeholder(R.drawable.placeholder)
             .error(R.drawable.placeholder)
@@ -478,16 +447,17 @@ fun Picasso.loadUrl(url: String?): RequestCreator {
 }
 
 fun loadBitmapIcon(url: String?, callback: (Bitmap) -> Unit) {
-    Picasso.with(App.context)
+    Picasso.get()
             .loadUrl(url)
             .resize(200, 200)
             .centerCrop()
             .into(object : Target {
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+
+                override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
                     callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii64))
                 }
 
-                override fun onBitmapFailed(errorDrawable: Drawable?) {
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
                     callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii64))
                 }
 

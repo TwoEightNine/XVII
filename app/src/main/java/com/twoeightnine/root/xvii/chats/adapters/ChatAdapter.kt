@@ -183,12 +183,12 @@ class ChatAdapter(context: Context,
                 if (civPhoto != null) {
                     val photoAva = message.photo
                     if (photoAva != null) {
-                        Picasso.with(context)
+                        Picasso.get()
                                 .load(photoAva)
                                 .placeholder(R.drawable.placeholder)
                                 .into(civPhoto)
                     } else {
-                        Picasso.with(context)
+                        Picasso.get()
                                 .load(R.drawable.placeholder)
                                 .into(civPhoto)
                     }
@@ -236,7 +236,7 @@ class ChatAdapter(context: Context,
                                 included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null, false)
                                 val stickPath = atts[i].sticker!!.photoMax
                                 if (stickPath.isNotEmpty()) {
-                                    Picasso.with(context)
+                                    Picasso.get()
                                             .load(stickPath)
                                             .into(included.findViewById<ImageView>(R.id.ivInternal))
                                 }
@@ -245,7 +245,7 @@ class ChatAdapter(context: Context,
 
                             Attachment.TYPE_GRAFFITI -> {
                                 included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-                                Picasso.with(context)
+                                Picasso.get()
                                         .load(atts[i].graffiti!!.url)
                                         .into(included.findViewById<ImageView>(R.id.ivInternal))
                                 llMessageContainer.addView(included)
@@ -253,7 +253,7 @@ class ChatAdapter(context: Context,
 
                             Attachment.TYPE_GIFT -> {
                                 included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-                                Picasso.with(context)
+                                Picasso.get()
                                         .load(atts[i].gift!!.thumb256)
                                         .into(included.findViewById<ImageView>(R.id.ivInternal))
                                 llMessageContainer.addView(included)
@@ -286,7 +286,7 @@ class ChatAdapter(context: Context,
                                     }
                                     doc.isGraffiti -> {
                                         included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-                                        Picasso.with(context)
+                                        Picasso.get()
                                                 .load(doc.preview!!.graffiti!!.src)
                                                 .into(included.findViewById<ImageView>(R.id.ivInternal))
                                         llMessageContainer.addView(included)

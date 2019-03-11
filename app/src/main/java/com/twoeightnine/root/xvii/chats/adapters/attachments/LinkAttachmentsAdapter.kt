@@ -32,7 +32,7 @@ class LinkAttachmentsAdapter(loader: ((Int) -> Unit)?,
                 tvTitle.text = link.title
                 tvCaption.text = link.caption
                 if (link.photo != null) {
-                    Picasso.with(App.context)
+                    Picasso.get()
                             .load(link.photo.optimalPhoto)
                             .into(ivPhoto)
                 } else {

@@ -17,7 +17,7 @@ import com.twoeightnine.root.xvii.model.*
 
 fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-    Picasso.with(context)
+    Picasso.get()
             .loadUrl(photo.almostMax)
             .resize(pxFromDp(context, 250), pxFromDp(context, 300))
             .centerCrop()
@@ -36,7 +36,7 @@ fun getPhotoWall(photo: Photo, activity: RootActivity, onClick: (Photo) -> Unit 
     params.topMargin = 12
     params.bottomMargin = 12
     iv.layoutParams = params
-    Picasso.with(activity)
+    Picasso.get()
             .loadUrl(photo.almostMax)
             .resize(width, ivHeight.toInt())
             .centerCrop()
@@ -48,7 +48,7 @@ fun getPhotoWall(photo: Photo, activity: RootActivity, onClick: (Photo) -> Unit 
 fun getGif(doc: Doc, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
     val ivVideo = included.findViewById<ImageView>(R.id.ivVideo)
-    Picasso.with(context)
+    Picasso.get()
             .loadUrl(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
@@ -138,7 +138,7 @@ fun getLink(link: Link, context: Context): View {
 
 fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
-    Picasso.with(context)
+    Picasso.get()
             .loadUrl(video.maxPhoto)
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()

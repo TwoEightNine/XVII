@@ -47,14 +47,14 @@ open class DialogsAdapter(context: Context,
             with(itemView) {
                 val photo = message.photo
                 if (photo != null) {
-                    Picasso.with(App.context)
+                    Picasso.get()
                             .load(photo)
                             .placeholder(R.drawable.placeholder)
                             .error(R.drawable.placeholder)
                             .into(civPhoto)
                 } else {
                     Picasso //fixme what's wrong
-                            .with(App.context)
+                            .get()
                             .load(Api.PHOTO_STUB)
                             .into(civPhoto)
                 }

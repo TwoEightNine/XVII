@@ -81,7 +81,7 @@ class WallPostFragment : BaseFragment() {
     private fun putViews(holder: WallViewHolder, post: WallPost, level: Int) {
         val group = getGroup(-post.fromId)
         holder.tvTitle.text = group.name
-        Picasso.with(rootActivity)
+        Picasso.get()
                 .loadUrl(group.photo100)
                 .into(holder.civAvatar)
         holder.tvDate.text = getTime(post.date, full = true)

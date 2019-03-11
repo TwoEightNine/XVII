@@ -36,7 +36,7 @@ class FullScreenImageAdapter(private val activity: Activity,
         val url = urls[position]
         val fromFile = url.startsWith("file://")
 
-        var requestCreator = Picasso.with(activity)
+        var requestCreator = Picasso.get()
                 .load(urls[position])
 
         if (fromFile) {

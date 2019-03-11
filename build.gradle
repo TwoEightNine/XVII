@@ -44,7 +44,7 @@ ext {
     okhttpVersion = '3.8.0'
     daggerVersion = '2.7'
     jsrVersion = '1.0'
-    picassoVersion = '2.5.2'
+    picassoVersion = '2.71828'
     circleImageViewVersion = '2.1.0'
     swipyVersion = '1.2.3@aar'
     materialSearchViewVersion = '1.4.0'

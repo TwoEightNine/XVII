@@ -79,7 +79,7 @@ class AppearanceFragment : BaseFragment() {
         }
         switchNight.isChecked = isNightBefore
         if (Prefs.chatBack.isNotEmpty()) {
-            Picasso.with(context)
+            Picasso.get()
                     .load("file://${Prefs.chatBack}")
                     .resize(100, 100)
                     .centerCrop()
@@ -135,7 +135,7 @@ class AppearanceFragment : BaseFragment() {
     }
 
     private fun hideDialog(newPath: String) {
-        Picasso.with(App.context)
+        Picasso.get()
                 .load("file://$newPath")
                 .resize(100, 100)
                 .centerCrop()

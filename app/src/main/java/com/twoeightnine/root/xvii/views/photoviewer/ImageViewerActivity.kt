@@ -119,15 +119,11 @@ class ImageViewerActivity : AppCompatActivity() {
         const val POSITION = "position"
         const val PATH = "path"
 
-        fun viewImages(context: Context, photos: MutableList<Photo>, position: Int) {
+        fun viewImages(context: Context, photos: MutableList<Photo>, position: Int = 0) {
             val intent = Intent(context, ImageViewerActivity::class.java)
             intent.putExtra(PHOTOS, photos.toTypedArray())
             intent.putExtra(POSITION, position)
             context.startActivity(intent)
-        }
-
-        fun viewImages(context: Context, urls: MutableList<Photo>) {
-            viewImages(context, urls, 0)
         }
 
         fun viewImage(context: Context, filePath: String) {
