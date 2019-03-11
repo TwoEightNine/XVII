@@ -295,7 +295,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
 //            return dialog
 //        }
         val user = users[getPeerId(dialog.userId, dialog.chatId)]
-        dialog.title = user?.fullName() ?: "ERR"
+        dialog.title = user?.fullName ?: "ERR"
         dialog.photo = user?.photo100
         dialog.online = user?.online ?: 0
         dialog.isMute = Prefs.muteList.contains(getPollFrom(dialog.userId, dialog.chatId))

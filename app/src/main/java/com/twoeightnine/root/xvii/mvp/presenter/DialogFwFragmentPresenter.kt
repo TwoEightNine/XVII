@@ -97,7 +97,7 @@ class DialogFwFragmentPresenter(api: ApiService) : BasePresenter<DialogFwFragmen
 
     private fun fillDialogUser(dialog: Message): Message {
         val user = users[dialog.userId]
-        dialog.title = user?.fullName() ?: "ERR"
+        dialog.title = user?.fullName ?: "ERR"
         dialog.photo = user?.photo100
         dialog.online = user?.online ?: 0
         dialog.isMute = Prefs.muteList.contains(getPollFrom(dialog.userId, dialog.chatId))

@@ -663,7 +663,7 @@ fun getMessageFromLongPollFull(event: LongPollEvent,
 fun setMessageTitles(users: HashMap<Int, User>, message: Message, level: Int): Message {
     val user = users[message.userId]
     if (user != null) {
-        message.title = user.fullName()
+        message.title = user.fullName
         message.photo = user.photo100
     }
     if (message.fwdMessages != null) {

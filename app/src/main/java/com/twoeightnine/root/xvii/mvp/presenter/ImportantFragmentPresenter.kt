@@ -91,7 +91,7 @@ class ImportantFragmentPresenter(api: ApiService): BasePresenter<ImportantFragme
     fun setMessageTitles(message: Message, level: Int): Message {
         val user = this.users[message.userId]
         if (user != null) {
-            message.title = user.fullName()
+            message.title = user.fullName
             message.photo = user.photo100
         }
         if (message.fwdMessages != null) {

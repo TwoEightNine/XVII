@@ -45,7 +45,7 @@ class ApiUtils @Inject constructor(val api: ApiService) {
                     val user = response[0]
                     Session.token = token
                     Session.uid = uid
-                    Session.fullName = user.fullName()
+                    Session.fullName = user.fullName
                     Session.photo = user.photo100 ?: "errrr"
                     success.invoke()
                 }, {

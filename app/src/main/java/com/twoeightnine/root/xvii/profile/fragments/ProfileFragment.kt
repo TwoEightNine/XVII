@@ -89,22 +89,22 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
         CacheHelper.saveUserAsync(user)
         civPhoto.loadPhoto(user.photoMax)
         civPhoto.setOnClickListener { presenter.loadProfilePhotos() }
-        tvName.text = user.fullName()
+        tvName.text = user.fullName
         rlChat.setOnClickListener {
             rootActivity.loadFragment(ChatFragment.newInstance(Message(
-                    0, 0, userId, 0, 0, user.fullName(), "", null
+                    0, 0, userId, 0, 0, user.fullName, "", null
             )))
         }
         if (!user.deactivated.isNullOrEmpty()) return
         tvLastSeen.text = getString(R.string.last_seen, getTime(user.lastSeen?.time
                 ?: 0, full = true))
         ivOnline.visibility = if ((user.online ?: 0) == 1) View.VISIBLE else View.GONE
-        add(R.string.link, user.getLink(), { /*goTo(user.getLink())*/ }) { copy(user.getLink(), R.string.link) }
+        add(R.string.link, user.link, { /*goTo(user.getLink())*/ }) { copy(user.link, R.string.link) }
         add(R.string.id, "${user.id}", null) { copy("${user.id}", R.string.id) }
         add(R.string.status, user.status, null) { copy(user.status, R.string.status) }
         add(R.string.bdate, formatDate(formatBdate(user.bdate)).toLowerCase())
         if (user.city != null) {
-            add(R.string.city, user.city?.title)
+            add(R.string.city, user.city.title)
         }
         add(R.string.hometown, user.hometown)
         add(R.string.relation, getRelation(safeActivity, user.relation ?: 0))

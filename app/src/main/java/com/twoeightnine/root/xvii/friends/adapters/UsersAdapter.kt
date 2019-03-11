@@ -57,7 +57,7 @@ class UsersAdapter(context: Context,
                 } else {
                     ivOnlineDot.setImageDrawable(null)
                 }
-                tvName.text = user.fullName()
+                tvName.text = user.fullName
                 if (!TextUtils.isEmpty(user.hometown)) {
                     tvInfo.text = user.hometown
                 } else if (!TextUtils.isEmpty(user.bdate)) {
@@ -65,7 +65,7 @@ class UsersAdapter(context: Context,
                 } else if (!TextUtils.isEmpty(user.status)) {
                     tvInfo.text = user.status
                 } else {
-                    tvInfo.text = "@${user.getDomain()}"
+                    tvInfo.text = "@${user.getPageName()}"
                 }
                 rlItemContainer.setOnClickListener { listener.invoke(adapterPosition) }
             }

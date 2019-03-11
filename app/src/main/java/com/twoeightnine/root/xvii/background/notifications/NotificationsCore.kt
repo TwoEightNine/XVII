@@ -259,7 +259,7 @@ class NotificationsCore(private val context: Context) {
                             .equalTo("id", event.userId)
                     val realmUser = realmData.findFirst()
                     val userName = if (realmUser != null && event.userId in 0..2000000000) {
-                        User(realmUser).fullName()
+                        User(realmUser).fullName
                     } else {
                         event.title
                     }
