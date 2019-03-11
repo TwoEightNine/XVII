@@ -224,5 +224,9 @@
     <string name="default_key_type">По умолчанию</string>
     <string name="custom_key_type">Пользовательский</string>
     <string name="random_key_type">Случайный (DHE)</string>
+    <string name="no_access_to_mic">Нет доступа к микрофону</string>
+    <string name="no_access_to_storage">Нет доступа к хранилищу</string>
+    <string name="need_access_to_mic">XVII необходим доступ к микрофону для записи голосовых сообщений</string>
+    <string name="need_access_to_storage">XVII необходим доступ к хранилищу для прикрепления и скачивания файлов</string>
 
 </resources>
