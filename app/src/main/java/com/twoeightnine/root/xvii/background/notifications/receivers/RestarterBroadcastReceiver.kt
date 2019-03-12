@@ -15,11 +15,11 @@ class RestarterBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val action = intent?.action
-        Lg.i("restarter: received $action")
+        Lg.i("[restarter] received $action")
         if ((action == RESTART_ACTION || action == Intent.ACTION_BOOT_COMPLETED)
                 && context != null
                 && !NotificationsCore.isRunning()) {
-            Lg.i("restarter: starting service")
+            Lg.i("[restarter] starting service")
             startNotificationService(context)
         }
     }

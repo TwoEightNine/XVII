@@ -33,7 +33,7 @@ class PrimeGeneratorCore {
                             isCancelled = true
                             composite.dispose()
                         }, {
-                            l("error occurred $it")
+                            lw("error occurred: $it")
                             it.printStackTrace()
                         })
                 composite.add(s)
@@ -57,7 +57,7 @@ class PrimeGeneratorCore {
             q = p.subtract(BigInteger.ONE).divide(BigInteger.valueOf(2L))
             trie += 2
             if (trie % 10 == 0) {
-                Lg.dbg("prime $number: tries $trie")
+                l("tries $trie", number)
             }
         } while (!isPrime(q)  && !isPrime(bp) && !isCancelled)
         if (!isCancelled) {
@@ -104,5 +104,7 @@ class PrimeGeneratorCore {
 
     private fun isPrime(r: BigInteger) = millerRabin(r)
 
-    private fun l(s: String, i: Int = 0) = Lg.i("PRIME-$i: $s")
+    private fun l(s: String, i: Int = 0) = Lg.i("[prime${if (i != 0) " $i" else ""}] $s")
+
+    private fun lw(s: String) = Lg.wtf("[prime] $s")
 }

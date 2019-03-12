@@ -38,7 +38,7 @@ class MediaPlayerAsyncTask(private val listener: (() -> Unit)?) : AsyncTask<Stri
             player.setDataSource(url)
             player.prepare()
         } catch (e: IOException) {
-            Lg.wtf("PLAYER error: ${e.message} with ${getUrl()}")
+            lw("error: ${e.message} with ${getUrl()}")
             return null
         }
 
@@ -82,5 +82,9 @@ class MediaPlayerAsyncTask(private val listener: (() -> Unit)?) : AsyncTask<Stri
 
     private fun l(s: String) {
         Lg.i("[player] $s")
+    }
+
+    private fun lw(s: String) {
+        Lg.wtf("[player] $s")
     }
 }

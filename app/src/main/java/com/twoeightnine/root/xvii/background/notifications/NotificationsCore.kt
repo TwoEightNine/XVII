@@ -131,7 +131,7 @@ class NotificationsCore(private val context: Context) {
                         updateLongPoll()
                     }
                 }, { error ->
-                    Lg.wtf("SERVICE got error: ${error.message}")
+                    lw("error: ${error.message}")
                     if (error.message?.startsWith("Unable") == true) { //no internet
                         handler.postDelayed({ restartService() }, NO_INTERNET_DELAY)
                     } else {
@@ -143,13 +143,13 @@ class NotificationsCore(private val context: Context) {
 
     private fun sendResult(response: LongPollResponse) {
         if (Session.token != token) {
-            l("INVALID TOKEN")
+            l("token changed. refreshing data")
             updateLongPoll()
             return
         }
         response.updates?.apply {
             if (isNotEmpty()) {
-                l("updates: ${if (BuildConfig.DEBUG) toString() else "$size"}")
+                l("updates: $size")
             }
         }
 
@@ -202,7 +202,7 @@ class NotificationsCore(private val context: Context) {
                 .subscribeSmart({ response ->
                     sendHistory(response, ts)
                 }, {
-                    Lg.wtf("history error: $it")
+                    lw("history error: $it")
                     restartService()
                 }).let { disposables.add(it) }
     }
@@ -363,6 +363,10 @@ class NotificationsCore(private val context: Context) {
 
     private fun l(s: String) {
         Lg.i("[service] $s")
+    }
+
+    private fun lw(s: String) {
+        Lg.wtf("[service] $s")
     }
 
     companion object {
