@@ -30,7 +30,6 @@ class FullScreenImageAdapter(private val activity: Activity,
         val viewLayout = inflater.inflate(R.layout.item_fullscreen_image, container, false)
         val imgDisplay = viewLayout.findViewById<TouchImageView>(R.id.tivImage)
         tivManager.saveTiv(position, imgDisplay)
-        Lg.i("pos $position new image")
         imgDisplay.dismissListener = dismissListener
         imgDisplay.tapListener = tapListener
         val url = urls[position]

@@ -23,7 +23,7 @@ object Session {
     private const val PIN_LAST_PROMPT = "pinLastPrompt"
 
     private const val ACTIVE_TIME_THRESHOLD = 30
-    private const val PIN_THRESHOLD = 300
+    private const val PIN_THRESHOLD = 20
 
     private val pref: SharedPreferences by lazy {
         App.context.getSharedPreferences(NAME, Context.MODE_PRIVATE)

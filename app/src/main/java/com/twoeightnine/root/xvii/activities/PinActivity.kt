@@ -58,9 +58,6 @@ class PinActivity : BaseActivity() {
                     pin += key
                     tvPinDots.text = "${tvPinDots.text}●"
                 }
-                if (currentStage == ACTION_ENTER && action == ACTION_ENTER && isPinCorrect()) {
-                    onCorrect()
-                }
             }
         }
     }
@@ -156,7 +153,6 @@ class PinActivity : BaseActivity() {
     private fun init() {
         pinPad.listener = { onPin(it) }
         tvForgot.visibility = View.INVISIBLE
-        if (action == ACTION_ENTER) pinPad.hideOk()
 
         when (action) {
             ACTION_SET -> {
