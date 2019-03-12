@@ -34,7 +34,9 @@ class AboutFragment : BaseFragment() {
     override fun bindViews(view: View) {
         App.appComponent?.inject(this)
         initViews()
-        apiUtils.checkMembership { if (!it) showJoinDialog() }
+        if (!equalsDevUids(Session.uid)) {
+            apiUtils.checkMembership { if (!it) showJoinDialog() }
+        }
     }
 
     override fun getLayout() = R.layout.fragment_about

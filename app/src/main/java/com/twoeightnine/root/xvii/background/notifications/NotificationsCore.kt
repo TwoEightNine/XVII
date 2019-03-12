@@ -146,6 +146,12 @@ class NotificationsCore(private val context: Context) {
             updateLongPoll()
             return
         }
+        response.updates?.apply {
+            if (isNotEmpty()) {
+                l("updates: ${if (BuildConfig.DEBUG) toString() else "$size"}")
+            }
+        }
+
         Session.timeStamp = response.ts
         val intentResult = Intent(NAME)
         val extras = Bundle()

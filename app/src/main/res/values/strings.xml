@@ -184,6 +184,7 @@
     <string name="mic_hint">Slide to cancel</string>
     <string name="invalid_user_id">Invalid user ID</string>
     <string name="details">Details</string>
+    <string name="report_hint">It will help us to solve the problem faster</string>
 
     <string name="no_access_to_mic">No access to the mic</string>
     <string name="no_access_to_storage">No access to the storage</string>
