@@ -124,10 +124,9 @@ class NotificationsCore(private val context: Context) {
                 .subscribe({ response ->
                     val resp = if (BuildConfig.DEBUG) response.toString() else response.toStringSafe()
                     if (response != null && response.failed == 0) {
-                        Lg.i(resp)
                         sendResult(response)
                     } else {
-                        Lg.i("updating reason: $resp")
+                        l("updating reason: $resp")
                         updateLongPoll()
                     }
                 }, { error ->
@@ -135,7 +134,7 @@ class NotificationsCore(private val context: Context) {
                     if (error.message?.startsWith("Unable") == true) { //no internet
                         handler.postDelayed({ restartService() }, NO_INTERNET_DELAY)
                     } else {
-                        Lg.i("updating reason: ${error.message}")
+                        l("updating reason: ${error.message}")
                         updateLongPoll()
                     }
                 }).let { disposables.add(it) }
@@ -183,7 +182,7 @@ class NotificationsCore(private val context: Context) {
     private fun checkHistory(longPoll: LongPollServer) {
         val ts = longPoll.ts
         val oldTs = Session.timeStamp
-        Lg.i("checking history $ts ${Session.timeStamp}")
+        l("checking history $ts ${Session.timeStamp}")
         var events = ts - Session.timeStamp
         Session.longPoll = longPoll
         if (events == 0) {
@@ -202,7 +201,6 @@ class NotificationsCore(private val context: Context) {
     }
 
     private fun sendHistory(historyResponse: LongPollHistoryResponse, newTs: Int) {
-        Lg.i(if (BuildConfig.DEBUG) historyResponse.toString() else historyResponse.toStringSafe())
         CacheHelper.saveMessagesAsync(historyResponse.messages?.items ?: mutableListOf())
         val rawUpds = mutableListOf<MutableList<Any>>()
         historyResponse.messages?.items?.forEach {

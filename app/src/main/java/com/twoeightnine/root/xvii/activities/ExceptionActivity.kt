@@ -47,9 +47,8 @@ class ExceptionActivity : AppCompatActivity() {
                 this,
                 getString(R.string.describe_actions),
                 getString(R.string.describe_hint), "",
-                { sendError("CRASH REPORT:\n$it\n\n$error") },
-                false
-                )
+                { sendError("CRASH REPORT:\n$it\n\n$error") }
+        )
         dialog.show()
     }
 
@@ -62,8 +61,7 @@ class ExceptionActivity : AppCompatActivity() {
             message = message.substring(0, maxSize)
         }
         api.send(-Api.GROUP, message, "", "", 0, "", "")
-                .subscribeSmart({
-                    response ->
+                .subscribeSmart({ response ->
                     deleteReport(response)
                     if (sendLater.isEmpty()) {
                         showCommon(this, R.string.report_sent)

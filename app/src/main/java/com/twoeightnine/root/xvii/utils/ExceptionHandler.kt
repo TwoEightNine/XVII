@@ -17,14 +17,14 @@ class ExceptionHandler(private var context: Context): Thread.UncaughtExceptionHa
         val stackTrace = StringWriter()
         e?.printStackTrace(PrintWriter(stackTrace))
         val errorReport = StringBuilder()
-                .append("************** CAUSE OF ERROR *************\n\n")
+                .append("CAUSE OF ERROR:\n")
                 .append(stackTrace.toString())
-                .append("\n******************* LOGS ******************\n")
+                .append("\nLOGS:\n")
         
         val logs = Lg.logs
-        val start = if (logs.size < 30) 0 else logs.size - 30
+        val start = if (logs.size < 60) 0 else logs.size - 60
         errorReport.append(logs.subList(start, logs.size).joinToString(separator = "\n"))
-                .append("\n\n************ DEVICE INFORMATION ***********\n")
+                .append("\n\nDEVICE INFORMATION:\n")
                 .append("RAM: ")
                 .append(getTotalRAM())
                 .append(lineSeparator)

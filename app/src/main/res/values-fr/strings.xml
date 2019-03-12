@@ -138,7 +138,7 @@
     <string name="want_delete">Vous voulez réellement supprimer?</string>
     <string name="rename">Changer un nom</string>
     <string name="left_chat">Vous avez quitté ce chat</string>
-    <string name="uncaught_exception">Unexpected error occurred</string>
+    <string name="uncaught_exception">Quelque chose était faux..</string>
     <string name="send_report">Envoyer un rapport</string>
     <string name="report_sent">Le rapport était envoyé</string>
     <string name="describe_actions">Describez le problème</string>
@@ -222,6 +222,7 @@
     <string name="no_access_to_storage">Aucun accès au storage</string>
     <string name="need_access_to_mic">XVII veut avoir un accès au micro pour enregistrer des messages vocaux</string>
     <string name="need_access_to_storage">XVII veut avoir un accès au storage pour attacher ou sauvegarder des fichiers</string>
+    <string name="details">Détails</string>
 
 </resources>
 

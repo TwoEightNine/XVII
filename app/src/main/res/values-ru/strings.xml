@@ -142,7 +142,7 @@
     <string name="open_chat">Открыть чат</string>
     <string name="generating_keys">Генерация ключей\nМожеть занять несколько минут\n Для Вашей безопасности</string>
 
-    <string name="uncaught_exception">Непредвиденное падение приложения</string>
+    <string name="uncaught_exception">Что-то пошло не так..</string>
     <string name="send_report">Отправить репорт</string>
     <string name="report_sent">Репорт отправлен</string>
     <string name="describe_actions">Опишите, что произошло</string>
@@ -228,5 +228,6 @@
     <string name="no_access_to_storage">Нет доступа к хранилищу</string>
     <string name="need_access_to_mic">XVII необходим доступ к микрофону для записи голосовых сообщений</string>
     <string name="need_access_to_storage">XVII необходим доступ к хранилищу для прикрепления и скачивания файлов</string>
+    <string name="details">Подробнее</string>
 
 </resources>

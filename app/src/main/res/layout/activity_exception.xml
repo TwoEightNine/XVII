@@ -6,45 +6,62 @@
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_above="@+id/btnReport"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnReport">
 
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="6dp"
                 android:gravity="center"
                 android:text="@string/uncaught_exception"
-                android:layout_margin="6dp"
-                android:textSize="28sp"
                 android:textColor="@color/main_text"
-                android:layout_gravity="center_horizontal"
+                android:textSize="28sp" />
+
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="32dp"
+                android:src="@drawable/ic_sad" />
 
             <TextView
-                android:layout_margin="16dp"
-                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/details"
                 android:textColor="@color/main_text"
+                android:textSize="20sp" />
+
+            <TextView
                 android:id="@+id/tvStack"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="monospace"
+                android:textColor="@color/main_text"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
     </ScrollView>
 
     <Button
-        android:layout_alignParentBottom="true"
-        android:text="@string/send_report"
-        android:layout_centerHorizontal="true"
         android:id="@+id/btnReport"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/send_report" />
 
 
 </RelativeLayout>
