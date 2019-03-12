@@ -224,6 +224,7 @@
     <string name="need_access_to_storage">XVII veut avoir un accès au storage pour attacher ou sauvegarder des fichiers</string>
     <string name="details">Détails</string>
     <string name="report_hint">Il nous aidera à résoudre le problème plus vite</string>
+    <string name="mark_as_read">Marquer comme lu</string>
 
 </resources>
 

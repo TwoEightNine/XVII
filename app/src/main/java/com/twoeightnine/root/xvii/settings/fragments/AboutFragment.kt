@@ -9,7 +9,6 @@ import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.TestLandscapeActivity
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
-import com.twoeightnine.root.xvii.consts.Api
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.fragments.WebFragment
 import com.twoeightnine.root.xvii.managers.Lg
@@ -44,7 +43,7 @@ class AboutFragment : BaseFragment() {
     private fun initViews() {
         tvFeedback.setOnClickListener { _ ->
             val message = Message(
-                    0, 0, -Api.GROUP, 0, 0, getString(R.string.app_name), "", null
+                    0, 0, -App.GROUP, 0, 0, getString(R.string.app_name), "", null
             )
             rootActivity.loadFragment(ChatFragment.newInstance(message))
         }
@@ -104,7 +103,7 @@ class AboutFragment : BaseFragment() {
 
     private fun share() {
         apiUtils.repost(
-                Api.SHARE_POST,
+                App.SHARE_POST,
                 { showCommon(context, R.string.shared) },
                 { showError(context, it) }
         )

@@ -11,7 +11,6 @@ import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
-import com.twoeightnine.root.xvii.consts.Api
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.utils.EmojiHelper
@@ -55,7 +54,7 @@ open class DialogsAdapter(context: Context,
                 } else {
                     Picasso //fixme what's wrong
                             .get()
-                            .load(Api.PHOTO_STUB)
+                            .load(App.PHOTO_STUB)
                             .into(civPhoto)
                 }
 

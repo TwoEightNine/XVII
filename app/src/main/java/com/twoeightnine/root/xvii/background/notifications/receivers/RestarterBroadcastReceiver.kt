@@ -1,14 +1,11 @@
-package com.twoeightnine.root.xvii.background
+package com.twoeightnine.root.xvii.background.notifications.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
 import com.twoeightnine.root.xvii.managers.Lg
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.startNotificationService
-import javax.inject.Inject
 
 /**
  * Created by msnthrp on 14/01/18.

@@ -13,8 +13,6 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorService
-import com.twoeightnine.root.xvii.consts.Api
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.Account
@@ -162,11 +160,11 @@ class LoginActivity : BaseActivity() {
     companion object {
 
         private val LOGIN_URL = "https://oauth.vk.com/authorize?" +
-                "client_id=${Api.APP_ID}&" +
-                "scope=${Api.SCOPE_ALL}&" +
-                "redirect_uri=${Api.REDIRECT_URL}&" +
+                "client_id=${App.APP_ID}&" +
+                "scope=${App.SCOPE_ALL}&" +
+                "redirect_uri=${App.REDIRECT_URL}&" +
                 "display=touch&" +
-                "v=${Api.VERSION}&" +
+                "v=${App.VERSION}&" +
                 "response_type=token"
 
     }
@@ -179,7 +177,7 @@ class LoginActivity : BaseActivity() {
         override fun onPageFinished(view: WebView, url: String) {
             super.onPageFinished(view, url)
             rlLoader.visibility = View.GONE
-            if (url.startsWith(Api.REDIRECT_URL)) {
+            if (url.startsWith(App.REDIRECT_URL)) {
                 doneWithThis(url)
             }
         }

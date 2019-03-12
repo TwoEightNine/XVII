@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.TextView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.consts.Api
 import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.restartApp
@@ -60,7 +59,7 @@ class ExceptionActivity : AppCompatActivity() {
             sendLater = message.substring(maxSize)
             message = message.substring(0, maxSize)
         }
-        api.send(-Api.GROUP, message, "", "", 0, "", "")
+        api.send(-App.GROUP, message, "", "", 0, "", "")
                 .subscribeSmart({ response ->
                     deleteReport(response)
                     if (sendLater.isEmpty()) {

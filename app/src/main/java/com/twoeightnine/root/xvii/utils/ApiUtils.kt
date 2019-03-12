@@ -1,9 +1,9 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.VideoViewerActivity
-import com.twoeightnine.root.xvii.consts.Api
 import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -114,7 +114,7 @@ class ApiUtils @Inject constructor(val api: ApiService) {
     }
 
     fun checkMembership(callback: (Boolean) -> Unit) {
-        api.isGroupMember(Api.GROUP, Session.uid)
+        api.isGroupMember(App.GROUP, Session.uid)
                 .subscribeSmart({
                     callback.invoke(it == 1)
                 }, {
@@ -124,7 +124,7 @@ class ApiUtils @Inject constructor(val api: ApiService) {
     }
 
     fun joinGroup() {
-        api.joinGroup(Api.GROUP)
+        api.joinGroup(App.GROUP)
                 .subscribeSmart({}, {})
     }
 

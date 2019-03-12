@@ -1,8 +1,9 @@
-package com.twoeightnine.root.xvii.background.notifications
+package com.twoeightnine.root.xvii.background.notifications.services
 
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.JobIntentService
+import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
 
 
 class NotificationJobIntentService : JobIntentService() {

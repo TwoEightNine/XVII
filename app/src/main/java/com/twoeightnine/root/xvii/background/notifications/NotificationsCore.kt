@@ -31,6 +31,7 @@ import javax.inject.Inject
 import android.app.NotificationChannel
 import android.os.*
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.notifications.receivers.MarkAsReadBroadcastReceiver
 
 
 class NotificationsCore(private val context: Context) {
@@ -269,14 +270,14 @@ class NotificationsCore(private val context: Context) {
                     }
                     if (realmUser != null && showName && event.userId in 0..2000000000) {
                         loadBitmapIcon(User(realmUser).photoMax) {
-                            showNotification(content, event.userId, userName, userName, it)
+                            showNotification(content, event.userId, event.mid, userName, userName, it)
                         }
 
                     } else {
-                        showNotification(content, event.userId, userName)
+                        showNotification(content, event.userId, event.mid, userName)
                     }
                 } catch (e: Exception) {
-                    showNotification(content, event.userId, event.message)
+                    showNotification(content, event.userId, event.mid, event.message)
                 }
             }
         }
@@ -285,20 +286,17 @@ class NotificationsCore(private val context: Context) {
     private fun showNotification(
             content: String,
             peerId: Int,
+            messageId: Int,
             userName: String,
             title: String = context.getString(R.string.app_name),
             icon: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.xvii128)
     ) {
 
-        val intent = Intent(context, RootActivity::class.java)
-        intent.putExtra(RootActivity.USER_ID, peerId)
-        intent.putExtra(RootActivity.TITLE, userName)
-        val pIntent = PendingIntent.getActivity(
-                context,
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        // intent to open app
+
+
+        // intent to mark message as read
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.app_name)
@@ -320,13 +318,45 @@ class NotificationsCore(private val context: Context) {
                 .setContentText(Html.fromHtml(content))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setContentIntent(pIntent)
+                .addAction(
+                        R.drawable.ic_eye,
+                        context.getString(R.string.mark_as_read),
+                        getMarkAsReadIntent(messageId, peerId)
+                )
+                .setContentIntent(getOpenAppIntent(peerId, userName))
 
         if (ledLights) {
             builder.setLights(color, 500, 500)
         }
 
         notificationManager.notify(peerId, builder.build())
+    }
+
+    private fun getOpenAppIntent(peerId: Int, userName: String): PendingIntent {
+        val openAppIntent = Intent(context, RootActivity::class.java).apply {
+            putExtra(RootActivity.USER_ID, peerId)
+            putExtra(RootActivity.TITLE, userName)
+        }
+        return PendingIntent.getActivity(
+                context,
+                0,
+                openAppIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
+
+    private fun getMarkAsReadIntent(messageId: Int, peerId: Int): PendingIntent {
+        val markAsReadIntent = Intent(context, MarkAsReadBroadcastReceiver::class.java).apply {
+            action = MarkAsReadBroadcastReceiver.ACTION_MARK_AS_READ
+            putExtra(MarkAsReadBroadcastReceiver.ARG_MESSAGE_ID, messageId)
+            putExtra(MarkAsReadBroadcastReceiver.ARG_PEER_ID, peerId)
+        }
+        return PendingIntent.getBroadcast(
+                context,
+                0,
+                markAsReadIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
     }
 
     private fun vibrate() {

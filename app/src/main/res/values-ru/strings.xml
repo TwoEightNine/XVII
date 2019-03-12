@@ -230,5 +230,6 @@
     <string name="need_access_to_storage">XVII необходим доступ к хранилищу для прикрепления и скачивания файлов</string>
     <string name="details">Подробнее</string>
     <string name="report_hint">Это поможет нам решить проблему быстрее</string>
+    <string name="mark_as_read">Прочитано</string>
 
 </resources>

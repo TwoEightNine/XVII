@@ -1,6 +1,6 @@
 package com.twoeightnine.root.xvii.dagger
 
-import com.twoeightnine.root.xvii.consts.Api
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.managers.Session
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -16,7 +16,7 @@ class TokenAndVersionInterceptor: Interceptor {
         val builder = request.url().newBuilder()
         if (needParameters(request)) {
             builder.addQueryParameter(ACCESS_TOKEN, Session.token)
-                    .addQueryParameter(VERSION, Api.VERSION)
+                    .addQueryParameter(VERSION, App.VERSION)
         }
         val url = builder.build()
         request = request.newBuilder()
@@ -29,7 +29,7 @@ class TokenAndVersionInterceptor: Interceptor {
     private fun needParameters(request: Request) = request.header(ApiService.NO_TOKEN_HEADER_KEY).isNullOrEmpty()
 
     companion object {
-        private val ACCESS_TOKEN = "access_token"
-        private val VERSION = "v"
+        private const val ACCESS_TOKEN = "access_token"
+        private const val VERSION = "v"
     }
 }

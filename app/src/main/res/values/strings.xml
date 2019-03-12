@@ -98,6 +98,7 @@
     <string name="important">Important</string>
     <string name="markAsImportant">Mark as important</string>
     <string name="not_playable_video">Video is not playable</string>
+    <string name="mark_as_read">Mark as read</string>
     <string name="docs">Docs</string>
     <string name="photos">Photos</string>
     <string name="videos">Videos</string>

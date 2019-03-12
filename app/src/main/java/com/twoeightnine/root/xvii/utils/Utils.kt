@@ -24,27 +24,23 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.RequestCreator
 import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.RestarterBroadcastReceiver
-import com.twoeightnine.root.xvii.background.notifications.NotificationJobIntentService
-import com.twoeightnine.root.xvii.background.notifications.NotificationService
+import com.twoeightnine.root.xvii.background.notifications.receivers.RestarterBroadcastReceiver
+import com.twoeightnine.root.xvii.background.notifications.services.NotificationJobIntentService
+import com.twoeightnine.root.xvii.background.notifications.services.NotificationService
 import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorService
-import com.twoeightnine.root.xvii.consts.Api
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.LongPollEvent
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.User
-import de.hdodenhof.circleimageview.CircleImageView
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import okhttp3.ResponseBody
@@ -256,9 +252,9 @@ fun getUiFriendlyHash(hash: String) = hash
         .map { it.toUpperCase() }
         .joinToString(separator = "")
 
-fun equalsDevUids(userId: Int) = Api.ID_SALTS
+fun equalsDevUids(userId: Int) = App.ID_SALTS
         .map { md5(userId.toString() + it) }
-        .filterIndexed { index, hash -> hash == Api.ID_HASHES[index] }
+        .filterIndexed { index, hash -> hash == App.ID_HASHES[index] }
         .isNotEmpty()
 
 fun simpleUrlIntent(context: Context, url: String?) {

@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.model
 import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.twoeightnine.root.xvii.consts.Api
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.utils.getPeerId
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -23,7 +23,7 @@ open class MessageDb(): RealmObject() {
         this.title = message.title ?: ""
         this.body = message.body ?: ""
         this.emoji = message.emoji
-        this.photo = message.photo ?: Api.PHOTO_STUB
+        this.photo = message.photo ?: App.PHOTO_STUB
 
         val gson = Gson()
         this.fwdMessages = gson.toJson(message.fwdMessages)
