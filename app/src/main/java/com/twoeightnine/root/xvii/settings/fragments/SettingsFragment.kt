@@ -8,9 +8,11 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
@@ -19,10 +21,11 @@ import com.twoeightnine.root.xvii.settings.Item
 import com.twoeightnine.root.xvii.settings.adapters.SettingsAdapter
 import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.restartApp
+import com.twoeightnine.root.xvii.views.RateAlertDialog
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_settings.*
 
-class SettingsFragment: BaseFragment() {
+class SettingsFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = SettingsFragment()
@@ -51,7 +54,7 @@ class SettingsFragment: BaseFragment() {
             val obj = adapter.getItem(i).obj
             if (obj is androidx.fragment.app.Fragment) {
                 rootActivity.loadFragment(obj)
-            } else  {
+            } else {
                 (obj as? () -> Unit)?.invoke()
             }
         }
@@ -60,6 +63,14 @@ class SettingsFragment: BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.settings))
+        if (Prefs.showRate) {
+            try {
+                RateAlertDialog(safeActivity).show()
+            } catch (e: Exception) {
+                Lg.wtf("rate dialog ${e.message}")
+                e.printStackTrace()
+            }
+        }
     }
 
     private fun showLogoutDialog() {

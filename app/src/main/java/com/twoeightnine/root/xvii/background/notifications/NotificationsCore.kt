@@ -157,7 +157,7 @@ class NotificationsCore(private val context: Context) {
         val extras = Bundle()
         extras.putSerializable(RESULT, response)
         intentResult.putExtras(extras)
-        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(context).sendBroadcast(intentResult)
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intentResult)
         checkForNotif(response)
         cacheResponse(response)
         restartService()

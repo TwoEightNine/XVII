@@ -69,9 +69,6 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.dialogs))
-        if (Prefs.showRate) {
-            showRateDialog()
-        }
     }
 
     open fun initRefresh() {
@@ -106,15 +103,6 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
             rootActivity.loadFragment(ChatFragment.newInstance(adapter.items[position], fwdMessages))
         } else {
             rootActivity.loadFragment(ChatFragment.newInstance(adapter.items[position]))
-        }
-    }
-
-    private fun showRateDialog() {
-        try {
-            RateAlertDialog(safeActivity).show()
-        } catch (e: Exception) {
-            Lg.wtf("rate dialog ${e.message}")
-            e.printStackTrace()
         }
     }
 
