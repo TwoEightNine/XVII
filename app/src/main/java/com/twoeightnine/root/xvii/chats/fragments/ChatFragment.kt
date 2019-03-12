@@ -651,9 +651,8 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     override fun onHistoryLoaded(history: MutableList<Message>) {
         val needToScroll = adapter.itemCount < 2
         adapter.stopLoading(history, true)
-        if (swipeContainer.isRefreshing) {
-            swipeContainer.isRefreshing = false
-        }
+        swipeContainer?.isRefreshing = false
+
         if (needToScroll) {
             var unreadPos = adapter.itemCount - 1
             for (pos in adapter.items.indices.reversed()) {

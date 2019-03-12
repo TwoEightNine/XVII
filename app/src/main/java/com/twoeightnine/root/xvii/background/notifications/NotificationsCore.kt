@@ -292,12 +292,6 @@ class NotificationsCore(private val context: Context) {
             icon: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.xvii128)
     ) {
 
-        // intent to open app
-
-
-        // intent to mark message as read
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.app_name)
             val descriptionText = context.getString(R.string.app_name)
