@@ -37,7 +37,7 @@
     <string name="kick_chat_full">%s n\'est pas dans le chat</string>
     <string name="invite_chat_full">%s est dans le chat</string>
     <string name="link">Lien</string>
-    <string name="wall_post">Post dans mur</string>
+    <string name="wall_post">Post sur le mur</string>
     <string name="copy">Copier</string>
     <string name="reply">Reponder</string>
     <string name="decrypt">Décrypter</string>
