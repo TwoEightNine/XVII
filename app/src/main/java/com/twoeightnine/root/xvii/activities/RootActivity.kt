@@ -71,8 +71,6 @@ class RootActivity : BaseActivity() {
             Lg.i("open chat ${intent.extras.getInt(USER_ID)}")
         }
         styleScreen(flContainer)
-        Handler().postDelayed({ startNotificationService(this) }, 5000L)
-        removeNotification(this)
         startNotificationAlarm(this)
         apiUtils.trackVisitor()
     }
@@ -171,6 +169,7 @@ class RootActivity : BaseActivity() {
                     "${getTime(NotificationsCore.lastRun, format = "HH:mm:ss")}. Start again")
             Handler().postDelayed({ startNotificationService(this) }, 1000L)
         }
+        removeNotification(this)
     }
 
     /**

@@ -37,39 +37,39 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "androidx.appcompat:appcompat:$appCompat"
-    compile "com.google.android.material:material:$appCompat"
-    compile "androidx.recyclerview:recyclerview:$appCompat"
+    implementation "androidx.appcompat:appcompat:$appCompat"
+    implementation "com.google.android.material:material:$appCompat"
+    implementation "androidx.recyclerview:recyclerview:$appCompat"
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
-    compile "com.google.code.gson:gson:$gsonVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
 
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
-    compile "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    compile "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
 
-    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    compile "com.google.dagger:dagger:$daggerVersion"
-    provided "javax.annotation:jsr250-api:$jsrVersion"
+    kapt "com.google.dagger:dagger-implementationr:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    compileOnly "javax.annotation:jsr250-api:$jsrVersion"
 
-    compile "com.squareup.picasso:picasso:$picassoVersion"
-    compile "de.hdodenhof:circleimageview:$circleImageViewVersion"
-    compile "com.github.orangegangsters:swipy:$swipyVersion"
-    compile "com.miguelcatalan:materialsearchview:$materialSearchViewVersion"
-    testCompile "junit:junit:$junitVersion"
-    compile "com.github.QuadFlask:colorpicker:$colorpickerVersion"
-    compile "com.github.bumptech.glide:glide:$glideVersion"
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
+    implementation "de.hdodenhof:circleimageview:$circleImageViewVersion"
+    implementation "com.github.orangegangsters:swipy:$swipyVersion"
+    implementation "com.miguelcatalan:materialsearchview:$materialSearchViewVersion"
+    testImplementation "junit:junit:$junitVersion"
+    implementation "com.github.QuadFlask:colorpicker:$colorpickerVersion"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
 
 //    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
