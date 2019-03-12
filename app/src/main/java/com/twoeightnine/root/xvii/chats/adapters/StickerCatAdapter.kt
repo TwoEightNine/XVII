@@ -1,13 +1,13 @@
 package com.twoeightnine.root.xvii.chats.adapters
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.model.StickerPack
-import com.twoeightnine.root.xvii.utils.loadUrl
+import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.loadRounded
 import kotlinx.android.synthetic.main.item_sticker_cat.view.*
 
 /**
@@ -33,7 +33,7 @@ class StickerCatAdapter(context: Context,
                     pack.isRecent -> ivStickerItem.setImageResource(R.drawable.ic_recent)
                     pack.isAvailable -> ivStickerItem.setImageResource(R.drawable.ic_feed)
                     else -> {
-                        ivStickerItem.loadUrl(pack.getStickerUrl(0))
+                        ivStickerItem.load(pack.getStickerUrl(0))
                     }
                 }
             }

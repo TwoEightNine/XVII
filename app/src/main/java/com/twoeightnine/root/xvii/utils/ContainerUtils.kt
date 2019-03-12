@@ -18,7 +18,7 @@ import com.twoeightnine.root.xvii.model.*
 fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
     Picasso.get()
-            .loadUrl(photo.almostMax)
+            .loadRounded(photo.almostMax)
             .resize(pxFromDp(context, 250), pxFromDp(context, 300))
             .centerCrop()
             .into(included.findViewById<ImageView>(R.id.ivInternal))
@@ -37,7 +37,7 @@ fun getPhotoWall(photo: Photo, activity: RootActivity, onClick: (Photo) -> Unit 
     params.bottomMargin = 12
     iv.layoutParams = params
     Picasso.get()
-            .loadUrl(photo.almostMax)
+            .loadRounded(photo.almostMax)
             .resize(width, ivHeight.toInt())
             .centerCrop()
             .into(iv)
@@ -49,7 +49,7 @@ fun getGif(doc: Doc, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
     val ivVideo = included.findViewById<ImageView>(R.id.ivVideo)
     Picasso.get()
-            .loadUrl(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
+            .loadRounded(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
             .into(ivVideo)
@@ -128,7 +128,7 @@ fun getLink(link: Link, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_link, null, false)
     if (link.photo != null) {
         (included.findViewById<ImageView>(R.id.ivPhoto))
-                .loadUrl(link.photo.photo75)
+                .loadRounded(link.photo.photo75)
     }
     included.findViewById<TextView>(R.id.tvTitle).text = link.title
     included.findViewById<TextView>(R.id.tvCaption).text = link.url
@@ -139,7 +139,7 @@ fun getLink(link: Link, context: Context): View {
 fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
     Picasso.get()
-            .loadUrl(video.maxPhoto)
+            .loadRounded(video.maxPhoto)
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
             .into(included.findViewById<ImageView>(R.id.ivVideo))

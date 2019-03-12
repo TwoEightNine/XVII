@@ -6,8 +6,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.utils.loadUrl
-import de.hdodenhof.circleimageview.CircleImageView
+import com.twoeightnine.root.xvii.utils.loadRounded
 import kotlinx.android.synthetic.main.item_friend.view.*
 
 class FriendsAdapter(loader: ((Int) -> Unit)?,
@@ -29,7 +28,7 @@ class FriendsAdapter(loader: ((Int) -> Unit)?,
 
         fun bind(user: User) {
             with(view) {
-                civPhoto.loadUrl(user.photo100)
+                civPhoto.loadRounded(user.photo100)
                 tvName.text = user.firstName
                 ivOnlineDot.visibility = if (user.online == 1) View.VISIBLE else View.GONE
             }

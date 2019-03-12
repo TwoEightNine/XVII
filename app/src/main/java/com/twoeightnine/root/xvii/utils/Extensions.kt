@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
+import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.model.response.Error
 import com.twoeightnine.root.xvii.response.ServerResponse
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
@@ -60,8 +61,26 @@ fun View.hide() = setVisible(false)
 fun ImageView.load(url: String?, block: RequestCreator.() -> RequestCreator = { this }) {
     Picasso.get()
             .load(url)
+            .placeholder(R.drawable.placeholder)
+            .error(R.drawable.placeholder)
             .block()
             .into(this)
+}
+
+fun ImageView.loadRounded(url: String?) {
+    if (url == null) return
+    Picasso.get()
+            .loadRounded(url)
+            .into(this)
+}
+
+fun Picasso.loadRounded(url: String?): RequestCreator {
+    return this
+            .load(url)
+            .transform(RoundedTransformation())
+            .placeholder(R.drawable.placeholder_rounded)
+            .error(R.drawable.placeholder_rounded)
+
 }
 
 fun EditText.asText() = text.toString()

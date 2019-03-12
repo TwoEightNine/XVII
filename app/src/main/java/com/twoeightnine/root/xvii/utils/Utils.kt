@@ -13,7 +13,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
-import android.os.SystemClock
 import android.provider.MediaStore
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
@@ -45,13 +44,9 @@ import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.LongPollEvent
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.model.response.Error
-import com.twoeightnine.root.xvii.response.ServerResponse
-import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
 import de.hdodenhof.circleimageview.CircleImageView
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import okhttp3.ResponseBody
 import java.io.*
 import java.security.MessageDigest
@@ -420,35 +415,9 @@ fun getPeerId(userId: Int, chatId: Int): Int = if (chatId == 0) userId else 2000
 
 fun getFromPeerId(peerId: Int) = intArrayOf(if (peerId > 2000000000) 0 else peerId, if (peerId > 2000000000) peerId - 2000000000 else 0)
 
-fun ImageView.loadUrl(url: String?) {
-    if (url == null) return
-    Picasso.get()
-            .loadUrl(url)
-            .into(this)
-}
-
-fun CircleImageView.loadPhoto(url: String?) {
-    if (url == null) return
-    Picasso.get()
-            .load(url)
-            .placeholder(R.drawable.placeholder)
-            .error(R.drawable.placeholder)
-            .into(this)
-
-}
-
-fun Picasso.loadUrl(url: String?): RequestCreator {
-    return this
-            .load(url)
-            .transform(RoundedTransformation())
-            .placeholder(R.drawable.placeholder)
-            .error(R.drawable.placeholder)
-
-}
-
 fun loadBitmapIcon(url: String?, callback: (Bitmap) -> Unit) {
     Picasso.get()
-            .loadUrl(url)
+            .loadRounded(url)
             .resize(200, 200)
             .centerCrop()
             .into(object : Target {

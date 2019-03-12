@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.friends.adapters
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,8 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.utils.loadUrl
+import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.loadRounded
 import kotlinx.android.synthetic.main.item_user.view.*
 
 class UsersAdapter(context: Context,
@@ -48,7 +48,7 @@ class UsersAdapter(context: Context,
                 if (multiSelectRaw.contains(user.id)) {
                     civPhoto.setImageResource(R.mipmap.ic_check_raster)
                 } else {
-                    civPhoto.loadUrl(user.photo100)
+                    civPhoto.load(user.photo100)
                 }
                 val d = ContextCompat.getDrawable(context, R.drawable.dotshape)
                 Style.forDrawable(d, Style.MAIN_TAG)

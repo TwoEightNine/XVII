@@ -17,7 +17,7 @@ import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.mvp.presenter.ChatInfoFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatInfoFragmentView
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
-import com.twoeightnine.root.xvii.utils.loadPhoto
+import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.showCommon
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_chat_info.*
@@ -47,7 +47,7 @@ class ChatInfoFragment: BaseFragment(), ChatInfoFragmentView {
 
     override fun bindViews(view: View) {
         super.bindViews(view)
-        civPhoto.loadPhoto(message.photo)
+        civPhoto.load(message.photo)
         etTitle.setText(message.title)
         initAdapter()
         App.appComponent?.inject(this)

@@ -14,8 +14,8 @@ import java.io.IOException
 
 class MediaPlayerAsyncTask(private val listener: (() -> Unit)?) : AsyncTask<String, Void, Void?>() {
 
-    lateinit private var player: MediaPlayer
-    lateinit private var url: String
+    private lateinit var player: MediaPlayer
+    private lateinit var url: String
 
     var isExecuting = false
         private set
@@ -32,13 +32,13 @@ class MediaPlayerAsyncTask(private val listener: (() -> Unit)?) : AsyncTask<Stri
         if (Prefs.playerUrl == url) {
             time = Prefs.playerTime
         }
-        writeURL()
-        Lg.i("PLAYER from time $time playing ${getUrl()}")
+        writeUrl()
+        l("from time $time playing ${getUrl()}")
         try {
             player.setDataSource(url)
             player.prepare()
         } catch (e: IOException) {
-            Lg.wtf("PLAYER error: ${e.message} with URL = ${getUrl()}")
+            Lg.wtf("PLAYER error: ${e.message} with ${getUrl()}")
             return null
         }
 
@@ -50,7 +50,7 @@ class MediaPlayerAsyncTask(private val listener: (() -> Unit)?) : AsyncTask<Stri
             SystemClock.sleep(200)
             time += 200
         }
-        Lg.i("PLAYER done")
+        l("done")
         stopPlayer()
         if (!isCancelled) {
             time = 0
@@ -67,10 +67,10 @@ class MediaPlayerAsyncTask(private val listener: (() -> Unit)?) : AsyncTask<Stri
     private fun stopPlayer() {
         player.stop()
         isExecuting = false
-        Lg.i("PLAYER stopped")
+        l("stopped")
     }
 
-    private fun writeURL() {
+    private fun writeUrl() {
         Prefs.playerUrl = url
     }
 
@@ -80,8 +80,7 @@ class MediaPlayerAsyncTask(private val listener: (() -> Unit)?) : AsyncTask<Stri
         Prefs.playerTime = time
     }
 
-    companion object {
-        var URL = "URL"
-        var TIME = "time"
+    private fun l(s: String) {
+        Lg.i("[player] $s")
     }
 }

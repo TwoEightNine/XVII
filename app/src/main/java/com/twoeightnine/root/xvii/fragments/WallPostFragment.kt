@@ -10,15 +10,12 @@ import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.response.WallPostResponse
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.LoaderView
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.content_wall_post.view.*
 import kotlinx.android.synthetic.main.fragment_wall_post.*
 import javax.inject.Inject
@@ -82,7 +79,7 @@ class WallPostFragment : BaseFragment() {
         val group = getGroup(-post.fromId)
         holder.tvTitle.text = group.name
         Picasso.get()
-                .loadUrl(group.photo100)
+                .loadRounded(group.photo100)
                 .into(holder.civAvatar)
         holder.tvDate.text = getTime(post.date, full = true)
         holder.tvPost.text = post.text

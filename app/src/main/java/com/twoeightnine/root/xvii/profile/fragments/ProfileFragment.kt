@@ -87,7 +87,7 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
 
     override fun onUserLoaded(user: User) {
         CacheHelper.saveUserAsync(user)
-        civPhoto.loadPhoto(user.photoMax)
+        civPhoto.load(user.photoMax)
         civPhoto.setOnClickListener { presenter.loadProfilePhotos() }
         tvName.text = user.fullName
         rlChat.setOnClickListener {

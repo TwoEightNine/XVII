@@ -13,7 +13,7 @@
             android:id="@+id/ivPhoto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="4dp"
+            android:layout_margin="1.5dp"
             android:scaleType="centerCrop" />
 
         <ImageView

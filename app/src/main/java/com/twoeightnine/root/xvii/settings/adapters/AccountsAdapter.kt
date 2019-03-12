@@ -9,8 +9,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.Account
-import com.twoeightnine.root.xvii.utils.loadPhoto
-import de.hdodenhof.circleimageview.CircleImageView
+import com.twoeightnine.root.xvii.utils.load
 import kotlinx.android.synthetic.main.item_account.view.*
 
 class AccountsAdapter : SimpleAdapter<Account>() {
@@ -40,7 +39,7 @@ class AccountsAdapter : SimpleAdapter<Account>() {
                     tvAccount.setTypeface(null, Typeface.NORMAL)
                     tvAccount.paintFlags = tvAccount.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
                 }
-                civPhoto.loadPhoto(account.photo)
+                civPhoto.load(account.photo)
             }
         }
     }

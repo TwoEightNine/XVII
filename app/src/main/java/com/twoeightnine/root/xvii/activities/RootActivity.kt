@@ -103,7 +103,7 @@ class RootActivity : BaseActivity() {
 
     private fun initUser() {
         tvFullName.text = Session.fullName
-        civAvatar.loadPhoto(Session.photo)
+        civAvatar.load(Session.photo)
         civAvatar.setOnClickListener {
             loadFragment(ProfileFragment.newInstance(Session.uid))
             hideKeyboard(this)

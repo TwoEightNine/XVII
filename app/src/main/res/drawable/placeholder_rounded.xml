@@ -2,6 +2,8 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
+    <corners android:radius="@dimen/image_corners_radius" />
+
     <gradient
         android:angle="135"
         android:startColor="#bbb"

@@ -8,8 +8,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
-import com.twoeightnine.root.xvii.utils.loadPhoto
-import de.hdodenhof.circleimageview.CircleImageView
+import com.twoeightnine.root.xvii.utils.load
 import kotlinx.android.synthetic.main.item_dialog_search.view.*
 
 class SearchMessagesAdapter(context: Context,
@@ -39,7 +38,7 @@ class SearchMessagesAdapter(context: Context,
             with(itemView) {
                 val photo = message.photo
                         ?: "http://www.iconsdb.com/icons/preview/light-gray/square-xxl.png"
-                civPhoto.loadPhoto(photo)
+                civPhoto.load(photo)
                 tvTitle.text = message.title
 
                 if (message.online == 1) {

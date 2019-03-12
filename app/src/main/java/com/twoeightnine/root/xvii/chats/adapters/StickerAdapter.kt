@@ -6,7 +6,8 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
 import com.twoeightnine.root.xvii.model.Attachment
-import com.twoeightnine.root.xvii.utils.loadUrl
+import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.loadRounded
 import kotlinx.android.synthetic.main.item_sticker.view.*
 
 /**
@@ -31,7 +32,7 @@ class StickerAdapter : SimpleAdapter<Attachment.Sticker>() {
 
         fun bind(sticker: Attachment.Sticker) {
             with(view) {
-                ivSticker.loadUrl(sticker.photo256)
+                ivSticker.load(sticker.photo256)
             }
         }
     }

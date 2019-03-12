@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
 import com.twoeightnine.root.xvii.model.Photo
-import com.twoeightnine.root.xvii.utils.loadUrl
+import com.twoeightnine.root.xvii.utils.load
 import kotlinx.android.synthetic.main.item_photo_attachment.view.*
 
 class PhotoAttachmentsAdapter(var context: Context,
@@ -30,7 +30,7 @@ class PhotoAttachmentsAdapter(var context: Context,
 
         fun bind(photo: Photo) {
             with(view) {
-                ivPhoto.loadUrl(photo.optimalPhoto)
+                ivPhoto.load(photo.optimalPhoto)
                 ivPhoto.setOnClickListener {
                     listener?.invoke(photo)
                 }

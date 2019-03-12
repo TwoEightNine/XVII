@@ -2,13 +2,12 @@ package com.twoeightnine.root.xvii.views
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Color
 import androidx.core.content.ContextCompat
 import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
 import com.twoeightnine.root.xvii.utils.getUiFriendlyHash
-import com.twoeightnine.root.xvii.utils.loadUrl
+import com.twoeightnine.root.xvii.utils.loadRounded
 import kotlinx.android.synthetic.main.dialog_fingerprint.*
 
 /**
@@ -22,7 +21,7 @@ class FingerPrintAlertDialog(context: Context,
         val view = View.inflate(context, R.layout.dialog_fingerprint, null)
         setView(view)
         tvPrint.text = getUiFriendlyHash(fingerprint)
-        ivGravatar.loadUrl("https://www.gravatar.com/avatar/$fingerprint?s=256&d=identicon&r=PG")
+        ivGravatar.loadRounded("https://www.gravatar.com/avatar/$fingerprint?s=256&d=identicon&r=PG")
         tvKeyType.text = context.getString(R.string.key_type, context.getString(keyType.stringRes).toUpperCase())
         if (keyType == CryptoUtil.KeyType.DEFAULT) {
             tvKeyType.setTextColor(ContextCompat.getColor(context, R.color.error))

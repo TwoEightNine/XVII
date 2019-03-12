@@ -6,7 +6,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
 import com.twoeightnine.root.xvii.model.Video
-import com.twoeightnine.root.xvii.utils.loadUrl
+import com.twoeightnine.root.xvii.utils.loadRounded
 import com.twoeightnine.root.xvii.utils.secToTime
 import kotlinx.android.synthetic.main.item_attachments_video.view.*
 
@@ -31,7 +31,7 @@ class VideoAttachmentsAdapter(loader: ((Int) -> Unit)?,
         fun bind(video: Video) {
             with(view) {
                 tvDuration.text = secToTime(video.duration)
-                ivVideo.loadUrl(video.maxPhoto)
+                ivVideo.loadRounded(video.maxPhoto)
                 ivVideo.setOnClickListener {
                     listener?.invoke(video)
                 }
