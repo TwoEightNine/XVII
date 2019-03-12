@@ -1,14 +1,11 @@
 package com.twoeightnine.root.xvii.settings.fragments
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.fragments.BaseFragment

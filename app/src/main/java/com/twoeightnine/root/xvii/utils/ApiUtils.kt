@@ -17,7 +17,7 @@ import javax.inject.Inject
 class ApiUtils @Inject constructor(val api: ApiService) {
 
     companion object {
-        private const val STICKERS_UPD_DELAY = 60 * 60 * 24 * 3 //3 days
+        private const val STICKERS_UPD_DELAY = 60 * 60 * 12 // 12 hours
 
         const val ACTIVITY_TYPING = "typing"
         const val ACTIVITY_VOICE = "audiomessage"
@@ -155,8 +155,8 @@ class ApiUtils @Inject constructor(val api: ApiService) {
                             ids.add(it)
                         }
                     }
-                    Collections.sort(ids)
-                    Prefs.availableStickers = ids
+                    ids.sort()
+                    Prefs.availableStickers = ids.distinct().toMutableList()
                     Prefs.lastStickersUpdate = time()
                 }, {})
     }

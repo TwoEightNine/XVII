@@ -33,9 +33,10 @@ class StickerCatAdapter(context: Context,
                     pack.isRecent -> ivStickerItem.setImageResource(R.drawable.ic_recent)
                     pack.isAvailable -> ivStickerItem.setImageResource(R.drawable.ic_feed)
                     else -> {
-                        ivStickerItem.load(pack.getStickerUrl(0))
+                        ivStickerItem.load(pack.getStickerUrl(0), placeholder = false)
                     }
                 }
+                setOnClickListener { listener?.invoke(items[adapterPosition]) }
             }
         }
     }

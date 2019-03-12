@@ -58,13 +58,14 @@ fun View.show() = setVisible(true)
 
 fun View.hide() = setVisible(false)
 
-fun ImageView.load(url: String?, block: RequestCreator.() -> RequestCreator = { this }) {
-    Picasso.get()
-            .load(url)
-            .placeholder(R.drawable.placeholder)
-            .error(R.drawable.placeholder)
-            .block()
-            .into(this)
+fun ImageView.load(url: String?, placeholder: Boolean = true,
+                   block: RequestCreator.() -> RequestCreator = { this }) {
+    val rc = Picasso.get().load(url)
+    if (placeholder) {
+        rc.placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+    }
+    rc.block().into(this)
 }
 
 fun ImageView.loadRounded(url: String?) {

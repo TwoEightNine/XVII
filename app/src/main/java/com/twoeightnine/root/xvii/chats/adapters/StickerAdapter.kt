@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.chats.adapters
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import com.twoeightnine.root.xvii.App
@@ -32,7 +33,7 @@ class StickerAdapter : SimpleAdapter<Attachment.Sticker>() {
 
         fun bind(sticker: Attachment.Sticker) {
             with(view) {
-                ivSticker.load(sticker.photo256)
+                ivSticker.load(sticker.photo256, placeholder = false)
             }
         }
     }

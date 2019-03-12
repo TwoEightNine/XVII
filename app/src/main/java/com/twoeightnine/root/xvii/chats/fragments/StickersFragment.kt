@@ -1,8 +1,5 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.Titleable
