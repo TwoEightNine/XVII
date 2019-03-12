@@ -2,7 +2,7 @@ package com.twoeightnine.root.xvii.chats.adapters
 
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
@@ -35,8 +35,10 @@ class GalleryAdapter(loader: ((Int) -> Unit)?,
                 if (path == CAMERA_MARKER) {
                     ivThumb.setImageResource(R.drawable.layer_camera)
                 } else {
-                    Glide.with(App.context)
+                    Picasso.get()
                             .load("file://$path")
+                            .resize(300, 300)
+                            .centerCrop()
                             .into(ivThumb)
                 }
                 if (path in multiSelectRaw) {
