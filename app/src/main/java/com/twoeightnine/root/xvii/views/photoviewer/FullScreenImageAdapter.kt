@@ -14,7 +14,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Lg
 
 class FullScreenImageAdapter(private val activity: Activity,
-                             private val urls: MutableList<String>,
+                             private val urls: ArrayList<String>,
                              private var dismissListener: (() -> Unit)?,
                              private var tapListener: (() -> Unit)?) : androidx.viewpager.widget.PagerAdapter() {
 

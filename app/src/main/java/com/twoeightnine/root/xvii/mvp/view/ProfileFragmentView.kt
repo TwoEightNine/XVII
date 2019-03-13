@@ -7,5 +7,5 @@ import com.twoeightnine.root.xvii.mvp.BaseView
 interface ProfileFragmentView: BaseView {
     fun onUserLoaded(user: User)
     fun onFoafLoaded(date: String)
-    fun onPhotosLoaded(photos: MutableList<Photo>)
+    fun onPhotosLoaded(photos: ArrayList<Photo>)
 }

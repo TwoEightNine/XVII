@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.model.Video
 import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class ApiUtils @Inject constructor(val api: ApiService) {
 
@@ -68,7 +69,7 @@ class ApiUtils @Inject constructor(val api: ApiService) {
                         response.forEach {
                             it.accessKey = accessKey ?: ""
                         }
-                        ImageViewerActivity.viewImages(context, response)
+                        ImageViewerActivity.viewImages(context, ArrayList(response))
                     }
                 }, {
                     error ->

@@ -8,6 +8,7 @@ import com.twoeightnine.root.xvii.chats.adapters.attachments.PhotoAttachmentsAda
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.response.AttachmentsResponse
 import com.twoeightnine.root.xvii.utils.ApiUtils
+import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import kotlinx.android.synthetic.main.fragment_attachments_photo.*
 
 class PhotoAttachmentsFragment : BaseAttachmentsFragment<Photo>() {
@@ -18,7 +19,7 @@ class PhotoAttachmentsFragment : BaseAttachmentsFragment<Photo>() {
         adapter = PhotoAttachmentsAdapter(
                 safeActivity,
                 { loadMore() },
-                { apiUtils.showPhoto(safeActivity, it.photoId, it.accessKey) }
+                ::onClick
         )
         adapter.setAdapter(gvPhotos)
     }
@@ -31,6 +32,11 @@ class PhotoAttachmentsFragment : BaseAttachmentsFragment<Photo>() {
         adapter.stopLoading(response.items
                 .map { it.attachment?.photo!! }
                 .toMutableList())
+    }
+
+    private fun onClick(photo: Photo) {
+        val photos = ArrayList(adapter.items)
+        ImageViewerActivity.viewImages(context, photos, photos.indexOf(photo))
     }
 
     companion object {

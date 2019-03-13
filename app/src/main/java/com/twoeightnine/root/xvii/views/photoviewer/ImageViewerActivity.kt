@@ -16,15 +16,20 @@ import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_image_viewer.*
+import kotlinx.android.synthetic.main.fragment_chat.*
 import javax.inject.Inject
 
 class ImageViewerActivity : AppCompatActivity() {
 
-    private var adapter: FullScreenImageAdapter? = null
-    private var photos: MutableList<Photo>? = null
-    private var filePath: String? = null
+    private val photos = arrayListOf<Photo>()
+    private val adapter by lazy {
+        val urls = getUrlList()
+        FullScreenImageAdapter(this, urls, ::onDismiss, ::onTap)
+    }
+
     private var position: Int = 0
-    private var fileMode = false
+    private var filePath: String? = null
+    private var mode = MODE_UNKNOWN
 
     @Inject
     lateinit var apiUtils: ApiUtils
@@ -36,28 +41,23 @@ class ImageViewerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_image_viewer)
         App.appComponent?.inject(this)
         initData()
-        val urls = when{
-            photos != null -> getUrlsFromPhotos(photos!!)
-            filePath != null -> arrayListOf(filePath!!)
-            else -> arrayListOf()
-        }
-        adapter = FullScreenImageAdapter(this, urls, ::onDismiss, ::onTap)
-        vpImage.adapter = adapter
         setPosition(position)
-        vpImage.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
-            override fun onPageSelected(position: Int) {
-                setPosition(position)
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {}
-        })
+        vpImage.adapter = adapter
+        vpImage.addOnPageChangeListener(ImageViewerPageListener())
         vpImage.currentItem = position
-        btnDownload.setOnClickListener {
-            if (photos == null || photos!!.size == 0) return@setOnClickListener
+        initButtons()
+        if (mode == MODE_ONE_PATH) {
+            rlBottom.hide()
+            rlTop.hide()
+        }
+    }
 
-            val url = photos!![vpImage.currentItem].maxPhoto
+    private fun initButtons() {
+        btnDownload.setOnClickListener {
+            if (photos.isEmpty()) return@setOnClickListener
+
+            val url = photos[vpImage.currentItem].maxPhoto
             val fileName = getNameFromUrl(url)
             downloadFile(
                     this,
@@ -68,27 +68,27 @@ class ImageViewerActivity : AppCompatActivity() {
             )
         }
         btnSaveToAlbum.setOnClickListener {
-            if (photos == null || photos!!.size == 0) return@setOnClickListener
+            if (photos.isEmpty()) return@setOnClickListener
 
-            val photo = photos!![vpImage.currentItem]
-            apiUtils.saveToAlbum(this, photo.ownerId ?: 0, photo.id ?: 0, photo.accessKey ?: "")
-        }
-        if (fileMode) {
-            onTap()
+            val photo = photos[vpImage.currentItem]
+            apiUtils.saveToAlbum(this, photo.ownerId, photo.id, photo.accessKey)
         }
     }
 
     private fun initData() {
-        val photosRaw = intent.getSerializableExtra(PHOTOS)
-        if (photosRaw != null) {
-            photos = (photosRaw as Array<Parcelable>)
-                    .map { it as Photo }
-                    .toMutableList()
-        } else {
-            fileMode = true
+        intent.extras?.apply {
+            mode = getInt(MODE, MODE_UNKNOWN)
+            when (mode) {
+                MODE_PHOTOS_LIST -> {
+                    photos.addAll(getParcelableArrayList(PHOTOS) ?: arrayListOf())
+                    position = getInt(POSITION)
+                }
+                MODE_ONE_PATH -> {
+                    filePath = getString(PATH)
+                }
+                else -> finish()
+            }
         }
-        filePath = intent.getStringExtra(PATH)
-        position = intent.getIntExtra(POSITION, 0)
     }
 
     private fun onDismiss() {
@@ -96,40 +96,66 @@ class ImageViewerActivity : AppCompatActivity() {
     }
 
     private fun onTap() {
-        visibilitor(rlTop)
-        visibilitor(llBottom)
+        if (mode == MODE_ONE_PATH) return
+
+        rlTop.toggle()
+        rlBottom.toggle()
+    }
+
+    private fun getUrlList() = when (mode) {
+        MODE_PHOTOS_LIST -> getUrlsFromPhotos(photos)
+        MODE_ONE_PATH -> arrayListOf(filePath!!)
+        else -> arrayListOf()
     }
 
     private fun setPosition(position: Int) {
-        tvPosition.text = "${position + 1}/${photos?.size ?: 1}"
+        tvPosition.text = "${position + 1}/${photos.size}"
     }
 
-    private fun getUrlsFromPhotos(photos: MutableList<Photo>) = photos
-            .map { it.almostMax }
-            .toMutableList()
-
-    private fun visibilitor(vg: ViewGroup) {
-        vg.visibility = if (vg.visibility == View.VISIBLE || fileMode) View.INVISIBLE else View.VISIBLE
-    }
+    private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.optimalPhoto })
 
     companion object {
 
         const val PHOTOS = "urls"
         const val POSITION = "position"
         const val PATH = "path"
+        const val MODE = "mode"
 
-        fun viewImages(context: Context, photos: MutableList<Photo>, position: Int = 0) {
-            val intent = Intent(context, ImageViewerActivity::class.java)
-            intent.putExtra(PHOTOS, photos.toTypedArray())
-            intent.putExtra(POSITION, position)
+        const val MODE_UNKNOWN = 0
+        const val MODE_PHOTOS_LIST = 1
+        const val MODE_ONE_PATH = 2
+
+        fun viewImages(context: Context?, photos: ArrayList<Photo>, position: Int = 0) {
+            context ?: return
+
+            val intent = Intent(context, ImageViewerActivity::class.java).apply {
+                putParcelableArrayListExtra(PHOTOS, photos)
+                putExtra(POSITION, position)
+                putExtra(MODE, MODE_PHOTOS_LIST)
+            }
             context.startActivity(intent)
         }
 
-        fun viewImage(context: Context, filePath: String) {
-            val intent = Intent(context, ImageViewerActivity::class.java)
-            intent.putExtra(PATH, filePath)
+        fun viewImage(context: Context?, filePath: String) {
+            context ?: return
+
+            val intent = Intent(context, ImageViewerActivity::class.java).apply {
+                putExtra(PATH, filePath)
+                putExtra(MODE, MODE_ONE_PATH)
+            }
             context.startActivity(intent)
         }
+    }
+
+    private inner class ImageViewerPageListener : ViewPager.OnPageChangeListener {
+
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+        override fun onPageSelected(position: Int) {
+            setPosition(position)
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {}
     }
 
 }

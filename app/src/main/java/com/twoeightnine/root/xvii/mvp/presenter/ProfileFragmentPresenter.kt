@@ -15,7 +15,7 @@ class ProfileFragmentPresenter(api: ApiService,
     val COUNT = 100
     var user: User? = null
 
-    val photos: MutableList<Photo> = mutableListOf()
+    val photos = arrayListOf<Photo>()
 
     fun loadUser() {
         view?.showLoading()

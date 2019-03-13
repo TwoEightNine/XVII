@@ -77,7 +77,7 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
         showError(activity, error)
     }
 
-    override fun onPhotosLoaded(photos: MutableList<Photo>) {
+    override fun onPhotosLoaded(photos: ArrayList<Photo>) {
         ImageViewerActivity.viewImages(safeActivity, photos)
     }
 
