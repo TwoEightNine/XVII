@@ -71,7 +71,6 @@ class ImageViewerActivity : AppCompatActivity() {
             if (photos == null || photos!!.size == 0) return@setOnClickListener
 
             val photo = photos!![vpImage.currentItem]
-            Lg.i("photo: ${photo.ownerId} ${photo.id} ${photo.accessKey}")
             apiUtils.saveToAlbum(this, photo.ownerId ?: 0, photo.id ?: 0, photo.accessKey ?: "")
         }
         if (fileMode) {

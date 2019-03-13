@@ -23,7 +23,7 @@ class Attachment : Parcelable, Serializable {
 
     constructor(p: Parcel) {
         type = p.readString()
-        photo = p.readSerializable() as Photo
+        photo = p.readParcelable(Photo::class.java.classLoader) as Photo
     }
 
     constructor(photo: Photo) {
@@ -52,17 +52,17 @@ class Attachment : Parcelable, Serializable {
 
     override fun writeToParcel(parcel: Parcel, i: Int) {
         parcel.writeString(type)
-        parcel.writeSerializable(photo)
+        parcel.writeParcelable(photo, Parcelable.PARCELABLE_WRITE_RETURN_VALUE)
     }
 
     override fun toString() =
-        when (type) {
-            TYPE_PHOTO -> "$type${photo!!.ownerId}_${photo!!.id}"
-            TYPE_AUDIO -> "$type${audio!!.ownerId}_${audio!!.id}"
-            TYPE_VIDEO -> "$type${video!!.ownerId}_${video!!.id}"
-            TYPE_DOC -> "$type${doc!!.ownerId}_${doc!!.id}"
-            else -> ""
-        }
+            when (type) {
+                TYPE_PHOTO -> "$type${photo!!.ownerId}_${photo!!.id}"
+                TYPE_AUDIO -> "$type${audio!!.ownerId}_${audio!!.id}"
+                TYPE_VIDEO -> "$type${video!!.ownerId}_${video!!.id}"
+                TYPE_DOC -> "$type${doc!!.ownerId}_${doc!!.id}"
+                else -> ""
+            }
 
     class Sticker(val id: Int) {
         @SerializedName("product_id")

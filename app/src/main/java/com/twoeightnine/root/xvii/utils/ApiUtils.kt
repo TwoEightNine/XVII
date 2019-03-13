@@ -66,7 +66,7 @@ class ApiUtils @Inject constructor(val api: ApiService) {
                         showError(context, R.string.denied)
                     } else {
                         response.forEach {
-                            it.accessKey = accessKey
+                            it.accessKey = accessKey ?: ""
                         }
                         ImageViewerActivity.viewImages(context, response)
                     }
