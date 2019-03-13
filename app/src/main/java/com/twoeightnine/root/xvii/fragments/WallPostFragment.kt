@@ -89,9 +89,9 @@ class WallPostFragment : BaseFragment() {
                 when (att.type) {
 
                     Attachment.TYPE_PHOTO -> {
-                        val photo = att.photo
+                        val photo = att.photo ?: return
                         holder.llContainer.addView(getPhotoWall(
-                                photo!!,
+                                photo,
                                 rootActivity,
                                 { apiUtils.showPhoto(safeActivity, it.photoId, it.accessKey) }
                         ))

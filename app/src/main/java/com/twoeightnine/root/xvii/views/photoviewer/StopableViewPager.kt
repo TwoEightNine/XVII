@@ -8,7 +8,7 @@ import android.view.MotionEvent
 /**
  * Created by twoeightnine on 1/25/18.
  */
-class StopableViewPager : androidx.viewpager.widget.ViewPager {
+class StopableViewPager : ViewPager {
 
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
     constructor(context: Context) : super(context)
