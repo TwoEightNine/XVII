@@ -3,20 +3,15 @@ package com.twoeightnine.root.xvii.views.photoviewer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
-import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.app.AppCompatActivity
-import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_image_viewer.*
-import kotlinx.android.synthetic.main.fragment_chat.*
 import javax.inject.Inject
 
 class ImageViewerActivity : AppCompatActivity() {
@@ -48,8 +43,7 @@ class ImageViewerActivity : AppCompatActivity() {
         vpImage.currentItem = position
         initButtons()
         if (mode == MODE_ONE_PATH) {
-            rlBottom.hide()
-            rlTop.hide()
+            rlControls.hide()
         }
     }
 
@@ -98,8 +92,7 @@ class ImageViewerActivity : AppCompatActivity() {
     private fun onTap() {
         if (mode == MODE_ONE_PATH) return
 
-        rlTop.toggle()
-        rlBottom.toggle()
+        rlControls.toggle()
     }
 
     private fun getUrlList() = when (mode) {
