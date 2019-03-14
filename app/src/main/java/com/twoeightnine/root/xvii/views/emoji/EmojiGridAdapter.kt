@@ -26,7 +26,7 @@ class EmojiGridAdapter: SimpleAdapter<Emoji>() {
 
         fun bind(emoji: Emoji) {
             with(view) {
-                ivEmoji.load("file:///android_asset/emoji/${emoji.res}")
+                ivEmoji.load("file:///android_asset/emoji/${emoji.res}", placeholder = false)
             }
         }
 

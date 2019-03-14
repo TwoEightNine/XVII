@@ -130,12 +130,12 @@ object CacheHelper {
     }
 
     fun getUsersAsync(userIds: MutableList<Int>, callback: (Pair<MutableList<User>, String>) -> Unit) {
-        Flowable.fromCallable({ getUsers(userIds) })
+        Flowable.fromCallable { getUsers(userIds) }
                 .compose(applySchedulers())
-                .subscribe({
+                .subscribe {
                     lg("get users ${userIds.joinToString(separator = " ")}")
                     callback.invoke(it)
-                })
+                }
     }
 
     private fun getAllUsers(): HashMap<Int, User> {

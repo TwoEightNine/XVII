@@ -1,13 +1,12 @@
 package com.twoeightnine.root.xvii.dialogs.adapters
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
-import com.squareup.picasso.Picasso
+import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
@@ -15,7 +14,7 @@ import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.utils.EmojiHelper
 import com.twoeightnine.root.xvii.utils.getTime
-import de.hdodenhof.circleimageview.CircleImageView
+import com.twoeightnine.root.xvii.utils.load
 import kotlinx.android.synthetic.main.item_dialog.view.*
 
 open class DialogsAdapter(context: Context,
@@ -44,19 +43,8 @@ open class DialogsAdapter(context: Context,
 
         fun bind(message: Message) {
             with(itemView) {
-                val photo = message.photo
-                if (photo != null) {
-                    Picasso.get()
-                            .load(photo)
-                            .placeholder(R.drawable.placeholder)
-                            .error(R.drawable.placeholder)
-                            .into(civPhoto)
-                } else {
-                    Picasso //fixme what's wrong
-                            .get()
-                            .load(App.PHOTO_STUB)
-                            .into(civPhoto)
-                }
+
+                civPhoto.load(message.photo ?: App.PHOTO_STUB)
 
                 tvTitle.text = message.title
                 if (message.emoji == 1) {

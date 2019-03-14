@@ -35,12 +35,13 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
 
     var receiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, intent: Intent) {
-            onUpdate((intent.extras.getSerializable(NotificationsCore.RESULT) as LongPollResponse).updates ?: mutableListOf())
+            onUpdate((intent.extras.getSerializable(NotificationsCore.RESULT) as LongPollResponse).updates
+                    ?: mutableListOf())
         }
     }
 
     init {
-        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(NotificationsCore.NAME))
+        LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(NotificationsCore.NAME))
         App.appComponent?.inject(this)
     }
 
@@ -53,8 +54,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
         }
         this.withClear = withClear
         api.getDialogs(offset, COUNT_HISTORY)
-                .subscribeSmart({
-                    response ->
+                .subscribeSmart({ response ->
                     dialogsBuffer.clear()
                     response.items.map { dialogsBuffer.add(setCounters(it)) }
                     val userIds = getAllIds(dialogsBuffer, { isFromUser(it) })
@@ -65,20 +65,23 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
                         }
                     }
                     CacheHelper.saveUsersAsync(users.entries.map { it.value }.toMutableList())
-                    CacheHelper.getUsersAsync(userIds, {
-                        it.first.forEach {
-                            users.put(it.id, it)
+                    if (!isOnline()) {
+                        CacheHelper.getUsersAsync(userIds) {
+                            it.first.forEach {
+                                users.put(it.id, it)
+                            }
+                            setOffline()
+                            if (it.second.isNotEmpty() || it.first.isNotEmpty()) {
+                                loadUsers(it.second)
+                            } else {
+                                view?.onDialogsLoaded(mutableListOf())
+                            }
                         }
-                        setOffline()
-                        if (it.second.isNotEmpty() || it.first.isNotEmpty()) {
-                            loadUsers(it.second)
-                        } else {
-                            view?.onDialogsLoaded(mutableListOf())
-                        }
-                    })
+                    } else {
+                        loadUsers(userIds.joinToString(separator = ","))
+                    }
 
-                }, {
-                    error ->
+                }, { error ->
                     view?.showError(error)
                 })
     }
@@ -110,13 +113,11 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
             return
         }
         api.getUsers(userIds, User.FIELDS)
-                .subscribeSmart({
-                    response ->
+                .subscribeSmart({ response ->
                     CacheHelper.saveUsersAsync(response)
                     response.map { users.put(it.id, it) }
                     insertUsers()
-                }, {
-                    error ->
+                }, { error ->
                     view?.showError(error)
                 })
     }
@@ -124,16 +125,17 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
     fun insertUsers(cache: Boolean = false) {
         val newDialogs = MutableList(
                 dialogsBuffer.size,
-                {
-                    index -> dialogsBuffer
-                        .map {
-                            if (isFromUser(it))
-                                fillDialogUser(it)
-                            else if (isFromChat(it))
-                                fillDialogChat(it)
-                            else
-                                it
-                        }[index] }
+                { index ->
+                    dialogsBuffer
+                            .map {
+                                if (isFromUser(it))
+                                    fillDialogUser(it)
+                                else if (isFromChat(it))
+                                    fillDialogChat(it)
+                                else
+                                    it
+                            }[index]
+                }
         )
         val groupIds = getAllIds(dialogsBuffer, { isFromGroup(it) }, true)
         CacheHelper.getGroupsAsync(groupIds, {
@@ -160,8 +162,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
     }
 
     fun getAllIds(messages: MutableList<Message>,
-                  filter: (Message) -> Boolean, isGroup: Boolean = false)
-            = messages
+                  filter: (Message) -> Boolean, isGroup: Boolean = false) = messages
             .filter(filter)
             .map { it.userId * (if (isGroup) -1 else 1) }
             .toMutableList()
@@ -172,13 +173,11 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
             return
         }
         api.getGroups(groupIds)
-                .subscribeSmart({
-                    response ->
+                .subscribeSmart({ response ->
                     CacheHelper.saveGroupsAsync(response)
                     response.map { groups.put(it.id, it) }
                     insertGroups(cache)
-                }, {
-                    error ->
+                }, { error ->
                     view?.showError(error)
                 })
     }
@@ -196,8 +195,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
 
     fun loadGroup(event: LongPollEvent) {
         api.getGroups("${event.userId - 1000000000}")
-                .subscribeSmart({
-                    response ->
+                .subscribeSmart({ response ->
                     response.forEach {
                         groups.put(it.id, it)
                     }
@@ -213,8 +211,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
 
     fun loadUser(event: LongPollEvent) {
         api.getUsers("${event.userId}", User.FIELDS)
-                .subscribeSmart({
-                    response ->
+                .subscribeSmart({ response ->
                     response.forEach { users.put(it.id, it) }
                     CacheHelper.saveUsersAsync(response)
                     var message = getMessageFromLongPoll(event)
@@ -250,11 +247,9 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
             flowable = api.deleteDialogChat(dialog.chatId, COUNT_DELETE)
         }
         flowable
-                .subscribeSmart({
-                    _ ->
+                .subscribeSmart({ _ ->
                     view?.onRemoveDialog(position)
-                }, {
-                    error ->
+                }, { error ->
                     view?.showError(error)
                 })
     }
@@ -272,7 +267,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
                 LongPollEvent.READ_OUT -> view?.onMessageReadOut(event.userId, event.mid)
                 LongPollEvent.READ_IN -> view?.onMessageReadIn(event.userId, event.mid)
                 LongPollEvent.ONLINE -> view?.onOnlineChanged(event.userId, true)
-                LongPollEvent.OFFLINE-> view?.onOnlineChanged(event.userId, false)
+                LongPollEvent.OFFLINE -> view?.onOnlineChanged(event.userId, false)
                 LongPollEvent.NEW_MESSAGE -> view?.onMessageReceived(event)
             }
         }

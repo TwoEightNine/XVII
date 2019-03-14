@@ -22,7 +22,7 @@
     <color name="accent">#fff</color>
     <color name="shape">#222</color>
     <color name="selected_mess">#6333</color>
-    <color name="black_transparent">#4000</color>
+    <color name="black_transparent">#8000</color>
 
     <color name="toolbar_text">@color/main_text</color>
     <color name="toolbar_subtext">@color/other_text</color>

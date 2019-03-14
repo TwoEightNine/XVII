@@ -20,7 +20,7 @@
             android:id="@+id/rlTop"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="@drawable/shape_top">
+            android:background="@color/black_transparent">
 
             <TextView
                 android:id="@+id/tvPosition"
@@ -28,8 +28,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
+                android:fontFamily="sans-serif-light"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 tools:text="12/24" />
 
         </RelativeLayout>
@@ -39,8 +40,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/shape_overlay"
+            android:background="@color/black_transparent"
             android:orientation="horizontal"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:weightSum="2">
 
             <Button
@@ -48,26 +51,26 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="12dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/ic_add_to_photos"
+                android:fontFamily="sans-serif-light"
                 android:text="@string/add_to_saved"
                 android:textColor="@color/icons"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btnDownload"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="12dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/ic_download"
+                android:fontFamily="sans-serif-light"
                 android:text="@string/download"
                 android:textColor="@color/icons"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
