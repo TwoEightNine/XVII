@@ -46,7 +46,7 @@
     <string name="decrypted">DECRYPT: %s</string>
     <string name="unread100" translatable="false">99+</string>
     <string name="accounts">Accounts</string>
-    <string name="new_acc">Add new account..</string>
+    <string name="new_acc">Add an account..</string>
     <string name="rate">Rate</string>
     <string name="gallery">Gallery</string>
     <string name="delete">Delete</string>
