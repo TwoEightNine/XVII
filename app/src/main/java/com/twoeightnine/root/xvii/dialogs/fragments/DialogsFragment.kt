@@ -1,29 +1,23 @@
 package com.twoeightnine.root.xvii.dialogs.fragments
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.fragments.BaseFragment
-import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.LongPollEvent
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.DialogsFragmentView
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.RateAlertDialog
 import kotlinx.android.synthetic.main.fragment_dialogs.*
 import java.util.*
 import javax.inject.Inject
@@ -167,9 +161,7 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
 
     override fun onDialogsLoaded(dialogs: MutableList<Message>) {
         adapter.stopLoading(dialogs)
-        if (swipeRefresh.isRefreshing) {
-            swipeRefresh.isRefreshing = false
-        }
+        swipeRefresh?.isRefreshing = false
     }
 
     override fun onDialogsClear() {
