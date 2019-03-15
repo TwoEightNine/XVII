@@ -1,9 +1,9 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.provider.MediaStore
 import android.provider.MediaStore.MediaColumns
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
@@ -14,7 +14,8 @@ import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.ImageUtils
 import com.twoeightnine.root.xvii.utils.PermissionHelper
-import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.hide
+import com.twoeightnine.root.xvii.utils.show
 import kotlinx.android.synthetic.main.fragment_gallery.*
 import java.io.File
 
@@ -51,7 +52,7 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
         viewsBind = true
         ivRefresh.setOnClickListener { checkPermissions() }
         if (!permissionHelper.hasStoragePermissions()) {
-            ivRefresh.visibility = View.VISIBLE
+            ivRefresh.show()
         }
     }
 
@@ -89,19 +90,21 @@ class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected 
                 arrayOf(PermissionHelper.READ_STORAGE, PermissionHelper.WRITE_STORAGE),
                 R.string.no_access_to_storage,
                 R.string.need_access_to_storage) {
-            ivRefresh.visibility = View.GONE
+            ivRefresh.hide()
             initAdapter()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_CANCELED) return
+
         val path = imut.getPath(requestCode, data)
-        if (path != null) {
+        if (path != null && File(path).length() != 0L) {
             listener?.invoke(mutableListOf(path))
             adapter.clearMultiSelect()
         } else {
-            Lg.wtf("camera: path is null but request code is $requestCode and data = $data")
+            Lg.wtf("camera: path is empty but request code is $requestCode and data = $data")
         }
     }
 

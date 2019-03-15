@@ -1,46 +1,44 @@
 package com.twoeightnine.root.xvii.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import com.twoeightnine.root.xvii.R
 import kotlinx.android.synthetic.main.activity_video_viewer.*
 
-class VideoViewerActivity: AppCompatActivity() {
+class VideoViewerActivity : AppCompatActivity() {
 
     companion object {
 
-        fun launch(context: Context, url: String) {
-            val intent = Intent(context, VideoViewerActivity::class.java)
-            intent.putExtra(URL, url)
-            context.startActivity(intent)
+        fun launch(context: Context?, url: String) {
+            val intent = Intent(context, VideoViewerActivity::class.java).apply {
+                putExtra(URL, url)
+            }
+            context?.startActivity(intent)
         }
 
-        val URL = "url"
+        const val URL = "url"
     }
 
-    private lateinit var url: String
-
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_viewer)
-        if (intent.extras != null) {
-            url = intent.extras.getString(URL)
-        } else {
-            finish()
-        }
+        val url = intent?.extras?.getString(URL) ?: return
+
         webView.settings.javaScriptEnabled = true
-        webView.setWebViewClient(object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 // do your handling codes here, which url is the requested url
                 // probably you need to open that url rather than redirect:
                 view.loadUrl(url)
                 return false // then it is not handled by default action
             }
-        })
+        }
         webView.loadUrl(url)
     }
 

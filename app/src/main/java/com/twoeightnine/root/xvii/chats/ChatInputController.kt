@@ -5,40 +5,34 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
-import android.widget.*
+import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.emoji.Emoji
+import kotlinx.android.synthetic.main.chat_input_panel.view.*
 import kotlin.math.abs
 
 /**
  * Created by msnthrp on 17/01/18.
  */
-class ChatInputController(private val ivSend: ImageView,
-                          private val ivMic: ImageView,
-                          private val ivAttach: ImageView,
-                          private val pbAttach: ProgressBar,
-                          private val rlAttachCount: RelativeLayout,
-                          private val tvAttachCount: TextView,
-                          private val ivEmoji: ImageView,
-                          private val etInput: EditText,
-                          private val onEmojiClick: () -> Unit = {},
-                          private val onSendClick: () -> Unit = {},
-                          private val onMicPress: () -> Unit = {},
-                          private val onMicRelease: (Boolean) -> Unit = {},
-                          private val onAttachClick: () -> Unit = {},
-                          private val onTypingInvoke: () -> Unit = {}) {
+class ChatInputController(
+        private val rootView: View,
+        private val callback: ChatInputCallback
+) {
 
     private var attachedCount = 0
+    private var lastTypingInvocation = 0
     private val loadingQueue = arrayListOf<Any>()
 
     init {
-        ivSend.setOnClickListener { onSendClick.invoke() }
-        ivEmoji.setOnClickListener { onEmojiClick.invoke() }
-        ivAttach.setOnClickListener { onAttachClick.invoke() }
-        pbAttach.visibility = View.GONE
+        with(rootView) {
+            ivSend.setOnClickListener { callback.onSendClick() }
+            ivEmoji.setOnClickListener { callback.onEmojiClick() }
+            ivAttach.setOnClickListener { callback.onAttachClick() }
+            pbAttach.hide()
+            etInput.addTextChangedListener(ChatTextWatcher())
+            ivMic.setOnTouchListener(MicTouchListener())
+        }
         setAttachedCount(0)
 
-        etInput.addTextChangedListener(ChatTextWatcher())
-        ivMic.setOnTouchListener(MicTouchListener())
     }
 
     fun addItemAsBeingLoaded(item: Any) {
@@ -54,48 +48,48 @@ class ChatInputController(private val ivSend: ImageView,
     fun setAttachedCount(count: Int) {
         attachedCount = count
         if (count == 0) {
-            rlAttachCount.visibility = View.GONE
-            if (etInput.text.toString().isBlank()) {
+            rootView.rlAttachCount.visibility = View.GONE
+            if (rootView.etInput.asText().isBlank()) {
                 switchToMic()
             } else {
                 switchToSend()
             }
         } else {
-            rlAttachCount.visibility = View.VISIBLE
+            rootView.rlAttachCount.show()
             val text = if (count == 10) "+" else count.toString()
-            tvAttachCount.text = text
+            rootView.tvAttachCount.text = text
             switchToSend()
         }
     }
 
     fun addEmoji(emoji: Emoji) {
-        val start = etInput.selectionStart
-        val end = etInput.selectionEnd
+        val start = rootView.etInput.selectionStart
+        val end = rootView.etInput.selectionEnd
         if (start < 0) {
-            etInput.append(emoji.code)
+            rootView.etInput.append(emoji.code)
         } else {
-            etInput.text.replace(Math.min(start, end),
+            rootView.etInput.text?.replace(Math.min(start, end),
                     Math.max(start, end), emoji.code, 0,
                     emoji.code.length)
         }
     }
 
     private fun invalidateProgress() {
-        if (loadingQueue.isEmpty()) {
-            pbAttach.visibility = View.GONE
-        } else {
-            pbAttach.visibility = View.VISIBLE
-        }
+        rootView.pbAttach.setVisible(loadingQueue.isNotEmpty())
     }
 
     private fun switchToSend() {
-        ivSend.visibility = View.VISIBLE
-        ivMic.visibility = View.GONE
+        rootView.ivSend.show()
+        rootView.ivMic.hide()
     }
 
     private fun switchToMic() {
-        ivSend.visibility = View.GONE
-        ivMic.visibility = View.VISIBLE
+        rootView.ivSend.hide()
+        rootView.ivMic.show()
+    }
+
+    companion object {
+        const val TYPING_INVOCATION_DELAY = 5 // seconds
     }
 
     /**
@@ -105,7 +99,7 @@ class ChatInputController(private val ivSend: ImageView,
     private inner class MicTouchListener : View.OnTouchListener {
 
         private val cancelThreshold = 200
-        private val delayTimer = MicClickTimer { onMicPress() }
+        private val delayTimer = MicClickTimer { callback.onMicPress() }
 
         private var xPress = 0f
 
@@ -134,7 +128,7 @@ class ChatInputController(private val ivSend: ImageView,
 
         private fun stop(cancel: Boolean) {
             delayTimer.cancel()
-            onMicRelease(cancel)
+            callback.onMicRelease(cancel)
         }
 
         private fun shouldCancel(event: MotionEvent) = abs(xPress - event.x) > cancelThreshold
@@ -158,15 +152,30 @@ class ChatInputController(private val ivSend: ImageView,
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            if (s?.isBlank() ?: true && attachedCount == 0) {
+            val text = s ?: ""
+
+            if (text.isBlank() && attachedCount == 0) {
                 switchToMic()
             } else {
                 switchToSend()
             }
-            if ((s?.length ?: 0) % 10 == 3) {
-                onTypingInvoke.invoke()
+            if (time() - lastTypingInvocation > TYPING_INVOCATION_DELAY) {
+                callback.onTypingInvoke()
+                lastTypingInvocation = time()
             }
         }
+    }
+
+    /**
+     * for interacting with [ChatFragment]
+     */
+    interface ChatInputCallback {
+        fun onEmojiClick()
+        fun onSendClick()
+        fun onMicPress()
+        fun onMicRelease(cancelled: Boolean)
+        fun onAttachClick()
+        fun onTypingInvoke()
     }
 
 }

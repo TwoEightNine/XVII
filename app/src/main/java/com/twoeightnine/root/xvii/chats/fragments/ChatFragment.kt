@@ -1,6 +1,5 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -11,10 +10,11 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.AlphaAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
@@ -92,20 +92,19 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             return fragment
         }
 
-        const val REQUEST_PERMISSIONS = 3301
-
     }
 
     override fun getLayout() = R.layout.fragment_chat
 
     override fun bindViews(view: View) {
+        inputController = ChatInputController(view, InputCallback())
+        voiceController = VoiceRecorder(safeContext, VoiceCallback())
+        bottomSheet = BottomSheetController(rlBottom, rlHideBottom) { vpAttach.currentItem = 1 } // reset to gallery
         initAdapter()
-        initInput()
         initEmojiKb()
         initRefresh()
-        initBottomSheet()
-        initVoice()
         initMultiAction()
+
         App.appComponent?.inject(this)
         try {
             presenter.view = this
@@ -196,32 +195,14 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
         )
         adapter.trier = { loadMore(adapter.itemCount) }
         adapter.multiListener = this
-        val llm = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        val llm = LinearLayoutManager(activity)
         llm.stackFromEnd = true
         rvChatList.layoutManager = llm
         rvChatList.adapter = adapter
         rvChatList.itemAnimator = null
 
         fabHasMore.setOnClickListener { rvChatList.scrollToPosition(adapter.itemCount - 1) }
-        rvChatList.setOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                if (fabHasMore.visibility != View.VISIBLE &&
-                        adapter.lastVisiblePosition() != adapter.itemCount - 1) {
-                    fabHasMore.visibility = View.VISIBLE
-                    val alpha = AlphaAnimation(0f, 1f)
-                    alpha.duration = 200
-                    fabHasMore.startAnimation(alpha)
-                } else if (fabHasMore.visibility != View.INVISIBLE
-                        && adapter.lastVisiblePosition() == adapter.itemCount - 1) {
-                    val alpha = AlphaAnimation(1f, 0f)
-                    alpha.duration = 200
-                    fabHasMore.startAnimation(alpha)
-                    fabHasMore.visibility = View.INVISIBLE
-                }
-            }
-        })
+        rvChatList.setOnScrollListener(ListScrollListener())
     }
 
     private fun initPager() {
@@ -241,71 +222,13 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     private fun initEmojiKb() {
         emojiKeyboard = EmojiKeyboard(flContainer, safeActivity, inputController::addEmoji)
         emojiKeyboard.setSizeForSoftKeyboard()
-        emojiKeyboard.onSoftKeyboardOpenCloseListener =
-                object : EmojiKeyboard.OnSoftKeyboardOpenCloseListener {
-                    override fun onKeyboardOpen(keyBoardHeight: Int) {}
-
-                    override fun onKeyboardClose() {
-                        if (emojiKeyboard.isShowing) {
-                            emojiKeyboard.dismiss()
-                        }
-                    }
-                }
+        emojiKeyboard.onSoftKeyboardOpenCloseListener = EmojiListener()
     }
 
     private fun initRefresh() {
         swipeContainer.direction = SwipyRefreshLayoutDirection.BOTTOM
         swipeContainer.setOnRefreshListener { presenter.loadHistory(withClear = true) }
         swipeContainer.setDistanceToTriggerSync(50)
-    }
-
-    private fun initBottomSheet() {
-        bottomSheet = BottomSheetController(rlBottom, rlHideBottom) { vpAttach.currentItem = 1 } // reset to gallery
-    }
-
-    private fun initVoice() {
-        voiceController = VoiceRecorder(safeContext, object : VoiceRecorder.RecorderCallback {
-            override fun onVisibilityChanged(visible: Boolean) {
-                rlRecord.visibility = if (visible) View.VISIBLE else View.GONE
-            }
-
-            override fun onTimeUpdated(time: Int) {
-                tvRecord.text = secToTime(time)
-                if (time % 5 == 1) {
-                    presenter.setAudioMessaging()
-                }
-            }
-
-            override fun onRecorded(fileName: String) {
-                inputController.addItemAsBeingLoaded(fileName)
-                presenter.attachVoice(fileName)
-            }
-
-            override fun onError(error: String) {
-                showError(context, error)
-            }
-        })
-    }
-
-    private fun initInput() {
-        inputController = ChatInputController(
-                ivSend, ivMic, ivAttach, pbAttach, rlAttachCount,
-                tvAttachCount, ivEmoji, etInput,
-                { onEmojiClicked() },
-                { onSend(etInput.text.toString()) },
-                {
-                    permissionHelper.doOrRequest(
-                            PermissionHelper.RECORD_AUDIO,
-                            R.string.no_access_to_mic,
-                            R.string.need_access_to_mic
-                    ) {
-                        voiceController.startRecording()
-                    }
-                },
-                { voiceController.stopRecording(it) },
-                { bottomSheet.open() },
-                { presenter.setTyping() }
-        )
     }
 
     private fun initMultiAction() {
@@ -439,11 +362,11 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     override fun onNonEmpty() {
-        rlMultiAction.visibility = View.VISIBLE
+        rlMultiAction.show()
     }
 
     override fun onEmpty() {
-        rlMultiAction.visibility = View.GONE
+        rlMultiAction.hide()
     }
 
     private fun decrypt(mids: MutableList<Int>) {
@@ -451,23 +374,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                 .filter { it.id in mids }
                 .forEach { it.body = getDecrypted(it.body) }
         adapter.notifyDataSetChanged()
-    }
-
-    private fun onEmojiClicked() {
-        if (!emojiKeyboard.isShowing) {
-            if (emojiKeyboard.isKeyBoardOpen) {
-                emojiKeyboard.showAtBottom()
-            } else {
-                etInput.isFocusableInTouchMode = true
-                etInput.requestFocus()
-                val inputMethodManager = safeContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.showSoftInput(etInput, InputMethodManager
-                        .SHOW_IMPLICIT)
-                emojiKeyboard.showAtBottomPending()
-            }
-        } else {
-            emojiKeyboard.dismiss()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -554,21 +460,6 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             presenter.send(text)
             etInput.setText("")
         }
-    }
-
-    private fun showPermissionDialog() {
-        val dialog = AlertDialog.Builder(safeActivity)
-                .setMessage(R.string.permissions_info)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    requestPermissions(arrayOf(
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.RECORD_AUDIO
-                    ), REQUEST_PERMISSIONS)
-                }
-                .create()
-        dialog.show()
-        Style.forDialog(dialog)
     }
 
     private fun onAttachmentsSelected(attachments: MutableList<Attachment>) {
@@ -679,21 +570,21 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     }
 
     override fun onShowTyping() {
-        rlTyping?.visibility = View.VISIBLE
+        rlTyping?.show()
         handler.postDelayed({ onHideTyping() }, 4800L)
     }
 
     override fun onHideTyping() {
-        rlTyping?.visibility = View.INVISIBLE
+        rlTyping?.hide()
     }
 
     override fun onShowRecordingVoice() {
-        rlRecordingVoice?.visibility = View.VISIBLE
+        rlRecordingVoice?.show()
         handler.postDelayed({ onHideRecordingVoice() }, 4800L)
     }
 
     override fun onHideRecordingVoice() {
-        rlRecordingVoice?.visibility = View.INVISIBLE
+        rlRecordingVoice?.hide()
     }
 
     override fun onChangeOnline(isOnline: Boolean) {
@@ -797,5 +688,98 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
             return true
         }
         return false
+    }
+
+    private inner class VoiceCallback : VoiceRecorder.RecorderCallback {
+        override fun onVisibilityChanged(visible: Boolean) {
+            rlRecord.visibility = if (visible) View.VISIBLE else View.GONE
+        }
+
+        override fun onTimeUpdated(time: Int) {
+            tvRecord.text = secToTime(time)
+            if (time % 5 == 1) {
+                presenter.setAudioMessaging()
+            }
+        }
+
+        override fun onRecorded(fileName: String) {
+            inputController.addItemAsBeingLoaded(fileName)
+            presenter.attachVoice(fileName)
+        }
+
+        override fun onError(error: String) {
+            showError(context, error)
+        }
+    }
+
+    private inner class InputCallback : ChatInputController.ChatInputCallback {
+
+        override fun onEmojiClick() {
+            if (!emojiKeyboard.isShowing) {
+                if (emojiKeyboard.isKeyBoardOpen) {
+                    emojiKeyboard.showAtBottom()
+                } else {
+                    etInput.isFocusableInTouchMode = true
+                    etInput.requestFocus()
+                    val inputMethodManager = safeContext
+                            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.showSoftInput(etInput, InputMethodManager
+                            .SHOW_IMPLICIT)
+                    emojiKeyboard.showAtBottomPending()
+                }
+            } else {
+                emojiKeyboard.dismiss()
+            }
+        }
+
+        override fun onSendClick() {
+            onSend(etInput.asText())
+        }
+
+        override fun onMicPress() {
+            permissionHelper.doOrRequest(
+                    PermissionHelper.RECORD_AUDIO,
+                    R.string.no_access_to_mic,
+                    R.string.need_access_to_mic
+            ) {
+                voiceController.startRecording()
+            }
+        }
+
+        override fun onMicRelease(cancelled: Boolean) {
+            voiceController.stopRecording(cancelled)
+        }
+
+        override fun onAttachClick() {
+            bottomSheet.open()
+        }
+
+        override fun onTypingInvoke() {
+            presenter.setTyping()
+        }
+    }
+
+    private inner class EmojiListener : EmojiKeyboard.OnSoftKeyboardOpenCloseListener {
+        override fun onKeyboardOpen(keyBoardHeight: Int) {}
+
+        override fun onKeyboardClose() {
+            if (emojiKeyboard.isShowing) {
+                emojiKeyboard.dismiss()
+            }
+        }
+    }
+
+    private inner class ListScrollListener : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            if (fabHasMore.visibility != View.VISIBLE &&
+                    adapter.lastVisiblePosition() != adapter.itemCount - 1) {
+                fabHasMore.show()
+            } else if (fabHasMore.visibility != View.INVISIBLE
+                    && adapter.lastVisiblePosition() == adapter.itemCount - 1) {
+                fabHasMore.hide()
+            }
+        }
     }
 }

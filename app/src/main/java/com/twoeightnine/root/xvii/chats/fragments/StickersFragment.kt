@@ -1,6 +1,7 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.Titleable
 import com.twoeightnine.root.xvii.chats.adapters.StickerCatAdapter
@@ -42,7 +43,7 @@ class StickersFragment : BaseFragment(), Titleable {
         adapter = StickerCatAdapter(safeActivity) { pack ->
             loadFragment(StickerGridFragment.newInstance(pack, listener))
         }
-        rvStickers.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
+        rvStickers.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         fillPack()
         rvStickers.adapter = adapter
     }

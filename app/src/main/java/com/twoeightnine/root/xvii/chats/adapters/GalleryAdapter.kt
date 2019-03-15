@@ -6,6 +6,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
 import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.setVisible
 import kotlinx.android.synthetic.main.item_gallery.view.*
 
 class GalleryAdapter(loader: ((Int) -> Unit)?,
@@ -42,11 +43,7 @@ class GalleryAdapter(loader: ((Int) -> Unit)?,
                                 .centerCrop()
                     }
                 }
-                if (path in multiSelectRaw) {
-                    ivCheck.visibility = View.VISIBLE
-                } else {
-                    ivCheck.visibility = View.GONE
-                }
+                ivCheck.setVisible(path in multiSelectRaw)
             }
         }
 
