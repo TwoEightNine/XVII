@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.background.notifications
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -8,12 +9,15 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.RingtoneManager
+import android.os.*
+import android.text.Html
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import android.text.Html
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
+import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.RootActivity
+import com.twoeightnine.root.xvii.background.notifications.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -28,10 +32,6 @@ import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.realm.Realm
 import javax.inject.Inject
-import android.app.NotificationChannel
-import android.os.*
-import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.notifications.receivers.MarkAsReadBroadcastReceiver
 
 
 class NotificationsCore(private val context: Context) {
@@ -254,7 +254,7 @@ class NotificationsCore(private val context: Context) {
                 val content = if (showContent) {
                     event.message
                 } else {
-                    context.getString(R.string.content_hidden)
+                    context.getString(R.string.hidden_message)
                 }
 
                 try {

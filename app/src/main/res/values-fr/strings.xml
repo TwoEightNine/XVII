@@ -125,7 +125,7 @@
     <string name="no_exchg_in_chats">L\'échange des clés n\'est pas disponible dans ce chat</string>
     <string name="encryption">Chiffrement</string>
     <string name="restart_app">On rédemarre l\'app..</string>
-    <string name="content_hidden">Contenu caché</string>
+    <string name="hidden_message">Message</string>
     <string name="shared">Partagé avec succès</string>
     <string name="cannot_create_chat">Pas disponible de creater un chat</string>
     <string name="chat_created">Creaté avec succès</string>

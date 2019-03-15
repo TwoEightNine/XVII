@@ -132,7 +132,7 @@
     <string name="no_exchg_in_chats">Key exchange is not available in this chat</string>
     <string name="encryption">Encryption</string>
     <string name="restart_app">Restarting app..</string>
-    <string name="content_hidden">Content hidden</string>
+    <string name="hidden_message">Message</string>
     <string name="shared">Shared successfully</string>
     <string name="cannot_create_chat">Cannot create chat</string>
     <string name="chat_created">Created successfully</string>

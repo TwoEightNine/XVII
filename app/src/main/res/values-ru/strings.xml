@@ -29,7 +29,7 @@
     <string name="city">Город</string>
     <string name="community">сообщество</string>
     <string name="confirm_pin">Подтвердите PIN</string>
-    <string name="content_hidden">Содержимое скрыто</string>
+    <string name="hidden_message">Сообщение</string>
     <string name="conversation">беседа</string>
     <string name="copied">%s в буфере обмена</string>
     <string name="copy">Копировать</string>

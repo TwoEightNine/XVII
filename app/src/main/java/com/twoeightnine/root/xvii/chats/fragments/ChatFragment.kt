@@ -5,23 +5,16 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+import android.widget.RelativeLayout
+import androidx.appcompat.app.AlertDialog
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
@@ -50,7 +43,6 @@ import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.FingerPrintAlertDialog
 import com.twoeightnine.root.xvii.views.LoadingDialog
-import com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import com.twoeightnine.root.xvii.views.emoji.EmojiKeyboard
 import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
@@ -640,7 +632,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
     override fun showError(error: String) {
         adapter.setErrorLoading()
         showError(activity, error)
-        swipeContainer.isRefreshing = false
+        swipeContainer?.isRefreshing = false
         Lg.wtf("in chat error: $error")
     }
 
@@ -663,7 +655,7 @@ class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelect
                     break
                 }
             }
-            rvChatList.scrollToPosition(unreadPos)
+            rvChatList?.scrollToPosition(unreadPos)
         }
     }
 
