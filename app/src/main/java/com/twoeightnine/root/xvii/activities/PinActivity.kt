@@ -3,11 +3,11 @@ package com.twoeightnine.root.xvii.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import android.util.AndroidRuntimeException
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style

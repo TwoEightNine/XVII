@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.model
 
 import com.google.gson.Gson
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.utils.getPeerId
 
 /**

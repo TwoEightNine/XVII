@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.views.photoviewer
 import android.app.Activity
 import android.content.Context
 import android.graphics.BitmapFactory
-import androidx.viewpager.widget.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import android.widget.RelativeLayout
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.managers.Lg
 
 class FullScreenImageAdapter(private val activity: Activity,
                              private val urls: ArrayList<String>,

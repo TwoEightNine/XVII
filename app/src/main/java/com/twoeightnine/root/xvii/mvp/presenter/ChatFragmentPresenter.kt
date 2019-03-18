@@ -7,7 +7,7 @@ import android.text.TextUtils
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.*

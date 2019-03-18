@@ -1,9 +1,7 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.annotation.SuppressLint
-import com.twoeightnine.root.xvii.managers.Lg
-import java.lang.Exception
-import java.text.DateFormat
+import com.twoeightnine.root.xvii.lg.Lg
 import java.text.SimpleDateFormat
 import java.util.*
 

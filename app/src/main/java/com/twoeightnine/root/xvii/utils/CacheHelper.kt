@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.util.Log
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.*
 import io.reactivex.Flowable
 import io.realm.Realm

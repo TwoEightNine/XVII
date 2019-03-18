@@ -4,7 +4,7 @@ import android.content.Context
 import android.media.MediaRecorder
 import android.os.CountDownTimer
 import android.os.Vibrator
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import java.io.File
 import java.io.IOException
 

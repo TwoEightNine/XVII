@@ -19,7 +19,7 @@
 //import com.twoeightnine.root.xvii.activities.RootActivity
 //import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 //import com.twoeightnine.root.xvii.dagger.ApiService
-//import com.twoeightnine.root.xvii.managers.Lg
+//import com.twoeightnine.root.xvii.lg.Lg
 //import com.twoeightnine.root.xvii.managers.Prefs
 //import com.twoeightnine.root.xvii.managers.Session
 //import com.twoeightnine.root.xvii.model.LongPollEvent

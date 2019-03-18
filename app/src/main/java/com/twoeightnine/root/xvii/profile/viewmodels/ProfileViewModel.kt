@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.subscribeSmart

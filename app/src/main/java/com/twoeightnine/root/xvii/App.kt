@@ -5,10 +5,8 @@ import android.content.Context
 import com.twoeightnine.root.xvii.dagger.AppComponent
 import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
-import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
-import com.twoeightnine.root.xvii.utils.md5
 import io.realm.Realm
 import io.realm.RealmConfiguration
 

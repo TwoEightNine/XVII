@@ -5,15 +5,13 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.VideoViewerActivity
 import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Video
 import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class ApiUtils @Inject constructor(val api: ApiService) {
 

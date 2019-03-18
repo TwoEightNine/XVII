@@ -11,7 +11,7 @@ import com.twoeightnine.root.xvii.activities.TestLandscapeActivity
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.fragments.WebFragment
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
@@ -80,7 +80,7 @@ class AboutFragment : BaseOldFragment() {
     }
 
     private fun showLogDialog() {
-        val logs = Lg.logs.joinToString(separator = "\n")
+        val logs = Lg.getEvents()
         val dialog = AlertDialog.Builder(safeActivity)
                 .setMessage(logs)
                 .setPositiveButton("copy", { _, _ -> copyToClip(logs)})

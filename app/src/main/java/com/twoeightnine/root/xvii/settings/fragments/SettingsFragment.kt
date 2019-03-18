@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style

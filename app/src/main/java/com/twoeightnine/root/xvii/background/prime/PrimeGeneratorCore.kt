@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.background.prime
 
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.KeyStorage
-import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.getTime
 import com.twoeightnine.root.xvii.utils.time

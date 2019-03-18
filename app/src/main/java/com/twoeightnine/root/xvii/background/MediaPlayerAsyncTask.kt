@@ -4,7 +4,7 @@ import android.media.MediaPlayer
 import android.os.AsyncTask
 import android.os.SystemClock
 import com.twoeightnine.root.xvii.BuildConfig
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import java.io.IOException
 

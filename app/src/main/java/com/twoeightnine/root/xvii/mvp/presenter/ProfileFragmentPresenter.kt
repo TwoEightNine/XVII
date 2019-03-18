@@ -1,8 +1,7 @@
 package com.twoeightnine.root.xvii.mvp.presenter
 
 import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.managers.Lg
-import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.mvp.BasePresenter

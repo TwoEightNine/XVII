@@ -1,9 +1,8 @@
 package com.twoeightnine.root.xvii.utils.crypto
 
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.KeyStorage
-import com.twoeightnine.root.xvii.managers.Lg
 import java.math.BigInteger
-import java.security.SecureRandom
 import java.util.*
 
 class DiffieHellman(generate: Boolean = true) {

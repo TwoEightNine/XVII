@@ -10,7 +10,7 @@ import com.twoeightnine.root.xvii.adapters.SimpleAdapter
 import com.twoeightnine.root.xvii.chats.Titleable
 import com.twoeightnine.root.xvii.chats.adapters.GalleryAdapter
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.ImageUtils
 import com.twoeightnine.root.xvii.utils.PermissionHelper

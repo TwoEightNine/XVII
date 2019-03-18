@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Build
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.activities.ExceptionActivity
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -21,10 +21,8 @@ class ExceptionHandler(private var context: Context): Thread.UncaughtExceptionHa
                 .append("CAUSE OF ERROR:\n")
                 .append(stackTrace.toString())
                 .append("\nLOGS:\n")
-        
-        val logs = Lg.logs
-        val start = if (logs.size < 60) 0 else logs.size - 60
-        errorReport.append(logs.subList(start, logs.size).joinToString(separator = "\n"))
+
+        errorReport.append(Lg.getEvents(COUNT))
                 .append("\n\nDEVICE INFORMATION:\n")
                 .append("RAM: ")
                 .append(getTotalRAM())
@@ -55,5 +53,6 @@ class ExceptionHandler(private var context: Context): Thread.UncaughtExceptionHa
 
     companion object {
         const val LINE = "\n"
+        const val COUNT = 60
     }
 }

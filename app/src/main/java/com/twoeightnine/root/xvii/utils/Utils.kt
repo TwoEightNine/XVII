@@ -38,7 +38,7 @@ import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIn
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorService
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.User

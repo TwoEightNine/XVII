@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.utils
 import android.os.AsyncTask
 import android.os.Environment
 import com.twoeightnine.root.xvii.BuildConfig
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import java.io.File
 import java.io.FileOutputStream
 import java.net.HttpURLConnection

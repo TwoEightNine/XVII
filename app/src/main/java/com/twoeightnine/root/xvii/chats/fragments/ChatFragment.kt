@@ -31,7 +31,7 @@ import com.twoeightnine.root.xvii.chats.fragments.attach.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attachments.AttachmentsFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogFwFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
-import com.twoeightnine.root.xvii.managers.Lg
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Attachment
