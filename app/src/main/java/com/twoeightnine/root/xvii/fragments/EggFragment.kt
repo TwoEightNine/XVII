@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_egg.*
  * Created by chuck palahniuk on 8/18/17.
  */
 
-class EggFragment: BaseFragment() {
+class EggFragment: BaseOldFragment() {
 
     override fun bindViews(view: View) {
         super.bindViews(view)

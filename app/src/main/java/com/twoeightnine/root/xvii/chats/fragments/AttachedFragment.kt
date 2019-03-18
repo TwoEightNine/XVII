@@ -4,14 +4,14 @@ import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.attachments.AttachmentsAdapter
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.utils.ApiUtils
 import com.twoeightnine.root.xvii.utils.AttachUtils
 import kotlinx.android.synthetic.main.fragment_attached.*
 import javax.inject.Inject
 
-class AttachedFragment: BaseFragment() {
+class AttachedFragment: BaseOldFragment() {
 
     companion object {
         fun newInstance(attachUtils: AttachUtils): AttachedFragment {

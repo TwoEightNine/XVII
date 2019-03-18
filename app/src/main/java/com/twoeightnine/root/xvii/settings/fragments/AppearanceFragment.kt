@@ -1,20 +1,19 @@
 package com.twoeightnine.root.xvii.settings.fragments
 
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.squareup.picasso.Picasso
-import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.fragments.GalleryFragment
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import kotlinx.android.synthetic.main.fragment_appearance.*
 
-class AppearanceFragment : BaseFragment() {
+class AppearanceFragment : BaseOldFragment() {
 
     private lateinit var imut: ImageUtils
     private lateinit var bottomSheetHelper: BottomSheetHelper

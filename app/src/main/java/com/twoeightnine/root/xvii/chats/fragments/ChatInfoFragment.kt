@@ -1,15 +1,13 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.friends.adapters.UsersAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
@@ -19,11 +17,10 @@ import com.twoeightnine.root.xvii.mvp.view.ChatInfoFragmentView
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.showCommon
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_chat_info.*
 import javax.inject.Inject
 
-class ChatInfoFragment: BaseFragment(), ChatInfoFragmentView {
+class ChatInfoFragment: BaseOldFragment(), ChatInfoFragmentView {
 
     companion object {
         fun newInstance(message: Message): ChatInfoFragment {

@@ -76,7 +76,7 @@ data class User(
 
         @SerializedName("last_seen")
         @Expose
-        val lastSeen: LastSeen? = null,
+        var lastSeen: LastSeen? = null,
 
         @SerializedName("counters")
         @Expose

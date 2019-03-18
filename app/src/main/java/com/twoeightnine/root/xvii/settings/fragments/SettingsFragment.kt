@@ -1,14 +1,14 @@
 package com.twoeightnine.root.xvii.settings.fragments
 
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.PinActivity
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
@@ -22,7 +22,7 @@ import com.twoeightnine.root.xvii.views.RateAlertDialog
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_settings.*
 
-class SettingsFragment : BaseFragment() {
+class SettingsFragment : BaseOldFragment() {
 
     companion object {
         fun newInstance() = SettingsFragment()

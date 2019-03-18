@@ -11,7 +11,7 @@ import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEv
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_dialogs.*
 import java.util.*
 import javax.inject.Inject
 
-open class DialogsFragment : BaseFragment(), DialogsFragmentView {
+open class DialogsFragment : BaseOldFragment(), DialogsFragmentView {
 
     companion object {
         fun newInstance(isForwarded: Boolean = false): DialogsFragment {

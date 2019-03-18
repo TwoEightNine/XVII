@@ -1,19 +1,16 @@
 package com.twoeightnine.root.xvii.chats.fragments.attachments
 
 import android.os.Bundle
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.views.LoaderView
 import kotlinx.android.synthetic.main.fragment_attachments_history.*
 
-class AttachmentsFragment: BaseFragment() {
+class AttachmentsFragment: BaseOldFragment() {
 
     lateinit var adapter: CommonPagerAdapter
 

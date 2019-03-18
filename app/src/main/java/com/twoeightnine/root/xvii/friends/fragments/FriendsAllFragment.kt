@@ -1,18 +1,15 @@
 package com.twoeightnine.root.xvii.friends.fragments
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.friends.adapters.UsersAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import kotlinx.android.synthetic.main.fragment_friends_advanced.*
 
-class FriendsAllFragment: BaseFragment(), BaseAdapter.OnMultiSelected {
+class FriendsAllFragment: BaseOldFragment(), BaseAdapter.OnMultiSelected {
 
     companion object {
 

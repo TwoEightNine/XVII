@@ -9,7 +9,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
 import com.twoeightnine.root.xvii.chats.Titleable
 import com.twoeightnine.root.xvii.chats.adapters.GalleryAdapter
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.ImageUtils
@@ -19,7 +19,7 @@ import com.twoeightnine.root.xvii.utils.show
 import kotlinx.android.synthetic.main.fragment_gallery.*
 import java.io.File
 
-class GalleryFragment: BaseFragment(), Titleable, SimpleAdapter.OnMultiSelected {
+class GalleryFragment: BaseOldFragment(), Titleable, SimpleAdapter.OnMultiSelected {
 
     companion object {
         fun newInstance(listener: ((MutableList<String>) -> Unit)?, fromSettings: Boolean = false): GalleryFragment {

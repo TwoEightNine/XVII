@@ -5,13 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.Titleable
 import com.twoeightnine.root.xvii.chats.adapters.StickerCatAdapter
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.StickerPack
 import kotlinx.android.synthetic.main.fragment_stickers.*
 
-class StickersFragment : BaseFragment(), Titleable {
+class StickersFragment : BaseOldFragment(), Titleable {
 
     companion object {
         fun newInstance(listener: ((Attachment.Sticker) -> Unit)?): StickersFragment {

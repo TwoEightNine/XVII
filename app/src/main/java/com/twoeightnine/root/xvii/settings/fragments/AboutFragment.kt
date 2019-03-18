@@ -2,14 +2,14 @@ package com.twoeightnine.root.xvii.settings.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.TestLandscapeActivity
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.fragments.WebFragment
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Session
@@ -23,7 +23,7 @@ import javax.inject.Inject
  * Created by root on 2/2/17.
  */
 
-class AboutFragment : BaseFragment() {
+class AboutFragment : BaseOldFragment() {
 
     private lateinit var crashTest: String
 

@@ -9,7 +9,7 @@ import android.webkit.WebViewClient
 import com.twoeightnine.root.xvii.R
 import kotlinx.android.synthetic.main.fragment_web.*
 
-class WebFragment : BaseFragment() {
+class WebFragment : BaseOldFragment() {
 
     companion object {
 

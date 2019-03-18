@@ -1,8 +1,6 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -10,7 +8,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogFwFragment
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.ImportantFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.ImportantFragmentView
@@ -19,7 +17,7 @@ import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_important.*
 import javax.inject.Inject
 
-class ImportantFragment: BaseFragment(), ImportantFragmentView {
+class ImportantFragment: BaseOldFragment(), ImportantFragmentView {
 
     @Inject
     lateinit var presenter: ImportantFragmentPresenter

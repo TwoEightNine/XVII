@@ -30,7 +30,7 @@ import com.twoeightnine.root.xvii.chats.fragments.attach.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attachments.AttachmentsFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogFwFragment
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
@@ -51,7 +51,7 @@ import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
-class ChatFragment : BaseFragment(), ChatFragmentView, BaseAdapter.OnMultiSelected {
+class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSelected {
 
     private lateinit var message: Message
 

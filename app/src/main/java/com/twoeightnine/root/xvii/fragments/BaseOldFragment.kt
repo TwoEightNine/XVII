@@ -2,20 +2,18 @@ package com.twoeightnine.root.xvii.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.annotation.Nullable
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.core.content.ContextCompat
-import androidx.appcompat.widget.Toolbar
-import android.view.*
+import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.managers.Style
 import kotlinx.android.synthetic.main.toolbar.*
 
-open class BaseFragment: androidx.fragment.app.Fragment() {
+open class BaseOldFragment: Fragment() {
 
     private var isNew = false
     private var isSearchOpen = false

@@ -1,11 +1,11 @@
 package com.twoeightnine.root.xvii.fragments
 
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.content_wall_post.view.*
 import kotlinx.android.synthetic.main.fragment_wall_post.*
 import javax.inject.Inject
 
-class WallPostFragment : BaseFragment() {
+class WallPostFragment : BaseOldFragment() {
 
     companion object {
 

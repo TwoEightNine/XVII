@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.chats.fragments
 import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.StickerAdapter
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.StickerPack
@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_sticker_grid.*
  * Created by root on 3/7/17.
  */
 
-class StickerGridFragment : BaseFragment() {
+class StickerGridFragment : BaseOldFragment() {
 
     companion object {
 

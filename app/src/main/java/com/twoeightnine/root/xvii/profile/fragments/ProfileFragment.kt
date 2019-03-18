@@ -1,56 +1,45 @@
 package com.twoeightnine.root.xvii.profile.fragments
 
 import android.graphics.Color
-import androidx.annotation.StringRes
+import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.activities.RootActivity
+import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
-import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
-import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.mvp.presenter.ProfileFragmentPresenter
-import com.twoeightnine.root.xvii.mvp.view.ProfileFragmentView
+import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.profile.viewmodels.ProfileViewModel
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.item_user_field.view.*
 import javax.inject.Inject
 
-class ProfileFragment : BaseFragment(), ProfileFragmentView {
-
-    private var userId = 0
+class ProfileFragment : BaseFragment() {
 
     @Inject
-    lateinit var api: ApiService
+    lateinit var viewModelFactory: ProfileViewModel.Factory
+    private lateinit var viewModel: ProfileViewModel
 
-    private lateinit var presenter: ProfileFragmentPresenter
+    private val userId by lazy { arguments?.getInt(ARG_USER_ID) ?: 0 }
 
-    companion object {
+    override fun getLayoutId() = R.layout.fragment_profile
 
-        fun newInstance(userId: Int): ProfileFragment {
-            val fragment = ProfileFragment()
-            fragment.userId = userId
-            return fragment
-        }
-
-    }
-
-    override fun bindViews(view: View) {
-        super.bindViews(view)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         stylize()
-    }
-
-    override fun onNew(view: View) {
-        super.onNew(view)
         App.appComponent?.inject(this)
-        presenter = ProfileFragmentPresenter(api, userId)
-        presenter.view = this
-        presenter.loadUser()
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[ProfileViewModel::class.java]
+        viewModel.getUser().observe(this, Observer { updateUser(it) })
+        viewModel.getFoaf().observe(this, Observer { updateFoaf(it) })
+        viewModel.loadUser(userId)
     }
 
     private fun stylize() {
@@ -63,35 +52,31 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
         }
     }
 
-    override fun getLayout() = R.layout.fragment_profile
-
-    override fun showLoading() {
-        loader.visibility = View.VISIBLE
+    private fun updateUser(data: Wrapper<User>) {
+        if (data.data != null) {
+            bindUser(data.data)
+        } else {
+            showError(context, data.error ?: getString(R.string.error))
+        }
     }
 
-    override fun hideLoading() {
-        loader.visibility = View.INVISIBLE
+    //    override fun onPhotosLoaded(photos: ArrayList<Photo>) {
+//        ImageViewerActivity.viewImages(safeActivity, photos)
+//    }
+//
+    private fun updateFoaf(data: Wrapper<String>) {
+        if (data.data != null) {
+            add(R.string.registration_date, formatDate(data.data).toLowerCase())
+        }
     }
 
-    override fun showError(error: String) {
-        showError(activity, error)
-    }
-
-    override fun onPhotosLoaded(photos: ArrayList<Photo>) {
-        ImageViewerActivity.viewImages(safeActivity, photos)
-    }
-
-    override fun onFoafLoaded(date: String) {
-        add(R.string.registration_date, formatDate(date).toLowerCase())
-    }
-
-    override fun onUserLoaded(user: User) {
+    private fun bindUser(user: User) {
         CacheHelper.saveUserAsync(user)
         civPhoto.load(user.photoMax)
-        civPhoto.setOnClickListener { presenter.loadProfilePhotos() }
+//        civPhoto.setOnClickListener { viewModel.loadProfilePhotos() }
         tvName.text = user.fullName
         rlChat.setOnClickListener {
-            rootActivity.loadFragment(ChatFragment.newInstance(Message(
+            (activity as? RootActivity)?.loadFragment(ChatFragment.newInstance(Message(
                     0, 0, userId, 0, 0, user.fullName, "", null
             )))
         }
@@ -99,7 +84,7 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
         tvLastSeen.text = getString(R.string.last_seen, getTime(user.lastSeen?.time
                 ?: 0, full = true))
         ivOnline.visibility = if ((user.online ?: 0) == 1) View.VISIBLE else View.GONE
-        add(R.string.link, user.link, { /*goTo(user.getLink())*/ }) { copy(user.link, R.string.link) }
+        add(R.string.link, user.link, { goTo(user.link) }) { copy(user.link, R.string.link) }
         add(R.string.id, "${user.id}", null) { copy("${user.id}", R.string.id) }
         add(R.string.status, user.status, null) { copy(user.status, R.string.status) }
         add(R.string.bdate, formatDate(formatBdate(user.bdate)).toLowerCase())
@@ -107,19 +92,19 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
             add(R.string.city, user.city.title)
         }
         add(R.string.hometown, user.hometown)
-        add(R.string.relation, getRelation(safeActivity, user.relation ?: 0))
+        add(R.string.relation, getRelation(context, user.relation ?: 0))
         add(R.string.mphone, user.mobilePhone,
                 {
-                    callIntent(safeActivity, user.mobilePhone ?: "")
+                    callIntent(context, user.mobilePhone)
                 }) { copy(user.mobilePhone, R.string.mphone) }
         add(R.string.hphone, user.homePhone,
                 {
-                    callIntent(safeActivity, user.homePhone ?: "")
+                    callIntent(context, user.homePhone)
                 }) { copy(user.homePhone, R.string.hphone) }
         add(R.string.facebook, user.facebook, null) { copy(user.facebook, R.string.facebook) }
         add(R.string.site, user.site, { goTo(user.site) }) { copy(user.site, R.string.site) }
-        add(R.string.twitter, user.twitter, null) { copy(user.twitter, R.string.twitter) }
-        add(R.string.instagram, user.instagram, null) { copy(user.instagram, R.string.instagram) }
+        add(R.string.twitter, user.twitter, { goTo("https://twitter.com/${user.instagram}") }) { copy(user.twitter, R.string.twitter) }
+        add(R.string.instagram, user.instagram, { goTo("https://instagram.com/${user.instagram}") }) { copy(user.instagram, R.string.instagram) }
         add(R.string.skype, user.skype, null) { copy(user.skype, R.string.skype) }
         tvFriendsCOunt.text = shortifyNumber(user.counters?.friends ?: 0)
         tvFollowersCount.text = shortifyNumber(user.counters?.followers ?: 0)
@@ -131,7 +116,7 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
     }
 
     private fun goTo(url: String?) {
-        simpleUrlIntent(safeActivity, url ?: return)
+        simpleUrlIntent(context, url)
     }
 
     private fun add(@StringRes title: Int,
@@ -151,5 +136,19 @@ class ProfileFragment : BaseFragment(), ProfileFragmentView {
             }
             llContainer.addView(view)
         }
+    }
+
+    companion object {
+
+        const val ARG_USER_ID = "userId"
+
+        fun newInstance(userId: Int): ProfileFragment {
+            val fragment = ProfileFragment()
+            fragment.arguments = Bundle().apply {
+                putInt(ARG_USER_ID, userId)
+            }
+            return fragment
+        }
+
     }
 }

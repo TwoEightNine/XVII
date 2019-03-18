@@ -5,7 +5,7 @@ import android.os.Handler
 import android.view.View
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.fragments.EggFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_notifications.*
  * Created by root on 2/2/17.
  */
 
-class NotificationsFragment : BaseFragment() {
+class NotificationsFragment : BaseOldFragment() {
 
     private var eggState = 0
 

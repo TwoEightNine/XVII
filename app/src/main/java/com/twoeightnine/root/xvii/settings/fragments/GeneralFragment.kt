@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.settings.fragments
 import android.os.Bundle
 import android.view.View
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.CacheHelper
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_general.*
  * Created by root on 2/2/17.
  */
 
-class GeneralFragment : BaseFragment() {
+class GeneralFragment : BaseOldFragment() {
 
     override fun bindViews(view: View) {
         initSwitches()

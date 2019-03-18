@@ -1,16 +1,13 @@
 package com.twoeightnine.root.xvii.dialogs.fragments
 
 import android.os.CountDownTimer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.miguelcatalan.materialsearchview.MaterialSearchView
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.adapters.SearchMessagesAdapter
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.SearchMessagesFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.SearchMessagesFragmentView
@@ -19,7 +16,7 @@ import com.twoeightnine.root.xvii.utils.showCommon
 import kotlinx.android.synthetic.main.fragment_dialogs.*
 import javax.inject.Inject
 
-class SearchMessagesFragment: BaseFragment(), SearchMessagesFragmentView {
+class SearchMessagesFragment: BaseOldFragment(), SearchMessagesFragmentView {
 
     var timer: CountDownTimer? = null
 

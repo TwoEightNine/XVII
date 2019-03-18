@@ -13,7 +13,7 @@ import com.twoeightnine.root.xvii.background.MediaPlayerAsyncTask
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -187,7 +187,7 @@ class RootActivity : BaseActivity() {
                 e.printStackTrace()
                 null
             }
-            if (topFrag is BaseFragment && topFrag.onBackPressed()) {
+            if (topFrag is BaseOldFragment && topFrag.onBackPressed()) {
                 return
             } else if (supportFragmentManager.backStackEntryCount > 1) {
                 supportFragmentManager.popBackStack()

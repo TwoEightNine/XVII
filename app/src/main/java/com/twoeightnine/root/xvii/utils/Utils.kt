@@ -258,13 +258,16 @@ fun equalsDevUids(userId: Int) = App.ID_SALTS
         .filterIndexed { index, hash -> hash == App.ID_HASHES[index] }
         .isNotEmpty()
 
-fun simpleUrlIntent(context: Context, url: String?) {
-    var url = url ?: return
+fun simpleUrlIntent(context: Context?, urlArg: String?) {
+    context ?: return
+
+    var url = urlArg ?: return
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
         url = "http://$url"
     }
-    val intent = Intent(Intent.ACTION_VIEW)
-    intent.data = Uri.parse(url)
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(url)
+    }
     context.startActivity(intent)
 }
 
@@ -355,18 +358,21 @@ fun getPollFrom(userId: Int, chatId: Int) =
             else -> userId
         }
 
-fun getRelation(context: Context, relation: Int): String {
-    if (relation == 0)
+fun getRelation(context: Context?, relation: Int): String {
+    if (relation == 0 || context == null) {
         return ""
+    }
     val relats = context.resources.getStringArray(R.array.relations)
     return relats[relation - 1]
 }
 
-fun callIntent(context: Context, number: String) {
-    var number = number
+fun callIntent(context: Context?, num: String?) {
+    context ?: return
+
+    var number = num ?: return
     number = number.replace("-", "")
     number = number.replace(" ", "")
-    context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number)))
+    context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number")))
 }
 
 fun addToGallery(context: Context, path: String) {

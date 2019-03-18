@@ -1,17 +1,14 @@
 package com.twoeightnine.root.xvii.dialogs.fragments
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.DialogFwFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.DialogFwFragmentView
@@ -19,7 +16,7 @@ import com.twoeightnine.root.xvii.utils.showCommon
 import kotlinx.android.synthetic.main.fragment_dialogs.*
 import javax.inject.Inject
 
-class DialogFwFragment : BaseFragment(), DialogFwFragmentView {
+class DialogFwFragment : BaseOldFragment(), DialogFwFragmentView {
 
     companion object {
         fun newInstance(fwdMessages: String): DialogFwFragment {

@@ -1,13 +1,11 @@
 package com.twoeightnine.root.xvii.friends.fragments
 
 import android.os.CountDownTimer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.friends.adapters.UsersAdapter
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.mvp.presenter.SearchUsersPresenter
@@ -18,7 +16,7 @@ import com.twoeightnine.root.xvii.utils.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_users_search.*
 import javax.inject.Inject
 
-class SearchUsersFragment: BaseFragment(), SearchUsersFragmentView {
+class SearchUsersFragment: BaseOldFragment(), SearchUsersFragmentView {
 
     @Inject
     lateinit var presenter: SearchUsersPresenter

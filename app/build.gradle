@@ -70,7 +70,7 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     implementation "com.github.QuadFlask:colorpicker:$colorpickerVersion"
 
-//    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
 }
 

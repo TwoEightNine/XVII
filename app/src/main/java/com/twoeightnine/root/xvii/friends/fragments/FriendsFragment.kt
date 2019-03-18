@@ -1,9 +1,6 @@
 package com.twoeightnine.root.xvii.friends.fragments
 
 import android.os.Bundle
-import android.os.Handler
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -11,7 +8,7 @@ import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
-import com.twoeightnine.root.xvii.fragments.BaseFragment
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.mvp.presenter.FriendsFragmentPresenter
@@ -19,11 +16,10 @@ import com.twoeightnine.root.xvii.mvp.view.FriendsFragmentView
 import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.showCommon
 import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.views.LoaderView
 import kotlinx.android.synthetic.main.fragment_friends.*
 import javax.inject.Inject
 
-class FriendsFragment : BaseFragment(), FriendsFragmentView {
+class FriendsFragment : BaseOldFragment(), FriendsFragmentView {
 
     private lateinit var pagerAdapter: CommonPagerAdapter
 

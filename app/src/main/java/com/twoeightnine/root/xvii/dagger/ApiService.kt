@@ -112,7 +112,7 @@ interface ApiService {
     //users
     @GET("users.get")
     fun getUsers(@Query("user_ids") userIds: String,
-                 @Query("fields") fields: String): Flowable<ServerResponse<MutableList<User>>>
+                 @Query("fields") fields: String = User.FIELDS): Flowable<ServerResponse<MutableList<User>>>
 
     @GET("users.search")
     fun searchUsers(@Query("q") q: String,
