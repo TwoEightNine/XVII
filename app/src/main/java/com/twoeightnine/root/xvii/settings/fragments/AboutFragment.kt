@@ -11,7 +11,7 @@ import com.twoeightnine.root.xvii.activities.TestLandscapeActivity
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.fragments.WebFragment
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
@@ -41,14 +41,14 @@ class AboutFragment : BaseOldFragment() {
     override fun getLayout() = R.layout.fragment_about
 
     private fun initViews() {
-        tvFeedback.setOnClickListener { _ ->
+        tvFeedback.setOnClickListener {
             val message = Message(
                     0, 0, -App.GROUP, 0, 0, getString(R.string.app_name), "", null
             )
             rootActivity.loadFragment(ChatFragment.newInstance(message))
         }
-        tvRate.setOnClickListener { _ -> rate(safeActivity) }
-        tvPrivacy.setOnClickListener { _ ->
+        tvRate.setOnClickListener {  rate(safeActivity) }
+        tvPrivacy.setOnClickListener {
             rootActivity.loadFragment(WebFragment.newInstance(
                     "file:///android_asset/privacy.html",
                     getString(R.string.privacy_policy)))
@@ -80,12 +80,7 @@ class AboutFragment : BaseOldFragment() {
     }
 
     private fun showLogDialog() {
-        val logs = Lg.getEvents()
-        val dialog = AlertDialog.Builder(safeActivity)
-                .setMessage(logs)
-                .setPositiveButton("copy", { _, _ -> copyToClip(logs)})
-                .setNegativeButton("close", null)
-                .create()
+        val dialog = LgAlertDialog(context ?: return)
         dialog.show()
         Style.forDialog(dialog)
     }
