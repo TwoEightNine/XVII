@@ -14,10 +14,12 @@ import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
+import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.profile.viewmodels.ProfileViewModel
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.item_user_field.view.*
 import javax.inject.Inject
@@ -60,10 +62,10 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
-    //    override fun onPhotosLoaded(photos: ArrayList<Photo>) {
-//        ImageViewerActivity.viewImages(safeActivity, photos)
-//    }
-//
+    private fun onPhotosLoaded(photos: ArrayList<Photo>) {
+        ImageViewerActivity.viewImages(context, photos)
+    }
+
     private fun updateFoaf(data: Wrapper<String>) {
         if (data.data != null) {
             add(R.string.registration_date, formatDate(data.data).toLowerCase())
@@ -73,7 +75,7 @@ class ProfileFragment : BaseFragment() {
     private fun bindUser(user: User) {
         CacheHelper.saveUserAsync(user)
         civPhoto.load(user.photoMax)
-//        civPhoto.setOnClickListener { viewModel.loadProfilePhotos() }
+        civPhoto.setOnClickListener { viewModel.loadPhotos(userId, ::onPhotosLoaded) }
         tvName.text = user.fullName
         rlChat.setOnClickListener {
             (activity as? RootActivity)?.loadFragment(ChatFragment.newInstance(Message(

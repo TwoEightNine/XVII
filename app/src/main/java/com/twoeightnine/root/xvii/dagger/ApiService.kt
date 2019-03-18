@@ -150,7 +150,7 @@ interface ApiService {
     fun getPhotos(@Query("owner_id") ownerId: Int,
                   @Query("album_id") albumId: String,
                   @Query("count") count: Int,
-                  @Query("offset") offset: Int): Flowable<ServerResponse<ListResponse<Photo>>>
+                  @Query("offset") offset: Int = 0): Flowable<ServerResponse<ListResponse<Photo>>>
 
     @GET("photos.getMessagesUploadServer")
     fun getPhotoUploadServer(): Flowable<ServerResponse<UploadServer>>

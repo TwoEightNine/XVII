@@ -111,8 +111,8 @@
 
                 <data
                     android:host="vk.com"
-                    android:pathPattern="/id"
-                    android:scheme="https" />
+                    android:scheme="https"
+                    android:pathPrefix="/id" />
             </intent-filter>
         </activity>
     </application>
