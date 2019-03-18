@@ -135,7 +135,6 @@ class LongPollCore(private val context: Context) {
     }
 
     private fun processNewMessage(event: NewMessageEvent) {
-        l("$event")
         if (event.isOut() || !Prefs.showNotifs
                 || event.peerId in Prefs.muteList) return
 

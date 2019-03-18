@@ -11,12 +11,13 @@ import java.io.StringWriter
 
 class ExceptionHandler(private var context: Context): Thread.UncaughtExceptionHandler {
 
-    private val lineSeparator = "\n"
-
     override fun uncaughtException(t: Thread?, e: Throwable?) {
         val stackTrace = StringWriter()
         e?.printStackTrace(PrintWriter(stackTrace))
         val errorReport = StringBuilder()
+                .append("NEW CRASH IN ")
+                .append(BuildConfig.VERSION_NAME)
+                .append(LINE)
                 .append("CAUSE OF ERROR:\n")
                 .append(stackTrace.toString())
                 .append("\nLOGS:\n")
@@ -27,19 +28,16 @@ class ExceptionHandler(private var context: Context): Thread.UncaughtExceptionHa
                 .append("\n\nDEVICE INFORMATION:\n")
                 .append("RAM: ")
                 .append(getTotalRAM())
-                .append(lineSeparator)
-                .append("Version: ")
-                .append(BuildConfig.VERSION_NAME)
-                .append(lineSeparator)
+                .append(LINE)
                 .append("Brand: ")
                 .append(Build.MANUFACTURER)
-                .append(lineSeparator)
+                .append(LINE)
                 .append("Model: ")
                 .append(Build.MODEL)
-                .append(lineSeparator)
+                .append(LINE)
                 .append("SDK: ")
                 .append(Build.VERSION.SDK_INT)
-                .append(lineSeparator)
+                .append(LINE)
 
         Lg.wtf(errorReport.toString())
 
@@ -53,5 +51,9 @@ class ExceptionHandler(private var context: Context): Thread.UncaughtExceptionHa
 
         android.os.Process.killProcess(android.os.Process.myPid())
         System.exit(10)
+    }
+
+    companion object {
+        const val LINE = "\n"
     }
 }
