@@ -13,11 +13,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
-import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
 import android.text.Html
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -27,18 +24,22 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.notifications.receivers.RestarterBroadcastReceiver
-import com.twoeightnine.root.xvii.background.notifications.services.NotificationJobIntentService
-import com.twoeightnine.root.xvii.background.notifications.services.NotificationService
+import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
+import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadcastReceiver
+import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
+import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.LongPollEvent
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.User
 import io.reactivex.Flowable
@@ -412,28 +413,31 @@ fun getPeerId(userId: Int, chatId: Int): Int = if (chatId == 0) userId else 2000
 fun getFromPeerId(peerId: Int) = intArrayOf(if (peerId > 2000000000) 0 else peerId, if (peerId > 2000000000) peerId - 2000000000 else 0)
 
 fun loadBitmapIcon(url: String?, callback: (Bitmap) -> Unit) {
-    Picasso.get()
-            .loadRounded(url)
-            .resize(200, 200)
-            .centerCrop()
-            .into(object : Target {
+    val uiHandler = Handler(Looper.getMainLooper())
+    uiHandler.post {
+        Picasso.get()
+                .loadRounded(url)
+                .resize(200, 200)
+                .centerCrop()
+                .into(object : Target {
 
-                override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
-                    callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii64))
-                }
-
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                    callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii64))
-                }
-
-                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                    if (bitmap != null) {
-                        callback.invoke(bitmap)
-                    } else {
-                        loadBitmapIcon(url, callback)
+                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
+                        callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii64))
                     }
-                }
-            })
+
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                        callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii64))
+                    }
+
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                        if (bitmap != null) {
+                            callback.invoke(bitmap)
+                        } else {
+                            loadBitmapIcon(url, callback)
+                        }
+                    }
+                })
+    }
 
 }
 
@@ -591,33 +595,34 @@ fun shortifyNumber(value: Int): String {
     return num
 }
 
-fun getMessageFromLongPoll(event: LongPollEvent,
+fun getMessageFromLongPoll(event: NewMessageEvent,
                            isShown: Boolean = false): Message {
+    val out = if (event.isOut()) 1 else 0
     val message = Message(
-            event.mid,
-            event.ts,
-            event.userId,
-            event.out,
-            if (isShown) 1 - event.out else 0,
+            event.id,
+            event.timeStamp,
+            event.peerId,
+            out,
+            if (isShown) 1 - out else 0,
             event.title,
-            event.message,
+            event.text,
             null,
-            if (event.info?.hasEmojis ?: false) 1 else 0
+            if (event.hasEmoji()) 1 else 0
     )
-    if (event.info!!.from != 0) {
-        message.userId = event.info!!.from
-    }
-    if (event.userId > 2000000000) {
-        message.chatId = event.userId - 2000000000
-    } else if (event.userId > 1000000000) {
-        message.userId = 1000000000 - event.userId
+//    if (event.info!!.from != 0) {
+//        message.userId = event.info!!.from
+//    }
+    if (event.peerId > 2000000000) {
+        message.chatId = event.peerId - 2000000000
+    } else if (event.peerId > 1000000000) {
+        message.userId = 1000000000 - event.peerId
     }
     message.body = Html.fromHtml(message.body).toString()
     return message
 }
 
 
-fun getMessageFromLongPollFull(event: LongPollEvent,
+fun getMessageFromLongPollFull(event: NewMessageEvent,
                                users: HashMap<Int, User>,
                                isShown: Boolean = false): Message {
     var message = getMessageFromLongPoll(event, isShown)

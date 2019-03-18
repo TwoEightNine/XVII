@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.background.notifications.receivers
+package com.twoeightnine.root.xvii.background.longpoll.receivers
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
@@ -7,7 +7,6 @@ import android.content.Intent
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.utils.ApiUtils
-import java.lang.Exception
 import javax.inject.Inject
 
 class MarkAsReadBroadcastReceiver : BroadcastReceiver() {

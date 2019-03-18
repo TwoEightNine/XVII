@@ -32,7 +32,7 @@
         </provider>
 
         <receiver
-            android:name=".background.notifications.receivers.RestarterBroadcastReceiver"
+            android:name=".background.longpoll.receivers.RestarterBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -42,7 +42,7 @@
         </receiver>
 
         <receiver
-            android:name=".background.notifications.receivers.MarkAsReadBroadcastReceiver"
+            android:name=".background.longpoll.receivers.MarkAsReadBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -52,11 +52,11 @@
 
         <!--<service android:name=".background.LongPollService" />-->
 
-        <service android:name=".background.notifications.services.NotificationService" />
+        <service android:name=".background.longpoll.services.NotificationService" />
 
         <service android:name=".background.prime.PrimeGeneratorService" />
         <service
-            android:name=".background.notifications.services.NotificationJobIntentService"
+            android:name=".background.longpoll.services.NotificationJobIntentService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service

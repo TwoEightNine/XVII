@@ -1,22 +1,16 @@
 package com.twoeightnine.root.xvii.mvp.presenter
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Environment
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.text.Html
 import android.text.TextUtils
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.BuildConfig
-import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
+import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.*
-import com.twoeightnine.root.xvii.model.response.LongPollResponse
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatFragmentView
 import com.twoeightnine.root.xvii.response.ServerResponse
@@ -43,6 +37,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     private val users: HashMap<Int, User> = hashMapOf()
     private var isRegistered = false
     private var timeUpSubscription: Disposable? = null
+    private var longPollDisposable: Disposable? = null
 
     lateinit var attachUtils: AttachUtils
     lateinit var crypto: CryptoUtil
@@ -53,12 +48,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     @Inject
     lateinit var utils: ApiUtils
 
-    private var receiver = object : BroadcastReceiver() {
-        override fun onReceive(p0: Context?, intent: Intent) {
-            onUpdate((intent.extras.getSerializable(NotificationsCore.RESULT) as LongPollResponse).updates ?: mutableListOf())
-        }
-    }
-
     init {
         subscribe()
         App.appComponent?.inject(this)
@@ -66,7 +55,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun subscribe() {
         if (!isRegistered) {
-            androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(NotificationsCore.NAME))
+            longPollDisposable = EventBus.subscribeLongPollEventReceived(::onUpdate)
             isRegistered = true
         }
     }
@@ -89,12 +78,10 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         }
         api.getHistory(count, offset, userId())
                 .compose(applySchedulers())
-                .subscribeSmart({
-                    response ->
+                .subscribeSmart({ response ->
                     val history = response.items
                     loadUsers(history, withClear)
-                }, {
-                    error ->
+                }, { error ->
                     view?.showError(error)
                 })
     }
@@ -117,12 +104,10 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 return@getUsersAsync
             }
             api.getUsers(it.second, User.FIELDS)
-                    .subscribeSmart({
-                        response ->
+                    .subscribeSmart({ response ->
                         response.map { users.put(it.id, it) }
                         insertUsers(history, withClear, cache)
-                    }, {
-                        error ->
+                    }, { error ->
                         view?.showError(error)
                     })
         }
@@ -178,22 +163,21 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                     )
         }
         flowable.subscribeSmart({
-                    if (Prefs.beOffline) {
-                        utils.setOffline()
-                    }
-                    attachUtils.clear()
-                    if (forLater.isNotEmpty()) {
-                        send(forLater)
-                    }
-                }, {
-                    error ->
-                    Lg.i("send message error: $error")
-                    view?.showError(error)
-                    view?.onSentError(text)
-                    if (Prefs.beOffline) {
-                        utils.setOffline()
-                    }
-                })
+            if (Prefs.beOffline) {
+                utils.setOffline()
+            }
+            attachUtils.clear()
+            if (forLater.isNotEmpty()) {
+                send(forLater)
+            }
+        }, { error ->
+            Lg.i("send message error: $error")
+            view?.showError(error)
+            view?.onSentError(text)
+            if (Prefs.beOffline) {
+                utils.setOffline()
+            }
+        })
     }
 
     fun deleteMessages(mids: MutableList<Int>, forAll: Boolean, quiet: Boolean = false) {
@@ -236,21 +220,20 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                     )
         }
         flowable.subscribeSmart({
-                    if (Prefs.beOffline) {
-                        utils.setOffline()
-                    }
-                }, {
-                    error ->
-                    Lg.i("send sticker error: $error")
-                    if (error.contains("this sticker")) {
-                        attachStickerAsPic(sticker)
-                    } else {
-                        view?.showError(error)
-                    }
-                    if (Prefs.beOffline) {
-                        utils.setOffline()
-                    }
-                })
+            if (Prefs.beOffline) {
+                utils.setOffline()
+            }
+        }, { error ->
+            Lg.i("send sticker error: $error")
+            if (error.contains("this sticker")) {
+                attachStickerAsPic(sticker)
+            } else {
+                view?.showError(error)
+            }
+            if (Prefs.beOffline) {
+                utils.setOffline()
+            }
+        })
     }
 
     private fun attachStickerAsPic(sticker: Attachment.Sticker) {
@@ -302,8 +285,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         api.getPhotoUploadServer()
                 .subscribeSmart({
                     uploadPhoto(path, it, isSticker)
-                }, {
-                    error ->
+                }, { error ->
                     view?.showError(error)
                     Lg.wtf("getting ploading server error: $error")
                 })
@@ -317,8 +299,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 .compose(applySchedulers())
                 .subscribe({
                     savePhoto(it, path, isSticker)
-                }, {
-                    error ->
+                }, { error ->
                     val message = error.message ?: "null"
                     Lg.wtf("uploading photo error: $message")
                     view?.showError(message)
@@ -337,8 +318,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                         send("")
                     }
                     view?.onPhotoUploaded(path)
-                }, {
-                    error ->
+                }, { error ->
                     view?.showError(error)
                     Lg.wtf("save uploaded photo error: $error")
                 })
@@ -365,8 +345,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
         api.uploadDoc(url, body)
                 .compose(applySchedulers())
-                .subscribe({
-                    response ->
+                .subscribe({ response ->
                     saveVoice(path, response.file!!)
                 }, {
                     Lg.wtf("uploading error: $it")
@@ -376,14 +355,12 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     private fun saveVoice(path: String, file: String) {
         api.saveDoc(file)
-                .subscribeSmart({
-                    response ->
+                .subscribeSmart({ response ->
                     if (response.size > 0) {
                         attachUtils.add(Attachment(response[0]))
                         view?.onVoiceUploaded(path)
                     }
-                }, {
-                    error ->
+                }, { error ->
                     Lg.wtf("saving voice error: $error")
                     view?.showError(error)
                 })
@@ -393,8 +370,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         api.getDocUploadServer("doc")
                 .subscribeSmart({
                     uploadDoc(path, it.uploadUrl ?: "", fileName)
-                }, {
-                    error ->
+                }, { error ->
                     Lg.wtf("getting upload server doc error: $error")
                     view?.showError(error)
                 })
@@ -409,8 +385,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 .compose(com.twoeightnine.root.xvii.utils.applySchedulers())
                 .subscribe({
                     saveDoc(path, it.file!!)
-                }, {
-                    error ->
+                }, { error ->
                     Lg.wtf("uploading doc error: $error")
                     view?.showError(error.message ?: "null on uploading")
                 })
@@ -421,8 +396,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 .subscribeSmart({
                     attachUtils.add(Attachment(it[0]))
                     view?.onPhotoUploaded(path)
-                }, {
-                    error ->
+                }, { error ->
                     Lg.wtf("saving doc error: $error")
                     view?.showError(error)
                 })
@@ -507,94 +481,89 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         crypto.printKeys()
     }
 
-    fun onUpdate(data: MutableList<MutableList<Any>>) {
-        for (item in data) {
-            val event = LongPollEvent(item)
-            when (event.type) {
+    private fun onUpdate(event: BaseLongPollEvent) {
+        when (event) {
 
-                LongPollEvent.NEW_MESSAGE -> {
-                    if (isRightItem(event)) {
-                        if (event.out == 0) {
-                            view?.onHideTyping()
-                        }
-                        if (TextUtils.isEmpty(event.message) || event.info!!.hasAttachments()) {
-                            api.getMessageById("${event.mid}")
-                                    .subscribeSmart({
-                                        response ->
-                                        val message = setMessageTitles(users, response.items[0], 0)
-                                        CacheHelper.saveMessageAsync(message)
-                                        view?.onMessageAdded(message)
-                                        messages.add(0, message)
-                                        if (Prefs.markAsRead && isShown) {
-                                            markAsRead(message.id)
-                                        }
-                                    }, {
-                                        error ->
-                                        Lg.wtf("new message error: $error")
-                                    })
-                        } else {
-                            if (event.message.contains("KeyEx{")) {
-                                deleteMessages(mutableListOf(event.mid), false, true)
-                                if (event.out == 0) {
-                                    view?.onKeyReceived(Html.fromHtml(event.message).toString(), crypto.isWaiting)
-                                }
-                                return
+            is NewMessageEvent -> {
+                if (isRightItem(event.peerId)) {
+                    if (!event.isOut()) {
+                        view?.onHideTyping()
+                    }
+                    if (TextUtils.isEmpty(event.text) || event.hasMedia()) {
+                        api.getMessageById("${event.id}")
+                                .subscribeSmart({ response ->
+                                    val message = setMessageTitles(users, response.items[0], 0)
+                                    CacheHelper.saveMessageAsync(message)
+                                    view?.onMessageAdded(message)
+                                    messages.add(0, message)
+                                    if (Prefs.markAsRead && isShown) {
+                                        markAsRead(message.id)
+                                    }
+                                }, { error ->
+                                    Lg.wtf("new message error: $error")
+                                })
+                    } else {
+                        if (event.text.contains("KeyEx{")) {
+                            deleteMessages(mutableListOf(event.id), false, true)
+                            if (!event.isOut()) {
+                                view?.onKeyReceived(Html.fromHtml(event.text).toString(), crypto.isWaiting)
                             }
-                            val message = getMessageFromLongPollFull(event, users, isShown)
-                            CacheHelper.saveMessageAsync(message)
-                            view?.onMessageAdded(message)
-                            messages.add(0, message)
-                            if (Prefs.markAsRead && isShown) {
-                                markAsRead(message.id)
-                            }
+                            return
                         }
-                    }
-                }
-
-
-                LongPollEvent.READ_OUT -> {
-                    if (isRightItem(event)) {
-                        view?.onReadOut(event.mid)
-                    }
-                }
-
-                LongPollEvent.OFFLINE -> {
-                    if (userId() == event.userId) {
-                        view?.onChangeOnline(false)
-                    }
-                }
-
-                LongPollEvent.ONLINE -> {
-                    if (userId() == event.userId) {
-                        view?.onChangeOnline(true)
-                    }
-                }
-
-                LongPollEvent.TYPING_IN_USER, LongPollEvent.TYPING_IN_CHAT -> {
-                    if (userId() == event.userId && event.chatId == 0 ||
-                            userId() < 0 && event.userId - 1000000000 == -userId() ||
-                            userId() > 2000000000 && userId() - 2000000000 == event.chatId) {
-                        if (isShown) {
-                            view?.onShowTyping()
+                        val message = getMessageFromLongPollFull(event, users, isShown)
+                        CacheHelper.saveMessageAsync(message)
+                        view?.onMessageAdded(message)
+                        messages.add(0, message)
+                        if (Prefs.markAsRead && isShown) {
+                            markAsRead(message.id)
                         }
-                    }
-                }
-
-                LongPollEvent.RECORDING_VOICE -> {
-                    if (userId() == event.userId && isShown) {
-                        view?.onShowRecordingVoice()
                     }
                 }
             }
+
+
+            is ReadOutgoingEvent -> {
+                if (isRightItem(event.peerId)) {
+                    view?.onReadOut(event.mid)
+                }
+            }
+
+            is OfflineEvent -> {
+                if (userId() == event.userId) {
+                    view?.onChangeOnline(false)
+                }
+            }
+
+            is OnlineEvent -> {
+                if (userId() == event.userId) {
+                    view?.onChangeOnline(true)
+                }
+            }
+
+            is TypingEvent -> {
+                if (userId() == event.userId ||
+                        userId() < 0 && event.userId - 1000000000 == -userId()) {
+                    if (isShown) {
+                        view?.onShowTyping()
+                    }
+                } //userId() > 2000000000 && userId() - 2000000000 == event.chatId in chats
+            }
+
+            is RecordingAudioEvent -> {
+                if (userId() == event.peerId && isShown) {
+                    view?.onShowRecordingVoice()
+                }
+            }
         }
+
     }
 
-    private fun isRightItem(event: LongPollEvent)
-            = userId() == event.userId ||
-            userId() < 0 && event.userId - 1000000000 == -userId()
+    private fun isRightItem(peerId: Int) = userId() == peerId ||
+            userId() < 0 && peerId - 1000000000 == -userId()
 
     fun unsubscribe() {
-        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(App.context).unregisterReceiver(receiver)
+        longPollDisposable?.dispose()
+        longPollDisposable = null
         isRegistered = false
     }
 

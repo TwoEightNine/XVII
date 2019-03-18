@@ -7,13 +7,12 @@ import android.view.MenuItem
 import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.fragments.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.model.Attachment
-import com.twoeightnine.root.xvii.model.LongPollEvent
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.DialogsFragmentView
@@ -173,39 +172,36 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
         adapter.removeAt(position)
     }
 
-    override fun onMessageReceived(event: LongPollEvent) {
-        val userId = event.userId
+    override fun onMessageReceived(event: NewMessageEvent) {
+        val userId = event.peerId
         for (position in adapter.items.indices) {
             val message = adapter.items[position]
 
             if (isRightItem(userId, message)) {
-                message.date = event.ts
-                message.id = event.mid
-                message.body = event.message
+                val out = if (event.isOut()) 1 else 0
+                message.date = event.timeStamp
+                message.id = event.id
+                message.body = event.text
                 message.setRead(0)
-                message.out = event.out
+                message.out = out
                 message.attachments = null
                 message.fwdMessages = null
-                message.emoji = if (event.info?.hasEmojis ?: false) 1 else 0
-                if (event.out == 1) {
-                    message.unread = 0
-                } else {
-                    message.unread = message.unread + 1
-                }
-                if (event.info!!.forwardedCount > 0) {
+                message.emoji = if (event.hasEmoji()) 1 else 0
+                message.unread = if (event.isOut()) 0 else message.unread + 1
+                if (event.info.getForwardedCount() > 0) {
                     val bicycle = ArrayList<Message>()
-                    for (j in 0..event.info!!.forwardedCount - 1) {
+                    for (j in 0 until event.info.getForwardedCount()) {
                         bicycle.add(Message())
                     }
                     message.fwdMessages = bicycle
                 }
-                if (event.info?.attachmentsCount ?: 0 > 0) {
-                    val bicycle = ArrayList<Attachment>()
-                    for (j in 0..event.info!!.attachmentsCount - 1) {
-                        bicycle.add(Attachment())
-                    }
-                    message.attachments = bicycle
-                }
+//                if (event.hasMedia()) {
+//                    val bicycle = ArrayList<Attachment>()
+//                    for (j in 0..event.info!!.attachmentsCount - 1) {
+//                        bicycle.add(Attachment())
+//                    }
+//                    message.attachments = bicycle
+//                }
                 CacheHelper.saveMessageAsync(message)
                 val wasAtTop = adapter.firstVisiblePosition() == 0
                 adapter.removeAt(position)
@@ -270,7 +266,7 @@ open class DialogsFragment : BaseFragment(), DialogsFragmentView {
         CacheHelper.saveMessageAsync(message)
     }
 
-    fun isRightItem(userId: Int, mess: Message, mid: Int = 0) =
+    private fun isRightItem(userId: Int, mess: Message, mid: Int = 0) =
             (userId < 2000000000 && userId == mess.userId && mess.chatId == 0 ||
                     userId > 2000000000 && mess.chatId + 2000000000 == userId ||
                     userId in 1000000000..2000000000 && mess.userId == -(userId - 1000000000))

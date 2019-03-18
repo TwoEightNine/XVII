@@ -1,21 +1,16 @@
 package com.twoeightnine.root.xvii.mvp.presenter
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
+import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.*
-import com.twoeightnine.root.xvii.model.response.LongPollResponse
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.DialogsFragmentView
 import com.twoeightnine.root.xvii.response.ServerResponse
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.Flowable
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 open class DialogsFragmentPresenter(override var api: ApiService) : BasePresenter<DialogsFragmentView>(api) {
@@ -25,23 +20,17 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
 
     var dialogs: MutableList<Message> = mutableListOf()
     var users: HashMap<Int, User> = HashMap()
-    var groups: HashMap<Int, Group> = HashMap()
-    var dialogsBuffer: MutableList<Message> = mutableListOf()
+    private var groups: HashMap<Int, Group> = HashMap()
+    private var dialogsBuffer: MutableList<Message> = mutableListOf()
+    private var longPollDisposable: Disposable? = null
 
-    var withClear: Boolean = false
+    private var withClear: Boolean = false
 
     @Inject
     lateinit var apiUtils: ApiUtils
 
-    var receiver = object : BroadcastReceiver() {
-        override fun onReceive(p0: Context?, intent: Intent) {
-            onUpdate((intent.extras.getSerializable(NotificationsCore.RESULT) as LongPollResponse).updates
-                    ?: mutableListOf())
-        }
-    }
-
     init {
-        LocalBroadcastManager.getInstance(App.context).registerReceiver(receiver, IntentFilter(NotificationsCore.NAME))
+        longPollDisposable = EventBus.subscribeLongPollEventReceived(::onUpdate)
         App.appComponent?.inject(this)
     }
 
@@ -182,26 +171,26 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
                 })
     }
 
-    fun loadNewDialog(event: LongPollEvent) {
-        if (event.userId > 2000000000) {
+    fun loadNewDialog(event: NewMessageEvent) {
+        if (event.peerId > 2000000000) {
             val message = getMessageFromLongPoll(event)
             view?.onMessageNew(message)
-        } else if (event.userId > 1000000000) {
+        } else if (event.peerId > 1000000000) {
             loadGroup(event)
         } else {
             loadUser(event)
         }
     }
 
-    fun loadGroup(event: LongPollEvent) {
-        api.getGroups("${event.userId - 1000000000}")
+    fun loadGroup(event: NewMessageEvent) {
+        api.getGroups("${event.peerId - 1000000000}")
                 .subscribeSmart({ response ->
                     response.forEach {
                         groups.put(it.id, it)
                     }
                     CacheHelper.saveGroupsAsync(response)
                     var message = getMessageFromLongPoll(event)
-                    message.userId = 1000000000 - event.userId
+                    message.userId = 1000000000 - event.peerId
                     message = fillDialogGroup(message)
                     view?.onMessageNew(message)
                 }, {
@@ -209,8 +198,8 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
                 })
     }
 
-    fun loadUser(event: LongPollEvent) {
-        api.getUsers("${event.userId}", User.FIELDS)
+    fun loadUser(event: NewMessageEvent) {
+        api.getUsers("${event.peerId}", User.FIELDS)
                 .subscribeSmart({ response ->
                     response.forEach { users.put(it.id, it) }
                     CacheHelper.saveUsersAsync(response)
@@ -260,17 +249,15 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
                 .subscribe()
     }
 
-    fun onUpdate(data: MutableList<MutableList<Any>>) {
-        for (item in data) {
-            val event = LongPollEvent(item)
-            when (event.type) {
-                LongPollEvent.READ_OUT -> view?.onMessageReadOut(event.userId, event.mid)
-                LongPollEvent.READ_IN -> view?.onMessageReadIn(event.userId, event.mid)
-                LongPollEvent.ONLINE -> view?.onOnlineChanged(event.userId, true)
-                LongPollEvent.OFFLINE -> view?.onOnlineChanged(event.userId, false)
-                LongPollEvent.NEW_MESSAGE -> view?.onMessageReceived(event)
-            }
+    fun onUpdate(event: BaseLongPollEvent) {
+        when (event) {
+            is ReadOutgoingEvent -> view?.onMessageReadOut(event.peerId, event.mid)
+            is ReadIncomingEvent -> view?.onMessageReadIn(event.peerId, event.mid)
+            is OnlineEvent -> view?.onOnlineChanged(event.userId, true)
+            is OfflineEvent -> view?.onOnlineChanged(event.userId, false)
+            is NewMessageEvent -> view?.onMessageReceived(event)
         }
+
     }
 
     fun setOffline() {

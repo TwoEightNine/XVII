@@ -1,10 +1,12 @@
 package com.twoeightnine.root.xvii.dagger
 
+import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
+import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.response.LongPollHistoryResponse
-import com.twoeightnine.root.xvii.model.response.LongPollResponse
 import com.twoeightnine.root.xvii.response.*
 import io.reactivex.Flowable
+import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -242,12 +244,15 @@ interface ApiService {
     //longpoll
     @GET
     @Headers(NO_TOKEN_HEADER)
-    fun connect(@Url server: String,
-                @Query("key") key: String,
-                @Query("ts") ts: Int,
-                @Query("act") act: String,
-                @Query("wait") wait: Int,
-                @Query("mode") mode: Int): Flowable<LongPollResponse>
+    fun connectLongPoll(
+            @Url server: String,
+            @Query("key") key: String,
+            @Query("ts") ts: Int,
+            @Query("act") act: String = "a_check",
+            @Query("wait") wait: Int = 40,
+            @Query("mode") mode: Int = 2,
+            @Query("version") version: Int = 2
+    ): Single<LongPollUpdate>
 
     @GET("messages.getLongPollServer")
     fun getLongPollServer(): Flowable<ServerResponse<LongPollServer>>

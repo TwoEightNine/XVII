@@ -1,9 +1,9 @@
-package com.twoeightnine.root.xvii.background.notifications.services
+package com.twoeightnine.root.xvii.background.longpoll.services
 
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
+import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 
 
 class NotificationService : Service() {
@@ -19,18 +19,13 @@ class NotificationService : Service() {
         }
     }
 
-    private val core by lazy { NotificationsCore(applicationContext) }
+    private val core by lazy { LongPollCore(applicationContext) }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Thread {
-            core.run()
+            core.run(intent)
         }.start()
         return START_REDELIVER_INTENT
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        core.onCreate()
     }
 
     override fun onDestroy() {

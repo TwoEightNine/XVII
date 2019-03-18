@@ -1,9 +1,9 @@
-package com.twoeightnine.root.xvii.background.notifications.receivers
+package com.twoeightnine.root.xvii.background.longpoll.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
+import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.managers.Lg
 import com.twoeightnine.root.xvii.utils.startNotificationService
 
@@ -18,7 +18,7 @@ class RestarterBroadcastReceiver : BroadcastReceiver() {
         Lg.i("[restarter] received $action")
         if ((action == RESTART_ACTION || action == Intent.ACTION_BOOT_COMPLETED)
                 && context != null
-                && !NotificationsCore.isRunning()) {
+                && !LongPollCore.isRunning()) {
             Lg.i("[restarter] starting service")
             startNotificationService(context)
         }

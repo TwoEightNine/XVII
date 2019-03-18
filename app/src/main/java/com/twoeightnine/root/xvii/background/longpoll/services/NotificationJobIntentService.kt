@@ -1,9 +1,9 @@
-package com.twoeightnine.root.xvii.background.notifications.services
+package com.twoeightnine.root.xvii.background.longpoll.services
 
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.JobIntentService
-import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
+import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 
 
 class NotificationJobIntentService : JobIntentService() {
@@ -16,15 +16,10 @@ class NotificationJobIntentService : JobIntentService() {
         }
     }
 
-    private val core by lazy { NotificationsCore(applicationContext) }
+    private val core by lazy { LongPollCore(applicationContext) }
 
     override fun onHandleWork(intent: Intent) {
-        core.run()
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        core.onCreate()
+        core.run(intent)
     }
 
     override fun onDestroy() {

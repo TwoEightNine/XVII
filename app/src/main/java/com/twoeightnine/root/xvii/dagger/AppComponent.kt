@@ -4,12 +4,14 @@ import com.twoeightnine.root.xvii.activities.ExceptionActivity
 import com.twoeightnine.root.xvii.activities.GifViewerActivity
 import com.twoeightnine.root.xvii.activities.LoginActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
-import com.twoeightnine.root.xvii.background.notifications.receivers.RestarterBroadcastReceiver
-import com.twoeightnine.root.xvii.background.notifications.services.NotificationJobIntentService
-import com.twoeightnine.root.xvii.background.notifications.services.NotificationService
-import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
-import com.twoeightnine.root.xvii.background.notifications.receivers.MarkAsReadBroadcastReceiver
-import com.twoeightnine.root.xvii.chats.fragments.*
+import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
+import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
+import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
+import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
+import com.twoeightnine.root.xvii.chats.fragments.AttachedFragment
+import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
+import com.twoeightnine.root.xvii.chats.fragments.ChatInfoFragment
+import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.VideoAttachFragment
@@ -73,7 +75,7 @@ interface AppComponent {
     //other
     fun inject(notificationService: NotificationService)
     fun inject(notfJobIntentService: NotificationJobIntentService)
-    fun inject(notificationsCore: NotificationsCore)
+    fun inject(longPollCore: LongPollCore)
     fun inject(chatFragmentPresenter: ChatFragmentPresenter)
     fun inject(dialogsFragmentPresenter: DialogsFragmentPresenter)
     fun inject(markAsReadBroadcastReceiver: MarkAsReadBroadcastReceiver)

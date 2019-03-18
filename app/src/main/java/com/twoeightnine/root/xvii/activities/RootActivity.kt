@@ -3,15 +3,14 @@ package com.twoeightnine.root.xvii.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.DrawerAdapter
 import com.twoeightnine.root.xvii.background.MediaPlayerAsyncTask
-import com.twoeightnine.root.xvii.background.notifications.NotificationsCore
+import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.fragments.BaseFragment
@@ -25,7 +24,6 @@ import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import com.twoeightnine.root.xvii.utils.*
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_root.*
 import javax.inject.Inject
 
@@ -164,9 +162,9 @@ class RootActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!NotificationsCore.isRunning()) {
+        if (!LongPollCore.isRunning()) {
             Lg.i("Service wasn't active since " +
-                    "${getTime(NotificationsCore.lastRun, format = "HH:mm:ss")}. Start again")
+                    "${getTime(LongPollCore.lastRun, format = "HH:mm:ss")}. Start again")
             Handler().postDelayed({ startNotificationService(this) }, 1000L)
         }
         removeNotification(this)
