@@ -25,7 +25,7 @@ data class NewMessageEvent(
 
     fun isOut() = (flags and FLAG_OUT) > 0
 
-    fun hasMedia() = true // TODO add actual check
+    fun hasMedia() = info.attachmentsCount > 0 || info.getForwardedCount() > 0
 
     fun isUser() = peerId in 0..2000000000
 
@@ -35,19 +35,28 @@ data class NewMessageEvent(
             val title: String = "",
             val from: Int = 0,
             val emoji: Boolean = false,
-            val forwarded: String = ""
+            val forwarded: String = "",
+            val attachmentsCount: Int = 0
     ) {
         companion object {
             fun fromLinkedTreeMap(data: LinkedTreeMap<String, Any>): MessageInfo {
+                var attachmentsCount = 0
+                for (i in 10 downTo 1) {
+                    if ("attach$i" in data) {
+                        attachmentsCount = i
+                        break
+                    }
+                }
                 return MessageInfo(
                         title = (data["title"] as? String) ?: "",
                         from = (data["from"] as? Int) ?: 0,
                         emoji = (data["emoji"] as? String) == "1",
-                        forwarded = (data["fwd"] as? String) ?: ""
+                        forwarded = (data["fwd"] as? String) ?: "",
+                        attachmentsCount = attachmentsCount
                 )
             }
         }
 
-        fun getForwardedCount() = forwarded.split(",").size
+        fun getForwardedCount() = if (forwarded.isEmpty()) 0 else forwarded.split(",").size
     }
 }

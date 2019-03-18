@@ -73,7 +73,7 @@ class LongPollCore(private val context: Context) {
         lastRun = time()
         longPollStorage.getLongPollServer() ?: updateLongPollServer()
 
-        l("running with ${longPollStorage.getLongPollServer()?.ts}")
+        l("on ${longPollStorage.getLongPollServer()?.ts}")
         getConnectSingle(longPollStorage.getLongPollServer() ?: return)
                 .subscribe({ longPollUpdate: LongPollUpdate ->
                     onUpdateReceived(longPollUpdate)
@@ -112,9 +112,12 @@ class LongPollCore(private val context: Context) {
     }
 
     private fun deliverUpdate(updates: ArrayList<ArrayList<Any>>) {
-        LongPollEventFactory.createAll(updates).forEach { event ->
+        val events = LongPollEventFactory.createAll(updates)
+        if (events.isNotEmpty()) {
+            l("updates: ${events.size}")
+        }
+        events.forEach { event ->
             EventBus.publishLongPollEventReceived(event)
-            l("$event")
 
             when (event) {
                 is UnreadCountEvent -> processUnreadCount(event)
@@ -132,6 +135,7 @@ class LongPollCore(private val context: Context) {
     }
 
     private fun processNewMessage(event: NewMessageEvent) {
+        l("$event")
         if (event.isOut() || !Prefs.showNotifs
                 || event.peerId in Prefs.muteList) return
 

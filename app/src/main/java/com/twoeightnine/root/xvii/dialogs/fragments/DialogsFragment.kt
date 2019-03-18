@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.DialogsFragmentView
@@ -195,13 +196,13 @@ open class DialogsFragment : BaseOldFragment(), DialogsFragmentView {
                     }
                     message.fwdMessages = bicycle
                 }
-//                if (event.hasMedia()) {
-//                    val bicycle = ArrayList<Attachment>()
-//                    for (j in 0..event.info!!.attachmentsCount - 1) {
-//                        bicycle.add(Attachment())
-//                    }
-//                    message.attachments = bicycle
-//                }
+                if (event.hasMedia()) {
+                    val bicycle = ArrayList<Attachment>()
+                    for (j in 0 until event.info.attachmentsCount) {
+                        bicycle.add(Attachment())
+                    }
+                    message.attachments = bicycle
+                }
                 CacheHelper.saveMessageAsync(message)
                 val wasAtTop = adapter.firstVisiblePosition() == 0
                 adapter.removeAt(position)
