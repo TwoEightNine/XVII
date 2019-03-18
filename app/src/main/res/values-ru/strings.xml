@@ -231,5 +231,6 @@
     <string name="details">Подробнее</string>
     <string name="report_hint">Это поможет нам решить проблему быстрее</string>
     <string name="mark_as_read">Прочитано</string>
+    <string name="online_seen">в сети: %s</string>
 
 </resources>

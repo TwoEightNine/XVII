@@ -5,6 +5,7 @@
     <string name="share">Share XVII on my wall</string>
 
     <string name="last_seen">last seen: %s</string>
+    <string name="online_seen">online: %s</string>
     <string name="status">Status</string>
     <string name="bdate">Birth date</string>
     <string name="city">City</string>

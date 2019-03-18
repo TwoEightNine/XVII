@@ -65,6 +65,10 @@ class ProfileViewModel(private val api: ApiService) : ViewModel() {
         return "${date.substring(8)}.${date.substring(5, 7)}.${date.substring(0, 4)}"
     }
 
+    private fun updateStatus(isOnline: Boolean) {
+
+    }
+
     companion object {
         const val PHOTOS_COUNT = 100
         const val PHOTOS_ALBUM_ID = "profile"

@@ -225,6 +225,7 @@
     <string name="details">Détails</string>
     <string name="report_hint">Il nous aidera à résoudre le problème plus vite</string>
     <string name="mark_as_read">Marquer comme lu</string>
+    <string name="online_seen">en ligne: %s</string>
 
 </resources>
 

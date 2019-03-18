@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -78,14 +77,14 @@ class ProfileFragment : BaseFragment() {
         civPhoto.setOnClickListener { viewModel.loadPhotos(userId, ::onPhotosLoaded) }
         tvName.text = user.fullName
         rlChat.setOnClickListener {
-            (activity as? RootActivity)?.loadFragment(ChatFragment.newInstance(Message(
+            rootActivity?.loadFragment(ChatFragment.newInstance(Message(
                     0, 0, userId, 0, 0, user.fullName, "", null
             )))
         }
         if (!user.deactivated.isNullOrEmpty()) return
-        tvLastSeen.text = getString(R.string.last_seen, getTime(user.lastSeen?.time
-                ?: 0, full = true))
-        ivOnline.visibility = if ((user.online ?: 0) == 1) View.VISIBLE else View.GONE
+        val onlineRes = if (user.isOnline) R.string.online_seen else R.string.last_seen
+        tvLastSeen.text = getString(onlineRes, getTime(user.lastSeen?.time ?: 0, full = true))
+
         add(R.string.link, user.link, { goTo(user.link) }) { copy(user.link, R.string.link) }
         add(R.string.id, "${user.id}", null) { copy("${user.id}", R.string.id) }
         add(R.string.status, user.status, null) { copy(user.status, R.string.status) }
@@ -94,7 +93,7 @@ class ProfileFragment : BaseFragment() {
             add(R.string.city, user.city.title)
         }
         add(R.string.hometown, user.hometown)
-        add(R.string.relation, getRelation(context, user.relation ?: 0))
+        add(R.string.relation, getRelation(context, user.relation))
         add(R.string.mphone, user.mobilePhone,
                 {
                     callIntent(context, user.mobilePhone)

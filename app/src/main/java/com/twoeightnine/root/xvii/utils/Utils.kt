@@ -358,12 +358,13 @@ fun getPollFrom(userId: Int, chatId: Int) =
             else -> userId
         }
 
-fun getRelation(context: Context?, relation: Int): String {
-    if (relation == 0 || context == null) {
+fun getRelation(context: Context?, relation: Int?): String {
+    context ?: return ""
+    val relations = context.resources.getStringArray(R.array.relations)
+    if (relation == null || relation !in 1..relations.size) {
         return ""
     }
-    val relats = context.resources.getStringArray(R.array.relations)
-    return relats[relation - 1]
+    return relations[relation - 1]
 }
 
 fun callIntent(context: Context?, num: String?) {
@@ -383,7 +384,7 @@ fun addToGallery(context: Context, path: String) {
         cv.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
         cv.put(MediaStore.Images.Media.DATA, path)
         context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv)
-        context.contentResolver.notifyChange(Uri.parse("file://" + path), null)
+        context.contentResolver.notifyChange(Uri.parse("file://$path"), null)
     } catch (e: SecurityException) {
         showError(context, R.string.unable_to_add_to_gallery)
     }
