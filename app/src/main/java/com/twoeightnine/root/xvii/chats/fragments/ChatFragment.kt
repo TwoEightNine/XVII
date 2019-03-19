@@ -276,7 +276,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
                     if (message.isOut && time() - message.date < 3600 * 24) {
                         showDeleteMessagesDialog(callback)
                     } else {
-                        showDeleteDialog(safeActivity, { callback.invoke(false) })
+                        showDeleteDialog(safeActivity) { callback.invoke(false) }
                     }
                 }
                 R.id.llDecrypt -> {

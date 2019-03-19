@@ -6,13 +6,13 @@ import android.text.Html
 import android.text.TextUtils
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatFragmentView
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.response.ServerResponse
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil

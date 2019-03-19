@@ -9,11 +9,11 @@ import androidx.core.content.ContextCompat
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.WallPost
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.response.WallPostResponse
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.content_wall_post.view.*

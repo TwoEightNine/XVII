@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.model
+package com.twoeightnine.root.xvii.accounts.models
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

@@ -63,7 +63,7 @@ class ImportantFragment : BaseOldFragment(), ImportantFragmentView {
         getContextPopup(safeActivity, R.layout.popup_important) {
             when (it.id) {
                 R.id.llCopy -> copyToClip(message.body ?: "")
-                R.id.llDelete -> showDeleteDialog(safeActivity, { presenter.deleteMessages(mutableListOf(message.id)) })
+                R.id.llDelete -> showDeleteDialog(safeActivity) { presenter.deleteMessages(mutableListOf(message.id)) }
                 R.id.llForward -> rootActivity.loadFragment(DialogFwFragment.newInstance("${message.id}"))
             }
         }.show()

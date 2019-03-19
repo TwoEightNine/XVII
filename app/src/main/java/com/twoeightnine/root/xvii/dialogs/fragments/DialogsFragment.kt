@@ -104,14 +104,13 @@ open class DialogsFragment : BaseOldFragment(), DialogsFragmentView {
         if (position !in adapter.items.indices) return true
 
         val message = adapter.items[position]
-        getContextPopup(safeActivity, R.layout.popup_dialogs) {
-            view ->
+        getContextPopup(safeActivity, R.layout.popup_dialogs) { view ->
             when (view.id) {
 
-                R.id.llDelete -> showDeleteDialog(safeActivity, {
+                R.id.llDelete -> showDeleteDialog(safeActivity) {
                     presenter.deleteDialog(message, position)
                     CacheHelper.deleteDialogAsync(getPeerId(message.userId, message.chatId))
-                })
+                }
                 R.id.llRead -> presenter.readDialog(message)
                 R.id.llMute -> {
                     val muteList = Prefs.muteList
@@ -132,7 +131,7 @@ open class DialogsFragment : BaseOldFragment(), DialogsFragmentView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when(item?.itemId) {
+        return when (item?.itemId) {
             R.id.menu_search_users -> {
                 rootActivity.loadFragment(SearchMessagesFragment())
                 true

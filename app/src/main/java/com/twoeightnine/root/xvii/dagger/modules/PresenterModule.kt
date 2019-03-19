@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.dagger.modules
 
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.mvp.presenter.*
+import com.twoeightnine.root.xvii.network.ApiService
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -16,10 +16,6 @@ class PresenterModule {
     @Provides
     @Singleton
     fun provideChatPresenter(api: ApiService): ChatFragmentPresenter = ChatFragmentPresenter(api)
-
-    @Provides
-    @Singleton
-    fun provideFriendsPresenter(api: ApiService): FriendsFragmentPresenter = FriendsFragmentPresenter(api)
 
     @Provides
     @Singleton

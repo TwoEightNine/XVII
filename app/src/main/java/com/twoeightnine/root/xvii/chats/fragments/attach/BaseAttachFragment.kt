@@ -1,16 +1,13 @@
 package com.twoeightnine.root.xvii.chats.fragments.attach
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.model.Attachment
-import java.lang.Exception
+import com.twoeightnine.root.xvii.network.ApiService
 import javax.inject.Inject
 
 

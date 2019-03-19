@@ -1,10 +1,9 @@
 package com.twoeightnine.root.xvii.mvp.presenter
 
-import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.SearchMessagesFragmentView
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 
 class SearchMessagesFragmentPresenter(api: ApiService): BasePresenter<SearchMessagesFragmentView>(api) {

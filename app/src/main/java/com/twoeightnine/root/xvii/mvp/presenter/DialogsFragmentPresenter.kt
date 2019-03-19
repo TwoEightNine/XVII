@@ -2,11 +2,11 @@ package com.twoeightnine.root.xvii.mvp.presenter
 
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.DialogsFragmentView
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.response.ServerResponse
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.Flowable

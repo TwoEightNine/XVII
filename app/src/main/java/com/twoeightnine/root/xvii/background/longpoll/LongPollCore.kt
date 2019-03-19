@@ -22,11 +22,11 @@ import com.twoeightnine.root.xvii.background.longpoll.models.events.LongPollEven
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.background.longpoll.models.events.UnreadCountEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.UserDb
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.realm.Realm

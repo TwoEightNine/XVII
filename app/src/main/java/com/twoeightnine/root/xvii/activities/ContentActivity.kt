@@ -13,7 +13,7 @@ abstract class ContentActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
-        loadFragment(getFragment(intent.extras))
+        savedInstanceState ?: loadFragment(getFragment(intent.extras))
     }
 
     protected fun loadFragment(fragment: Fragment) {

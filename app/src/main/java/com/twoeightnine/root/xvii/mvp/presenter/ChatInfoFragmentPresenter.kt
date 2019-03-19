@@ -1,11 +1,11 @@
 package com.twoeightnine.root.xvii.mvp.presenter
 
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatInfoFragmentView
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 
 class ChatInfoFragmentPresenter(api: ApiService): BasePresenter<ChatInfoFragmentView>(api) {

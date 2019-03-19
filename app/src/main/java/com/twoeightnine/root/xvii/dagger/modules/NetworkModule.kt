@@ -7,8 +7,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
-import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.dagger.TokenAndVersionInterceptor
+import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.network.TokenAndVersionInterceptor
 import com.twoeightnine.root.xvii.utils.ApiUtils
 import com.twoeightnine.root.xvii.utils.isOnline
 import dagger.Module

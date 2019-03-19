@@ -2,8 +2,8 @@ package com.twoeightnine.root.xvii.chats.fragments.attachments
 
 import android.view.View
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.response.AttachmentsResponse
 import com.twoeightnine.root.xvii.utils.ApiUtils
 import com.twoeightnine.root.xvii.utils.showError

@@ -3,12 +3,9 @@ package com.twoeightnine.root.xvii.activities
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.Button
-import android.widget.TextView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.dagger.ApiService
-import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.restartApp
 import com.twoeightnine.root.xvii.utils.showCommon
 import com.twoeightnine.root.xvii.utils.showError

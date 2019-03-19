@@ -6,7 +6,6 @@ import android.view.MenuInflater
 import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.friends.adapters.UsersAdapter
 import com.twoeightnine.root.xvii.managers.Style
@@ -14,6 +13,7 @@ import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.mvp.presenter.ChatInfoFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatInfoFragmentView
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.showCommon

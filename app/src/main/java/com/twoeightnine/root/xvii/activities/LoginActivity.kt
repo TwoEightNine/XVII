@@ -12,9 +12,9 @@ import android.webkit.WebViewClient
 import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.model.Account
 import com.twoeightnine.root.xvii.model.LongPollServer
 import com.twoeightnine.root.xvii.utils.*
 import io.realm.Realm

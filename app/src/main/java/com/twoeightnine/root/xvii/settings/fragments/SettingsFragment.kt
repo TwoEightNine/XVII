@@ -7,13 +7,14 @@ import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
+import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.Account
 import com.twoeightnine.root.xvii.settings.Item
 import com.twoeightnine.root.xvii.settings.adapters.SettingsAdapter
 import com.twoeightnine.root.xvii.utils.CacheHelper

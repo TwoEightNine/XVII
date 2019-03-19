@@ -1,31 +1,67 @@
 package com.twoeightnine.root.xvii.fragments
 
+import android.os.Bundle
 import android.text.Html
 import android.view.View
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.screenWidth
+import com.twoeightnine.root.xvii.utils.show
 import kotlinx.android.synthetic.main.fragment_egg.*
 
 /**
  * Created by chuck palahniuk on 8/18/17.
  */
 
-class EggFragment: BaseOldFragment() {
+class EggFragment : BaseFragment() {
 
-    override fun bindViews(view: View) {
-        super.bindViews(view)
+    private val mode by lazy { arguments?.getInt(ARG_MODE) }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        when (mode) {
+            MODE_FIGHT_CLUB -> bindFightClub()
+            MODE_LETOV_AGAINST -> bindLetovAgainst()
+        }
+    }
+
+    private fun bindFightClub() {
+        rlFightClub.show()
         val scale = 500f / 335f
-        val width = screenWidth(safeActivity)
+        val width = screenWidth(activity ?: return)
         val height = (width / scale).toInt()
         Picasso.get()
-                .load("https://s-media-cache-ak0.pinimg.com/originals/22/6e/f8/226ef80405ed0da0b726c13d4a0bc9a1.jpg")
+                .load(URL_FIGHT_CLUB)
                 .resize(width, height)
                 .centerCrop()
                 .into(ivBack)
         tvText.text = Html.fromHtml(getString(R.string.quote))
-
     }
 
-    override fun getLayout() = R.layout.fragment_egg
+    private fun bindLetovAgainst() {
+        rlLetovAgainst.show()
+        ivLetov.load(URL_LETOV_AGAINST, placeholder = false)
+    }
+
+    override fun getLayoutId() = R.layout.fragment_egg
+
+    companion object {
+
+        const val ARG_MODE = "mode"
+        const val MODE_FIGHT_CLUB = 1
+        const val MODE_LETOV_AGAINST = 2
+
+        const val URL_LETOV_AGAINST = "https://pm1.narvii.com/6928/dc0afe415977f8e76a7b9523acd8adfcc5c060e2r1-960-233v2_hq.jpg"
+        const val URL_FIGHT_CLUB = "https://s-media-cache-ak0.pinimg.com/originals/22/6e/f8/226ef80405ed0da0b726c13d4a0bc9a1.jpg"
+
+        fun newInstance(mode: Int = MODE_FIGHT_CLUB): EggFragment {
+            val fragment = EggFragment()
+            fragment.arguments = Bundle().apply {
+                putInt(ARG_MODE, mode)
+            }
+            return fragment
+        }
+    }
 }

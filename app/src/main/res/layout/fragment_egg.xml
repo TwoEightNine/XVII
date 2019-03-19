@@ -1,52 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#001"
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_above="@+id/ivBack"
+        android:id="@+id/rlFightClub"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#001"
+        android:visibility="gone">
 
-        <TextView
-            android:gravity="center"
-            android:layout_centerVertical="true"
-            android:id="@+id/tvText"
-            android:textSize="21sp"
-            android:textColor="#ffe"
-            android:layout_margin="32dp"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ivBack">
+
+            <TextView
+                android:id="@+id/tvText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="32dp"
+                android:gravity="center"
+                android:textColor="#ffe"
+                android:textSize="21sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/shape_egg_top" />
+
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:scaleType="centerCrop" />
 
         <View
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/shape_egg_top"
             android:layout_width="match_parent"
-            android:layout_height="70dp" />
-
+            android:layout_height="70dp"
+            android:layout_alignTop="@+id/ivBack"
+            android:background="@drawable/shape_egg_bottom" />
 
     </RelativeLayout>
 
-
-
-
-
-    <ImageView
-        android:layout_alignParentBottom="true"
-        android:scaleType="centerCrop"
-        android:id="@+id/ivBack"
+    <RelativeLayout
+        android:id="@+id/rlLetovAgainst"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:background="#000"
+        android:visibility="gone">
 
-    <View
-        android:background="@drawable/shape_egg_bottom"
-        android:layout_alignTop="@+id/ivBack"
-        android:layout_width="match_parent"
-        android:layout_height="70dp" />
+        <ImageView
+            android:id="@+id/ivLetov"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside" />
 
-
+    </RelativeLayout>
 
 </RelativeLayout>

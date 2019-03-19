@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.dagger
 
+import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.activities.ExceptionActivity
 import com.twoeightnine.root.xvii.activities.GifViewerActivity
 import com.twoeightnine.root.xvii.activities.LoginActivity
@@ -32,7 +33,6 @@ import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.settings.fragments.AboutFragment
-import com.twoeightnine.root.xvii.settings.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import dagger.Component
 import javax.inject.Singleton

@@ -18,9 +18,7 @@ object Lg {
     }
 
     fun dbg(s: String) {
-        if (BuildConfig.DEBUG) {
-            i(s)
-        }
+        if (BuildConfig.DEBUG) i(s)
     }
 
     fun wtf(s: String) {

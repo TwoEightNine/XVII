@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.dagger
+package com.twoeightnine.root.xvii.network
 
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate

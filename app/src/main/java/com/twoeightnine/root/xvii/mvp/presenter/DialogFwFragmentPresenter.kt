@@ -1,14 +1,13 @@
 package com.twoeightnine.root.xvii.mvp.presenter
 
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.MessageContainer
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.DialogFwFragmentView
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.getPollFrom
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 

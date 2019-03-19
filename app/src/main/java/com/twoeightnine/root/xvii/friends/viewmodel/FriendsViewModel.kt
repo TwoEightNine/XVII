@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.background.longpoll.models.events.OfflineEvent
 import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
-import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.EventBus
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import javax.inject.Inject

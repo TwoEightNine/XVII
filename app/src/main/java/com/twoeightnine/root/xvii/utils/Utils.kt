@@ -516,17 +516,21 @@ fun getCroppedImagePath(activity: Activity, original: String): String {
     return fileName
 }
 
-fun showDeleteDialog(context: Context,
-                     onDelete: () -> Unit = {},
-                     message: String = context.getString(R.string.want_delete)) {
-    val dialog = androidx.appcompat.app.AlertDialog.Builder(context)
-            .setMessage(message)
+fun showDeleteDialog(context: Context?,
+                     message: String? = null,
+                     onDelete: () -> Unit = {}
+) {
+    context ?: return
+
+    val dialog = AlertDialog.Builder(context)
+            .setMessage(message ?: context.getString(R.string.want_delete))
             .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(android.R.string.ok, { _, _ -> onDelete.invoke() })
+            .setPositiveButton(android.R.string.ok) { _, _ -> onDelete.invoke() }
             .create()
     dialog.show()
     Style.forDialog(dialog)
 }
+
 
 fun hideKeyboard(activity: Activity) {
     val view = activity.currentFocus

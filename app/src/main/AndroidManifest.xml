@@ -115,6 +115,7 @@
                     android:pathPrefix="/id" />
             </intent-filter>
         </activity>
+        <activity android:name=".accounts.activities.AccountsActivity" />
     </application>
 
 </manifest>
