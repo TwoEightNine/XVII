@@ -60,15 +60,15 @@ object Prefs {
     //data
     //general
     var beOffline: Boolean
-        get() = data.getBoolean(BE_OFFLINE, true)
+        get() = data.getBoolean(BE_OFFLINE, false)
         set(beOffline) = data.edit().putBoolean(BE_OFFLINE, beOffline).apply()
 
     var markAsRead: Boolean
-        get() = data.getBoolean(MARK, false)
+        get() = data.getBoolean(MARK, true)
         set(markAsRead) = data.edit().putBoolean(MARK, markAsRead).apply()
 
     var showTyping: Boolean
-        get() = data.getBoolean(TYPING, false)
+        get() = data.getBoolean(TYPING, true)
         set(showTyping) = data.edit().putBoolean(TYPING, showTyping).apply()
 
     var manualUpdating: Boolean
@@ -76,7 +76,7 @@ object Prefs {
         set(value) = data.edit().putBoolean(MANUAL_UPD, value).apply()
 
     var storeCustomKeys
-        get() = data.getBoolean(STORE_CUSTOM_KEYS, false)
+        get() = data.getBoolean(STORE_CUSTOM_KEYS, true)
         set(value) = data.edit().putBoolean(STORE_CUSTOM_KEYS, value).apply()
 
     //notifications

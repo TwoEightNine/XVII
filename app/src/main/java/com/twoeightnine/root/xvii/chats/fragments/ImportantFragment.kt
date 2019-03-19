@@ -17,7 +17,7 @@ import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_important.*
 import javax.inject.Inject
 
-class ImportantFragment: BaseOldFragment(), ImportantFragmentView {
+class ImportantFragment : BaseOldFragment(), ImportantFragmentView {
 
     @Inject
     lateinit var presenter: ImportantFragmentPresenter
@@ -60,13 +60,13 @@ class ImportantFragment: BaseOldFragment(), ImportantFragmentView {
         if (position !in adapter.items.indices) return true
 
         val message = adapter.items[position]
-        getContextPopup(safeActivity, R.layout.popup_important, {
+        getContextPopup(safeActivity, R.layout.popup_important) {
             when (it.id) {
                 R.id.llCopy -> copyToClip(message.body ?: "")
                 R.id.llDelete -> showDeleteDialog(safeActivity, { presenter.deleteMessages(mutableListOf(message.id)) })
                 R.id.llForward -> rootActivity.loadFragment(DialogFwFragment.newInstance("${message.id}"))
             }
-        }).show()
+        }.show()
         return true
     }
 

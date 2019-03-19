@@ -40,7 +40,8 @@ class ProfileFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[ProfileViewModel::class.java]
         viewModel.getUser().observe(this, Observer { updateUser(it) })
         viewModel.getFoaf().observe(this, Observer { updateFoaf(it) })
-        viewModel.loadUser(userId)
+        viewModel.userId = userId
+        viewModel.loadUser()
     }
 
     private fun stylize() {
@@ -54,6 +55,7 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun updateUser(data: Wrapper<User>) {
+        progressBar.hide()
         if (data.data != null) {
             bindUser(data.data)
         } else {
@@ -74,7 +76,7 @@ class ProfileFragment : BaseFragment() {
     private fun bindUser(user: User) {
         CacheHelper.saveUserAsync(user)
         civPhoto.load(user.photoMax)
-        civPhoto.setOnClickListener { viewModel.loadPhotos(userId, ::onPhotosLoaded) }
+        civPhoto.setOnClickListener { viewModel.loadPhotos(::onPhotosLoaded) }
         tvName.text = user.fullName
         rlChat.setOnClickListener {
             rootActivity?.loadFragment(ChatFragment.newInstance(Message(

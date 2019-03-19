@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.dialogs.adapters
 import android.content.Context
 import android.text.Html
 import android.text.SpannableStringBuilder
-import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,12 +14,15 @@ import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.utils.EmojiHelper
 import com.twoeightnine.root.xvii.utils.getTime
 import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.setVisible
 import kotlinx.android.synthetic.main.item_dialog.view.*
 
-open class DialogsAdapter(context: Context,
-                          loader: (Int) -> Unit,
-                          protected var clickListener: (Int) -> Unit,
-                          protected var longClickListener: (Int) -> Boolean) : PaginationAdapter<Message>(context, loader) {
+open class DialogsAdapter(
+        context: Context,
+        loader: (Int) -> Unit,
+        protected var clickListener: (Int) -> Unit,
+        protected var longClickListener: (Int) -> Boolean
+) : PaginationAdapter<Message>(context, loader) {
 
 
     override var stubLoadItem: Message? = Message.stubLoad
@@ -47,38 +49,25 @@ open class DialogsAdapter(context: Context,
                 civPhoto.load(message.photo ?: App.PHOTO_STUB)
 
                 tvTitle.text = message.title
-                if (message.emoji == 1) {
-                    tvBody.text = EmojiHelper.getEmojied(
+                tvBody.text = if (message.emoji == 1) {
+                    EmojiHelper.getEmojied(
                             context,
                             message.body ?: "",
-                            Html.fromHtml(getMessageBody(App.context, message)) as SpannableStringBuilder
+                            Html.fromHtml(getMessageBody(context, message)) as SpannableStringBuilder
                     )
                 } else {
-                    tvBody.text = Html.fromHtml(getMessageBody(App.context, message))
+                    Html.fromHtml(getMessageBody(context, message))
                 }
                 tvDate.text = getTime(message.date)
 
-                if (message.online == 1) {
-                    ivOnlineDot.visibility = View.VISIBLE
-                } else {
-                    ivOnlineDot.visibility = View.GONE
-                }
-                rlMute.visibility = if (message.isMute) View.VISIBLE else View.GONE
+                ivOnlineDot.setVisible(message.online == 1)
+                rlMute.setVisible(message.isMute)
+                ivUnreadDotOut.setVisible(!message.isRead && message.isOut)
+                rlUnreadCount.setVisible(!message.isRead && !message.isOut && message.unread > 0)
 
-
-                if (!message.isRead) {
-                    if (message.isOut) {
-                        ivUnreadDotOut.setImageResource(R.drawable.unread_dot_shae)
-                        rlUnreadCount.visibility = View.GONE
-                    } else if (message.unread != 0) {
-                        rlUnreadCount.visibility = View.VISIBLE
-                        val unread = if (message.unread > 99) context.getString(R.string.unread100) else message.unread.toString()
-                        tvUnreadCount.text = unread
-                        ivUnreadDotOut.setImageDrawable(null)
-                    }
-                } else {
-                    ivUnreadDotOut.setImageDrawable(null)
-                    rlUnreadCount.visibility = View.GONE
+                if (message.unread != 0) {
+                    val unread = if (message.unread > 99) context.getString(R.string.unread100) else message.unread.toString()
+                    tvUnreadCount.text = unread
                 }
 
                 Style.forImageView(ivOnlineDot, Style.MAIN_TAG)
@@ -92,17 +81,17 @@ open class DialogsAdapter(context: Context,
         private fun getMessageBody(context: Context, message: Message): String {
             val fwdCount = if (message.fwdMessages == null) 0 else (message.fwdMessages as ArrayList).size
             val attCount = if (message.attachments == null) 0 else (message.attachments as ArrayList).size
-            if (!TextUtils.isEmpty(message.body))
+            if (!message.body.isNullOrEmpty())
                 return message.body ?: ""
             if (fwdCount != 0)
                 return context.getString(R.string.fwd_message, fwdCount)
             if (attCount != 0) {
                 return context.resources.getQuantityString(R.plurals.attach, attCount, attCount)
             }
-            if (message.action == Message.OUTOFCHAT) {
+            if (message.action == Message.OUT_OF_CHAT) {
                 return context.getString(R.string.kick_chat)
             }
-            if (message.action == Message.INCHAT) {
+            if (message.action == Message.IN_CHAT) {
                 return context.getString(R.string.invite_chat)
             }
             return context.getString(R.string.error_message)

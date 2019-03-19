@@ -81,6 +81,7 @@
                     android:textSize="12sp" />
 
                 <ImageView
+                    android:src="@drawable/unread_dot_shae"
                     android:id="@+id/ivUnreadDotOut"
                     android:layout_width="10dp"
                     android:layout_height="10dp"

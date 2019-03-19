@@ -2,8 +2,6 @@ package com.twoeightnine.root.xvii.chats.adapters
 
 import android.content.Context
 import android.graphics.Color
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Html
 import android.text.Spanned
 import android.text.TextUtils
@@ -11,9 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.RootActivity
@@ -162,10 +161,10 @@ class ChatAdapter(context: Context,
                         }
                     } else {
                         var body = ""
-                        if (message.action == Message.INCHAT) {
+                        if (message.action == Message.IN_CHAT) {
                             body = context.getString(R.string.invite_chat_full, "" + message.actionMid!!)
                         }
-                        if (message.action == Message.OUTOFCHAT) {
+                        if (message.action == Message.OUT_OF_CHAT) {
                             body = context.getString(R.string.kick_chat_full, "" + message.actionMid!!)
                         }
                         if (message.action == Message.TITLE_UPDATE) {

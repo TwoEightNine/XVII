@@ -3,14 +3,33 @@ package com.twoeightnine.root.xvii.profile.viewmodels
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.twoeightnine.root.xvii.background.longpoll.models.events.OfflineEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.dagger.ApiService
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.*
+import com.twoeightnine.root.xvii.utils.EventBus
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import javax.inject.Inject
 
 class ProfileViewModel(private val api: ApiService) : ViewModel() {
+
+    init {
+        EventBus.subscribeLongPollEventReceived { event ->
+            when(event) {
+                is OnlineEvent -> if (event.userId == userId) updateStatus(true)
+                is OfflineEvent-> if (event.userId == userId) updateStatus(false)
+            }
+        }
+    }
+
+    var userId: Int = 0
+        set(value) {
+            if (userId == 0) {
+                field = value
+            }
+        }
 
     private val photos = arrayListOf<Photo>()
 
@@ -21,19 +40,19 @@ class ProfileViewModel(private val api: ApiService) : ViewModel() {
 
     fun getFoaf() = foafLiveData as WrappedLiveData<String>
 
-    fun loadUser(userId: Int) {
+    fun loadUser() {
         api.getUsers("$userId")
                 .subscribeSmart({ users ->
                     val user = users[0]
                     userLiveData.value = Wrapper(user)
-                    loadFoaf(userId)
+                    loadFoaf()
                 }, { error ->
                     userLiveData.value = Wrapper(error = error)
                 })
     }
 
     @SuppressLint("CheckResult")
-    fun loadFoaf(userId: Int) {
+    fun loadFoaf() {
         api.getFoaf("https://vk.com/foaf.php", userId)
                 .compose(applySchedulers())
                 .subscribe({ response ->
@@ -44,7 +63,7 @@ class ProfileViewModel(private val api: ApiService) : ViewModel() {
                 })
     }
 
-    fun loadPhotos(userId: Int, onLoaded: (ArrayList<Photo>) -> Unit) {
+    fun loadPhotos(onLoaded: (ArrayList<Photo>) -> Unit) {
         if (photos.isNotEmpty()) {
             onLoaded(photos)
             return
@@ -66,7 +85,9 @@ class ProfileViewModel(private val api: ApiService) : ViewModel() {
     }
 
     private fun updateStatus(isOnline: Boolean) {
-
+        val user = userLiveData.value?.data ?: return
+        user.isOnline = isOnline
+        userLiveData.value = Wrapper(user)
     }
 
     companion object {

@@ -16,6 +16,7 @@ import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_friends.*
 import javax.inject.Inject
@@ -39,6 +40,10 @@ class FriendsFragment : BaseFragment() {
 
         rvFriends.layoutManager = LinearLayoutManager(context)
         rvFriends.adapter = adapter
+
+        swipeRefresh.setOnRefreshListener {
+            viewModel.loadFriends()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -47,6 +52,8 @@ class FriendsFragment : BaseFragment() {
     }
 
     private fun updateFriends(data: Wrapper<ArrayList<User>>) {
+        swipeRefresh.isRefreshing = false
+        progressBar.hide()
         if (data.data != null) {
             adapter.update(data.data)
         } else {
@@ -61,7 +68,7 @@ class FriendsFragment : BaseFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId){
+        return when (item?.itemId) {
             R.id.menu_search -> {
                 rootActivity?.loadFragment(SearchUsersFragment())
                 true

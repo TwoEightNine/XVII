@@ -174,10 +174,10 @@ class Message : Parcelable, Serializable {
 
         val stubTry: Message = Message(-2)
 
-        var OUTOFCHAT = "chat_kick_user"
-        var INCHAT = "chat_invite_user"
-        var TITLE_UPDATE = "chat_title_update"
-        var CREATE = "chat_create"
+        const val OUT_OF_CHAT = "chat_kick_user"
+        const val IN_CHAT = "chat_invite_user"
+        const val TITLE_UPDATE = "chat_title_update"
+        const val CREATE = "chat_create"
 
 
         fun isStubLoad(mess: Message) = mess.id == -1
