@@ -670,10 +670,10 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
 
     override fun onCacheRestored() {
         if (isOnline()) {
-            swipeContainer.isRefreshing = true
+            swipeContainer?.isRefreshing = true
             presenter.loadHistory(withClear = true)
         } else {
-            swipeContainer.isRefreshing = false
+            swipeContainer?.isRefreshing = false
         }
     }
 
