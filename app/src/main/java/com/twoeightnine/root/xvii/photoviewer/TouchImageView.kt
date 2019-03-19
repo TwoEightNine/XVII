@@ -1,15 +1,15 @@
-package com.twoeightnine.root.xvii.views.photoviewer
+package com.twoeightnine.root.xvii.photoviewer
 
 import android.content.Context
 import android.graphics.Matrix
 import android.graphics.PointF
-import androidx.appcompat.widget.AppCompatImageView
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 
 class TouchImageView : AppCompatImageView {
 

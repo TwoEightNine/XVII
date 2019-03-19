@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.views.photoviewer
+package com.twoeightnine.root.xvii.photoviewer
 
 /**
  * Created by twoeightnine on 1/25/18.

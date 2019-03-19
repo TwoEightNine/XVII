@@ -83,7 +83,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".views.photoviewer.ImageViewerActivity"
+            android:name=".photoviewer.ImageViewerActivity"
             android:screenOrientation="portrait" />
 
         <activity

@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
@@ -13,9 +12,9 @@ import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.models.Account
+import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.model.LongPollServer
 import com.twoeightnine.root.xvii.utils.*
 import io.realm.Realm
 import java.util.regex.Pattern
@@ -28,6 +27,9 @@ class LoginActivity : BaseActivity() {
 
     @Inject
     lateinit var apiUtils: ApiUtils
+
+    @Inject
+    lateinit var longPollStorage: LongPollStorage
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +46,7 @@ class LoginActivity : BaseActivity() {
     private fun checkToken() {
         val token = Session.token
         val uid = Session.uid
-        if (!TextUtils.isEmpty(token)) {
-            Lg.i("TOKEN = ${token.substring(0, 2)}...${token.substring(token.length - 2, token.length)}")
-        } else {
-            Lg.i("NO TOKEN")
-        }
-        if (token.isEmpty()) {
+        if (token.isNullOrEmpty()) {
             toLogIn()
         } else {
             apiUtils.checkAccount(token, uid, { toPin() }, { toLogIn() }, { toPin() })
@@ -95,7 +92,7 @@ class LoginActivity : BaseActivity() {
             onFailed(getString(R.string.invalid_user_id))
             return
         }
-        Lg.i("LOGIN: token obtained ...${token.substring(token.length - 6)}")
+        Lg.i("[login] token obtained ...${token.substring(token.length - 6)}")
 
         rlLoader.visibility = View.VISIBLE
         web.visibility = View.GONE
@@ -149,16 +146,14 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun goNext() {
-        val intent = Intent()
-        intent.setClass(applicationContext, RootActivity::class.java)
-        Session.longPoll = LongPollServer("", "", 0)
-        startActivity(intent)
+        longPollStorage.clear()
+        startActivity(Intent(this, RootActivity::class.java))
         finish()
     }
 
     companion object {
 
-        private val LOGIN_URL = "https://oauth.vk.com/authorize?" +
+        private const val LOGIN_URL = "https://oauth.vk.com/authorize?" +
                 "client_id=${App.APP_ID}&" +
                 "scope=${App.SCOPE_ALL}&" +
                 "redirect_uri=${App.REDIRECT_URL}&" +

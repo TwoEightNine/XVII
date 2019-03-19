@@ -31,9 +31,9 @@ import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
+import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.settings.fragments.AboutFragment
-import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import dagger.Component
 import javax.inject.Singleton
 

@@ -16,9 +16,9 @@ import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.viewmodels.ProfileViewModel
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.item_user_field.view.*
 import javax.inject.Inject
@@ -74,7 +74,7 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun bindUser(user: User) {
-        CacheHelper.saveUserAsync(user)
+        llContainer.removeAllViews()
         civPhoto.load(user.photoMax)
         civPhoto.setOnClickListener { viewModel.loadPhotos(::onPhotosLoaded) }
         tvName.text = user.fullName

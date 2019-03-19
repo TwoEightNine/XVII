@@ -1,16 +1,15 @@
 package com.twoeightnine.root.xvii.friends.adapters
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.loadRounded
 import kotlinx.android.synthetic.main.item_user.view.*
 
 class UsersAdapter(context: Context,

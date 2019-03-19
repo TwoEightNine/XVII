@@ -13,12 +13,14 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.friends.adapters.FriendsAdapter
 import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
+import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_friends.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 class FriendsFragment : BaseFragment() {
@@ -49,6 +51,7 @@ class FriendsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setTitle(getString(R.string.fiends))
+        Style.forToolbar(toolbar)
     }
 
     private fun updateFriends(data: Wrapper<ArrayList<User>>) {

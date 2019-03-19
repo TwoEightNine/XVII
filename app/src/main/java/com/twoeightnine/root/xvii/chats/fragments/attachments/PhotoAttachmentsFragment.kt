@@ -1,14 +1,12 @@
 package com.twoeightnine.root.xvii.chats.fragments.attachments
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.attachments.PhotoAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.Photo
+import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.response.AttachmentsResponse
-import com.twoeightnine.root.xvii.utils.ApiUtils
-import com.twoeightnine.root.xvii.views.photoviewer.ImageViewerActivity
 import kotlinx.android.synthetic.main.fragment_attachments_photo.*
 
 class PhotoAttachmentsFragment : BaseAttachmentsFragment<Photo>() {

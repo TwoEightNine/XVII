@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.views.photoviewer
+package com.twoeightnine.root.xvii.photoviewer
 
 import android.app.Activity
 import android.content.Context

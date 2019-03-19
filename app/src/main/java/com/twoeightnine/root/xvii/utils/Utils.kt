@@ -406,15 +406,6 @@ fun downloadFile(context: Context, url: String, fileName: String, type: String, 
     task.execute(url, fileName, type)
 }
 
-fun downloadSticker(context: Context, url: String, fileName: String, type: String, listener: (() -> Unit)) {
-    val task = DownloadFileAsyncTask(false, true)
-    task.listener = {
-        addToGallery(context, it)
-        listener.invoke()
-    }
-    task.execute(url, fileName, type)
-}
-
 fun getPeerId(userId: Int, chatId: Int): Int = if (chatId == 0) userId else 2000000000 + chatId
 
 fun getFromPeerId(peerId: Int) = intArrayOf(if (peerId > 2000000000) 0 else peerId, if (peerId > 2000000000) peerId - 2000000000 else 0)
@@ -446,15 +437,6 @@ fun loadBitmapIcon(url: String?, callback: (Bitmap) -> Unit) {
                 })
     }
 
-}
-
-fun getImageRatio(path: String): Float {
-    val options = BitmapFactory.Options()
-    options.inJustDecodeBounds = true
-    BitmapFactory.decodeFile(path, options)
-    val imageHeight = options.outHeight.toFloat()
-    val imageWidth = options.outWidth.toFloat()
-    return imageWidth / imageHeight
 }
 
 fun screenWidth(activity: Activity): Int {
@@ -620,9 +602,9 @@ fun getMessageFromLongPoll(event: NewMessageEvent,
             null,
             if (event.hasEmoji()) 1 else 0
     )
-//    if (event.info!!.from != 0) {
-//        message.userId = event.info!!.from
-//    }
+    if (event.info.from != 0) {
+        message.userId = event.info.from
+    }
     if (event.peerId > 2000000000) {
         message.chatId = event.peerId - 2000000000
     } else if (event.peerId > 1000000000) {
@@ -659,24 +641,18 @@ fun setMessageTitles(users: HashMap<Int, User>, message: Message, level: Int): M
 
 fun writeResponseBodyToDisk(body: ResponseBody, fileName: String): Boolean {
     try {
-        val futureStudioIconFile = File(fileName)
         var inputStream: InputStream? = null
         var outputStream: OutputStream? = null
 
         try {
             val fileReader = ByteArray(4096)
-            val fileSize = body.contentLength()
-            var fileSizeDownloaded: Long = 0
             inputStream = body.byteStream()
-            outputStream = FileOutputStream(futureStudioIconFile)
-
+            outputStream = FileOutputStream(File(fileName))
             while (true) {
-                val read = inputStream!!.read(fileReader)
-                if (read == -1) {
-                    break
-                }
+                val read = inputStream.read(fileReader)
+                if (read == -1) break
+
                 outputStream.write(fileReader, 0, read)
-                fileSizeDownloaded += read.toLong()
             }
             outputStream.flush()
             return true
@@ -686,12 +662,8 @@ fun writeResponseBodyToDisk(body: ResponseBody, fileName: String): Boolean {
             return false
 
         } finally {
-            if (inputStream != null) {
-                inputStream.close()
-            }
-            if (outputStream != null) {
-                outputStream.close()
-            }
+            inputStream?.close()
+            outputStream?.close()
         }
     } catch (e: IOException) {
         e.printStackTrace()

@@ -6,7 +6,7 @@
     android:background="@android:color/black"
     android:orientation="vertical">
 
-    <com.twoeightnine.root.xvii.views.photoviewer.StopableViewPager
+    <com.twoeightnine.root.xvii.photoviewer.StopableViewPager
         android:id="@+id/vpImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

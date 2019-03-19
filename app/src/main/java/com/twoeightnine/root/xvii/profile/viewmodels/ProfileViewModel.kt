@@ -8,6 +8,7 @@ import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.EventBus
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.subscribeSmart
@@ -17,9 +18,9 @@ class ProfileViewModel(private val api: ApiService) : ViewModel() {
 
     init {
         EventBus.subscribeLongPollEventReceived { event ->
-            when(event) {
+            when (event) {
                 is OnlineEvent -> if (event.userId == userId) updateStatus(true)
-                is OfflineEvent-> if (event.userId == userId) updateStatus(false)
+                is OfflineEvent -> if (event.userId == userId) updateStatus(false)
             }
         }
     }
@@ -44,6 +45,7 @@ class ProfileViewModel(private val api: ApiService) : ViewModel() {
         api.getUsers("$userId")
                 .subscribeSmart({ users ->
                     val user = users[0]
+                    CacheHelper.saveUserAsync(user)
                     userLiveData.value = Wrapper(user)
                     loadFoaf()
                 }, { error ->

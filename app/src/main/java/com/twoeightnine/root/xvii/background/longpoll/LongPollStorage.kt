@@ -25,7 +25,7 @@ class LongPollStorage @Inject constructor(private val context: Context) {
 
     fun getLongPollServer(): LongPollServer? {
         val serialized = prefs.getString(SERVER, "")
-        serialized ?: return null
+        if (serialized.isNullOrEmpty()) return null
 
         return gson.fromJson<LongPollServer>(serialized, LongPollServer::class.java)
     }

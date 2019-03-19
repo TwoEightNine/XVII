@@ -85,9 +85,6 @@ interface ApiService {
                       @Query("limit") limit: Int,
                       @Query("fields") fields: String): Flowable<ServerResponse<MutableList<MessageSearchModel>>>
 
-    @GET("messages.createChat")
-    fun createChat(@Query("user_ids") userIds: String): Flowable<ServerResponse<Int>>
-
     @GET("messages.get?filters=8")
     fun getImportantMessages(@Query("count") count: Int,
                              @Query("offset") offset: Int): Flowable<ServerResponse<ListResponse<Message>>>
@@ -127,10 +124,6 @@ interface ApiService {
             @Query("offset") offset: Int = 0,
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<ServerResponse<ListResponse<User>>>
-
-    @GET("friends.getOnline")
-    fun getOnlineFriends(@Query("count") count: Int,
-                         @Query("offset") offset: Int): Flowable<ServerResponse<List<Int>>>
 
     @GET("friends.search")
     fun searchFriends(@Query("q") q: String,
@@ -224,24 +217,8 @@ interface ApiService {
     fun unlike(@Query("owner_id") ownerId: Int,
                @Query("item_id") itemId: Int): Flowable<ServerResponse<LikesResponse>>
 
-    @GET("wall.post")
-    fun postToWall(@Query("owner_id") ownerId: Int,
-                   @Query("message") message: String,
-                   @Query("attachments") attachments: String): Flowable<ServerResponse<JSONObject>>
-
     @GET("wall.repost")
     fun repost(@Query("object") obj: String): Flowable<ServerResponse<JSONObject>>
-
-    @GET("newsfeed.get?filters=post")
-    fun getFeed(@Query("count") count: Int,
-                @Query("start_from") startFrom: String): Flowable<ServerResponse<FeedResponse>>
-
-    @GET("newsfeed.getRecommended?max_photos=10")
-    fun getRecommended(@Query("count") count: Int): Flowable<ServerResponse<FeedResponse>>
-
-    @GET("newsfeed.search?extended=1")
-    fun searchFeed(@Query("q") q: String,
-                   @Query("count") count: Int): Flowable<ServerResponse<FeedResponse>>
 
     //longpoll
     @GET
