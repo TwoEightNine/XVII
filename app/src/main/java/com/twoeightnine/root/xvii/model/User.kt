@@ -143,9 +143,9 @@ data class User(
 
     var isOnline: Boolean
         get() = (online ?: 0) == 1
-        set(value) {
-            online = if (value) 1 else 0
-            if (value) {
+        set(isOnline) {
+            online = if (isOnline) 1 else 0
+            if (isOnline) {
                 lastSeen?.time = time()
             }
         }

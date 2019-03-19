@@ -1,14 +1,15 @@
 package com.twoeightnine.root.xvii.adapters
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by root on 8/30/16.
  */
 
-abstract class BaseAdapter<T, VH : androidx.recyclerview.widget.RecyclerView.ViewHolder>(protected var context: Context) : androidx.recyclerview.widget.RecyclerView.Adapter<VH>() {
+abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var context: Context)
+    : RecyclerView.Adapter<VH>() {
 
     open val items: MutableList<T> = mutableListOf()
 
@@ -25,7 +26,8 @@ abstract class BaseAdapter<T, VH : androidx.recyclerview.widget.RecyclerView.Vie
         add(item, items.size)
     }
 
-    @JvmOverloads fun addAll(items: MutableList<T>, pos: Int = this.items.size) {
+    @JvmOverloads
+    fun addAll(items: MutableList<T>, pos: Int = this.items.size) {
         val size = items.size
         this.items.addAll(pos, items)
         notifyItemRangeInserted(pos, size)
@@ -51,6 +53,12 @@ abstract class BaseAdapter<T, VH : androidx.recyclerview.widget.RecyclerView.Vie
         items[pos] = item
         notifyItemChanged(pos)
         return oldItem
+    }
+
+    fun update(items: List<T>) {
+        this.items.clear()
+        this.items.addAll(items)
+        notifyDataSetChanged()
     }
 
     fun clear() {

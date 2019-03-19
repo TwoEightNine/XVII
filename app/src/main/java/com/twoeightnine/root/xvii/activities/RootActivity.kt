@@ -14,7 +14,7 @@ import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
-import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
+import com.twoeightnine.root.xvii.friends.fragments.FriendsNewFragment
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
@@ -36,14 +36,14 @@ class RootActivity : BaseActivity() {
 
         var player: MediaPlayerAsyncTask? = null
 
-        val USER_ID = "userId"
-        val TITLE = "title"
+        const val USER_ID = "userId"
+        const val TITLE = "title"
 
-        val DIALOGS: String = "DialogsFragment"
-        val FRIENDS: String = "FriendsFragment"
-        val SETTINGS: String = "SettingsFragment"
-        val PROFILE: String = "ProfileFragment"
-        val CHAT: String = "ChatFragment"
+        const val DIALOGS: String = "DialogsFragment"
+        const val FRIENDS: String = "FriendsFragment"
+        const val SETTINGS: String = "SettingsFragment"
+        const val PROFILE: String = "ProfileFragment"
+        const val CHAT: String = "ChatFragment"
 
     }
 
@@ -86,7 +86,7 @@ class RootActivity : BaseActivity() {
         lvDrawer.setOnItemClickListener { _, _, i, _ ->
             val item = adapter.getItem(i)
             when (item.resId) {
-                R.drawable.ic_friends -> loadFragment(FriendsFragment.newInstance(), true)
+                R.drawable.ic_friends -> loadFragment(FriendsNewFragment.newInstance(), true)
                 R.drawable.ic_settings -> loadFragment(SettingsFragment.newInstance(), true)
                 R.drawable.ic_dialogs -> loadFragment(DialogsFragment.newInstance(), true)
             }

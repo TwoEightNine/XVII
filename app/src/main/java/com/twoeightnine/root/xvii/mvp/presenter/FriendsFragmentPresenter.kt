@@ -15,27 +15,27 @@ class FriendsFragmentPresenter(api: ApiService): BasePresenter<FriendsFragmentVi
 
     fun loadFriends(offset: Int = 0) {
         view?.showLoading()
-        api.getFriends(
-                User.FIELDS,
-                COUNT,
-                offset
-                )
-                .subscribeSmart({
-                    response ->
-                    val loaded = response.items
-                    friends.addAll(loaded)
-                    val onlineLoaded = loaded
-                            .filter { it.online == 1 }
-                            .toMutableList()
-                    online.addAll(onlineLoaded)
-                    view?.hideLoading()
-                    view?.onFriendsLoaded(loaded)
-                    view?.onOnlineFriendsLoaded(onlineLoaded)
-                }, {
-                    error ->
-                    view?.hideLoading()
-                    view?.showError(error)
-                })
+//        api.getFriends(
+//                User.FIELDS,
+//                COUNT,
+//                offset
+//                )
+//                .subscribeSmart({
+//                    response ->
+//                    val loaded = response.items
+//                    friends.addAll(loaded)
+//                    val onlineLoaded = loaded
+//                            .filter { it.online == 1 }
+//                            .toMutableList()
+//                    online.addAll(onlineLoaded)
+//                    view?.hideLoading()
+//                    view?.onFriendsLoaded(loaded)
+//                    view?.onOnlineFriendsLoaded(onlineLoaded)
+//                }, {
+//                    error ->
+//                    view?.hideLoading()
+//                    view?.showError(error)
+//                })
     }
 
     fun searchUsers(q: String, offset: Int = 0) {

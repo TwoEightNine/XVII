@@ -122,9 +122,11 @@ interface ApiService {
 
     //friends
     @GET("friends.get?order=hints")
-    fun getFriends(@Query("fields") fields: String,
-                   @Query("count") count: Int,
-                   @Query("offset") offset: Int): Flowable<ServerResponse<ListResponse<User>>>
+    fun getFriends(
+            @Query("count") count: Int,
+            @Query("offset") offset: Int = 0,
+            @Query("fields") fields: String = User.FIELDS
+    ): Flowable<ServerResponse<ListResponse<User>>>
 
     @GET("friends.getOnline")
     fun getOnlineFriends(@Query("count") count: Int,

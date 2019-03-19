@@ -28,6 +28,7 @@ import com.twoeightnine.root.xvii.dialogs.fragments.SearchMessagesFragment
 import com.twoeightnine.root.xvii.fragments.WallPostFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsAllFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
+import com.twoeightnine.root.xvii.friends.fragments.FriendsNewFragment
 import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
@@ -71,6 +72,7 @@ interface AppComponent {
     fun inject(aboutFragment: AboutFragment)
     fun inject(accountsFragment: AccountsFragment)
     fun inject(attachedFragment: AttachedFragment)
+    fun inject(friendsNewFragment: FriendsNewFragment)
 
     //other
     fun inject(notificationService: NotificationService)
