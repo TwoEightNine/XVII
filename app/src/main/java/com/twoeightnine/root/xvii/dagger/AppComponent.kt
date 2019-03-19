@@ -26,9 +26,7 @@ import com.twoeightnine.root.xvii.dialogs.fragments.DialogFwFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.SearchMessagesFragment
 import com.twoeightnine.root.xvii.fragments.WallPostFragment
-import com.twoeightnine.root.xvii.friends.fragments.FriendsAllFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
-import com.twoeightnine.root.xvii.friends.fragments.FriendsNewFragment
 import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
@@ -54,7 +52,6 @@ interface AppComponent {
     fun inject(dialogsFragment: DialogsFragment)
     fun inject(chatFragment: ChatFragment)
     fun inject(profileFragment: ProfileFragment)
-    fun inject(friendsFragment: FriendsFragment)
     fun inject(photoAttachFragment: PhotoAttachFragment)
     fun inject(docAttachFragment: DocAttachFragment)
     fun inject(videoAttachFragment: VideoAttachFragment)
@@ -63,7 +60,6 @@ interface AppComponent {
     fun inject(docAttachmentsFragment: DocAttachmentsFragment)
     fun inject(linkAttachmentsFragment: LinkAttachmentsFragment)
     fun inject(videoAttachmentsFragment: VideoAttachmentsFragment)
-    fun inject(friendsAllFragment: FriendsAllFragment)
     fun inject(searchUsersFragment: SearchUsersFragment)
     fun inject(searchMessagesFragment: SearchMessagesFragment)
     fun inject(importantFragment: ImportantFragment)
@@ -72,7 +68,7 @@ interface AppComponent {
     fun inject(aboutFragment: AboutFragment)
     fun inject(accountsFragment: AccountsFragment)
     fun inject(attachedFragment: AttachedFragment)
-    fun inject(friendsNewFragment: FriendsNewFragment)
+    fun inject(friendsFragment: FriendsFragment)
 
     //other
     fun inject(notificationService: NotificationService)

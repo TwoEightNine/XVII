@@ -1,6 +1,5 @@
 package com.twoeightnine.root.xvii.adapters
 
-import androidx.fragment.app.FragmentManager
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment

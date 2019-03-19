@@ -5,122 +5,54 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
-import com.twoeightnine.root.xvii.fragments.BaseOldFragment
-import com.twoeightnine.root.xvii.managers.Style
+import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.friends.adapters.FriendsAdapter
+import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.mvp.presenter.FriendsFragmentPresenter
-import com.twoeightnine.root.xvii.mvp.view.FriendsFragmentView
-import com.twoeightnine.root.xvii.utils.CacheHelper
-import com.twoeightnine.root.xvii.utils.showCommon
+import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_friends.*
 import javax.inject.Inject
 
-class FriendsFragment : BaseOldFragment(), FriendsFragmentView {
-
-    private lateinit var pagerAdapter: CommonPagerAdapter
+class FriendsFragment : BaseFragment() {
 
     @Inject
-    lateinit var presenter: FriendsFragmentPresenter
+    lateinit var viewModelFactory: FriendsViewModel.Factory
+    private lateinit var viewModel: FriendsViewModel
 
-    private var offset: Int = 0
+    private val adapter by lazy { FriendsAdapter(contextOrThrow, ::onClick) }
 
-    companion object {
+    override fun getLayoutId() = R.layout.fragment_friends
 
-        fun newInstance(): FriendsFragment {
-            val frag = FriendsFragment()
-            //
-            return frag
-        }
-
-    }
-
-    override fun bindViews(view: View) {
-        super.bindViews(view)
-        initAdapter()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         App.appComponent?.inject(this)
-        presenter.view = this
-        Style.forTabLayout(tabs)
-    }
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[FriendsViewModel::class.java]
+        viewModel.getFriends().observe(this, Observer { updateFriends(it) })
+        viewModel.loadFriends()
 
-    override fun onNew(view: View) {
-        presenter.loadFriends()
-    }
-
-    override fun onRecovered(view: View) {
-        try {
-            onFriendsLoaded(presenter.friends)
-            onOnlineFriendsLoaded(presenter.online)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun initAdapter() {
-        pagerAdapter = CommonPagerAdapter(childFragmentManager)
-        pagerAdapter.add(FriendsAllFragment.newInstance(
-                { loadMore() },
-                { presenter.createChat(it) }
-        ), getString(R.string.friends))
-        pagerAdapter.add(FriendsOnlineFragment.newInstance { loadMore() }, getString(R.string.online))
-        viewPager.adapter = pagerAdapter
-        tabs.setupWithViewPager(viewPager, true)
+        rvFriends.layoutManager = LinearLayoutManager(context)
+        rvFriends.adapter = adapter
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.fiends))
+        setTitle(getString(R.string.fiends))
     }
 
-    override fun getLayout() = R.layout.fragment_friends
-
-    override fun showLoading() {
-        try {
-            (pagerAdapter.getItem(0) as FriendsAllFragment)
-                    .adapter.startLoading()
-            (pagerAdapter.getItem(1) as FriendsOnlineFragment)
-                    .adapter.startLoading()
-        } catch (e: UninitializedPropertyAccessException) {
-            loader.visibility = View.VISIBLE
+    private fun updateFriends(data: Wrapper<ArrayList<User>>) {
+        if (data.data != null) {
+            adapter.update(data.data)
+        } else {
+            showError(context, data.error ?: getString(R.string.error))
         }
     }
-
-    override fun hideLoading() {
-        loader.visibility = View.GONE
-    }
-
-    override fun showError(error: String) {
-        if (error == "") {
-            showError(activity, R.string.cannot_create_chat)
-            return
-        }
-        showError(activity, error)
-    }
-
-    override fun onFriendsLoaded(friends: MutableList<User>) {
-        offset += friends.size
-        CacheHelper.saveUsersAsync(friends)
-        try {
-            (pagerAdapter.getItem(0) as FriendsAllFragment)
-                    .adapter.stopLoading(friends)
-        } catch (e: UninitializedPropertyAccessException) { }
-    }
-
-    override fun onOnlineFriendsLoaded(friends: MutableList<User>) {
-        try {
-            (pagerAdapter.getItem(1) as FriendsOnlineFragment)
-                    .adapter.stopLoading(friends)
-        } catch (e: UninitializedPropertyAccessException) { }
-    }
-
-    override fun onChatCreated() {
-        showCommon(activity, R.string.chat_created)
-    }
-
-    override fun onUsersClear() {}
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -131,14 +63,18 @@ class FriendsFragment : BaseOldFragment(), FriendsFragmentView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId){
             R.id.menu_search -> {
-                rootActivity.loadFragment(SearchUsersFragment())
+                rootActivity?.loadFragment(SearchUsersFragment())
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun loadMore() {
-        presenter.loadFriends(offset)
+    private fun onClick(user: User) {
+        rootActivity?.loadFragment(ProfileFragment.newInstance(user.id))
+    }
+
+    companion object {
+        fun newInstance() = FriendsFragment()
     }
 }
