@@ -12,9 +12,13 @@ object Lg {
     private val logs by lazy { arrayListOf<LgEvent>() }
 
     fun i(s: String) {
-        Log.i(TAG, s)
-        logs.add(LgEvent(s))
-        truncate()
+        try {
+            Log.i(TAG, s)
+            logs.add(LgEvent(s))
+            truncate()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun dbg(s: String) {
@@ -22,9 +26,13 @@ object Lg {
     }
 
     fun wtf(s: String) {
-        Log.wtf(TAG, s)
-        logs.add(LgEvent(s, LgEvent.Type.ERROR))
-        truncate()
+        try {
+            Log.wtf(TAG, s)
+            logs.add(LgEvent(s, LgEvent.Type.ERROR))
+            truncate()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun getEvents(count: Int = LOGS_COUNT): String {
