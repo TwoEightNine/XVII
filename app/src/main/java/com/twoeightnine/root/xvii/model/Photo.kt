@@ -1,12 +1,9 @@
 package com.twoeightnine.root.xvii.model
 
-import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-
-import java.io.Serializable
 
 /**
  * Created by root on 9/2/16.

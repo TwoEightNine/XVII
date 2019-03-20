@@ -18,6 +18,7 @@ class DiffieHellman(generate: Boolean = true) {
             field = value
             key = value.modPow(privateOwn, modulo)
         }
+
     var key = BigInteger.ONE
         private set
 

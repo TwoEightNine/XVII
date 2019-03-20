@@ -1,11 +1,14 @@
 package com.twoeightnine.root.xvii.model
 
+import android.os.Parcelable
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-class StickerMind {
+@Parcelize
+data class StickerMind(
 
-    private val words: MutableList<String>? = null
-    @SerializedName("user_stickers")
-    val userStickers: MutableList<Int>? = null
-
-}
+        @SerializedName("user_stickers")
+        @Expose
+        val userStickers: MutableList<Int>? = null
+) : Parcelable

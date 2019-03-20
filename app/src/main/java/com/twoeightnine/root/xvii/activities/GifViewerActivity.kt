@@ -3,18 +3,14 @@ package com.twoeightnine.root.xvii.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
-import android.view.View
-import android.view.ViewGroup
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.WebFragment
 import com.twoeightnine.root.xvii.model.Doc
-import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.LoaderView
+import com.twoeightnine.root.xvii.utils.ApiUtils
+import com.twoeightnine.root.xvii.utils.toggle
 import kotlinx.android.synthetic.main.activity_gif_viewer.*
-import java.io.File
 import javax.inject.Inject
 
 /**

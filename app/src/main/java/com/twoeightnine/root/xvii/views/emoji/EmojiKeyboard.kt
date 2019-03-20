@@ -2,14 +2,11 @@ package com.twoeightnine.root.xvii.views.emoji
 
 import android.content.Context
 import android.graphics.Rect
-import android.os.Build
-import androidx.fragment.app.FragmentManager
-import androidx.viewpager.widget.ViewPager
-import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import androidx.viewpager.widget.ViewPager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 
@@ -127,7 +124,7 @@ class EmojiKeyboard : PopupWindow {
 
     private fun createCustomView(): View {
         val view = View.inflate(mContext, R.layout.popup_emoji, null)
-        val vpEmoji = view.findViewById<androidx.viewpager.widget.ViewPager>(R.id.viewPager)
+        val vpEmoji = view.findViewById<ViewPager>(R.id.viewPager)
 //        val tabs = view.findViewById(R.id.tabs) as TabLayout
         val pagerAdapter = EmojiPagerAdapter {
             onEmojiClickListener.invoke(it)

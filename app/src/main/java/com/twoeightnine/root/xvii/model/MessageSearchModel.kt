@@ -45,10 +45,10 @@ class MessageSearchModel {
 
     companion object {
 
-        val PAGE = "page"
-        val GROUP = "group"
-        val PROFILE = "profile"
-        val CHAT = "chat"
+        const val PAGE = "page"
+        const val GROUP = "group"
+        const val PROFILE = "profile"
+        const val CHAT = "chat"
     }
 
 }

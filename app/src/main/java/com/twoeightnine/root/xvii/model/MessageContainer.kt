@@ -1,7 +1,18 @@
 package com.twoeightnine.root.xvii.model
 
-class MessageContainer {
+import android.os.Parcelable
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-    val message: Message? = null
-    val unread: Int = 0
-}
+@Parcelize
+data class MessageContainer(
+
+        @SerializedName("message")
+        @Expose
+        val message: Message? = null,
+
+        @SerializedName("unread")
+        @Expose
+        val unread: Int = 0
+) : Parcelable

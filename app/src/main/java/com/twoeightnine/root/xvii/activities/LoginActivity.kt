@@ -3,12 +3,10 @@ package com.twoeightnine.root.xvii.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.models.Account
@@ -17,13 +15,11 @@ import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*
 import io.realm.Realm
+import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
-
-    private lateinit var web: WebView
-    private lateinit var rlLoader: RelativeLayout
 
     @Inject
     lateinit var apiUtils: ApiUtils
@@ -36,8 +32,6 @@ class LoginActivity : BaseActivity() {
         setContentView(R.layout.activity_login)
         startPrimeGenerator(this)
 
-        web = findViewById(R.id.webView)
-        rlLoader = findViewById(R.id.rlLoader)
         App.appComponent?.inject(this)
 
         checkToken()
@@ -55,21 +49,21 @@ class LoginActivity : BaseActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun toLogIn() {
-        web.visibility = View.GONE
-        web.settings?.javaScriptEnabled = true
-        CookieSyncManager.createInstance(web.context).sync()
+        webView.hide()
+        webView.settings?.javaScriptEnabled = true
+        CookieSyncManager.createInstance(this).sync()
         val man = CookieManager.getInstance()
         man.removeAllCookie()
-        web.settings?.javaScriptCanOpenWindowsAutomatically = true
-        web.webViewClient = ParsingWebClient()
+        webView.settings?.javaScriptCanOpenWindowsAutomatically = true
+        webView.webViewClient = ParsingWebClient()
 
-        web.loadUrl(LOGIN_URL)
+        webView.loadUrl(LOGIN_URL)
         if (!isOnline()) {
             showCommon(this, R.string.no_internet)
             finish()
             return
         }
-        web.visibility = View.VISIBLE
+        webView.show()
     }
 
     private fun toPin() {
@@ -94,8 +88,8 @@ class LoginActivity : BaseActivity() {
         }
         Lg.i("[login] token obtained ...${token.substring(token.length - 6)}")
 
-        rlLoader.visibility = View.VISIBLE
-        web.visibility = View.GONE
+        rlLoader.show()
+        webView.hide()
 
         Session.token = token
         Session.uid = uid
@@ -170,7 +164,7 @@ class LoginActivity : BaseActivity() {
 
         override fun onPageFinished(view: WebView, url: String) {
             super.onPageFinished(view, url)
-            rlLoader.visibility = View.GONE
+            rlLoader.hide()
             if (url.startsWith(App.REDIRECT_URL)) {
                 doneWithThis(url)
             }

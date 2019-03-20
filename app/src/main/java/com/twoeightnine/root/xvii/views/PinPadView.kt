@@ -46,7 +46,7 @@ class PinPadView : GridLayout {
                 tv.setText(if (i == 11) R.string.clear else android.R.string.ok)
             }
             val pos = i
-            view.setOnClickListener { _ ->
+            view.setOnClickListener {
                 if (listener != null) {
                     if (pos <= 10) {
                         listener?.invoke(pos % 10)

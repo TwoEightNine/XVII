@@ -1,15 +1,15 @@
 package com.twoeightnine.root.xvii.activities
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.utils.restartApp
-import com.twoeightnine.root.xvii.utils.showCommon
-import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.subscribeSmart
+import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.activity_exception.*
 import javax.inject.Inject
@@ -17,13 +17,21 @@ import javax.inject.Inject
 class ExceptionActivity : AppCompatActivity() {
 
     companion object {
-        val ERROR = "error"
+        const val ERROR = "error"
     }
 
     @Inject
     lateinit var api: ApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        NightModeHelper.updateConfig(
+                if (Prefs.isNight) {
+                    Configuration.UI_MODE_NIGHT_YES
+                } else {
+                    Configuration.UI_MODE_NIGHT_NO
+                },
+                this, R.style.AppTheme
+        )
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exception)
         App.appComponent?.inject(this)
@@ -43,7 +51,7 @@ class ExceptionActivity : AppCompatActivity() {
                 this,
                 getString(R.string.describe_actions),
                 getString(R.string.describe_hint), "",
-                { sendError("CRASH REPORT:\n$it\n\n$error") }
+                { sendError("NEW CRASH IN ${BuildConfig.VERSION_NAME}:\n$it\n$error") }
         )
         dialog.show()
     }

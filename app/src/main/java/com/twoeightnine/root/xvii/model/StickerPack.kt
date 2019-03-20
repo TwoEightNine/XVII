@@ -1,7 +1,9 @@
 package com.twoeightnine.root.xvii.model
 
-class StickerPack(private val startId: Int,
-                  val count: Int) {
+data class StickerPack(
+        private val startId: Int,
+        val count: Int
+) {
 
     val isRecent = startId == 0
 

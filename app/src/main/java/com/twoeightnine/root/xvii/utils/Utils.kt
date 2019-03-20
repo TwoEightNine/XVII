@@ -153,11 +153,11 @@ fun startNotificationAlarm(context: Context) {
     }
     val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
     val alarms = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val minute = 60 * 1000L
     alarms.setRepeating(
             AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis() + AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-            AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-            pendingIntent
+            System.currentTimeMillis() + minute,
+            minute, pendingIntent
     )
     Lg.i("notification alarm started")
 }

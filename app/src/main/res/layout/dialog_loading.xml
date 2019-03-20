@@ -6,10 +6,11 @@
     android:background="@color/popup"
     android:layout_height="match_parent">
 
-    <com.twoeightnine.root.xvii.views.LoaderView
+    <ProgressBar
+        android:layout_margin="8dp"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
 
     <TextView
         android:id="@+id/tvTitle"

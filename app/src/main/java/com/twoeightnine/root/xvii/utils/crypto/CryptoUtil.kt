@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.utils.crypto
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Base64
 import com.twoeightnine.root.xvii.R
@@ -10,12 +11,16 @@ import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.Flowable
 import java.math.BigInteger
 
+/**
+ * @param userId current user
+ * @param chatId peerId of chat
+ */
 class CryptoUtil(
         private val userId: Int,
         private val chatId: Int
 ) {
 
-    private lateinit var diffieHellman: DiffieHellman
+    private lateinit var dh: DiffieHellman
 
     private var key256 = sha256Raw(getStartingKey(userId, chatId).toByteArray())
     private var aesIv = md5Raw(getStartingKey(userId, chatId).toByteArray())
@@ -28,8 +33,9 @@ class CryptoUtil(
      * generates g, p, A
      * returns KeyEx{g, p, A} to send
      */
+    @SuppressLint("CheckResult")
     fun startKeyExchange(callback: (String) -> Unit) {
-        Flowable.fromCallable({ xchg() })
+        Flowable.fromCallable { xchg() }
                 .compose(applySchedulers())
                 .subscribe {
                     callback.invoke(it)
@@ -37,9 +43,9 @@ class CryptoUtil(
     }
 
     private fun xchg(): String {
-        Lg.i("start xchg")
-        diffieHellman = DiffieHellman()
-        val common = diffieHellman.getCommonData()
+        l("start exchange")
+        dh = DiffieHellman()
+        val common = dh.getCommonData()
         return "KeyEx{${numToStr(common[0])},${numToStr(common[1])},${numToStr(common[2])}}"
     }
 
@@ -49,7 +55,7 @@ class CryptoUtil(
      */
     fun finishKeyExchange(str: String) {
         val B = strToNums(str)[0]
-        diffieHellman.publicOther = B
+        dh.publicOther = B
         updateKeys()
         keyType = KeyType.RANDOM
     }
@@ -61,20 +67,20 @@ class CryptoUtil(
      */
     fun supportKeyExchange(str: String): String {
         val common = strToNums(str)
-        diffieHellman = DiffieHellman(common[0], common[1], common[2])
+        dh = DiffieHellman(common[0], common[1], common[2])
         updateKeys()
         keyType = KeyType.RANDOM
-        return "KeyEx{${numToStr(diffieHellman.publicOwn)}}"
+        return "KeyEx{${numToStr(dh.publicOwn)}}"
     }
 
     fun printKey() {
-        Lg.dbg("key ${diffieHellman.key}")
+        ld("key = ${dh.key}")
     }
 
     fun getFingerPrint(): String {
         printKeys()
         val hash = sha256("${bytesToHex(key256)}${bytesToHex(aesIv)}")
-        Lg.i("fingerprint $hash")
+        l("fingerprint $hash")
         return hash
     }
 
@@ -86,6 +92,10 @@ class CryptoUtil(
             .map { BigInteger(it) }
             .toTypedArray()
 
+    /**
+     * @param uid id of current user
+     * @param cid peerId of chat
+     */
     private fun getDefaultKey(uid: Int, cid: Int): String {
         if (cid < 0 || cid > 2000000000) {
             return "$cid"
@@ -106,7 +116,7 @@ class CryptoUtil(
 
     private fun updateKeys() {
         printKey()
-        val bytes = diffieHellman.key.toByteArray()
+        val bytes = dh.key.toByteArray()
 
         key256 = sha256Raw(bytes)
         aesIv = md5Raw(bytes)
@@ -120,8 +130,8 @@ class CryptoUtil(
     }
 
     fun printKeys() {
-        Lg.dbg(bytesToHex(key256))
-        Lg.dbg(bytesToHex(aesIv))
+        ld("key256 = ${bytesToHex(key256)}")
+        ld("iv = ${bytesToHex(aesIv)}")
     }
 
     fun setUserKey(key: String) {
@@ -150,48 +160,62 @@ class CryptoUtil(
         }
     }
 
+    @SuppressLint("CheckResult")
     fun encryptFileAsync(context: Context, path: String, callback: (String) -> Unit = {}) {
         val bytes = getBytesFromFile(context, path)
-        Lg.i("enc: file size: ${bytes.size}. started ${time()}")
+        l("enc: file size: ${bytes.size}. started ${time()}")
         Flowable.fromCallable { AES256Cipher.encrypt(aesIv, key256, bytes) }
                 .compose(applySchedulers())
-                .subscribe({
+                .subscribe {
                     val resultName = "${getNameFromUrl(path)}$EXTENSION"
-                    Lg.i("enc finished ${time()}")
+                    l("enc finished ${time()}")
                     callback.invoke(writeBytesToFile(context, it, resultName))
-                })
+                }
     }
 
+    @SuppressLint("CheckResult")
     fun decryptFileAsync(context: Context, path: String, callback: (String) -> Unit = {}) {
         val bytes = getBytesFromFile(context, path)
-        Lg.i("dec: file size: ${bytes.size}. started ${time()}")
+        l("dec: file size: ${bytes.size}. started ${time()}")
         Flowable.fromCallable {
             try {
                 AES256Cipher.decrypt(aesIv, key256, bytes)
             } catch (e: Exception) {
-                Lg.wtf("decrypting file ${e.message}")
+                lw("decrypting file ${e.message}")
                 byteArrayOf()
             }
         }
                 .compose(applySchedulers())
-                .subscribe({
+                .subscribe {
                     val resultName = getNameFromUrl(path).replace(EXTENSION, "")
                     if (it.isNotEmpty()) {
-                        Lg.i("dec finished ${time()}")
+                        l("dec finished ${time()}")
                         callback.invoke(writeBytesToFile(context, it, resultName))
                     } else {
-                        Lg.i("dec failed ${time()}")
+                        lw("dec failed ${time()}")
                         callback.invoke("")
                     }
-                })
+                }
+    }
+
+    private fun l(s: String) {
+        Lg.i("[crypto] $s")
+    }
+
+    private fun lw(s: String) {
+        Lg.wtf("[crypto] $s")
+    }
+
+    private fun ld(s: String) {
+        Lg.dbg("[crypto] $s")
     }
 
     companion object {
 
-        val PREFIX = "XVII{"
-        val POSTFIX = "}"
+        const val PREFIX = "XVII{"
+        const val POSTFIX = "}"
 
-        val EXTENSION = ".xvii"
+        const val EXTENSION = ".xvii"
 
     }
 
