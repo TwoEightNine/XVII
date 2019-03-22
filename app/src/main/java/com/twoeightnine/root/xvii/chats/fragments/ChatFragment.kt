@@ -551,13 +551,14 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
     }
 
     override fun onMessageAdded(message: Message) {
-        if (presenter.isEncrypted && message.body?.matchesXviiKey() ?: false) {
+        if (presenter.isEncrypted && message.body?.matchesXviiKey() == true) {
             message.body = getDecrypted(message.body)
         }
         val wasAtEnd = adapter.isAtEnd
-        adapter.add(message)
+        val alreadyHere = adapter.items.count { it.id == message.id } > 0
+        if (!alreadyHere) adapter.add(message)
         if (wasAtEnd) {
-            rvChatList.scrollToPosition(adapter.itemCount - 1)
+            rvChatList?.scrollToPosition(adapter.itemCount - 1)
         }
     }
 
