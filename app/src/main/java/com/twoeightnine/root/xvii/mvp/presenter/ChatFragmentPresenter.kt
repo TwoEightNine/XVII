@@ -13,7 +13,7 @@ import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatFragmentView
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.response.ServerResponse
+import com.twoeightnine.root.xvii.network.response.ServerResponse
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
 import io.reactivex.Flowable

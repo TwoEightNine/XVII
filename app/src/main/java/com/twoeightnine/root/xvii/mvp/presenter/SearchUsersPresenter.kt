@@ -4,8 +4,8 @@ import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.SearchUsersFragmentView
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.network.response.ServerResponse
 import com.twoeightnine.root.xvii.response.ListResponse
-import com.twoeightnine.root.xvii.response.ServerResponse
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction

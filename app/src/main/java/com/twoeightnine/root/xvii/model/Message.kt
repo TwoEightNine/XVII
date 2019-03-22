@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.model
 
+import android.content.Context
 import android.database.Cursor
 import android.os.Parcel
 import android.os.Parcelable
@@ -12,6 +13,8 @@ import java.util.*
 
 class Message : Parcelable, Serializable {
 
+    @SerializedName("peer_id")
+    val peerId: Int = 0
     @SerializedName("id")
     var id: Int = 0
     @SerializedName("date")
@@ -95,8 +98,8 @@ class Message : Parcelable, Serializable {
         this.chatId = messageDb.chatId
 
         val gson = Gson()
-        this.fwdMessages = gson.fromJson(messageDb.fwdMessages, (object: TypeToken<MutableList<Message>>(){}).type)
-        this.attachments = gson.fromJson(messageDb.attachments, (object: TypeToken<MutableList<Attachment>>(){}).type)
+        this.fwdMessages = gson.fromJson(messageDb.fwdMessages, (object : TypeToken<MutableList<Message>>() {}).type)
+        this.attachments = gson.fromJson(messageDb.attachments, (object : TypeToken<MutableList<Attachment>>() {}).type)
     }
 
     constructor(dialogDb: DialogDb) {
@@ -115,10 +118,11 @@ class Message : Parcelable, Serializable {
         this.id = id
     }
 
-    @JvmOverloads constructor(id: Int, date: Int, userId: Int,
-                              out: Int, readState: Int, title: String,
-                              body: String, attachments: ArrayList<Attachment>? = null,
-                              emoji: Int = 0) {
+    @JvmOverloads
+    constructor(id: Int, date: Int, userId: Int,
+                out: Int, readState: Int, title: String,
+                body: String, attachments: ArrayList<Attachment>? = null,
+                emoji: Int = 0) {
         this.id = id
         this.date = date
         this.userId = userId
@@ -160,11 +164,9 @@ class Message : Parcelable, Serializable {
     }
 
     val isImportant: Boolean
-        get() = important == 1
+        get() = false
 
-    fun setImportant(important: Int) {
-        this.important = important
-    }
+    fun getResolvedMessage(context: Context?) = body //TODO
 
     override fun toString() = "[id: $id, userId: $userId, chatId: $chatId, title: $title, photo: $photo, body: $body, readState: $readState, out: $out]"
 

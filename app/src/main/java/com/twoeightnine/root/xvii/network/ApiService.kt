@@ -3,7 +3,9 @@ package com.twoeightnine.root.xvii.network
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.model.*
-import com.twoeightnine.root.xvii.model.response.LongPollHistoryResponse
+import com.twoeightnine.root.xvii.network.response.ConversationsResponse
+import com.twoeightnine.root.xvii.network.response.LongPollHistoryResponse
+import com.twoeightnine.root.xvii.network.response.ServerResponse
 import com.twoeightnine.root.xvii.response.*
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -23,6 +25,12 @@ interface ApiService {
     @GET("messages.getDialogs")
     fun getDialogs(@Query("offset") offset: Int,
                    @Query("count") count: Int): Flowable<ServerResponse<ListResponse<MessageContainer>>>
+
+    @GET("messages.getConversations?filter=all&extended=1")
+    fun getConversations(
+            @Query("count") count: Int,
+            @Query("offset") offset: Int = 0
+    ): Flowable<ServerResponse<ConversationsResponse>>
 
     @GET("messages.getHistory")
     fun getHistory(@Query("count") count: Int,

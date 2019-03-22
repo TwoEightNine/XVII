@@ -72,6 +72,17 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
+    room()
+}
+
+def room() {
+    dependencies {
+        def room_version = "2.1.0-alpha06"
+
+        implementation "androidx.room:room-runtime:$room_version"
+        kapt "androidx.room:room-compiler:$room_version"
+        implementation "androidx.room:room-rxjava2:$room_version"
+    }
 }
 
 kapt {

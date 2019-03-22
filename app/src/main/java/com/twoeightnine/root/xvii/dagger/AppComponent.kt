@@ -69,6 +69,7 @@ interface AppComponent {
     fun inject(accountsFragment: AccountsFragment)
     fun inject(attachedFragment: AttachedFragment)
     fun inject(friendsFragment: FriendsFragment)
+    fun inject(dialogsFragment: com.twoeightnine.root.xvii.dialogs2.fragments.DialogsFragment)
 
     //other
     fun inject(notificationService: NotificationService)

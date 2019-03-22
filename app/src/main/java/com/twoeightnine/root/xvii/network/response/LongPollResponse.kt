@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.model.response
+package com.twoeightnine.root.xvii.network.response
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

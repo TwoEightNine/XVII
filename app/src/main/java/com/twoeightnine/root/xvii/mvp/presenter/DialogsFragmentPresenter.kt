@@ -7,7 +7,7 @@ import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.DialogsFragmentView
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.response.ServerResponse
+import com.twoeightnine.root.xvii.network.response.ServerResponse
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable

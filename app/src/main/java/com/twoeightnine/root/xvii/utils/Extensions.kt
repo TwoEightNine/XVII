@@ -7,8 +7,8 @@ import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.model.response.Error
-import com.twoeightnine.root.xvii.response.ServerResponse
+import com.twoeightnine.root.xvii.network.response.Error
+import com.twoeightnine.root.xvii.network.response.ServerResponse
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable

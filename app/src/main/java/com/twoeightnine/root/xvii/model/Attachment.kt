@@ -120,3 +120,9 @@ class Attachment : Parcelable, Serializable {
         }
     }
 }
+
+fun ArrayList<Attachment>.isSticker() = isNotEmpty() && this[0].type == Attachment.TYPE_STICKER
+
+fun ArrayList<Attachment>.getPhotos() = ArrayList(this.mapNotNull { it.photo })
+
+fun ArrayList<Attachment>.photosCount() = getPhotos().size
