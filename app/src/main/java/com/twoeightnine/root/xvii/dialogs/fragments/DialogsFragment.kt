@@ -207,7 +207,7 @@ open class DialogsFragment : BaseOldFragment(), DialogsFragmentView {
                 adapter.removeAt(position)
                 adapter.add(message, 0)
                 if (wasAtTop) {
-                    recyclerView.scrollToPosition(0)
+                    recyclerView?.scrollToPosition(0)
                 }
                 return
             }
