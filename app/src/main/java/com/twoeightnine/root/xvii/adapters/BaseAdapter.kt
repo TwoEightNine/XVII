@@ -2,7 +2,9 @@ package com.twoeightnine.root.xvii.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.twoeightnine.root.xvii.utils.setVisible
 
 /**
  * Created by root on 8/30/16.
@@ -17,9 +19,12 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
 
     var multiListener: OnMultiSelected? = null
 
+    var emptyView: View? = null
+
     fun add(item: T, pos: Int) {
         items.add(pos, item)
         notifyItemInserted(pos)
+        invalidateEmptiness()
     }
 
     open fun add(item: T) {
@@ -31,11 +36,13 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
         val size = items.size
         this.items.addAll(pos, items)
         notifyItemRangeInserted(pos, size)
+        invalidateEmptiness()
     }
 
     fun removeAt(pos: Int): T {
         val removed = items.removeAt(pos)
         notifyItemRemoved(pos)
+        invalidateEmptiness()
         return removed
     }
 
@@ -64,6 +71,7 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
     fun clear() {
         items.clear()
         notifyDataSetChanged()
+        invalidateEmptiness()
     }
 
     val isEmpty: Boolean
@@ -117,6 +125,10 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
 
     private fun removeFromMultiSelect(id: Int) {
         multiSelectRaw.remove(id)
+    }
+
+    private fun invalidateEmptiness() {
+        emptyView?.setVisible(items.isEmpty())
     }
 
     interface OnMultiSelected {
