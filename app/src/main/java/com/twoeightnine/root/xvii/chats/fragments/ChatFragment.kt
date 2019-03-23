@@ -15,7 +15,6 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
@@ -100,9 +99,10 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
         inputController = ChatInputController(view, InputCallback())
         voiceController = VoiceRecorder(safeContext, VoiceCallback())
         bottomSheet = BottomSheetController(rlBottom, rlHideBottom) { vpAttach.currentItem = 1 } // reset to gallery
+        swipeContainer.setOnRefreshListener { presenter.loadHistory(withClear = true) }
+
         initAdapter()
         initEmojiKb()
-        initRefresh()
         initMultiAction()
 
         App.appComponent?.inject(this)
@@ -223,12 +223,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
         emojiKeyboard = EmojiKeyboard(flContainer, safeActivity, inputController::addEmoji)
         emojiKeyboard.setSizeForSoftKeyboard()
         emojiKeyboard.onSoftKeyboardOpenCloseListener = EmojiListener()
-    }
-
-    private fun initRefresh() {
-        swipeContainer.direction = SwipyRefreshLayoutDirection.BOTTOM
-        swipeContainer.setOnRefreshListener { presenter.loadHistory(withClear = true) }
-        swipeContainer.setDistanceToTriggerSync(50)
     }
 
     private fun initMultiAction() {

@@ -54,7 +54,6 @@ open class DialogsFragment : BaseFragment() {
         viewModel.loadDialogs()
 
         swipeRefresh.isRefreshing = true
-        swipeRefresh.setDistanceToTriggerSync(100)
         swipeRefresh.setOnRefreshListener {
             viewModel.loadDialogs()
         }

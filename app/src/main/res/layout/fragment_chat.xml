@@ -25,7 +25,7 @@
             android:orientation="vertical">
 
 
-            <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+            <com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout
                 android:id="@+id/swipeContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-            </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+            </com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,8 +62,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/toolbar"
-                android:layout_marginBottom="3dp"
                 android:layout_marginLeft="72dp"
+                android:layout_marginBottom="3dp"
                 android:background="@color/background"
                 android:elevation="4dp"
                 android:tag="main"
@@ -97,8 +97,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/toolbar"
-                android:layout_marginBottom="3dp"
                 android:layout_marginLeft="72dp"
+                android:layout_marginBottom="3dp"
                 android:background="@color/background"
                 android:elevation="4dp"
                 android:tag="main"
@@ -128,53 +128,53 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:tag="api20"
-                android:visibility="gone"
-                android:clickable="true"
-                android:elevation="6dp"
-                android:background="@color/popup"
                 android:id="@+id/rlMultiAction"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/popup"
+                android:clickable="true"
+                android:elevation="6dp"
+                android:tag="api20"
+                android:visibility="gone">
 
                 <ImageView
-                    android:tag="dark"
                     android:id="@+id/ivCancelMulti"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="12dp"
                     android:src="@drawable/ic_clear"
-                    android:layout_centerVertical="true"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp" />
+                    android:tag="dark" />
 
                 <ImageView
-                    android:tag="dark"
                     android:id="@+id/ivMenuMulti"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="12dp"
                     android:src="@drawable/ic_menu"
-                    android:layout_centerVertical="true"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp" />
+                    android:tag="dark" />
 
                 <ImageView
-                    android:tag="dark"
-                    android:layout_toLeftOf="@+id/ivMenuMulti"
                     android:id="@+id/ivForwardMulti"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/ic_arrow_right_forward"
-                    android:layout_centerVertical="true"
                     android:layout_width="24dp"
-                    android:layout_height="24dp" />
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_toLeftOf="@+id/ivMenuMulti"
+                    android:src="@drawable/ic_arrow_right_forward"
+                    android:tag="dark" />
 
                 <ImageView
-                    android:tag="dark"
                     android:id="@+id/ivReplyMulti"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/ic_reply"
-                    android:layout_toLeftOf="@+id/ivForwardMulti"
-                    android:layout_centerVertical="true"
                     android:layout_width="24dp"
-                    android:layout_height="24dp" />
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_toLeftOf="@+id/ivForwardMulti"
+                    android:src="@drawable/ic_reply"
+                    android:tag="dark" />
 
             </RelativeLayout>
 
@@ -185,22 +185,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:layout_marginBottom="72dp"
             android:layout_marginRight="@dimen/margin16"
+            android:layout_marginBottom="72dp"
             android:src="@drawable/ic_chevron_down"
             android:visibility="invisible"
             app:backgroundTint="@color/fab" />
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rlRecord"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <RelativeLayout
-                android:layout_centerInParent="true"
                 android:layout_width="220dp"
                 android:layout_height="220dp"
+                android:layout_centerInParent="true"
                 android:background="@drawable/shape_voice_recording">
 
                 <ImageView
@@ -224,33 +224,32 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_margin="6dp"
-                android:background="@drawable/shape_mic_hint"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
                 android:layout_width="match_parent"
-                android:layout_height="44dp" >
+                android:layout_height="44dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="6dp"
+                android:background="@drawable/shape_mic_hint">
 
                 <TextView
                     android:id="@+id/tvMicHint"
-                    android:textAllCaps="true"
-                    android:layout_centerInParent="true"
-                    android:textSize="14sp"
-                    android:textColor="#fff"
-                    android:text="@string/mic_hint"
-                    android:maxLines="1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:maxLines="1"
+                    android:text="@string/mic_hint"
+                    android:textAllCaps="true"
+                    android:textColor="#fff"
+                    android:textSize="14sp" />
 
                 <ImageView
-                    android:layout_toLeftOf="@+id/tvMicHint"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_left"
                     android:layout_width="18dp"
-                    android:layout_height="18dp" />
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tvMicHint"
+                    android:src="@drawable/ic_arrow_left" />
 
             </RelativeLayout>
-
 
 
         </RelativeLayout>
@@ -273,11 +272,11 @@
             android:layout_centerInParent="true" />
 
         <RelativeLayout
-            android:tag="main"
             android:id="@+id/rlHideBottom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottomsheet_thumb_height"
-            android:background="@color/popup">
+            android:background="@color/popup"
+            android:tag="main">
 
             <TextView
                 android:layout_width="wrap_content"

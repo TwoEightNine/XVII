@@ -7,7 +7,7 @@
 
     <include layout="@layout/toolbar" />
 
-    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+    <com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+    </com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout>
 
     <com.miguelcatalan.materialsearchview.MaterialSearchView
         android:id="@+id/searchView"
