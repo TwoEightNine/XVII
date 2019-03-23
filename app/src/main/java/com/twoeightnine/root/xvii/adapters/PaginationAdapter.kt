@@ -1,10 +1,12 @@
 package com.twoeightnine.root.xvii.adapters
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.managers.Style
+import kotlinx.android.synthetic.main.item_loader.view.*
 import kotlinx.android.synthetic.main.item_try_again.view.*
 
 
@@ -46,11 +48,11 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int) =
-        when (viewType) {
-            STUB_LOAD -> LoaderViewHolder(inflater.inflate(R.layout.item_loader, parent, false))
-            STUB_TRY -> TryViewHolder(inflater.inflate(R.layout.item_try_again, parent, false))
-            else -> createHolder(parent, viewType)
-        }
+            when (viewType) {
+                STUB_LOAD -> LoaderViewHolder(inflater.inflate(R.layout.item_loader, parent, false))
+                STUB_TRY -> TryViewHolder(inflater.inflate(R.layout.item_try_again, parent, false))
+                else -> createHolder(parent, viewType)
+            }
 
     abstract fun createHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder
 
@@ -69,29 +71,29 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
     }
 
     override fun getItemViewType(position: Int) =
-        if (isStubLoad(items[position])) {
-            STUB_LOAD
-        } else if (isStubTry(items[position])) {
-            STUB_TRY
-        } else {
-            NOSTUB
-        }
+            if (isStubLoad(items[position])) {
+                STUB_LOAD
+            } else if (isStubTry(items[position])) {
+                STUB_TRY
+            } else {
+                NOSTUB
+            }
 
 
     fun lastVisiblePosition() =
-        if (layoutManager != null) {
-            (layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findLastVisibleItemPosition()
-        } else {
-            -1
-        }
+            if (layoutManager != null) {
+                (layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findLastVisibleItemPosition()
+            } else {
+                -1
+            }
 
 
     fun firstVisiblePosition() =
-        if (layoutManager != null) {
-            (layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findFirstVisibleItemPosition()
-        } else {
-            -1
-        }
+            if (layoutManager != null) {
+                (layoutManager as androidx.recyclerview.widget.LinearLayoutManager).findFirstVisibleItemPosition()
+            } else {
+                -1
+            }
 
     fun startLoading() {
         isLoading = true
@@ -118,7 +120,8 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
         }
     }
 
-    @JvmOverloads fun stopLoading(items: MutableList<T>?, toTop: Boolean = false) {
+    @JvmOverloads
+    fun stopLoading(items: MutableList<T>?, toTop: Boolean = false) {
         isLoading = false
         if (items != null && items.size == 0) {
             isDone = true
@@ -154,7 +157,14 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
     }
 
 
-    inner class LoaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class LoaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            with(itemView) {
+                Style.forProgressBar(progressBar)
+            }
+        }
+    }
 
     inner class TryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 

@@ -6,18 +6,17 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.*
-import android.os.Build
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.DialogTitle
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.DialogTitle
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.pxFromDp
@@ -218,8 +217,11 @@ object Style {
         fab.backgroundTintList = ColorStateList.valueOf(mainColor)
     }
 
-    private fun forProgressBar(pb: ProgressBar) {
-        pb.progressTintList = ColorStateList.valueOf(mainColor)
+    fun forProgressBar(pb: ProgressBar) {
+        if (ignore()) return
+
+        pb.indeterminateDrawable.setColorFilter(darkColor, PorterDuff.Mode.MULTIPLY)
+//        pb.progressTintList = ColorStateList.valueOf(mainColor)
     }
 
     fun forDialog(dialog: AlertDialog?) {

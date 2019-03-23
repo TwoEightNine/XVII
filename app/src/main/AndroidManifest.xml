@@ -75,8 +75,7 @@
         </activity>
 
         <activity
-            android:name=".activities.RootActivity"
-            android:screenOrientation="portrait" />
+            android:name=".activities.RootActivity" />
 
         <activity
             android:name=".activities.PinActivity"

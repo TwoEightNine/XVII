@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.*
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_login.*
@@ -35,6 +36,7 @@ class LoginActivity : BaseActivity() {
         App.appComponent?.inject(this)
 
         checkToken()
+        Style.forProgressBar(progressBar)
     }
 
     private fun checkToken() {

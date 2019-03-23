@@ -41,8 +41,8 @@
     <!--<color name="pinpad">#ae50f8</color>-->
     <!--<color name="pinpad_pressed">#be60ff</color>-->
 
-    <color name="primary">#888</color>
-    <color name="primary_dark">#222</color>
+    <color name="primary">#555</color>
+    <color name="primary_dark">#000</color>
     <!--<color name="primary_light">#CFBEF7</color>-->
     <!--<color name="primary_light_hard">#BFAEE7</color>-->
     <!--<color name="accent">#9C27B0</color>-->

@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.utils.restartApp
 import com.twoeightnine.root.xvii.utils.showDeleteDialog
 import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_accounts.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 class AccountsFragment : BaseFragment() {
@@ -60,6 +61,7 @@ class AccountsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.accounts))
+        Style.forToolbar(toolbar)
     }
 
     private fun onClick(account: Account) {
