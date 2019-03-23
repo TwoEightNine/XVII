@@ -25,7 +25,7 @@ import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_dialogs_new.*
 import javax.inject.Inject
 
-class DialogsFragment : BaseFragment() {
+open class DialogsFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: DialogsViewModel.Factory
@@ -75,9 +75,9 @@ class DialogsFragment : BaseFragment() {
         viewModel.loadDialogs(offset)
     }
 
-    private fun onClick(dialog: Dialog) {
+    protected open fun onClick(dialog: Dialog) {
         val message = Message(
-            0, 0, dialog.peerId, 0, 0, dialog.title, ""
+                0, 0, dialog.peerId, 0, 0, dialog.title, ""
         )
         if (dialog.peerId > 2000000000) {
             message.chatId = dialog.peerId - 2000000000
@@ -86,7 +86,7 @@ class DialogsFragment : BaseFragment() {
         rootActivity?.loadFragment(ChatFragment.newInstance(message))
     }
 
-    private fun onLongClick(dialog: Dialog) {
+    protected open fun onLongClick(dialog: Dialog) {
         getContextPopup(context ?: return, R.layout.popup_dialogs) { view ->
             when (view.id) {
 

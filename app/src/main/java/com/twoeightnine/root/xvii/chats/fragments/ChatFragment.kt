@@ -29,7 +29,7 @@ import com.twoeightnine.root.xvii.chats.fragments.attach.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attachments.AttachmentsFragment
-import com.twoeightnine.root.xvii.dialogs.fragments.DialogFwFragment
+import com.twoeightnine.root.xvii.dialogs2.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -236,7 +236,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
             adapter.clearMultiSelect()
         }
         ivMenuMulti.setOnClickListener { showMultiSelectPopup() }
-        ivForwardMulti.setOnClickListener { rootActivity.loadFragment(DialogFwFragment.newInstance(adapter.multiSelect)) }
+        ivForwardMulti.setOnClickListener { rootActivity.loadFragment(DialogsForwardFragment.newInstance(adapter.multiSelect)) }
         ivReplyMulti.setOnClickListener {
             presenter.attachUtils.forwarded = adapter.multiSelect
             adapter.clearMultiSelect()
@@ -266,7 +266,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
                 R.id.llEdit -> showEditMessageDialog(message)
                 R.id.llReply -> presenter.attachUtils.forwarded = "${message.id}"
                 R.id.llForward -> {
-                    rootActivity.loadFragment(DialogFwFragment.newInstance("${message.id}"))
+                    rootActivity.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
                 }
                 R.id.llDelete -> {
                     val callback = { forAll: Boolean ->

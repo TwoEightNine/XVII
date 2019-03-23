@@ -26,6 +26,7 @@ import com.twoeightnine.root.xvii.dagger.modules.PresenterModule
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogFwFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.SearchMessagesFragment
+import com.twoeightnine.root.xvii.dialogs2.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.fragments.WallPostFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment
@@ -70,6 +71,7 @@ interface AppComponent {
     fun inject(attachedFragment: AttachedFragment)
     fun inject(friendsFragment: FriendsFragment)
     fun inject(dialogsFragment: com.twoeightnine.root.xvii.dialogs2.fragments.DialogsFragment)
+    fun inject(dialogsForwardFragment: DialogsForwardFragment)
 
     //other
     fun inject(notificationService: NotificationService)

@@ -7,7 +7,7 @@ import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
-import com.twoeightnine.root.xvii.dialogs.fragments.DialogFwFragment
+import com.twoeightnine.root.xvii.dialogs2.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.ImportantFragmentPresenter
@@ -64,7 +64,7 @@ class ImportantFragment : BaseOldFragment(), ImportantFragmentView {
             when (it.id) {
                 R.id.llCopy -> copyToClip(message.body ?: "")
                 R.id.llDelete -> showDeleteDialog(safeActivity) { presenter.deleteMessages(mutableListOf(message.id)) }
-                R.id.llForward -> rootActivity.loadFragment(DialogFwFragment.newInstance("${message.id}"))
+                R.id.llForward -> rootActivity.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
             }
         }.show()
         return true
