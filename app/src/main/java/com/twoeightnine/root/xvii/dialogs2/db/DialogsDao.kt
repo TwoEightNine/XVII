@@ -18,5 +18,5 @@ interface DialogsDao {
     fun insertDialogs(vararg dialogs: Dialog): Completable
 
     @Delete
-    fun removeDialog(dialog: Dialog)
+    fun removeDialog(dialog: Dialog): Single<Int>
 }

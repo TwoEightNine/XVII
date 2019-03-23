@@ -1,11 +1,13 @@
 package com.twoeightnine.root.xvii.dialogs2.viewmodels
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.App.Companion.context
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.dialogs2.models.Dialog
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
@@ -13,8 +15,7 @@ import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.ConversationsResponse
-import com.twoeightnine.root.xvii.utils.EventBus
-import com.twoeightnine.root.xvii.utils.subscribeSmart
+import com.twoeightnine.root.xvii.utils.*
 import javax.inject.Inject
 
 class DialogsViewModel(
@@ -38,7 +39,22 @@ class DialogsViewModel(
 
     fun getDialogs() = dialogsLiveData as WrappedLiveData<ArrayList<Dialog>>
 
+    @SuppressLint("CheckResult")
     fun loadDialogs(offset: Int = 0) {
+        if (!isOnline()) {
+            if (offset == 0) {
+                appDb.dialogsDao().getDialogs()
+                        .compose(applySingleSchedulers())
+                        .subscribe({ dialogs ->
+                            dialogsLiveData.value = Wrapper(ArrayList(dialogs))
+                        }, {
+                            it.printStackTrace()
+                            lw("error loading from cache: ${it.message}")
+                            dialogsLiveData.value = Wrapper(error = it.message)
+                        })
+            }
+            return
+        }
         api.getConversations(COUNT_CONVERSATIONS, offset)
                 .map { convertToDialogs(it) }
                 .subscribeSmart({ dialogs ->
@@ -48,6 +64,7 @@ class DialogsViewModel(
                         dialogsLiveData.value?.data ?: arrayListOf()
                     }
                     dialogsLiveData.value = Wrapper(existing.apply { addAll(dialogs) })
+                    saveDialogsAsync(dialogs)
                 }, ::onErrorOccurred)
     }
 
@@ -61,6 +78,7 @@ class DialogsViewModel(
                 .subscribeSmart({
                     dialogsLiveData.value?.data?.removeAll { it.peerId == dialog.peerId }
                     notifyDialogsChanged()
+                    removeDialog(dialog)
                 }, ::onErrorOccurred)
     }
 
@@ -150,10 +168,43 @@ class DialogsViewModel(
     private fun notifyDialogsChanged() {
         val dialogs = dialogsLiveData.value?.data ?: return
         dialogsLiveData.value = Wrapper(ArrayList(dialogs.sortedByDescending { it.timeStamp }))
+        saveDialogsAsync(dialogs)
     }
 
     private fun onErrorOccurred(error: String) {
         dialogsLiveData.value = Wrapper(error = error)
+    }
+
+    @SuppressLint("CheckResult")
+    private fun saveDialogsAsync(dialogs: ArrayList<Dialog>) {
+        appDb.dialogsDao().insertDialogs(*dialogs.toTypedArray())
+                .compose(applyCompletableSchedulers())
+                .subscribe({
+                    l("cached")
+                }, {
+                    it.printStackTrace()
+                    lw("cache error: ${it.message}")
+                })
+    }
+
+    @SuppressLint("CheckResult")
+    private fun removeDialog(dialog: Dialog) {
+        appDb.dialogsDao().removeDialog(dialog)
+                .compose(applySingleSchedulers())
+                .subscribe({
+                    l("removed from cache")
+                }, {
+                    it.printStackTrace()
+                    lw("remove from cache err: ${it.message}")
+                })
+    }
+
+    private fun l(s: String) {
+        Lg.i("[dialogs] $s")
+    }
+
+    private fun lw(s: String) {
+        Lg.wtf("[dialogs] $s")
     }
 
     companion object {

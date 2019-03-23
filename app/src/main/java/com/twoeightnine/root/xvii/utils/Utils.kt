@@ -42,7 +42,9 @@ import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.User
+import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import okhttp3.ResponseBody
 import java.io.*
@@ -274,6 +276,22 @@ fun simpleUrlIntent(context: Context?, urlArg: String?) {
 fun <T> applySchedulers(): (t: Flowable<T>) -> Flowable<T> {
     return { flowable: Flowable<T> ->
         flowable
+                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+}
+
+fun <T> applySingleSchedulers(): (t: Single<T>) -> Single<T> {
+    return { single: Single<T> ->
+        single
+                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+}
+
+fun applyCompletableSchedulers(): (t: Completable) -> Completable {
+    return { completable: Completable ->
+        completable
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
