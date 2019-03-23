@@ -10,11 +10,14 @@ import kotlinx.android.parcel.Parcelize
 data class Dialog(
         @PrimaryKey
         val peerId: Int = 0,
+        val messageId: Int = 0,
         val title: String = "",
         val photo: String? = null,
-        val text: String = "",
-        val timeStamp: Int = 0,
-        val isOut: Boolean = false,
-        val isRead: Boolean = true,
-        val unreadCount: Int = 0
+        var text: String = "",
+        var timeStamp: Int = 0,
+        var isOut: Boolean = false,
+        var isRead: Boolean = true,
+        var unreadCount: Int = 0,
+        var isOnline: Boolean = false,
+        var isMute: Boolean = false
 ) : Parcelable

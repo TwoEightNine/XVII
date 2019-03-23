@@ -5,8 +5,8 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.attachments.PhotoAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.Photo
+import com.twoeightnine.root.xvii.network.response.AttachmentsResponse
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
-import com.twoeightnine.root.xvii.response.AttachmentsResponse
 import kotlinx.android.synthetic.main.fragment_attachments_photo.*
 
 class PhotoAttachmentsFragment : BaseAttachmentsFragment<Photo>() {

@@ -14,7 +14,7 @@ import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.response.WallPostResponse
+import com.twoeightnine.root.xvii.network.response.WallPostResponse
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.content_wall_post.view.*
 import kotlinx.android.synthetic.main.fragment_wall_post.*

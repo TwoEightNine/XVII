@@ -4,8 +4,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.attachments.VideoAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.Video
-import com.twoeightnine.root.xvii.response.AttachmentsResponse
-import com.twoeightnine.root.xvii.utils.ApiUtils
+import com.twoeightnine.root.xvii.network.response.AttachmentsResponse
 import kotlinx.android.synthetic.main.fragment_attachments_video.*
 
 class VideoAttachmentsFragment : BaseAttachmentsFragment<Video>() {

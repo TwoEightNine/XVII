@@ -181,7 +181,7 @@ class CryptoUtil(
             try {
                 AES256Cipher.decrypt(aesIv, key256, bytes)
             } catch (e: Exception) {
-                lw("decrypting file ${e.message}")
+                lw("dec error ${e.message}")
                 byteArrayOf()
             }
         }

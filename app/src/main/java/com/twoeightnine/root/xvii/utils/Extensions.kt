@@ -7,8 +7,8 @@ import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.Error
-import com.twoeightnine.root.xvii.network.response.ServerResponse
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
@@ -18,9 +18,9 @@ fun String.matchesXviiKey() = length > CryptoUtil.PREFIX.length + CryptoUtil.POS
         this.substring(length - CryptoUtil.POSTFIX.length) == CryptoUtil.POSTFIX
 
 
-fun <T> Flowable<ServerResponse<T>>.subscribeSmart(response: (T) -> Unit,
-                                                   error: (String) -> Unit,
-                                                   newtError: (String) -> Unit = error): Disposable {
+fun <T> Flowable<BaseResponse<T>>.subscribeSmart(response: (T) -> Unit,
+                                                 error: (String) -> Unit,
+                                                 newtError: (String) -> Unit = error): Disposable {
     return this.compose(applySchedulers())
             .subscribe({ resp ->
                 if (resp.response != null) {
@@ -40,6 +40,7 @@ fun <T> Flowable<ServerResponse<T>>.subscribeSmart(response: (T) -> Unit,
 
                 }
             }, { err ->
+                err.printStackTrace()
                 newtError.invoke(err.message ?: "null")
             })
 }

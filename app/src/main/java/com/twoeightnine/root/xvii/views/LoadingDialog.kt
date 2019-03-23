@@ -4,21 +4,24 @@ import android.app.AlertDialog
 import android.content.Context
 import android.view.View
 import com.twoeightnine.root.xvii.R
-import kotlinx.android.synthetic.main.dialog_loading.*
+import com.twoeightnine.root.xvii.utils.hide
+import kotlinx.android.synthetic.main.dialog_loading.view.*
 
 class LoadingDialog(context: Context,
                     text: String = "",
-                    cancelable: Boolean = false): AlertDialog(context) {
+                    cancelable: Boolean = false) : AlertDialog(context) {
 
-        init {
-            val view = View.inflate(context, R.layout.dialog_loading, null)
+    init {
+        val view = View.inflate(context, R.layout.dialog_loading, null)
+        with(view) {
             if (text.isNotEmpty()) {
                 tvTitle.text = text
             } else {
-                tvTitle.visibility = View.GONE
+                tvTitle.hide()
             }
-            setCancelable(cancelable)
-            setView(view)
         }
+        setCancelable(cancelable)
+        setView(view)
+    }
 
 }

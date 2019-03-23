@@ -150,11 +150,7 @@ class LongPollCore(private val context: Context) {
             }
         }
 
-        val content = if (Prefs.showContent) {
-            event.text
-        } else {
-            context.getString(R.string.hidden_message)
-        }
+        val content = event.getResolvedMessage(context, !Prefs.showContent)
 
         if (event.isUser()) {
             val user = getUser(event.peerId)

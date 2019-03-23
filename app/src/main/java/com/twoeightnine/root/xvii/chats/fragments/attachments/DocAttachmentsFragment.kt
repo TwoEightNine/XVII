@@ -4,7 +4,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.attachments.DocAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.Doc
-import com.twoeightnine.root.xvii.response.AttachmentsResponse
+import com.twoeightnine.root.xvii.network.response.AttachmentsResponse
 import com.twoeightnine.root.xvii.utils.simpleUrlIntent
 import kotlinx.android.synthetic.main.fragment_attachments_doc.*
 

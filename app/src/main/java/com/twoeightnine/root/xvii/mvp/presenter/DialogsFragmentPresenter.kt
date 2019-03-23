@@ -7,7 +7,7 @@ import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.DialogsFragmentView
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.network.response.ServerResponse
+import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
@@ -229,7 +229,7 @@ open class DialogsFragmentPresenter(override var api: ApiService) : BasePresente
     }
 
     fun deleteDialog(dialog: Message, position: Int) {
-        val flowable: Flowable<ServerResponse<Int>>
+        val flowable: Flowable<BaseResponse<Int>>
         if (dialog.chatId == 0) {
             flowable = api.deleteDialogUser(dialog.userId, COUNT_DELETE)
         } else {

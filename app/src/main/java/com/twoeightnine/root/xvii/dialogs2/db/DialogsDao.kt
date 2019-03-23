@@ -1,9 +1,6 @@
 package com.twoeightnine.root.xvii.dialogs2.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.twoeightnine.root.xvii.dialogs2.models.Dialog
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -19,4 +16,7 @@ interface DialogsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDialogs(vararg dialogs: Dialog): Completable
+
+    @Delete
+    fun removeDialog(dialog: Dialog)
 }

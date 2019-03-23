@@ -12,7 +12,8 @@ import com.twoeightnine.root.xvii.adapters.DrawerAdapter
 import com.twoeightnine.root.xvii.background.MediaPlayerAsyncTask
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
-import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
+import com.twoeightnine.root.xvii.dialogs2.fragments.DialogsFragment
+//import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.lg.Lg

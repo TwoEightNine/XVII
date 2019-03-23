@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.response
+package com.twoeightnine.root.xvii.network.response
 
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.model.StickerMind

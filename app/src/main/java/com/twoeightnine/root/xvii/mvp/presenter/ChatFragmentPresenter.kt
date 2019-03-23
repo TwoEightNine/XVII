@@ -13,7 +13,7 @@ import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatFragmentView
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.network.response.ServerResponse
+import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
 import io.reactivex.Flowable
@@ -142,7 +142,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
             text
         }
         message = if (isEncrypted && message.isNotEmpty()) crypto.encrypt(message) else message
-        val flowable: Flowable<ServerResponse<Int>>
+        val flowable: Flowable<BaseResponse<Int>>
         if (dialog.chatId > 0) {
             flowable = api
                     .sendChat(
@@ -203,7 +203,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     fun sendSticker(sticker: Attachment.Sticker) {
-        val flowable: Flowable<ServerResponse<Int>>
+        val flowable: Flowable<BaseResponse<Int>>
         if (dialog.chatId > 0) {
             flowable = api
                     .sendChat(
@@ -273,7 +273,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     fun attachPhoto(path: String, isSticker: Boolean = false, context: Context? = null) {
         if (isEncrypted && context != null) {
             crypto.encryptFileAsync(context, path) {
-                Lg.i("encrypted successfully $it")
                 getDocUploadServer(path, it)
             }
         } else {

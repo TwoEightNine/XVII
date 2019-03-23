@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.network.response
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.model.Message
-import com.twoeightnine.root.xvii.response.ListResponse
 import java.io.Serializable
 
 class LongPollHistoryResponse: Serializable {

@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.response
+package com.twoeightnine.root.xvii.network.response
 
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.User

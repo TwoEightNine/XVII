@@ -182,6 +182,7 @@
     <string name="fingerprint_hint">This image and this text were generated from the encryption key. If they look the same on your interlocutor\'s device and the keys were set, be sure that no one breaks your privacy. Otherwise your conversation is not secure!</string>
     <string name="quote" translatable="false">You are <b>not</b> your job. You\'re <b>not</b> how much money you have in the bank. You\'re <b>not</b> the car you drive. You\'re <b>not</b> the contents of your wallet..</string>
 
+    <string name="sticker">Sticker</string>
     <string name="device_photos">Device</string>
     <string name="mic_hint">Slide to cancel</string>
     <string name="invalid_user_id">Invalid user ID</string>
@@ -208,6 +209,17 @@
         <item quantity="one">%d attachment</item>
         <item quantity="other">%d attachments</item>
     </plurals>
+
+    <plurals name="attachments">
+        <item quantity="one">Attachment</item>
+        <item quantity="other">%d attachments</item>
+    </plurals>
+
+    <plurals name="fwd_messages">
+        <item quantity="one">Forwarded message</item>
+        <item quantity="other">%d forwarded messages</item>
+    </plurals>
+
     <string name="aboutBig">
         <b>XVII Messenger (by TwoEightNine)</b>\n
         version: %s\n

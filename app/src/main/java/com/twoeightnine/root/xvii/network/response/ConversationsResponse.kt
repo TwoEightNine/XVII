@@ -43,4 +43,9 @@ data class ConversationsResponse(
         dm.isGroup() -> getGroup(-dm.lastMessage.peerId)?.photo100
         else -> getUser(dm.lastMessage.peerId)?.photo100
     }
+
+    fun isOnline(dm: DialogMessage) = when {
+        dm.isChat() || dm.isGroup() -> false
+        else -> getUser(dm.lastMessage.peerId)?.isOnline ?: false
+    }
 }

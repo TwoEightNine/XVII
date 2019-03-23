@@ -47,8 +47,8 @@ class DialogsAdapter(
                 }
                 tvDate.text = getTime(dialog.timeStamp)
 
-//                ivOnlineDot.setVisible(message.online == 1)
-//                rlMute.setVisible(message.isMute)
+                ivOnlineDot.setVisible(dialog.isOnline)
+                rlMute.setVisible(dialog.isMute)
                 ivUnreadDotOut.setVisible(!dialog.isRead && dialog.isOut)
                 rlUnreadCount.setVisible(!dialog.isRead && !dialog.isOut && dialog.unreadCount > 0)
 

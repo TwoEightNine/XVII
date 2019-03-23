@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.twoeightnine.root.xvii.dialogs2.db.DialogsDao
 import com.twoeightnine.root.xvii.dialogs2.models.Dialog
 
-@Database(entities = [Dialog::class], version = 1)
+@Database(entities = [Dialog::class], version = 2)
 abstract class AppDb : RoomDatabase() {
 
     abstract fun dialogsDao(): DialogsDao
