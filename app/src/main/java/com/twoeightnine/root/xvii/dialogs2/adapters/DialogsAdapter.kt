@@ -8,25 +8,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.dialogs2.models.Dialog
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.utils.EmojiHelper
-import com.twoeightnine.root.xvii.utils.getTime
-import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.setVisible
-import kotlinx.android.synthetic.main.item_dialog.view.*
+import com.twoeightnine.root.xvii.utils.*
+import kotlinx.android.synthetic.main.item_dialog_new.view.*
 
 class DialogsAdapter(
         context: Context,
+        loader: (Int) -> Unit,
         private val onClick: (Dialog) -> Unit,
         private val onLongClick: (Dialog) -> Unit
-) : BaseAdapter<Dialog, DialogsAdapter.DialogViewHolder>(context) {
+) : BaseReachAdapter<Dialog, DialogsAdapter.DialogViewHolder>(context, loader) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DialogViewHolder(inflater.inflate(R.layout.item_dialog, null))
 
-    override fun onBindViewHolder(holder: DialogViewHolder, position: Int) {
-        holder.bind(items[position])
+    override fun createStubLoadItem() = Dialog()
+
+    override fun createHolder(parent: ViewGroup, viewType: Int) = DialogViewHolder(inflater.inflate(R.layout.item_dialog_new, null))
+
+    override fun bind(holder: DialogViewHolder, item: Dialog) {
+        holder.bind(item)
     }
 
     inner class DialogViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -47,8 +48,10 @@ class DialogsAdapter(
                 }
                 tvDate.text = getTime(dialog.timeStamp)
 
+                ivMute.setVisible(dialog.isMute)
+                tvYou.setVisible(dialog.isOut)
                 ivOnlineDot.setVisible(dialog.isOnline)
-                rlMute.setVisible(dialog.isMute)
+                rlMute.hide() //setVisible(dialog.isMute)
                 ivUnreadDotOut.setVisible(!dialog.isRead && dialog.isOut)
                 rlUnreadCount.setVisible(!dialog.isRead && !dialog.isOut && dialog.unreadCount > 0)
 
@@ -63,6 +66,7 @@ class DialogsAdapter(
 
                 Style.forImageView(ivOnlineDot, Style.MAIN_TAG)
                 Style.forImageView(ivUnreadDotOut, Style.MAIN_TAG)
+                Style.forImageView(ivMute, Style.MAIN_TAG)
                 Style.forViewGroup(rlUnreadCount)
                 rlItemContainer.setOnClickListener { onClick(items[adapterPosition]) }
                 rlItemContainer.setOnLongClickListener {

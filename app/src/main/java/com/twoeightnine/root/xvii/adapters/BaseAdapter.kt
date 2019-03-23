@@ -3,6 +3,8 @@ package com.twoeightnine.root.xvii.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.utils.setVisible
 
@@ -62,13 +64,13 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
         return oldItem
     }
 
-    fun update(items: List<T>) {
+    open fun update(items: List<T>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
     }
 
-    fun clear() {
+    open fun clear() {
         items.clear()
         notifyDataSetChanged()
         invalidateEmptiness()
@@ -81,6 +83,23 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
     override fun getItemCount(): Int {
         return items.size
     }
+
+    fun lastVisiblePosition(layoutManager: RecyclerView.LayoutManager?) = when (layoutManager) {
+        is LinearLayoutManager -> layoutManager.findLastVisibleItemPosition()
+        is GridLayoutManager -> layoutManager.findLastVisibleItemPosition()
+        else -> -1
+    }
+
+
+    fun firstVisiblePosition(layoutManager: RecyclerView.LayoutManager?) = when (layoutManager) {
+        is LinearLayoutManager -> layoutManager.findFirstVisibleItemPosition()
+        is GridLayoutManager -> layoutManager.findFirstVisibleItemPosition()
+        else -> -1
+    }
+
+    fun isAtTop(layoutManager: LinearLayoutManager?) = firstVisiblePosition(layoutManager) == 0
+
+    fun isAtBottom(layoutManager: LinearLayoutManager?) = lastVisiblePosition(layoutManager) == items.size - 1
 
     //multiselect
 

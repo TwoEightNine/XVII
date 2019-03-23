@@ -42,7 +42,12 @@ class DialogsViewModel(
         api.getConversations(COUNT_CONVERSATIONS, offset)
                 .map { convertToDialogs(it) }
                 .subscribeSmart({ dialogs ->
-                    dialogsLiveData.value = Wrapper(dialogs)
+                    val existing = if (offset == 0) {
+                        arrayListOf()
+                    } else {
+                        dialogsLiveData.value?.data ?: arrayListOf()
+                    }
+                    dialogsLiveData.value = Wrapper(existing.apply { addAll(dialogs) })
                 }, ::onErrorOccurred)
     }
 
@@ -121,6 +126,7 @@ class DialogsViewModel(
                 ?.find { event.peerId == it.peerId }
         if (dialog != null) { // existing dialog
             with(dialog) {
+                messageId = event.id
                 isRead = false
                 isOut = event.isOut()
                 text = event.getResolvedMessage(context)

@@ -183,6 +183,7 @@
     <string name="quote" translatable="false">You are <b>not</b> your job. You\'re <b>not</b> how much money you have in the bank. You\'re <b>not</b> the car you drive. You\'re <b>not</b> the contents of your wallet..</string>
 
     <string name="sticker">Sticker</string>
+    <string name="you_sender">You:</string>
     <string name="device_photos">Device</string>
     <string name="mic_hint">Slide to cancel</string>
     <string name="invalid_user_id">Invalid user ID</string>

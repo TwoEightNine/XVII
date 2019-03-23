@@ -32,7 +32,7 @@ class DialogsFragment : BaseFragment() {
     private lateinit var viewModel: DialogsViewModel
 
     private val adapter by lazy {
-        DialogsAdapter(contextOrThrow, ::onClick, ::onLongClick)
+        DialogsAdapter(contextOrThrow, ::loadMore, ::onClick, ::onLongClick)
     }
 
     override fun getLayoutId() = R.layout.fragment_dialogs_new
@@ -71,6 +71,10 @@ class DialogsFragment : BaseFragment() {
         }
     }
 
+    private fun loadMore(offset: Int) {
+        viewModel.loadDialogs(offset)
+    }
+
     private fun onClick(dialog: Dialog) {
         val message = Message(
             0, 0, dialog.peerId, 0, 0, dialog.title, ""
@@ -78,6 +82,7 @@ class DialogsFragment : BaseFragment() {
         if (dialog.peerId > 2000000000) {
             message.chatId = dialog.peerId - 2000000000
         }
+        message.online = if (dialog.isOnline) 1 else 0
         rootActivity?.loadFragment(ChatFragment.newInstance(message))
     }
 

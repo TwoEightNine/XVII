@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 data class Dialog(
         @PrimaryKey
         val peerId: Int = 0,
-        val messageId: Int = 0,
+        var messageId: Int = 0,
         val title: String = "",
         val photo: String? = null,
         var text: String = "",
