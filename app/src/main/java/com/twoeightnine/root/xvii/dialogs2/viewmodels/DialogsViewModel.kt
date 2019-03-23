@@ -225,7 +225,7 @@ class DialogsViewModel(
 
     companion object {
         const val COUNT_NEW_CONVERSATION = 3
-        const val COUNT_CONVERSATIONS = 100
+        const val COUNT_CONVERSATIONS = 200
         const val COUNT_DELETE = 10000
     }
 

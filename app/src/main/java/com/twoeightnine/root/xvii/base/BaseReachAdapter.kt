@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import com.twoeightnine.root.xvii.managers.Style
+import kotlinx.android.synthetic.main.item_loader.view.*
 
 
 /**
@@ -31,6 +33,7 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
 
     /**
      * indicates the adapter obtained all data (no more loadings)
+     * only false is allowed to set
      */
     private var isDone: Boolean = false
 
@@ -95,6 +98,10 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
         addStubLoad()
     }
 
+    fun loadAgain() {
+        isDone = false
+    }
+
     private fun addStubLoad() {
         if (!isLoaderAdded) {
             add(stubLoadItem)
@@ -103,6 +110,7 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
     }
 
     override fun update(items: List<T>) {
+        removeStub()
         val noChanges = itemCount == items.size
         super.update(items)
         isLoading = false
@@ -111,7 +119,7 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
         }
     }
 
-    fun removeStub() {
+    private fun removeStub() {
         remove(stubLoadItem)
         isLoaderAdded = false
     }
@@ -122,7 +130,14 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
     }
 
 
-    inner class LoaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class LoaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            with(itemView) {
+                Style.forProgressBar(progressBar)
+            }
+        }
+    }
 
     companion object {
 

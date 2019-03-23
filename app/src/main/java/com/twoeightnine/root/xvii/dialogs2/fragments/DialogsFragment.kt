@@ -52,10 +52,12 @@ open class DialogsFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[DialogsViewModel::class.java]
         viewModel.getDialogs().observe(this, Observer { updateDialogs(it) })
         viewModel.loadDialogs()
+        adapter.startLoading()
 
         swipeRefresh.isRefreshing = true
         swipeRefresh.setOnRefreshListener {
             viewModel.loadDialogs()
+            adapter.loadAgain()
         }
     }
 
