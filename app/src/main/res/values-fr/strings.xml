@@ -177,6 +177,17 @@
         <item quantity="one">%d attachment</item>
         <item quantity="other">%d attachments</item>
     </plurals>
+
+    <plurals name="attachments">
+        <item quantity="one">%d attachement</item>
+        <item quantity="other">%d attachements</item>
+    </plurals>
+
+    <plurals name="fwd_messages">
+        <item quantity="one">%d message transféré</item>
+        <item quantity="other">%d messages transférés</item>
+    </plurals>
+
     <string name="aboutBig">
         <b>XVII Messenger (par TwoEightNine)</b>\n
         version: %s\n
@@ -226,6 +237,8 @@
     <string name="report_hint">Il nous aidera à résoudre le problème plus vite</string>
     <string name="mark_as_read">Marquer comme lu</string>
     <string name="online_seen">en ligne: %s</string>
+    <string name="sticker">Autocollant</string>
+    <string name="you_sender">Vous:</string>
 
 </resources>
 

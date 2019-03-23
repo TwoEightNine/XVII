@@ -17,12 +17,14 @@ import com.twoeightnine.root.xvii.dialogs.fragments.SearchMessagesFragment
 import com.twoeightnine.root.xvii.dialogs2.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs2.models.Dialog
 import com.twoeightnine.root.xvii.dialogs2.viewmodels.DialogsViewModel
+import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.getContextPopup
 import com.twoeightnine.root.xvii.utils.showDeleteDialog
 import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_dialogs_new.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 open class DialogsFragment : BaseFragment() {
@@ -40,6 +42,7 @@ open class DialogsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.dialogs))
+        Style.forToolbar(toolbar)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

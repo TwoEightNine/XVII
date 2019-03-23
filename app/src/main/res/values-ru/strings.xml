@@ -184,6 +184,21 @@
         <item quantity="other">%d прикреплений</item>
         <item quantity="many">%d прикреплений</item>
     </plurals>
+
+    <plurals name="attachments">
+        <item quantity="one">%d прикрепление</item>
+        <item quantity="few">%d прикрепления</item>
+        <item quantity="many">%d прикреплений</item>
+        <item quantity="other">%d прикреплений</item>
+    </plurals>
+
+    <plurals name="fwd_messages">
+        <item quantity="one">%d пересланное сообщение</item>
+        <item quantity="few">%d пересланных сообщения</item>
+        <item quantity="many">%d пересланных сообщений</item>
+        <item quantity="other">%d пересланных сообщений</item>
+    </plurals>
+
     <string name="aboutBig">
         <b>XVII мессенджер (от TwoEightNine)</b>\n
         версия: %s\n
@@ -232,5 +247,7 @@
     <string name="report_hint">Это поможет нам решить проблему быстрее</string>
     <string name="mark_as_read">Прочитано</string>
     <string name="online_seen">в сети: %s</string>
+    <string name="sticker">Стикер</string>
+    <string name="you_sender">Вы:</string>
 
 </resources>

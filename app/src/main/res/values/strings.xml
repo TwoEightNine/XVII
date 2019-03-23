@@ -212,12 +212,12 @@
     </plurals>
 
     <plurals name="attachments">
-        <item quantity="one">Attachment</item>
+        <item quantity="one">%d attachment</item>
         <item quantity="other">%d attachments</item>
     </plurals>
 
     <plurals name="fwd_messages">
-        <item quantity="one">Forwarded message</item>
+        <item quantity="one">%d forwarded message</item>
         <item quantity="other">%d forwarded messages</item>
     </plurals>
 

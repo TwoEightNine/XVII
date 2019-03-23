@@ -71,23 +71,11 @@ data class Message2(
         attachments != null && attachments.isSticker() -> context.getString(R.string.sticker)
         attachments != null && attachments.isNotEmpty() -> {
             val count = attachments.size
-            with(context.resources) {
-                if (count == 1) {
-                    getQuantityString(R.plurals.attachments, count)
-                } else {
-                    getQuantityString(R.plurals.attachments, count, count)
-                }
-            }
+            context.resources.getQuantityString(R.plurals.attachments, count, count)
         }
         fwdMessages != null && fwdMessages.isNotEmpty() -> {
             val count = fwdMessages.size
-            with(context.resources) {
-                if (count == 1) {
-                    getQuantityString(R.plurals.fwd_messages, count)
-                } else {
-                    getQuantityString(R.plurals.fwd_messages, count, count)
-                }
-            }
+            context.resources.getQuantityString(R.plurals.fwd_messages, count, count)
         }
         else -> text
     }

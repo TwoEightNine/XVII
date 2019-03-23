@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.background.longpoll
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -22,6 +23,8 @@ import com.twoeightnine.root.xvii.background.longpoll.models.events.LongPollEven
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.background.longpoll.models.events.UnreadCountEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
+import com.twoeightnine.root.xvii.db.AppDb
+import com.twoeightnine.root.xvii.dialogs2.models.Dialog
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
@@ -54,6 +57,9 @@ class LongPollCore(private val context: Context) {
 
     @Inject
     lateinit var api: ApiService
+
+    @Inject
+    lateinit var appDb: AppDb
 
     init {
         App.appComponent?.inject(this)
@@ -152,29 +158,24 @@ class LongPollCore(private val context: Context) {
 
         val content = event.getResolvedMessage(context, !Prefs.showContent)
 
-        if (event.isUser()) {
-            val user = getUser(event.peerId)
-            if (user != null) {
-                if (Prefs.showName) {
-                    loadBitmapIcon(user.photo100) { bitmap ->
-                        showNotification(
-                                content,
-                                event.peerId,
-                                event.id,
-                                user.fullName,
-                                user.fullName,
-                                bitmap
-                        )
-                    }
-                } else {
-                    showNotification(content, event.peerId, event.id, user.fullName)
+        getDialog(event.peerId, { dialog ->
+            if (Prefs.showName) {
+                loadBitmapIcon(dialog.photo) { bitmap ->
+                    showNotification(
+                            content,
+                            event.peerId,
+                            event.id,
+                            dialog.title,
+                            dialog.title,
+                            bitmap
+                    )
                 }
             } else {
-                showNotification(content, event.peerId, event.id)
+                showNotification(content, event.peerId, event.id, dialog.title)
             }
-        } else {
+        }, {
             showNotification(content, event.peerId, event.id, event.title)
-        }
+        })
 
     }
 
@@ -277,6 +278,20 @@ class LongPollCore(private val context: Context) {
             lw("get user error: ${e.message}")
             return null
         }
+    }
+
+    @SuppressLint("CheckResult")
+    fun getDialog(
+            peerId: Int,
+            onSuccess: (Dialog) -> Unit,
+            onFail: () -> Unit) {
+        appDb.dialogsDao().getDialogs(peerId)
+                .compose(applySingleSchedulers())
+                .subscribe(onSuccess) {
+                    it.printStackTrace()
+                    lw("loading from db error: ${it.message}")
+                    onFail()
+                }
     }
 
     private fun vibrate() {

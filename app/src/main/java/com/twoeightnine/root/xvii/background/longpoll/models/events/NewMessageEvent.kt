@@ -40,23 +40,11 @@ data class NewMessageEvent(
         info.isSticker -> context.getString(R.string.sticker)
         info.attachmentsCount != 0 -> {
             val count = info.attachmentsCount
-            with(context.resources) {
-                if (count == 1) {
-                    getQuantityString(R.plurals.attachments, count)
-                } else {
-                    getQuantityString(R.plurals.attachments, count, count)
-                }
-            }
+            context.resources.getQuantityString(R.plurals.attachments, count, count)
         }
         info.getForwardedCount() > 0 -> {
             val count = info.getForwardedCount()
-            with(context.resources) {
-                if (count == 1) {
-                    getQuantityString(R.plurals.fwd_messages, count)
-                } else {
-                    getQuantityString(R.plurals.fwd_messages, count, count)
-                }
-            }
+            context.resources.getQuantityString(R.plurals.fwd_messages, count, count)
         }
         else -> text
     }

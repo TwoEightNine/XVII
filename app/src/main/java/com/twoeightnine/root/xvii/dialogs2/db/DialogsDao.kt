@@ -11,6 +11,9 @@ interface DialogsDao {
     @Query("SELECT * FROM Dialogs ORDER BY timeStamp DESC")
     fun getDialogs(): Single<List<Dialog>>
 
+    @Query("SELECT * FROM Dialogs WHERE :peerId = peerId")
+    fun getDialogs(peerId: Int): Single<Dialog>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDialog(dialog: Dialog): Completable
 
