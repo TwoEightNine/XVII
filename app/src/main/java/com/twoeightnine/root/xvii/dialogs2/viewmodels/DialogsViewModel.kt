@@ -95,6 +95,7 @@ class DialogsViewModel(
         }
         Prefs.muteList = muteList
         notifyDialogsChanged()
+        saveDialogAsync(dialog)
     }
 
     private fun convertToDialogs(resp: BaseResponse<ConversationsResponse>): BaseResponse<ArrayList<Dialog>> {
@@ -126,6 +127,7 @@ class DialogsViewModel(
 
         dialog.isOnline = isOnline
         notifyDialogsChanged()
+        saveDialogAsync(dialog)
     }
 
     private fun changeReadState(peerId: Int) {
@@ -137,6 +139,7 @@ class DialogsViewModel(
             unreadCount = 0
         }
         notifyDialogsChanged()
+        saveDialogAsync(dialog)
     }
 
     private fun addNewMessage(event: NewMessageEvent) {
@@ -152,6 +155,7 @@ class DialogsViewModel(
                 unreadCount++
             }
             notifyDialogsChanged()
+            saveDialogAsync(dialog)
         } else { // new dialog
             api.getConversations(COUNT_NEW_CONVERSATION)
                     .map { convertToDialogs(it) }
@@ -161,6 +165,7 @@ class DialogsViewModel(
 
                         dialogsLiveData.value?.data?.add(newDialog)
                         notifyDialogsChanged()
+                        saveDialogAsync(newDialog)
                     }, ::onErrorOccurred)
         }
     }
@@ -168,7 +173,6 @@ class DialogsViewModel(
     private fun notifyDialogsChanged() {
         val dialogs = dialogsLiveData.value?.data ?: return
         dialogsLiveData.value = Wrapper(ArrayList(dialogs.sortedByDescending { it.timeStamp }))
-        saveDialogsAsync(dialogs)
     }
 
     private fun onErrorOccurred(error: String) {
@@ -180,10 +184,22 @@ class DialogsViewModel(
         appDb.dialogsDao().insertDialogs(*dialogs.toTypedArray())
                 .compose(applyCompletableSchedulers())
                 .subscribe({
-                    l("cached")
+                    l("cached list")
                 }, {
                     it.printStackTrace()
-                    lw("cache error: ${it.message}")
+                    lw("cache list error: ${it.message}")
+                })
+    }
+
+    @SuppressLint("CheckResult")
+    private fun saveDialogAsync(dialog: Dialog) {
+        appDb.dialogsDao().insertDialog(dialog)
+                .compose(applyCompletableSchedulers())
+                .subscribe({
+                    l("cached one dialog")
+                }, {
+                    it.printStackTrace()
+                    lw("cache one dialog error: ${it.message}")
                 })
     }
 

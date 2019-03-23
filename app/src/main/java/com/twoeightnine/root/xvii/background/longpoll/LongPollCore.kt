@@ -222,7 +222,6 @@ class LongPollCore(private val context: Context) {
         if (Prefs.ledLights) {
             builder.setLights(Prefs.color, 500, 500)
         }
-
         notificationManager.notify(peerId, builder.build())
     }
 
