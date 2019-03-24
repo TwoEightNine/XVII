@@ -15,7 +15,6 @@ class RestarterBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val action = intent?.action
-        Lg.i("[restarter] received $action")
         if ((action == RESTART_ACTION || action == Intent.ACTION_BOOT_COMPLETED)
                 && context != null
                 && !LongPollCore.isRunning()) {

@@ -139,6 +139,7 @@
     <string name="chat_created">Created successfully</string>
     <string name="denied">Access denied</string>
     <string name="audio_denied">Prohibited by VK</string>
+    <string name="audios">Audio</string>
     <string name="permissions_info">App need to have an access to your files for sending and downloading images and your microphone for sending voice messages</string>
     <string name="conversation">conversation</string>
     <string name="community">community</string>

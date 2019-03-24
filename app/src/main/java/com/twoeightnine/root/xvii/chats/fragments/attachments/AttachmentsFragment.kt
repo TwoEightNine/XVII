@@ -10,7 +10,7 @@ import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Style
 import kotlinx.android.synthetic.main.fragment_attachments_history.*
 
-class AttachmentsFragment: BaseOldFragment() {
+class AttachmentsFragment : BaseOldFragment() {
 
     lateinit var adapter: CommonPagerAdapter
 
@@ -37,12 +37,13 @@ class AttachmentsFragment: BaseOldFragment() {
     fun initAdapter() {
         adapter = CommonPagerAdapter(childFragmentManager)
         adapter.add(PhotoAttachmentsFragment.newInstance(peerId), getString(R.string.photos))
+        adapter.add(AudioAttachmentsFragment.newInstance(peerId), getString(R.string.audios))
         adapter.add(VideoAttachmentsFragment.newInstance(peerId), getString(R.string.videos))
         adapter.add(LinkAttachmentsFragment.newInstance(peerId), getString(R.string.links))
         adapter.add(DocAttachmentsFragment.newInstance(peerId), getString(R.string.docs))
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager, true)
-        viewPager.offscreenPageLimit = 3
+        viewPager.offscreenPageLimit = 4
         Style.forTabLayout(tabs)
     }
 

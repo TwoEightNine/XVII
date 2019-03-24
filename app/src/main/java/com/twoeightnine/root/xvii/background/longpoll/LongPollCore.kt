@@ -341,7 +341,8 @@ class LongPollCore(private val context: Context) {
         }
     }
 
-    private fun getConnectSingle(longPollServer: LongPollServer) = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
+    private fun getConnectSingle(longPollServer: LongPollServer)
+            = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
 
     private fun l(s: String) {
         Lg.i("[longpoll] $s")

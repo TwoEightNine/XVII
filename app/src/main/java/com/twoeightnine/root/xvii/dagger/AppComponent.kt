@@ -13,10 +13,7 @@ import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.VideoAttachFragment
-import com.twoeightnine.root.xvii.chats.fragments.attachments.DocAttachmentsFragment
-import com.twoeightnine.root.xvii.chats.fragments.attachments.LinkAttachmentsFragment
-import com.twoeightnine.root.xvii.chats.fragments.attachments.PhotoAttachmentsFragment
-import com.twoeightnine.root.xvii.chats.fragments.attachments.VideoAttachmentsFragment
+import com.twoeightnine.root.xvii.chats.fragments.attachments.*
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.dagger.modules.NetworkModule
 import com.twoeightnine.root.xvii.dagger.modules.PresenterModule
@@ -40,6 +37,7 @@ interface AppComponent {
 
     //activities
     fun inject(loginActivity: LoginActivity)
+
     fun inject(exceptionActivity: ExceptionActivity)
     fun inject(rootActivity: RootActivity)
     fun inject(imageViewerActivity: ImageViewerActivity)
@@ -55,6 +53,7 @@ interface AppComponent {
     fun inject(wallPostFragment: WallPostFragment)
     fun inject(photoAttachmentsFragment: PhotoAttachmentsFragment)
     fun inject(docAttachmentsFragment: DocAttachmentsFragment)
+    fun inject(audioAttachmentsFragment: AudioAttachmentsFragment)
     fun inject(linkAttachmentsFragment: LinkAttachmentsFragment)
     fun inject(videoAttachmentsFragment: VideoAttachmentsFragment)
     fun inject(searchUsersFragment: SearchUsersFragment)
@@ -71,6 +70,7 @@ interface AppComponent {
 
     //other
     fun inject(notificationService: NotificationService)
+
     fun inject(notfJobIntentService: NotificationJobIntentService)
     fun inject(longPollCore: LongPollCore)
     fun inject(chatFragmentPresenter: ChatFragmentPresenter)
