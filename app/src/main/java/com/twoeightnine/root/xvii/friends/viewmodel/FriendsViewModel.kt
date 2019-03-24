@@ -38,7 +38,7 @@ class FriendsViewModel(private val api: ApiService) : ViewModel() {
     }
 
     private fun changeStatus(isOnline: Boolean, userId: Int) {
-        val user = friendsLiveData.value?.data?.firstOrNull { it.id == userId } ?: return
+        val user = friendsLiveData.value?.data?.find { it.id == userId } ?: return
         user.isOnline = isOnline
 
         friendsLiveData.value = Wrapper(friendsLiveData.value?.data)

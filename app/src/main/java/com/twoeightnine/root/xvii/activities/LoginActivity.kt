@@ -11,11 +11,11 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
+import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.*
-import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -27,6 +27,9 @@ class LoginActivity : BaseActivity() {
 
     @Inject
     lateinit var longPollStorage: LongPollStorage
+
+    @Inject
+    lateinit var appDb: AppDb
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,15 +124,21 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun updateAccount() {
-        val realm = Realm.getDefaultInstance()
-        val account = Account()
-        account.token = Session.token
-        account.uid = Session.uid
-        account.name = Session.fullName
-        account.photo = Session.photo
-        realm.beginTransaction()
-        realm.copyToRealmOrUpdate(account)
-        realm.commitTransaction()
+        val account = Account(
+                Session.uid,
+                Session.token,
+                Session.fullName,
+                Session.photo,
+                true
+        )
+        appDb.accountsDao().insertAccount(account)
+                .compose(applyCompletableSchedulers())
+                .subscribe({
+                    Lg.i("[login] account updated")
+                }, {
+                    it.printStackTrace()
+                    Lg.wtf("[login] error updating account: ${it.message}")
+                })
     }
 
     private fun extract(from: String, regex: String): String {

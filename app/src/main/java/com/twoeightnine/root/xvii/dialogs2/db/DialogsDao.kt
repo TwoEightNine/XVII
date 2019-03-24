@@ -22,4 +22,7 @@ interface DialogsDao {
 
     @Delete
     fun removeDialog(dialog: Dialog): Single<Int>
+
+    @Query("DELETE FROM dialogs")
+    fun removeAll(): Completable
 }

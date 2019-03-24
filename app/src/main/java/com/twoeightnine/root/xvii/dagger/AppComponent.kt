@@ -1,10 +1,7 @@
 package com.twoeightnine.root.xvii.dagger
 
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
-import com.twoeightnine.root.xvii.activities.ExceptionActivity
-import com.twoeightnine.root.xvii.activities.GifViewerActivity
-import com.twoeightnine.root.xvii.activities.LoginActivity
-import com.twoeightnine.root.xvii.activities.RootActivity
+import com.twoeightnine.root.xvii.activities.*
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
@@ -35,6 +32,7 @@ import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.settings.fragments.AboutFragment
+import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -48,6 +46,7 @@ interface AppComponent {
     fun inject(rootActivity: RootActivity)
     fun inject(imageViewerActivity: ImageViewerActivity)
     fun inject(gifViewerActivity: GifViewerActivity)
+    fun inject(pinActivity: PinActivity)
 
     //fragments
     fun inject(dialogsFragment: DialogsFragment)
@@ -72,6 +71,7 @@ interface AppComponent {
     fun inject(friendsFragment: FriendsFragment)
     fun inject(dialogsFragment: com.twoeightnine.root.xvii.dialogs2.fragments.DialogsFragment)
     fun inject(dialogsForwardFragment: DialogsForwardFragment)
+    fun inject(settingsFragment: SettingsFragment)
 
     //other
     fun inject(notificationService: NotificationService)

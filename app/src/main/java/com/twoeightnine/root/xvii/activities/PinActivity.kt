@@ -6,22 +6,26 @@ import android.os.Bundle
 import android.util.AndroidRuntimeException
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.accounts.models.Account
+import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
-import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_pin.*
+import javax.inject.Inject
 
 /**
  * Created by root on 3/17/17.
  */
 
 class PinActivity : BaseActivity() {
+
+    @Inject
+    lateinit var appDb: AppDb
 
     private var action: String? = null
     private var currentStage: String? = null
@@ -34,6 +38,7 @@ class PinActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        App.appComponent?.inject(this)
         setContentView(R.layout.activity_pin)
         if (intent.extras != null) {
             action = intent.extras.getString(ACTION)
@@ -134,12 +139,7 @@ class PinActivity : BaseActivity() {
     }
 
     private fun resetPin() {
-        val realm = Realm.getDefaultInstance()
-        realm.beginTransaction()
-        realm.where(Account::class.java)
-                .findAll()
-                .deleteAllFromRealm()
-        realm.commitTransaction()
+        appDb.clearAsync()
         Session.token = ""
         Prefs.pin = ""
         restartApp(getString(R.string.restart_app))

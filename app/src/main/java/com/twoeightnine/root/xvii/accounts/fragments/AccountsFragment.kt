@@ -43,6 +43,7 @@ class AccountsFragment : BaseFragment() {
         viewModel.loadAccounts()
 
         rlAddAccount.setOnClickListener {
+            viewModel.updateRunningAccount()
             Session.token = ""
             restartApp(getString(R.string.restart_app))
         }
@@ -65,7 +66,7 @@ class AccountsFragment : BaseFragment() {
     }
 
     private fun onClick(account: Account) {
-        if (account.token == Session.token) {
+        if (account.isRunning) {
             showError(activity, R.string.already_acc)
         } else {
             selectedAccount = account
@@ -75,7 +76,7 @@ class AccountsFragment : BaseFragment() {
     }
 
     private fun onLongClick(account: Account) {
-        if (account.token == Session.token) {
+        if (account.isRunning) {
             showError(activity, R.string.cannot_delete_acc)
         } else {
             showDeleteDialog(context) { viewModel.deleteAccount(account) }

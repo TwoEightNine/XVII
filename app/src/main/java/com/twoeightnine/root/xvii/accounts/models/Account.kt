@@ -1,34 +1,17 @@
 package com.twoeightnine.root.xvii.accounts.models
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.RealmClass
+import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
-@RealmClass
-open class Account : RealmObject() {
-
-    companion object {
-        const val TOKEN = "token"
-        const val UID = "uid"
-    }
-
-    @PrimaryKey
-    @SerializedName(UID)
-    @Expose
-    open var uid: Int = 0
-
-    @SerializedName(TOKEN)
-    @Expose
-    open var token: String? = null
-
-    @SerializedName("name")
-    @Expose
-    open var name: String? = null
-
-    @SerializedName("photo")
-    @Expose
-    open var photo: String? = null
-
-}
+@Parcelize
+@Entity(tableName = "accounts")
+data class Account(
+        @PrimaryKey
+        val uid: Int = 0,
+        val token: String? = null,
+        val name: String? = null,
+        val photo: String? = null,
+        var isRunning: Boolean = false
+) : Parcelable

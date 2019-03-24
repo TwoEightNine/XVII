@@ -6,10 +6,11 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
-import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.activities.PinActivity
+import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -20,10 +21,13 @@ import com.twoeightnine.root.xvii.settings.adapters.SettingsAdapter
 import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.restartApp
 import com.twoeightnine.root.xvii.views.RateAlertDialog
-import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_settings.*
+import javax.inject.Inject
 
 class SettingsFragment : BaseOldFragment() {
+
+    @Inject
+    lateinit var appDb: AppDb
 
     companion object {
         fun newInstance() = SettingsFragment()
@@ -60,6 +64,7 @@ class SettingsFragment : BaseOldFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        App.appComponent?.inject(this)
         updateTitle(getString(R.string.settings))
         if (Prefs.showRate) {
             try {
@@ -84,13 +89,7 @@ class SettingsFragment : BaseOldFragment() {
 
     private fun logout() {
         Session.token = ""
-        val realm = Realm.getDefaultInstance()
-        realm.beginTransaction()
-        realm.where(Account::class.java)
-                .equalTo(Account.TOKEN, Session.token)
-                .findAll()
-                .deleteAllFromRealm()
-        realm.commitTransaction()
+        appDb.clearAsync()
         CacheHelper.deleteAllMessagesAsync()
         restartApp(getString(R.string.restart_app))
     }
