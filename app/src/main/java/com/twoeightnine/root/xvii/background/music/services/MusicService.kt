@@ -31,6 +31,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     private val player by lazy { MediaPlayer() }
     private val tracks = arrayListOf<Track>()
 
+    private var repeat = false
+
     private var playedPosition: Int = 0
 
     private fun updateAudios(tracks: ArrayList<Track>, position: Int = 0) {
@@ -109,7 +111,12 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         if (playedPosition !in tracks.indices) {
             playedPosition = 0
         }
-        startPlaying()
+        if (repeat) {
+            startPlaying()
+        } else {
+            showNotification()
+            pausingAudioSubject.onNext(Unit)
+        }
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
@@ -247,6 +254,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         fun subscribeOnAudioPausing(consumer: (Unit) -> Unit) = pausingAudioSubject.subscribe(consumer)
 
         fun getPlayedTrack() = service?.getPlayedTrack()
+
+        fun isPlaying() = service?.player?.isPlaying ?: false
     }
 
     inner class MusicBinder : Binder() {

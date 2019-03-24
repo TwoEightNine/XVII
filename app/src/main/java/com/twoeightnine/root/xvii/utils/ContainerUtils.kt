@@ -12,9 +12,8 @@ import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.GifViewerActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
-import com.twoeightnine.root.xvii.background.MediaPlayerAsyncTask
-import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.background.music.models.Track
+import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.*
 
@@ -94,34 +93,19 @@ fun getAudio(audio: Audio, context: Context): View {
     ivButton.setImageDrawable(dPlay)
     included.findViewById<TextView>(R.id.tvTitle).text = audio.title
     included.findViewById<TextView>(R.id.tvArtist).text = audio.artist
-    if (Prefs.playerUrl == audio.url && RootActivity.player != null) {
+    if (MusicService.getPlayedTrack()?.audio == audio && MusicService.isPlaying()) {
         ivButton.setImageDrawable(dPause)
     }
     ivButton.setOnClickListener {
-        if (RootActivity.player != null && RootActivity.player!!.isExecuting) {
-            RootActivity.player!!.cancel(true)
-            RootActivity.player = null
+        ivButton.setImageDrawable(dPause)
+        MusicService.launch(context, arrayListOf(Track(audio)), 0)
+        MusicService.subscribeOnAudioPlaying { track ->
+            if (audio == track.audio) {
+                ivButton.setImageDrawable(dPause)
+            }
+        }
+        MusicService.subscribeOnAudioPausing {
             ivButton.setImageDrawable(dPlay)
-        } else {
-            if (RootActivity.player == null) {
-                RootActivity.player = MediaPlayerAsyncTask {
-                    ivButton.setImageDrawable(dPlay)
-                    RootActivity.player = null
-                }
-            }
-            if (!RootActivity.player!!.isExecuting) {
-                if (!audio.url.isNullOrEmpty()) {
-                    try {
-                        RootActivity.player!!.execute(audio.url)
-                        ivButton.setImageDrawable(dPause)
-                    } catch (e: IllegalStateException) {
-                        Lg.i("container player: ${e.message}")
-                        RootActivity.player!!.cancel(true)
-                    }
-                } else {
-                    showError(context, R.string.audio_denied)
-                }
-            }
         }
     }
     return included
