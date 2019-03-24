@@ -1,40 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_rect">
 
     <ImageView
-        android:layout_margin="8dp"
         android:id="@+id/ivButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="52dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="6dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
         android:src="@drawable/play_big" />
 
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/ivButton"
-        android:layout_marginLeft="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
+        android:layout_toEndOf="@+id/ivButton"
+        android:orientation="vertical"
+        android:paddingBottom="4dp">
 
         <TextView
             android:id="@+id/tvTitle"
             style="@style/TextViewStyle.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:maxLines="1"
-            android:text="Titlee" />
+            tools:text="Titlee" />
 
-        <TextView
-            android:id="@+id/tvArtist"
-            style="@style/TextViewStyle.Small.Gray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="Artist" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvArtist"
+                style="@style/TextViewStyle.Small.Gray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/tvDuration"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Artist" />
+
+            <TextView
+                android:id="@+id/tvDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="6dp"
+                android:textColor="@color/other_text"
+                android:textSize="12sp"
+                tools:text="13:37" />
+        </RelativeLayout>
+
 
     </LinearLayout>
 

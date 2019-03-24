@@ -5,19 +5,21 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
-import com.twoeightnine.root.xvii.background.MediaPlayerAsyncTask
-import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Audio
-import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.secToTime
 import kotlinx.android.synthetic.main.item_attachments_audio.view.*
 
 
 class AudioAttachmentsAdapter(loader: ((Int) -> Unit)?,
                               listener: ((Audio) -> Unit)?) : SimplePaginationAdapter<Audio>(loader, listener) {
+
+    var played: Audio? = null
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun getView(pos: Int, v: View?, viewGroup: ViewGroup): View {
         var view = v
@@ -35,43 +37,20 @@ class AudioAttachmentsAdapter(loader: ((Int) -> Unit)?,
 
         fun bind(audio: Audio) {
             with(view) {
-                val dPlay = ContextCompat.getDrawable(context, R.drawable.play_big)
-                val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
-                Style.forDrawable(dPlay, Style.DARK_TAG)
-                Style.forDrawable(dPause, Style.DARK_TAG)
-                ivButton.setImageDrawable(dPlay)
+                val icon = if (audio == played) {
+                    val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
+                    Style.forDrawable(dPause, Style.DARK_TAG)
+                    dPause
+                } else {
+                    val dPlay = ContextCompat.getDrawable(context, R.drawable.play_big)
+                    Style.forDrawable(dPlay, Style.DARK_TAG)
+                    dPlay
+                }
+                ivButton.setImageDrawable(icon)
                 tvTitle.text = audio.title
                 tvArtist.text = audio.artist
-                if (Prefs.playerUrl == audio.url && RootActivity.player != null) {
-                    ivButton.setImageDrawable(dPause)
-                }
-                ivButton.setOnClickListener {
-                    if (RootActivity.player != null && RootActivity.player!!.isExecuting) {
-                        RootActivity.player!!.cancel(true)
-                        RootActivity.player = null
-                        ivButton.setImageDrawable(dPlay)
-                    } else {
-                        if (RootActivity.player == null) {
-                            RootActivity.player = MediaPlayerAsyncTask {
-                                ivButton.setImageDrawable(dPlay)
-                                RootActivity.player = null
-                            }
-                        }
-                        if (!RootActivity.player!!.isExecuting) {
-                            if (!audio.url.isNullOrEmpty()) {
-                                try {
-                                    RootActivity.player!!.execute(audio.url)
-                                    ivButton.setImageDrawable(dPause)
-                                } catch (e: IllegalStateException) {
-                                    Lg.i("container player: ${e.message}")
-                                    RootActivity.player!!.cancel(true)
-                                }
-                            } else {
-                                showError(context, R.string.audio_denied)
-                            }
-                        }
-                    }
-                }
+                tvDuration.text = secToTime(audio.duration)
+                setOnClickListener { listener?.invoke(audio) }
             }
         }
     }

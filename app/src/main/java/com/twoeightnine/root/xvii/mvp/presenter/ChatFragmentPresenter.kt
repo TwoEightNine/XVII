@@ -527,17 +527,17 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 }
             }
 
-            is OfflineEvent -> {
-                if (userId() == event.userId) {
-                    view?.onChangeOnline(false)
-                }
-            }
-
-            is OnlineEvent -> {
-                if (userId() == event.userId) {
-                    view?.onChangeOnline(true)
-                }
-            }
+//            is OfflineEvent -> {
+//                if (userId() == event.userId) {
+//                    view?.onChangeOnline(false)
+//                }
+//            }
+//
+//            is OnlineEvent -> {
+//                if (userId() == event.userId) {
+//                    view?.onChangeOnline(true)
+//                }
+//            }
 
             is TypingEvent -> {
                 if (userId() == event.userId ||

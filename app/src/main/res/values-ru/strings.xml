@@ -249,5 +249,7 @@
     <string name="online_seen">в сети: %s</string>
     <string name="sticker">Стикер</string>
     <string name="you_sender">Вы:</string>
+    <string name="audios">Аудио</string>
+    <string name="app_name_music">XVII Музыка</string>
 
 </resources>

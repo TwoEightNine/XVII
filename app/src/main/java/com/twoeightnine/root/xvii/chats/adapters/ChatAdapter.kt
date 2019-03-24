@@ -278,7 +278,10 @@ class ChatAdapter(context: Context,
                                 when {
                                     doc.isVoiceMessage -> {
                                         llMessageContainer.addView(
-                                                getAudio(Audio(doc, context.getString(R.string.voice_message)), context))
+                                                getAudio(Audio(
+                                                        doc.preview?.audioMsg ?: return,
+                                                        context.getString(R.string.voice_message)
+                                                ), context))
                                     }
                                     doc.isGif -> {
                                         llMessageContainer.addView(getGif(doc, context))

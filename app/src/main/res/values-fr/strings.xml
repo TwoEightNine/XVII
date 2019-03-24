@@ -239,6 +239,8 @@
     <string name="online_seen">en ligne: %s</string>
     <string name="sticker">Autocollant</string>
     <string name="you_sender">Vous:</string>
+    <string name="audios">Audio</string>
+    <string name="app_name_music">XVII Musique</string>
 
 </resources>
 
