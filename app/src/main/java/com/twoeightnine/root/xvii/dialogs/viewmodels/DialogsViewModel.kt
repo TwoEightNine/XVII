@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.dialogs2.viewmodels
+package com.twoeightnine.root.xvii.dialogs.viewmodels
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.App.Companion.context
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.dialogs2.models.Dialog
+import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.WrappedLiveData

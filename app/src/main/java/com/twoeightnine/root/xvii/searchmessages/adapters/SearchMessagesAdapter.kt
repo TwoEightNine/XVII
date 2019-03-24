@@ -1,9 +1,9 @@
-package com.twoeightnine.root.xvii.dialogs.adapters
+package com.twoeightnine.root.xvii.searchmessages.adapters
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
 import com.twoeightnine.root.xvii.managers.Style

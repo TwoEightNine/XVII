@@ -7,8 +7,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.twoeightnine.root.xvii.accounts.db.AccountsDao
 import com.twoeightnine.root.xvii.accounts.models.Account
-import com.twoeightnine.root.xvii.dialogs2.db.DialogsDao
-import com.twoeightnine.root.xvii.dialogs2.models.Dialog
+import com.twoeightnine.root.xvii.dialogs.db.DialogsDao
+import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import io.reactivex.Completable

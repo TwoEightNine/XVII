@@ -20,17 +20,15 @@ import com.twoeightnine.root.xvii.chats.fragments.attachments.VideoAttachmentsFr
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.dagger.modules.NetworkModule
 import com.twoeightnine.root.xvii.dagger.modules.PresenterModule
-import com.twoeightnine.root.xvii.dialogs.fragments.DialogFwFragment
+import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
-import com.twoeightnine.root.xvii.dialogs.fragments.SearchMessagesFragment
-import com.twoeightnine.root.xvii.dialogs2.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.fragments.WallPostFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
-import com.twoeightnine.root.xvii.mvp.presenter.DialogsFragmentPresenter
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import com.twoeightnine.root.xvii.searchmessages.fragments.SearchMessagesFragment
 import com.twoeightnine.root.xvii.settings.fragments.AboutFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import dagger.Component
@@ -49,7 +47,6 @@ interface AppComponent {
     fun inject(pinActivity: PinActivity)
 
     //fragments
-    fun inject(dialogsFragment: DialogsFragment)
     fun inject(chatFragment: ChatFragment)
     fun inject(profileFragment: ProfileFragment)
     fun inject(photoAttachFragment: PhotoAttachFragment)
@@ -63,13 +60,12 @@ interface AppComponent {
     fun inject(searchUsersFragment: SearchUsersFragment)
     fun inject(searchMessagesFragment: SearchMessagesFragment)
     fun inject(importantFragment: ImportantFragment)
-    fun inject(dialogFwFragment: DialogFwFragment)
     fun inject(chatInfoFragment: ChatInfoFragment)
     fun inject(aboutFragment: AboutFragment)
     fun inject(accountsFragment: AccountsFragment)
     fun inject(attachedFragment: AttachedFragment)
     fun inject(friendsFragment: FriendsFragment)
-    fun inject(dialogsFragment: com.twoeightnine.root.xvii.dialogs2.fragments.DialogsFragment)
+    fun inject(dialogsFragment: DialogsFragment)
     fun inject(dialogsForwardFragment: DialogsForwardFragment)
     fun inject(settingsFragment: SettingsFragment)
 
@@ -78,7 +74,6 @@ interface AppComponent {
     fun inject(notfJobIntentService: NotificationJobIntentService)
     fun inject(longPollCore: LongPollCore)
     fun inject(chatFragmentPresenter: ChatFragmentPresenter)
-    fun inject(dialogsFragmentPresenter: DialogsFragmentPresenter)
     fun inject(markAsReadBroadcastReceiver: MarkAsReadBroadcastReceiver)
 
 }

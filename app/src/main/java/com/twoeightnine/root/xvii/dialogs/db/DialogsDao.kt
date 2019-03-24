@@ -1,7 +1,7 @@
-package com.twoeightnine.root.xvii.dialogs2.db
+package com.twoeightnine.root.xvii.dialogs.db
 
 import androidx.room.*
-import com.twoeightnine.root.xvii.dialogs2.models.Dialog
+import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import io.reactivex.Completable
 import io.reactivex.Single
 

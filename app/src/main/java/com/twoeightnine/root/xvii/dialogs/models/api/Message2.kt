@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.dialogs2.models.api
+package com.twoeightnine.root.xvii.dialogs.models.api
 
 import android.content.Context
 import android.os.Parcelable

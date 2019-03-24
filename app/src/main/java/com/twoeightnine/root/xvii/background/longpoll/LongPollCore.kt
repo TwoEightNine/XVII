@@ -24,15 +24,12 @@ import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEv
 import com.twoeightnine.root.xvii.background.longpoll.models.events.UnreadCountEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.dialogs2.models.Dialog
+import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.model.UserDb
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.disposables.CompositeDisposable
-import io.realm.Realm
 import javax.inject.Inject
 
 class LongPollCore(private val context: Context) {
@@ -158,6 +155,7 @@ class LongPollCore(private val context: Context) {
 
         val content = event.getResolvedMessage(context, !Prefs.showContent)
 
+        // trying to get dialog from database
         getDialog(event.peerId, { dialog ->
             if (Prefs.showName) {
                 loadBitmapIcon(dialog.photo) { bitmap ->
@@ -174,7 +172,27 @@ class LongPollCore(private val context: Context) {
                 showNotification(content, event.peerId, event.id, dialog.title)
             }
         }, {
-            showNotification(content, event.peerId, event.id, event.title)
+            if (event.peerId > 2000000000) {
+                // chats are shown as is
+                showNotification(content, event.peerId, event.id, event.title)
+            } else {
+
+                // for groups and users try to resolve them
+                resolveSenderByPeerId(event.peerId, { title, photo ->
+                    loadBitmapIcon(photo) { bitmap ->
+                        showNotification(
+                                content,
+                                event.peerId,
+                                event.id,
+                                title,
+                                title,
+                                bitmap
+                        )
+                    }
+                }, {
+                    showNotification(content, event.peerId, event.id, event.title)
+                })
+            }
         })
 
     }
@@ -265,17 +283,39 @@ class LongPollCore(private val context: Context) {
         )
     }
 
-    private fun getUser(peerId: Int): User? {
-        try {
-            val realm = Realm.getDefaultInstance()
-            val realmData = realm
-                    .where(UserDb::class.java)
-                    .equalTo("id", peerId)
-            val realmUser = realmData.findFirst()
-            return User(realmUser)
-        } catch (e: Exception) {
-            lw("get user error: ${e.message}")
-            return null
+    /**
+     * returns title and photo by peerId
+     * used for groups and users
+     */
+    private fun resolveSenderByPeerId(
+            peerId: Int,
+            onSuccess: (String, String) -> Unit,
+            onFail: () -> Unit
+    ) {
+        if (peerId < 0) {
+            api.getGroups("${-peerId}")
+                    .subscribeSmart({ groups ->
+                        val group = groups.getOrElse(0) {
+                            onFail()
+                            return@subscribeSmart
+                        }
+                        onSuccess(group.name, group.photo100)
+                    }, {
+                        lw("resolve group error: $it")
+                        onFail()
+                    })
+        } else {
+            api.getUsers("$peerId")
+                    .subscribeSmart({ users ->
+                        val user = users.getOrElse(0) {
+                            onFail()
+                            return@subscribeSmart
+                        }
+                        onSuccess(user.fullName, user.photo100 ?: App.PHOTO_STUB)
+                    }, {
+                        lw("resolving user error: $it")
+                        onFail()
+                    })
         }
     }
 

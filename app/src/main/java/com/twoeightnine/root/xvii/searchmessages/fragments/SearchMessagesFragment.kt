@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.dialogs.fragments
+package com.twoeightnine.root.xvii.searchmessages.fragments
 
 import android.os.CountDownTimer
 import android.view.View
@@ -6,11 +6,11 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
-import com.twoeightnine.root.xvii.dialogs.adapters.SearchMessagesAdapter
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.mvp.presenter.SearchMessagesFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.SearchMessagesFragmentView
+import com.twoeightnine.root.xvii.searchmessages.adapters.SearchMessagesAdapter
 import com.twoeightnine.root.xvii.utils.hideKeyboard
 import com.twoeightnine.root.xvii.utils.showCommon
 import kotlinx.android.synthetic.main.fragment_dialogs.*
@@ -20,13 +20,13 @@ class SearchMessagesFragment: BaseOldFragment(), SearchMessagesFragmentView {
 
     var timer: CountDownTimer? = null
 
-    companion object {
-        fun newInstance(isForwarded: Boolean = false): DialogsFragment {
-            val frag = DialogsFragment()
-            frag.isForwarded = isForwarded
-            return frag
-        }
-    }
+//    companion object {
+//        fun newInstance(isForwarded: Boolean = false): DialogsFragment {
+//            val frag = DialogsFragment()
+//            frag.isForwarded = isForwarded
+//            return frag
+//        }
+//    }
 
     override fun getLayout() = R.layout.fragment_dialogs
 

@@ -1,11 +1,11 @@
-package com.twoeightnine.root.xvii.dialogs2.fragments
+package com.twoeightnine.root.xvii.dialogs.fragments
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
-import com.twoeightnine.root.xvii.dialogs2.models.Dialog
+import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.model.Message
 
 class DialogsForwardFragment : DialogsFragment() {

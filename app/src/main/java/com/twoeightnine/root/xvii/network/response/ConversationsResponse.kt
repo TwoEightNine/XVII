@@ -2,7 +2,7 @@ package com.twoeightnine.root.xvii.network.response
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.twoeightnine.root.xvii.dialogs2.models.api.DialogMessage
+import com.twoeightnine.root.xvii.dialogs.models.api.DialogMessage
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.User
 
