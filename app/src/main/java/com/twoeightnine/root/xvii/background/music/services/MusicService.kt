@@ -31,8 +31,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     private val player by lazy { MediaPlayer() }
     private val tracks = arrayListOf<Track>()
 
-    private var repeat = false
-
     private var playedPosition: Int = 0
 
     private fun updateAudios(tracks: ArrayList<Track>, position: Int = 0) {
@@ -110,12 +108,14 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         playedPosition++
         if (playedPosition !in tracks.indices) {
             playedPosition = 0
-        }
-        if (repeat) {
-            startPlaying()
+            if (tracks.size > 1) {
+                startPlaying()
+            } else {
+                showNotification()
+                pausingAudioSubject.onNext(Unit)
+            }
         } else {
-            showNotification()
-            pausingAudioSubject.onNext(Unit)
+            startPlaying()
         }
     }
 
