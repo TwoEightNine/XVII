@@ -9,7 +9,6 @@ import androidx.core.view.GravityCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.DrawerAdapter
-import com.twoeightnine.root.xvii.background.MediaPlayerAsyncTask
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
@@ -34,8 +33,6 @@ import javax.inject.Inject
 class RootActivity : BaseActivity() {
 
     companion object {
-
-        var player: MediaPlayerAsyncTask? = null
 
         const val USER_ID = "userId"
         const val TITLE = "title"
