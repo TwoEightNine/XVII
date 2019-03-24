@@ -251,5 +251,6 @@
     <string name="you_sender">Вы:</string>
     <string name="audios">Аудио</string>
     <string name="app_name_music">XVII Музыка</string>
+    <string name="downloading_file">Загрузка файла..</string>
 
 </resources>

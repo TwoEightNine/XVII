@@ -46,6 +46,8 @@ data class Audio(
             _url ?: ""
         }
 
+    val fullId: String
+        get() = "${id}_$ownerId"
 
     constructor(audioMsg: Doc.Preview.AudioMsg, title: String) : this(
             duration = audioMsg.duration,

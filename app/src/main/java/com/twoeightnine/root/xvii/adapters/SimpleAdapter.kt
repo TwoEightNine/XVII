@@ -47,6 +47,11 @@ abstract class SimpleAdapter<T> : BaseAdapter() {
         notifyDataSetChanged()
     }
 
+    fun update(items: MutableList<T>) {
+        clear()
+        add(items)
+    }
+
     fun clear() = items.clear()
 
     //multiselect

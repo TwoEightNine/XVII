@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_rect">
+
+    <ImageView
+        android:id="@+id/ivButton"
+        android:layout_width="52dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="6dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:src="@drawable/play_big" />
+
+    <LinearLayout
+        android:id="@+id/llText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/ivDownload"
+        android:layout_toEndOf="@+id/ivButton"
+        android:orientation="vertical"
+        android:paddingBottom="4dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/TextViewStyle.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            tools:text="Titlee" />
+
+        <TextView
+            android:id="@+id/tvArtist"
+            style="@style/TextViewStyle.Small.Gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="Artist" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlEnding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/llText"
+        android:layout_alignParentEnd="true"
+        android:paddingBottom="4dp">
+
+        <ImageView
+            android:id="@+id/ivCached"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/ic_cached" />
+
+        <TextView
+            android:id="@+id/tvDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivCached"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/other_text"
+            android:textSize="12sp"
+            tools:text="13:37" />
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:layout_toStartOf="@+id/rlEnding"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/ivDownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:layout_toStartOf="@+id/rlEnding"
+        android:src="@drawable/ic_download_usual" />
+
+</RelativeLayout>

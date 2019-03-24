@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.background.music
+package com.twoeightnine.root.xvii.background.music.services
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -18,6 +18,7 @@ import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
 import androidx.core.app.NotificationCompat
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.Audio
 import io.reactivex.subjects.PublishSubject
@@ -28,16 +29,16 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
     private val binder by lazy { MusicBinder() }
     private val player by lazy { MediaPlayer() }
-    private val audios = arrayListOf<Audio>()
+    private val tracks = arrayListOf<Track>()
 
     private var playedPosition: Int = 0
 
-    private fun updateAudios(audios: ArrayList<Audio>, position: Int = 0) {
-        val nowPlayed = getPlayedAudio()
-        this.audios.clear()
-        this.audios.addAll(audios)
+    private fun updateAudios(tracks: ArrayList<Track>, position: Int = 0) {
+        val nowPlayed = getPlayedTrack()
+        this.tracks.clear()
+        this.tracks.addAll(tracks)
         playedPosition = position
-        if (nowPlayed == getPlayedAudio()) {
+        if (nowPlayed == getPlayedTrack()) {
             playOrPause()
         } else {
             startPlaying()
@@ -54,17 +55,22 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     }
 
     private fun startPlaying() {
-        val playedAudio = getPlayedAudio()
-        val url = playedAudio?.url ?: return
+        val playedTrack = getPlayedTrack()
+        val path = when {
+            playedTrack == null -> null
+            playedTrack.isCached() -> playedTrack.cachePath
+            else -> playedTrack.audio.url
+        } ?: return
 
-        l("playing ${playedAudio.id}_${playedAudio.ownerId}")
+        l("playing ${playedTrack?.audio?.fullId} when cached is ${playedTrack?.isCached() == true}")
         player.reset()
         try {
-            player.setDataSource(url)
+            player.setDataSource(path)
+            player.prepareAsync()
         } catch (e: Exception) {
             e.printStackTrace()
+            lw("preparing error: ${e.message}")
         }
-        player.prepareAsync()
     }
 
     private fun playNext() {
@@ -81,8 +87,13 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             player.pause()
             pausingAudioSubject.onNext(Unit)
         } else {
-            player.start()
-            playingAudioSubject.onNext(getPlayedAudio() ?: return)
+            try {
+                player.start()
+                playingAudioSubject.onNext(getPlayedTrack() ?: return)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                lw("start playing error: ${e.message}")
+            }
         }
         showNotification()
     }
@@ -90,12 +101,12 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     override fun onPrepared(mp: MediaPlayer?) {
         player.start()
         showNotification()
-        playingAudioSubject.onNext(getPlayedAudio() ?: return)
+        playingAudioSubject.onNext(getPlayedTrack() ?: return)
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
         playedPosition++
-        if (playedPosition !in audios.indices) {
+        if (playedPosition !in tracks.indices) {
             playedPosition = 0
         }
         startPlaying()
@@ -106,24 +117,25 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         return false // call OnCompletion
     }
 
-    private fun getPlayedAudio() = audios.getOrNull(playedPosition)
+    private fun getPlayedTrack() = tracks.getOrNull(playedPosition)
 
     private fun showNotification() {
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE)
                 as NotificationManager
 
         initChannel(notificationManager)
-        val audio = getPlayedAudio() ?: return
+        val audio = getPlayedTrack()?.audio ?: return
 
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
                 .setCustomContentView(bindRemoteViews(R.layout.view_music_notification, audio))
                 .setCustomBigContentView(bindRemoteViews(R.layout.view_music_notification_extended, audio))
                 .setOngoing(true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setSmallIcon(R.drawable.ic_play_music)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .build()
+
         startForeground(FOREGROUND_ID, notification)
     }
 
@@ -185,7 +197,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
         private var service: MusicService? = null
 
-        private val playingAudioSubject = PublishSubject.create<Audio>()
+        private val playingAudioSubject = PublishSubject.create<Track>()
         private val pausingAudioSubject = PublishSubject.create<Unit>()
 
         var isBound = false
@@ -193,7 +205,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
         fun launch(
                 context: Context?,
-                audios: ArrayList<Audio>,
+                tracks: ArrayList<Track>,
                 position: Int
         ) {
             context ?: return
@@ -204,7 +216,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
                     val binder = iBinder as MusicBinder
                     binder.getService().also {
                         service = it
-                        it.updateAudios(audios, position)
+                        it.updateAudios(tracks, position)
                     }
                     isBound = true
                 }
@@ -230,11 +242,11 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             service?.playOrPause()
         }
 
-        fun subscribeOnAudioPlaying(consumer: (Audio?) -> Unit) = playingAudioSubject.subscribe(consumer)
+        fun subscribeOnAudioPlaying(consumer: (Track) -> Unit) = playingAudioSubject.subscribe(consumer)
 
         fun subscribeOnAudioPausing(consumer: (Unit) -> Unit) = pausingAudioSubject.subscribe(consumer)
 
-        fun getPlayedAudio() = service?.getPlayedAudio()
+        fun getPlayedTrack() = service?.getPlayedTrack()
     }
 
     inner class MusicBinder : Binder() {

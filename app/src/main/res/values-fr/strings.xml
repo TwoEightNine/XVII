@@ -241,6 +241,7 @@
     <string name="you_sender">Vous:</string>
     <string name="audios">Audio</string>
     <string name="app_name_music">XVII Musique</string>
+    <string name="downloading_file">Téléchargement en cours..</string>
 
 </resources>
 

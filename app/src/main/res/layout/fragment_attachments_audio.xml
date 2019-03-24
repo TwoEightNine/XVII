@@ -20,6 +20,7 @@
         android:id="@+id/lvAudios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@null" />
+        android:divider="@null"
+        android:scrollbars="none" />
 
 </LinearLayout>

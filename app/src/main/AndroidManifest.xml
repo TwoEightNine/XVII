@@ -48,7 +48,7 @@
                 <action android:name="restartAction" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".background.music.MusicBroadcastReceiver" />
+        <receiver android:name=".background.music.services.MusicBroadcastReceiver" />
 
         <!--<service android:name=".background.LongPollService" />-->
 
@@ -64,8 +64,9 @@
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name=".background.music.MusicService"
+            android:name=".background.music.services.MusicService"
             android:permission="android.permission.WAKE_LOCK" />
+        <service android:name=".background.DownloadFileService" />
 
         <activity
             android:name=".activities.LoginActivity"
