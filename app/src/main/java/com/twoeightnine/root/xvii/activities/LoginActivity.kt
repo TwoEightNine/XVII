@@ -123,6 +123,7 @@ class LoginActivity : BaseActivity() {
         goNext()
     }
 
+    @SuppressLint("CheckResult")
     private fun updateAccount() {
         val account = Account(
                 Session.uid,

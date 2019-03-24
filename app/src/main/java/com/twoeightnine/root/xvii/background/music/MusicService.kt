@@ -32,11 +32,16 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
     private var playedPosition: Int = 0
 
-    fun updateAudios(audios: ArrayList<Audio>, position: Int = 0) {
+    private fun updateAudios(audios: ArrayList<Audio>, position: Int = 0) {
+        val nowPlayed = getPlayedAudio()
         this.audios.clear()
         this.audios.addAll(audios)
         playedPosition = position
-        startPlaying()
+        if (nowPlayed == getPlayedAudio()) {
+            playOrPause()
+        } else {
+            startPlaying()
+        }
     }
 
     override fun onCreate() {
@@ -228,6 +233,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         fun subscribeOnAudioPlaying(consumer: (Audio?) -> Unit) = playingAudioSubject.subscribe(consumer)
 
         fun subscribeOnAudioPausing(consumer: (Unit) -> Unit) = pausingAudioSubject.subscribe(consumer)
+
+        fun getPlayedAudio() = service?.getPlayedAudio()
     }
 
     inner class MusicBinder : Binder() {
