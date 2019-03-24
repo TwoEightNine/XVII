@@ -42,7 +42,13 @@ class TrackManager(private val context: Context) {
         }
     }
 
-    fun getTracks(audios: List<Audio>) = ArrayList(audios.map { Track(it, getExistingPath(it)) })
+    fun getTrack(audio: Audio) = Track(audio, getExistingPath(audio))
+
+    fun getTracks(audios: List<Audio>) = ArrayList(audios.map { getTrack(it) })
+
+    fun removeTrack(track: Track) {
+        getFile(track.audio).delete()
+    }
 
     companion object {
         const val TRACK_DIR = "tracks"

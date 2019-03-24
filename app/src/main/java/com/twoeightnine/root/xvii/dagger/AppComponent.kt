@@ -7,6 +7,11 @@ import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
+import com.twoeightnine.root.xvii.chats.attachments.audios.AudioAttachmentsFragment
+import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachmentsFragment
+import com.twoeightnine.root.xvii.chats.attachments.links.LinkAttachmentsFragment
+import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachmentsFragment
+import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.fragments.AttachedFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatInfoFragment
@@ -14,7 +19,6 @@ import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.VideoAttachFragment
-import com.twoeightnine.root.xvii.chats.fragments.attachments.*
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.dagger.modules.NetworkModule
 import com.twoeightnine.root.xvii.dagger.modules.PresenterModule
@@ -47,16 +51,12 @@ interface AppComponent {
 
     //fragments
     fun inject(chatFragment: ChatFragment)
+
     fun inject(profileFragment: ProfileFragment)
     fun inject(photoAttachFragment: PhotoAttachFragment)
     fun inject(docAttachFragment: DocAttachFragment)
     fun inject(videoAttachFragment: VideoAttachFragment)
     fun inject(wallPostFragment: WallPostFragment)
-    fun inject(photoAttachmentsFragment: PhotoAttachmentsFragment)
-    fun inject(docAttachmentsFragment: DocAttachmentsFragment)
-    fun inject(audioAttachmentsFragment: AudioAttachmentsFragment)
-    fun inject(linkAttachmentsFragment: LinkAttachmentsFragment)
-    fun inject(videoAttachmentsFragment: VideoAttachmentsFragment)
     fun inject(searchUsersFragment: SearchUsersFragment)
     fun inject(searchMessagesFragment: SearchMessagesFragment)
     fun inject(importantFragment: ImportantFragment)
@@ -68,9 +68,15 @@ interface AppComponent {
     fun inject(dialogsFragment: DialogsFragment)
     fun inject(dialogsForwardFragment: DialogsForwardFragment)
     fun inject(settingsFragment: SettingsFragment)
+    fun inject(docAttachmentsFragment: DocAttachmentsFragment)
+    fun inject(linkAttachmentsFragment: LinkAttachmentsFragment)
+    fun inject(videoAttachmentsFragment: VideoAttachmentsFragment)
+    fun inject(photoAttachmentsFragment: PhotoAttachmentsFragment)
+    fun inject(audioAttachmentsFragment: AudioAttachmentsFragment)
 
     //other
     fun inject(notificationService: NotificationService)
+
     fun inject(downloadFileService: DownloadFileService)
 
     fun inject(notfJobIntentService: NotificationJobIntentService)

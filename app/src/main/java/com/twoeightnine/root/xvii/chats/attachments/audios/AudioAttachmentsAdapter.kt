@@ -1,25 +1,27 @@
-package com.twoeightnine.root.xvii.chats.adapters.attachments
+package com.twoeightnine.root.xvii.chats.attachments.audios
 
+import android.content.Context
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.SimplePaginationAdapter
 import com.twoeightnine.root.xvii.background.music.models.Track
+import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
 import com.twoeightnine.root.xvii.managers.Style
+import com.twoeightnine.root.xvii.model.Audio
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.secToTime
 import com.twoeightnine.root.xvii.utils.setVisible
 import com.twoeightnine.root.xvii.utils.show
 import kotlinx.android.synthetic.main.item_attachments_track.view.*
 
-
 class AudioAttachmentsAdapter(
-        loader: ((Int) -> Unit)?,
-        onClick: ((Track) -> Unit),
+        context: Context,
+        loader: (Int) -> Unit,
+        private val onClick: (Track) -> Unit,
+        private val onLongClick: (Track) -> Unit,
         private val onDownload: (Track) -> Unit
-) : SimplePaginationAdapter<Track>(loader, onClick) {
+
+) : BaseAttachmentsAdapter<Track, AudioAttachmentsAdapter.AudioViewHolder>(context, loader) {
 
     var played: Track? = null
         set(value) {
@@ -27,23 +29,18 @@ class AudioAttachmentsAdapter(
             notifyDataSetChanged()
         }
 
-    override fun getView(pos: Int, v: View?, viewGroup: ViewGroup): View {
-        var view = v
-        val track = items[pos]
-        if (view == null) {
-            view = View.inflate(App.context, R.layout.item_attachments_track, null)
-            view!!.tag = TrackViewHolder(view)
-        }
-        val holder = view.tag as TrackViewHolder
-        holder.bind(track)
-        return view
-    }
+    override fun getViewHolder(view: View) = AudioViewHolder(view)
 
-    inner class TrackViewHolder(private val view: View) {
+    override fun getLayoutId() = R.layout.item_attachments_track
 
-        fun bind(track: Track) {
-            with(view) {
-                val icon = if (track == played) {
+    override fun createStubLoadItem() = Track(Audio())
+
+    inner class AudioViewHolder(view: View)
+        : BaseAttachmentViewHolder<Track>(view) {
+
+        override fun bind(item: Track) {
+            with(itemView) {
+                val icon = if (item == played) {
                     val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
                     Style.forDrawable(dPause, Style.DARK_TAG)
                     dPause
@@ -56,19 +53,23 @@ class AudioAttachmentsAdapter(
                 Style.forImageView(ivCached, Style.DARK_TAG)
                 Style.forProgressBar(progressBar)
 
-                val cached = track.isCached()
+                val cached = item.isCached()
                 ivDownload.setVisible(!cached)
                 ivCached.setVisible(cached)
                 progressBar.hide()
                 ivButton.setImageDrawable(icon)
-                tvTitle.text = track.audio.title
-                tvArtist.text = track.audio.artist
-                tvDuration.text = secToTime(track.audio.duration)
-                setOnClickListener { listener?.invoke(track) }
+                tvTitle.text = item.audio.title
+                tvArtist.text = item.audio.artist
+                tvDuration.text = secToTime(item.audio.duration)
+                setOnClickListener { onClick(items[adapterPosition]) }
+                setOnLongClickListener {
+                    onLongClick(items[adapterPosition])
+                    true
+                }
                 ivDownload.setOnClickListener {
                     progressBar.show()
                     ivDownload.hide()
-                    onDownload(track)
+                    onDownload(items[adapterPosition])
                 }
             }
         }

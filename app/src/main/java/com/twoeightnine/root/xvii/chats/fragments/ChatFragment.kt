@@ -24,10 +24,10 @@ import com.twoeightnine.root.xvii.chats.BottomSheetController
 import com.twoeightnine.root.xvii.chats.ChatInputController
 import com.twoeightnine.root.xvii.chats.VoiceRecorder
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
+import com.twoeightnine.root.xvii.chats.attachments.AttachmentsFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.fragments.attach.VideoAttachFragment
-import com.twoeightnine.root.xvii.chats.fragments.attachments.AttachmentsFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg

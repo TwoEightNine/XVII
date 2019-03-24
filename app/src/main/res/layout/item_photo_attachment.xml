@@ -22,7 +22,8 @@
             android:layout_height="24dp"
             android:layout_gravity="right"
             android:layout_margin="6dp"
-            android:src="@drawable/ic_check_circle" />
+            android:src="@drawable/ic_check_circle"
+            android:visibility="gone" />
 
     </FrameLayout>
 

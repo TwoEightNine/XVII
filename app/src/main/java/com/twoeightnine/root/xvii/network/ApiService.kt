@@ -87,10 +87,12 @@ interface ApiService {
                                 @Query("important") important: Int): Flowable<BaseResponse<MutableList<Int>>>
 
     @GET("messages.getHistoryAttachments")
-    fun getHistoryAttachments(@Query("peer_id") peerId: Int,
-                              @Query("media_type") mediaType: String,
-                              @Query("count") count: Int,
-                              @Query("start_from") startFrom: String): Flowable<BaseResponse<AttachmentsResponse>>
+    fun getHistoryAttachments(
+            @Query("peer_id") peerId: Int,
+            @Query("media_type") mediaType: String,
+            @Query("count") count: Int,
+            @Query("start_from") startFrom: String?
+    ): Flowable<BaseResponse<AttachmentsResponse>>
 
     @GET("messages.searchDialogs")
     fun searchDialogs(@Query("q") q: String,
@@ -191,9 +193,10 @@ interface ApiService {
     //video
     @GET("video.get")
     fun getVideos(@Query("videos") videos: String,
-                  @Query("access_key") accessKey: String,
-                  @Query("count") count: Int,
-                  @Query("offset") offset: Int): Flowable<BaseResponse<ListResponse<Video>>>
+                  @Query("access_key") accessKey: String?,
+                  @Query("count") count: Int = 1,
+                  @Query("offset") offset: Int = 0
+    ): Flowable<BaseResponse<ListResponse<Video>>>
 
     //docs
     @GET("docs.getMessagesUploadServer")
