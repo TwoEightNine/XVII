@@ -207,7 +207,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         pagerAdapter = CommonPagerAdapter(childFragmentManager)
         pagerAdapter.add(AttachedFragment.newInstance(presenter.attachUtils), getString(R.string.attached))
         pagerAdapter.add(GalleryFragment.newInstance(::onImagesSelected), getString(R.string.device_photos))
-        pagerAdapter.add(StickersFragment.newInstance(::onStickerSelected), getString(R.string.stickers))
+        pagerAdapter.add(com.twoeightnine.root.xvii.chats.fragments.StickersFragment.newInstance(::onStickerSelected), getString(R.string.stickers))
         pagerAdapter.add(PhotoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.photos))
         pagerAdapter.add(VideoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.videos))
         pagerAdapter.add(DocAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.docs))
@@ -673,6 +673,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         GalleryFragment.dispose()
         DocAttachFragment.dispose()
         VideoAttachFragment.dispose()
+//        StickersFragment.dispose()
     }
 
     override fun onBackPressed(): Boolean {

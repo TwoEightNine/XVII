@@ -5,6 +5,7 @@ import android.content.Context
 import android.provider.MediaStore
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import io.reactivex.Single
 
@@ -13,7 +14,7 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Strin
     @SuppressLint("CheckResult")
     override fun loadAttach(offset: Int) {
         if (offset != 0) {
-            attachLiveData.value = attachLiveData.value
+            attachLiveData.value = Wrapper(attachLiveData.value?.data ?: return)
             return
         }
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachViewModel
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryViewModel
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachViewModel
+import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersViewModel
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachViewModel
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
@@ -50,6 +51,8 @@ abstract class BaseAttachViewModel<T : Any> : ViewModel() {
             GalleryViewModel::class.java -> GalleryViewModel(context) as VM
             DocAttachViewModel::class.java -> DocAttachViewModel(api) as VM
             VideoAttachViewModel::class.java -> VideoAttachViewModel(api) as VM
+            StickersViewModel::class.java -> StickersViewModel(api, context) as VM
+
             else -> throw IllegalArgumentException("Unknown class $modelClass")
 
         }
