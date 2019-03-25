@@ -197,6 +197,7 @@
     <string name="no_access_to_storage">No access to the storage</string>
     <string name="need_access_to_mic">XVII needs an access to the mic to provide the feature of voice messaging</string>
     <string name="need_access_to_storage">XVII needs an access to the storage to provide the feature of attaching and saving media files</string>
+    <string name="tap_to_provide_permissions">Tap here to allow XVII to use your storage</string>
 
     <string-array name="relations">
         <item>single</item>

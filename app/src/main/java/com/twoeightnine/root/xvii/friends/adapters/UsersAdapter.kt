@@ -33,18 +33,14 @@ class UsersAdapter(context: Context,
     }
 
     override fun notifyMultiSelect() {
-        if (multiSelectRaw.size == 0) {
-            multiListener!!.onEmpty()
-        } else if (multiSelectRaw.size >= 1) {
-            multiListener!!.onNonEmpty()
-        }
+        multiListener?.invoke(multiSelect.size >= 1)
     }
 
     inner class UserViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         fun bind(user: User) {
             with(itemView) {
-                if (multiSelectRaw.contains(user.id)) {
+                if (multiSelect.contains(user)) {
                     civPhoto.setImageResource(R.mipmap.ic_check_raster)
                 } else {
                     civPhoto.load(user.photo100)

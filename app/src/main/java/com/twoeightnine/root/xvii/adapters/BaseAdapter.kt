@@ -19,7 +19,11 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
 
     protected var inflater = LayoutInflater.from(context)
 
-    var multiListener: OnMultiSelected? = null
+    /**
+     * true when becomes non-empty
+     * false when become empty
+     */
+    var multiListener: ((Boolean) -> Unit)? = null
 
     var emptyView: View? = null
 
@@ -103,56 +107,37 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
 
     //multiselect
 
-    var multiSelectRaw: MutableList<Int> = mutableListOf()
-        protected set
+    /**
+     * for internal usage
+     */
+    var multiSelectMode = false
 
-    val multiSelect: String
-        get() = multiSelectRaw
-                .map { it.toString() }
-                .joinToString(separator = ",")
+    val multiSelect = arrayListOf<T>()
 
-    fun multiSelect(id: Int) {
-        if (multiSelectRaw.contains(id)) {
-            removeFromMultiSelect(id)
+    fun multiSelect(item: T) {
+        if (multiSelect.contains(item)) {
+            multiSelect.remove(item)
         } else {
-            addToMultiSelect(id)
+            multiSelect.add(item)
         }
-        if (multiListener != null) {
-            notifyMultiSelect()
-        }
+        notifyMultiSelect()
     }
 
-    open fun notifyMultiSelect() {
-        if (multiSelectRaw.size == 0) {
-            multiListener!!.onEmpty()
-        } else if (multiSelectRaw.size == 1) {
-            multiListener!!.onNonEmpty()
+    protected open fun notifyMultiSelect() {
+        when (multiSelect.size) {
+            0 -> multiListener?.invoke(false)
+            1 -> multiListener?.invoke(true)
         }
     }
 
     fun clearMultiSelect() {
-        multiSelectRaw.clear()
-        if (multiListener != null) {
-            multiListener!!.onEmpty()
-        }
+        multiSelect.clear()
+        multiListener?.invoke(false)
         notifyDataSetChanged()
-    }
-
-    private fun addToMultiSelect(id: Int) {
-        multiSelectRaw.add(id)
-    }
-
-    private fun removeFromMultiSelect(id: Int) {
-        multiSelectRaw.remove(id)
     }
 
     private fun invalidateEmptiness() {
         emptyView?.setVisible(items.isEmpty())
-    }
-
-    interface OnMultiSelected {
-        fun onNonEmpty()
-        fun onEmpty()
     }
 
 }

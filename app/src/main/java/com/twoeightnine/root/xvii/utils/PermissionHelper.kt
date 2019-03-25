@@ -3,14 +3,12 @@ package com.twoeightnine.root.xvii.utils
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
-import androidx.annotation.StringRes
-import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
-import androidx.core.content.PermissionChecker
-import androidx.appcompat.app.AlertDialog
 import android.util.SparseArray
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker
 import com.twoeightnine.root.xvii.managers.Style
-import java.lang.Exception
 
 class PermissionHelper {
 
@@ -29,7 +27,8 @@ class PermissionHelper {
         this.activity = activity
     }
 
-    constructor(fragment: androidx.fragment.app.Fragment) : this(fragment.activity ?: throw Exception()) {
+    constructor(fragment: androidx.fragment.app.Fragment) : this(fragment.activity
+            ?: throw Exception()) {
         this.fragment = fragment
     }
 
@@ -49,6 +48,14 @@ class PermissionHelper {
         }
     }
 
+    fun request(permission: Array<String>, onGranted: (() -> Unit)?) {
+        if (hasPermissions(permission)) return
+
+        val requestCode = requestCode
+        callbacks.append(requestCode, onGranted)
+        requestPermissions(permission, requestCode)
+    }
+
     private fun showRequestDialog(@StringRes title: Int,
                                   @StringRes detailMessage: Int,
                                   permission: Array<String>,
@@ -63,7 +70,7 @@ class PermissionHelper {
         Style.forDialog(dialog)
     }
 
-    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         val callback = callbacks.get(requestCode)
         callbacks.remove(requestCode)
         if (callback == null) return

@@ -18,16 +18,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
 import com.twoeightnine.root.xvii.chats.BottomSheetController
 import com.twoeightnine.root.xvii.chats.ChatInputController
 import com.twoeightnine.root.xvii.chats.VoiceRecorder
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
 import com.twoeightnine.root.xvii.chats.attachments.AttachmentsFragment
-import com.twoeightnine.root.xvii.chats.fragments.attach.DocAttachFragment
-import com.twoeightnine.root.xvii.chats.fragments.attach.PhotoAttachFragment
-import com.twoeightnine.root.xvii.chats.fragments.attach.VideoAttachFragment
+import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachFragment
+import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
+import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachFragment
+import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg
@@ -50,7 +50,7 @@ import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
-class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSelected {
+class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     private lateinit var message: Message
 
@@ -173,8 +173,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
                 hideKeyboard(safeActivity)
                 if (message.chatId == 0 && message.userId > 0) {
                     rootActivity.loadFragment(ProfileFragment.newInstance(message.userId))
-                } else if (message.chatId != 0) {
-                    rootActivity.loadFragment(ChatInfoFragment.newInstance(message))
                 }
             }
         } catch (e: UninitializedPropertyAccessException) {
@@ -194,7 +192,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
                 { apiUtils.openVideo(safeActivity, it) }
         )
         adapter.trier = { loadMore(adapter.itemCount) }
-        adapter.multiListener = this
+        adapter.multiListener = rlMultiAction::setVisible
         val llm = LinearLayoutManager(activity)
         llm.stackFromEnd = true
         rvChatList.layoutManager = llm
@@ -211,8 +209,8 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
         pagerAdapter.add(GalleryFragment.newInstance(::onImagesSelected), getString(R.string.device_photos))
         pagerAdapter.add(StickersFragment.newInstance(::onStickerSelected), getString(R.string.stickers))
         pagerAdapter.add(PhotoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.photos))
-        pagerAdapter.add(VideoAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, getString(R.string.videos))
-        pagerAdapter.add(DocAttachFragment.newInstance { onAttachmentsSelected(mutableListOf(it)) }, getString(R.string.docs))
+        pagerAdapter.add(VideoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.videos))
+        pagerAdapter.add(DocAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.docs))
         vpAttach.adapter = pagerAdapter
         vpAttach.offscreenPageLimit = 5
         tabsBottom.setupWithViewPager(vpAttach, true)
@@ -230,12 +228,16 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
             adapter.clearMultiSelect()
         }
         ivMenuMulti.setOnClickListener { showMultiSelectPopup() }
-        ivForwardMulti.setOnClickListener { rootActivity.loadFragment(DialogsForwardFragment.newInstance(adapter.multiSelect)) }
+        ivForwardMulti.setOnClickListener {
+            rootActivity.loadFragment(DialogsForwardFragment.newInstance(getSelectedMessageIds()))
+        }
         ivReplyMulti.setOnClickListener {
-            presenter.attachUtils.forwarded = adapter.multiSelect
+            presenter.attachUtils.forwarded = getSelectedMessageIds()
             adapter.clearMultiSelect()
         }
     }
+
+    private fun getSelectedMessageIds() = adapter.multiSelect.map { it.id }.joinToString(separator = ",")
 
     private fun loadMore(offset: Int) {
         if (isOnline()) {
@@ -246,7 +248,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
     private fun onClick(position: Int) {
         if (position !in adapter.items.indices) return
         val message = adapter.items[position]
-        adapter.multiSelect(message.id)
+        adapter.multiSelect(message)
         adapter.notifyItemChanged(position)
     }
 
@@ -288,7 +290,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
     }
 
     private fun showMultiSelectPopup() {
-        val selectedList = adapter.multiSelectRaw
+        val selectedList = adapter.multiSelect.map { it.id }.toMutableList()
         getContextPopup(safeActivity, R.layout.popup_message_multiselect) {
             when (it.id) {
                 R.id.llDecrypt -> {
@@ -353,14 +355,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
                 showError(context, R.string.invalid_file)
             }
         }
-    }
-
-    override fun onNonEmpty() {
-        rlMultiAction.show()
-    }
-
-    override fun onEmpty() {
-        rlMultiAction.hide()
     }
 
     private fun decrypt(mids: MutableList<Int>) {
@@ -456,14 +450,14 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
         }
     }
 
-    private fun onAttachmentsSelected(attachments: MutableList<Attachment>) {
+    private fun onAttachmentsSelected(attachments: List<Attachment>) {
         attachments.forEach {
             presenter.attachUtils.add(it)
         }
         bottomSheet.close()
     }
 
-    private fun onImagesSelected(paths: MutableList<String>) {
+    private fun onImagesSelected(paths: List<String>) {
         paths.forEach {
             presenter.attachPhoto(it, context = context)
             inputController.addItemAsBeingLoaded(it)
@@ -675,6 +669,10 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView, BaseAdapter.OnMultiSel
     override fun onDetach() {
         super.onDetach()
         presenter.unsubscribe()
+        PhotoAttachFragment.dispose()
+        GalleryFragment.dispose()
+        DocAttachFragment.dispose()
+        VideoAttachFragment.dispose()
     }
 
     override fun onBackPressed(): Boolean {

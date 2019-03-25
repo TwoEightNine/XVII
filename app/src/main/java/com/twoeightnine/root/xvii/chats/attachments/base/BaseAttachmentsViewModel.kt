@@ -67,25 +67,15 @@ abstract class BaseAttachmentsViewModel<T : Any>(protected val api: ApiService) 
     ) : ViewModelProvider.Factory {
 
         @Suppress("UNCHECKED_CAST")
-        override fun <VM : ViewModel?> create(modelClass: Class<VM>): VM = with(modelClass) {
-            when {
-                isAssignableFrom(DocAttachmentsViewModel::class.java) ->
-                    DocAttachmentsViewModel(api) as VM
+        override fun <VM : ViewModel?> create(modelClass: Class<VM>): VM = when (modelClass) {
+            DocAttachmentsViewModel::class.java -> DocAttachmentsViewModel(api) as VM
+            LinkAttachmentsViewModel::class.java -> LinkAttachmentsViewModel(api) as VM
+            VideoAttachmentsViewModel::class.java -> VideoAttachmentsViewModel(api) as VM
+            PhotoAttachmentsViewModel::class.java -> PhotoAttachmentsViewModel(api) as VM
+            AudioAttachmentsViewModel::class.java -> AudioAttachmentsViewModel(api, context) as VM
 
-                isAssignableFrom(LinkAttachmentsViewModel::class.java) ->
-                    LinkAttachmentsViewModel(api) as VM
+            else -> throw IllegalArgumentException("Unknown class $modelClass")
 
-                isAssignableFrom(VideoAttachmentsViewModel::class.java) ->
-                    VideoAttachmentsViewModel(api) as VM
-
-                isAssignableFrom(PhotoAttachmentsViewModel::class.java) ->
-                    PhotoAttachmentsViewModel(api) as VM
-
-                isAssignableFrom(AudioAttachmentsViewModel::class.java) ->
-                    AudioAttachmentsViewModel(api, context) as VM
-
-                else -> throw IllegalArgumentException("Unknown class $modelClass")
-            }
         }
 
     }

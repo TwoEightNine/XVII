@@ -131,7 +131,7 @@ class ChatAdapter(context: Context,
         private fun putViews(view: View, message: Message, level: Int) {
             with(view) {
                 if (level == 0) {
-                    if (multiSelectRaw.contains(message.id)) {
+                    if (multiSelect.contains(message)) {
                         rlBack.setBackgroundColor(ContextCompat.getColor(context, R.color.selected_mess))
                     } else {
                         rlBack.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))

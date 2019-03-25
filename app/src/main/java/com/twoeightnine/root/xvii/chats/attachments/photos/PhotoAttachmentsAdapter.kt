@@ -6,6 +6,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.setVisible
 import kotlinx.android.synthetic.main.item_photo_attachment.view.*
 
 class PhotoAttachmentsAdapter(
@@ -24,8 +25,17 @@ class PhotoAttachmentsAdapter(
 
         override fun bind(item: Photo) {
             with(itemView) {
+                ivCheck.setVisible(item in multiSelect)
                 ivPhoto.load(item.optimalPhoto)
-                ivPhoto.setOnClickListener { onClick(items[adapterPosition]) }
+                ivPhoto.setOnClickListener {
+                    if (multiSelectMode) {
+                        val i = items[adapterPosition]
+                        multiSelect(i)
+                        ivCheck.setVisible(i in multiSelect)
+                    } else {
+                        onClick(items[adapterPosition])
+                    }
+                }
             }
         }
     }
