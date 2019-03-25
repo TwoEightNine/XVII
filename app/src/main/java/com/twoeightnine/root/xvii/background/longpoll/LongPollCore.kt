@@ -154,13 +154,14 @@ class LongPollCore(private val context: Context) {
         }
 
         val content = event.getResolvedMessage(context, !Prefs.showContent)
-
+        val timeStamp = event.timeStamp * 1000L
         // trying to get dialog from database
         getDialog(event.peerId, { dialog ->
             if (Prefs.showName) {
                 loadBitmapIcon(dialog.photo) { bitmap ->
                     showNotification(
                             content,
+                            timeStamp,
                             event.peerId,
                             event.id,
                             dialog.title,
@@ -169,12 +170,12 @@ class LongPollCore(private val context: Context) {
                     )
                 }
             } else {
-                showNotification(content, event.peerId, event.id, dialog.title)
+                showNotification(content, timeStamp, event.peerId, event.id, dialog.title)
             }
         }, {
             if (event.peerId > 2000000000) {
                 // chats are shown as is
-                showNotification(content, event.peerId, event.id, event.title)
+                showNotification(content, timeStamp, event.peerId, event.id, event.title)
             } else {
 
                 // for groups and users try to resolve them
@@ -182,6 +183,7 @@ class LongPollCore(private val context: Context) {
                     loadBitmapIcon(photo) { bitmap ->
                         showNotification(
                                 content,
+                                timeStamp,
                                 event.peerId,
                                 event.id,
                                 title,
@@ -190,7 +192,7 @@ class LongPollCore(private val context: Context) {
                         )
                     }
                 }, {
-                    showNotification(content, event.peerId, event.id, event.title)
+                    showNotification(content, timeStamp, event.peerId, event.id, event.title)
                 })
             }
         })
@@ -212,6 +214,7 @@ class LongPollCore(private val context: Context) {
 
     private fun showNotification(
             content: String,
+            timeStamp: Long,
             peerId: Int,
             messageId: Int,
             userName: String = context.getString(R.string.app_name),
@@ -226,7 +229,7 @@ class LongPollCore(private val context: Context) {
                 .setSmallIcon(com.twoeightnine.root.xvii.R.drawable.ic_message)
                 .setContentTitle(title)
                 .setAutoCancel(true)
-                .setWhen(System.currentTimeMillis())
+                .setWhen(timeStamp)
                 .setContentText(Html.fromHtml(content))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
@@ -341,8 +344,7 @@ class LongPollCore(private val context: Context) {
         }
     }
 
-    private fun getConnectSingle(longPollServer: LongPollServer)
-            = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
+    private fun getConnectSingle(longPollServer: LongPollServer) = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
 
     private fun l(s: String) {
         Lg.i("[longpoll] $s")

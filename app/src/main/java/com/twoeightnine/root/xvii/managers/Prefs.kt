@@ -8,7 +8,7 @@ import com.twoeightnine.root.xvii.views.emoji.Emoji
 import java.util.*
 
 object Prefs {
-    
+
     private const val NAME = "prefPref"
 
     private const val PIN = "pin"
@@ -40,19 +40,13 @@ object Prefs {
     private const val RECENT_STICKERS = "recentStickers"
     private const val AVAILABLE_STICKERS = "availableStickers"
     private const val RECENT_EMOJIS = "recentEmojis"
-    private const val PLAYER_URL = "playerUrl"
-    private const val PLAYER_TIME = "playerTime"
-    private const val CHAT_PASSED = "chatPassed1"
-    private const val SADBOY = "SADBOY"
-    private const val COUNT = "count"
-    private const val LAST_EVENT = "lastEventId"
     private const val SHOW_RATE = "showRate"
     private const val LAST_STICKERS_UPD = "lastStickersUpd"
-    
+
     private val data: SharedPreferences by lazy {
         App.context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
     }
-    
+
     var pin: String
         get() = data.getString(PIN, "")
         set(pin) = data.edit().putString(PIN, pin).apply()
@@ -90,7 +84,7 @@ object Prefs {
 
     var showNotifsChats: Boolean
         get() = data.getBoolean(SHOW_NOTIF_CHATS, true)
-    set(showNotif) = data.edit().putBoolean(SHOW_NOTIF_CHATS, showNotif).apply()
+        set(showNotif) = data.edit().putBoolean(SHOW_NOTIF_CHATS, showNotif).apply()
 
     var showName: Boolean
         get() = data.getBoolean(SHOW_NAME, false)
@@ -164,30 +158,6 @@ object Prefs {
                 .toMutableList()
         set(value) = data.edit().putString(AVAILABLE_STICKERS, value.joinToString(separator = ",")).apply()
 
-    var playerUrl: String
-        get() = data.getString(PLAYER_URL, "")
-        set(value) = data.edit().putString(PLAYER_URL, value).apply()
-
-    var playerTime: Int
-        get() = data.getInt(PLAYER_TIME, 0)
-        set(value) = data.edit().putInt(PLAYER_TIME, value).apply()
-
-    var chatPassed: Boolean
-        get() = data.getBoolean(CHAT_PASSED, false)
-        set(value) = data.edit().putBoolean(CHAT_PASSED, value).apply()
-
-    var sadBoy: Boolean
-        get() = data.getBoolean(SADBOY, false)
-        set(value) = data.edit().putBoolean(SADBOY, value).apply()
-
-    var count: Int
-        get() = data.getInt(COUNT, 0)
-        set(value) = data.edit().putInt(COUNT, value).apply()
-
-    var lastEvent: Int
-        get() = data.getInt(LAST_EVENT, 15)
-        set(value) = data.edit().putInt(LAST_EVENT, value).apply()
-
     var showRate: Boolean
         get() = data.getBoolean(SHOW_RATE, true)
         set(value) = data.edit().putBoolean(SHOW_RATE, false).apply()
@@ -206,7 +176,7 @@ object Prefs {
         set(value) = data.edit().putString(RECENT_EMOJIS,
                 value.map { getPosByEmoji(it) }
                         .joinToString(separator = ",")
-                ).apply()
+        ).apply()
 
     private fun getPosByEmoji(emoji: Emoji): Int {
         for (pos in EmojiHelper.emojis.indices) {
