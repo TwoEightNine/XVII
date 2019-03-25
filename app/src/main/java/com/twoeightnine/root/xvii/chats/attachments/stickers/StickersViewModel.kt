@@ -2,8 +2,11 @@ package com.twoeightnine.root.xvii.chats.attachments.stickers
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
+import androidx.lifecycle.ViewModel
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.Attachment
+import com.twoeightnine.root.xvii.model.WrappedLiveData
+import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
@@ -15,44 +18,79 @@ import io.reactivex.Single
 class StickersViewModel(
         private val api: ApiService,
         private val context: Context
-) : BaseAttachViewModel<Attachment.Sticker>() {
+) : ViewModel() {
 
-    private val storage by lazy {
-        StickersStorage(context)
+    private val stickersLiveData = WrappedMutableLiveData<ArrayList<Attachment.Sticker>>()
+
+    private val availableStorage by lazy {
+        StickersStorage(context, StickersStorage.Type.AVAILABLE)
     }
 
-    override fun loadAttach(offset: Int) {
-        if (offset != 0) {
-            attachLiveData.value = Wrapper(attachLiveData.value?.data ?: return)
-            return
-        }
+    private val recentStorage by lazy {
+        StickersStorage(context, StickersStorage.Type.RECENT)
+    }
 
-        loadFromStorage { stickers ->
-            if (stickers.isNotEmpty()) {
-                onAttachmentsLoaded(offset, ArrayList(stickers))
-            } else {
-                loadFromServer {
-                    val loaded = ArrayList(it)
-                    onAttachmentsLoaded(offset, ArrayList(it))
-                    saveStickers(loaded)
-                }
-            }
+    fun getStickers() = stickersLiveData as WrappedLiveData<ArrayList<Attachment.Sticker>>
+
+    fun loadStickers(refresh: Boolean = false) {
+        if (refresh) {
+            loadFromServer()
+        } else {
+            loadFromStorage()
         }
     }
 
     @SuppressLint("CheckResult")
-    private fun loadFromStorage(onLoaded: (List<Attachment.Sticker>) -> Unit) {
+    fun onStickerSelected(sticker: Attachment.Sticker) {
         Single.fromCallable {
-            storage.readFromFile()
+            val recent = recentStorage.readFromFile()
+            recent.remove(sticker)
+            recentStorage.writeToFile(recent)
+            availableStorage.readFromFile()
         }
                 .compose(applySingleSchedulers())
-                .subscribe(onLoaded, {
+                .subscribe(::updateStickers) {
                     it.printStackTrace()
-                    onErrorOccurred(it.message ?: "")
+                    Lg.i("[stickers] selecting: ${it.message}")
+                }
+    }
+
+    private fun onErrorOccurred(error: String) {
+        stickersLiveData.value = Wrapper(error = error)
+    }
+
+    @SuppressLint("CheckResult")
+    private fun updateStickers(available: ArrayList<Attachment.Sticker>) {
+        Single.fromCallable {
+            val recent = recentStorage.readFromFile()
+            available.removeAll(recent)
+            recent.addAll(available)
+            recent
+        }
+                .compose(applySingleSchedulers())
+                .subscribe({ stickers ->
+                    stickersLiveData.value = Wrapper(stickers)
+                }, {
+                    it.printStackTrace()
+                    Lg.i("[stickers] updating: ${it.message}")
+                    onErrorOccurred(it.message ?: "No stickers")
                 })
     }
 
-    private fun loadFromServer(onLoaded: (List<Attachment.Sticker>) -> Unit) {
+    @SuppressLint("CheckResult")
+    private fun loadFromStorage() {
+        Single.fromCallable {
+            availableStorage.readFromFile()
+        }
+                .compose(applySingleSchedulers())
+                .subscribe(::updateStickers) {
+                    it.printStackTrace()
+                    Lg.i("[stickers] loading from storage: ${it.message}")
+                    loadFromServer()
+                }
+    }
+
+    private fun loadFromServer() {
         api.getStickers()
                 .subscribeSmart({ response ->
                     val stickers = arrayListOf<Attachment.Sticker>()
@@ -61,13 +99,15 @@ class StickersViewModel(
                             stickers.add(Attachment.Sticker(it))
                         }
                     }
-                    onLoaded(stickers.sortedBy { it.id }.distinctBy { it.id })
+                    val result = ArrayList(stickers.sortedBy { it.id }.distinctBy { it.id })
+                    updateStickers(result)
+                    saveStickers(result)
                 }, ::onErrorOccurred)
     }
 
     private fun saveStickers(stickers: ArrayList<Attachment.Sticker>) {
         Completable.fromCallable {
-            storage.writeToFile(stickers)
+            availableStorage.writeToFile(stickers)
         }
                 .compose(applyCompletableSchedulers())
                 .subscribe()

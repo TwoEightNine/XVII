@@ -4,7 +4,10 @@ import android.content.Context
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.utils.FileStorage
 
-class StickersStorage(context: Context) : FileStorage<ArrayList<Attachment.Sticker>>(context, STICKERS_FILE) {
+class StickersStorage(
+        context: Context,
+        type: Type
+) : FileStorage<ArrayList<Attachment.Sticker>>(context, type.name) {
 
     override fun serialize(data: ArrayList<Attachment.Sticker>) = data.map { it.id }.joinToString(separator = ",")
 
@@ -16,7 +19,8 @@ class StickersStorage(context: Context) : FileStorage<ArrayList<Attachment.Stick
         arrayListOf<Attachment.Sticker>()
     }
 
-    companion object {
-        const val STICKERS_FILE = "stickers"
+    enum class Type {
+        AVAILABLE,
+        RECENT
     }
 }
