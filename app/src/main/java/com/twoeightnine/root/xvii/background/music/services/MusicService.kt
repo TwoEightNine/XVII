@@ -54,6 +54,18 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         player.setOnErrorListener(this)
     }
 
+    override fun onDestroy() {
+        try {
+            pausingAudioSubject.onNext(Unit)
+            player.pause()
+            player.stop()
+            player.release()
+        } catch (e: Exception) {
+            lw("destroying: ${e.message}")
+        }
+        super.onDestroy()
+    }
+
     private fun startPlaying() {
         val playedTrack = getPlayedTrack()
         val path = when {
@@ -82,10 +94,16 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         onCompletion(player)
     }
 
-    private fun playOrPause() {
+    private fun stop() {
         if (player.isPlaying) {
             player.pause()
             pausingAudioSubject.onNext(Unit)
+        }
+    }
+
+    private fun playOrPause() {
+        if (player.isPlaying) {
+            stop()
         } else {
             try {
                 player.start()
@@ -169,6 +187,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             setOnClickPendingIntent(R.id.ivNext, getActionPendingIntent(MusicBroadcastReceiver.ACTION_NEXT))
             setOnClickPendingIntent(R.id.ivPrevious, getActionPendingIntent(MusicBroadcastReceiver.ACTION_PREVIOUS))
             setOnClickPendingIntent(R.id.ivPlayPause, getActionPendingIntent(MusicBroadcastReceiver.ACTION_PLAY_PAUSE))
+            setOnClickPendingIntent(R.id.ivClose, getActionPendingIntent(MusicBroadcastReceiver.ACTION_CLOSE))
         }
         return remoteViews
     }
@@ -235,6 +254,11 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             val intent = Intent(context, MusicService::class.java)
             context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
             context.startService(intent)
+        }
+
+        fun exit() {
+            service?.stop()
+            service?.stopForeground(true)
         }
 
         fun next() {

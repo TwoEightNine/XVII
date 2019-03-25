@@ -60,4 +60,11 @@
         android:layout_toStartOf="@id/ivPlayPause"
         android:src="@drawable/ic_skip_previous" />
 
+    <ImageView
+        android:id="@+id/ivClose"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_close"
+        android:visibility="gone" />
+
 </RelativeLayout>

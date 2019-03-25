@@ -12,15 +12,17 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="55dp"
+            android:layout_width="0dp"
             android:layout_height="55dp"
+            android:layout_weight="15"
             android:src="@drawable/xvii128" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
+            android:layout_weight="75"
             android:orientation="vertical">
 
             <TextView
@@ -53,6 +55,13 @@
                 android:textSize="13sp"
                 tools:text="Artist" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="10"
+            android:src="@drawable/ic_close" />
     </LinearLayout>
 
 
