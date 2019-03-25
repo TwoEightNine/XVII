@@ -69,6 +69,7 @@ class RootActivity : BaseActivity() {
         styleScreen(flContainer)
         startNotificationAlarm(this)
         apiUtils.trackVisitor()
+//        StatTool.get()?.incLaunch()
     }
 
     private fun initDrawer() {

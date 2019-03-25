@@ -28,6 +28,11 @@ class App : Application() {
                 .build()
         Realm.setDefaultConfiguration(realmConfig)
 
+//        try {
+//            StatTool.init(applicationContext)
+//        } catch (e: Exception) {
+//            Lg.wtf("[stat] init failed")
+//        }
     }
 
     companion object {

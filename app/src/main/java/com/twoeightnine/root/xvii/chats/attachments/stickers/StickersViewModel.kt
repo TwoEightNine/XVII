@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
@@ -44,7 +45,13 @@ class StickersViewModel(
     fun onStickerSelected(sticker: Attachment.Sticker) {
         Single.fromCallable {
             val recent = recentStorage.readFromFile()
-            recent.remove(sticker)
+            if (recent.isEmpty()) {
+                recent.addAll(Prefs.recentStickers.map { Attachment.Sticker(it) })
+            }
+            if (sticker in recent) {
+                recent.remove(sticker)
+            }
+            recent.add(0, sticker)
             recentStorage.writeToFile(recent)
             availableStorage.readFromFile()
         }
@@ -63,6 +70,9 @@ class StickersViewModel(
     private fun updateStickers(available: ArrayList<Attachment.Sticker>) {
         Single.fromCallable {
             val recent = recentStorage.readFromFile()
+            if (recent.isEmpty()) {
+                recent.addAll(Prefs.recentStickers.map { Attachment.Sticker(it) })
+            }
             available.removeAll(recent)
             recent.addAll(available)
             recent
