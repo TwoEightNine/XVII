@@ -47,7 +47,7 @@ class AboutFragment : BaseOldFragment() {
             )
             rootActivity.loadFragment(ChatFragment.newInstance(message))
         }
-        tvRate.setOnClickListener {  rate(safeActivity) }
+        tvRate.setOnClickListener { rate(safeActivity) }
         tvPrivacy.setOnClickListener {
             rootActivity.loadFragment(WebFragment.newInstance(
                     "file:///android_asset/privacy.html",

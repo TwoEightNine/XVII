@@ -9,8 +9,11 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
+import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.utils.hide
+import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
@@ -38,14 +41,16 @@ class StickersFragment : BaseFragment() {
         viewModel.getStickers().observe(this, Observer { updateList(it) })
         viewModel.loadStickers()
 
-        swipeRefresh.isRefreshing = true
+        progressBar.show()
         swipeRefresh.setOnRefreshListener {
             viewModel.loadStickers(refresh = true)
         }
+        Style.forProgressBar(progressBar)
     }
 
     private fun updateList(data: Wrapper<ArrayList<Attachment.Sticker>>) {
         swipeRefresh.isRefreshing = false
+        progressBar.hide()
         if (data.data != null) {
             adapter.update(data.data)
         } else {

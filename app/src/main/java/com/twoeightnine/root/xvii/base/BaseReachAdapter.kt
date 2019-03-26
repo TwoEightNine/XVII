@@ -9,33 +9,26 @@ import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import kotlinx.android.synthetic.main.item_loader.view.*
 
-
 /**
  * provides pagination functionality
  * [loader] is being invoked when there is a need to load more items. Int param is an offset
  *
- * - call [BaseReachAdapter.stopLoading] when you stop loading smth
+ * usage:
+ *  - [BaseReachAdapter.startLoading]
+ *  - // load smth
+ *  - [BaseReachAdapter.update] or [BaseReachAdapter.stopLoading]
+ *  - on reload call [BaseReachAdapter.resetDone]
  */
 abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> constructor(
         context: Context,
         private var loader: (Int) -> Unit
 ) : BaseAdapter<T, RecyclerView.ViewHolder>(context) {
 
-    /**
-     * indicates the adapter is showing loader
-     */
-    private var isLoaderAdded: Boolean = false
+    var prevState: State = State.INITIAL
+        private set
 
-    /**
-     * indicated the adapter is in loading state
-     */
-    private var isLoading: Boolean = false
-
-    /**
-     * indicates the adapter obtained all data (no more loadings)
-     * only false is allowed to set
-     */
-    private var isDone: Boolean = false
+    var state: State = State.INITIAL
+        private set
 
     private lateinit var stubLoadItem: T
 
@@ -56,9 +49,10 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
 
                 val total = itemCount
                 val last = lastVisiblePosition(recyclerView.layoutManager)
-                if (!isDone && !isLoading && last >= total - THRESHOLD) {
+                val rightState = state in arrayListOf(State.INITIAL, State.USUAL)
+                if (rightState && last >= total - THRESHOLD) {
+                    startLoading(true)
                     loader.invoke(total)
-                    startLoading()
                 }
             }
         })
@@ -66,7 +60,7 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
 
     override fun clear() {
         super.clear()
-        isDone = false
+        switchStates(State.INITIAL)
     }
 
     override fun onCreateViewHolder(
@@ -93,42 +87,42 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
 
     private fun isStubLoad(obj: T) = stubLoadItem === obj
 
-    fun startLoading() {
-        isLoading = true
-        addStubLoad()
-    }
-
-    fun loadAgain() {
-        isDone = false
-    }
-
-    private fun addStubLoad() {
-        if (!isLoaderAdded) {
+    /**
+     * adds loader to RecyclerView
+     */
+    fun startLoading(addLoader: Boolean = false) {
+        switchStates(State.LOADING)
+        if (addLoader) {
             add(stubLoadItem)
-            isLoaderAdded = true
         }
     }
 
+    /**
+     * restarts loading
+     */
+    fun reset() {
+        switchStates(State.INITIAL)
+    }
+
+    /**
+     * manipulates the states
+     * pass empty list to stop loading
+     */
     override fun update(items: List<T>) {
-        removeStub()
-        val noChanges = itemCount == items.size
-        super.update(items)
-        isLoading = false
-        if (noChanges) {
-            isDone = true
-        }
-    }
-
-    private fun removeStub() {
         remove(stubLoadItem)
-        isLoaderAdded = false
+        val hasChanges = itemCount != items.size
+        super.update(items)
+        val newState = when {
+            hasChanges || prevState == State.INITIAL -> State.USUAL
+            else -> State.FINISHED
+        }
+        switchStates(newState)
     }
 
-    private fun stopLoading() {
-        isLoading = false
-        removeStub()
+    private fun switchStates(newState: State) {
+        prevState = state
+        state = newState
     }
-
 
     inner class LoaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -137,6 +131,13 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
                 Style.forProgressBar(progressBar)
             }
         }
+    }
+
+    enum class State {
+        INITIAL,
+        USUAL,
+        LOADING,
+        FINISHED
     }
 
     companion object {

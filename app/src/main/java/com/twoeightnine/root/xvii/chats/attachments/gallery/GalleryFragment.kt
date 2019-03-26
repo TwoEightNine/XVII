@@ -32,7 +32,7 @@ class GalleryFragment : BaseFragment() {
     }
 
     private val adapter by lazy {
-        GalleryAdapter(contextOrThrow, ::onCameraClick, viewModel::loadAttach)
+        GalleryAdapter(contextOrThrow, ::onCameraClick)
     }
 
     private val permissionHelper by lazy {
@@ -49,7 +49,7 @@ class GalleryFragment : BaseFragment() {
         viewModel.getAttach().observe(this, Observer { updateList(it) })
         reloadData()
 
-        swipeRefresh.isRefreshing = true
+        progressBar.show()
         swipeRefresh.setOnRefreshListener { reloadData() }
 
         with(fabDone) {
@@ -62,23 +62,25 @@ class GalleryFragment : BaseFragment() {
         rlPermissions.setOnClickListener {
             permissionHelper.request(arrayOf(PermissionHelper.READ_STORAGE, PermissionHelper.WRITE_STORAGE)) {
                 rlPermissions.hide()
+                progressBar.show()
                 reloadData()
             }
         }
+        Style.forProgressBar(progressBar)
     }
 
     private fun reloadData() {
         if (permissionHelper.hasStoragePermissions()) {
-            adapter.loadAgain()
-            adapter.startLoading()
             viewModel.loadAttach()
         } else {
             rlPermissions.show()
+            progressBar.hide()
         }
     }
 
     private fun updateList(data: Wrapper<ArrayList<String>>) {
         swipeRefresh.isRefreshing = false
+        progressBar.hide()
         if (data.data != null) {
             adapter.update(data.data)
         } else {

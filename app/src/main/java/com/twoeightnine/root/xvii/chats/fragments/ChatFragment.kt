@@ -126,6 +126,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         Style.forViewGroupColor(rlHideBottom)
         Style.forFAB(fabHasMore)
         Style.forViewGroupColor(rlTyping)
+        Style.forViewGroupColor(rlRecordingVoice)
         Style.forAll(rlBack)
         Style.forAll(rlMultiAction)
         Style.forTabLayout(tabsBottom)

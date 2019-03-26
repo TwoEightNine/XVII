@@ -7,7 +7,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.utils.hide
+import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_attachments.*
 import javax.inject.Inject
@@ -38,15 +41,18 @@ abstract class BaseAttachFragment<T : Any> : BaseFragment() {
         viewModel.loadAttach()
         adapter.startLoading()
 
-        swipeRefresh.isRefreshing = true
+        progressBar.show()
         swipeRefresh.setOnRefreshListener {
             viewModel.loadAttach()
-            adapter.loadAgain()
+            adapter.reset()
+            adapter.startLoading()
         }
+        Style.forProgressBar(progressBar)
     }
 
     private fun updateList(data: Wrapper<ArrayList<T>>) {
         swipeRefresh.isRefreshing = false
+        progressBar.hide()
         if (data.data != null) {
             adapter.update(data.data)
         } else {

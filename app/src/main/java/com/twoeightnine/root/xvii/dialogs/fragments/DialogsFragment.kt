@@ -57,7 +57,8 @@ open class DialogsFragment : BaseFragment() {
         swipeRefresh.isRefreshing = true
         swipeRefresh.setOnRefreshListener {
             viewModel.loadDialogs()
-            adapter.loadAgain()
+            adapter.reset()
+            adapter.startLoading()
         }
     }
 

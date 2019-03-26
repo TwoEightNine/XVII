@@ -59,7 +59,7 @@ class AttachmentsFragment : BaseFragment() {
         }
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager, true)
-        viewPager.offscreenPageLimit = 4
+//        viewPager.offscreenPageLimit = 4
         Style.forTabLayout(tabs)
     }
 
