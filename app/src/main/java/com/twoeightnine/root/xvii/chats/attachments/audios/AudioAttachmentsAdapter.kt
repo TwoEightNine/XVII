@@ -19,7 +19,8 @@ class AudioAttachmentsAdapter(
         loader: (Int) -> Unit,
         private val onClick: (Track) -> Unit,
         private val onLongClick: (Track) -> Unit,
-        private val onDownload: (Track) -> Unit
+        private val onDownload: (Track) -> Unit,
+        private val cacheMode: Boolean = false
 
 ) : BaseAttachmentsAdapter<Track, AudioAttachmentsAdapter.AudioViewHolder>(context, loader) {
 
@@ -54,8 +55,8 @@ class AudioAttachmentsAdapter(
                 Style.forProgressBar(progressBar)
 
                 val cached = item.isCached()
-                ivDownload.setVisible(!cached)
-                ivCached.setVisible(cached)
+                ivDownload.setVisible(!cached && cacheMode)
+                ivCached.setVisible(cached && cacheMode)
                 progressBar.hide()
                 ivButton.setImageDrawable(icon)
                 tvTitle.text = item.audio.title

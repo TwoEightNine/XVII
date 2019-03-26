@@ -8,6 +8,8 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsFragment
+import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.utils.equalsDevUids
 import com.twoeightnine.root.xvii.utils.showDeleteDialog
 
 class AudioAttachmentsFragment : BaseAttachmentsFragment<Track>() {
@@ -17,7 +19,7 @@ class AudioAttachmentsFragment : BaseAttachmentsFragment<Track>() {
 
     override val adapter by lazy {
         AudioAttachmentsAdapter(contextOrThrow, ::loadMore, ::onClick,
-                ::onLongClick, audioViewModel::download)
+                ::onLongClick, audioViewModel::download, equalsDevUids(Session.uid))
     }
 
     override fun getLayoutManager() = LinearLayoutManager(context)
