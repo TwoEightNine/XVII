@@ -7,26 +7,18 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_web.*
 
-class WebFragment : BaseOldFragment() {
+class WebFragment : BaseFragment() {
 
-    companion object {
+    private val url by lazy { arguments?.getString(ARG_URL) }
+    private val title by lazy { arguments?.getString(ARG_TITLE) }
 
-        fun newInstance(url: String, title: String = ""): WebFragment {
-            val frag = WebFragment()
-            frag.url = url
-            frag.title = if (title.isNotEmpty()) title else url
-            return frag
-        }
+    override fun getLayoutId() = R.layout.fragment_web
 
-    }
-
-    private var url: String? = null
-    private var title: String? = null
-
-    override fun bindViews(view: View) {
-        super.bindViews(view)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 // do your handling codes here, which url is the requested url
@@ -39,11 +31,8 @@ class WebFragment : BaseOldFragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        try {
-            super.onActivityCreated(savedInstanceState)
-            updateTitle(title ?: url ?: "")
-        } catch (e: Exception) {
-        }
+        super.onActivityCreated(savedInstanceState)
+        updateTitle(title ?: url ?: getString(R.string.app_name))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -51,6 +40,18 @@ class WebFragment : BaseOldFragment() {
         menu?.clear()
     }
 
-    override fun getLayout() = R.layout.fragment_web
+    companion object {
+        const val ARG_URL = "url"
+        const val ARG_TITLE = "title"
+
+        fun newInstance(url: String, title: String = ""): WebFragment {
+            val frag = WebFragment()
+            frag.arguments = Bundle().apply {
+                putString(ARG_URL, url)
+                putString(ARG_TITLE, if (title.isNotEmpty()) title else url)
+            }
+            return frag
+        }
+    }
 
 }
