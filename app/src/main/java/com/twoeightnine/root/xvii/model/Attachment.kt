@@ -89,6 +89,8 @@ class Attachment : Parcelable, Serializable {
                 if (!TextUtils.isEmpty(photo512)) maxRes = photo512
                 return maxRes ?: ""
             }
+
+        override fun equals(other: Any?) = (other as? Sticker)?.id == id
     }
 
     class Gift {

@@ -50,8 +50,8 @@ class PhotoAttachFragment : BaseAttachFragment<Photo>() {
             return PhotoAttachFragment()
         }
 
-        fun dispose() {
-            disposables.dispose()
+        fun clear() {
+            disposables.clear()
         }
     }
 }

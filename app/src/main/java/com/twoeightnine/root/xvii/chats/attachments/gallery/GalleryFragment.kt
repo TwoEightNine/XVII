@@ -126,8 +126,8 @@ class GalleryFragment : BaseFragment() {
             return GalleryFragment()
         }
 
-        fun dispose() {
-            disposables.dispose()
+        fun clear() {
+            disposables.clear()
         }
     }
 }

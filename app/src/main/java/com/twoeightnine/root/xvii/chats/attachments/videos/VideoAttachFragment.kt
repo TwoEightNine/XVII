@@ -35,8 +35,8 @@ class VideoAttachFragment : BaseAttachFragment<Video>() {
             return VideoAttachFragment()
         }
 
-        fun dispose() {
-            disposables.dispose()
+        fun clear() {
+            disposables.clear()
         }
     }
 

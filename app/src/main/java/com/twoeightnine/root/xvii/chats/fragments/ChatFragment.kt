@@ -670,11 +670,11 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     override fun onDetach() {
         super.onDetach()
         presenter.unsubscribe()
-        PhotoAttachFragment.dispose()
-        GalleryFragment.dispose()
-        DocAttachFragment.dispose()
-        VideoAttachFragment.dispose()
-        com.twoeightnine.root.xvii.chats.attachments.stickers.StickersFragment.dispose()
+        PhotoAttachFragment.clear()
+        GalleryFragment.clear()
+        DocAttachFragment.clear()
+        VideoAttachFragment.clear()
+        StickersFragment.clear()
     }
 
     override fun onBackPressed(): Boolean {

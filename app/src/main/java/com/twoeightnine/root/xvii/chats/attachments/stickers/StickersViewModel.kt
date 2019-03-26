@@ -49,7 +49,7 @@ class StickersViewModel(
                 recent.addAll(Prefs.recentStickers.map { Attachment.Sticker(it) })
             }
             if (sticker in recent) {
-                recent.remove(sticker)
+                recent.removeAll { it == sticker }
             }
             recent.add(0, sticker)
             recentStorage.writeToFile(recent)

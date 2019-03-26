@@ -36,8 +36,8 @@ class DocAttachFragment : BaseAttachFragment<Doc>() {
             return DocAttachFragment()
         }
 
-        fun dispose() {
-            disposables.dispose()
+        fun clear() {
+            disposables.clear()
         }
     }
 

@@ -75,8 +75,8 @@ class StickersFragment : BaseFragment() {
             return StickersFragment()
         }
 
-        fun dispose() {
-            disposables.dispose()
+        fun clear() {
+            disposables.clear()
         }
     }
 }
