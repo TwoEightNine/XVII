@@ -66,6 +66,7 @@
 
     <color name="toolbar_text">@color/icons</color>
     <color name="toolbar_subtext">#ddd</color>
+    <color name="placeholder">#bbb</color>
 
     <color name="splash_color">#111</color>
 </resources>

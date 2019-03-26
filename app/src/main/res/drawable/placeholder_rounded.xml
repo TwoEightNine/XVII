@@ -4,9 +4,6 @@
 
     <corners android:radius="@dimen/image_corners_radius" />
 
-    <gradient
-        android:angle="135"
-        android:startColor="#bbb"
-        android:endColor="#555" />
+    <solid android:color="@color/placeholder" />
 
 </shape>

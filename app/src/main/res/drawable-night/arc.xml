@@ -4,6 +4,6 @@
     android:viewportHeight="200"
     android:viewportWidth="187">
     <path
-        android:fillColor="#fff"
+        android:fillColor="@color/popup"
         android:pathData="M0 200 A 100 300 0 0 1 187 200Z" />
 </vector>
