@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlBack"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rlBack"
-    android:paddingLeft="@dimen/endmarginshape"
-    android:paddingStart="@dimen/endmarginshape">
+    android:paddingStart="@dimen/chat_shape_side_padding">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -22,13 +21,15 @@
             android:src="@drawable/unread_dot_shae" />
 
         <LinearLayout
-            android:elevation="2dp"
             android:id="@+id/llMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/frame_pad"
+            android:layout_marginStart="@dimen/chat_shape_margin_horiz"
+            android:layout_marginTop="@dimen/chat_shape_margin_vert"
+            android:layout_marginBottom="@dimen/chat_shape_margin_vert"
             android:layout_toRightOf="@+id/readStateDot"
             android:background="@drawable/shape_message"
+            android:elevation="2dp"
             android:orientation="vertical">
 
 
@@ -38,26 +39,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
-                android:text="12.34"
                 android:maxLines="1"
+                android:text="12.34"
                 android:textColor="@color/other_text"
                 android:textSize="10sp" />
 
 
             <TextView
-                android:minWidth="80dp"
                 android:id="@+id/tvBody"
-                android:textColorLink="@color/link_color"
-                android:autoLink="web"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
+                android:autoLink="web"
                 android:gravity="start"
+                android:minWidth="80dp"
                 android:text="ddjhjh"
                 android:textColor="@color/main_text"
-                android:textSize="16sp" />
+                android:textColorLink="@color/link_color"
+                android:textSize="@dimen/chat_message_text_size" />
 
             <LinearLayout
                 android:id="@+id/llMessageContainer"
@@ -69,17 +70,17 @@
 
         <RelativeLayout
             android:id="@+id/rlImportant"
-            android:visibility="gone"
-            android:layout_alignRight="@+id/llMessage"
-            android:layout_alignTop="@+id/llMessage"
-            android:elevation="4dp"
             android:layout_width="20dp"
-            android:layout_height="20dp">
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/llMessage"
+            android:layout_alignRight="@+id/llMessage"
+            android:elevation="4dp"
+            android:visibility="gone">
             <!--<ImageView-->
-                <!--android:src="@drawable/ic_star"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:layout_width="15dp"-->
-                <!--android:layout_height="15dp" />-->
+            <!--android:src="@drawable/ic_star"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_width="15dp"-->
+            <!--android:layout_height="15dp" />-->
         </RelativeLayout>
 
     </RelativeLayout>

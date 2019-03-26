@@ -42,12 +42,12 @@ class AccountsFragment : BaseFragment() {
         viewModel.getAccounts().observe(this, Observer { updateAccounts(it) })
         viewModel.loadAccounts()
 
-        rlAddAccount.setOnClickListener {
+        fabAdd.setOnClickListener {
             viewModel.updateRunningAccount()
             Session.token = ""
             restartApp(getString(R.string.restart_app))
         }
-        Style.forAll(rlAddAccount)
+        Style.forFAB(fabAdd)
     }
 
     private fun updateAccounts(accounts: ArrayList<Account>) {

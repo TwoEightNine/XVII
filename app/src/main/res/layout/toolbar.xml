@@ -2,9 +2,9 @@
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:theme="@style/AppTheme.ToolBar"
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
-    android:background="@color/background"
-    android:elevation="4dp" />
+    android:background="@color/toolbar"
+    android:elevation="4dp"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:theme="@style/AppTheme.ToolBar" />

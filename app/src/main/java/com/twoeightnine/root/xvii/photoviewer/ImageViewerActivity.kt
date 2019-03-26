@@ -105,7 +105,7 @@ class ImageViewerActivity : AppCompatActivity() {
         tvPosition.text = "${position + 1}/${photos.size}"
     }
 
-    private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.optimalPhoto })
+    private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.maxPhoto })
 
     companion object {
 
@@ -120,6 +120,7 @@ class ImageViewerActivity : AppCompatActivity() {
 
         fun viewImages(context: Context?, photos: ArrayList<Photo>, position: Int = 0) {
             context ?: return
+            if (photos.isEmpty()) return
 
             val intent = Intent(context, ImageViewerActivity::class.java).apply {
                 putParcelableArrayListExtra(PHOTOS, photos)

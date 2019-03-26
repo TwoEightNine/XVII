@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">@color/background</color>
-    <color name="primary_dark">@color/background</color>
+    <color name="primary">#222</color>
+    <color name="primary_dark">@color/primary</color>
     <!--<color name="primary_light">#CFBEF7</color>-->
     <!--<color name="primary_light_hard">#BFAEE7</color>-->
     <!--<color name="accent">#9C27B0</color>-->
@@ -10,9 +10,9 @@
     <!--<color name="divider">#BDBDBD</color>-->
     <color name="link_color">#79f</color>
 
-    <color name="background">#000</color>
-    <color name="popup">#222</color>
-    <color name="toolbar">#000</color>
+    <color name="background">#111</color>
+    <color name="popup">#272727</color>
+    <color name="toolbar">#171717</color>
     <color name="icons">#fff</color>
     <color name="online">#fff</color>
     <color name="main_text">#ccc</color>
@@ -27,7 +27,7 @@
     <color name="toolbar_text">@color/main_text</color>
     <color name="toolbar_subtext">@color/other_text</color>
 
-    <color name="splash_color">#000</color>
+    <color name="splash_color">#111</color>
 
     <color name="error">#d23</color>
 </resources>

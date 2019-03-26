@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,20 +8,18 @@
         android:id="@+id/rlBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/endmarginshape"
-        android:paddingRight="@dimen/endmarginshape">
+        android:paddingEnd="@dimen/chat_shape_side_padding">
 
 
         <LinearLayout
-            android:elevation="2dp"
             android:id="@+id/llMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/marginshape"
-            android:layout_marginLeft="@dimen/marginside"
-            android:layout_marginStart="@dimen/marginside"
-            android:layout_marginTop="@dimen/marginshape"
+            android:layout_marginStart="@dimen/chat_shape_margin_horiz"
+            android:layout_marginTop="@dimen/chat_shape_margin_vert"
+            android:layout_marginBottom="@dimen/chat_shape_margin_vert"
             android:background="@drawable/shape_message"
+            android:elevation="2dp"
             android:minWidth="140dp"
             android:orientation="vertical">
 
@@ -45,8 +44,8 @@
                         android:id="@+id/tvName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
                         android:layout_marginStart="4dp"
+                        android:layout_marginLeft="4dp"
                         android:maxLines="2"
                         android:text="Misdsdsdta Sisdsdsdnista"
                         android:textColor="@color/other_text"
@@ -56,8 +55,8 @@
                         android:id="@+id/tvDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
                         android:layout_marginStart="4dp"
+                        android:layout_marginLeft="4dp"
                         android:maxLines="1"
                         android:text="26.01.2016 12.34"
                         android:textColor="@color/other_text"
@@ -69,18 +68,17 @@
             </LinearLayout>
 
             <TextView
-                android:textColorLink="@color/link_color"
-                android:autoLink="web"
                 android:id="@+id/tvBody"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
-                android:text="sfsdf dfsfsfsfsffdsfdsg "
+                android:autoLink="web"
                 android:textColor="@color/main_text"
-                android:textSize="16sp" />
-
+                android:textColorLink="@color/link_color"
+                android:textSize="@dimen/chat_message_text_size"
+                tools:text="sfsdf dfsfsfsfsffdsfdsg " />
 
 
             <LinearLayout
@@ -93,17 +91,17 @@
 
         <RelativeLayout
             android:id="@+id/rlImportant"
-            android:visibility="gone"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignLeft="@+id/llMessage"
             android:layout_alignTop="@+id/llMessage"
             android:elevation="4dp"
-            android:layout_width="20dp"
-            android:layout_height="20dp">
+            android:visibility="gone">
             <!--<ImageView-->
-                <!--android:src="@drawable/ic_star"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:layout_width="15dp"-->
-                <!--android:layout_height="15dp" />-->
+            <!--android:src="@drawable/ic_star"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_width="15dp"-->
+            <!--android:layout_height="15dp" />-->
         </RelativeLayout>
 
     </RelativeLayout>

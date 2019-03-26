@@ -28,10 +28,9 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    val cacheSize = 1024 * 1024 * 30L
-    val timeout = 300L
-    val offline = {
-        chain: Interceptor.Chain ->
+    private val cacheSize = 1024 * 1024 * 30L
+    private val timeout = 300L
+    private val offline = { chain: Interceptor.Chain ->
         var request = chain.request()
         if (!isOnline()) {
             request = request.newBuilder()

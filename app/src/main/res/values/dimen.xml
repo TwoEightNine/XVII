@@ -26,9 +26,14 @@
     <!--chat-->
     <dimen name="bottomsheet_height">450dp</dimen>
     <dimen name="bottomsheet_thumb_height">38dp</dimen>
-    <dimen name="chat_photo_size">40dp</dimen>
+
+    <dimen name="chat_photo_size">35dp</dimen>
     <dimen name="chat_shape_radius">20dp</dimen>
     <dimen name="chat_shape_min_height">40dp</dimen>
+    <dimen name="chat_shape_margin_horiz">4dp</dimen>
+    <dimen name="chat_shape_margin_vert">2dp</dimen>
+    <dimen name="chat_shape_side_padding">24dp</dimen>
+    <dimen name="chat_message_text_size">15sp</dimen>
 
     <!--profile-->
     <dimen name="profile_ava_size">300dp</dimen>

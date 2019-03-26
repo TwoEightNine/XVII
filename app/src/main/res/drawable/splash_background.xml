@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/primary" />
+    <item android:drawable="@color/splash_color" />
 
     <item>
         <bitmap
-            android:src="@mipmap/xvii512"
-            android:gravity="center" />
+            android:gravity="center"
+            android:src="@mipmap/xvii512" />
     </item>
 </layer-list>
