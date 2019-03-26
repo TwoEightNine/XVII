@@ -30,13 +30,12 @@ import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
+import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.Attachment
-import com.twoeightnine.root.xvii.model.Doc
-import com.twoeightnine.root.xvii.model.Message
+import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatFragmentView
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
@@ -53,9 +52,10 @@ import javax.inject.Inject
 
 class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
-    private lateinit var message: Message
-
-    var fwdMessages = ""
+    private val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
+    private val title by lazy { arguments?.getString(ARG_TITLE) ?: "" }
+    private val isOnline by lazy { arguments?.getBoolean(ARG_IS_ONLINE) == true }
+    private val forwardedMessages by lazy { arguments?.getString(ARG_FORWARDED) }
 
     private var dialogLoading: LoadingDialog? = null
 
@@ -77,23 +77,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     private val handler = Handler()
 
-    companion object {
-
-        fun newInstance(dialog: Message): ChatFragment {
-            val fragment = ChatFragment()
-            fragment.message = dialog
-            return fragment
-        }
-
-        fun newInstance(dialog: Message, fwdMessages: String): ChatFragment {
-            val fragment = ChatFragment()
-            fragment.message = dialog
-            fragment.fwdMessages = fwdMessages
-            return fragment
-        }
-
-    }
-
     override fun getLayout() = R.layout.fragment_chat
 
     override fun bindViews(view: View) {
@@ -109,7 +92,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         App.appComponent?.inject(this)
         try {
             presenter.view = this
-            presenter.dialog = message
+            presenter.peerId = peerId
             presenter.initCrypto()
             presenter.initAttachments(safeActivity, ::onAttachCounterChanged)
             presenter.subscribe()
@@ -134,8 +117,8 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         Style.forFrame(d2)
         rlInputContainer.background = d2
 
-        if (fwdMessages.isNotEmpty()) {
-            handler.postDelayed({ presenter.attachUtils.forwarded = fwdMessages }, 1000L)
+        forwardedMessages?.also {
+            handler.postDelayed({ presenter.attachUtils.forwarded = it }, 1000L)
         }
         if (Prefs.chatBack.isNotEmpty()) {
             try {
@@ -168,13 +151,13 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         try {
-            rootActivity.title = message.title
-            onChangeOnline(message.online == 1)
+            rootActivity.title = title
+            onChangeOnline(isOnline)
             imut = ImageUtils(rootActivity)
             toolbar?.setOnClickListener {
                 hideKeyboard(safeActivity)
-                if (message.chatId == 0 && message.userId > 0) {
-                    rootActivity.loadFragment(ProfileFragment.newInstance(message.userId))
+                if (peerId in 0..2000000000) {
+                    rootActivity.loadFragment(ProfileFragment.newInstance(peerId))
                 }
             }
         } catch (e: UninitializedPropertyAccessException) {
@@ -183,16 +166,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     fun initAdapter() {
-        adapter = ChatAdapter(
-                safeActivity,
-                ::loadMore,
-                ::onClick,
-                ::onLongClick,
-                { rootActivity.loadFragment(ProfileFragment.newInstance(it)) },
-                ::onDocDecryptClicked,
-                { apiUtils.showPhoto(safeActivity, it.photoId, it.accessKey) },
-                { apiUtils.openVideo(safeActivity, it) }
-        )
+        adapter = ChatAdapter(safeActivity, ::loadMore, AdapterCallback())
         adapter.trier = { loadMore(adapter.itemCount) }
         adapter.multiListener = rlMultiAction::setVisible
         val llm = LinearLayoutManager(activity)
@@ -247,50 +221,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
     }
 
-    private fun onClick(position: Int) {
-        if (position !in adapter.items.indices) return
-        val message = adapter.items[position]
-        adapter.multiSelect(message)
-        adapter.notifyItemChanged(position)
-    }
-
-    private fun onLongClick(position: Int): Boolean {
-        if (position !in adapter.items.indices) return true
-
-        val message = adapter.items[position]
-        getContextPopup(safeActivity, R.layout.popup_message) {
-            when (it.id) {
-                R.id.llCopy -> copyToClip(message.body ?: "")
-                R.id.llEdit -> showEditMessageDialog(message)
-                R.id.llReply -> presenter.attachUtils.forwarded = "${message.id}"
-                R.id.llForward -> {
-                    rootActivity.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
-                }
-                R.id.llDelete -> {
-                    val callback = { forAll: Boolean ->
-                        presenter.deleteMessages(mutableListOf(message.id), forAll)
-                        CacheHelper.deleteMessagesAsync(mutableListOf(message.id))
-                    }
-                    if (message.isOut && time() - message.date < 3600 * 24) {
-                        showDeleteMessagesDialog(callback)
-                    } else {
-                        showDeleteDialog(safeActivity) { callback.invoke(false) }
-                    }
-                }
-                R.id.llDecrypt -> {
-                    message.body = getDecrypted(message.body)
-                    adapter.notifyItemChanged(position)
-                }
-                R.id.llMarkImportant ->
-                    presenter.markAsImportant(
-                            mutableListOf(message.id),
-                            if (message.isImportant) 0 else 1
-                    )
-            }
-        }.show()
-        return true
-    }
-
     private fun showMultiSelectPopup() {
         val selectedList = adapter.multiSelect.map { it.id }.toMutableList()
         getContextPopup(safeActivity, R.layout.popup_message_multiselect) {
@@ -340,25 +270,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
     }
 
-    private fun onDocDecryptClicked(doc: Doc) {
-        dialogLoading?.dismiss()
-        dialogLoading = LoadingDialog(
-                safeContext,
-                safeContext.getString(R.string.decrypting_image)
-        )
-        dialogLoading?.show()
-        presenter.decryptDoc(safeContext, doc) {
-            dialogLoading?.dismiss()
-            if (it.isNotEmpty()) {
-                val fileForLog = if (BuildConfig.DEBUG) it else ""
-                Lg.i("show decrypted $fileForLog")
-                ImageViewerActivity.viewImage(safeContext, "file://$it")
-            } else {
-                showError(context, R.string.invalid_file)
-            }
-        }
-    }
-
     private fun decrypt(mids: MutableList<Int>) {
         adapter.items
                 .filter { it.id in mids }
@@ -370,7 +281,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         super.onCreateOptionsMenu(menu, inflater)
         menu?.clear()
         inflater?.inflate(R.menu.menu_chat, menu)
-        menu?.findItem(R.id.menu_fingerprint)?.isVisible = message.chatId == 0 && message.userId > 0 && message.userId < 1000000000
+        menu?.findItem(R.id.menu_fingerprint)?.isVisible = peerId in 0..2000000000
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
@@ -392,12 +303,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 true
             }
             R.id.menu_attachments -> {
-                rootActivity.loadFragment(AttachmentsFragment.newInstance(
-                        if (message.chatId == 0)
-                            message.userId
-                        else
-                            2000000000 + message.chatId
-                ))
+                rootActivity.loadFragment(AttachmentsFragment.newInstance(peerId))
                 hideKeyboard(safeActivity)
                 true
             }
@@ -415,7 +321,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         getContextPopup(safeActivity, R.layout.popup_keys) {
             when (it.id) {
                 R.id.llRandomKey -> {
-                    if (message.chatId == 0 && message.userId > 0 && message.userId < 1000000000) {
+                    if (peerId in 0..2000000000) {
                         presenter.isEncrypted = false
                         safeActivity.invalidateOptionsMenu()
                         keyGenerationHint()
@@ -579,9 +485,9 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     override fun onChangeOnline(isOnline: Boolean) {
-        if (message.chatId != 0) {
+        if (peerId > 2000000000) {
             lastOnline = getString(R.string.conversation)
-        } else if (message.userId < 0) {
+        } else if (peerId < 0) {
             lastOnline = getString(R.string.community)
         } else {
             lastOnline = if (isOnline) getString(R.string.online) else getString(R.string.offline)
@@ -686,7 +592,122 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         return false
     }
 
+    companion object {
+
+        const val ARG_PEER_ID = "peerId"
+        const val ARG_TITLE = "title"
+        const val ARG_IS_ONLINE = "online"
+        const val ARG_FORWARDED = "forwarded"
+
+        fun newInstance(dialog: Dialog, forwarded: String = ""): ChatFragment {
+            val fragment = ChatFragment()
+            fragment.arguments = Bundle().apply {
+                putInt(ARG_PEER_ID, dialog.peerId)
+                putString(ARG_TITLE, dialog.title)
+                putBoolean(ARG_IS_ONLINE, dialog.isOnline)
+                if (forwarded.isNotEmpty()) {
+                    putString(ARG_FORWARDED, forwarded)
+                }
+            }
+            return fragment
+        }
+
+        fun newInstance(peerId: Int, title: String, isOnline: Boolean = false) = newInstance(Dialog(
+                peerId = peerId,
+                title = title,
+                isOnline = isOnline
+        ))
+
+        fun newInstance(message: Message, forwarded: String = ""): ChatFragment {
+            val fragment = ChatFragment()
+            fragment.arguments = Bundle().apply {
+                putInt(ARG_PEER_ID, getPeerId(message.userId, message.chatId))
+                putString(ARG_TITLE, message.title)
+                putBoolean(ARG_IS_ONLINE, message.online == 1)
+                if (forwarded.isNotEmpty()) {
+                    putString(ARG_FORWARDED, forwarded)
+                }
+            }
+            return fragment
+        }
+
+    }
+
+    private inner class AdapterCallback : ChatAdapter.ChatAdapterCallback {
+
+        override fun onClicked(message: Message) {
+            adapter.multiSelect(message)
+            adapter.notifyItemChanged(adapter.items.indexOf(message))
+        }
+
+        override fun onLongClicked(message: Message): Boolean {
+            getContextPopup(safeActivity, R.layout.popup_message) {
+                when (it.id) {
+                    R.id.llCopy -> copyToClip(message.body ?: "")
+                    R.id.llEdit -> showEditMessageDialog(message)
+                    R.id.llReply -> presenter.attachUtils.forwarded = "${message.id}"
+                    R.id.llForward -> {
+                        rootActivity.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
+                    }
+                    R.id.llDelete -> {
+                        val callback = { forAll: Boolean ->
+                            presenter.deleteMessages(mutableListOf(message.id), forAll)
+                            CacheHelper.deleteMessagesAsync(mutableListOf(message.id))
+                        }
+                        if (message.isOut && time() - message.date < 3600 * 24) {
+                            showDeleteMessagesDialog(callback)
+                        } else {
+                            showDeleteDialog(safeActivity) { callback.invoke(false) }
+                        }
+                    }
+                    R.id.llDecrypt -> {
+                        message.body = getDecrypted(message.body)
+                        adapter.notifyItemChanged(adapter.items.indexOf(message))
+                    }
+                    R.id.llMarkImportant ->
+                        presenter.markAsImportant(
+                                mutableListOf(message.id),
+                                if (message.isImportant) 0 else 1
+                        )
+                }
+            }.show()
+            return true
+        }
+
+        override fun onUserClicked(userId: Int) {
+            rootActivity.loadFragment(ProfileFragment.newInstance(userId))
+        }
+
+        override fun onDocClicked(doc: Doc) {
+            dialogLoading?.dismiss()
+            dialogLoading = LoadingDialog(
+                    safeContext,
+                    safeContext.getString(R.string.decrypting_image)
+            )
+            dialogLoading?.show()
+            presenter.decryptDoc(safeContext, doc) {
+                dialogLoading?.dismiss()
+                if (it.isNotEmpty()) {
+                    val fileForLog = if (BuildConfig.DEBUG) it else ""
+                    Lg.i("show decrypted $fileForLog")
+                    ImageViewerActivity.viewImage(safeContext, "file://$it")
+                } else {
+                    showError(context, R.string.invalid_file)
+                }
+            }
+        }
+
+        override fun onPhotoClicked(photo: Photo) {
+            apiUtils.showPhoto(safeActivity, photo.photoId, photo.accessKey)
+        }
+
+        override fun onVideoClicked(video: Video) {
+            apiUtils.openVideo(safeActivity, video)
+        }
+    }
+
     private inner class VoiceCallback : VoiceRecorder.RecorderCallback {
+
         override fun onVisibilityChanged(visible: Boolean) {
             rlRecord.visibility = if (visible) View.VISIBLE else View.GONE
         }

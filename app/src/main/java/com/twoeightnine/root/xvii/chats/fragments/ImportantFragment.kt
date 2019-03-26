@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
+import com.twoeightnine.root.xvii.model.Doc
 import com.twoeightnine.root.xvii.model.Message
+import com.twoeightnine.root.xvii.model.Photo
+import com.twoeightnine.root.xvii.model.Video
 import com.twoeightnine.root.xvii.mvp.presenter.ImportantFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.ImportantFragmentView
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
@@ -43,31 +47,13 @@ class ImportantFragment : BaseOldFragment(), ImportantFragmentView {
         adapter = ChatAdapter(
                 safeActivity,
                 { presenter.loadHistory(it) },
-                {}, ::onLongClick,
-                { rootActivity.loadFragment(ProfileFragment.newInstance(it)) },
-                {},
-                { apiUtils.showPhoto(safeContext, it.photoId, it.accessKey) },
-                { apiUtils.openVideo(safeContext, it) },
+                AdapterCallback(),
                 true
         )
-        val llm = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        val llm = LinearLayoutManager(activity)
         llm.stackFromEnd = true
         rvImportant.layoutManager = llm
         rvImportant.adapter = adapter
-    }
-
-    private fun onLongClick(position: Int): Boolean {
-        if (position !in adapter.items.indices) return true
-
-        val message = adapter.items[position]
-        getContextPopup(safeActivity, R.layout.popup_important) {
-            when (it.id) {
-                R.id.llCopy -> copyToClip(message.body ?: "")
-                R.id.llDelete -> showDeleteDialog(safeActivity) { presenter.deleteMessages(mutableListOf(message.id)) }
-                R.id.llForward -> rootActivity.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
-            }
-        }.show()
-        return true
     }
 
     override fun onNew(view: View) {
@@ -115,5 +101,35 @@ class ImportantFragment : BaseOldFragment(), ImportantFragmentView {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         menu?.clear()
+    }
+
+    private inner class AdapterCallback : ChatAdapter.ChatAdapterCallback {
+
+        override fun onClicked(message: Message) {}
+
+        override fun onLongClicked(message: Message): Boolean {
+            getContextPopup(safeActivity, R.layout.popup_important) {
+                when (it.id) {
+                    R.id.llCopy -> copyToClip(message.body ?: "")
+                    R.id.llDelete -> showDeleteDialog(safeActivity) { presenter.deleteMessages(mutableListOf(message.id)) }
+                    R.id.llForward -> rootActivity.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
+                }
+            }.show()
+            return true
+        }
+
+        override fun onUserClicked(userId: Int) {
+            rootActivity.loadFragment(ProfileFragment.newInstance(userId))
+        }
+
+        override fun onDocClicked(doc: Doc) {}
+
+        override fun onPhotoClicked(photo: Photo) {
+            apiUtils.showPhoto(safeActivity, photo.photoId, photo.accessKey)
+        }
+
+        override fun onVideoClicked(video: Video) {
+            apiUtils.openVideo(safeActivity, video)
+        }
     }
 }

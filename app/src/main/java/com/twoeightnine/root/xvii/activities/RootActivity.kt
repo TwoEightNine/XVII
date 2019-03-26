@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.activities
 
+//import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -12,7 +13,6 @@ import com.twoeightnine.root.xvii.adapters.DrawerAdapter
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
-//import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.lg.Lg
@@ -20,7 +20,6 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.DrawerItem
-import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import com.twoeightnine.root.xvii.utils.*
@@ -54,17 +53,13 @@ class RootActivity : BaseActivity() {
         App.appComponent?.inject(this)
         initDrawer()
         loadFragment(DialogsFragment.newInstance())
-        if (intent.extras != null && intent.extras.getInt(USER_ID) != 0) {
-            val userId = intent.extras.getInt(USER_ID)
-            val title = intent.extras.getString(TITLE)
-            val message = Message(
-                    0, 0, userId, 0, 0, title, "", null
-            )
-            if (userId > 2000000000) {
-                message.chatId = userId - 2000000000
+        intent?.extras?.apply {
+            val userId = getInt(USER_ID)
+            if (userId != 0) {
+                val title = getString(TITLE) ?: ""
+                loadFragment(ChatFragment.newInstance(userId, title))
+                Lg.i("open chat $userId")
             }
-            loadFragment(ChatFragment.newInstance(message))
-            Lg.i("open chat ${intent.extras.getInt(USER_ID)}")
         }
         styleScreen(flContainer)
         startNotificationAlarm(this)

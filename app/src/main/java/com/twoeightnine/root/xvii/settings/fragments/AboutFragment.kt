@@ -14,7 +14,6 @@ import com.twoeightnine.root.xvii.fragments.WebFragment
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_about.*
 import javax.inject.Inject
@@ -42,10 +41,7 @@ class AboutFragment : BaseOldFragment() {
 
     private fun initViews() {
         tvFeedback.setOnClickListener {
-            val message = Message(
-                    0, 0, -App.GROUP, 0, 0, getString(R.string.app_name), "", null
-            )
-            rootActivity.loadFragment(ChatFragment.newInstance(message))
+            rootActivity.loadFragment(ChatFragment.newInstance(-App.GROUP, getString(R.string.app_name)))
         }
         tvRate.setOnClickListener { rate(safeActivity) }
         tvPrivacy.setOnClickListener {

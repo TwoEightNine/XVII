@@ -12,7 +12,6 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
@@ -79,9 +78,7 @@ class ProfileFragment : BaseFragment() {
         civPhoto.setOnClickListener { viewModel.loadPhotos(::onPhotosLoaded) }
         tvName.text = user.fullName
         rlChat.setOnClickListener {
-            rootActivity?.loadFragment(ChatFragment.newInstance(Message(
-                    0, 0, userId, 0, 0, user.fullName, "", null
-            )))
+            rootActivity?.loadFragment(ChatFragment.newInstance(user.id, user.fullName, user.isOnline))
         }
         if (!user.deactivated.isNullOrEmpty()) return
         val onlineRes = if (user.isOnline) R.string.online_seen else R.string.last_seen

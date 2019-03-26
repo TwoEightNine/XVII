@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.chats
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.ContentActivity
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
@@ -39,6 +38,6 @@ class ChatActivity : ContentActivity() {
         if (userId > 2000000000) {
             message.chatId = userId - 2000000000
         }
-        return ChatFragment.newInstance(message, forwarded)
+        return ChatFragment.newInstance(userId, title)
     }
 }

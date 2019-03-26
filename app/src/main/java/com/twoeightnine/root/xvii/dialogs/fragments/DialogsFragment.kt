@@ -17,7 +17,6 @@ import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.searchmessages.fragments.SearchMessagesFragment
 import com.twoeightnine.root.xvii.utils.getContextPopup
@@ -81,14 +80,7 @@ open class DialogsFragment : BaseFragment() {
     }
 
     protected open fun onClick(dialog: Dialog) {
-        val message = Message(
-                0, 0, dialog.peerId, 0, 0, dialog.title, ""
-        )
-        if (dialog.peerId > 2000000000) {
-            message.chatId = dialog.peerId - 2000000000
-        }
-        message.online = if (dialog.isOnline) 1 else 0
-        rootActivity?.loadFragment(ChatFragment.newInstance(message))
+        rootActivity?.loadFragment(ChatFragment.newInstance(dialog))
     }
 
     protected open fun onLongClick(dialog: Dialog) {

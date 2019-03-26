@@ -4,16 +4,13 @@ import android.content.Context
 import android.graphics.Color
 import android.text.Html
 import android.text.Spanned
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
@@ -28,13 +25,10 @@ import kotlinx.android.synthetic.main.item_message_wtf.view.*
  */
 class ChatAdapter(context: Context,
                   loader: (Int) -> Unit,
-                  private val clickListener: (Int) -> Unit,
-                  private val longClickListener: (Int) -> Boolean,
-                  private val userClickListener: (Int) -> Unit,
-                  private val decryptCallback: (Doc) -> Unit = {},
-                  private val onPhotoClick: (Photo) -> Unit = {},
-                  private val onVideoClick: (Video) -> Unit = {},
-                  private val isImportant: Boolean = false) : PaginationAdapter<Message>(context, loader) {
+                  private val callback: ChatAdapterCallback,
+                  private val isImportant: Boolean = false
+) : PaginationAdapter<Message>(context, loader) {
+
     var isAtEnd: Boolean = false
         private set
 
@@ -103,8 +97,9 @@ class ChatAdapter(context: Context,
 
     override fun getItemViewType(position: Int): Int {
         val message = items[position]
+        val superType = super.getItemViewType(position)
         return when {
-            super.getItemViewType(position) != NOSTUB -> super.getItemViewType(position)
+            superType != NOSTUB -> superType
             message.isOut -> OUT
             message.chatId != 0 || isImportant -> IN_CHAT
             else -> IN_USER
@@ -121,193 +116,121 @@ class ChatAdapter(context: Context,
         fun bind(message: Message, level: Int = 0) {
             putViews(itemView, message, level)
             with(itemView) {
-                rlBack.setOnClickListener { clickListener.invoke(adapterPosition) }
-                rlBack.setOnLongClickListener { longClickListener.invoke(adapterPosition) }
-                tvBody.setOnClickListener { clickListener.invoke(adapterPosition) }
-                tvBody.setOnLongClickListener { longClickListener.invoke(adapterPosition) }
+                rlBack.setOnClickListener { callback.onClicked(items[adapterPosition]) }
+                rlBack.setOnLongClickListener { callback.onLongClicked(items[adapterPosition]) }
+                tvBody.setOnClickListener { callback.onClicked(items[adapterPosition]) }
+                tvBody.setOnLongClickListener { callback.onLongClicked(items[adapterPosition]) }
             }
         }
 
         private fun putViews(view: View, message: Message, level: Int) {
             with(view) {
-                if (level == 0) {
-                    if (multiSelect.contains(message)) {
-                        rlBack.setBackgroundColor(ContextCompat.getColor(context, R.color.selected_mess))
-                    } else {
-                        rlBack.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
-                    }
+                rlBack.setBackgroundColor(if (level == 0 && message in multiSelect) {
+                    ContextCompat.getColor(context, R.color.selected_mess)
                 } else {
-                    rlBack.setBackgroundColor(Color.TRANSPARENT)
-                }
-
+                    Color.TRANSPARENT
+                })
                 llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
-
-                if (tvName is TextView) {
-                    tvName?.text = message.title
-                }
-
-                if (TextUtils.isEmpty(message.body) && TextUtils.isEmpty(message.action)) {
-                    tvBody.visibility = View.GONE
-                } else {
-                    tvBody.visibility = View.VISIBLE
-                    if (TextUtils.isEmpty(message.action)) {
-                        if (message.emoji == 1) {
-                            tvBody.text = EmojiHelper.getEmojied(context, message.body
-                                    ?: "")
-                        } else if (message.body != null && isDecrypted(message.body!!)) {
-                            tvBody.text = getWrapped(message.body!!)
-                        } else {
-                            tvBody.text = message.body
-                        }
-                    } else {
-                        var body = ""
-                        if (message.action == Message.IN_CHAT) {
-                            body = context.getString(R.string.invite_chat_full, "" + message.actionMid!!)
-                        }
-                        if (message.action == Message.OUT_OF_CHAT) {
-                            body = context.getString(R.string.kick_chat_full, "" + message.actionMid!!)
-                        }
-                        if (message.action == Message.TITLE_UPDATE) {
-                            body = context.getString(R.string.chat_title_updated, message.actionText)
-                        }
-                        if (message.action == Message.CREATE) {
-                            body = context.getString(R.string.chat_created)
-                        }
-                        tvBody.text = body
+                tvName?.text = message.title
+                tvBody.setVisible(!message.body.isNullOrEmpty() || !message.action.isNullOrEmpty())
+                tvBody.text = when {
+                    !message.body.isNullOrEmpty() -> when {
+                        message.emoji == 1 -> EmojiHelper.getEmojied(context, message.body ?: "")
+                        isDecrypted(message.body) -> getWrapped(message.body)
+                        else -> message.body
                     }
+                    !message.action.isNullOrEmpty() -> getAction(message)
+                    else -> ""
                 }
-
                 tvDate.text = getTime(message.date, full = true)
-
-                if (civPhoto != null) {
-                    val photoAva = message.photo
-                    if (photoAva != null) {
-                        Picasso.get()
-                                .load(photoAva)
-                                .placeholder(R.drawable.placeholder)
-                                .into(civPhoto)
-                    } else {
-                        Picasso.get()
-                                .load(R.drawable.placeholder)
-                                .into(civPhoto)
-                    }
-                    civPhoto!!.setOnClickListener { userClickListener.invoke(message.userId) }
+                civPhoto?.apply {
+                    load(message.photo)
+                    setOnClickListener { callback.onUserClicked(message.userId) }
                 }
-
-                if (readStateDot != null) {
-                    val d = ContextCompat.getDrawable(context, R.drawable.unread_dot_shae)
-                    Style.forDrawable(d, Style.MAIN_TAG)
-                    if (!message.isRead && message.isOut) {
-                        (readStateDot as ImageView).setImageDrawable(d)
+                readStateDot?.apply {
+                    Style.forImageView(this, Style.MAIN_TAG)
+                    visibility = if (!message.isRead && message.isOut) {
+                        View.VISIBLE
                     } else {
-                        (readStateDot as ImageView).setImageDrawable(null)
+                        View.INVISIBLE
                     }
                 }
-
                 Style.forMessage(llMessage, level + message.out)
-
-                if (message.isImportant) {
-                    rlImportant.visibility = View.VISIBLE
-                } else {
-                    rlImportant.visibility = View.GONE
-                }
-
+                rlImportant.setVisible(message.isImportant)
                 llMessageContainer.removeAllViews()
 
-                if (message.attachments != null && message.attachments!!.size > 0) {
-                    if (message.attachments?.get(0)?.type == Attachment.TYPE_STICKER) {
-                        llMessage.layoutParams.width = pxFromDp(context, 180)
+                if (!message.attachments.isNullOrEmpty()) {
+                    llMessage.layoutParams.width = if (message.attachments?.get(0)?.type == Attachment.TYPE_STICKER) {
+                        pxFromDp(context, 180)
                     } else {
-                        llMessage.layoutParams.width = MEDIA_WIDTH
+                        MEDIA_WIDTH
                     }
-                    val atts = message.attachments
-                    for (i in atts!!.indices) {
-                        val included: View
+                    message.attachments?.forEach { attachment ->
+                        when (attachment.type) {
 
-                        when (atts[i].type) {
-
-                            Attachment.TYPE_PHOTO -> {
-                                val photo = atts[i].photo
-                                llMessageContainer.addView(getPhoto(photo!!, context, onPhotoClick))
+                            Attachment.TYPE_PHOTO -> attachment.photo?.also {
+                                llMessageContainer.addView(getPhoto(it, context, callback::onPhotoClicked))
                             }
 
-                            Attachment.TYPE_STICKER -> {
-                                included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null, false)
-                                val stickPath = atts[i].sticker!!.photoMax
-                                if (stickPath.isNotEmpty()) {
-                                    Picasso.get()
-                                            .load(stickPath)
-                                            .into(included.findViewById<ImageView>(R.id.ivInternal))
-                                }
+                            Attachment.TYPE_STICKER -> attachment.sticker?.photoMax?.also {
+                                val included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null, false)
+                                included.findViewById<ImageView>(R.id.ivInternal).load(it, placeholder = false)
                                 llMessageContainer.addView(included)
                             }
 
-                            Attachment.TYPE_GRAFFITI -> {
-                                included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-                                Picasso.get()
-                                        .load(atts[i].graffiti!!.url)
-                                        .into(included.findViewById<ImageView>(R.id.ivInternal))
+                            Attachment.TYPE_GRAFFITI -> attachment.graffiti?.url?.also {
+                                val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
+                                included.findViewById<ImageView>(R.id.ivInternal).load(it, placeholder = false)
                                 llMessageContainer.addView(included)
                             }
 
-                            Attachment.TYPE_GIFT -> {
-                                included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-                                Picasso.get()
-                                        .load(atts[i].gift!!.thumb256)
-                                        .into(included.findViewById<ImageView>(R.id.ivInternal))
+                            Attachment.TYPE_GIFT -> attachment.gift?.thumb256?.also {
+                                val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
+                                included.findViewById<ImageView>(R.id.ivInternal).load(it)
                                 llMessageContainer.addView(included)
                             }
 
-                            Attachment.TYPE_AUDIO -> {
-                                val audio = atts[i].audio
-                                llMessageContainer.addView(getAudio(audio!!, context))
+                            Attachment.TYPE_AUDIO -> attachment.audio?.also {
+                                llMessageContainer.addView(getAudio(it, context))
                             }
 
-                            Attachment.TYPE_LINK -> {
-                                val link = atts[i].link
-                                llMessageContainer.addView(getLink(link!!, context))
+                            Attachment.TYPE_LINK -> attachment.link?.also {
+                                llMessageContainer.addView(getLink(it, context))
                             }
 
-                            Attachment.TYPE_VIDEO -> {
-                                val video = atts[i].video
-                                llMessageContainer.addView(getVideo(video!!, context, onVideoClick))
+                            Attachment.TYPE_VIDEO -> attachment.video?.also {
+                                llMessageContainer.addView(getVideo(it, context, callback::onVideoClicked))
                             }
 
-                            Attachment.TYPE_DOC -> {
-                                val doc = atts[i].doc ?: return
+                            Attachment.TYPE_DOC -> attachment.doc?.also { doc ->
                                 when {
-                                    doc.isVoiceMessage -> {
-                                        llMessageContainer.addView(
-                                                getAudio(Audio(
-                                                        doc.preview?.audioMsg ?: return,
-                                                        context.getString(R.string.voice_message)
-                                                ), context))
+                                    doc.isVoiceMessage -> doc.preview?.audioMsg?.also {
+                                        llMessageContainer.addView(getAudio(
+                                                Audio(it, context.getString(R.string.voice_message)),
+                                                context))
                                     }
                                     doc.isGif -> {
                                         llMessageContainer.addView(getGif(doc, context))
                                     }
-                                    doc.isGraffiti -> {
-                                        included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-                                        Picasso.get()
-                                                .load(doc.preview!!.graffiti!!.src)
-                                                .into(included.findViewById<ImageView>(R.id.ivInternal))
+                                    doc.isGraffiti -> doc.preview?.graffiti?.src?.also {
+                                        val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
+                                        included.findViewById<ImageView>(R.id.ivInternal).load(it, placeholder = false)
                                         llMessageContainer.addView(included)
                                     }
                                     doc.isEncrypted -> {
-                                        llMessageContainer.addView(getEncrypted(doc, context, decryptCallback))
+                                        llMessageContainer.addView(getEncrypted(doc, context, callback::onDocClicked))
                                     }
                                     else -> {
                                         llMessageContainer.addView(getDoc(doc, context))
                                     }
                                 }
+
                             }
 
-                            Attachment.TYPE_WALL -> {
-                                val post = atts[i].wall
-                                val postId = post!!.stringId
-                                included = LayoutInflater.from(context).inflate(R.layout.container_wall, null, false)
+                            Attachment.TYPE_WALL -> attachment.wall?.stringId?.also { postId ->
+                                val included = LayoutInflater.from(context).inflate(R.layout.container_wall, null, false)
                                 included.setOnClickListener {
-                                    (context as RootActivity).loadFragment(WallPostFragment.newInstance(postId))
+                                    (context as? RootActivity)?.loadFragment(WallPostFragment.newInstance(postId))
                                 }
                                 llMessageContainer.addView(included)
                             }
@@ -315,31 +238,48 @@ class ChatAdapter(context: Context,
                     }
                 }
 
-                if (message.fwdMessages != null && message.fwdMessages!!.size > 0) {
+                if (!message.fwdMessages.isNullOrEmpty()) {
                     llMessage.layoutParams.width = MEDIA_WIDTH
-                    val fwdMesses = message.fwdMessages
-                    for (i in fwdMesses!!.indices) {
+                    message.fwdMessages?.forEach {
                         val included = inflater.inflate(R.layout.item_message_in_chat, null)
                         included.tag = true
-                        putViews(included, fwdMesses[i], level + 1)
+                        putViews(included, it, level + 1)
                         llMessageContainer.addView(included)
                     }
                 }
             }
-
         }
 
-        private fun isDecrypted(body: String): Boolean {
+        private fun isDecrypted(body: String?): Boolean {
             val prefix = context.getString(R.string.decrypted, "")
-            return body.startsWith(prefix)
+            return body?.startsWith(prefix) == true
         }
 
-        private fun getWrapped(text: String): Spanned {
+        private fun getWrapped(text: String?): Spanned {
+            if (text.isNullOrEmpty()) return Html.fromHtml("")
+
             val prefix = context.getString(R.string.decrypted, "")
             val color = String.format("%X", ContextCompat.getColor(context, R.color.minor_text)).substring(2)
             val result = "<font color=\"#$color\"><i>$prefix</i></font>${text.substring(prefix.length)}"
             return Html.fromHtml(result)
         }
+
+        private fun getAction(message: Message) = when (message.action) {
+            Message.IN_CHAT -> context.getString(R.string.invite_chat_full, "${message.actionMid}")
+            Message.OUT_OF_CHAT -> context.getString(R.string.kick_chat_full, "${message.actionMid}")
+            Message.TITLE_UPDATE -> context.getString(R.string.chat_title_updated, message.actionText)
+            Message.CREATE -> context.getString(R.string.chat_created)
+            else -> ""
+        }
+    }
+
+    interface ChatAdapterCallback {
+        fun onClicked(message: Message)
+        fun onLongClicked(message: Message): Boolean
+        fun onUserClicked(userId: Int)
+        fun onDocClicked(doc: Doc)
+        fun onPhotoClicked(photo: Photo)
+        fun onVideoClicked(video: Video)
     }
 
     companion object {

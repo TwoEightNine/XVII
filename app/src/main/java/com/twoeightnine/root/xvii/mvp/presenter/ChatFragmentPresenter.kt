@@ -41,7 +41,8 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     lateinit var attachUtils: AttachUtils
     lateinit var crypto: CryptoUtil
-    lateinit var dialog: Message
+
+    var peerId: Int = 0
     var isShown = true
     var isEncrypted = false
 
@@ -61,7 +62,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     fun initCrypto() {
-        crypto = CryptoUtil(Session.uid, userId())
+        crypto = CryptoUtil(Session.uid, peerId)
         isEncrypted = false
     }
 
@@ -69,14 +70,12 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         attachUtils = AttachUtils(context, listener)
     }
 
-    private fun userId() = if (dialog.chatId != 0) dialog.chatId + 2000000000 else dialog.userId
-
     fun loadHistory(offset: Int = 0, withClear: Boolean = false) {
         view?.showLoading()
         if (offset == 0) {
             messages.clear()
         }
-        api.getHistory(count, offset, userId())
+        api.getHistory(count, offset, peerId)
                 .compose(applySchedulers())
                 .subscribeSmart({ response ->
                     val history = response.items
@@ -88,7 +87,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun loadCachedHistory() {
         view?.showLoading()
-        CacheHelper.getMessagesAsync(userId()) { loadUsers(it, cache = true) }
+        CacheHelper.getMessagesAsync(peerId) { loadUsers(it, cache = true) }
     }
 
     fun getSaved() = messages
@@ -143,10 +142,10 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         }
         message = if (isEncrypted && message.isNotEmpty()) crypto.encrypt(message) else message
         val flowable: Flowable<BaseResponse<Int>>
-        if (dialog.chatId > 0) {
+        if (peerId > 2000000000) {
             flowable = api
                     .sendChat(
-                            dialog.chatId,
+                            peerId - 2000000000,
                             message,
                             attachUtils.forwarded,
                             attachUtils.asString(),
@@ -155,7 +154,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         } else {
             flowable = api
                     .send(
-                            dialog.userId,
+                            peerId,
                             message,
                             attachUtils.forwarded,
                             attachUtils.asString(),
@@ -192,7 +191,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     fun editMessage(mid: Int, text: String) {
-        api.editMessage(userId(), text, mid)
+        api.editMessage(peerId, text, mid)
                 .subscribeSmart({
                     if (it == 1) {
                         view?.onMessageEdited(mid, text)
@@ -204,17 +203,17 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun sendSticker(sticker: Attachment.Sticker) {
         val flowable: Flowable<BaseResponse<Int>>
-        if (dialog.chatId > 0) {
+        if (peerId > 2000000000) {
             flowable = api
                     .sendChat(
-                            dialog.chatId,
+                            peerId - 2000000000,
                             "",
                             null, null, sticker.id, null, null
                     )
         } else {
             flowable = api
                     .send(
-                            dialog.userId,
+                            peerId,
                             "",
                             null, null, sticker.id, null, null
                     )
@@ -253,12 +252,12 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun setTyping() {
         if (Prefs.showTyping) {
-            utils.setActivity(userId())
+            utils.setActivity(peerId)
         }
     }
 
     fun setAudioMessaging() {
-        utils.setActivity(userId(), ApiUtils.ACTIVITY_VOICE)
+        utils.setActivity(peerId, ApiUtils.ACTIVITY_VOICE)
     }
 
     fun markAsRead(mid: Int) {
@@ -540,8 +539,8 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 //            }
 
             is TypingEvent -> {
-                if (userId() == event.userId ||
-                        userId() < 0 && event.userId - 1000000000 == -userId()) {
+                if (peerId == event.userId ||
+                        peerId < 0 && event.userId - 1000000000 == -peerId) {
                     if (isShown) {
                         view?.onShowTyping()
                     }
@@ -549,7 +548,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
             }
 
             is RecordingAudioEvent -> {
-                if (userId() == event.peerId && isShown) {
+                if (peerId == event.peerId && isShown) {
                     view?.onShowRecordingVoice()
                 }
             }
@@ -557,8 +556,8 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     }
 
-    private fun isRightItem(peerId: Int) = userId() == peerId ||
-            userId() < 0 && peerId - 1000000000 == -userId()
+    private fun isRightItem(peerId: Int) = peerId == peerId ||
+            peerId < 0 && peerId - 1000000000 == -peerId
 
     fun unsubscribe() {
         longPollDisposable?.dispose()

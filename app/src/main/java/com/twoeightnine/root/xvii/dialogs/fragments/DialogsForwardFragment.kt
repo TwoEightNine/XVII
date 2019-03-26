@@ -31,7 +31,7 @@ class DialogsForwardFragment : DialogsFragment() {
 
         val forwarded = arguments?.getString(ARG_FORWARDED) ?: return
         rootActivity?.onBackPressed()
-        rootActivity?.loadFragment(ChatFragment.newInstance(message, forwarded))
+        rootActivity?.loadFragment(ChatFragment.newInstance(dialog, forwarded))
     }
 
     override fun onLongClick(dialog: Dialog) {}

@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.base
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
@@ -41,16 +42,25 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         stubLoadItem = createStubLoadItem()
+        val stackFromEnd = (recyclerView.layoutManager
+                as? LinearLayoutManager)?.stackFromEnd == true
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy <= 0)
-                    return
+                if (stackFromEnd && dy >= 0
+                        || !stackFromEnd && dy <= 0) return
+
 
                 val total = itemCount
-                val last = lastVisiblePosition(recyclerView.layoutManager)
+                val thresholdPassed = if (stackFromEnd) {
+                    val first = firstVisiblePosition(recyclerView.layoutManager)
+                    first <= THRESHOLD
+                } else {
+                    val last = lastVisiblePosition(recyclerView.layoutManager)
+                    last >= total - THRESHOLD
+                }
                 val rightState = state in arrayListOf(State.INITIAL, State.USUAL)
-                if (rightState && last >= total - THRESHOLD) {
+                if (rightState && thresholdPassed) {
                     startLoading(true)
                     loader.invoke(total)
                 }
