@@ -153,7 +153,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
                 .setCustomContentView(bindRemoteViews(R.layout.view_music_notification, audio))
-                .setCustomBigContentView(bindRemoteViews(R.layout.view_music_notification_extended, audio))
+//                .setCustomBigContentView(bindRemoteViews(R.layout.view_music_notification_extended, audio))
                 .setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)

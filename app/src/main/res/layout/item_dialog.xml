@@ -8,7 +8,7 @@
         android:id="@+id/rlItemContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground">
+        android:background="@drawable/selector_rect">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civPhoto"
