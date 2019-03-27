@@ -64,7 +64,7 @@ class LoginActivity : BaseActivity() {
 
         webView.loadUrl(LOGIN_URL)
         if (!isOnline()) {
-            showCommon(this, R.string.no_internet)
+            showToast(this, R.string.no_internet)
             finish()
             return
         }

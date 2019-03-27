@@ -17,17 +17,14 @@ import android.os.Looper
 import android.provider.MediaStore
 import android.text.Html
 import android.util.DisplayMetrics
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
@@ -65,42 +62,18 @@ fun isOnline(): Boolean {
     return cm.activeNetworkInfo?.isConnectedOrConnecting ?: false
 }
 
-fun showCommon(context: Context?, text: String) {
+fun showToast(context: Context?, message: String, duration: Int = Toast.LENGTH_SHORT) {
     if (context == null) return
 
-    val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
-    val view = toast.view
-    val tvToast = view.findViewById<TextView>(android.R.id.message)
-    tvToast.textSize = 17f
-    tvToast.setPadding(12, 0, 12, 0)
-    tvToast.text = text
-    tvToast.setTextColor(ContextCompat.getColor(context, R.color.toolbar_text))
-    tvToast.gravity = Gravity.CENTER_HORIZONTAL
-    val d = ContextCompat.getDrawable(context, R.drawable.shape_toast)
-    Style.forDrawable(d, Style.MAIN_TAG, false)
-    view.background = d
-
-    toast.show()
+    Toast.makeText(context, message, duration).show()
 }
 
-fun showCommon(context: Context?, @StringRes text: Int) {
-    showCommon(context, context?.getString(text) ?: "")
+fun showToast(context: Context?, @StringRes text: Int, duration: Int = Toast.LENGTH_SHORT) {
+    showToast(context, context?.getString(text) ?: "", duration)
 }
 
-fun showError(context: Context?, text: String) {
-    if (context == null) return
-
-    val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
-    val view = toast.view
-    val tvToast = view.findViewById<TextView>(android.R.id.message)
-    tvToast.textSize = 18f
-    tvToast.setPadding(12, 0, 12, 0)
-    tvToast.text = text
-    tvToast.setTextColor(ContextCompat.getColor(context, android.R.color.white))
-    tvToast.gravity = Gravity.CENTER_HORIZONTAL
-    view.background = ContextCompat.getDrawable(context, R.drawable.shape_toast_red)
-
-    toast.show()
+fun showError(context: Context?, text: String?) {
+    showAlert(context, text)
 }
 
 fun rate(context: Context) {
@@ -119,7 +92,30 @@ fun rate(context: Context) {
 }
 
 fun showError(context: Context?, @StringRes text: Int) {
-    showError(context, context?.getString(text) ?: "")
+    showError(context, context?.getString(text))
+}
+
+fun showAlert(context: Context?, text: String?) {
+    if (context == null) return
+
+    val dialog = AlertDialog.Builder(context)
+            .setMessage(text)
+            .setPositiveButton(android.R.string.ok, null)
+            .create()
+    dialog.show()
+    Style.forDialog(dialog)
+}
+
+fun showConfirm(context: Context?, text: String, callback: (Boolean) -> Unit) {
+    if (context == null) return
+
+    val dialog = AlertDialog.Builder(context)
+            .setMessage(text)
+            .setPositiveButton(android.R.string.ok) { _, _ -> callback.invoke(true) }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> callback.invoke(false) }
+            .create()
+    dialog.show()
+    Style.forDialog(dialog)
 }
 
 fun startNotificationService(context: Context) {
@@ -322,7 +318,7 @@ fun getContextPopup(context: Context, @LayoutRes layout: Int, listener: (View) -
 }
 
 fun restartApp(title: String) {
-    showCommon(App.context, title)
+    showToast(App.context, title)
     Handler().postDelayed({ restartApp() }, 800L)
 }
 

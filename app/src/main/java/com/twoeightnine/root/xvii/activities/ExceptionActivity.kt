@@ -68,7 +68,7 @@ class ExceptionActivity : AppCompatActivity() {
                 .subscribeSmart({ response ->
                     deleteReport(response)
                     if (sendLater.isEmpty()) {
-                        showCommon(this, R.string.report_sent)
+                        showToast(this, R.string.report_sent)
                         Handler().postDelayed({ onBackPressed() }, 200L)
                     } else {
                         sendError(sendLater)

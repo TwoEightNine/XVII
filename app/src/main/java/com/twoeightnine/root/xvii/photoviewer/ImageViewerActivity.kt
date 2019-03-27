@@ -58,7 +58,7 @@ class ImageViewerActivity : AppCompatActivity() {
                     url,
                     fileName,
                     DownloadFileAsyncTask.PIC,
-                    { showCommon(this, getString(R.string.doenloaded, fileName)) }
+                    { showToast(this, getString(R.string.doenloaded, fileName)) }
             )
         }
         btnSaveToAlbum.setOnClickListener {

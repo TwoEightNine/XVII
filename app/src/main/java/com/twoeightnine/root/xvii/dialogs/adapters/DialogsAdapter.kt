@@ -12,7 +12,7 @@ import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.*
-import kotlinx.android.synthetic.main.item_dialog_new.view.*
+import kotlinx.android.synthetic.main.item_dialog.view.*
 
 class DialogsAdapter(
         context: Context,
@@ -24,7 +24,8 @@ class DialogsAdapter(
 
     override fun createStubLoadItem() = Dialog()
 
-    override fun createHolder(parent: ViewGroup, viewType: Int) = DialogViewHolder(inflater.inflate(R.layout.item_dialog_new, null))
+    override fun createHolder(parent: ViewGroup, viewType: Int)
+            = DialogViewHolder(inflater.inflate(R.layout.item_dialog, null))
 
     override fun bind(holder: DialogViewHolder, item: Dialog) {
         holder.bind(item)

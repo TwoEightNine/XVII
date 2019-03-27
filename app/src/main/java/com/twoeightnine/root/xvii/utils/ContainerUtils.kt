@@ -20,11 +20,10 @@ import com.twoeightnine.root.xvii.model.*
 fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
     Picasso.get()
-            .loadRounded(photo.almostMax)
+            .loadRounded(photo.optimalPhoto)
             .resize(pxFromDp(context, 250), pxFromDp(context, 300))
             .centerCrop()
             .into(included.findViewById<ImageView>(R.id.ivInternal))
-//    included.setOnClickListener { apiUtils.showPhoto(context, photo.photoId, photo.accessKey) }
     included.setOnClickListener { onClick.invoke(photo) }
     return included
 }
@@ -62,7 +61,7 @@ fun getGif(doc: Doc, context: Context): View {
 
 fun getDoc(doc: Doc, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_doc, null, false)
-    Style.forViewGroup(included.findViewById<RelativeLayout>(R.id.relativeLayout))
+    Style.forViewGroupColor(included.findViewById<RelativeLayout>(R.id.relativeLayout))
     included.findViewById<TextView>(R.id.tvExt).text = doc.ext?.toUpperCase()
     included.findViewById<TextView>(R.id.tvTitle).text = doc.title
     included.findViewById<TextView>(R.id.tvSize).text = getSize(context, doc.size)

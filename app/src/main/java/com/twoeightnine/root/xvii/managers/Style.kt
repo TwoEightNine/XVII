@@ -171,11 +171,6 @@ object Style {
         val tag = vg.tag
         if (tag == null || tag !is String) return
 
-        //GODDAMN PRE-LOLLIPOP
-//        if (API_20_TAG == tag && !is21Sdk()) {
-//            vg.setBackgroundColor(mainColor)
-//        }
-
         if (API_20_TAG != tag) {
             val d = vg.background
             forDrawable(d, tag, changeStroke)

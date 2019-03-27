@@ -16,7 +16,7 @@ import com.twoeightnine.root.xvii.mvp.view.ChatInfoFragmentView
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.showCommon
+import com.twoeightnine.root.xvii.utils.showToast
 import kotlinx.android.synthetic.main.fragment_chat_info.*
 import javax.inject.Inject
 
@@ -93,10 +93,10 @@ class ChatInfoFragment: BaseOldFragment(), ChatInfoFragmentView {
     }
 
     override fun onChatRenamed(title: String) {
-        showCommon(activity, getString(R.string.chat_title_updated, title))
+        showToast(activity, getString(R.string.chat_title_updated, title))
     }
 
     override fun onUserLeft() {
-        showCommon(activity, R.string.left_chat)
+        showToast(activity, R.string.left_chat)
     }
 }

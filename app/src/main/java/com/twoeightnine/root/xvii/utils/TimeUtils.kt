@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-
 @SuppressLint("SimpleDateFormat")
 fun getTime(ts: Int, full: Boolean = false, onlyTime: Boolean = false, format: String? = null): String {
     val date = Date(ts * 1000L)
@@ -38,7 +37,10 @@ fun secToTime(sec: Int): String {
 
 @SuppressLint("SimpleDateFormat")
 fun formatDate(date: String): String = try {
-    SimpleDateFormat("dd MMM yyyy").format(SimpleDateFormat("dd.MM.yyyy").parse(date))
+    val isTruncated = date.count { it == '.' } == 1
+    val inPattern = if (isTruncated) "dd.MM" else "dd.MM.yyyy"
+    val outPattern = if (isTruncated) "dd MMM" else "dd MMM yyyy"
+    SimpleDateFormat(outPattern).format(SimpleDateFormat(inPattern).parse(date))
 } catch (e: Exception) {
     Lg.wtf("format date: ${e.message}")
     e.printStackTrace()

@@ -97,7 +97,7 @@ class ApiUtils @Inject constructor(val api: ApiService) {
     fun saveToAlbum(context: Context, ownerId: Int, photoId: Int, accessKey: String) {
         api.copyPhoto(ownerId, photoId, accessKey)
                 .subscribeSmart({
-                    showCommon(context, R.string.added_to_saved)
+                    showToast(context, R.string.added_to_saved)
                 }, {
                     showError(context, it)
                 })
@@ -106,7 +106,7 @@ class ApiUtils @Inject constructor(val api: ApiService) {
     fun saveDoc(context: Context, ownerId: Int, docId: Int, accessKey: String) {
         api.addDoc(ownerId, docId, accessKey)
                 .subscribeSmart({
-                    showCommon(context, R.string.added_to_docs)
+                    showToast(context, R.string.added_to_docs)
                 }, {
                     showError(context, it)
                 })

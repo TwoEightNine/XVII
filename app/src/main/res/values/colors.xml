@@ -2,12 +2,7 @@
 <resources>
     <color name="primary">#1c1826</color>
     <color name="primary_dark">@color/primary</color>
-    <!--<color name="primary_light">#CFBEF7</color>-->
-    <!--<color name="primary_light_hard">#BFAEE7</color>-->
-    <!--<color name="accent">#9C27B0</color>-->
     <color name="secondary_text">#656565</color>
-    <!--<color name="icons">#fff</color>-->
-    <!--<color name="divider">#BDBDBD</color>-->
     <color name="link_color">#79f</color>
 
     <color name="background">#0e0c13</color>
@@ -30,5 +25,6 @@
     <color name="splash_color">#0e0c13</color>
     <color name="placeholder">@color/popup</color>
 
-    <color name="error">#d23</color>
+    <color name="error">#85252B</color>
+    <color name="input_panel">@color/toolbar</color>
 </resources>

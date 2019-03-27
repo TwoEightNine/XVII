@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_appearance.*
 
 class AppearanceFragment : BaseOldFragment() {
 
-    private lateinit var imut: ImageUtils
     private lateinit var bottomSheetHelper: BottomSheetHelper
     private lateinit var permissionHelper: PermissionHelper
 
@@ -31,7 +30,6 @@ class AppearanceFragment : BaseOldFragment() {
         currentColor = colorBefore
         initViews()
         applyColors()
-        imut = ImageUtils(safeActivity)
         Style.forImageView(ivPreview, Style.MAIN_TAG)
         Style.forSwitch(switchNight)
         Style.forViewGroupColor(rlHideBottom)

@@ -55,6 +55,7 @@ class GalleryFragment : BaseFragment() {
         with(fabDone) {
             setOnClickListener {
                 selectedSubject.onNext(adapter.multiSelect)
+                adapter.clearMultiSelect()
             }
             Style.forFAB(this)
         }

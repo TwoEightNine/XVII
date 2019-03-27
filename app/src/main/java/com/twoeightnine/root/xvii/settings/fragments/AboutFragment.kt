@@ -95,7 +95,7 @@ class AboutFragment : BaseOldFragment() {
     private fun share() {
         apiUtils.repost(
                 App.SHARE_POST,
-                { showCommon(context, R.string.shared) },
+                { showToast(context, R.string.shared) },
                 { showError(context, it) }
         )
     }

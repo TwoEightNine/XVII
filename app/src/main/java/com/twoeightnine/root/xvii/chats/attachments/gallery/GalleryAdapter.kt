@@ -6,16 +6,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.setVisible
-import kotlinx.android.synthetic.main.item_photo_attachment.view.*
+import kotlinx.android.synthetic.main.item_gallery.view.*
 
 class GalleryAdapter(
         context: Context,
         private val onCameraClick: () -> Unit
 ) : BaseAdapter<String, GalleryAdapter.GalleryViewHolder>(context) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GalleryViewHolder(inflater.inflate(R.layout.item_photo_attachment, null))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GalleryViewHolder(inflater.inflate(R.layout.item_gallery, null))
 
     override fun onBindViewHolder(holder: GalleryViewHolder, position: Int) {
         holder.bind(items[position])
@@ -23,32 +24,33 @@ class GalleryAdapter(
 
     companion object {
         const val CAMERA_STUB = "cameraaa"
-        const val PHOTO_SIZE = 300
+        const val PHOTO_SIZE = 180
     }
 
     inner class GalleryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(item: String) {
             with(itemView) {
-                if (item == CAMERA_STUB) {
-                    ivPhoto.setImageResource(R.drawable.layer_camera)
+                val isCamera = item == CAMERA_STUB
+                ivCamera.setVisible(isCamera)
+                ivThumb.setVisible(!isCamera)
+                if (isCamera) {
+                    Style.forImageView(ivCamera, Style.DARK_TAG)
                 } else {
-                    ivPhoto.load("file://$item") {
+                    ivThumb.load("file://$item") {
                         resize(GalleryAdapter.PHOTO_SIZE, GalleryAdapter.PHOTO_SIZE)
                                 .centerCrop()
                     }
                 }
                 ivCheck.setVisible(item in multiSelect)
-                ivPhoto.setOnClickListener {
-                    when {
-                        item == CAMERA_STUB -> onCameraClick()
-                        multiSelectMode -> {
-                            val i = items[adapterPosition]
-                            multiSelect(i)
-                            ivCheck.setVisible(i in multiSelect)
-                        }
+                ivThumb.setOnClickListener {
+                    if (multiSelectMode) {
+                        val i = items[adapterPosition]
+                        multiSelect(i)
+                        ivCheck.setVisible(i in multiSelect)
                     }
                 }
+                ivCamera.setOnClickListener { onCameraClick() }
             }
         }
     }

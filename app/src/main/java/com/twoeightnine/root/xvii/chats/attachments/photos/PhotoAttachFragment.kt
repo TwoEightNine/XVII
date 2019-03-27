@@ -34,6 +34,7 @@ class PhotoAttachFragment : BaseAttachFragment<Photo>() {
         with(fabDone) {
             setOnClickListener {
                 selectedSubject.onNext(adapter.multiSelect.map { Attachment(it) })
+                adapter.clearMultiSelect()
             }
             Style.forFAB(this)
         }

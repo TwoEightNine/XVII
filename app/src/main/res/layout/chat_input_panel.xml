@@ -3,51 +3,52 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="100"
-    android:background="@color/background"
+    android:background="@color/input_panel"
+    android:elevation="12dp"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:clickable="true"
-        android:tag="api20"
         android:id="@+id/rlBack"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:tag="api20">
 
         <FrameLayout
-            android:layout_centerVertical="true"
             android:id="@+id/flSendContainer"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="6dp">
 
             <ImageView
-                android:visibility="gone"
-                android:tag="dark"
                 android:id="@+id/ivSend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_send" />
+                android:src="@drawable/ic_send"
+                android:tag="dark"
+                android:visibility="gone" />
 
             <ImageView
-                android:tag="dark"
                 android:id="@+id/ivMic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_mic_small" />
+                android:src="@drawable/ic_mic_small"
+                android:tag="dark" />
 
         </FrameLayout>
 
         <RelativeLayout
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            android:layout_centerVertical="true"
             android:id="@+id/rlAttachContainer"
             android:layout_width="28dp"
-            android:layout_height="28dp">
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp">
 
             <ProgressBar
                 android:id="@+id/pbAttach"
@@ -55,69 +56,69 @@
                 android:layout_height="28dp" />
 
             <ImageView
-                android:tag="dark"
-                android:src="@drawable/ic_attach"
                 android:id="@+id/ivAttach"
                 android:layout_width="28dp"
-                android:layout_height="28dp" />
+                android:layout_height="28dp"
+                android:src="@drawable/ic_attach"
+                android:tag="dark" />
 
             <RelativeLayout
                 android:id="@+id/rlAttachCount"
-                android:background="@drawable/shape_circle_attached"
-                android:layout_alignParentRight="true"
                 android:layout_width="14dp"
-                android:layout_height="14dp">
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shape_circle_attached">
 
                 <TextView
                     android:id="@+id/tvAttachCount"
-                    android:maxLength="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:textSize="8sp"
-                    android:textStyle="bold"
+                    android:maxLength="1"
                     android:text="3"
                     android:textColor="@color/toolbar_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:minHeight="44dp"
-            android:layout_margin="6dp"
-            android:layout_toRightOf="@+id/rlAttachContainer"
             android:id="@+id/rlInputContainer"
-            android:background="@drawable/shape_frame_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/flSendContainer">
+            android:layout_margin="6dp"
+            android:layout_toLeftOf="@+id/flSendContainer"
+            android:layout_toRightOf="@+id/rlAttachContainer"
+            android:background="@drawable/shape_frame_input"
+            android:minHeight="44dp">
 
             <ImageView
-                android:tag="dark"
                 android:id="@+id/ivEmoji"
-                android:layout_margin="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_margin="4dp"
                 android:src="@drawable/ic_emoji_fun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:tag="dark" />
 
             <com.twoeightnine.root.xvii.views.emoji.EmojiEditText
-                android:layout_toLeftOf="@+id/ivEmoji"
-                android:tag="api20"
-                android:inputType="textCapSentences|textMultiLine"
-                android:textColor="@color/main_text"
-                android:textColorHint="@color/other_text"
-                android:hint="@string/write_message"
-                android:textSize="16sp"
-                android:maxLines="4"
-                android:background="@android:color/transparent"
                 android:id="@+id/etInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/ivEmoji"
+                android:background="@android:color/transparent"
+                android:hint="@string/write_message"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="4"
+                android:tag="api20"
+                android:textColor="@color/main_text"
+                android:textColorHint="@color/other_text"
+                android:textSize="16sp" />
 
         </RelativeLayout>
 

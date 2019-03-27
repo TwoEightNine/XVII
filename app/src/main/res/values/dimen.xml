@@ -18,7 +18,7 @@
     <dimen name="tabs_height">38dp</dimen>
     <dimen name="image_corners_radius">12dp</dimen>
     <dimen name="sticker_height">50dp</dimen>
-    <dimen name="emoji_size">22sp</dimen>
+    <dimen name="emoji_size">19sp</dimen>
     <dimen name="loader_size">15dp</dimen>
     <dimen name="typing_dot_size">7dp</dimen>
     <dimen name="arc_width">450dp</dimen>

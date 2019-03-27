@@ -82,7 +82,7 @@ class PinActivity : BaseActivity() {
             }
 
             ACTION_CONFIRM -> if (pin == confirmedPin) {
-                showCommon(this, R.string.updated_succ)
+                showToast(this, R.string.updated_succ)
                 Prefs.pin = sha256("$pin$SALT")
                 Session.pinLastPromptResult = time()
                 finish()
@@ -115,7 +115,7 @@ class PinActivity : BaseActivity() {
 
             ACTION_RESET -> {
                 Prefs.pin = ""
-                showCommon(this, R.string.reset_succ)
+                showToast(this, R.string.reset_succ)
                 finish()
             }
 

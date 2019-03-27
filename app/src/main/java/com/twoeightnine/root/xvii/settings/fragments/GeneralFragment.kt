@@ -7,7 +7,7 @@ import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.CacheHelper
-import com.twoeightnine.root.xvii.utils.showCommon
+import com.twoeightnine.root.xvii.utils.showToast
 import kotlinx.android.synthetic.main.fragment_general.*
 
 /**
@@ -24,7 +24,7 @@ class GeneralFragment : BaseOldFragment() {
                 deleteAllGroupsAsync()
                 deleteAllMessagesAsync()
             }
-            showCommon(activity, R.string.cache_cleared)
+            showToast(activity, R.string.cache_cleared)
         }
         Style.forAll(llContainer)
     }

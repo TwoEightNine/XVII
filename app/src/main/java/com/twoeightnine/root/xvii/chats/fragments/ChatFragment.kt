@@ -294,7 +294,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             R.id.menu_encrypt -> {
                 item.isChecked = !item.isChecked
                 presenter.isEncrypted = item.isChecked
-                showCommon(activity, if (item.isChecked) R.string.enc_on else R.string.enc_off)
+                showToast(activity, if (item.isChecked) R.string.enc_on else R.string.enc_off)
                 true
             }
             R.id.menu_keys -> {
@@ -332,7 +332,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 R.id.llUserKey -> showKeyInputDialog()
                 R.id.llDefaultKey -> {
                     presenter.setDefaultKey()
-                    showCommon(activity, R.string.key_reset)
+                    showToast(activity, R.string.key_reset)
                 }
             }
         }.show()
@@ -346,7 +346,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             presenter.setUserKey(it)
             presenter.isEncrypted = true
             safeActivity.invalidateOptionsMenu()
-            showCommon(activity, getString(R.string.key_set))
+            showToast(activity, getString(R.string.key_set))
         }
         ).show()
     }
@@ -558,7 +558,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     override fun onKeysExchanged() {
         presenter.isEncrypted = true
         safeActivity.invalidateOptionsMenu()
-        showCommon(activity, R.string.key_exchanged)
+        showToast(activity, R.string.key_exchanged)
     }
 
     override fun onKeyExchangeFailed() {

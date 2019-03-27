@@ -192,6 +192,7 @@
     <string name="invalid_user_id">Invalid user ID</string>
     <string name="details">Details</string>
     <string name="report_hint">It will help us to solve the problem faster</string>
+    <string name="app_will_be_restarted">App will be restarted. Continue?</string>
 
     <string name="no_access_to_mic">No access to the mic</string>
     <string name="no_access_to_storage">No access to the storage</string>

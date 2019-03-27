@@ -12,7 +12,7 @@ import com.twoeightnine.root.xvii.mvp.presenter.SearchMessagesFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.SearchMessagesFragmentView
 import com.twoeightnine.root.xvii.searchmessages.adapters.SearchMessagesAdapter
 import com.twoeightnine.root.xvii.utils.hideKeyboard
-import com.twoeightnine.root.xvii.utils.showCommon
+import com.twoeightnine.root.xvii.utils.showToast
 import kotlinx.android.synthetic.main.fragment_dialogs.*
 import javax.inject.Inject
 
@@ -129,6 +129,6 @@ class SearchMessagesFragment: BaseOldFragment(), SearchMessagesFragmentView {
 
     override fun showError(error: String) {
         adapter.setErrorLoading()
-        showCommon(activity, error)
+        showToast(activity, error)
     }
 }

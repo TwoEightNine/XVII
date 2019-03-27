@@ -112,7 +112,7 @@ class ProfileFragment : BaseFragment() {
 
     private fun copy(text: String?, title: Int) {
         copyToClip(text ?: return)
-        showCommon(activity, getString(R.string.copied, getString(title)))
+        showToast(activity, getString(R.string.copied, getString(title)))
     }
 
     private fun goTo(url: String?) {
