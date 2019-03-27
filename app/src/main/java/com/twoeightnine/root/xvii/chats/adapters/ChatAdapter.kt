@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.item_message_wtf.view.*
 class ChatAdapter(context: Context,
                   loader: (Int) -> Unit,
                   private val callback: ChatAdapterCallback,
-                  private val isImportant: Boolean = false
+                  private val settings: ChatAdapterSettings
 ) : PaginationAdapter<Message>(context, loader) {
 
     var isAtEnd: Boolean = false
@@ -101,7 +101,7 @@ class ChatAdapter(context: Context,
         return when {
             superType != NOSTUB -> superType
             message.isOut -> OUT
-            message.chatId != 0 || isImportant -> IN_CHAT
+            message.chatId != 0 || settings.isImportant -> IN_CHAT
             else -> IN_USER
         }
     }
@@ -281,6 +281,10 @@ class ChatAdapter(context: Context,
         fun onPhotoClicked(photo: Photo)
         fun onVideoClicked(video: Video)
     }
+
+    data class ChatAdapterSettings(
+            val isImportant: Boolean
+    )
 
     companion object {
 

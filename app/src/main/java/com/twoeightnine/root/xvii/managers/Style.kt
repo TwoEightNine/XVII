@@ -24,6 +24,8 @@ import com.twoeightnine.root.xvii.utils.pxFromDp
 object Style {
     private var STROKE = 3
 
+    const val PHOTO_STUB_URL = "https://dummyimage.com/200x200/%s/%s.png"
+
     const val MAIN_TAG = "main"
     const val LIGHT_TAG = "light"
     const val DARK_TAG = "dark"
@@ -31,6 +33,7 @@ object Style {
 
     private var isDay: Boolean = false
 
+    private var defaultColor: Int = 0
     private var darkColor: Int = 0
     private var mainColor: Int = 0
     private var lightColor: Int = 0
@@ -43,6 +46,7 @@ object Style {
         darkColor = other[0]
         lightColor = other[2]
         extraLightColor = other[3]
+        defaultColor = ContextCompat.getColor(context, R.color.avatar)
         isDay = !Prefs.isNight
     }
 
@@ -61,6 +65,12 @@ object Style {
         result[3] = getOtherColor(mainColor, extraLight)
 
         return result
+    }
+
+    fun getPhotoStub(): String {
+        val color = if (Prefs.isNight) mainColor else defaultColor
+        val colorHex = String.format("%X", color).substring(2)
+        return String.format(PHOTO_STUB_URL, colorHex, colorHex)
     }
 
     private fun getOtherColor(color: Int, coeff: Int): Int {

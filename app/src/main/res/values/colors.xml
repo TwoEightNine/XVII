@@ -27,4 +27,5 @@
 
     <color name="error">#85252B</color>
     <color name="input_panel">@color/toolbar</color>
+    <color name="avatar">#341B4B</color>
 </resources>

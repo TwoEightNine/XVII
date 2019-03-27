@@ -7,6 +7,7 @@ import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.Error
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
@@ -73,7 +74,11 @@ fun View.hide() = setVisible(false)
 
 fun ImageView.load(url: String?, placeholder: Boolean = true,
                    block: RequestCreator.() -> RequestCreator = { this }) {
-    val rc = Picasso.get().load(url)
+    val rc = Picasso.get().load(if (url.isNullOrEmpty()) {
+        Style.getPhotoStub()
+    } else {
+        url
+    })
     if (placeholder) {
         rc.placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
@@ -90,7 +95,11 @@ fun ImageView.loadRounded(url: String?) {
 
 fun Picasso.loadRounded(url: String?): RequestCreator {
     return this
-            .load(url)
+            .load(if (url.isNullOrEmpty()) {
+                Style.getPhotoStub()
+            } else {
+                url
+            })
             .transform(RoundedTransformation())
             .placeholder(R.drawable.placeholder_rounded)
             .error(R.drawable.placeholder_rounded)

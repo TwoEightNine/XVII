@@ -45,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:maxLines="2"
-                        android:textColor="@color/other_text"
+                        android:textColor="@color/main_text"
                         android:textSize="13sp"
                         tools:text="Misdsdsdta Sisdsdsdnista" />
 
@@ -58,7 +58,6 @@
                         android:textColor="@color/other_text"
                         android:textSize="10sp"
                         tools:text="26.01.2016 12.34" />
-
 
                 </LinearLayout>
 

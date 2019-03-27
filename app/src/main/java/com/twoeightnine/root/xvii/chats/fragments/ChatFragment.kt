@@ -166,7 +166,9 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     fun initAdapter() {
-        adapter = ChatAdapter(safeActivity, ::loadMore, AdapterCallback())
+        adapter = ChatAdapter(safeActivity, ::loadMore, AdapterCallback(), ChatAdapter.ChatAdapterSettings(
+                isImportant = false
+        ))
         adapter.trier = { loadMore(adapter.itemCount) }
         adapter.multiListener = rlMultiAction::setVisible
         val llm = LinearLayoutManager(activity)

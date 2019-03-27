@@ -6,7 +6,6 @@ import android.text.SpannableStringBuilder
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
@@ -35,7 +34,7 @@ class DialogsAdapter(
 
         fun bind(dialog: Dialog) {
             with(itemView) {
-                civPhoto.load(dialog.photo ?: App.PHOTO_STUB)
+                civPhoto.load(dialog.photo)
 
                 tvTitle.text = dialog.title
                 tvBody.text = if (EmojiHelper.hasEmojis(dialog.text)) {

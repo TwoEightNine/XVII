@@ -43,12 +43,14 @@ class ImportantFragment : BaseOldFragment(), ImportantFragmentView {
     }
 
     fun initAdapter() {
-        rvImportant.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        rvImportant.layoutManager = LinearLayoutManager(activity)
         adapter = ChatAdapter(
                 safeActivity,
                 { presenter.loadHistory(it) },
                 AdapterCallback(),
-                true
+                ChatAdapter.ChatAdapterSettings(
+                        isImportant = true
+                )
         )
         val llm = LinearLayoutManager(activity)
         llm.stackFromEnd = true

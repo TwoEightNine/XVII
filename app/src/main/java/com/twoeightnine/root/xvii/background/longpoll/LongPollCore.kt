@@ -292,7 +292,7 @@ class LongPollCore(private val context: Context) {
      */
     private fun resolveSenderByPeerId(
             peerId: Int,
-            onSuccess: (String, String) -> Unit,
+            onSuccess: (String, String?) -> Unit,
             onFail: () -> Unit
     ) {
         if (peerId < 0) {
@@ -314,7 +314,7 @@ class LongPollCore(private val context: Context) {
                             onFail()
                             return@subscribeSmart
                         }
-                        onSuccess(user.fullName, user.photo100 ?: App.PHOTO_STUB)
+                        onSuccess(user.fullName, user.photo100)
                     }, {
                         lw("resolving user error: $it")
                         onFail()
