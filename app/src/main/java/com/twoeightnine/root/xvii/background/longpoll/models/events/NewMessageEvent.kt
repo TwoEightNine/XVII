@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.background.longpoll.models.events
 import android.content.Context
 import com.google.gson.internal.LinkedTreeMap
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.utils.matchesUserId
 
 data class NewMessageEvent(
         val id: Int,
@@ -29,7 +30,7 @@ data class NewMessageEvent(
 
     fun hasMedia() = info.attachmentsCount > 0 || info.getForwardedCount() > 0
 
-    fun isUser() = peerId in 0..2000000000
+    fun isUser() = peerId.matchesUserId()
 
     fun hasEmoji() = info.emoji
 

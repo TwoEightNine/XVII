@@ -97,7 +97,7 @@ class CryptoUtil(
      * @param cid peerId of chat
      */
     private fun getDefaultKey(uid: Int, cid: Int): String {
-        if (cid < 0 || cid > 2000000000) {
+        if (!cid.matchesUserId()) {
             return "$cid"
         }
         return "${Math.min(uid, cid)}${Math.max(uid, cid)}"

@@ -6,7 +6,7 @@
     <color name="link_color">#79f</color>
 
     <color name="background">#0e0c13</color>
-    <color name="popup">#231e2f</color>
+    <color name="popup">#1c1826</color>
     <color name="toolbar">#15121c</color>
     <color name="icons">#fff</color>
     <color name="online">#fff</color>
@@ -23,7 +23,7 @@
     <color name="toolbar_subtext">@color/other_text</color>
 
     <color name="splash_color">#0e0c13</color>
-    <color name="placeholder">@color/popup</color>
+    <color name="placeholder">#231e2f</color>
 
     <color name="error">#85252B</color>
     <color name="input_panel">@color/toolbar</color>

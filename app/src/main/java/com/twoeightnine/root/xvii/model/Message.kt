@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.model
 
 import android.content.Context
-import android.database.Cursor
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.Gson
@@ -71,18 +70,6 @@ class Message : Parcelable, Serializable {
             chatActive = ArrayList<Int>()
         }
         p.readList(chatActive, null)
-    }
-
-    constructor(cursor: Cursor) {
-        id = 1337
-        title = cursor.getString(3)
-        photo = cursor.getString(1)
-        val cid = cursor.getInt(2)
-        if (cid > 2000000000) {
-            chatId = cid - 2000000000
-        } else {
-            userId = cid
-        }
     }
 
     constructor(messageDb: MessageDb) {

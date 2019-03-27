@@ -365,13 +365,6 @@ fun getRestartIntent(context: Context): Intent {
             + ". Does an activity specify the DEFAULT category in its intent filter?")
 }
 
-fun getPollFrom(userId: Int, chatId: Int) =
-        when {
-            chatId != 0 -> 2000000000 + chatId
-            userId < 0 -> 1000000000 - userId //group is negative - (-..) == +
-            else -> userId
-        }
-
 fun getRelation(context: Context?, relation: Int?): String {
     context ?: return ""
     val relations = context.resources.getStringArray(R.array.relations)

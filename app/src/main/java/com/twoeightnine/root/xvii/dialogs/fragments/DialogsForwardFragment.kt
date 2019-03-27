@@ -6,7 +6,6 @@ import android.view.MenuInflater
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.model.Message
 
 class DialogsForwardFragment : DialogsFragment() {
 
@@ -21,14 +20,6 @@ class DialogsForwardFragment : DialogsFragment() {
     }
 
     override fun onClick(dialog: Dialog) {
-        val message = Message(
-                0, 0, dialog.peerId, 0, 0, dialog.title, ""
-        )
-        if (dialog.peerId > 2000000000) {
-            message.chatId = dialog.peerId - 2000000000
-        }
-        message.online = if (dialog.isOnline) 1 else 0
-
         val forwarded = arguments?.getString(ARG_FORWARDED) ?: return
         rootActivity?.onBackPressed()
         rootActivity?.loadFragment(ChatFragment.newInstance(dialog, forwarded))

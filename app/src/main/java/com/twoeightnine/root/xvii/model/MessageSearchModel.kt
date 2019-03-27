@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.twoeightnine.root.xvii.utils.asChatPeerId
 
 class MessageSearchModel {
 
@@ -35,7 +36,7 @@ class MessageSearchModel {
                 }
 
                 CHAT -> {
-                    mess.userId = 2000000000 + id
+                    mess.userId = id.asChatPeerId()
                     mess.chatId = id
                     mess.title = title
                 }

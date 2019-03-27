@@ -156,7 +156,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             imut = ImageUtils(rootActivity)
             toolbar?.setOnClickListener {
                 hideKeyboard(safeActivity)
-                if (peerId in 0..2000000000) {
+                if (peerId.matchesUserId()) {
                     rootActivity.loadFragment(ProfileFragment.newInstance(peerId))
                 }
             }
@@ -281,7 +281,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         super.onCreateOptionsMenu(menu, inflater)
         menu?.clear()
         inflater?.inflate(R.menu.menu_chat, menu)
-        menu?.findItem(R.id.menu_fingerprint)?.isVisible = peerId in 0..2000000000
+        menu?.findItem(R.id.menu_fingerprint)?.isVisible = peerId.matchesUserId()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
@@ -321,7 +321,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         getContextPopup(safeActivity, R.layout.popup_keys) {
             when (it.id) {
                 R.id.llRandomKey -> {
-                    if (peerId in 0..2000000000) {
+                    if (peerId.matchesUserId()) {
                         presenter.isEncrypted = false
                         safeActivity.invalidateOptionsMenu()
                         keyGenerationHint()
@@ -485,12 +485,10 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     override fun onChangeOnline(isOnline: Boolean) {
-        if (peerId > 2000000000) {
-            lastOnline = getString(R.string.conversation)
-        } else if (peerId < 0) {
-            lastOnline = getString(R.string.community)
-        } else {
-            lastOnline = if (isOnline) getString(R.string.online) else getString(R.string.offline)
+        lastOnline = when {
+            peerId.matchesChatId() -> getString(R.string.conversation)
+            peerId.matchesGroupId() -> getString(R.string.community)
+            else -> if (isOnline) getString(R.string.online) else getString(R.string.offline)
         }
         rootActivity.supportActionBar?.subtitle = lastOnline
     }

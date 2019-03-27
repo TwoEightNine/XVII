@@ -173,7 +173,7 @@ class LongPollCore(private val context: Context) {
                 showNotification(content, timeStamp, event.peerId, event.id, dialog.title)
             }
         }, {
-            if (event.peerId > 2000000000) {
+            if (event.peerId.matchesChatId()) {
                 // chats are shown as is
                 showNotification(content, timeStamp, event.peerId, event.id, event.title)
             } else {

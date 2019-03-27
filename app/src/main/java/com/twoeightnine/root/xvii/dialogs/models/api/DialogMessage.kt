@@ -2,6 +2,8 @@ package com.twoeightnine.root.xvii.dialogs.models.api
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.twoeightnine.root.xvii.utils.matchesChatId
+import com.twoeightnine.root.xvii.utils.matchesGroupId
 
 data class DialogMessage(
 
@@ -13,7 +15,7 @@ data class DialogMessage(
         @Expose
         val lastMessage: Message2
 ) {
-    fun isChat() = lastMessage.peerId > 2000000000
+    fun isChat() = lastMessage.peerId.matchesChatId()
 
-    fun isGroup() = lastMessage.peerId < 0
+    fun isGroup() = lastMessage.peerId.matchesGroupId()
 }

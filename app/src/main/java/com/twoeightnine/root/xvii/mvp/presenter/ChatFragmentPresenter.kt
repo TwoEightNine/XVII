@@ -142,10 +142,10 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         }
         message = if (isEncrypted && message.isNotEmpty()) crypto.encrypt(message) else message
         val flowable: Flowable<BaseResponse<Int>>
-        if (peerId > 2000000000) {
+        if (peerId.matchesChatId()) {
             flowable = api
                     .sendChat(
-                            peerId - 2000000000,
+                            peerId.asChatId(),
                             message,
                             attachUtils.forwarded,
                             attachUtils.asString(),
@@ -203,10 +203,10 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun sendSticker(sticker: Attachment.Sticker) {
         val flowable: Flowable<BaseResponse<Int>>
-        if (peerId > 2000000000) {
+        if (peerId.matchesChatId()) {
             flowable = api
                     .sendChat(
-                            peerId - 2000000000,
+                            peerId.asChatId(),
                             "",
                             null, null, sticker.id, null, null
                     )

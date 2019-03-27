@@ -13,10 +13,22 @@ import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 
+const val CHAT_ID_START = 2000000000
+
 fun String.matchesXviiKey() = length > CryptoUtil.PREFIX.length + CryptoUtil.POSTFIX.length &&
         this.substring(0, CryptoUtil.PREFIX.length) == CryptoUtil.PREFIX &&
         this.substring(length - CryptoUtil.POSTFIX.length) == CryptoUtil.POSTFIX
 
+
+fun Int.matchesUserId() = this in 0..CHAT_ID_START
+
+fun Int.matchesGroupId() = this < 0
+
+fun Int.matchesChatId() = this > CHAT_ID_START
+
+fun Int.asChatId() = this - CHAT_ID_START
+
+fun Int.asChatPeerId() = this + CHAT_ID_START
 
 fun <T> Flowable<BaseResponse<T>>.subscribeSmart(response: (T) -> Unit,
                                                  error: (String) -> Unit,
