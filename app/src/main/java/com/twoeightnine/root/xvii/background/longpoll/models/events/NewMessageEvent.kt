@@ -77,7 +77,7 @@ data class NewMessageEvent(
                 }
                 return MessageInfo(
                         title = (data[TITLE] as? String) ?: "",
-                        from = (data[FROM] as? Int) ?: 0,
+                        from = (data[FROM] as? String)?.toInt() ?: 0,
                         emoji = (data[EMOJI] as? String) == "1",
                         forwarded = (data[FWD] as? String) ?: "",
                         attachmentsCount = attachmentsCount,

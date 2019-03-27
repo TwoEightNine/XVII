@@ -160,10 +160,13 @@ class ChatAdapter(context: Context,
                 llMessageContainer.removeAllViews()
 
                 if (!message.attachments.isNullOrEmpty()) {
-                    llMessage.layoutParams.width = if (message.attachments?.get(0)?.type == Attachment.TYPE_STICKER) {
-                        pxFromDp(context, 180)
-                    } else {
-                        MEDIA_WIDTH
+                    llMessage.layoutParams.width = when {
+                        message.attachments?.get(0)?.type == Attachment.TYPE_STICKER ->
+                            pxFromDp(context, 180)
+//                        message.attachments?.size ?: 0 == 1
+//                                && message.attachments?.get(0)?.type == Attachment.TYPE_PHOTO ->
+//                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        else -> MEDIA_WIDTH
                     }
                     message.attachments?.forEach { attachment ->
                         when (attachment.type) {

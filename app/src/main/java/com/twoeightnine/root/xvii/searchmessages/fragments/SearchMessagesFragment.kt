@@ -20,14 +20,6 @@ class SearchMessagesFragment: BaseOldFragment(), SearchMessagesFragmentView {
 
     var timer: CountDownTimer? = null
 
-//    companion object {
-//        fun newInstance(isForwarded: Boolean = false): DialogsFragment {
-//            val frag = DialogsFragment()
-//            frag.isForwarded = isForwarded
-//            return frag
-//        }
-//    }
-
     override fun getLayout() = R.layout.fragment_dialogs
 
     @Inject

@@ -190,7 +190,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         pagerAdapter.add(VideoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.videos))
         pagerAdapter.add(DocAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.docs))
         vpAttach.adapter = pagerAdapter
-//        vpAttach.offscreenPageLimit = 5
+        vpAttach.offscreenPageLimit = 5
         tabsBottom.setupWithViewPager(vpAttach, true)
         vpAttach.currentItem = 1 // gallery
     }
@@ -623,7 +623,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             fragment.arguments = Bundle().apply {
                 putInt(ARG_PEER_ID, getPeerId(message.userId, message.chatId))
                 putString(ARG_TITLE, message.title)
-                putBoolean(ARG_IS_ONLINE, message.online == 1)
+                putBoolean(ARG_IS_ONLINE, false)
                 if (forwarded.isNotEmpty()) {
                     putString(ARG_FORWARDED, forwarded)
                 }

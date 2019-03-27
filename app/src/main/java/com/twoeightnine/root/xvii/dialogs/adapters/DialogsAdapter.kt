@@ -23,8 +23,7 @@ class DialogsAdapter(
 
     override fun createStubLoadItem() = Dialog()
 
-    override fun createHolder(parent: ViewGroup, viewType: Int)
-            = DialogViewHolder(inflater.inflate(R.layout.item_dialog, null))
+    override fun createHolder(parent: ViewGroup, viewType: Int) = DialogViewHolder(inflater.inflate(R.layout.item_dialog, null))
 
     override fun bind(holder: DialogViewHolder, item: Dialog) {
         holder.bind(item)
@@ -65,7 +64,7 @@ class DialogsAdapter(
                 }
 
                 Style.forImageView(ivOnlineDot, Style.MAIN_TAG)
-                Style.forImageView(ivUnreadDotOut, Style.MAIN_TAG)
+                Style.forImageView(ivUnreadDotOut, Style.MAIN_TAG, false)
                 Style.forImageView(ivMute, Style.DARK_TAG)
                 Style.forViewGroup(rlUnreadCount)
                 rlItemContainer.setOnClickListener { onClick(items[adapterPosition]) }

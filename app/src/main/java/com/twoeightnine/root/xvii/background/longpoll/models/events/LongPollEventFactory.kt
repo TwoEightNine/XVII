@@ -1,6 +1,7 @@
 package com.twoeightnine.root.xvii.background.longpoll.models.events
 
 import com.google.gson.internal.LinkedTreeMap
+import com.twoeightnine.root.xvii.utils.asChatPeerId
 
 object LongPollEventFactory {
 
@@ -20,6 +21,7 @@ object LongPollEventFactory {
             BaseLongPollEvent.TYPE_ONLINE -> OnlineEvent(-update.asInt(1), update.asInt(3))
             BaseLongPollEvent.TYPE_OFFLINE -> OfflineEvent(-update.asInt(1), update.asInt(3))
             BaseLongPollEvent.TYPE_TYPING -> TypingEvent(update.asInt(1))
+            BaseLongPollEvent.TYPE_TYPING_CHAT -> TypingChatEvent(update.asInt(2).asChatPeerId())
             BaseLongPollEvent.TYPE_RECORDING_AUDIO -> RecordingAudioEvent(update.asInt(1))
             BaseLongPollEvent.TYPE_COUNT -> UnreadCountEvent(update.asInt(1))
             else -> null

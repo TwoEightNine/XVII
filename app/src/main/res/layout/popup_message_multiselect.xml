@@ -13,7 +13,8 @@
         android:layout_height="wrap_content">
 
         <TextView
-            style="@style/TextViewStyle.Medium.Gray"
+            android:textColor="@color/main_text"
+            android:textSize="16sp"
             android:text="@string/delete"
             android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
@@ -28,7 +29,8 @@
         android:layout_height="wrap_content">
 
         <TextView
-            style="@style/TextViewStyle.Medium.Gray"
+            android:textColor="@color/main_text"
+            android:textSize="16sp"
             android:text="@string/decrypt"
             android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
@@ -43,7 +45,8 @@
         android:layout_height="wrap_content">
 
         <TextView
-            style="@style/TextViewStyle.Medium.Gray"
+            android:textColor="@color/main_text"
+            android:textSize="16sp"
             android:text="@string/markAsImportant"
             android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"

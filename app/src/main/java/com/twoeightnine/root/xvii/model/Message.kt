@@ -1,6 +1,5 @@
 package com.twoeightnine.root.xvii.model
 
-import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.Gson
@@ -12,8 +11,6 @@ import java.util.*
 
 class Message : Parcelable, Serializable {
 
-    @SerializedName("peer_id")
-    val peerId: Int = 0
     @SerializedName("id")
     var id: Int = 0
     @SerializedName("date")
@@ -32,13 +29,12 @@ class Message : Parcelable, Serializable {
     var fwdMessages: ArrayList<Message>? = null
     @SerializedName("attachments")
     var attachments: ArrayList<Attachment>? = null
-    var online: Int = 0
+    @SerializedName("action")
     val action: String? = null
     @SerializedName("action_mid")
     val actionMid: String? = null
     @SerializedName("action_text")
     val actionText: String? = null
-    private var important: Int = 0
     @SerializedName("emoji")
     var emoji: Int = 0
 
@@ -46,12 +42,8 @@ class Message : Parcelable, Serializable {
     var chatId: Int = 0
     @SerializedName("photo_100")
     var photo: String? = null
-    private val photoRes: Int? = null
     @SerializedName("chat_active")
     var chatActive: ArrayList<Int>? = null
-
-    var unread: Int = 0
-    var isMute: Boolean = false
 
     constructor()
 
@@ -65,11 +57,6 @@ class Message : Parcelable, Serializable {
         body = p.readString()
         chatId = p.readInt()
         photo = p.readString()
-        online = p.readInt()
-        if (chatActive == null) {
-            chatActive = ArrayList<Int>()
-        }
-        p.readList(chatActive, null)
     }
 
     constructor(messageDb: MessageDb) {
@@ -135,9 +122,6 @@ class Message : Parcelable, Serializable {
         parcel.writeString(body)
         parcel.writeInt(chatId)
         parcel.writeString(photo)
-        parcel.writeInt(online)
-        parcel.writeList(chatActive)
-
     }
 
     val isOut: Boolean
@@ -152,8 +136,6 @@ class Message : Parcelable, Serializable {
 
     val isImportant: Boolean
         get() = false
-
-    fun getResolvedMessage(context: Context?) = body //TODO
 
     override fun toString() = "[id: $id, userId: $userId, chatId: $chatId, title: $title, photo: $photo, body: $body, readState: $readState, out: $out]"
 

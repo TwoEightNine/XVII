@@ -8,6 +8,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
+import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.load
 import kotlinx.android.synthetic.main.item_dialog_search.view.*
 
@@ -36,17 +37,9 @@ class SearchMessagesAdapter(context: Context,
 
         fun bind(message: Message) {
             with(itemView) {
-                val photo = message.photo
-                        ?: "http://www.iconsdb.com/icons/preview/light-gray/square-xxl.png"
-                civPhoto.load(photo)
+                civPhoto.load(message.photo)
                 tvTitle.text = message.title
-
-                if (message.online == 1) {
-                    ivOnlineDot.visibility = View.VISIBLE
-                } else {
-                    ivOnlineDot.visibility = View.GONE
-                }
-
+                ivOnlineDot.hide()
                 Style.forImageView(ivOnlineDot, Style.MAIN_TAG)
                 rlItemContainer.setOnClickListener { listener.invoke(adapterPosition) }
                 rlItemContainer.setOnLongClickListener { longListener.invoke(adapterPosition) }

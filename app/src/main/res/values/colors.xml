@@ -17,7 +17,7 @@
     <color name="accent">#fff</color>
     <color name="shape">#1c1826</color>
     <color name="selected_mess">#662a2438</color>
-    <color name="black_transparent">#880a090e</color>
+    <color name="black_transparent">#a00a090e</color>
 
     <color name="toolbar_text">@color/main_text</color>
     <color name="toolbar_subtext">@color/other_text</color>

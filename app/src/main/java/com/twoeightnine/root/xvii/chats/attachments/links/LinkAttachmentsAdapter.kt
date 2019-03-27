@@ -2,10 +2,10 @@ package com.twoeightnine.root.xvii.chats.attachments.links
 
 import android.content.Context
 import android.view.View
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.Link
+import com.twoeightnine.root.xvii.utils.load
 import kotlinx.android.synthetic.main.item_attachments_link.view.*
 
 class LinkAttachmentsAdapter(
@@ -27,13 +27,7 @@ class LinkAttachmentsAdapter(
             with(itemView) {
                 tvTitle.text = item.title
                 tvCaption.text = item.caption
-                if (item.photo != null) {
-                    Picasso.get()
-                            .load(item.photo.optimalPhoto)
-                            .into(ivPhoto)
-                } else {
-                    ivPhoto.setImageDrawable(null)
-                }
+                ivPhoto.load(item.photo?.smallPhoto)
                 setOnClickListener { onClick(items[adapterPosition]) }
             }
         }

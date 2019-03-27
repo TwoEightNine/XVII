@@ -44,14 +44,6 @@ interface ApiService {
     @GET("messages.markAsRead")
     fun markAsRead(@Query("message_ids") messageIds: String): Flowable<BaseResponse<Int>>
 
-    @GET("messages.deleteDialog")
-    fun deleteDialogUser(@Query("user_id") userId: Int,
-                         @Query("count") count: Int): Flowable<BaseResponse<Int>>
-
-    @GET("messages.deleteDialog")
-    fun deleteDialogChat(@Query("chat_id") chatId: Int,
-                         @Query("count") count: Int): Flowable<BaseResponse<Int>>
-
     @GET("messages.delete")
     fun deleteMessages(@Query("message_ids") messageIds: String,
                        @Query("delete_for_all") deleteForAll: Int): Flowable<BaseResponse<JSONObject>>

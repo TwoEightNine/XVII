@@ -7,12 +7,12 @@
 
     <ImageView
         android:id="@+id/ivButton"
-        android:layout_width="52dp"
-        android:layout_height="40dp"
+        android:layout_width="53dp"
+        android:layout_height="45dp"
         android:layout_centerVertical="true"
-        android:layout_margin="6dp"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
+        android:layout_margin="4dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
         android:src="@drawable/play_big" />
 
     <LinearLayout
@@ -27,19 +27,21 @@
 
         <TextView
             android:id="@+id/tvTitle"
-            style="@style/TextViewStyle.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
+            android:textColor="@color/main_text"
+            android:textSize="16sp"
             tools:text="Titlee" />
 
         <TextView
             android:id="@+id/tvArtist"
-            style="@style/TextViewStyle.Small.Gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textColor="@color/other_text"
+            android:textSize="13sp"
             tools:text="Artist" />
 
     </LinearLayout>

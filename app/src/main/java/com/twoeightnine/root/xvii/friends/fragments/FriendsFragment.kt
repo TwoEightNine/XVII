@@ -18,6 +18,7 @@ import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.hide
+import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_friends.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -40,9 +41,11 @@ class FriendsFragment : BaseFragment() {
         viewModel.getFriends().observe(this, Observer { updateFriends(it) })
         viewModel.loadFriends()
 
+        progressBar.show()
         rvFriends.layoutManager = LinearLayoutManager(context)
         rvFriends.adapter = adapter
 
+        Style.forProgressBar(progressBar)
         swipeRefresh.setOnRefreshListener {
             viewModel.loadFriends()
         }

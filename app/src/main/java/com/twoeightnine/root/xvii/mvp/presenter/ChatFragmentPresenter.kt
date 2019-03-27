@@ -483,7 +483,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         when (event) {
 
             is NewMessageEvent -> {
-                if (isRightItem(event.peerId)) {
+                if (peerId == event.peerId) {
                     if (!event.isOut()) {
                         view?.onHideTyping()
                     }
@@ -521,7 +521,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
 
             is ReadOutgoingEvent -> {
-                if (isRightItem(event.peerId)) {
+                if (peerId == event.peerId) {
                     view?.onReadOut(event.mid)
                 }
             }
@@ -539,12 +539,15 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 //            }
 
             is TypingEvent -> {
-                if (peerId == event.userId ||
-                        peerId < 0 && event.userId - 1000000000 == -peerId) {
-                    if (isShown) {
-                        view?.onShowTyping()
-                    }
-                } //userId() > 2000000000 && userId() - 2000000000 == event.chatId in chats
+                if (peerId == event.userId && isShown) {
+                    view?.onShowTyping()
+                }
+            }
+
+            is TypingChatEvent -> {
+                if (peerId == event.peerId && isShown) {
+                    view?.onShowTyping()
+                }
             }
 
             is RecordingAudioEvent -> {
@@ -555,9 +558,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         }
 
     }
-
-    private fun isRightItem(peerId: Int) = peerId == peerId ||
-            peerId < 0 && peerId - 1000000000 == -peerId
 
     fun unsubscribe() {
         longPollDisposable?.dispose()

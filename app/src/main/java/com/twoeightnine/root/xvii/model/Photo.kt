@@ -89,11 +89,20 @@ data class Photo(
 
     val optimalPhoto: String
         get() {
+            var max = smallPhoto
+            if (photo604 != null) max = photo604
+            return max
+        }
+
+    val smallPhoto: String
+        get() {
             var max = photo75
             if (photo130 != null) max = photo130
-            if (photo604 != null) max = photo604
             return max ?: ""
         }
+
+    val ratio: Double
+        get() = width.toDouble() / height
 
     val photoId: String
         get() = "${ownerId}_$id"

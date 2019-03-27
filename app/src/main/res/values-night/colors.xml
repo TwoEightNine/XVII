@@ -12,15 +12,15 @@
     <color name="icons">#fff</color>
     <color name="online">#8e30d8</color>
     <color name="main_text">#222</color>
-    <color name="other_text">#555</color>
+    <color name="other_text">#444</color>
     <color name="minor_text">#888</color>
     <color name="fab">#92b</color>
     <color name="accent">#666</color>
     <color name="shape">#9268a5</color>
     <color name="selected_mess">#5aaa</color>
 
-    <color name="toolbar_text">@color/icons</color>
-    <color name="toolbar_subtext">#ddd</color>
+    <color name="toolbar_text">#fff</color>
+    <color name="toolbar_subtext">#e3e3e3</color>
     <color name="placeholder">#bbb</color>
 
     <color name="splash_color">#111</color>

@@ -612,10 +612,8 @@ fun getMessageFromLongPoll(event: NewMessageEvent,
     if (event.info.from != 0) {
         message.userId = event.info.from
     }
-    if (event.peerId > 2000000000) {
-        message.chatId = event.peerId - 2000000000
-    } else if (event.peerId > 1000000000) {
-        message.userId = 1000000000 - event.peerId
+    if (event.peerId.matchesChatId()) {
+        message.chatId = event.peerId.asChatId()
     }
     message.body = Html.fromHtml(message.body).toString()
     return message

@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
-    android:paddingStart="12dp"
-    android:paddingTop="6dp"
-    android:paddingEnd="12dp"
-    android:paddingBottom="6dp">
+    android:paddingStart="8dp"
+    android:paddingTop="4dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,15 +16,14 @@
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="120dp">
+            android:layout_height="120dp"
+            android:layout_weight="1">
 
             <ImageView
                 android:id="@+id/ivVideo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/image_margin" />
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
 
             <ImageView
                 android:layout_width="80dp"
@@ -53,7 +52,7 @@
                 style="@style/TextViewStyle.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:ellipsize="end"
                 android:maxLines="4"
                 android:textColor="@color/main_text" />

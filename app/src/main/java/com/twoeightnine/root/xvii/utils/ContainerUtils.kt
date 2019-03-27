@@ -17,15 +17,31 @@ import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.*
 
+const val MAX_WIDTH = 500
+const val MAX_HEIGHT = 500
+const val C_RATIO = MAX_WIDTH.toDouble() / MAX_HEIGHT
+
 fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): View {
-    val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
+//    val newHeight: Int
+//    val newWidth: Int
+//    if (photo.ratio > C_RATIO) {
+//        newWidth = MAX_WIDTH
+//        newHeight = (newWidth.toDouble() / photo.ratio).toInt()
+//    } else {
+//        newHeight = MAX_HEIGHT
+//        newWidth = (newHeight * photo.ratio).toInt()
+//    }
+//    val view = ImageView(context)
+//    view.layoutParams = LinearLayout.LayoutParams(newWidth, newHeight)
+//    (view.layoutParams as? LinearLayout.LayoutParams)?.setMargins(0, 7, 0, 0)
+    val view = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
     Picasso.get()
             .loadRounded(photo.optimalPhoto)
             .resize(pxFromDp(context, 250), pxFromDp(context, 300))
             .centerCrop()
-            .into(included.findViewById<ImageView>(R.id.ivInternal))
-    included.setOnClickListener { onClick.invoke(photo) }
-    return included
+            .into(view.findViewById<ImageView>(R.id.ivInternal))
+    view.setOnClickListener { onClick.invoke(photo) }
+    return view
 }
 
 fun getPhotoWall(photo: Photo, activity: RootActivity, onClick: (Photo) -> Unit = {}): View {
@@ -61,7 +77,7 @@ fun getGif(doc: Doc, context: Context): View {
 
 fun getDoc(doc: Doc, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_doc, null, false)
-    Style.forViewGroupColor(included.findViewById<RelativeLayout>(R.id.relativeLayout))
+    Style.forViewGroup(included.findViewById<RelativeLayout>(R.id.relativeLayout), false)
     included.findViewById<TextView>(R.id.tvExt).text = doc.ext?.toUpperCase()
     included.findViewById<TextView>(R.id.tvTitle).text = doc.title
     included.findViewById<TextView>(R.id.tvSize).text = getSize(context, doc.size)
@@ -112,10 +128,8 @@ fun getAudio(audio: Audio, context: Context): View {
 
 fun getLink(link: Link, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_link, null, false)
-    if (link.photo != null) {
-        (included.findViewById<ImageView>(R.id.ivPhoto))
-                .loadRounded(link.photo.photo75)
-    }
+    (included.findViewById<ImageView>(R.id.ivPhoto)).load(link.photo?.smallPhoto)
+
     included.findViewById<TextView>(R.id.tvTitle).text = link.title
     included.findViewById<TextView>(R.id.tvCaption).text = link.url
     included.setOnClickListener { simpleUrlIntent(context, link.url) }

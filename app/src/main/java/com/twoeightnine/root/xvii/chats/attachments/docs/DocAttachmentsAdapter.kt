@@ -29,7 +29,7 @@ class DocAttachmentsAdapter(
                 tvExt.text = item.ext
                 tvTitle.text = item.title
                 tvSize.text = getSize(App.context, item.size)
-                Style.forViewGroup(relativeLayout)
+                Style.forViewGroup(relativeLayout, false)
                 setOnClickListener { onClick(items[adapterPosition]) }
             }
         }

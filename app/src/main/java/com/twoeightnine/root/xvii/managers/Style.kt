@@ -56,7 +56,6 @@ object Style {
         val light = 75 // #b0b0b0
         val extraLight = 25 // #e0e0e0
 
-
         val result = IntArray(4)
 
         result[0] = getOtherColor(mainColor, dark)
@@ -225,7 +224,7 @@ object Style {
     fun forProgressBar(pb: ProgressBar) {
         if (ignore()) return
 
-        pb.indeterminateDrawable.setColorFilter(darkColor, PorterDuff.Mode.MULTIPLY)
+        pb.indeterminateDrawable.setColorFilter(mainColor, PorterDuff.Mode.MULTIPLY)
 //        pb.progressTintList = ColorStateList.valueOf(mainColor)
     }
 

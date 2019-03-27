@@ -19,9 +19,7 @@ import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.searchmessages.fragments.SearchMessagesFragment
-import com.twoeightnine.root.xvii.utils.getContextPopup
-import com.twoeightnine.root.xvii.utils.showDeleteDialog
-import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_dialogs_new.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
@@ -53,12 +51,13 @@ open class DialogsFragment : BaseFragment() {
         viewModel.loadDialogs()
         adapter.startLoading()
 
-        swipeRefresh.isRefreshing = true
+        progressBar.show()
         swipeRefresh.setOnRefreshListener {
             viewModel.loadDialogs()
             adapter.reset()
             adapter.startLoading()
         }
+        Style.forProgressBar(progressBar)
     }
 
     private fun initRecycler() {
@@ -68,6 +67,7 @@ open class DialogsFragment : BaseFragment() {
 
     private fun updateDialogs(data: Wrapper<ArrayList<Dialog>>) {
         swipeRefresh.isRefreshing = false
+        progressBar.hide()
         if (data.data != null) {
             adapter.update(data.data)
         } else {

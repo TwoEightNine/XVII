@@ -8,7 +8,7 @@ import com.twoeightnine.root.xvii.adapters.SimpleAdapter
 import com.twoeightnine.root.xvii.utils.load
 import kotlinx.android.synthetic.main.item_emoji.view.*
 
-class EmojiGridAdapter: SimpleAdapter<Emoji>() {
+class EmojiGridAdapter : SimpleAdapter<Emoji>() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val emoji = items[position]
