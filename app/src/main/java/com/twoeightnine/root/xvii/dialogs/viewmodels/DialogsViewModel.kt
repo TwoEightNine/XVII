@@ -26,11 +26,12 @@ class DialogsViewModel(
     init {
         EventBus.subscribeLongPollEventReceived { event ->
             when (event) {
-                is OnlineEvent -> changeStatus(event.userId, true)
-                is OfflineEvent -> changeStatus(event.userId, false)
-                is ReadOutgoingEvent -> changeReadState(event.peerId)
-                is ReadIncomingEvent -> changeReadState(event.peerId)
-                is NewMessageEvent -> addNewMessage(event)
+                is OnlineEvent -> onStatusChanged(event.userId, true)
+                is OfflineEvent -> onStatusChanged(event.userId, false)
+                is ReadOutgoingEvent -> onReadStateChanged(event.peerId)
+                is ReadIncomingEvent -> onReadStateChanged(event.peerId)
+                is NewMessageEvent -> onNewMessageAdded(event)
+                is DeleteMessagesEvent -> onDialogRemoved(event.peerId)
             }
         }
     }
@@ -121,7 +122,7 @@ class DialogsViewModel(
         return BaseResponse(dialogs, resp.error)
     }
 
-    private fun changeStatus(peerId: Int, isOnline: Boolean) {
+    private fun onStatusChanged(peerId: Int, isOnline: Boolean) {
         val dialog = dialogsLiveData.value?.data
                 ?.find { it.peerId == peerId } ?: return
 
@@ -130,7 +131,7 @@ class DialogsViewModel(
         saveDialogAsync(dialog)
     }
 
-    private fun changeReadState(peerId: Int) {
+    private fun onReadStateChanged(peerId: Int) {
         val dialog = dialogsLiveData.value?.data
                 ?.find { it.peerId == peerId } ?: return
 
@@ -142,7 +143,7 @@ class DialogsViewModel(
         saveDialogAsync(dialog)
     }
 
-    private fun addNewMessage(event: NewMessageEvent) {
+    private fun onNewMessageAdded(event: NewMessageEvent) {
         val dialog = dialogsLiveData.value?.data
                 ?.find { event.peerId == it.peerId }
         if (dialog != null) { // existing dialog
@@ -168,6 +169,14 @@ class DialogsViewModel(
                         saveDialogAsync(newDialog)
                     }, ::onErrorOccurred)
         }
+    }
+
+    private fun onDialogRemoved(peerId: Int) {
+        val dialog = dialogsLiveData.value?.data?.find { it.peerId == peerId } ?: return
+
+        dialogsLiveData.value?.data?.remove(dialog)
+        notifyDialogsChanged()
+        removeDialog(dialog)
     }
 
     private fun notifyDialogsChanged() {

@@ -7,10 +7,12 @@
     <include layout="@layout/toolbar" />
 
     <FrameLayout
-        android:layout_marginTop="?actionBarSize"
         android:id="@+id/flContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:clickable="true"
+        android:focusable="true">
 
         <ListView
             android:id="@+id/lvPrefs"

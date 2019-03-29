@@ -20,6 +20,7 @@ object LongPollEventFactory {
             BaseLongPollEvent.TYPE_READ_OUTGOING -> ReadOutgoingEvent(update.asInt(1), update.asInt(2))
             BaseLongPollEvent.TYPE_ONLINE -> OnlineEvent(-update.asInt(1), update.asInt(3))
             BaseLongPollEvent.TYPE_OFFLINE -> OfflineEvent(-update.asInt(1), update.asInt(3))
+            BaseLongPollEvent.TYPE_DELETE_MESSAGES -> DeleteMessagesEvent(update.asInt(1))
             BaseLongPollEvent.TYPE_TYPING -> TypingEvent(update.asInt(1))
             BaseLongPollEvent.TYPE_TYPING_CHAT -> TypingChatEvent(update.asInt(2).asChatPeerId())
             BaseLongPollEvent.TYPE_RECORDING_AUDIO -> RecordingAudioEvent(update.asInt(1))

@@ -226,7 +226,7 @@ class LongPollCore(private val context: Context) {
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setLargeIcon(icon)
-                .setSmallIcon(com.twoeightnine.root.xvii.R.drawable.ic_message)
+                .setSmallIcon(R.drawable.ic_envelope)
                 .setContentTitle(title)
                 .setAutoCancel(true)
                 .setWhen(timeStamp)
