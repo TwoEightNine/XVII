@@ -12,7 +12,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
-import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
+import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
@@ -109,7 +109,8 @@ open class DialogsFragment : BaseFragment() {
                 true
             }
             R.id.important_menu -> {
-                rootActivity?.loadFragment(ImportantFragment())
+                rootActivity?.loadFragment(StarredMessagesFragment.newInstance())
+//                rootActivity?.loadFragment(ImportantFragment())
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -21,6 +21,7 @@ import com.twoeightnine.root.xvii.chats.fragments.AttachedFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatInfoFragment
 import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
+import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.dagger.modules.NetworkModule
 import com.twoeightnine.root.xvii.dagger.modules.PresenterModule
@@ -44,6 +45,7 @@ interface AppComponent {
 
     //activities
     fun inject(loginActivity: LoginActivity)
+
     fun inject(exceptionActivity: ExceptionActivity)
     fun inject(rootActivity: RootActivity)
     fun inject(imageViewerActivity: ImageViewerActivity)
@@ -52,6 +54,7 @@ interface AppComponent {
 
     //fragments
     fun inject(chatFragment: ChatFragment)
+
     fun inject(profileFragment: ProfileFragment)
     fun inject(wallPostFragment: WallPostFragment)
     fun inject(searchUsersFragment: SearchUsersFragment)
@@ -75,6 +78,7 @@ interface AppComponent {
     fun inject(docAttachFragment: DocAttachFragment)
     fun inject(videoAttachFragment: VideoAttachFragment)
     fun inject(stickersFragment: StickersFragment)
+    fun inject(starredMessagesFragment: StarredMessagesFragment)
 
     //other
     fun inject(notificationService: NotificationService)

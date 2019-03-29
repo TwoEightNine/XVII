@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.chats.adapters
+package com.twoeightnine.root.xvii.chats.messages.base
 
 import android.content.Context
 import android.graphics.Color
@@ -10,10 +10,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.RootActivity
-import com.twoeightnine.root.xvii.adapters.PaginationAdapter
+import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.fragments.WallPostFragment
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.*
@@ -23,118 +22,92 @@ import kotlinx.android.synthetic.main.item_message_wtf.view.*
 /**
  * definitely it waits for refactoring
  */
-class ChatAdapter(context: Context,
-                  loader: (Int) -> Unit,
-                  private val callback: ChatAdapterCallback,
-                  private val settings: ChatAdapterSettings
-) : PaginationAdapter<Message>(context, loader) {
-
-    var isAtEnd: Boolean = true
-        private set
+class MessagesAdapter(context: Context,
+                      loader: (Int) -> Unit,
+                      private val callback: MessagesAdapter.Callback,
+                      private val settings: MessagesAdapter.Settings
+) : BaseReachAdapter<Message2, MessagesAdapter.MessageViewHolder>(context, loader) {
 
     private val mediaWidth = pxFromDp(context, MEDIA_WIDTH)
 
     override fun createHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         return when (viewType) {
-            OUT -> ChatViewHolder(inflater.inflate(R.layout.item_message_out, null))
-            IN_CHAT -> ChatViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
-            IN_USER -> ChatViewHolder(inflater.inflate(R.layout.item_message_in_user, null))
-            else -> ChatViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
+            OUT -> MessageViewHolder(inflater.inflate(R.layout.item_message_out, null))
+            IN_CHAT -> MessageViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
+            IN_USER -> MessageViewHolder(inflater.inflate(R.layout.item_message_in_user, null))
+            else -> MessageViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
         }
     }
 
-    override var stubLoadItem: Message? = Message.stubLoad
-
-    override fun isStubLoad(obj: Message) = Message.isStubLoad(obj)
-
-    override var stubTryItem: Message? = Message.stubTry
-
-    override fun isStubTry(obj: Message) = Message.isStubTry(obj)
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val message = items[position]
-        if (holder is ChatViewHolder) {
-            holder.bind(message)
-        }
+    override fun bind(holder: MessageViewHolder, item: Message2) {
+        holder.bind(item)
     }
 
-    override fun onAttachedToRecyclerView(recyclerView: androidx.recyclerview.widget.RecyclerView) {
-        //        super.onAttachedToRecyclerView(recyclerView);
-        layoutManager = recyclerView.layoutManager
-        recyclerView.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                isAtEnd = lastVisiblePosition() == items.size - 1
-                if (dy >= 0)
-                    return
-
-                val total = itemCount
-                val first = firstVisiblePosition()
-                if (!isDone && !isLoading && first <= PaginationAdapter.THRESHOLD) {
-                    loader.invoke(total)
-                    startLoading()
-                }
-            }
-        })
-    }
-
-    override fun addStubLoad() {
-        if (!isLoaderAdded) {
-            add(stubLoadItem!!, 0)
-            isLoaderAdded = true
-        }
-    }
-
-    override fun addStubTry() {
-        if (!isTrierAdded) {
-            add(stubTryItem!!, 0)
-            isTrierAdded = true
-        }
-    }
+    override fun createStubLoadItem() = Message2()
 
     override fun getItemViewType(position: Int): Int {
         val message = items[position]
         val superType = super.getItemViewType(position)
         return when {
-            superType != NOSTUB -> superType
-            message.isOut -> OUT
-            message.chatId != 0 || settings.isImportant -> IN_CHAT
+            superType != NO_STUB -> superType
+            message.isOut() -> OUT
+            message.isChat() || settings.isImportant -> IN_CHAT
             else -> IN_USER
         }
     }
 
-    override fun add(item: Message) {
-        super.add(item)
-        notifyDataSetChanged()
-    }
+    inner class MessageViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
-    inner class ChatViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
-
-        fun bind(message: Message, level: Int = 0) {
+        fun bind(message: Message2, level: Int = 0) {
             putViews(itemView, message, level)
             with(itemView) {
-                rlBack.setOnClickListener { callback.onClicked(items[adapterPosition]) }
-                rlBack.setOnLongClickListener { callback.onLongClicked(items[adapterPosition]) }
-                tvBody.setOnClickListener { callback.onClicked(items[adapterPosition]) }
-                tvBody.setOnLongClickListener { callback.onLongClicked(items[adapterPosition]) }
+                rlBack.setOnClickListener { onClick(items[adapterPosition]) }
+                rlBack.setOnLongClickListener { onLongClick(items[adapterPosition]) }
+                tvBody.setOnClickListener { onClick(items[adapterPosition]) }
+                tvBody.setOnLongClickListener { onLongClick(items[adapterPosition]) }
             }
         }
 
-        private fun putViews(view: View, message: Message, level: Int) {
+        private fun onClick(message: Message2) {
+            if (multiSelectMode) {
+                multiSelect(message)
+                invalidateBackground(message)
+            } else {
+                callback.onClicked(message)
+            }
+        }
+
+        private fun onLongClick(message: Message2): Boolean {
+            if (!multiSelectMode) {
+                multiSelectMode = true
+                multiSelect(message)
+                invalidateBackground(message)
+                return true
+            }
+            return false
+        }
+
+        private fun invalidateBackground(message: Message2, view: View = itemView, level: Int = 0) {
             with(view) {
                 rlBack.setBackgroundColor(if (level == 0 && message in multiSelect) {
                     ContextCompat.getColor(context, R.color.selected_mess)
                 } else {
                     Color.TRANSPARENT
                 })
+            }
+        }
+
+        private fun putViews(view: View, message: Message2, level: Int) {
+            with(view) {
+                invalidateBackground(message, this, level)
                 llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
-                tvName?.text = message.title
-                tvBody.setVisible(message.body.isNotEmpty() || !message.action.isNullOrEmpty())
+                tvName?.text = message.name
+                tvBody.setVisible(message.text.isNotEmpty() || !message.action.isNullOrEmpty())
                 tvBody.text = when {
-                    message.body.isNotEmpty() -> when {
-                        message.emoji == 1 -> EmojiHelper.getEmojied(context, message.body)
-                        isDecrypted(message.body) -> getWrapped(message.body)
-                        else -> message.body
+                    message.text.isNotEmpty() -> when {
+                        EmojiHelper.hasEmojis(message.text) -> EmojiHelper.getEmojied(context, message.text)
+                        isDecrypted(message.text) -> getWrapped(message.text)
+                        else -> message.text
                     }
                     !message.action.isNullOrEmpty() -> getAction(message)
                     else -> ""
@@ -142,11 +115,11 @@ class ChatAdapter(context: Context,
                 tvDate.text = getTime(message.date, full = true)
                 civPhoto?.apply {
                     load(message.photo)
-                    setOnClickListener { callback.onUserClicked(message.userId) }
+                    setOnClickListener { callback.onUserClicked(message.fromId) }
                 }
                 readStateDot?.apply {
                     Style.forImageView(this, Style.MAIN_TAG)
-                    visibility = if (!message.isRead && message.isOut) {
+                    visibility = if (!message.read && message.isOut()) {
                         View.VISIBLE
                     } else {
                         View.INVISIBLE
@@ -237,7 +210,7 @@ class ChatAdapter(context: Context,
 
                 if (!message.fwdMessages.isNullOrEmpty()) {
                     llMessage.layoutParams.width = mediaWidth
-                    message.fwdMessages?.forEach {
+                    message.fwdMessages.forEach {
                         val included = inflater.inflate(R.layout.item_message_in_chat, null)
                         included.tag = true
                         putViews(included, it, level + 1)
@@ -261,7 +234,7 @@ class ChatAdapter(context: Context,
             return Html.fromHtml(result)
         }
 
-        private fun getAction(message: Message) = when (message.action) {
+        private fun getAction(message: Message2) = when (message.action) {
             Message.IN_CHAT -> context.getString(R.string.invite_chat_full, "${message.actionMid}")
             Message.OUT_OF_CHAT -> context.getString(R.string.kick_chat_full, "${message.actionMid}")
             Message.TITLE_UPDATE -> context.getString(R.string.chat_title_updated, message.actionText)
@@ -270,16 +243,15 @@ class ChatAdapter(context: Context,
         }
     }
 
-    interface ChatAdapterCallback {
-        fun onClicked(message: Message)
-        fun onLongClicked(message: Message): Boolean
+    interface Callback {
+        fun onClicked(message: Message2)
         fun onUserClicked(userId: Int)
         fun onDocClicked(doc: Doc)
         fun onPhotoClicked(photo: Photo)
         fun onVideoClicked(video: Video)
     }
 
-    data class ChatAdapterSettings(
+    data class Settings(
             val isImportant: Boolean
     )
 

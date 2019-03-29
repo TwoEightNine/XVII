@@ -22,26 +22,32 @@ class MessageSearchModel {
 
     val message: Message
         get() {
-            val mess = Message()
-            mess.photo = photo100
+            var title = ""
+            var userId = 0
+            var chatId = 0
             when (type) {
                 PAGE, GROUP -> {
-                    mess.title = name
-                    mess.userId = -id
+                    title = name ?: ""
+                    userId = -id
                 }
 
                 PROFILE -> {
-                    mess.title = "$firstName $lastName"
-                    mess.userId = id
+                    title = "$firstName $lastName"
+                    userId = id
                 }
 
                 CHAT -> {
-                    mess.userId = id.asChatPeerId()
-                    mess.chatId = id
-                    mess.title = title
+                    userId = id.asChatPeerId()
+                    chatId = id
+                    title = this.title ?: ""
                 }
             }
-            return mess
+            return Message(
+                    title = title,
+                    photo = photo100,
+                    userId = userId,
+                    chatId = chatId
+            )
         }
 
     companion object {

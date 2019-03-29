@@ -1,14 +1,11 @@
-package com.twoeightnine.root.xvii.dialogs.models.api
+package com.twoeightnine.root.xvii.model
 
 import android.content.Context
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.model.Attachment
-import com.twoeightnine.root.xvii.model.Message
-import com.twoeightnine.root.xvii.model.isSticker
-import com.twoeightnine.root.xvii.model.photosCount
+import com.twoeightnine.root.xvii.utils.matchesChatId
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -16,31 +13,43 @@ data class Message2(
 
         @SerializedName("id")
         @Expose
-        val id: Int,
+        val id: Int = 0,
 
         @SerializedName("peer_id")
         @Expose
-        val peerId: Int,
+        val peerId: Int = 0,
 
         @SerializedName("date")
         @Expose
-        val date: Int,
+        val date: Int = 0,
 
         @SerializedName("from_id")
         @Expose
-        val fromId: Int,
+        val fromId: Int = 0,
 
         @SerializedName("text")
         @Expose
-        val text: String,
+        val text: String = "",
 
         @SerializedName("out")
         @Expose
-        val out: Int,
+        val out: Int = 0,
+
+        @SerializedName("action")
+        @Expose
+        val action: String? = null,
+
+        @SerializedName("action_text")
+        @Expose
+        val actionText: String? = null,
+
+        @SerializedName("action_mid")
+        @Expose
+        val actionMid: String? = null,
 
         @SerializedName("fwd_messages")
         @Expose
-        val fwdMessages: ArrayList<Message>? = arrayListOf(),
+        val fwdMessages: ArrayList<Message2>? = arrayListOf(),
 
         @SerializedName("attachments")
         @Expose
@@ -65,6 +74,8 @@ data class Message2(
     fun isSticker() = attachments != null && attachments.isSticker()
 
     fun hasPhotos() = attachments != null && attachments.photosCount() > 0
+
+    fun isChat() = peerId.matchesChatId()
 
     fun getResolvedMessage(context: Context?) = when {
         context == null || text.isNotBlank() -> text

@@ -18,11 +18,6 @@ interface ApiService {
         const val NO_TOKEN_HEADER = "$NO_TOKEN_HEADER_KEY: 1"
     }
 
-    //dialog
-    @GET("messages.getDialogs")
-    fun getDialogs(@Query("offset") offset: Int,
-                   @Query("count") count: Int): Flowable<BaseResponse<ListResponse<MessageContainer>>>
-
     @GET("messages.getConversations?filter=all&extended=1")
     fun getConversations(
             @Query("count") count: Int,
@@ -94,6 +89,13 @@ interface ApiService {
     @GET("messages.get?filters=8")
     fun getImportantMessages(@Query("count") count: Int,
                              @Query("offset") offset: Int): Flowable<BaseResponse<ListResponse<Message>>>
+
+    @GET("messages.getImportantMessages?extended=1")
+    fun getStarredMessages(
+            @Query("count") count: Int,
+            @Query("offset") offset: Int = 0,
+            @Query("fields") fields: String = User.FIELDS
+    ): Flowable<BaseResponse<MessagesResponse>>
 
     @GET("store.getStickersKeywords")
     fun getStickers(): Flowable<BaseResponse<StickersResponse>>

@@ -1,59 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/popup"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <LinearLayout
-        android:background="@drawable/selector_rect"
         android:id="@+id/llCopy"
-        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_rect"
+        android:clickable="true">
 
         <TextView
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
             android:text="@string/copy"
-            android:layout_margin="@dimen/margin16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/main_text"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:background="@drawable/selector_rect"
-        android:id="@+id/llDelete"
-        android:clickable="true"
+        android:id="@+id/llUnmark"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_rect"
+        android:clickable="true">
 
         <TextView
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
-            android:text="@string/delete"
-            android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
+            android:text="@string/unmark"
+            android:textColor="@color/main_text"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:background="@drawable/selector_rect"
         android:id="@+id/llForward"
-        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_rect"
+        android:clickable="true">
 
         <TextView
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
-            android:text="@string/forward"
-            android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
+            android:text="@string/forward"
+            android:textColor="@color/main_text"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

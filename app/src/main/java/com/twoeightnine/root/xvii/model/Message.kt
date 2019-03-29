@@ -1,143 +1,103 @@
 package com.twoeightnine.root.xvii.model
 
-import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.Gson
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
-import com.twoeightnine.root.xvii.utils.getFromPeerId
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-class Message : Parcelable, Serializable {
+@Parcelize
+data class Message(
 
-    @SerializedName("id")
-    var id: Int = 0
-    @SerializedName("date")
-    var date: Int = 0
-    @SerializedName("out")
-    var out: Int = 0
-    @SerializedName("user_id")
-    var userId: Int = 0
-    @SerializedName("read_state")
-    var readState: Int = 0
-    @SerializedName("title")
-    var title: String? = null
-    @SerializedName("body")
-    var body: String? = null
-    @SerializedName("fwd_messages")
-    var fwdMessages: ArrayList<Message>? = null
-    @SerializedName("attachments")
-    var attachments: ArrayList<Attachment>? = null
-    @SerializedName("action")
-    val action: String? = null
-    @SerializedName("action_mid")
-    val actionMid: String? = null
-    @SerializedName("action_text")
-    val actionText: String? = null
-    @SerializedName("emoji")
-    var emoji: Int = 0
+        @SerializedName("id")
+        @Expose
+        val id: Int = 0,
 
-    @SerializedName("chat_id")
-    var chatId: Int = 0
-    @SerializedName("photo_100")
-    var photo: String? = null
-    @SerializedName("chat_active")
-    var chatActive: ArrayList<Int>? = null
+        @SerializedName("date")
+        @Expose
+        val date: Int = 0,
 
-    constructor()
+        @SerializedName("out")
+        @Expose
+        val out: Int = 0,
 
-    constructor(p: Parcel) {
-        id = p.readInt()
-        date = p.readInt()
-        out = p.readInt()
-        userId = p.readInt()
-        readState = p.readInt()
-        title = p.readString()
-        body = p.readString()
-        chatId = p.readInt()
-        photo = p.readString()
-    }
+        @SerializedName("user_id")
+        @Expose
+        var userId: Int = 0,
 
-    constructor(messageDb: MessageDb) {
-        this.id = messageDb.id
-        this.date = messageDb.date
-        this.out = messageDb.out
-        this.userId = messageDb.userId
-        this.readState = messageDb.readState
-        this.title = messageDb.title
-        this.body = messageDb.body
-        this.emoji = messageDb.emoji
-        this.photo = messageDb.photo
-        this.chatId = messageDb.chatId
+        @SerializedName("read_state")
+        @Expose
+        var readState: Int = 0,
 
-        val gson = Gson()
-        this.fwdMessages = gson.fromJson(messageDb.fwdMessages, (object : TypeToken<MutableList<Message>>() {}).type)
-        this.attachments = gson.fromJson(messageDb.attachments, (object : TypeToken<MutableList<Attachment>>() {}).type)
-    }
+        @SerializedName("title")
+        @Expose
+        var title: String? = null,
 
-    constructor(dialogDb: DialogDb) {
-        val data = getFromPeerId(dialogDb.peerId)
-        this.userId = data[0]
-        this.chatId = data[1]
-        this.date = dialogDb.date
-        this.readState = dialogDb.readState
-        this.title = dialogDb.title
-        this.body = dialogDb.body
-        this.emoji = dialogDb.emoji
-        this.photo = dialogDb.photo
-    }
+        @SerializedName("body")
+        @Expose
+        var body: String = "",
 
-    constructor(id: Int) {
-        this.id = id
-    }
+        @SerializedName("fwd_messages")
+        @Expose
+        var fwdMessages: ArrayList<Message>? = null,
 
-    @JvmOverloads
-    constructor(id: Int, date: Int, userId: Int,
-                out: Int, readState: Int, title: String,
-                body: String, attachments: ArrayList<Attachment>? = null,
-                emoji: Int = 0) {
-        this.id = id
-        this.date = date
-        this.userId = userId
-        this.out = out
-        this.readState = readState
-        this.title = title
-        this.body = body
-        this.attachments = attachments
-        this.emoji = emoji
-    }
+        @SerializedName("attachments")
+        @Expose
+        val attachments: ArrayList<Attachment>? = null,
 
-    override fun describeContents(): Int {
-        return 0
-    }
+        @SerializedName("action")
+        @Expose
+        val action: String? = null,
 
-    override fun writeToParcel(parcel: Parcel, i: Int) {
-        parcel.writeInt(id)
-        parcel.writeInt(date)
-        parcel.writeInt(out)
-        parcel.writeInt(userId)
-        parcel.writeInt(readState)
-        parcel.writeString(title)
-        parcel.writeString(body)
-        parcel.writeInt(chatId)
-        parcel.writeString(photo)
-    }
+        @SerializedName("action_mid")
+        @Expose
+        val actionMid: String? = null,
+
+        @SerializedName("action_text")
+        @Expose
+        val actionText: String? = null,
+
+        @SerializedName("emoji")
+        @Expose
+        val emoji: Int = 0,
+
+        @SerializedName("chat_id")
+        @Expose
+        var chatId: Int = 0,
+
+        @SerializedName("photo_100")
+        @Expose
+        var photo: String? = null,
+
+        @SerializedName("chat_active")
+        val chatActive: ArrayList<Int> = arrayListOf()
+) : Parcelable {
+
+    constructor(messageDb: MessageDb) : this(
+            id = messageDb.id,
+            date = messageDb.date,
+            out = messageDb.out,
+            userId = messageDb.userId,
+            readState = messageDb.readState,
+            title = messageDb.title,
+            body = messageDb.body,
+            emoji = messageDb.emoji,
+            photo = messageDb.photo,
+            chatId = messageDb.chatId,
+            fwdMessages = Gson().fromJson(messageDb.fwdMessages, (object : TypeToken<MutableList<Message>>() {}).type),
+            attachments = Gson().fromJson(messageDb.attachments, (object : TypeToken<MutableList<Attachment>>() {}).type)
+    )
 
     val isOut: Boolean
         get() = out == 1
 
-    val isRead: Boolean
+    var isRead: Boolean
         get() = readState == 1
-
-    fun setRead(rs: Int) {
-        readState = rs
-    }
-
-    val isImportant: Boolean
-        get() = false
-
-    override fun toString() = "[id: $id, userId: $userId, chatId: $chatId, title: $title, photo: $photo, body: $body, readState: $readState, out: $out]"
+        set(value) {
+            readState = if (value) 1 else 0
+        }
 
     companion object {
 
@@ -154,15 +114,11 @@ class Message : Parcelable, Serializable {
         fun isStubLoad(mess: Message) = mess.id == -1
 
         fun isStubTry(mess: Message) = mess.id == -2
-
-        var CREATOR: Parcelable.Creator<Message> = object : Parcelable.Creator<Message> {
-            override fun createFromParcel(parcel: Parcel): Message {
-                return Message(parcel)
-            }
-
-            override fun newArray(i: Int): Array<Message?> {
-                return arrayOfNulls(i)
-            }
-        }
     }
 }
+
+fun Message.isSticker() = attachments?.isSticker() == true
+
+fun Message.isSinglePhoto() = !attachments.isNullOrEmpty()
+        && attachments[0].type == Attachment.TYPE_PHOTO
+        && fwdMessages.isNullOrEmpty()

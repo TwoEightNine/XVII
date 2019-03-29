@@ -499,7 +499,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         for (position in adapter.items.indices) {
             val message = adapter.items[position]
             if (message.id <= mid && !message.isRead) {
-                message.setRead(1)
+                message.isRead = true
                 CacheHelper.saveMessageAsync(message)
                 adapter.notifyItemChanged(position)
             }
@@ -667,7 +667,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                     R.id.llMarkImportant ->
                         presenter.markAsImportant(
                                 mutableListOf(message.id),
-                                if (message.isImportant) 0 else 1
+                                1
                         )
                 }
             }.show()

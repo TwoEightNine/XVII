@@ -599,15 +599,14 @@ fun getMessageFromLongPoll(event: NewMessageEvent,
                            isShown: Boolean = false): Message {
     val out = if (event.isOut()) 1 else 0
     val message = Message(
-            event.id,
-            event.timeStamp,
-            event.peerId,
-            out,
-            if (isShown) 1 - out else 0,
-            event.title,
-            event.text,
-            null,
-            if (event.hasEmoji()) 1 else 0
+            id = event.id,
+            date = event.timeStamp,
+            userId = event.peerId,
+            out = out,
+            readState = if (isShown) 1 - out else 0,
+            title = event.title,
+            body = event.text,
+            emoji = if (event.hasEmoji()) 1 else 0
     )
     if (event.info.from != 0) {
         message.userId = event.info.from

@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.dialogs.models.api
+package com.twoeightnine.root.xvii.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
