@@ -183,9 +183,9 @@
         <item quantity="other">%d attachements</item>
     </plurals>
 
-    <plurals name="fwd_messages">
-        <item quantity="one">%d message transféré</item>
-        <item quantity="other">%d messages transférés</item>
+    <plurals name="messages">
+        <item quantity="one">%d message</item>
+        <item quantity="other">%d messages</item>
     </plurals>
 
     <string name="aboutBig">

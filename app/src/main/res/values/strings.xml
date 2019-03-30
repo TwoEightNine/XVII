@@ -222,9 +222,9 @@
         <item quantity="other">%d attachments</item>
     </plurals>
 
-    <plurals name="fwd_messages">
-        <item quantity="one">%d forwarded message</item>
-        <item quantity="other">%d forwarded messages</item>
+    <plurals name="messages">
+        <item quantity="one">%d message</item>
+        <item quantity="other">%d messages</item>
     </plurals>
 
     <string name="aboutBig">

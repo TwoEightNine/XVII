@@ -86,7 +86,7 @@ data class Message2(
         }
         fwdMessages != null && fwdMessages.isNotEmpty() -> {
             val count = fwdMessages.size
-            context.resources.getQuantityString(R.plurals.fwd_messages, count, count)
+            context.resources.getQuantityString(R.plurals.messages, count, count)
         }
         else -> text
     }

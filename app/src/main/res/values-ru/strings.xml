@@ -192,11 +192,11 @@
         <item quantity="other">%d прикреплений</item>
     </plurals>
 
-    <plurals name="fwd_messages">
-        <item quantity="one">%d пересланное сообщение</item>
-        <item quantity="few">%d пересланных сообщения</item>
-        <item quantity="many">%d пересланных сообщений</item>
-        <item quantity="other">%d пересланных сообщений</item>
+    <plurals name="messages">
+        <item quantity="one">%d сообщение</item>
+        <item quantity="few">%d сообщения</item>
+        <item quantity="many">%d сообщений</item>
+        <item quantity="other">%d сообщений</item>
     </plurals>
 
     <string name="aboutBig">

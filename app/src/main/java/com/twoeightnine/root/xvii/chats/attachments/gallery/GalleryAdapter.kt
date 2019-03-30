@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import com.twoeightnine.root.xvii.base.BaseMultiSelectAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.setVisible
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_gallery.view.*
 class GalleryAdapter(
         context: Context,
         private val onCameraClick: () -> Unit
-) : BaseAdapter<String, GalleryAdapter.GalleryViewHolder>(context) {
+) : BaseMultiSelectAdapter<String, GalleryAdapter.GalleryViewHolder>(context) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GalleryViewHolder(inflater.inflate(R.layout.item_gallery, null))
 

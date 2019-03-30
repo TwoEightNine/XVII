@@ -5,14 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.BaseMultiSelectAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import kotlinx.android.synthetic.main.item_loader.view.*
 import kotlinx.android.synthetic.main.item_try_again.view.*
 
 
-abstract class PaginationAdapter<T> @JvmOverloads constructor(context: Context,
-                                                              protected var loader: (Int) -> Unit,
-                                                              private val offsetSize: Int = PaginationAdapter.OFFSET_SIZE) : BaseAdapter<T, androidx.recyclerview.widget.RecyclerView.ViewHolder>(context) {
+abstract class PaginationAdapter<T> @JvmOverloads constructor(
+        context: Context,
+        protected var loader: (Int) -> Unit,
+        private val offsetSize: Int = PaginationAdapter.OFFSET_SIZE
+) : BaseMultiSelectAdapter<T, androidx.recyclerview.widget.RecyclerView.ViewHolder>(context) {
     protected var isLoaderAdded: Boolean = false
     protected var isTrierAdded: Boolean = false
 

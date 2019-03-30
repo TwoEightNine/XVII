@@ -19,12 +19,6 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
 
     protected var inflater = LayoutInflater.from(context)
 
-    /**
-     * true when becomes non-empty
-     * false when become empty
-     */
-    var multiListener: ((Boolean) -> Unit)? = null
-
     var emptyView: View? = null
 
     fun add(item: T, pos: Int) {
@@ -104,37 +98,6 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
     fun isAtTop(layoutManager: LinearLayoutManager?) = firstVisiblePosition(layoutManager) == 0
 
     fun isAtBottom(layoutManager: LinearLayoutManager?) = lastVisiblePosition(layoutManager) == items.size - 1
-
-    //multiselect
-
-    /**
-     * for internal usage
-     */
-    var multiSelectMode = false
-
-    val multiSelect = arrayListOf<T>()
-
-    fun multiSelect(item: T) {
-        if (multiSelect.contains(item)) {
-            multiSelect.remove(item)
-        } else {
-            multiSelect.add(item)
-        }
-        notifyMultiSelect()
-    }
-
-    protected open fun notifyMultiSelect() {
-        when (multiSelect.size) {
-            0 -> multiListener?.invoke(false)
-            1 -> multiListener?.invoke(true)
-        }
-    }
-
-    fun clearMultiSelect() {
-        multiSelect.clear()
-        multiListener?.invoke(false)
-        notifyDataSetChanged()
-    }
 
     private fun invalidateEmptiness() {
         emptyView?.setVisible(items.isEmpty())

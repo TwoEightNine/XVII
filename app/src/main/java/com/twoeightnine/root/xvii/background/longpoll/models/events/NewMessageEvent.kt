@@ -45,7 +45,7 @@ data class NewMessageEvent(
         }
         info.getForwardedCount() > 0 -> {
             val count = info.getForwardedCount()
-            context.resources.getQuantityString(R.plurals.fwd_messages, count, count)
+            context.resources.getQuantityString(R.plurals.messages, count, count)
         }
         else -> text
     }

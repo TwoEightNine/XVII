@@ -76,16 +76,13 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         }
         rvMessages.adapter = adapter
         rvMessages.itemAnimator = null
-        adapter.multiListener = ::onMultiSelectChanged
+        adapter.multiSelectListener = ::onMultiSelectChanged
     }
 
-    private fun onMultiSelectChanged(nonEmpty: Boolean) {
-        if (nonEmpty) {
-            // stuff
-        } else {
-            adapter.multiSelectMode = false
-        }
-        rlMultiAction.setVisible(nonEmpty)
+    private fun onMultiSelectChanged(selectedCount: Int) {
+        rlMultiAction.setVisible(selectedCount > 0)
+        tvSelectedCount.text = context?.resources
+                ?.getQuantityString(R.plurals.messages, selectedCount, selectedCount)
     }
 
     private fun initMultiAction() {

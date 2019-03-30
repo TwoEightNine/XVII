@@ -32,10 +32,6 @@ class UsersAdapter(context: Context,
         (vholder as? UserViewHolder)?.bind(items[position])
     }
 
-    override fun notifyMultiSelect() {
-        multiListener?.invoke(multiSelect.size >= 1)
-    }
-
     inner class UserViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         fun bind(user: User) {

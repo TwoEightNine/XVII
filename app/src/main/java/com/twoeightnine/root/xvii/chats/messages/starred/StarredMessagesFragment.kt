@@ -33,9 +33,8 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         llInput.hide()
-        ivCancelMulti.hide()
-        ivReplyMulti.hide()
-        ivMenuMulti.hide()
+        ivReplyMulti.visibility = View.INVISIBLE
+        ivMenuMulti.visibility = View.INVISIBLE
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

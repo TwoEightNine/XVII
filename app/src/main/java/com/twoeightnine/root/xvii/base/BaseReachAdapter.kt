@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import kotlinx.android.synthetic.main.item_loader.view.*
 
@@ -23,7 +22,7 @@ import kotlinx.android.synthetic.main.item_loader.view.*
 abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> constructor(
         context: Context,
         private var loader: (Int) -> Unit
-) : BaseAdapter<T, RecyclerView.ViewHolder>(context) {
+) : BaseMultiSelectAdapter<T, RecyclerView.ViewHolder>(context) {
 
     var prevState: State = State.INITIAL
         private set
