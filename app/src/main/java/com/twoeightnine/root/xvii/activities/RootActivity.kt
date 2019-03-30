@@ -87,7 +87,7 @@ class RootActivity : BaseActivity() {
             hideKeyboard(this)
             dlRoot.closeDrawer(GravityCompat.START)
         }
-        if (Prefs.isNight) {
+        if (Prefs.isLightTheme) {
             navigationView.setBackgroundColor(Style.getFromMain()[1])
         }
         initUser()

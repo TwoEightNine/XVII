@@ -44,7 +44,7 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun stylize() {
-        if (Prefs.isNight) {
+        if (Prefs.isLightTheme) {
             Style.forViewGroupColor(rlBack)
             llHeader.setBackgroundColor(Color.WHITE)
             llContainer.setBackgroundColor(Color.WHITE)

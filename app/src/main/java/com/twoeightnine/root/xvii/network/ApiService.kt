@@ -16,6 +16,9 @@ interface ApiService {
     companion object {
         const val NO_TOKEN_HEADER_KEY = "No-Token"
         const val NO_TOKEN_HEADER = "$NO_TOKEN_HEADER_KEY: 1"
+
+        const val NEW_VERSION_HEADER_KEY = "New-Version"
+        const val NEW_VERSION_HEADER = "$NEW_VERSION_HEADER_KEY: 1"
     }
 
     @GET("messages.getConversations?filter=all&extended=1")
@@ -35,6 +38,15 @@ interface ApiService {
     fun getHistory(@Query("count") count: Int,
                    @Query("offset") offset: Int,
                    @Query("user_id") userId: Int): Flowable<BaseResponse<ListResponse<Message>>>
+
+    @GET("messages.getHistory?extended=1")
+    @Headers(NEW_VERSION_HEADER)
+    fun getMessages(
+            @Query("peer_id") peerId: Int,
+            @Query("count") count: Int,
+            @Query("offset") offset: Int = 0,
+            @Query("fields") fields: String = User.FIELDS
+    ): Flowable<BaseResponse<MessagesHistoryResponse>>
 
     @GET("messages.markAsRead")
     fun markAsRead(@Query("message_ids") messageIds: String): Flowable<BaseResponse<Int>>

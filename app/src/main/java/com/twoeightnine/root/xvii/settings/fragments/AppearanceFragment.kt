@@ -60,9 +60,9 @@ class AppearanceFragment : BaseOldFragment() {
     }
 
     private fun initViews() {
-        isNightBefore = Prefs.isNight
+        isNightBefore = Prefs.isLightTheme
         switchNight.setOnCheckedChangeListener { _, b ->
-            Prefs.isNight = b
+            Prefs.isLightTheme = b
             if (b) {
                 llPicker.visibility = View.VISIBLE
             } else {

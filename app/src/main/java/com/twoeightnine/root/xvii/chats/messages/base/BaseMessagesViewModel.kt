@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chats.messages.chat.ChatMessagesViewModel
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesViewModel
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.utils.ApiUtils
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
                 .subscribeSmart({}, {})
     }
 
-    fun setActivity(peerId: Int, type: String = ApiUtils.ACTIVITY_TYPING) {
+    fun setActivity(peerId: Int, type: String = ACTIVITY_TYPING) {
         api.setActivity2(peerId, type)
                 .subscribeSmart({}, {})
     }
@@ -80,6 +80,7 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>) = when (modelClass) {
             StarredMessagesViewModel::class.java -> StarredMessagesViewModel(api) as T
+            ChatMessagesViewModel::class.java -> ChatMessagesViewModel(api) as T
 
             else -> throw IllegalArgumentException("Unknown ViewModel class $modelClass")
         }

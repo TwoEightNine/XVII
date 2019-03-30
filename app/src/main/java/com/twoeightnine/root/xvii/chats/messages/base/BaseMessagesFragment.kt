@@ -35,6 +35,8 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
 
     abstract fun getAdapterSettings(): MessagesAdapter.Settings
 
+    protected open fun prepareViewModel() {}
+
     override fun getLayoutId() = R.layout.fragment_chat_new
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,6 +46,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         initRecyclerView()
         initMultiAction()
         viewModel = ViewModelProviders.of(this, viewModelFactory)[getViewModelClass()]
+        prepareViewModel()
         viewModel.getMessages().observe(this, Observer { updateMessages(it) })
         viewModel.loadMessages()
         adapter.startLoading()

@@ -38,10 +38,8 @@ object Prefs {
 
     //other
     private const val RECENT_STICKERS = "recentStickers"
-    private const val AVAILABLE_STICKERS = "availableStickers"
     private const val RECENT_EMOJIS = "recentEmojis"
     private const val SHOW_RATE = "showRate"
-    private const val LAST_STICKERS_UPD = "lastStickersUpd"
 
     private val data: SharedPreferences by lazy {
         App.context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
@@ -133,7 +131,7 @@ object Prefs {
         get() = data.getInt(COLOR, DEFAULT_COLOR.toInt())
         set(value) = data.edit().putInt(COLOR, value).apply()
 
-    var isNight: Boolean
+    var isLightTheme: Boolean
         get() = data.getBoolean(NIGHT, false)
         set(value) = data.edit().putBoolean(NIGHT, value).apply()
 
@@ -150,21 +148,9 @@ object Prefs {
                 .toMutableList()
         set(value) = data.edit().putString(RECENT_STICKERS, value.joinToString(separator = ",")).apply()
 
-    var availableStickers: MutableList<Int>
-        get() = data.getString(AVAILABLE_STICKERS, "")
-                .split(",")
-                .filter { it.isNotEmpty() }
-                .map { it.toInt() }
-                .toMutableList()
-        set(value) = data.edit().putString(AVAILABLE_STICKERS, value.joinToString(separator = ",")).apply()
-
     var showRate: Boolean
         get() = data.getBoolean(SHOW_RATE, true)
         set(value) = data.edit().putBoolean(SHOW_RATE, false).apply()
-
-    var lastStickersUpdate: Int
-        get() = data.getInt(LAST_STICKERS_UPD, 0)
-        set(value) = data.edit().putInt(LAST_STICKERS_UPD, value).apply()
 
     var recentEmojis: MutableList<Emoji>
         get() = data.getString(RECENT_EMOJIS, "")

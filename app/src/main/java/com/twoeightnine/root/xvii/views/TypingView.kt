@@ -53,7 +53,7 @@ class TypingView : LinearLayout {
 
     private fun getColor(isWhite: Boolean) = when {
         isWhite -> Color.WHITE
-        Prefs.isNight -> Color.LTGRAY
+        Prefs.isLightTheme -> Color.LTGRAY
         else -> Color.GRAY
     }
 

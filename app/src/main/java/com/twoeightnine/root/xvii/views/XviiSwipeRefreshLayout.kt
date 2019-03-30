@@ -13,7 +13,7 @@ class XviiSwipeRefreshLayout : SwipyRefreshLayout {
 
     init {
         setDistanceToTriggerSync(100)
-        if (Prefs.isNight) {
+        if (Prefs.isLightTheme) {
             setColorSchemeColors(Prefs.color)
         }
     }

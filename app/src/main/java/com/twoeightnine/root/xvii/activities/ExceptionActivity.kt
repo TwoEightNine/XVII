@@ -25,7 +25,7 @@ class ExceptionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         NightModeHelper.updateConfig(
-                if (Prefs.isNight) {
+                if (Prefs.isLightTheme) {
                     Configuration.UI_MODE_NIGHT_YES
                 } else {
                     Configuration.UI_MODE_NIGHT_NO

@@ -21,6 +21,7 @@ import com.twoeightnine.root.xvii.chats.fragments.AttachedFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatInfoFragment
 import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
+import com.twoeightnine.root.xvii.chats.messages.chat.ChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.dagger.modules.NetworkModule
@@ -79,6 +80,7 @@ interface AppComponent {
     fun inject(videoAttachFragment: VideoAttachFragment)
     fun inject(stickersFragment: StickersFragment)
     fun inject(starredMessagesFragment: StarredMessagesFragment)
+    fun inject(chatMessagesFragment: ChatMessagesFragment)
 
     //other
     fun inject(notificationService: NotificationService)

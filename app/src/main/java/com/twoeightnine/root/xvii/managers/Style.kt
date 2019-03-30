@@ -47,7 +47,7 @@ object Style {
         lightColor = other[2]
         extraLightColor = other[3]
         defaultColor = ContextCompat.getColor(context, R.color.avatar)
-        isDay = !Prefs.isNight
+        isDay = !Prefs.isLightTheme
     }
 
     fun getFromMain(mainColor: Int = this.mainColor): IntArray { //[dark, main, light, extraLight]
@@ -67,7 +67,7 @@ object Style {
     }
 
     fun getPhotoStub(): String {
-        val color = if (Prefs.isNight) mainColor else defaultColor
+        val color = if (Prefs.isLightTheme) mainColor else defaultColor
         val colorHex = String.format("%X", color).substring(2)
         return String.format(PHOTO_STUB_URL, colorHex, colorHex)
     }

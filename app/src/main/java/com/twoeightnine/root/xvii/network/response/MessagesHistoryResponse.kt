@@ -10,11 +10,14 @@ import com.twoeightnine.root.xvii.utils.matchesChatId
 import com.twoeightnine.root.xvii.utils.matchesGroupId
 import com.twoeightnine.root.xvii.utils.matchesUserId
 
-data class MessagesResponse(
-
-        @SerializedName("messages")
+data class MessagesHistoryResponse(
+        @SerializedName("count")
         @Expose
-        val messages: ListResponse<Message2>,
+        val count: Int = 0,
+
+        @SerializedName("items")
+        @Expose
+        val items: ArrayList<Message2> = arrayListOf(),
 
         @SerializedName("profiles")
         @Expose
@@ -47,4 +50,6 @@ data class MessagesResponse(
         message.peerId.matchesChatId() -> getConversationById(message.peerId)?.chatSettings?.photo?.photo100
         else -> null
     }
+
+    fun isMessageRead(message: Message2) = message.id <= getConversationById(message.peerId)?.outRead ?: 0
 }

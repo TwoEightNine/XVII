@@ -81,6 +81,7 @@ open class DialogsFragment : BaseFragment() {
 
     protected open fun onClick(dialog: Dialog) {
         rootActivity?.loadFragment(ChatFragment.newInstance(dialog))
+//        rootActivity?.loadFragment(ChatMessagesFragment.newInstance(dialog.peerId))
     }
 
     protected open fun onLongClick(dialog: Dialog) {
