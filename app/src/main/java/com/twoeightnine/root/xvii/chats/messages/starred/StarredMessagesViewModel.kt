@@ -31,14 +31,25 @@ class StarredMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
     private fun convert(resp: BaseResponse<MessagesResponse>): BaseResponse<ArrayList<Message2>> {
         val messages = arrayListOf<Message2>()
         val response = resp.response
-        response?.messages?.items?.forEach { message ->
-            messages.add(message)
-            message.name = response.getNameForMessage(message)
-            message.photo = response.getPhotoForMessage(message)
+        response?.messages?.items?.forEach {
+            val message = putTitles(it, response)
             message.read = true
+            messages.add(message)
         }
 
         return BaseResponse(messages, resp.error)
+    }
+
+    private fun putTitles(message: Message2, response: MessagesResponse): Message2 {
+        message.name = response.getNameForMessage(message)
+        message.photo = response.getPhotoForMessage(message)
+        val fwd = arrayListOf<Message2>()
+        message.fwdMessages?.forEach {
+            fwd.add(putTitles(it, response))
+        }
+        message.fwdMessages?.clear()
+        message.fwdMessages?.addAll(fwd)
+        return message
     }
 
     companion object {

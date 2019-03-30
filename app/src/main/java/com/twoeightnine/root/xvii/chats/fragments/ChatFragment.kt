@@ -82,7 +82,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     override fun bindViews(view: View) {
         inputController = ChatInputController(view, InputCallback())
         voiceController = VoiceRecorder(safeContext, VoiceCallback())
-        bottomSheet = BottomSheetController(rlBottom, rlHideBottom) { vpAttach.currentItem = 1 } // reset to gallery
+        bottomSheet = BottomSheetController(rlBottom, rlHideBottom) { vpAttach?.currentItem = 1 } // reset to gallery
         swipeContainer.setOnRefreshListener { presenter.loadHistory(withClear = true) }
 
         initAdapter()
@@ -449,7 +449,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     override fun onMessageAdded(message: Message) {
-        if (presenter.isEncrypted && message.body?.matchesXviiKey() == true) {
+        if (presenter.isEncrypted && message.body.matchesXviiKey()) {
             message.body = getDecrypted(message.body)
         }
         val wasAtEnd = adapter.isAtEnd
@@ -507,7 +507,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     override fun onMessagesDeleted(mids: MutableList<Int>) {
-        Lg.i("mids = $mids")
         adapter.items
                 .filter { it.id in mids }
                 .forEach { adapter.remove(it) }
@@ -643,7 +642,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         override fun onLongClicked(message: Message): Boolean {
             getContextPopup(safeActivity, R.layout.popup_message) {
                 when (it.id) {
-                    R.id.llCopy -> copyToClip(message.body ?: "")
+                    R.id.llCopy -> copyToClip(message.body)
                     R.id.llEdit -> showEditMessageDialog(message)
                     R.id.llReply -> presenter.attachUtils.forwarded = "${message.id}"
                     R.id.llForward -> {
