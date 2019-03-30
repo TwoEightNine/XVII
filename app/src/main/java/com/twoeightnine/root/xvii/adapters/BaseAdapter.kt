@@ -111,13 +111,6 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
      * for internal usage
      */
     var multiSelectMode = false
-        set(value) {
-            field = value
-            if (!value) {
-                clearMultiSelect()
-                notifyDataSetChanged()
-            }
-        }
 
     val multiSelect = arrayListOf<T>()
 

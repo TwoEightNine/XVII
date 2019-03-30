@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.activities.VideoViewerActivity
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
@@ -13,10 +14,12 @@ import com.twoeightnine.root.xvii.model.Doc
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.Photo
 import com.twoeightnine.root.xvii.model.Video
+import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.copyToClip
 import com.twoeightnine.root.xvii.utils.getContextPopup
 import com.twoeightnine.root.xvii.utils.hide
+import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_chat_new.*
 
 class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>() {
@@ -30,6 +33,9 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         llInput.hide()
+        ivCancelMulti.hide()
+        ivReplyMulti.hide()
+        ivMenuMulti.hide()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,13 +70,19 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
             rootActivity?.loadFragment(ProfileFragment.newInstance(userId))
         }
 
-        override fun onDocClicked(doc: Doc) {
+        override fun onEncryptedFileClicked(doc: Doc) {
         }
 
         override fun onPhotoClicked(photo: Photo) {
+            ImageViewerActivity.viewImages(context, arrayListOf(photo))
         }
 
         override fun onVideoClicked(video: Video) {
+            viewModel.loadVideo(context ?: return, video, { playerUrl ->
+                VideoViewerActivity.launch(context, playerUrl)
+            }, { error ->
+                showError(context, error)
+            })
         }
     }
 

@@ -106,6 +106,12 @@ interface ApiService {
             @Query("type") type: String
     ): Flowable<BaseResponse<Int>>
 
+    @GET("messages.setActivity")
+    fun setActivity2(
+            @Query("peer_id") peerId: Int,
+            @Query("type") type: String
+    ): Flowable<BaseResponse<Int>>
+
     @GET("messages.removeChatUser")
     fun removeUser(@Query("chat_id") chatId: Int,
                    @Query("user_id") userId: Int): Flowable<BaseResponse<Int>>

@@ -57,8 +57,8 @@
     <string name="join_us">Follow us for getting the freshest news about app</string>
     <string name="stickers">Stickers</string>
     <string name="download">Download</string>
-    <string name="add_to_saved">Add to saved</string>
-    <string name="added_to_saved">Photo has been added to saved photos</string>
+    <string name="add_to_saved">Save to album</string>
+    <string name="added_to_saved">Photo has been saved to album</string>
     <string name="notifications">Notifications</string>
     <string name="general">General</string>
     <string name="auth_error">Auth error</string>
@@ -98,7 +98,7 @@
     <string name="skype" translatable="false">Skype</string>
     <string name="attachments">Attachments</string>
     <string name="attached">Attached</string>
-    <string name="important">Important</string>
+    <string name="important">Starred</string>
     <string name="markAsImportant">Mark as important</string>
     <string name="not_playable_video">Video is not playable</string>
     <string name="mark_as_read">Mark as read</string>

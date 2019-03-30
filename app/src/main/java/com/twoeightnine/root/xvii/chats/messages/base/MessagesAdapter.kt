@@ -118,7 +118,7 @@ class MessagesAdapter(context: Context,
                     setOnClickListener { callback.onUserClicked(message.fromId) }
                 }
                 readStateDot?.apply {
-                    Style.forImageView(this, Style.MAIN_TAG)
+                    Style.forImageView(this, Style.MAIN_TAG, changeStroke = false)
                     visibility = if (!message.read && message.isOut()) {
                         View.VISIBLE
                     } else {
@@ -188,7 +188,7 @@ class MessagesAdapter(context: Context,
                                         llMessageContainer.addView(included)
                                     }
                                     doc.isEncrypted -> {
-                                        llMessageContainer.addView(getEncrypted(doc, context, callback::onDocClicked))
+                                        llMessageContainer.addView(getEncrypted(doc, context, callback::onEncryptedFileClicked))
                                     }
                                     else -> {
                                         llMessageContainer.addView(getDoc(doc, context))
@@ -246,7 +246,7 @@ class MessagesAdapter(context: Context,
     interface Callback {
         fun onClicked(message: Message2)
         fun onUserClicked(userId: Int)
-        fun onDocClicked(doc: Doc)
+        fun onEncryptedFileClicked(doc: Doc)
         fun onPhotoClicked(photo: Photo)
         fun onVideoClicked(video: Video)
     }

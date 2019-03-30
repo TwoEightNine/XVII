@@ -5,7 +5,6 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.VideoViewerActivity
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Video
@@ -132,24 +131,6 @@ class ApiUtils @Inject constructor(val api: ApiService) {
                 .subscribeSmart({
                     onSuccess.invoke()
                 }, onError)
-    }
-
-    fun updateStickers() {
-        if (time() - Prefs.lastStickersUpdate < STICKERS_UPD_DELAY) return
-
-        api.getStickers()
-                .subscribeSmart({
-                    response ->
-                    val ids = mutableListOf<Int>()
-                    response.dictionary?.forEach {
-                        it.userStickers?.forEach {
-                            ids.add(it)
-                        }
-                    }
-                    ids.sort()
-                    Prefs.availableStickers = ids.distinct().toMutableList()
-                    Prefs.lastStickersUpdate = time()
-                }, {})
     }
 
     fun trackVisitor(onSuccess: () -> Unit = {}) {

@@ -83,7 +83,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         if (nonEmpty) {
             // stuff
         } else {
-
+            adapter.multiSelectMode = false
         }
         rlMultiAction.setVisible(nonEmpty)
     }

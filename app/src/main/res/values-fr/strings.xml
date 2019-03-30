@@ -51,8 +51,8 @@
     <string name="join_us">Suives-nous for getting the freshest news about app</string>
     <string name="stickers">Autocollants</string>
     <string name="download">Télécharger</string>
-    <string name="add_to_saved">Ajouter à des enregistrées</string>
-    <string name="added_to_saved">Photo a été ajouté à des enregistrées</string>
+    <string name="add_to_saved">Sauvegarder dans l\'album</string>
+    <string name="added_to_saved">Photo a été sauvegardé dans l\'album</string>
     <string name="notifications">Notifications</string>
     <string name="general">Général</string>
     <string name="auth_error">Erreur d\'auth</string>
@@ -89,7 +89,7 @@
     <string name="pin_settings">Paramètres de code d\'accès</string>
     <string name="attachments">Attachments</string>
     <string name="attached">Attaché</string>
-    <string name="important">Important</string>
+    <string name="important">Étoilés</string>
     <string name="markAsImportant">Marque comme important</string>
     <string name="not_playable_video">Vidéo n\'est pas jouable</string>
     <string name="docs">Docs</string>

@@ -4,8 +4,8 @@
     <string name="about">О приложении</string>
     <string name="about_app">О приложении</string>
     <string name="accounts">Аккаунты</string>
-    <string name="add_to_saved">Добавить в сохранённые</string>
-    <string name="added_to_saved">Фото было добавлено в сохранённые</string>
+    <string name="add_to_saved">Сохранить в альбом</string>
+    <string name="added_to_saved">Фото было сохранено в альбом</string>
     <string name="already_acc">Этот аккаунт используется в данный момент</string>
     <string name="appearance">Оформление</string>
     <string name="attached">Прикреплённые</string>
