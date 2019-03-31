@@ -24,7 +24,7 @@
     <string name="chat_back_exists">Фон чата уже выбран</string>
     <string name="chat_created">Создан успешно</string>
     <string name="chat_title_updated">Название беседы изменено: %s</string>
-    <string name="chats_notifs">Уведомления в чатах</string>
+    <string name="chats_notifs">Чаты</string>
     <string name="choose_dialog">Выберите диалог</string>
     <string name="city">Город</string>
     <string name="community">сообщество</string>
