@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.fragments
+package com.twoeightnine.root.xvii.egg
 
 import android.os.Bundle
 import android.text.Html
@@ -42,7 +42,9 @@ class EggFragment : BaseFragment() {
 
     private fun bindLetovAgainst() {
         rlLetovAgainst.show()
-        ivLetov.load(URL_LETOV_AGAINST, placeholder = false)
+        ivLetov.load(URL_LETOV_AGAINST, placeholder = false) {
+            fit()
+        }
     }
 
     override fun getLayoutId() = R.layout.fragment_egg
@@ -53,7 +55,7 @@ class EggFragment : BaseFragment() {
         const val MODE_FIGHT_CLUB = 1
         const val MODE_LETOV_AGAINST = 2
 
-        const val URL_LETOV_AGAINST = "https://pm1.narvii.com/6928/dc0afe415977f8e76a7b9523acd8adfcc5c060e2r1-960-233v2_hq.jpg"
+        const val URL_LETOV_AGAINST = "https://s00.yaplakal.com/pics/pics_original/4/7/2/6998274.jpg"
         const val URL_FIGHT_CLUB = "https://s-media-cache-ak0.pinimg.com/originals/22/6e/f8/226ef80405ed0da0b726c13d4a0bc9a1.jpg"
 
         fun newInstance(mode: Int = MODE_FIGHT_CLUB): EggFragment {

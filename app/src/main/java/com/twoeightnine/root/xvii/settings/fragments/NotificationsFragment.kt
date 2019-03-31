@@ -5,8 +5,8 @@ import android.os.Handler
 import android.view.View
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.egg.EggFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
-import com.twoeightnine.root.xvii.fragments.EggFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
 import kotlinx.android.synthetic.main.fragment_notifications.*
@@ -115,7 +115,9 @@ class NotificationsFragment : BaseOldFragment() {
                         1 -> {
                             eggState = -2
                             handler.postDelayed({ switchEgg.isChecked = false }, 500L)
-                            handler.postDelayed({ rootActivity.loadFragment(EggFragment.newInstance(EggFragment.MODE_LETOV_AGAINST)) }, 1000L)
+                            handler.postDelayed({
+                                rootActivity.loadFragment(EggFragment.newInstance(EggFragment.MODE_LETOV_AGAINST))
+                            }, 1000L)
                         }
                         else -> {
                             eggState++
