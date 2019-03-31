@@ -245,7 +245,7 @@
     <string name="tap_to_provide_permissions">Taper ici pour permettre un accès au storage</string>
     <string name="app_will_be_restarted">L\'app sera redemarré. Continuer?</string>
     <string name="unmark">Décocher</string>
-    <string name="private_messages_notifs">Des messages privés</string>
+    <string name="private_messages_notifs">Messages privés</string>
     <string name="show_chats_notifs">Montrer des notifications des tchats</string>
 
 </resources>
