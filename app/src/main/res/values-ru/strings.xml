@@ -254,5 +254,8 @@
     <string name="downloading_file">Загрузка файла..</string>
     <string name="tap_to_provide_permissions">Нажмите, чтобы разрешить</string>
     <string name="app_will_be_restarted">Приложение будет перезапущено. Продолжить?</string>
+    <string name="unmark">Снять</string>
+    <string name="private_messages_notifs">Личные сообщения</string>
+    <string name="show_chats_notifs">Показывать сообщения чатов</string>
 
 </resources>
