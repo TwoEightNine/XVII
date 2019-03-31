@@ -138,23 +138,26 @@ class LongPollCore(private val context: Context) {
     }
 
     private fun processNewMessage(event: NewMessageEvent) {
-        if (event.isOut() || !Prefs.showNotifs
-                || event.peerId in Prefs.muteList) return
+        if (event.isOut()
+                || event.peerId in Prefs.muteList
+                || event.isUser() && !Prefs.showNotifs
+                || !event.isUser() && !Prefs.showNotifsChats) return
 
-        if (Prefs.showNotifsChats || event.isUser()) {
-
-            if (!isInForeground()) {
-                if (Prefs.vibrate) {
-                    vibrate()
-                }
-                if (Prefs.sound) {
-                    ringtone.play()
-                }
-            }
+        val shouldVibrate = Prefs.vibrateChats && !event.isUser()
+                || Prefs.vibrate && event.isUser()
+        val shouldRing = Prefs.soundChats && !event.isUser()
+                || Prefs.sound && event.isUser()
+        if (!isInForeground()) {
+            if (shouldVibrate) vibrate()
+            if (shouldRing) ringtone.play()
         }
 
-        val content = event.getResolvedMessage(context, !Prefs.showContent)
+        val shouldShowContent = event.isUser() && Prefs.showContent
+                || !event.isUser() && Prefs.showContentChats
+
+        val content = event.getResolvedMessage(context, !shouldShowContent)
         val timeStamp = event.timeStamp * 1000L
+
         // trying to get dialog from database
         getDialog(event.peerId, { dialog ->
             if (Prefs.showName) {

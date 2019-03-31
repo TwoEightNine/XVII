@@ -28,6 +28,7 @@ object Style {
 
     const val MAIN_TAG = "main"
     const val LIGHT_TAG = "light"
+    const val EXTRA_LIGHT_TAG = "extraLight"
     const val DARK_TAG = "dark"
     const val API_20_TAG = "api20"
 
@@ -118,13 +119,13 @@ object Style {
         forEditText(et, tag)
     }
 
-    private fun getColorByTag(tag: String): Int {
-        when (tag) {
-            LIGHT_TAG -> return lightColor
-            DARK_TAG -> return darkColor
-        }
-        return mainColor
+    private fun getColorByTag(tag: String) = when (tag) {
+        LIGHT_TAG -> lightColor
+        EXTRA_LIGHT_TAG -> extraLightColor
+        DARK_TAG -> darkColor
+        else -> mainColor
     }
+
 
     fun forMessage(vg: ViewGroup, level: Int) {
         if (ignore()) return

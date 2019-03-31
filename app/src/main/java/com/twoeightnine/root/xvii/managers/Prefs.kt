@@ -21,14 +21,20 @@ object Prefs {
     private const val STORE_CUSTOM_KEYS = "storeCustomKeys"
 
     //notifications
-    private const val VIBRATE = "vibrate"
     private const val SHOW_NOTIF = "showNotif"
-    private const val SHOW_NOTIF_CHATS = "showNotifChats"
+    private const val VIBRATE = "vibrate"
+    private const val SOUND = "sound"
     private const val SHOW_NAME = "showName"
     private const val SHOW_CONTENT = "showContent"
-    private const val SOUND = "sound"
-    private const val MUTE_LIST = "muteList"
     private const val LED_LIGHTS = "ledLights"
+
+    private const val SHOW_NOTIF_CHATS = "showNotifChats"
+    private const val VIBRATE_CHATS = "vibrateChats"
+    private const val SOUND_CHATS = "soundChats"
+    private const val SHOW_CONTENT_CHATS = "showContentChats"
+    private const val LED_LIGHTS_CHATS = "ledLightsCHats"
+
+    private const val MUTE_LIST = "muteList"
 
     //appearance
     private const val NIGHT = "night"
@@ -71,30 +77,53 @@ object Prefs {
         get() = data.getBoolean(STORE_CUSTOM_KEYS, true)
         set(value) = data.edit().putBoolean(STORE_CUSTOM_KEYS, value).apply()
 
-    //notifications
-    var vibrate: Boolean
-        get() = data.getBoolean(VIBRATE, true)
-        set(vibrate) = data.edit().putBoolean(VIBRATE, vibrate).apply()
-
+    // notifications
+    // private
     var showNotifs: Boolean
         get() = data.getBoolean(SHOW_NOTIF, true)
         set(showNotif) = data.edit().putBoolean(SHOW_NOTIF, showNotif).apply()
 
-    var showNotifsChats: Boolean
-        get() = data.getBoolean(SHOW_NOTIF_CHATS, true)
-        set(showNotif) = data.edit().putBoolean(SHOW_NOTIF_CHATS, showNotif).apply()
-
-    var showName: Boolean
-        get() = data.getBoolean(SHOW_NAME, false)
-        set(showName) = data.edit().putBoolean(SHOW_NAME, showName).apply()
+    var vibrate: Boolean
+        get() = data.getBoolean(VIBRATE, true)
+        set(vibrate) = data.edit().putBoolean(VIBRATE, vibrate).apply()
 
     var sound: Boolean
         get() = data.getBoolean(SOUND, false)
         set(sound) = data.edit().putBoolean(SOUND, sound).apply()
 
+    var showName: Boolean
+        get() = data.getBoolean(SHOW_NAME, false)
+        set(showName) = data.edit().putBoolean(SHOW_NAME, showName).apply()
+
     var ledLights: Boolean
         get() = data.getBoolean(LED_LIGHTS, false)
         set(ledLights) = data.edit().putBoolean(LED_LIGHTS, ledLights).apply()
+
+    var showContent: Boolean
+        get() = data.getBoolean(SHOW_CONTENT, false)
+        set(show) = data.edit().putBoolean(SHOW_CONTENT, show).apply()
+
+    // notifications
+    // other
+    var showNotifsChats: Boolean
+        get() = data.getBoolean(SHOW_NOTIF_CHATS, true)
+        set(showNotif) = data.edit().putBoolean(SHOW_NOTIF_CHATS, showNotif).apply()
+
+    var vibrateChats: Boolean
+        get() = data.getBoolean(VIBRATE_CHATS, true)
+        set(vibrate) = data.edit().putBoolean(VIBRATE_CHATS, vibrate).apply()
+
+    var soundChats: Boolean
+        get() = data.getBoolean(SOUND_CHATS, false)
+        set(sound) = data.edit().putBoolean(SOUND_CHATS, sound).apply()
+
+    var ledLightsChats: Boolean
+        get() = data.getBoolean(LED_LIGHTS_CHATS, false)
+        set(ledLights) = data.edit().putBoolean(LED_LIGHTS_CHATS, ledLights).apply()
+
+    var showContentChats: Boolean
+        get() = data.getBoolean(SHOW_CONTENT_CHATS, false)
+        set(show) = data.edit().putBoolean(SHOW_CONTENT_CHATS, show).apply()
 
     var muteList: MutableList<Int>
         get() {
@@ -121,10 +150,6 @@ object Prefs {
             }
             data.edit().putString(MUTE_LIST, sb.toString()).apply()
         }
-
-    var showContent: Boolean
-        get() = data.getBoolean(SHOW_CONTENT, false)
-        set(show) = data.edit().putBoolean(SHOW_CONTENT, show).apply()
 
     //appearance
     var color: Int

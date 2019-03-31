@@ -49,6 +49,6 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
     }
 
     companion object {
-        const val COUNT = 200
+        const val COUNT = 50
     }
 }

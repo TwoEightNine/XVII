@@ -62,7 +62,7 @@
     <string name="notifications">Notifications</string>
     <string name="general">General</string>
     <string name="auth_error">Auth error</string>
-    <string name="show_notif">Show notifications</string>
+    <string name="show_notif">Show private notifications</string>
     <string name="show_name">Show sender\'s name</string>
     <string name="about">About</string>
     <string name="try_again">Try again</string>
@@ -118,7 +118,6 @@
     <string name="chat_back_exists">Chat background is selected</string>
     <string name="change">Change</string>
     <string name="chat_back">Chat background</string>
-    <string name="chats_notifs">Chat notifications</string>
     <string name="show_content">Show message content</string>
     <string name="led_lights">Blink LED</string>
     <string name="mute">Mute list</string>
@@ -166,6 +165,9 @@
     <string name="like_app">Do you like XVII?\nRate it now!</string>
     <string name="not_now">Not now</string>
     <string name="never">Never</string>
+    <string name="private_messages_notifs">Private messages</string>
+    <string name="chats_notifs">Chats</string>
+    <string name="show_chats_notifs">Show chat notifications</string>
     <string name="delete_for_all">Delete for all users</string>
     <string name="delete_only_for_me">Delete only for me</string>
     <string name="wanna_delete_messages">Do you really want to delete these messages?</string>
