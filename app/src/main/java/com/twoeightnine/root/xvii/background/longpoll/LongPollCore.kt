@@ -45,6 +45,8 @@ class LongPollCore(private val context: Context) {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
+    private val unreadMessages = hashMapOf<Int, ArrayList<String>>()
+
     private val disposables = CompositeDisposable()
     private var isRunning = false
     private var lastCount = 0
@@ -134,6 +136,7 @@ class LongPollCore(private val context: Context) {
         lastCount = event.unreadCount
         if (decrease) {
             notificationManager.cancelAll()
+            unreadMessages.clear()
         }
     }
 
@@ -154,8 +157,18 @@ class LongPollCore(private val context: Context) {
 
         val shouldShowContent = event.isUser() && Prefs.showContent
                 || !event.isUser() && Prefs.showContentChats
+        if (event.peerId !in unreadMessages) {
+            unreadMessages[event.peerId] = arrayListOf()
+        }
+        unreadMessages[event.peerId]?.add(event.getResolvedMessage(context, !shouldShowContent))
 
-        val content = event.getResolvedMessage(context, !shouldShowContent)
+        val content = if (shouldShowContent) {
+            unreadMessages[event.peerId]
+                    ?: arrayListOf(context.getString(R.string.messages))
+        } else {
+            val count = unreadMessages[event.peerId]?.size ?: 0
+            arrayListOf(context.resources.getQuantityString(R.plurals.messages, count, count))
+        }
         val timeStamp = event.timeStamp * 1000L
 
         // trying to get dialog from database
@@ -216,7 +229,7 @@ class LongPollCore(private val context: Context) {
     }
 
     private fun showNotification(
-            content: String,
+            content: ArrayList<String>,
             timeStamp: Long,
             peerId: Int,
             messageId: Int,
@@ -227,13 +240,20 @@ class LongPollCore(private val context: Context) {
 
         createNotificationChannel()
 
+        if (content.isEmpty()) {
+            content.add(context.getString(R.string.messages))
+        }
+        val text = Html.fromHtml(content.last())
+        val textBig = Html.fromHtml(content.joinToString(separator = "<br>"))
+
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setLargeIcon(icon)
                 .setSmallIcon(R.drawable.ic_envelope)
                 .setContentTitle(title)
                 .setAutoCancel(true)
                 .setWhen(timeStamp)
-                .setContentText(Html.fromHtml(content))
+                .setContentText(text)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(textBig))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .addAction(
