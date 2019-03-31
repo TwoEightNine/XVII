@@ -102,14 +102,14 @@ class MessagesAdapter(context: Context,
                 invalidateBackground(message, this, level)
                 llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
                 tvName?.text = message.name
-                tvBody.setVisible(message.text.isNotEmpty() || !message.action.isNullOrEmpty())
+                tvBody.setVisible(message.text.isNotEmpty() /*|| !message.action.isNullOrEmpty()*/)
                 tvBody.text = when {
                     message.text.isNotEmpty() -> when {
                         EmojiHelper.hasEmojis(message.text) -> EmojiHelper.getEmojied(context, message.text)
                         isDecrypted(message.text) -> getWrapped(message.text)
                         else -> message.text
                     }
-                    !message.action.isNullOrEmpty() -> getAction(message)
+//                    !message.action.isNullOrEmpty() -> getAction(message)
                     else -> ""
                 }
                 tvDate.text = getTime(message.date, full = true)
@@ -234,13 +234,13 @@ class MessagesAdapter(context: Context,
             return Html.fromHtml(result)
         }
 
-        private fun getAction(message: Message2) = when (message.action) {
-            Message.IN_CHAT -> context.getString(R.string.invite_chat_full, "${message.actionMid}")
-            Message.OUT_OF_CHAT -> context.getString(R.string.kick_chat_full, "${message.actionMid}")
-            Message.TITLE_UPDATE -> context.getString(R.string.chat_title_updated, message.actionText)
-            Message.CREATE -> context.getString(R.string.chat_created)
-            else -> ""
-        }
+//        private fun getAction(message: Message2) = when (message.action) {
+//            Message.IN_CHAT -> context.getString(R.string.invite_chat_full, "${message.actionMid}")
+//            Message.OUT_OF_CHAT -> context.getString(R.string.kick_chat_full, "${message.actionMid}")
+//            Message.TITLE_UPDATE -> context.getString(R.string.chat_title_updated, message.actionText)
+//            Message.CREATE -> context.getString(R.string.chat_created)
+//            else -> ""
+//        }
     }
 
     interface Callback {

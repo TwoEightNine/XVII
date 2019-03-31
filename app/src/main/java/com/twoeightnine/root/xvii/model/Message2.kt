@@ -35,17 +35,17 @@ data class Message2(
         @Expose
         val out: Int = 0,
 
-        @SerializedName("action")
-        @Expose
-        val action: String? = null,
-
-        @SerializedName("action_text")
-        @Expose
-        val actionText: String? = null,
-
-        @SerializedName("action_mid")
-        @Expose
-        val actionMid: String? = null,
+//        @SerializedName("action")
+//        @Expose
+//        val action: String? = null,
+//
+//        @SerializedName("action_text")
+//        @Expose
+//        val actionText: String? = null,
+//
+//        @SerializedName("action_mid")
+//        @Expose
+//        val actionMid: String? = null,
 
         @SerializedName("fwd_messages")
         @Expose
