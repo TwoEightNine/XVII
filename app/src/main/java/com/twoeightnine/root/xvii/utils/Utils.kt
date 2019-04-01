@@ -35,6 +35,7 @@ import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIn
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorService
+import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
@@ -45,7 +46,6 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import okhttp3.ResponseBody
 import java.io.*
-import java.security.MessageDigest
 import java.text.DecimalFormat
 import java.util.regex.Pattern
 
@@ -221,35 +221,6 @@ fun writeBytesToFile(context: Context, bytes: ByteArray, fileName: String): Stri
     }
     return file.absolutePath
 }
-
-fun md5Raw(plain: ByteArray) = MessageDigest
-        .getInstance("MD5")
-        .digest(plain)
-
-fun md5(plain: String) = md5Raw(plain.toByteArray())
-        .map { Integer.toHexString(it.toInt() and 0xff) }
-        .map { if (it.length == 2) it else "0$it" }
-        .joinToString(separator = "")
-
-fun sha256Raw(plain: ByteArray) = MessageDigest
-        .getInstance("SHA-256")
-        .digest(plain)
-
-fun sha256(plain: String) = sha256Raw(plain.toByteArray())
-        .map { Integer.toHexString(it.toInt() and 0xff) }
-        .map { if (it.length == 2) it else "0$it" }
-        .joinToString(separator = "")
-
-fun bytesToHex(bytes: ByteArray) = bytes
-        .map { Integer.toHexString(it.toInt() and 0xff) }
-        .map { if (it.length == 2) it else "0$it" }
-        .joinToString(separator = "")
-
-fun getUiFriendlyHash(hash: String) = hash
-        .mapIndexed { index, c -> if (index % 2 == 0) c.toString() else "$c " } // spaces
-        .mapIndexed { index, s -> if (index % 16 == 15) "$s\n" else s } // new-lines
-        .map { it.toUpperCase() }
-        .joinToString(separator = "")
 
 fun equalsDevUids(userId: Int) = App.ID_SALTS
         .map { md5(userId.toString() + it) }

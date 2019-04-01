@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Base64
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.crypto.bytesToHex
+import com.twoeightnine.root.xvii.crypto.md5Raw
+import com.twoeightnine.root.xvii.crypto.sha256
+import com.twoeightnine.root.xvii.crypto.sha256Raw
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.KeyStorage
 import com.twoeightnine.root.xvii.managers.Prefs

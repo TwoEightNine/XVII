@@ -1,11 +1,12 @@
 package com.twoeightnine.root.xvii
 
-import com.twoeightnine.root.xvii.utils.crypto.AES256Cipher
+import com.twoeightnine.root.xvii.crypto.bytesToHex
+import com.twoeightnine.root.xvii.crypto.cipher.Aes256
+import junit.framework.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import java.security.InvalidKeyException
-import java.util.*
 
 /**
  * Created by twoeightnine on 1/25/18.
@@ -18,32 +19,32 @@ class AesUnitTest {
     @Test
     fun encrypting_invalidKeyLength() {
         thrown.expect(InvalidKeyException::class.java)
-        AES256Cipher.encrypt(IV_VALID, KEY_INVALID, TEXT_EXAMPLE)
+        Aes256.encrypt(IV_VALID, KEY_INVALID, TEXT_EXAMPLE)
     }
 
     @Test
     fun decrypting_invalidKeyLength() {
         thrown.expect(InvalidKeyException::class.java)
-        AES256Cipher.decrypt(IV_VALID, KEY_INVALID, TEXT_EXAMPLE)
+        Aes256.decrypt(IV_VALID, KEY_INVALID, TEXT_EXAMPLE)
     }
 
     @Test
     fun encrypting_invalidIvLength() {
         thrown.expect(InvalidKeyException::class.java)
-        AES256Cipher.encrypt(IV_INVALID, KEY_VALID, TEXT_EXAMPLE)
+        Aes256.encrypt(IV_INVALID, KEY_VALID, TEXT_EXAMPLE)
     }
 
     @Test
     fun decrypting_invalidIvLength() {
         thrown.expect(InvalidKeyException::class.java)
-        AES256Cipher.decrypt(IV_INVALID, KEY_VALID, TEXT_EXAMPLE)
+        Aes256.decrypt(IV_INVALID, KEY_VALID, TEXT_EXAMPLE)
     }
 
-//    @Test
+    @Test
     fun encrypting_isCorrect() {
-        val encrypted = AES256Cipher.encrypt(IV_VALID, KEY_VALID, TEXT_EXAMPLE)
-        val decrypted = AES256Cipher.decrypt(IV_VALID, KEY_VALID, encrypted)
-        assert(Arrays.equals(decrypted, TEXT_EXAMPLE))
+        val encrypted = Aes256.encrypt(IV_VALID, KEY_VALID, TEXT_EXAMPLE)
+        val decrypted = Aes256.decrypt(IV_VALID, KEY_VALID, encrypted)
+        assertEquals(bytesToHex(decrypted), bytesToHex(TEXT_EXAMPLE))
     }
 
     companion object {

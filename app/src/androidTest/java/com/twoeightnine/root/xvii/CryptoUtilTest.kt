@@ -1,11 +1,14 @@
 package com.twoeightnine.root.xvii
 
+import androidx.test.runner.AndroidJUnit4
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
 import org.junit.Test
+import org.junit.runner.RunWith
 
 /**
  * Created by twoeightnine on 1/25/18.
  */
+@RunWith(AndroidJUnit4::class)
 class CryptoUtilTest {
 
     @Test
@@ -51,11 +54,11 @@ class CryptoUtilTest {
     }
 
     companion object {
-        val USER_A = 12345678
-        val USER_B = 81726354
+        const val USER_A = 12345678
+        const val USER_B = 81726354
 
-        val USER_KEY = "userKeyUserKey"
-        val TEXT_SAMPLE = "all my life i wanted money and power respekt my mind or die from lead shower"
+        const val USER_KEY = "userKeyUserKey"
+        const val TEXT_SAMPLE = "all my life i wanted money and power respekt my mind or die from lead shower"
     }
 
 }

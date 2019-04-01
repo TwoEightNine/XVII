@@ -2,11 +2,11 @@ package com.twoeightnine.root.xvii.views
 
 import android.app.AlertDialog
 import android.content.Context
-import androidx.core.content.ContextCompat
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.crypto.getUiFriendlyHash
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
-import com.twoeightnine.root.xvii.utils.getUiFriendlyHash
 import com.twoeightnine.root.xvii.utils.loadRounded
 import kotlinx.android.synthetic.main.dialog_fingerprint.view.*
 
