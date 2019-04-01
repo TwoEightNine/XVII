@@ -33,9 +33,9 @@ import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEv
 import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
-import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorJobIntentService
-import com.twoeightnine.root.xvii.background.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.crypto.md5
+import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
+import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message

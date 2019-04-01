@@ -55,13 +55,13 @@
 
         <service android:name=".background.longpoll.services.NotificationService" />
 
-        <service android:name=".background.prime.PrimeGeneratorService" />
+        <service android:name="com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService" />
         <service
             android:name=".background.longpoll.services.NotificationJobIntentService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name=".background.prime.PrimeGeneratorJobIntentService"
+            android:name="com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service

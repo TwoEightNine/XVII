@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.background.prime
+package com.twoeightnine.root.xvii.crypto.prime
 
 import android.content.Context
 import android.content.Intent

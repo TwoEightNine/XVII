@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.settings.fragments
+package com.twoeightnine.root.xvii.settings.notifications
 
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +9,7 @@ import com.twoeightnine.root.xvii.egg.EggFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
+import com.twoeightnine.root.xvii.settings.notifications.color.ColorAlertDialog
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
 /**
@@ -27,14 +28,12 @@ class NotificationsFragment : BaseOldFragment() {
             switchShowName.isChecked = Prefs.showName
             switchVibrate.isChecked = Prefs.vibrate
             switchSound.isChecked = Prefs.sound
-            switchLights.isChecked = Prefs.ledLights
             switchContent.isChecked = Prefs.showContent
         } else {
             switchShowNotification.isChecked = false
             switchShowName.isEnabled = false
             switchVibrate.isEnabled = false
             switchSound.isEnabled = false
-            switchLights.isEnabled = false
             switchContent.isEnabled = false
         }
         if (Prefs.showNotifsChats) {
@@ -54,13 +53,11 @@ class NotificationsFragment : BaseOldFragment() {
             switchShowName.isEnabled = b
             switchVibrate.isEnabled = b
             switchSound.isEnabled = b
-            switchLights.isEnabled = b
             switchContent.isEnabled = b
             if (!b) {
                 switchShowName.isChecked = false
                 switchVibrate.isChecked = false
                 switchSound.isChecked = false
-                switchLights.isChecked = false
                 switchContent.isChecked = false
             }
         }
@@ -76,6 +73,20 @@ class NotificationsFragment : BaseOldFragment() {
                 switchContentChats.isChecked = false
             }
         }
+        rlLedColor.setOnClickListener {
+            ColorAlertDialog(safeContext) { color ->
+                Prefs.ledColor = color
+                ivLedColor.setBackgroundColor(color)
+            }.show()
+        }
+        rlLedColorChats.setOnClickListener {
+            ColorAlertDialog(safeContext) { color ->
+                Prefs.ledColorChats = color
+                ivLedColorChats.setBackgroundColor(color)
+            }.show()
+        }
+        ivLedColor.setBackgroundColor(Prefs.ledColor)
+        ivLedColorChats.setBackgroundColor(Prefs.ledColorChats)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -88,7 +99,6 @@ class NotificationsFragment : BaseOldFragment() {
         Prefs.showName = switchShowName.isEnabled && switchShowName.isChecked
         Prefs.vibrate = switchVibrate.isEnabled && switchVibrate.isChecked
         Prefs.sound = switchSound.isEnabled && switchSound.isChecked
-        Prefs.ledLights = switchLights.isEnabled && switchLights.isChecked
         Prefs.showContent = switchContent.isEnabled && switchContent.isChecked
 
         Prefs.showNotifsChats = switchNotifsChats.isChecked

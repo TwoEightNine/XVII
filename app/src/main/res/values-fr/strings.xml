@@ -110,7 +110,7 @@
     <string name="chat_back">Fond du tchat</string>
     <string name="chats_notifs">Tchats</string>
     <string name="show_content">Montrer le contenu des messages</string>
-    <string name="led_lights">Cligner la diode</string>
+    <string name="led_lights">Couleur de la diode</string>
     <string name="mute">Liste des bruits</string>
     <string name="change_keys">Changer les clés</string>
     <string name="random_key">Générer au hasard</string>
@@ -247,6 +247,14 @@
     <string name="unmark">Décocher</string>
     <string name="private_messages_notifs">Messages privés</string>
     <string name="show_chats_notifs">Montrer des notifications des tchats</string>
+    <string name="no_color">Aucun couleur</string>
+    <string name="red">Rouge</string>
+    <string name="green">Vert</string>
+    <string name="blue">Bleu</string>
+    <string name="yellow">Jaune</string>
+    <string name="magenta">Bonbon</string>
+    <string name="white">Blanc</string>
+    <string name="cyan">Azur</string>
 
 </resources>
 

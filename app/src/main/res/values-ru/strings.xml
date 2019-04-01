@@ -118,7 +118,7 @@
     <string name="share">Рассказать об XVII на стене</string>
     <string name="shared">Успешно отправлено на стену</string>
     <string name="show_content">Показывать содержимое сообщения</string>
-    <string name="led_lights">Включать LED</string>
+    <string name="led_lights">Цвет LED</string>
     <string name="show_name">Показывать имя отправителя</string>
     <string name="show_notif">Показывать уведомления</string>
     <string name="show_typing">Показывать, когда печатаю</string>
@@ -257,5 +257,13 @@
     <string name="unmark">Снять</string>
     <string name="private_messages_notifs">Личные сообщения</string>
     <string name="show_chats_notifs">Показывать сообщения чатов</string>
+    <string name="no_color">Без цвета</string>
+    <string name="red">Красный</string>
+    <string name="green">Зеленый</string>
+    <string name="blue">Синий</string>
+    <string name="cyan">Лазурный</string>
+    <string name="yellow">Желтый</string>
+    <string name="magenta">Пурпурный</string>
+    <string name="white">Белый</string>
 
 </resources>

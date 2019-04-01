@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.background.prime
+package com.twoeightnine.root.xvii.crypto.prime
 
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.KeyStorage
@@ -43,21 +43,20 @@ class PrimeGeneratorCore {
         }
     }
 
-    private fun generate(number: Int) {
-        l("start to generate custom primes", number)
-        val bits = 2048
+    private fun generate(threadNumber: Int) {
+        l("start to generate custom primes", threadNumber)
         var q: BigInteger
         var p: BigInteger
         var bp: BigInteger
         val startTime = System.currentTimeMillis()
         var trie = 0
         do {
-            p = BigInteger(bits, 30, Random())
+            p = BigInteger(BITS, 30, Random())
             bp = p.multiply(BigInteger.valueOf(2L)).add(BigInteger.ONE)
             q = p.subtract(BigInteger.ONE).divide(BigInteger.valueOf(2L))
             trie += 2
             if (trie % 10 == 0) {
-                l("tries $trie", number)
+                l("tries $trie", threadNumber)
             }
         } while (!isPrime(q)  && !isPrime(bp) && !isCancelled)
         if (!isCancelled) {
@@ -68,10 +67,10 @@ class PrimeGeneratorCore {
                 KeyStorage.prime = bp.toString()
                 KeyStorage.halfPrime = p.toString()
             }
-            l("found for ${(System.currentTimeMillis() - startTime) / 1000}s with $trie tries", number)
+            l("found for ${(System.currentTimeMillis() - startTime) / 1000}s with $trie tries", threadNumber)
             KeyStorage.ts = time()
         } else {
-            l("cancelled", number)
+            l("cancelled", threadNumber)
         }
     }
 
@@ -107,4 +106,8 @@ class PrimeGeneratorCore {
     private fun l(s: String, i: Int = 0) = Lg.i("[prime${if (i != 0) " $i" else ""}] $s")
 
     private fun lw(s: String) = Lg.wtf("[prime] $s")
+
+    companion object {
+        private const val BITS = 2048
+    }
 }

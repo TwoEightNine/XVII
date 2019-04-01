@@ -28,8 +28,6 @@ import java.util.*
  */
 class DiffieHellman {
 
-    private val bits = 2048
-
     private var privateOwn = BigInteger.ONE
     private var generator = BigInteger.ONE
     private var modulo = BigInteger.ONE
@@ -56,7 +54,7 @@ class DiffieHellman {
     constructor(modulo: BigInteger) {
         this.modulo = modulo
         val halfModulo = (modulo - BigInteger.ONE) / BigInteger("2")
-        privateOwn = BigInteger(bits - 1, Random())
+        privateOwn = BigInteger(BITS - 1, Random())
 
         var x: BigInteger
         do {
@@ -65,7 +63,7 @@ class DiffieHellman {
         generator = x
         publicOwn = generator.modPow(privateOwn, modulo)
 
-        Lg.dbg("DHE-$bits: p: $modulo\n\t\t\t g: $generator\n\t\t\t a: $privateOwn\n\t\t\t A: $publicOwn")
+        Lg.dbg("DHE-$BITS: p: $modulo\n\t\t\t g: $generator\n\t\t\t a: $privateOwn\n\t\t\t A: $publicOwn")
     }
 
     /**
@@ -77,11 +75,11 @@ class DiffieHellman {
         this.modulo = otherData.modulo
         this.publicOther = otherData.public
 
-        privateOwn = BigInteger(bits - 1, Random())
+        privateOwn = BigInteger(BITS - 1, Random())
         publicOwn = generator.modPow(privateOwn, modulo)
         key = publicOther.modPow(privateOwn, modulo)
 
-        Lg.dbg("DHE-$bits: p: $modulo\n\t\t\t g: $generator\n\t\t\t a: $privateOwn\n\t\t\t A: $publicOwn")
+        Lg.dbg("DHE-$BITS: p: $modulo\n\t\t\t g: $generator\n\t\t\t a: $privateOwn\n\t\t\t A: $publicOwn")
     }
 
     fun getDhData() = DhData(generator, modulo, publicOwn)
@@ -91,6 +89,10 @@ class DiffieHellman {
                 g.modPow(BigInteger.valueOf(2), p) != BigInteger.ONE &&
                 g.modPow(q, p) != BigInteger.ONE
 
+    }
+
+    companion object {
+        private const val BITS = 2048
     }
 
 }

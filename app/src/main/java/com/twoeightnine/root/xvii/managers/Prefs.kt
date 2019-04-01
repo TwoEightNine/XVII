@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.managers
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.utils.EmojiHelper
 import com.twoeightnine.root.xvii.views.emoji.Emoji
@@ -27,12 +28,14 @@ object Prefs {
     private const val SHOW_NAME = "showName"
     private const val SHOW_CONTENT = "showContent"
     private const val LED_LIGHTS = "ledLights"
-
+    private const val LED_COLOR = "ledColor"
     private const val SHOW_NOTIF_CHATS = "showNotifChats"
+
     private const val VIBRATE_CHATS = "vibrateChats"
     private const val SOUND_CHATS = "soundChats"
     private const val SHOW_CONTENT_CHATS = "showContentChats"
     private const val LED_LIGHTS_CHATS = "ledLightsCHats"
+    private const val LED_COLOR_CHATS = "ledColorChats"
 
     private const val MUTE_LIST = "muteList"
 
@@ -99,6 +102,10 @@ object Prefs {
         get() = data.getBoolean(LED_LIGHTS, false)
         set(ledLights) = data.edit().putBoolean(LED_LIGHTS, ledLights).apply()
 
+    var ledColor: Int
+        get() = data.getInt(LED_COLOR, Color.MAGENTA)
+        set(value) = data.edit().putInt(LED_COLOR, value).apply()
+
     var showContent: Boolean
         get() = data.getBoolean(SHOW_CONTENT, false)
         set(show) = data.edit().putBoolean(SHOW_CONTENT, show).apply()
@@ -120,6 +127,10 @@ object Prefs {
     var ledLightsChats: Boolean
         get() = data.getBoolean(LED_LIGHTS_CHATS, false)
         set(ledLights) = data.edit().putBoolean(LED_LIGHTS_CHATS, ledLights).apply()
+
+    var ledColorChats: Int
+        get() = data.getInt(LED_COLOR_CHATS, Color.BLACK)
+        set(value) = data.edit().putInt(LED_COLOR_CHATS, value).apply()
 
     var showContentChats: Boolean
         get() = data.getBoolean(SHOW_CONTENT_CHATS, false)

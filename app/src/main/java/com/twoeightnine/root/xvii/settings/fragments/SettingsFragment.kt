@@ -18,6 +18,7 @@ import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.settings.Item
 import com.twoeightnine.root.xvii.settings.adapters.SettingsAdapter
+import com.twoeightnine.root.xvii.settings.notifications.NotificationsFragment
 import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.restartApp
 import com.twoeightnine.root.xvii.views.RateAlertDialog

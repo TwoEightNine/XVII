@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -87,16 +88,6 @@
                     android:textSize="16sp" />
 
                 <Switch
-                    android:id="@+id/switchLights"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_margin="12dp"
-                    android:text="@string/led_lights"
-                    android:textColor="@color/main_text"
-                    android:textSize="16sp" />
-
-                <Switch
                     android:id="@+id/switchContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -105,6 +96,37 @@
                     android:text="@string/show_content"
                     android:textColor="@color/main_text"
                     android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:id="@+id/rlLedColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/led_lights"
+                        android:textColor="@color/main_text"
+                        android:textSize="16sp" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="14dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/ivLedColor"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -185,6 +207,37 @@
                     android:textColor="@color/main_text"
                     android:textSize="16sp" />
 
+                <RelativeLayout
+                    android:id="@+id/rlLedColorChats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/led_lights"
+                        android:textColor="@color/main_text"
+                        android:textSize="16sp" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="14dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/ivLedColorChats"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
                 <Switch
                     android:id="@+id/switchEgg"
                     android:layout_width="wrap_content"
@@ -192,7 +245,7 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="21dp"
                     android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginBottom="10dp"
                     android:visibility="invisible" />
 
             </LinearLayout>

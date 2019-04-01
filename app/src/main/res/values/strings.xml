@@ -119,7 +119,7 @@
     <string name="change">Change</string>
     <string name="chat_back">Chat background</string>
     <string name="show_content">Show message content</string>
-    <string name="led_lights">Blink LED</string>
+    <string name="led_lights">LED color</string>
     <string name="mute">Mute list</string>
     <string name="change_keys">Change keys</string>
     <string name="random_key">Generate randomly</string>
@@ -258,6 +258,15 @@
     <string name="error_17">Validation required</string>
     <string name="error_200plus">Access denied</string>
     <string name="error_500plus">Permission denied</string>
+
+    <string name="no_color">No color</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+    <string name="cyan">Cyan</string>
+    <string name="yellow">Yellow</string>
+    <string name="magenta">Magenta</string>
+    <string name="white">White</string>
 
 </resources>
 

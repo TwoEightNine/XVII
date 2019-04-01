@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.VibrationEffect
@@ -170,6 +171,7 @@ class LongPollCore(private val context: Context) {
             arrayListOf(context.resources.getQuantityString(R.plurals.messages, count, count))
         }
         val timeStamp = event.timeStamp * 1000L
+        val ledColor = if (event.isUser()) Prefs.ledColor else Prefs.ledColorChats
 
         // trying to get dialog from database
         getDialog(event.peerId, { dialog ->
@@ -182,16 +184,17 @@ class LongPollCore(private val context: Context) {
                             event.id,
                             dialog.title,
                             dialog.title,
-                            bitmap
+                            bitmap,
+                            ledColor
                     )
                 }
             } else {
-                showNotification(content, timeStamp, event.peerId, event.id, dialog.title)
+                showNotification(content, timeStamp, event.peerId, event.id, dialog.title, ledColor = ledColor)
             }
         }, {
             if (event.peerId.matchesChatId()) {
                 // chats are shown as is
-                showNotification(content, timeStamp, event.peerId, event.id, event.title)
+                showNotification(content, timeStamp, event.peerId, event.id, event.title, ledColor = ledColor)
             } else {
 
                 // for groups and users try to resolve them
@@ -204,11 +207,12 @@ class LongPollCore(private val context: Context) {
                                 event.id,
                                 title,
                                 title,
-                                bitmap
+                                bitmap,
+                                ledColor
                         )
                     }
                 }, {
-                    showNotification(content, timeStamp, event.peerId, event.id, event.title)
+                    showNotification(content, timeStamp, event.peerId, event.id, event.title, ledColor = ledColor)
                 })
             }
         })
@@ -235,7 +239,8 @@ class LongPollCore(private val context: Context) {
             messageId: Int,
             userName: String = context.getString(R.string.app_name),
             title: String = context.getString(R.string.app_name),
-            icon: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.xvii128)
+            icon: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.xvii128),
+            ledColor: Int = Color.BLACK
     ) {
 
         createNotificationChannel()
@@ -263,8 +268,8 @@ class LongPollCore(private val context: Context) {
                 )
                 .setContentIntent(getOpenAppIntent(peerId, userName))
 
-        if (Prefs.ledLights) {
-            builder.setLights(Prefs.color, 500, 500)
+        if (ledColor != Color.BLACK) {
+            builder.setLights(ledColor, 500, 500)
         }
         notificationManager.notify(peerId, builder.build())
     }
