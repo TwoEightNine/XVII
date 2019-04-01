@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.adapters.DrawerAdapter
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
+import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.lg.Lg
@@ -21,7 +22,6 @@ import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.DrawerItem
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
-import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_root.*
 import javax.inject.Inject
@@ -39,6 +39,7 @@ class RootActivity : BaseActivity() {
         const val DIALOGS: String = "DialogsFragment"
         const val FRIENDS: String = "FriendsFragment"
         const val SETTINGS: String = "SettingsFragment"
+        const val FEATURES: String = "FeaturesFragment"
         const val PROFILE: String = "ProfileFragment"
         const val CHAT: String = "ChatFragment"
 
@@ -81,7 +82,7 @@ class RootActivity : BaseActivity() {
             val item = adapter.getItem(i)
             when (item.resId) {
                 R.drawable.ic_friends -> loadFragment(FriendsFragment.newInstance(), true)
-                R.drawable.ic_settings -> loadFragment(SettingsFragment.newInstance(), true)
+                R.drawable.ic_settings -> loadFragment(FeaturesFragment.newInstance(), true)
                 R.drawable.ic_dialogs -> loadFragment(DialogsFragment.newInstance(), true)
             }
             hideKeyboard(this)
@@ -115,6 +116,7 @@ class RootActivity : BaseActivity() {
             if (topName == tag &&
                     (tag == FRIENDS ||
                             tag == SETTINGS ||
+                            tag == FEATURES ||
                             tag == DIALOGS)) {
                 return
             }

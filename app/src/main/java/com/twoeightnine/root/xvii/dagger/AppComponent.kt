@@ -28,6 +28,7 @@ import com.twoeightnine.root.xvii.dagger.modules.NetworkModule
 import com.twoeightnine.root.xvii.dagger.modules.PresenterModule
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
+import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.fragments.WallPostFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment
@@ -81,6 +82,7 @@ interface AppComponent {
     fun inject(stickersFragment: StickersFragment)
     fun inject(starredMessagesFragment: StarredMessagesFragment)
     fun inject(chatMessagesFragment: ChatMessagesFragment)
+    fun inject(featuresFragment: FeaturesFragment)
 
     //other
     fun inject(notificationService: NotificationService)

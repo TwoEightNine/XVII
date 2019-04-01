@@ -188,10 +188,7 @@
         <item quantity="other">%d messages</item>
     </plurals>
 
-    <string name="aboutBig">
-        <b>XVII Messenger (par TwoEightNine)</b>\n
-        version: %s\n
-    </string>
+    <string name="aboutBig">XVII Messenger (par TwoEightNine)\nver. %s depuis %s</string>
 
     <string name="online">en ligne</string>
     <string name="offline">hors ligne</string>
@@ -242,7 +239,7 @@
     <string name="audios">Audio</string>
     <string name="app_name_music">XVII Musique</string>
     <string name="downloading_file">Téléchargement en cours..</string>
-    <string name="tap_to_provide_permissions">Taper ici pour permettre un accès au storage</string>
+    <string name="tap_to_provide_permissions">Tapez ici pour permettre un accès au storage</string>
     <string name="app_will_be_restarted">L\'app sera redemarré. Continuer?</string>
     <string name="unmark">Décocher</string>
     <string name="private_messages_notifs">Messages privés</string>
@@ -255,6 +252,7 @@
     <string name="magenta">Bonbon</string>
     <string name="white">Blanc</string>
     <string name="cyan">Azur</string>
+    <string name="accounts_hint">Tapez pour gérer</string>
 
 </resources>
 

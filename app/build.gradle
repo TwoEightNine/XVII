@@ -31,6 +31,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BUILD_TIME", "\"${getDate()}\"")
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BUILD_TIME", "\"${getDate()}\"")
         }
     }
     lintOptions {
@@ -101,4 +107,8 @@ androidExtensions {
 
 repositories {
     mavenCentral()
+}
+
+static def getDate() {
+    new Date().format('yyyy-MM-dd')
 }

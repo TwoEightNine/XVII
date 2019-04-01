@@ -1,6 +1,9 @@
 package com.twoeightnine.root.xvii.accounts.fragments
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,6 +17,7 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.restartApp
+import com.twoeightnine.root.xvii.utils.showConfirm
 import com.twoeightnine.root.xvii.utils.showDeleteDialog
 import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_accounts.*
@@ -36,6 +40,7 @@ class AccountsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         initRecyclerView()
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[AccountsViewModel::class.java]
@@ -63,6 +68,25 @@ class AccountsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.accounts))
         Style.forToolbar(toolbar)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu?.clear()
+        inflater?.inflate(R.menu.menu_accounts, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        R.id.menu_log_out -> {
+            showConfirm(context, getString(R.string.wanna_logout)) { logout ->
+                if (logout) {
+                    viewModel.logOut()
+                    restartApp(getString(R.string.restart_app))
+                }
+            }
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun onClick(account: Account) {

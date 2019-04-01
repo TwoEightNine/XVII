@@ -108,7 +108,7 @@
     <string name="links">Links</string>
     <string name="forward">Forward</string>
     <string name="appearance">Appearance</string>
-    <string name="privacy_policy">Privacy policy</string>
+    <string name="privacy_policy">Privacy policy and credits</string>
     <string name="chat">Chat</string>
     <string name="leave_chat">Leave chat</string>
     <string name="chat_title_updated">Chat title was updated: \"%s\"</string>
@@ -196,6 +196,7 @@
     <string name="details">Details</string>
     <string name="report_hint">It will help us to solve the problem faster</string>
     <string name="app_will_be_restarted">App will be restarted. Continue?</string>
+    <string name="accounts_hint">Tap to manage</string>
 
     <string name="no_access_to_mic">No access to the mic</string>
     <string name="no_access_to_storage">No access to the storage</string>
@@ -229,10 +230,7 @@
         <item quantity="other">%d messages</item>
     </plurals>
 
-    <string name="aboutBig">
-        <b>XVII Messenger (by TwoEightNine)</b>\n
-        version: %s\n
-    </string>
+    <string name="aboutBig">XVII Messenger (by TwoEightNine)\nver. %s since %s</string>
 
     <string name="faces">faces</string>
     <string name="animals">animals</string>

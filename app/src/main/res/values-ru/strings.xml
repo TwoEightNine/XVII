@@ -199,10 +199,7 @@
         <item quantity="other">%d сообщений</item>
     </plurals>
 
-    <string name="aboutBig">
-        <b>XVII мессенджер (от TwoEightNine)</b>\n
-        версия: %s\n
-    </string>
+    <string name="aboutBig">XVII мессенджер (от TwoEightNine)\nвер. %s от %s</string>
     <string name="added_to_docs">Успешно добавлено в документы</string>
     <string name="doc">Документ</string>
 
@@ -265,5 +262,6 @@
     <string name="yellow">Желтый</string>
     <string name="magenta">Пурпурный</string>
     <string name="white">Белый</string>
+    <string name="accounts_hint">Нажмите для управления</string>
 
 </resources>
