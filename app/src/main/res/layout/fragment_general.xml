@@ -25,45 +25,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_margin="@dimen/frame_pad"
+                android:layout_margin="8dp"
                 android:text="@string/beOffline"
-                android:textColor="@color/main_text" />
+                android:textColor="@color/main_text"
+                android:textSize="15sp" />
 
             <Switch
                 android:id="@+id/switchTyping"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_margin="@dimen/frame_pad"
+                android:layout_margin="8dp"
                 android:text="@string/show_typing"
-                android:textColor="@color/main_text" />
+                android:textColor="@color/main_text"
+                android:textSize="15sp" />
 
             <Switch
                 android:id="@+id/switchRead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_margin="@dimen/frame_pad"
+                android:layout_margin="8dp"
                 android:text="@string/markasRead"
-                android:textColor="@color/main_text" />
+                android:textColor="@color/main_text"
+                android:textSize="15sp" />
 
-            <Switch
-                android:id="@+id/switchManualUpd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="@dimen/frame_pad"
-                android:text="@string/manual_update"
-                android:textColor="@color/main_text" />
+            <!--<Switch-->
+            <!--android:id="@+id/switchManualUpd"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:layout_margin="@dimen/frame_pad"-->
+            <!--android:text="@string/manual_update"-->
+            <!--android:textColor="@color/main_text" />-->
 
             <Switch
                 android:id="@+id/switchStoreKeys"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_margin="@dimen/frame_pad"
+                android:layout_margin="8dp"
                 android:text="@string/store_keys"
-                android:textColor="@color/main_text" />
+                android:textColor="@color/main_text"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tvClearCache"
@@ -72,10 +76,11 @@
                 android:layout_gravity="right"
                 android:background="@drawable/selector_rect"
                 android:clickable="true"
-                android:padding="16dp"
+                android:focusable="true"
+                android:padding="8dp"
                 android:text="@string/clear_cache"
-                android:textColor="@color/main_text"
-                android:textSize="18sp" />
+                android:textColor="@color/other_text"
+                android:textSize="16sp" />
 
             <!--<Switch-->
             <!--android:visibility="gone"-->
@@ -93,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
+                android:padding="8dp"
                 android:text="@string/offline_hint" />
 
 

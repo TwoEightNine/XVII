@@ -30,7 +30,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="28dp"
+                    android:paddingStart="24dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="28dp"
                     android:paddingBottom="8dp"
@@ -52,56 +52,56 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="12dp"
+                    android:layout_margin="8dp"
                     android:text="@string/show_notif"
                     android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <Switch
                     android:id="@+id/switchShowName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="12dp"
+                    android:layout_margin="8dp"
                     android:text="@string/show_name"
                     android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <Switch
                     android:id="@+id/switchVibrate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="12dp"
+                    android:layout_margin="8dp"
                     android:text="@string/vibrate"
                     android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <Switch
                     android:id="@+id/switchSound"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="12dp"
+                    android:layout_margin="8dp"
                     android:text="@string/sound"
                     android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <Switch
                     android:id="@+id/switchContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="12dp"
+                    android:layout_margin="8dp"
                     android:text="@string/show_content"
                     android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <RelativeLayout
                     android:id="@+id/rlLedColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp">
+                    android:padding="8dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                         android:layout_centerVertical="true"
                         android:text="@string/led_lights"
                         android:textColor="@color/main_text"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="20dp"
@@ -140,7 +140,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="28dp"
+                    android:paddingStart="24dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="28dp"
                     android:paddingBottom="8dp"
@@ -162,56 +162,56 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="12dp"
+                    android:layout_margin="8dp"
                     android:text="@string/show_chats_notifs"
                     android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <Switch
                     android:id="@+id/switchVibrateChats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="12dp"
+                    android:layout_margin="8dp"
                     android:text="@string/vibrate"
                     android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <Switch
                     android:id="@+id/switchSoundChats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="12dp"
+                    android:layout_margin="8dp"
                     android:text="@string/sound"
                     android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <Switch
                     android:id="@+id/switchLightsChats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="12dp"
+                    android:layout_margin="8dp"
                     android:text="@string/led_lights"
                     android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <Switch
                     android:id="@+id/switchContentChats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="12dp"
+                    android:layout_margin="8dp"
                     android:text="@string/show_content"
                     android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <RelativeLayout
                     android:id="@+id/rlLedColorChats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp">
+                    android:padding="8dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -219,7 +219,7 @@
                         android:layout_centerVertical="true"
                         android:text="@string/led_lights"
                         android:textColor="@color/main_text"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="20dp"
@@ -244,7 +244,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginTop="21dp"
-                    android:layout_marginEnd="12dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="10dp"
                     android:visibility="invisible" />
 

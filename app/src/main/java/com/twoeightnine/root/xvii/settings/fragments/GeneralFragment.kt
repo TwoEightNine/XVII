@@ -38,7 +38,7 @@ class GeneralFragment : BaseOldFragment() {
         switchOffline.isChecked = Prefs.beOffline
         switchRead.isChecked = Prefs.markAsRead
         switchTyping.isChecked = Prefs.showTyping
-        switchManualUpd.isChecked = Prefs.manualUpdating
+//        switchManualUpd.isChecked = Prefs.manualUpdating
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
     }
 
@@ -46,7 +46,7 @@ class GeneralFragment : BaseOldFragment() {
         Prefs.beOffline = switchOffline.isChecked
         Prefs.markAsRead = switchRead.isChecked
         Prefs.showTyping = switchTyping.isChecked
-        Prefs.manualUpdating = switchManualUpd.isChecked
+//        Prefs.manualUpdating = switchManualUpd.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
     }
 

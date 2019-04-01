@@ -28,6 +28,7 @@ import com.twoeightnine.root.xvii.utils.rate
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.utils.showToast
 import kotlinx.android.synthetic.main.fragment_features.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 class FeaturesFragment : BaseFragment() {
@@ -63,11 +64,14 @@ class FeaturesFragment : BaseFragment() {
 
         tvAbout.text = getString(R.string.aboutBig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
+
+        Style.forAll(llRoot)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.settings))
+        Style.forToolbar(toolbar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

@@ -8,7 +8,9 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.managers.Style
 import kotlinx.android.synthetic.main.fragment_web.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 class WebFragment : BaseFragment() {
 
@@ -33,6 +35,7 @@ class WebFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(title ?: url ?: getString(R.string.app_name))
+        Style.forToolbar(toolbar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
