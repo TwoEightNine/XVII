@@ -47,6 +47,8 @@ class FeaturesFragment : BaseFragment() {
         viewModel.getAccount().observe(this, Observer { updateAccount(it) })
         viewModel.loadAccount()
 
+        rlAnalyse.setOnClickListener { showToast(context, R.string.in_future_versions) }
+
         rlAccounts.setOnClickListener { rootActivity?.loadFragment(AccountsFragment.newInstance()) }
         rlGeneral.setOnClickListener { rootActivity?.loadFragment(GeneralFragment()) }
         rlNotifications.setOnClickListener { rootActivity?.loadFragment(NotificationsFragment()) }

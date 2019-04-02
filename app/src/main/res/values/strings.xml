@@ -3,6 +3,7 @@
     <string name="app_name_music">XVII Music</string>
     <string name="about_app">About</string>
     <string name="settings">Settings</string>
+    <string name="addons">Add-ons</string>
     <string name="share">Share XVII on my wall</string>
 
     <string name="last_seen">last seen: %s</string>
@@ -63,6 +64,8 @@
     <string name="added_to_saved">Photo has been saved to album</string>
     <string name="notifications">Notifications</string>
     <string name="general">General</string>
+    <string name="analyse">Analyser</string>
+    <string name="in_future_versions">Coming soon..</string>
     <string name="auth_error">Auth error</string>
     <string name="show_notif">Show private notifications</string>
     <string name="show_name">Show sender\'s name</string>

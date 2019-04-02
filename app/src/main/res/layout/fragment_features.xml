@@ -114,6 +114,54 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="28dp"
                     android:paddingBottom="8dp"
+                    android:text="@string/addons"
+                    android:textColor="@color/other_text"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlAnalyse"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/selector_rect">
+
+                <ImageView
+                    android:id="@+id/ivAnalyse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/ic_analytics"
+                    android:tag="dark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/ivAnalyse"
+                    android:text="@string/analyse"
+                    android:textColor="@color/main_text"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/toolbar"
+                android:orientation="vertical"
+                android:tag="extraLight">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="56dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="28dp"
+                    android:paddingBottom="8dp"
                     android:text="@string/settings"
                     android:textColor="@color/other_text"
                     android:textSize="15sp" />

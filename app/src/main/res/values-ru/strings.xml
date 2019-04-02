@@ -265,5 +265,8 @@
     <string name="accounts_hint">Нажмите для управления</string>
     <string name="pin">Закрепить</string>
     <string name="alias">Псевдоним</string>
+    <string name="addons">Дополнительно</string>
+    <string name="analyse">Анализатор</string>
+    <string name="in_future_versions">Совсем скоро..</string>
 
 </resources>
