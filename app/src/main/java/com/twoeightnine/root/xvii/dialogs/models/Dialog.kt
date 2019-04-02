@@ -19,5 +19,7 @@ data class Dialog(
         var isRead: Boolean = true,
         var unreadCount: Int = 0,
         var isOnline: Boolean = false,
-        var isMute: Boolean = false
+        var isMute: Boolean = false,
+        var isPinned: Boolean = false,
+        var alias: String? = null
 ) : Parcelable
