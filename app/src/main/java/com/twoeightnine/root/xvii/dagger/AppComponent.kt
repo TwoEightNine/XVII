@@ -35,6 +35,7 @@ import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.searchmessages.fragments.SearchMessagesFragment
 import com.twoeightnine.root.xvii.settings.fragments.AboutFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
@@ -83,6 +84,7 @@ interface AppComponent {
     fun inject(starredMessagesFragment: StarredMessagesFragment)
     fun inject(chatMessagesFragment: ChatMessagesFragment)
     fun inject(featuresFragment: FeaturesFragment)
+    fun inject(searchFragment: SearchFragment)
 
     //other
     fun inject(notificationService: NotificationService)

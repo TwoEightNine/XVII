@@ -500,6 +500,11 @@ fun hideKeyboard(activity: Activity) {
     }
 }
 
+fun showKeyboard(activity: Activity) {
+    val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+}
+
 fun getTotalRAM(): String {
 
     val reader: RandomAccessFile?

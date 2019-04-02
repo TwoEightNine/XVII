@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
@@ -76,7 +77,7 @@ class FriendsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.menu_search -> {
-                rootActivity?.loadFragment(SearchUsersFragment())
+                rootActivity?.loadFragment(SearchFragment())
                 true
             }
             else -> super.onOptionsItemSelected(item)

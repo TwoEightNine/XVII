@@ -4,6 +4,8 @@ import android.os.SystemClock
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
+import com.jakewharton.rxbinding.widget.RxTextView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import com.twoeightnine.root.xvii.R
@@ -13,6 +15,8 @@ import com.twoeightnine.root.xvii.network.response.Error
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
+import rx.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
 const val CHAT_ID_START = 2000000000
 
@@ -105,6 +109,18 @@ fun Picasso.loadRounded(url: String?): RequestCreator {
             .error(R.drawable.placeholder_rounded)
 
 }
+
+fun TextView.subscribeSearch(
+        allowEmpty: Boolean,
+        onNext: (String) -> Unit
+) = RxTextView.textChanges(this)
+        .filter { allowEmpty || it.isNotBlank() }
+        .debounce(300, TimeUnit.MILLISECONDS)
+        .observeOn(AndroidSchedulers.mainThread())
+        .map { it.toString() }
+        .subscribe(onNext) {
+            it.printStackTrace()
+        }
 
 fun EditText.asText() = text.toString()
 

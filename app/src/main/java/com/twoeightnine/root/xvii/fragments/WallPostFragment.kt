@@ -24,14 +24,18 @@ class WallPostFragment : BaseOldFragment() {
 
     companion object {
 
+        const val ARG_POST_ID = "postId"
+
         fun newInstance(postId: String): WallPostFragment {
             val frag = WallPostFragment()
-            frag.postId = postId
+            frag.arguments = Bundle().apply {
+                putString(ARG_POST_ID, postId)
+            }
             return frag
         }
     }
 
-    var postId: String? = null
+    private val postId by lazy { arguments?.getString(ARG_POST_ID) }
     private lateinit var postResponse: WallPostResponse
 
     @Inject
