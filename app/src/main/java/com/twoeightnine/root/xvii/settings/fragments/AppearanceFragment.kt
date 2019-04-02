@@ -63,17 +63,10 @@ class AppearanceFragment : BaseOldFragment() {
         isNightBefore = Prefs.isLightTheme
         switchNight.setOnCheckedChangeListener { _, b ->
             Prefs.isLightTheme = b
-            if (b) {
-                llPicker.visibility = View.VISIBLE
-            } else {
-                llPicker.visibility = View.GONE
-            }
+            llPicker.setVisible(b)
+//            cvDarkSample.setVisible(!b)
         }
-        if (isNightBefore) {
-            llPicker.visibility = View.VISIBLE
-        } else {
-            llPicker.visibility = View.GONE
-        }
+        llPicker.setVisible(isNightBefore)
         switchNight.isChecked = isNightBefore
         if (Prefs.chatBack.isNotEmpty()) {
             Picasso.get()
