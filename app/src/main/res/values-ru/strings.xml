@@ -263,5 +263,7 @@
     <string name="magenta">Пурпурный</string>
     <string name="white">Белый</string>
     <string name="accounts_hint">Нажмите для управления</string>
+    <string name="pin">Закрепить</string>
+    <string name="alias">Псевдоним</string>
 
 </resources>

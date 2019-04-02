@@ -65,6 +65,15 @@
                     android:src="@drawable/ic_silence"
                     android:visibility="gone" />
 
+                <ImageView
+                    android:id="@+id/ivPinned"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="6dp"
+                    android:src="@drawable/ic_pinned" />
+
             </RelativeLayout>
 
 

@@ -23,7 +23,8 @@ class DialogsAdapter(
 
     override fun createStubLoadItem() = Dialog()
 
-    override fun createHolder(parent: ViewGroup, viewType: Int) = DialogViewHolder(inflater.inflate(R.layout.item_dialog, null))
+    override fun createHolder(parent: ViewGroup, viewType: Int)
+            = DialogViewHolder(inflater.inflate(R.layout.item_dialog, null))
 
     override fun bind(holder: DialogViewHolder, item: Dialog) {
         holder.bind(item)
@@ -35,7 +36,7 @@ class DialogsAdapter(
             with(itemView) {
                 civPhoto.load(dialog.photo)
 
-                tvTitle.text = dialog.title
+                tvTitle.text = dialog.alias ?: dialog.title
                 tvBody.text = if (EmojiHelper.hasEmojis(dialog.text)) {
                     EmojiHelper.getEmojied(
                             context,
@@ -49,6 +50,7 @@ class DialogsAdapter(
 
                 ivMute.setVisible(dialog.isMute)
                 tvYou.setVisible(dialog.isOut)
+                ivPinned.setVisible(dialog.isPinned)
                 ivOnlineDot.setVisible(dialog.isOnline)
                 rlMute.hide() //setVisible(dialog.isMute)
                 ivUnreadDotOut.setVisible(!dialog.isRead && dialog.isOut)

@@ -177,13 +177,14 @@ class LongPollCore(private val context: Context) {
         getDialog(event.peerId, { dialog ->
             if (Prefs.showName) {
                 loadBitmapIcon(dialog.photo) { bitmap ->
+                    val name = dialog.alias ?: dialog.title
                     showNotification(
                             content,
                             timeStamp,
                             event.peerId,
                             event.id,
-                            dialog.title,
-                            dialog.title,
+                            name,
+                            name,
                             bitmap,
                             ledColor
                     )

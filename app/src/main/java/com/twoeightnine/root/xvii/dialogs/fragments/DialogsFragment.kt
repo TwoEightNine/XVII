@@ -20,6 +20,7 @@ import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.searchmessages.fragments.SearchMessagesFragment
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_dialogs_new.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
@@ -88,11 +89,16 @@ open class DialogsFragment : BaseFragment() {
         getContextPopup(context ?: return, R.layout.popup_dialogs) { view ->
             when (view.id) {
 
+                R.id.llPin -> viewModel.pinDialog(dialog)
+                R.id.llRead -> viewModel.readDialog(dialog)
+                R.id.llMute -> viewModel.muteDialog(dialog)
                 R.id.llDelete -> showDeleteDialog(context) {
                     viewModel.deleteDialog(dialog)
                 }
-                R.id.llRead -> viewModel.readDialog(dialog)
-                R.id.llMute -> viewModel.muteDialog(dialog)
+                R.id.llAlias -> TextInputAlertDialog(contextOrThrow, getString(R.string.alias),
+                        dialog.title, dialog.alias ?: dialog.title, { newAlias ->
+                    viewModel.addAlias(dialog, newAlias)
+                }).show()
             }
         }.show()
     }

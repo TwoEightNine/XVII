@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/llDelete"
+        android:id="@+id/llPin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true">
@@ -15,7 +15,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin16"
-            android:text="@string/delete"
+            android:text="@string/pin"
+            android:textColor="@color/main_text"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llAlias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
+            android:text="@string/alias"
             android:textColor="@color/main_text"
             android:textSize="16sp" />
 
@@ -32,6 +48,22 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin16"
             android:text="@string/read"
+            android:textColor="@color/main_text"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
+            android:text="@string/delete"
             android:textColor="@color/main_text"
             android:textSize="16sp" />
 

@@ -65,6 +65,7 @@ class DialogsViewModel(
                         dialogsLiveData.value?.data ?: arrayListOf()
                     }
                     dialogsLiveData.value = Wrapper(existing.apply { addAll(dialogs) })
+                    notifyDialogsChanged()
                     saveDialogsAsync(dialogs)
                 }, ::onErrorOccurred)
     }
@@ -99,27 +100,61 @@ class DialogsViewModel(
         saveDialogAsync(dialog)
     }
 
+    fun pinDialog(d: Dialog) {
+        val dialog = dialogsLiveData.value?.data
+                ?.find { it.peerId == d.peerId } ?: return
+
+        dialog.isPinned = !dialog.isPinned
+        notifyDialogsChanged()
+        saveDialogAsync(dialog)
+    }
+
+    fun addAlias(d: Dialog, alias: String) {
+        val dialog = dialogsLiveData.value?.data
+                ?.find { it.peerId == d.peerId } ?: return
+
+        dialog.alias = if (alias.isNotEmpty()) alias else null
+        notifyDialogsChanged()
+        saveDialogAsync(dialog)
+    }
+
     private fun convertToDialogs(resp: BaseResponse<ConversationsResponse>): BaseResponse<ArrayList<Dialog>> {
         val dialogs = arrayListOf<Dialog>()
         val response = resp.response
         val muteList = Prefs.muteList
-        response?.items?.forEach { dm ->
-            val message = dm.lastMessage
-            dialogs.add(Dialog(
-                    message.peerId,
-                    message.id,
-                    response.getTitleFor(dm) ?: "???",
-                    response.getPhotoFor(dm),
-                    message.getResolvedMessage(context),
-                    message.date,
-                    message.isOut(),
-                    dm.conversation.isRead(),
-                    dm.conversation.unreadCount,
-                    response.isOnline(dm),
-                    message.peerId in muteList
-            ))
+        getStoredDialogs { storedDialogs ->
+            val pinnedIds = storedDialogs.filter { it.isPinned }.map { it.peerId }
+
+            response?.items?.forEach { dm ->
+                val message = dm.lastMessage
+                dialogs.add(Dialog(
+                        message.peerId,
+                        message.id,
+                        response.getTitleFor(dm) ?: "???",
+                        response.getPhotoFor(dm),
+                        message.getResolvedMessage(context),
+                        message.date,
+                        message.isOut(),
+                        dm.conversation.isRead(),
+                        dm.conversation.unreadCount,
+                        response.isOnline(dm),
+                        message.peerId in muteList,
+                        message.peerId in pinnedIds,
+                        storedDialogs.find { it.peerId == message.peerId }?.alias
+                ))
+            }
         }
         return BaseResponse(dialogs, resp.error)
+    }
+
+    @SuppressLint("CheckResult")
+    private fun getStoredDialogs(onLoaded: (List<Dialog>) -> Unit) {
+        appDb.dialogsDao().getDialogs()
+                .subscribe(onLoaded) {
+                    it.printStackTrace()
+                    lw("error loading stored: ${it.message}")
+                    onLoaded(arrayListOf())
+                }
     }
 
     private fun onStatusChanged(peerId: Int, isOnline: Boolean) {
@@ -181,7 +216,7 @@ class DialogsViewModel(
 
     private fun notifyDialogsChanged() {
         val dialogs = dialogsLiveData.value?.data ?: return
-        dialogsLiveData.value = Wrapper(ArrayList(dialogs.sortedByDescending { it.timeStamp }))
+        dialogsLiveData.value = Wrapper(ArrayList(dialogs.sortedByDescending(DIALOGS_COMPARATOR)))
     }
 
     private fun onErrorOccurred(error: String) {
@@ -233,6 +268,14 @@ class DialogsViewModel(
     }
 
     companion object {
+
+        /**
+         * sorts respecting [Dialog.isPinned] parameter to be first
+         */
+        private val DIALOGS_COMPARATOR = { dialog: Dialog ->
+            (if (dialog.isPinned) 1 else 0) * 10000000000L + dialog.timeStamp
+        }
+
         const val COUNT_NEW_CONVERSATION = 3
         const val COUNT_CONVERSATIONS = 200
         const val COUNT_DELETE = 10000

@@ -602,7 +602,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             val fragment = ChatFragment()
             fragment.arguments = Bundle().apply {
                 putInt(ARG_PEER_ID, dialog.peerId)
-                putString(ARG_TITLE, dialog.title)
+                putString(ARG_TITLE, dialog.alias ?: dialog.title)
                 putBoolean(ARG_IS_ONLINE, dialog.isOnline)
                 if (forwarded.isNotEmpty()) {
                     putString(ARG_FORWARDED, forwarded)

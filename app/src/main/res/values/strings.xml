@@ -52,6 +52,8 @@
     <string name="rate">Rate</string>
     <string name="gallery">Gallery</string>
     <string name="delete">Delete</string>
+    <string name="pin">Pin</string>
+    <string name="alias">Alias</string>
     <string name="unmark">Unmark</string>
     <string name="read">Read</string>
     <string name="join_us">Follow us for getting the freshest news about app</string>

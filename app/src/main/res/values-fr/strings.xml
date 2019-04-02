@@ -253,6 +253,8 @@
     <string name="white">Blanc</string>
     <string name="cyan">Azur</string>
     <string name="accounts_hint">Tapez pour gérer</string>
+    <string name="pin">Épingle</string>
+    <string name="alias">Pseudonyme</string>
 
 </resources>
 
