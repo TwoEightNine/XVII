@@ -18,7 +18,7 @@ import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.searchmessages.fragments.SearchMessagesFragment
+import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_dialogs_new.*
@@ -112,7 +112,8 @@ open class DialogsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.menu_search_users -> {
-                rootActivity?.loadFragment(SearchMessagesFragment())
+                rootActivity?.loadFragment(SearchFragment())
+//                rootActivity?.loadFragment(SearchMessagesFragment())
                 true
             }
             R.id.important_menu -> {

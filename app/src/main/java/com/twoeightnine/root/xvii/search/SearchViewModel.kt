@@ -7,16 +7,16 @@ import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.mvp.presenter.UserResponse
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.network.response.BaseResponse
+import com.twoeightnine.root.xvii.network.response.ListResponse
+import com.twoeightnine.root.xvii.network.response.SearchConversationsResponse
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import io.reactivex.Flowable
-import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 import javax.inject.Inject
 
 class SearchViewModel(private val api: ApiService) : ViewModel() {
-
-    private var page = 0
 
     private val resultLiveData = WrappedMutableLiveData<ArrayList<Dialog>>()
 
@@ -28,26 +28,13 @@ class SearchViewModel(private val api: ApiService) : ViewModel() {
             return
         }
         Flowable.zip(
-                api.searchFriends(q, User.FIELDS, COUNT, page * COUNT),
-                api.searchUsers(q, User.FIELDS, COUNT, page * COUNT),
+                api.searchFriends(q, User.FIELDS, COUNT, 0),
+                api.searchUsers(q, User.FIELDS, COUNT, 0),
+                api.searchConversations(q, COUNT),
                 ResponseCombinerFunction()
         )
                 .subscribeSmart({ response ->
-                    val existing = if (page == 0) {
-                        arrayListOf()
-                    } else {
-                        resultLiveData.value?.data ?: arrayListOf()
-                    }
-
-                    val dialogs = response.items.map { user ->
-                        Dialog(
-                                peerId = user.id,
-                                title = user.fullName,
-                                photo = user.photo100,
-                                isOnline = user.isOnline
-                        )
-                    }
-                    resultLiveData.value = Wrapper(existing.apply { addAll(dialogs) })
+                    resultLiveData.value = Wrapper(response)
                 }, { error ->
                     resultLiveData.value = Wrapper(error = error)
                 })
@@ -59,12 +46,39 @@ class SearchViewModel(private val api: ApiService) : ViewModel() {
     }
 
     private inner class ResponseCombinerFunction :
-            BiFunction<UserResponse, UserResponse, UserResponse> {
+            Function3<BaseResponse<ListResponse<User>>,
+                    BaseResponse<ListResponse<User>>,
+                    BaseResponse<SearchConversationsResponse>,
+                    BaseResponse<ArrayList<Dialog>>> {
 
-        override fun apply(t1: UserResponse, t2: UserResponse): UserResponse {
-            t1.response?.items?.addAll(t2.response?.items ?: arrayListOf())
-            return t1
+        override fun apply(
+                friends: BaseResponse<ListResponse<User>>,
+                users: BaseResponse<ListResponse<User>>,
+                conversations: BaseResponse<SearchConversationsResponse>
+        ): BaseResponse<ArrayList<Dialog>> {
+            val dialogs = arrayListOf<Dialog>()
+
+            val cResp = conversations.response
+            friends.response?.items?.forEach { dialogs.add(createFromUser(it)) }
+            cResp?.items?.forEach { conversation ->
+                dialogs.add(Dialog(
+                        peerId = conversation.peer?.id ?: 0,
+                        title = cResp.getTitleFor(conversation) ?: "",
+                        photo = cResp.getPhotoFor(conversation) ?: "",
+                        isOnline = cResp.isOnline(conversation)
+                ))
+            }
+            users.response?.items?.forEach { dialogs.add(createFromUser(it)) }
+
+            return BaseResponse(dialogs)
         }
+
+        private fun createFromUser(user: User) = Dialog(
+                peerId = user.id,
+                title = user.fullName,
+                photo = user.photo100,
+                isOnline = user.isOnline
+        )
     }
 
     class Factory @Inject constructor(private val api: ApiService) : ViewModelProvider.Factory {

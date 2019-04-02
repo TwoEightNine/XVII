@@ -98,6 +98,13 @@ interface ApiService {
                       @Query("limit") limit: Int,
                       @Query("fields") fields: String): Flowable<BaseResponse<MutableList<MessageSearchModel>>>
 
+    @GET("messages.searchConversations?extended=1")
+    fun searchConversations(
+            @Query("q") q: String,
+            @Query("count") count: Int,
+            @Query("fields") fields: String = User.FIELDS
+    ): Flowable<BaseResponse<SearchConversationsResponse>>
+
     @GET("messages.get?filters=8")
     fun getImportantMessages(@Query("count") count: Int,
                              @Query("offset") offset: Int): Flowable<BaseResponse<ListResponse<Message>>>

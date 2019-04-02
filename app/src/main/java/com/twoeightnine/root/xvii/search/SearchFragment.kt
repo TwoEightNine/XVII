@@ -10,6 +10,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.hideKeyboard
 import com.twoeightnine.root.xvii.utils.showError
@@ -40,6 +41,7 @@ class SearchFragment : BaseFragment() {
 
         etSearch.subscribeSearch(true, viewModel::search)
         ivDelete.setOnClickListener { etSearch.setText("") }
+        Style.forAll(llEmptyView)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -69,6 +71,7 @@ class SearchFragment : BaseFragment() {
             activity?.let { hideKeyboard(it) }
             false
         }
+        adapter.emptyView = llEmptyView
     }
 
     companion object {

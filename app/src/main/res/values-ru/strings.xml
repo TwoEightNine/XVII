@@ -268,5 +268,6 @@
     <string name="addons">Дополнительно</string>
     <string name="analyse">Анализатор</string>
     <string name="in_future_versions">Совсем скоро..</string>
+    <string name="not_found">Мдаа.. Ничего не найдено!\nПопробуйте изменить запрос</string>
 
 </resources>

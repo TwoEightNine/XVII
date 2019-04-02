@@ -66,6 +66,7 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
+        invalidateEmptiness()
     }
 
     open fun clear() {

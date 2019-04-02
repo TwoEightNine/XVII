@@ -258,6 +258,7 @@
     <string name="addons">Ajouts</string>
     <string name="analyse">Analyseur</string>
     <string name="in_future_versions">À venir..</string>
+    <string name="not_found">Ouais.. Aucun trouvé!\nÉssayez modifier votre requête</string>
 
 </resources>
 

@@ -66,6 +66,7 @@
     <string name="general">General</string>
     <string name="analyse">Analyser</string>
     <string name="in_future_versions">Coming soon..</string>
+    <string name="not_found">Oops.. Nothing found!\nTry to change your query</string>
     <string name="auth_error">Auth error</string>
     <string name="show_notif">Show private notifications</string>
     <string name="show_name">Show sender\'s name</string>
