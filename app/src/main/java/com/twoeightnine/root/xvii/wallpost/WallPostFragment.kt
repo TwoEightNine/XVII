@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.fragments
+package com.twoeightnine.root.xvii.wallpost
 
 import android.os.Bundle
 import android.view.Menu
@@ -6,34 +6,22 @@ import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.WallPostResponse
+import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.content_wall_post.view.*
 import kotlinx.android.synthetic.main.fragment_wall_post.*
 import javax.inject.Inject
 
 class WallPostFragment : BaseOldFragment() {
-
-    companion object {
-
-        const val ARG_POST_ID = "postId"
-
-        fun newInstance(postId: String): WallPostFragment {
-            val frag = WallPostFragment()
-            frag.arguments = Bundle().apply {
-                putString(ARG_POST_ID, postId)
-            }
-            return frag
-        }
-    }
 
     private val postId by lazy { arguments?.getString(ARG_POST_ID) }
     private lateinit var postResponse: WallPostResponse
@@ -62,7 +50,7 @@ class WallPostFragment : BaseOldFragment() {
     }
 
     private fun getWallPostRequest() {
-        loader.visibility = View.VISIBLE
+        loader.show()
         api.getWallPostById(postId ?: "")
                 .subscribeSmart({ response ->
                     loader.visibility = View.GONE
@@ -82,52 +70,41 @@ class WallPostFragment : BaseOldFragment() {
     private fun putViews(holder: WallViewHolder, post: WallPost, level: Int) {
         val group = getGroup(-post.fromId)
         holder.tvTitle.text = group.name
-        Picasso.get()
-                .loadRounded(group.photo100)
-                .into(holder.civAvatar)
+        holder.civAvatar.load(group.photo100)
         holder.tvDate.text = getTime(post.date, full = true)
         holder.tvPost.text = post.text
-        if (post.attachments != null) {
-            for (i in 0 until post.attachments.size) {
-                val att = post.attachments[i]
-                when (att.type) {
+        post.attachments?.forEach { attachment ->
+            when (attachment.type) {
 
-                    Attachment.TYPE_PHOTO -> {
-                        val photo = att.photo ?: return
-                        holder.llContainer.addView(getPhotoWall(
-                                photo,
-                                rootActivity,
-                                { apiUtils.showPhoto(safeActivity, it.photoId, it.accessKey) }
-                        ))
-                    }
+                Attachment.TYPE_PHOTO -> attachment.photo?.also {
+                    holder.llContainer.addView(getPhotoWall(it, rootActivity) { photo ->
+                        val photos = ArrayList(post.getPhoto())
+                        val position = photos.indexOf(photo)
+                        ImageViewerActivity.viewImages(context, photos, position)
+                    })
+                }
 
-                    Attachment.TYPE_DOC -> {
-                        val doc = att.doc
-                        if (doc!!.isGif) {
-                            holder.llContainer.addView(getGif(doc, rootActivity))
-                        } else {
-                            holder.llContainer.addView(getDoc(doc, rootActivity))
-                        }
+                Attachment.TYPE_DOC -> attachment.doc?.also { doc ->
+                    if (doc.isGif) {
+                        holder.llContainer.addView(getGif(doc, rootActivity))
+                    } else {
+                        holder.llContainer.addView(getDoc(doc, rootActivity))
                     }
+                }
 
-                    Attachment.TYPE_AUDIO -> {
-                        val audio = att.audio
-                        holder.llContainer.addView(getAudio(audio!!, rootActivity))
-                    }
+                Attachment.TYPE_AUDIO -> attachment.audio?.also {
+                    holder.llContainer.addView(getAudio(it, rootActivity))
+                }
 
-                    Attachment.TYPE_LINK -> {
-                        val link = att.link
-                        holder.llContainer.addView(getLink(link!!, rootActivity))
-                    }
 
-                    Attachment.TYPE_VIDEO -> {
-                        val video = att.video
-                        holder.llContainer.addView(getVideo(
-                                video!!,
-                                rootActivity,
-                                { apiUtils.openVideo(safeActivity, it) }
-                        ))
-                    }
+                Attachment.TYPE_LINK -> attachment.link?.also {
+                    holder.llContainer.addView(getLink(it, rootActivity))
+                }
+
+                Attachment.TYPE_VIDEO -> attachment.video?.also {
+                    holder.llContainer.addView(getVideo(it, rootActivity) { video ->
+                        apiUtils.openVideo(safeActivity, video)
+                    })
                 }
             }
         }
@@ -152,24 +129,26 @@ class WallPostFragment : BaseOldFragment() {
     }
 
     private fun initLike(wp: WallPost) {
+        val likes = wp.likes ?: return
+
         val noLike = ContextCompat.getDrawable(rootActivity, R.drawable.ic_favorite)
         val like = ContextCompat.getDrawable(rootActivity, R.drawable.ic_favorite_fill)
         Style.forDrawable(like, Style.MAIN_TAG)
         Style.forDrawable(noLike, Style.MAIN_TAG)
-        if (wp.likes!!.userLikes == 1) {
+        if (likes.isUserLiked) {
             ivLike.setImageDrawable(like)
         } else {
             ivLike.setImageDrawable(noLike)
         }
-        tvLikes.text = wp.likes.count.toString()
+        tvLikes.text = likes.count.toString()
         val flowableLike = api.like(wp.ownerId, wp.id)
         val flowableUnlike = api.unlike(wp.ownerId, wp.id)
         ivLike.setOnClickListener {
-            if (wp.likes.userLikes == 0) {
+            if (likes.isUserLiked) {
                 ivLike.setImageDrawable(like)
                 flowableLike
                         .subscribeSmart({ response ->
-                            wp.likes.userLikes = 1
+                            likes.isUserLiked = true
                             tvLikes.text = response.likes.toString()
                         }, {
                             showError(rootActivity, it)
@@ -179,7 +158,7 @@ class WallPostFragment : BaseOldFragment() {
                 ivLike.setImageDrawable(noLike)
                 flowableUnlike
                         .subscribeSmart({ response ->
-                            wp.likes.userLikes = 0
+                            likes.isUserLiked = false
                             tvLikes.text = response.likes.toString()
                         }, {
                             showError(rootActivity, it)
@@ -189,6 +168,18 @@ class WallPostFragment : BaseOldFragment() {
         }
     }
 
+    companion object {
+
+        const val ARG_POST_ID = "postId"
+
+        fun newInstance(postId: String): WallPostFragment {
+            val frag = WallPostFragment()
+            frag.arguments = Bundle().apply {
+                putString(ARG_POST_ID, postId)
+            }
+            return frag
+        }
+    }
 
     inner class WallViewHolder(view: View) {
 

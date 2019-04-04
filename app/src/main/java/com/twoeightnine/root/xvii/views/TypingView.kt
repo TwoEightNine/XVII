@@ -62,7 +62,7 @@ class TypingView : LinearLayout {
     }
 
     companion object {
-        const val DURATION = 2000L
+        const val DURATION = 1500L
         const val EDGE_1 = 0.27f
         const val EDGE_2 = 0.73f
     }

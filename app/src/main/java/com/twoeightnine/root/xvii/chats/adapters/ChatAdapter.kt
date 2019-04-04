@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
-import com.twoeightnine.root.xvii.fragments.WallPostFragment
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
 
 /**

@@ -8,6 +8,7 @@ import android.view.WindowManager
 import android.widget.PopupWindow
 import androidx.viewpager.widget.ViewPager
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 
 class EmojiKeyboard : PopupWindow {
@@ -81,15 +82,18 @@ class EmojiKeyboard : PopupWindow {
 
             val screenHeight = usableScreenHeight
             var heightDifference = screenHeight - (r.bottom - r.top)
+            l("diff = $heightDifference")
             val resourceId = mContext.resources
                     .getIdentifier("status_bar_height",
                             "dimen", "android")
             if (resourceId > 0) {
                 heightDifference -= mContext.resources
                         .getDimensionPixelSize(resourceId)
+                l("diffMinusRes = $heightDifference")
             }
             if (heightDifference > 100) {
                 keyBoardHeight = heightDifference
+                l("height = $keyBoardHeight")
                 setSize(WindowManager.LayoutParams.MATCH_PARENT, keyBoardHeight)
                 if (!isKeyBoardOpen) {
                     if (onSoftKeyboardOpenCloseListener != null)
@@ -143,6 +147,9 @@ class EmojiKeyboard : PopupWindow {
         return view
     }
 
+    private fun l(s: String) {
+        Lg.i("[keyboard] $s")
+    }
 
     interface OnSoftKeyboardOpenCloseListener {
         fun onKeyboardOpen(keyBoardHeight: Int)

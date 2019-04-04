@@ -34,7 +34,7 @@ class SearchViewModel(private val api: ApiService) : ViewModel() {
                 ResponseCombinerFunction()
         )
                 .subscribeSmart({ response ->
-                    resultLiveData.value = Wrapper(response)
+                    resultLiveData.value = Wrapper(ArrayList(response.distinctBy { it.peerId }))
                 }, { error ->
                     resultLiveData.value = Wrapper(error = error)
                 })

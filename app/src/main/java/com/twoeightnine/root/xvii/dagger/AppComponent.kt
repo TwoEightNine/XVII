@@ -29,7 +29,6 @@ import com.twoeightnine.root.xvii.dagger.modules.PresenterModule
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
-import com.twoeightnine.root.xvii.fragments.WallPostFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
@@ -39,6 +38,7 @@ import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.searchmessages.fragments.SearchMessagesFragment
 import com.twoeightnine.root.xvii.settings.fragments.AboutFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
+import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import dagger.Component
 import javax.inject.Singleton
 
