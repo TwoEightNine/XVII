@@ -48,14 +48,14 @@ fun getPhotoWall(photo: Photo, activity: RootActivity, onClick: (Photo) -> Unit 
     val iv = ImageView(activity)
     val width = screenWidth(activity)
     val scale = width * 1.0f / photo.width
-    val ivHeight = photo.height * scale
-    val params = LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.MATCH_PARENT)
+    val ivHeight = (photo.height * scale).toInt()
+    val params = LinearLayout.LayoutParams(width, ivHeight)
     params.topMargin = 12
     params.bottomMargin = 12
     iv.layoutParams = params
     Picasso.get()
             .loadRounded(photo.almostMax)
-            .resize(width, ivHeight.toInt())
+            .resize(width, ivHeight)
             .centerCrop()
             .into(iv)
     iv.setOnClickListener { onClick.invoke(photo) }

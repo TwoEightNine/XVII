@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.chats.attachments
+package com.twoeightnine.root.xvii.chats.attachments.attachments
 
 import android.os.Bundle
 import android.view.Menu

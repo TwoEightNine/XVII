@@ -68,6 +68,7 @@ class DialogsAdapter(
                 Style.forImageView(ivOnlineDot, Style.MAIN_TAG)
                 Style.forImageView(ivUnreadDotOut, Style.MAIN_TAG, false)
                 Style.forImageView(ivMute, Style.DARK_TAG)
+                Style.forImageView(ivPinned, Style.DARK_TAG)
                 Style.forViewGroup(rlUnreadCount)
                 rlItemContainer.setOnClickListener { onClick(items[adapterPosition]) }
                 rlItemContainer.setOnLongClickListener {

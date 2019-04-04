@@ -23,7 +23,7 @@ import com.twoeightnine.root.xvii.chats.BottomSheetController
 import com.twoeightnine.root.xvii.chats.ChatInputController
 import com.twoeightnine.root.xvii.chats.VoiceRecorder
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
-import com.twoeightnine.root.xvii.chats.attachments.AttachmentsFragment
+import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachFragment

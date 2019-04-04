@@ -123,6 +123,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".accounts.activities.AccountsActivity" />
+        <activity android:name=".chats.attachments.attachments.AttachmentsActivity" />
+        <activity android:name=".chats.attachments.attach.AttachActivity" />
     </application>
 
 </manifest>

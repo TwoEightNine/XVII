@@ -41,7 +41,7 @@ class CryptoEngineTest {
         engine.setKey(USER_KEY)
         val enc = engine.encrypt(MESSAGE)
         val dec = engine.decrypt(enc)
-        assertEquals(dec.verified, true)
+        assertEquals(true, dec.verified)
         assertNotNull(dec.bytes)
         assertEquals(bytesToHex(dec.bytes!!), bytesToHex(MESSAGE.toByteArray()))
     }
@@ -49,10 +49,10 @@ class CryptoEngineTest {
     @Test
     fun encrypt_reject() {
         engine.setKey(USER_KEY)
-        val enc = engine.encrypt(MESSAGE)
-        enc.replaceFirst(enc[0], if (enc[0] == 'A') 'B' else 'A')
+        var enc = engine.encrypt(MESSAGE)
+        enc = enc.replaceFirst(enc[0], if (enc[0] == 'A') 'B' else 'A')
         val dec = engine.decrypt(enc)
-        assertEquals(dec.verified, false)
+        assertEquals(false, dec.verified)
         assertNull(dec.bytes)
     }
 
