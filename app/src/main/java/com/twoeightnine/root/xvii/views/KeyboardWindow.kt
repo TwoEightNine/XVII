@@ -97,13 +97,13 @@ abstract class KeyboardWindow(
 
             val screenHeight = usableScreenHeight
             var heightDifference = screenHeight - (r.bottom - r.top)
-            if (screenHeight > 0) l("diff = $heightDifference")
             val resourceId = context.resources
                     .getIdentifier(
                             "status_bar_height",
                             "dimen", "android"
                     )
             if (resourceId > 0) {
+                if (heightDifference > 50) l("diff = $heightDifference")
                 heightDifference -= context.resources
                         .getDimensionPixelSize(resourceId)
                 if (heightDifference > 0) l("diffRes = $heightDifference")
