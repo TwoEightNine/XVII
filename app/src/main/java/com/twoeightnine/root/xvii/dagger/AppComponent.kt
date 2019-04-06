@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.dagger
 
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.activities.*
+import com.twoeightnine.root.xvii.analyzer.dialog.AnalyzeDialogFragment
 import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
@@ -85,6 +86,7 @@ interface AppComponent {
     fun inject(chatMessagesFragment: ChatMessagesFragment)
     fun inject(featuresFragment: FeaturesFragment)
     fun inject(searchFragment: SearchFragment)
+    fun inject(analyzeDialogFragment: AnalyzeDialogFragment)
 
     //other
     fun inject(notificationService: NotificationService)

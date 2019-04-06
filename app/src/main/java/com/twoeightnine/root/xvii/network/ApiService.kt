@@ -48,6 +48,14 @@ interface ApiService {
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<BaseResponse<MessagesHistoryResponse>>
 
+    @GET("messages.getHistory")
+    @Headers(NEW_VERSION_HEADER)
+    fun getMessagesLite(
+            @Query("peer_id") peerId: Int,
+            @Query("count") count: Int,
+            @Query("offset") offset: Int = 0
+    ): Flowable<BaseResponse<MessagesHistoryResponse>>
+
     @GET("messages.markAsRead")
     fun markAsRead(@Query("message_ids") messageIds: String): Flowable<BaseResponse<Int>>
 

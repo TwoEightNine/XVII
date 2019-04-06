@@ -48,6 +48,7 @@ class FeaturesFragment : BaseFragment() {
         viewModel.loadAccount()
 
         rlAnalyse.setOnClickListener { showToast(context, R.string.in_future_versions) }
+//        rlAnalyse.setOnClickListener { rootActivity?.loadFragment(AnalyzeDialogFragment.newInstance(1)) }
 
         rlAccounts.setOnClickListener { rootActivity?.loadFragment(AccountsFragment.newInstance()) }
         rlGeneral.setOnClickListener { rootActivity?.loadFragment(GeneralFragment()) }
