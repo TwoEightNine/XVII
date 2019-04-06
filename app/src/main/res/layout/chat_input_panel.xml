@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="100"
@@ -12,53 +13,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:tag="api20">
-
-        <FrameLayout
-            android:id="@+id/flSendContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginBottom="6dp">
-
-            <ImageView
-                android:id="@+id/ivSend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_send"
-                android:tag="dark"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/ivMic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_mic_small"
-                android:tag="dark" />
-
-        </FrameLayout>
+        android:focusable="true"
+        android:minHeight="50dp">
 
         <RelativeLayout
             android:id="@+id/rlAttachContainer"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp">
+            android:layout_marginStart="4dp"
+            android:padding="6dp">
 
             <ProgressBar
                 android:id="@+id/pbAttach"
-                android:layout_width="28dp"
-                android:layout_height="28dp" />
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true" />
 
             <ImageView
                 android:id="@+id/ivAttach"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
                 android:src="@drawable/ic_attach"
                 android:tag="dark" />
 
@@ -66,7 +42,7 @@
                 android:id="@+id/rlAttachCount"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:background="@drawable/shape_circle_attached">
 
                 <TextView
@@ -75,52 +51,68 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:maxLength="1"
-                    android:text="3"
                     android:textColor="@color/toolbar_text"
                     android:textSize="8sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="3" />
 
             </RelativeLayout>
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rlInputContainer"
+        <com.twoeightnine.root.xvii.views.emoji.EmojiEditText
+            android:id="@+id/etInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:layout_toLeftOf="@+id/flSendContainer"
-            android:layout_toRightOf="@+id/rlAttachContainer"
-            android:background="@drawable/shape_frame_input"
-            android:minHeight="44dp">
+            android:layout_centerVertical="true"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_toStartOf="@+id/ivKeyboard"
+            android:layout_toEndOf="@+id/rlAttachContainer"
+            android:background="@android:color/transparent"
+            android:hint="@string/write_message"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="4"
+            android:textColor="@color/main_text"
+            android:textColorHint="@color/other_text"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/ivKeyboard"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/flSendContainer"
+            android:padding="4dp"
+            android:src="@drawable/ic_sticker"
+            android:tag="dark" />
+
+        <FrameLayout
+            android:id="@+id/flSendContainer"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="4dp">
 
             <ImageView
-                android:id="@+id/ivKeyboard"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="4dp"
-                android:src="@drawable/ic_sticker"
+                android:id="@+id/ivSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_send"
+                android:tag="dark"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/ivMic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:src="@drawable/ic_mic_small"
                 android:tag="dark" />
 
-            <com.twoeightnine.root.xvii.views.emoji.EmojiEditText
-                android:id="@+id/etInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toLeftOf="@+id/ivKeyboard"
-                android:background="@android:color/transparent"
-                android:hint="@string/write_message"
-                android:inputType="textCapSentences|textMultiLine"
-                android:maxLines="4"
-                android:tag="api20"
-                android:textColor="@color/main_text"
-                android:textColorHint="@color/other_text"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
+        </FrameLayout>
 
     </RelativeLayout>
 

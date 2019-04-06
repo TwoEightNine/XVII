@@ -108,9 +108,9 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         Style.forAll(rlBack)
         Style.forAll(rlMultiAction)
         Style.forTabLayout(tabsBottom)
-        val d2 = rlInputContainer.background
-        Style.forFrame(d2)
-        rlInputContainer.background = d2
+//        val d2 = rlInputContainer.background
+//        Style.forFrame(d2)
+//        rlInputContainer.background = d2
 
         forwardedMessages?.also {
             handler.postDelayed({ presenter.attachUtils.forwarded = it }, 1000L)
