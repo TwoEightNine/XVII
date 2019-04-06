@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -10,7 +9,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +25,6 @@ import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsFragm
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachFragment
-import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
@@ -44,7 +41,6 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.FingerPrintAlertDialog
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
-import com.twoeightnine.root.xvii.views.emoji.EmojiKeyboard
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -72,7 +68,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     private lateinit var inputController: ChatInputController
     private lateinit var voiceController: VoiceRecorder
     private lateinit var adapter: ChatAdapter
-    private lateinit var emojiKeyboard: EmojiKeyboard
+//    private lateinit var stickersKeyboard: StickersWindow
     private lateinit var permissionHelper: PermissionHelper
 
     private val handler = Handler()
@@ -80,13 +76,12 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     override fun getLayout() = R.layout.fragment_chat
 
     override fun bindViews(view: View) {
-        inputController = ChatInputController(view, InputCallback())
+        inputController = ChatInputController(safeContext, view, InputCallback())
         voiceController = VoiceRecorder(safeContext, VoiceCallback())
         bottomSheet = BottomSheetController(rlBottom, rlHideBottom) { vpAttach?.currentItem = 1 } // reset to gallery
         swipeContainer.setOnRefreshListener { presenter.loadHistory(withClear = true) }
 
         initAdapter()
-        initEmojiKb()
         initMultiAction()
 
         App.appComponent?.inject(this)
@@ -165,7 +160,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
     }
 
-    fun initAdapter() {
+    private fun initAdapter() {
         adapter = ChatAdapter(safeActivity, ::loadMore, AdapterCallback(), ChatAdapter.ChatAdapterSettings(
                 isImportant = false
         ))
@@ -185,7 +180,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         pagerAdapter = CommonPagerAdapter(childFragmentManager)
         pagerAdapter.add(AttachedFragment.newInstance(presenter.attachUtils), getString(R.string.attached))
         pagerAdapter.add(GalleryFragment.newInstance(::onImagesSelected), getString(R.string.device_photos))
-        pagerAdapter.add(StickersFragment.newInstance(::onStickerSelected), getString(R.string.stickers))
         pagerAdapter.add(PhotoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.photos))
         pagerAdapter.add(VideoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.videos))
         pagerAdapter.add(DocAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.docs))
@@ -193,12 +187,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         vpAttach.offscreenPageLimit = 5
         tabsBottom.setupWithViewPager(vpAttach, true)
         vpAttach.currentItem = 1 // gallery
-    }
-
-    private fun initEmojiKb() {
-        emojiKeyboard = EmojiKeyboard(flContainer, safeActivity, inputController::addEmoji)
-        emojiKeyboard.setSizeForSoftKeyboard()
-        emojiKeyboard.onSoftKeyboardOpenCloseListener = EmojiListener()
     }
 
     private fun initMultiAction() {
@@ -264,7 +252,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             TextInputAlertDialog(
                     safeContext,
                     getString(R.string.edit_message), "",
-                    message.body ?: "",
+                    message.body,
                     { presenter.editMessage(message.id, it) }
             ).show()
         } else {
@@ -378,11 +366,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     override fun onVoiceUploaded(path: String) {
         inputController.removeItemAsLoaded(path)
         onSend(etInput.text.toString())
-    }
-
-    private fun onStickerSelected(sticker: Attachment.Sticker) {
-        presenter.sendSticker(sticker)
-        bottomSheet.close()
     }
 
     private fun getDecrypted(text: String?) = getString(R.string.decrypted, presenter.crypto.decrypt(text
@@ -580,7 +563,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         GalleryFragment.clear()
         DocAttachFragment.clear()
         VideoAttachFragment.clear()
-        StickersFragment.clear()
     }
 
     override fun onBackPressed(): Boolean {
@@ -730,22 +712,8 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     private inner class InputCallback : ChatInputController.ChatInputCallback {
 
-        override fun onEmojiClick() {
-            if (!emojiKeyboard.isShowing) {
-                if (emojiKeyboard.isKeyBoardOpen) {
-                    emojiKeyboard.showAtBottom()
-                } else {
-                    etInput.isFocusableInTouchMode = true
-                    etInput.requestFocus()
-                    val inputMethodManager = safeContext
-                            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputMethodManager.showSoftInput(etInput, InputMethodManager
-                            .SHOW_IMPLICIT)
-                    emojiKeyboard.showAtBottomPending()
-                }
-            } else {
-                emojiKeyboard.dismiss()
-            }
+        override fun onStickerClicked(sticker: Attachment.Sticker) {
+            presenter.sendSticker(sticker)
         }
 
         override fun onSendClick() {
@@ -772,16 +740,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
         override fun onTypingInvoke() {
             presenter.setTyping()
-        }
-    }
-
-    private inner class EmojiListener : EmojiKeyboard.OnSoftKeyboardOpenCloseListener {
-        override fun onKeyboardOpen(keyBoardHeight: Int) {}
-
-        override fun onKeyboardClose() {
-            if (emojiKeyboard.isShowing) {
-                emojiKeyboard.dismiss()
-            }
         }
     }
 

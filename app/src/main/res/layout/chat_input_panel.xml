@@ -95,13 +95,13 @@
             android:minHeight="44dp">
 
             <ImageView
-                android:id="@+id/ivEmoji"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/ivKeyboard"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="4dp"
-                android:src="@drawable/ic_emoji_fun"
+                android:src="@drawable/ic_sticker"
                 android:tag="dark" />
 
             <com.twoeightnine.root.xvii.views.emoji.EmojiEditText
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:layout_toLeftOf="@+id/ivEmoji"
+                android:layout_toLeftOf="@+id/ivKeyboard"
                 android:background="@android:color/transparent"
                 android:hint="@string/write_message"
                 android:inputType="textCapSentences|textMultiLine"

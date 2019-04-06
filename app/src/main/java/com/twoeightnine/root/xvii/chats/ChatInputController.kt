@@ -1,12 +1,19 @@
 package com.twoeightnine.root.xvii.chats
 
+import android.content.Context
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContextCompat
+import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
+import com.twoeightnine.root.xvii.managers.Style
+import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.emoji.Emoji
+import com.twoeightnine.root.xvii.views.emoji.EmojiKeyboard
 import kotlinx.android.synthetic.main.chat_input_panel.view.*
 import kotlin.math.abs
 
@@ -14,25 +21,31 @@ import kotlin.math.abs
  * Created by msnthrp on 17/01/18.
  */
 class ChatInputController(
+        private val context: Context,
         private val rootView: View,
         private val callback: ChatInputCallback
 ) {
 
+    private val loadingQueue = arrayListOf<Any>()
+    private val emojiKeyboard = EmojiKeyboard(rootView, context, ::addEmoji, ::onKeyboardClosed)
+    private val stickerKeyboard = StickersWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked)
+
     private var attachedCount = 0
     private var lastTypingInvocation = 0
-    private val loadingQueue = arrayListOf<Any>()
+    private var keyboardState = KeyboardState.TEXT
 
     init {
         with(rootView) {
             ivSend.setOnClickListener { callback.onSendClick() }
-            ivEmoji.setOnClickListener { callback.onEmojiClick() }
+            ivKeyboard.setOnClickListener { switchKeyboardState() }
             ivAttach.setOnClickListener { callback.onAttachClick() }
             pbAttach.hide()
             etInput.addTextChangedListener(ChatTextWatcher())
             ivMic.setOnTouchListener(MicTouchListener())
         }
+        emojiKeyboard.setSizeForSoftKeyboard()
+        stickerKeyboard.setSizeForSoftKeyboard()
         setAttachedCount(0)
-
     }
 
     fun addItemAsBeingLoaded(item: Any) {
@@ -62,7 +75,7 @@ class ChatInputController(
         }
     }
 
-    fun addEmoji(emoji: Emoji) {
+    private fun addEmoji(emoji: Emoji) {
         val start = rootView.etInput.selectionStart
         val end = rootView.etInput.selectionEnd
         if (start < 0) {
@@ -72,6 +85,36 @@ class ChatInputController(
                     Math.max(start, end), emoji.code, 0,
                     emoji.code.length)
         }
+    }
+
+    private fun switchKeyboardState() {
+        when(keyboardState) {
+            KeyboardState.TEXT -> {
+                keyboardState = KeyboardState.STICKERS
+                stickerKeyboard.showWithRequest(rootView.etInput)
+            }
+            KeyboardState.STICKERS -> {
+                keyboardState = KeyboardState.EMOJIS
+                stickerKeyboard.dismiss()
+                emojiKeyboard.showWithRequest(rootView.etInput)
+            }
+            KeyboardState.EMOJIS -> {
+                keyboardState = KeyboardState.TEXT
+                emojiKeyboard.dismiss()
+            }
+        }
+        updateKeyboardIcon()
+    }
+
+    private fun updateKeyboardIcon() {
+        val iconRes = when(keyboardState) {
+            KeyboardState.TEXT -> R.drawable.ic_sticker
+            KeyboardState.STICKERS -> R.drawable.ic_emoji
+            KeyboardState.EMOJIS -> R.drawable.ic_keyboard
+        }
+        val d = ContextCompat.getDrawable(context, iconRes)
+        Style.forDrawable(d, Style.DARK_TAG)
+        rootView.ivKeyboard.setImageDrawable(d)
     }
 
     private fun invalidateProgress() {
@@ -86,6 +129,17 @@ class ChatInputController(
     private fun switchToMic() {
         rootView.ivSend.hide()
         rootView.ivMic.show()
+    }
+
+    private fun onKeyboardClosed() {
+        if (emojiKeyboard.isShowing) {
+            emojiKeyboard.dismiss()
+        }
+        if (stickerKeyboard.isShowing) {
+            stickerKeyboard.dismiss()
+        }
+        keyboardState = KeyboardState.TEXT
+        updateKeyboardIcon()
     }
 
     companion object {
@@ -170,12 +224,18 @@ class ChatInputController(
      * for interacting with [ChatFragment]
      */
     interface ChatInputCallback {
-        fun onEmojiClick()
+        fun onStickerClicked(sticker: Attachment.Sticker)
         fun onSendClick()
         fun onMicPress()
         fun onMicRelease(cancelled: Boolean)
         fun onAttachClick()
         fun onTypingInvoke()
+    }
+
+    private enum class KeyboardState {
+        TEXT,
+        STICKERS,
+        EMOJIS
     }
 
 }

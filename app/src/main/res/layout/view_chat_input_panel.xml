@@ -42,7 +42,7 @@
         </FrameLayout>
 
         <ImageView
-            android:id="@+id/ivEmoji"
+            android:id="@+id/ivKeyboard"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
@@ -102,7 +102,7 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="6dp"
-            android:layout_toStartOf="@+id/ivEmoji"
+            android:layout_toStartOf="@+id/ivKeyboard"
             android:layout_toEndOf="@+id/rlAttachContainer"
             android:background="@android:color/transparent"
             android:hint="@string/write_message"

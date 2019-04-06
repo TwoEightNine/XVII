@@ -16,6 +16,7 @@ import com.twoeightnine.root.xvii.chats.attachments.links.LinkAttachmentsFragmen
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersFragment
+import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.fragments.AttachedFragment
@@ -95,5 +96,6 @@ interface AppComponent {
     fun inject(longPollCore: LongPollCore)
     fun inject(chatFragmentPresenter: ChatFragmentPresenter)
     fun inject(markAsReadBroadcastReceiver: MarkAsReadBroadcastReceiver)
+    fun inject(stickersWindow: StickersWindow)
 
 }
