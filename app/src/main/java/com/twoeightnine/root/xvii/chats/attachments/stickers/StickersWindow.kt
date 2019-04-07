@@ -117,7 +117,13 @@ class StickersWindow(
             availableStorage.readFromFile()
         }
                 .compose(applySingleSchedulers())
-                .subscribe(::updateStickers) {
+                .subscribe({ stickers ->
+                    if (stickers.isNotEmpty()) {
+                        updateStickers(stickers)
+                    } else {
+                        loadFromServer()
+                    }
+                }) {
                     it.printStackTrace()
                     Lg.i("[stickers] loading from storage: ${it.message}")
                     loadFromServer()

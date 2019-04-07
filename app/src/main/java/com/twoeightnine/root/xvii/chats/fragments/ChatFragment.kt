@@ -1,7 +1,5 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
@@ -48,28 +46,25 @@ import javax.inject.Inject
 
 class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
+    @Inject
+    lateinit var presenter: ChatFragmentPresenter
+
+    @Inject
+    lateinit var apiUtils: ApiUtils
+
     private val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
     private val title by lazy { arguments?.getString(ARG_TITLE) ?: "" }
     private val isOnline by lazy { arguments?.getBoolean(ARG_IS_ONLINE) == true }
     private val forwardedMessages by lazy { arguments?.getString(ARG_FORWARDED) }
 
+    private val permissionHelper by lazy { PermissionHelper(this) }
+
     private var dialogLoading: LoadingDialog? = null
-
-    private var lastOnline = ""
-    private lateinit var imut: ImageUtils
-
-    @Inject
-    lateinit var presenter: ChatFragmentPresenter
-    @Inject
-    lateinit var apiUtils: ApiUtils
-
     private lateinit var pagerAdapter: CommonPagerAdapter
     private lateinit var bottomSheet: BottomSheetController<RelativeLayout>
     private lateinit var inputController: ChatInputController
     private lateinit var voiceController: VoiceRecorder
     private lateinit var adapter: ChatAdapter
-//    private lateinit var stickersKeyboard: StickersWindow
-    private lateinit var permissionHelper: PermissionHelper
 
     private val handler = Handler()
 
@@ -108,9 +103,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         Style.forAll(rlBack)
         Style.forAll(rlMultiAction)
         Style.forTabLayout(tabsBottom)
-//        val d2 = rlInputContainer.background
-//        Style.forFrame(d2)
-//        rlInputContainer.background = d2
 
         forwardedMessages?.also {
             handler.postDelayed({ presenter.attachUtils.forwarded = it }, 1000L)
@@ -123,7 +115,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 showError(activity, e.message ?: "background not found")
             }
         }
-        permissionHelper = PermissionHelper(this)
     }
 
     private fun onAttachCounterChanged(count: Int) {
@@ -148,7 +139,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         try {
             rootActivity.title = title
             onChangeOnline(isOnline)
-            imut = ImageUtils(rootActivity)
             toolbar?.setOnClickListener {
                 hideKeyboard(safeActivity)
                 if (peerId.matchesUserId()) {
@@ -371,15 +361,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     private fun getDecrypted(text: String?) = getString(R.string.decrypted, presenter.crypto.decrypt(text
             ?: ""))
 
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            val path = imut.getPath(requestCode, data)
-            presenter.attachPhoto(path ?: "")
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         presenter.isShown = true
@@ -470,12 +451,11 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     override fun onChangeOnline(isOnline: Boolean) {
-        lastOnline = when {
+        rootActivity.supportActionBar?.subtitle = when {
             peerId.matchesChatId() -> getString(R.string.conversation)
             peerId.matchesGroupId() -> getString(R.string.community)
             else -> if (isOnline) getString(R.string.online) else getString(R.string.offline)
         }
-        rootActivity.supportActionBar?.subtitle = lastOnline
     }
 
     override fun onReadOut(mid: Int) {
@@ -690,7 +670,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     private inner class VoiceCallback : VoiceRecorder.RecorderCallback {
 
         override fun onVisibilityChanged(visible: Boolean) {
-            rlRecord.visibility = if (visible) View.VISIBLE else View.GONE
+            rlRecord.setVisible(visible)
         }
 
         override fun onTimeUpdated(time: Int) {
