@@ -95,9 +95,15 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     }
 
     private fun stop() {
-        if (player.isPlaying) {
-            player.pause()
-            pausingAudioSubject.onNext(Unit)
+        try {
+            if (player.isPlaying) {
+                player.pause()
+                pausingAudioSubject.onNext(Unit)
+            }
+        } catch (e: Exception) {
+            lw("error stopping: ${e.message}")
+            stopSelf()
+            onDestroy()
         }
     }
 
@@ -279,7 +285,11 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
         fun getPlayedTrack() = service?.getPlayedTrack()
 
-        fun isPlaying() = service?.player?.isPlaying ?: false
+        fun isPlaying() = try {
+            service?.player?.isPlaying ?: false
+        } catch (e: Exception) {
+            false
+        }
     }
 
     inner class MusicBinder : Binder() {
