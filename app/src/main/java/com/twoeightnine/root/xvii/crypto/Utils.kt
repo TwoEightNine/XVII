@@ -41,6 +41,6 @@ fun getRandomBytes(numBytes: Int): ByteArray {
     return bytes
 }
 
-fun toBase64(bytes: ByteArray) = Base64.encodeToString(bytes, Base64.NO_WRAP)
+fun toBase64(bytes: ByteArray) = Base64.encodeToString(bytes, Base64.DEFAULT)
 
-fun fromBase64(str: String) = Base64.decode(str, Base64.NO_WRAP)
+fun fromBase64(str: String) = Base64.decode(str, Base64.DEFAULT)

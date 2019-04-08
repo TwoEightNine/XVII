@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii
 
+import com.twoeightnine.root.xvii.crypto.dh.DhData
 import com.twoeightnine.root.xvii.crypto.dh.DiffieHellman
 import junit.framework.Assert.assertEquals
 import org.junit.Test
@@ -16,6 +17,15 @@ class DiffieHellmanTest {
         dhA.publicOther = dhB.publicOwn
 
         assertEquals(dhA.key.toString(), dhB.key.toString())
+    }
+
+    @Test
+    fun dhData_serializing() {
+        val dh = DiffieHellman(PRIME)
+        val dhData = dh.getDhData()
+        val serialized = DhData.serialize(dhData)
+        val deserialized = DhData.deserialize(serialized)
+        assertEquals(dhData, deserialized)
     }
 
     companion object {

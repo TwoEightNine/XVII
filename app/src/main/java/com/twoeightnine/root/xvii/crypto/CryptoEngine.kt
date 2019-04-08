@@ -1,8 +1,18 @@
 package com.twoeightnine.root.xvii.crypto
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.twoeightnine.root.xvii.crypto.cipher.Cipher
 import com.twoeightnine.root.xvii.crypto.cipher.Pbkdf2HmacSha1
+import com.twoeightnine.root.xvii.crypto.dh.DhData
+import com.twoeightnine.root.xvii.crypto.dh.DiffieHellman
+import com.twoeightnine.root.xvii.utils.applySingleSchedulers
+import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
+import com.twoeightnine.root.xvii.utils.getBytesFromFile
+import com.twoeightnine.root.xvii.utils.getNameFromUrl
+import com.twoeightnine.root.xvii.utils.writeBytesToFile
+import io.reactivex.Single
+import java.math.BigInteger
 
 class CryptoEngine(
         private val context: Context,
@@ -20,6 +30,11 @@ class CryptoEngine(
      */
     private lateinit var key: ByteArray
 
+    /**
+     * provides asymmetric key exchange
+     */
+    private lateinit var dh: DiffieHellman
+
     init {
         if (storage.hasKey(peerId)) {
             key = storage.getKey(peerId)
@@ -27,12 +42,71 @@ class CryptoEngine(
     }
 
     /**
+     * used to check if [CryptoEngine] can be used
+     */
+    fun isKeyRequired() = !::key.isInitialized
+
+    /**
+     * check if [key] is set
+     * if not throws [IllegalStateException]
+     */
+    private fun checkKey() {
+        if (isKeyRequired()) {
+            throw IllegalStateException("No key provided!")
+        }
+    }
+
+    /**
      * derives secure key from [userKey]
      * saves as [key] and into [storage]
      */
-    fun setKey(userKey: String) {
+    fun setKey(userKey: String, save: Boolean = true) {
         key = Pbkdf2HmacSha1.deriveFromKey(userKey)
-        storage.saveKey(peerId, key)
+        if (save) {
+            storage.saveKey(peerId, key)
+        }
+    }
+
+    /**
+     * removes all the keys and a prime
+     */
+    fun resetStorage() {
+        storage.clear()
+    }
+
+    /**
+     * initiates key exchange
+     * @see [DhData], [DiffieHellman]
+     */
+    @SuppressLint("CheckResult")
+    fun startExchange(onKeysGenerated: (String) -> Unit) {
+        Single.fromCallable {
+            dh = DiffieHellman(BigInteger(storage.prime))
+            val dhData = dh.getDhData()
+            wrapKey(DhData.serialize(dhData))
+        }
+                .compose(applySingleSchedulers())
+                .subscribe(onKeysGenerated)
+    }
+
+    /**
+     * supports exchange, receives [DhData], obtains [key]
+     * returns own public nonce
+     */
+    fun supportExchange(keyEx: String): String {
+        val dhData = DhData.deserialize(unwrapKey(keyEx))
+        dh = DiffieHellman(dhData)
+        setKey(dh.key.toString())
+        return wrapKey(numToStr(dh.publicOwn))
+    }
+
+    /**
+     * finishes the exchange, receive other public nonce, obtains [key]
+     */
+    fun finishExchange(publicOtherWrapped: String) {
+        val publicOther = strToNum(publicOtherWrapped)
+        dh.publicOther = publicOther
+        setKey(dh.key.toString())
     }
 
     fun encrypt(message: String): String {
@@ -49,18 +123,18 @@ class CryptoEngine(
         return Cipher.decrypt(enc, key)
     }
 
-    fun resetStorage() {
-        storage.clear()
-    }
-
-    /**
-     * check if [key] is set
-     * if not throws [IllegalStateException]
-     */
-    private fun checkKey() {
-        if (!::key.isInitialized) {
-            throw IllegalStateException("No key provided!")
+    @SuppressLint("CheckResult")
+    fun encryptFile(context: Context, path: String, onEncrypted: (String) -> Unit) {
+        Single.fromCallable {
+            val bytes = getBytesFromFile(context, path)
+            Cipher.encrypt(bytes, key)
         }
+                .compose(applySingleSchedulers())
+                .subscribe { cipher ->
+                    val resultName = "${getNameFromUrl(path)}${CryptoUtil.EXTENSION}"
+                    val cipherPath = writeBytesToFile(context, cipher, resultName)
+                    onEncrypted(cipherPath)
+                }
     }
 
     companion object {
@@ -87,6 +161,10 @@ class CryptoEngine(
         } else {
             text
         }
+
+        fun numToStr(num: BigInteger) = toBase64(num.toByteArray())
+
+        fun strToNum(str: String) = BigInteger(fromBase64(str))
 
     }
 }
