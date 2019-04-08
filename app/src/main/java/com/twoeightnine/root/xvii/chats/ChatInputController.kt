@@ -29,6 +29,7 @@ class ChatInputController(
     private val loadingQueue = arrayListOf<Any>()
     private val emojiKeyboard = EmojiKeyboard(rootView, context, ::addEmoji, ::onKeyboardClosed)
     private val stickerKeyboard = StickersWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked)
+    private val voiceRecorder = VoiceRecorder(context, callback)
 
     private var attachedCount = 0
     private var lastTypingInvocation = 0
@@ -88,7 +89,7 @@ class ChatInputController(
     }
 
     private fun switchKeyboardState() {
-        when(keyboardState) {
+        when (keyboardState) {
             KeyboardState.TEXT -> {
                 keyboardState = KeyboardState.STICKERS
                 stickerKeyboard.showWithRequest(rootView.etInput)
@@ -107,7 +108,7 @@ class ChatInputController(
     }
 
     private fun updateKeyboardIcon() {
-        val iconRes = when(keyboardState) {
+        val iconRes = when (keyboardState) {
             KeyboardState.TEXT -> R.drawable.ic_sticker
             KeyboardState.STICKERS -> R.drawable.ic_emoji
             KeyboardState.EMOJIS -> R.drawable.ic_keyboard
@@ -153,7 +154,11 @@ class ChatInputController(
     private inner class MicTouchListener : View.OnTouchListener {
 
         private val cancelThreshold = 200
-        private val delayTimer = MicClickTimer { callback.onMicPress() }
+        private val delayTimer = MicClickTimer {
+            if (callback.hasMicPermissions()) {
+                voiceRecorder.startRecording()
+            }
+        }
 
         private var xPress = 0f
 
@@ -182,7 +187,7 @@ class ChatInputController(
 
         private fun stop(cancel: Boolean) {
             delayTimer.cancel()
-            callback.onMicRelease(cancel)
+            voiceRecorder.stopRecording(cancel)
         }
 
         private fun shouldCancel(event: MotionEvent) = abs(xPress - event.x) > cancelThreshold
@@ -191,7 +196,8 @@ class ChatInputController(
     /**
      * adds delay before invoking
      */
-    private inner class MicClickTimer(private val callback: () -> Unit) : CountDownTimer(150L, 150L) {
+    private inner class MicClickTimer(private val callback: () -> Unit)
+        : CountDownTimer(150L, 150L) {
         override fun onFinish() {
             callback.invoke()
         }
@@ -223,11 +229,10 @@ class ChatInputController(
     /**
      * for interacting with [ChatFragment]
      */
-    interface ChatInputCallback {
+    interface ChatInputCallback : VoiceRecorder.RecorderCallback {
         fun onStickerClicked(sticker: Attachment.Sticker)
         fun onSendClick()
-        fun onMicPress()
-        fun onMicRelease(cancelled: Boolean)
+        fun hasMicPermissions(): Boolean
         fun onAttachClick()
         fun onTypingInvoke()
     }

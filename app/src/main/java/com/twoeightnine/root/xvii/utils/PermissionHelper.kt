@@ -90,6 +90,8 @@ class PermissionHelper {
 
     fun hasStoragePermissions() = hasPermissions(arrayOf(READ_STORAGE, WRITE_STORAGE))
 
+    fun hasRecordAudioPermissions() = hasPermissions(arrayOf(RECORD_AUDIO))
+
     private fun hasPermission(permission: String): Boolean {
         val check = PermissionChecker.checkSelfPermission(activity, permission)
         return check == PackageManager.PERMISSION_GRANTED

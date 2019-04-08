@@ -22,7 +22,7 @@ class VoiceRecorder(
     private val timer = RecordTimer()
 
     fun startRecording() {
-        recorderCallback.onVisibilityChanged(true)
+        recorderCallback.onVoiceVisibilityChanged(true)
         timer.start()
         recorder = MediaRecorder()
         recorder?.apply {
@@ -35,13 +35,13 @@ class VoiceRecorder(
                 start()
                 vibrate()
             } catch (e: IOException) {
-                recorderCallback.onError(e.message ?: "null")
+                recorderCallback.onVoiceError(e.message ?: "null")
             }
         }
     }
 
     fun stopRecording(cancelled: Boolean = false) {
-        recorderCallback.onVisibilityChanged(false)
+        recorderCallback.onVoiceVisibilityChanged(false)
         timer.cancel()
         val successfully = try {
             recorder?.apply {
@@ -57,7 +57,7 @@ class VoiceRecorder(
         }
         recorder = null
         if (timer.lastDuration >= RECORD_MIN_DURATION && !cancelled && successfully) {
-            recorderCallback.onRecorded(fileName)
+            recorderCallback.onVoiceRecorded(fileName)
         }
     }
 
@@ -73,10 +73,10 @@ class VoiceRecorder(
     }
 
     interface RecorderCallback {
-        fun onVisibilityChanged(visible: Boolean)
-        fun onTimeUpdated(time: Int)
-        fun onRecorded(fileName: String)
-        fun onError(error: String)
+        fun onVoiceVisibilityChanged(visible: Boolean)
+        fun onVoiceTimeUpdated(time: Int)
+        fun onVoiceRecorded(fileName: String)
+        fun onVoiceError(error: String)
     }
 
     private inner class RecordTimer : CountDownTimer(IMPLICIT_DURATION, 1000L) {
@@ -91,7 +91,7 @@ class VoiceRecorder(
         override fun onTick(millisUntilFinished: Long) {
             val spent = ((IMPLICIT_DURATION - millisUntilFinished) / 1000).toInt()
             lastDuration = spent
-            recorderCallback.onTimeUpdated(spent)
+            recorderCallback.onVoiceTimeUpdated(spent)
         }
     }
 }

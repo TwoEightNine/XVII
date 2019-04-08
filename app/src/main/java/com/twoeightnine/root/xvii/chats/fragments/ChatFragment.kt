@@ -17,7 +17,6 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
 import com.twoeightnine.root.xvii.chats.BottomSheetController
 import com.twoeightnine.root.xvii.chats.ChatInputController
-import com.twoeightnine.root.xvii.chats.VoiceRecorder
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
 import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachFragment
@@ -63,7 +62,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     private lateinit var pagerAdapter: CommonPagerAdapter
     private lateinit var bottomSheet: BottomSheetController<RelativeLayout>
     private lateinit var inputController: ChatInputController
-    private lateinit var voiceController: VoiceRecorder
     private lateinit var adapter: ChatAdapter
 
     private val handler = Handler()
@@ -72,7 +70,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     override fun bindViews(view: View) {
         inputController = ChatInputController(safeContext, view, InputCallback())
-        voiceController = VoiceRecorder(safeContext, VoiceCallback())
         bottomSheet = BottomSheetController(rlBottom, rlHideBottom) { vpAttach?.currentItem = 1 } // reset to gallery
         swipeContainer.setOnRefreshListener { presenter.loadHistory(withClear = true) }
 
@@ -667,29 +664,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
     }
 
-    private inner class VoiceCallback : VoiceRecorder.RecorderCallback {
-
-        override fun onVisibilityChanged(visible: Boolean) {
-            rlRecord.setVisible(visible)
-        }
-
-        override fun onTimeUpdated(time: Int) {
-            tvRecord.text = secToTime(time)
-            if (time % 5 == 1) {
-                presenter.setAudioMessaging()
-            }
-        }
-
-        override fun onRecorded(fileName: String) {
-            inputController.addItemAsBeingLoaded(fileName)
-            presenter.attachVoice(fileName)
-        }
-
-        override fun onError(error: String) {
-            showError(context, error)
-        }
-    }
-
     private inner class InputCallback : ChatInputController.ChatInputCallback {
 
         override fun onStickerClicked(sticker: Attachment.Sticker) {
@@ -700,18 +674,12 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             onSend(etInput.asText())
         }
 
-        override fun onMicPress() {
-            permissionHelper.doOrRequest(
-                    PermissionHelper.RECORD_AUDIO,
-                    R.string.no_access_to_mic,
-                    R.string.need_access_to_mic
-            ) {
-                voiceController.startRecording()
+        override fun hasMicPermissions(): Boolean {
+            val hasPermissions = permissionHelper.hasRecordAudioPermissions()
+            if (!hasPermissions) {
+                permissionHelper.request(arrayOf(PermissionHelper.RECORD_AUDIO)) {}
             }
-        }
-
-        override fun onMicRelease(cancelled: Boolean) {
-            voiceController.stopRecording(cancelled)
+            return hasPermissions
         }
 
         override fun onAttachClick() {
@@ -720,6 +688,26 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
         override fun onTypingInvoke() {
             presenter.setTyping()
+        }
+
+        override fun onVoiceVisibilityChanged(visible: Boolean) {
+            rlRecord.setVisible(visible)
+        }
+
+        override fun onVoiceTimeUpdated(time: Int) {
+            tvRecord.text = secToTime(time)
+            if (time % 5 == 1) {
+                presenter.setAudioMessaging()
+            }
+        }
+
+        override fun onVoiceRecorded(fileName: String) {
+            inputController.addItemAsBeingLoaded(fileName)
+            presenter.attachVoice(fileName)
+        }
+
+        override fun onVoiceError(error: String) {
+            showError(context, error)
         }
     }
 
