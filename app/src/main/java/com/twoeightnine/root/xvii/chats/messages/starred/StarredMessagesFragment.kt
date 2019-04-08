@@ -10,6 +10,7 @@ import com.twoeightnine.root.xvii.activities.VideoViewerActivity
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
+import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Doc
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.Photo
@@ -21,6 +22,7 @@ import com.twoeightnine.root.xvii.utils.getContextPopup
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_chat_new.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>() {
 
@@ -40,6 +42,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.important))
+        Style.forToolbar(toolbar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

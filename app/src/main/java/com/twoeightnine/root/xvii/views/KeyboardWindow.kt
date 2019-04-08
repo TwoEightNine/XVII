@@ -103,14 +103,11 @@ abstract class KeyboardWindow(
                             "dimen", "android"
                     )
             if (resourceId > 0) {
-                if (heightDifference > 50) l("diff = $heightDifference")
                 heightDifference -= context.resources
                         .getDimensionPixelSize(resourceId)
-                if (heightDifference > 0) l("diffRes = $heightDifference")
             }
             if (heightDifference > 100) {
                 keyBoardHeight = heightDifference
-                l("finally height = $keyBoardHeight")
                 setSize(WindowManager.LayoutParams.MATCH_PARENT,
                         keyBoardHeight + getAdditionalHeight())
                 isKeyBoardOpen = true
