@@ -44,9 +44,9 @@ abstract class BaseMultiSelectAdapter<T, VH : RecyclerView.ViewHolder>(context: 
         when (multiSelect.size) {
             0 -> {
                 multiListener?.invoke(false)
-                if (multiSelectMode) {
-                    multiSelectMode = false
-                }
+//                if (multiSelectMode) {
+//                    multiSelectMode = false
+//                }
             }
             1 -> multiListener?.invoke(true)
         }

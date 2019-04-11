@@ -22,6 +22,7 @@ import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.background.longpoll.models.events.LongPollEventFactory
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.ReadOutgoingEvent
 import com.twoeightnine.root.xvii.background.longpoll.models.events.UnreadCountEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.db.AppDb
@@ -47,10 +48,9 @@ class LongPollCore(private val context: Context) {
     }
 
     private val unreadMessages = hashMapOf<Int, ArrayList<String>>()
-
+    private val pendingNotifications = arrayListOf<Int>()
     private val disposables = CompositeDisposable()
     private var isRunning = false
-    private var lastCount = 0
 
     @Inject
     lateinit var longPollStorage: LongPollStorage
@@ -127,17 +127,21 @@ class LongPollCore(private val context: Context) {
 
             when (event) {
                 is UnreadCountEvent -> processUnreadCount(event)
+                is ReadOutgoingEvent -> processReadOutgoing(event)
                 is NewMessageEvent -> processNewMessage(event)
             }
         }
     }
 
+    private fun processReadOutgoing(event: ReadOutgoingEvent) {
+        unreadMessages[event.peerId]?.clear()
+        notificationManager.cancel(event.peerId)
+    }
+
     private fun processUnreadCount(event: UnreadCountEvent) {
-        val decrease = lastCount > event.unreadCount
-        lastCount = event.unreadCount
-        if (decrease) {
-            notificationManager.cancelAll()
+        if (event.unreadCount == 0) {
             unreadMessages.clear()
+            notificationManager.cancelAll()
         }
     }
 
@@ -272,7 +276,9 @@ class LongPollCore(private val context: Context) {
         if (ledColor != Color.BLACK) {
             builder.setLights(ledColor, 500, 500)
         }
-        notificationManager.notify(peerId, builder.build())
+        if (!unreadMessages[peerId].isNullOrEmpty()) {
+            notificationManager.notify(peerId, builder.build())
+        }
     }
 
     private fun createNotificationChannel() {

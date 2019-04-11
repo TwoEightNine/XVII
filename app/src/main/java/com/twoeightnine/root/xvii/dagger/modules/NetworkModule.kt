@@ -1,6 +1,5 @@
 package com.twoeightnine.root.xvii.dagger.modules
 
-import android.content.Context
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.Gson
@@ -10,35 +9,20 @@ import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.TokenAndVersionInterceptor
 import com.twoeightnine.root.xvii.utils.ApiUtils
-import com.twoeightnine.root.xvii.utils.isOnline
 import dagger.Module
 import dagger.Provides
 import io.realm.RealmObject
-import okhttp3.Cache
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 class NetworkModule {
-
-    private val cacheSize = 1024 * 1024 * 30L
     private val timeout = 300L
-    private val offline = { chain: Interceptor.Chain ->
-        var request = chain.request()
-        if (!isOnline()) {
-            request = request.newBuilder()
-                    .header("Cache_Control", "public, only-if-cached, max-stale=86400")
-                    .build()
-        }
-        chain.proceed(request)
-    }
 
     @Provides
     @Singleton
@@ -54,21 +38,17 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(context: Context,
-                            loggingInterceptor: HttpLoggingInterceptor,
-                            tokenAndVersionInterceptor: TokenAndVersionInterceptor): OkHttpClient {
-        val file = File(context.cacheDir, "cache")
-        val cache = Cache(file, cacheSize)
-        return OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .addInterceptor(tokenAndVersionInterceptor)
-                .addInterceptor(offline)
-                .readTimeout(timeout, TimeUnit.SECONDS)
-                .writeTimeout(timeout, TimeUnit.SECONDS)
-                .connectTimeout(timeout, TimeUnit.SECONDS)
-                .cache(cache)
-                .build()
-    }
+    fun provideOkHttpClient(
+            loggingInterceptor: HttpLoggingInterceptor,
+            tokenAndVersionInterceptor: TokenAndVersionInterceptor
+    ): OkHttpClient = OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(tokenAndVersionInterceptor)
+            .readTimeout(timeout, TimeUnit.SECONDS)
+            .writeTimeout(timeout, TimeUnit.SECONDS)
+            .connectTimeout(timeout, TimeUnit.SECONDS)
+            .build()
+
 
     @Provides
     @Singleton
