@@ -2,7 +2,7 @@ package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.model.Attachment
+import com.twoeightnine.root.xvii.model.attachments.Attachment
 
 class AttachUtils(
         private val context: Context,

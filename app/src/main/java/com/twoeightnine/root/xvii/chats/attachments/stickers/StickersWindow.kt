@@ -8,7 +8,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.Attachment
+import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.KeyboardWindow
@@ -21,7 +21,7 @@ class StickersWindow(
         rootView: View,
         context: Context,
         onKeyboardClosed: () -> Unit,
-        private val onStickerClicked: (Attachment.Sticker) -> Unit
+        private val onStickerClicked: (Sticker) -> Unit
 ) : KeyboardWindow(rootView, context, onKeyboardClosed) {
 
     @Inject
@@ -60,7 +60,7 @@ class StickersWindow(
         loadFromStorage()
     }
 
-    private fun updateList(data: ArrayList<Attachment.Sticker>) {
+    private fun updateList(data: ArrayList<Sticker>) {
         with(contentView) {
             swipeRefresh.isRefreshing = false
             progressBar.hide()
@@ -69,7 +69,7 @@ class StickersWindow(
     }
 
     @SuppressLint("CheckResult")
-    private fun onStickerSelected(sticker: Attachment.Sticker) {
+    private fun onStickerSelected(sticker: Sticker) {
         onStickerClicked(sticker)
         Single.fromCallable {
             val recent = recentStorage.readFromFile()
@@ -96,7 +96,7 @@ class StickersWindow(
      * creates single list and refreshes ui
      */
     @SuppressLint("CheckResult")
-    private fun updateStickers(available: ArrayList<Attachment.Sticker>) {
+    private fun updateStickers(available: ArrayList<Sticker>) {
         Single.fromCallable {
             val recent = recentStorage.readFromFile()
             available.removeAll(recent)
@@ -133,10 +133,10 @@ class StickersWindow(
     private fun loadFromServer() {
         api.getStickers()
                 .subscribeSmart({ response ->
-                    val stickers = arrayListOf<Attachment.Sticker>()
+                    val stickers = arrayListOf<Sticker>()
                     response.dictionary?.forEach { mind ->
                         mind.userStickers?.forEach {
-                            stickers.add(Attachment.Sticker(it))
+                            stickers.add(Sticker(it))
                         }
                     }
                     val result = ArrayList(stickers.sortedBy { it.id }.distinctBy { it.id })
@@ -145,7 +145,7 @@ class StickersWindow(
                 }, ::onErrorOccurred)
     }
 
-    private fun saveStickers(stickers: ArrayList<Attachment.Sticker>) {
+    private fun saveStickers(stickers: ArrayList<Sticker>) {
         Completable.fromCallable {
             availableStorage.writeToFile(stickers)
         }

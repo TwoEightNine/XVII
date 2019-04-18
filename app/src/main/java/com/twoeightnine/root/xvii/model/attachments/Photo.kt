@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.model
+package com.twoeightnine.root.xvii.model.attachments
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
@@ -70,7 +70,7 @@ data class Photo(
         @SerializedName("access_key")
         @Expose
         var accessKey: String = ""
-) : Parcelable {
+) : Parcelable, IdTypeable {
 
     val maxPhoto: String
         get() {
@@ -106,4 +106,6 @@ data class Photo(
 
     val photoId: String
         get() = "${ownerId}_$id"
+
+    override fun getId() = "photo$photoId"
 }

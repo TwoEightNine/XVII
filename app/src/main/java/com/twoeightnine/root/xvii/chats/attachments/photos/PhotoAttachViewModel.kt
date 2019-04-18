@@ -2,7 +2,7 @@ package com.twoeightnine.root.xvii.chats.attachments.photos
 
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.model.Photo
+import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 

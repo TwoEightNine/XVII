@@ -6,7 +6,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.background.longpoll.models.events.OfflineEvent
 import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.model.*
+import com.twoeightnine.root.xvii.model.User
+import com.twoeightnine.root.xvii.model.WrappedLiveData
+import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
+import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.EventBus

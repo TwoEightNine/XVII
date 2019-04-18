@@ -5,6 +5,9 @@ import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.model.attachments.Attachment
+import com.twoeightnine.root.xvii.model.attachments.isSticker
+import com.twoeightnine.root.xvii.model.attachments.photosCount
 import com.twoeightnine.root.xvii.utils.matchesChatId
 import kotlinx.android.parcel.Parcelize
 

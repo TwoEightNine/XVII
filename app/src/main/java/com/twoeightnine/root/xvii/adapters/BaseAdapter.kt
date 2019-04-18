@@ -32,7 +32,7 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
     }
 
     @JvmOverloads
-    fun addAll(items: MutableList<T>, pos: Int = this.items.size) {
+    open fun addAll(items: MutableList<T>, pos: Int = this.items.size) {
         val size = items.size
         this.items.addAll(pos, items)
         notifyItemRangeInserted(pos, size)

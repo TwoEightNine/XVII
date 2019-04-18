@@ -20,7 +20,7 @@ import androidx.core.app.NotificationCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.model.Audio
+import com.twoeightnine.root.xvii.model.attachments.Audio
 import io.reactivex.subjects.PublishSubject
 
 

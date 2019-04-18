@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.background.music.models
 
 import android.os.Parcelable
-import com.twoeightnine.root.xvii.model.Audio
+import com.twoeightnine.root.xvii.model.attachments.Audio
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

@@ -3,8 +3,8 @@ package com.twoeightnine.root.xvii.chats.attachments.docs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachFragment
-import com.twoeightnine.root.xvii.model.Attachment
-import com.twoeightnine.root.xvii.model.Doc
+import com.twoeightnine.root.xvii.model.attachments.Attachment
+import com.twoeightnine.root.xvii.model.attachments.Doc
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 

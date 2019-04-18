@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.Attachment
+import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.emoji.Emoji
 import com.twoeightnine.root.xvii.views.emoji.EmojiKeyboard
@@ -230,7 +230,7 @@ class ChatInputController(
      * for interacting with [ChatFragment]
      */
     interface ChatInputCallback : VoiceRecorder.RecorderCallback {
-        fun onStickerClicked(sticker: Attachment.Sticker)
+        fun onStickerClicked(sticker: Sticker)
         fun onSendClick()
         fun hasMicPermissions(): Boolean
         fun onAttachClick()

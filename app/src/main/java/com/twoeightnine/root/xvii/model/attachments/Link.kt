@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.model
+package com.twoeightnine.root.xvii.model.attachments
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose

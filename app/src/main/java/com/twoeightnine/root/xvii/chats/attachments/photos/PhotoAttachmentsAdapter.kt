@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
-import com.twoeightnine.root.xvii.model.Photo
+import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.setVisible
 import kotlinx.android.synthetic.main.item_photo_attachment.view.*

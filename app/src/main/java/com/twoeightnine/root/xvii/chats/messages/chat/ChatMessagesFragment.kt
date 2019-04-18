@@ -10,10 +10,10 @@ import com.twoeightnine.root.xvii.activities.VideoViewerActivity
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
-import com.twoeightnine.root.xvii.model.Doc
 import com.twoeightnine.root.xvii.model.Message2
-import com.twoeightnine.root.xvii.model.Photo
-import com.twoeightnine.root.xvii.model.Video
+import com.twoeightnine.root.xvii.model.attachments.Doc
+import com.twoeightnine.root.xvii.model.attachments.Photo
+import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.utils.copyToClip

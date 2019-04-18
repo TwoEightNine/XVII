@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.model
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.twoeightnine.root.xvii.model.attachments.Attachment
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 

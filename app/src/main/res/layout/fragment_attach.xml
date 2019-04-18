@@ -15,8 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:elevation="4dp"
+        app:tabBackground="@color/toolbar"
         app:tabIndicatorColor="@color/toolbar_text"
-        app:tabMode="scrollable"
+        app:tabMode="fixed"
         app:tabSelectedTextColor="@color/toolbar_text"
         app:tabTextColor="@color/toolbar_subtext" />
 

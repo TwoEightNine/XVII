@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.chats.attachments.videos
 
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsViewModel
-import com.twoeightnine.root.xvii.model.Attachment
-import com.twoeightnine.root.xvii.model.Video
+import com.twoeightnine.root.xvii.model.attachments.Attachment
+import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 

@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
-import com.twoeightnine.root.xvii.model.Attachment
-import com.twoeightnine.root.xvii.model.Photo
-import com.twoeightnine.root.xvii.model.Video
+import com.twoeightnine.root.xvii.model.attachments.Attachment
+import com.twoeightnine.root.xvii.model.attachments.Photo
+import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.utils.getDoc
 import com.twoeightnine.root.xvii.utils.getEncrypted
 import com.twoeightnine.root.xvii.utils.getPhoto

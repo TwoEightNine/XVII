@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.background.music.utils
 import android.content.Context
 import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.background.music.models.Track
-import com.twoeightnine.root.xvii.model.Audio
+import com.twoeightnine.root.xvii.model.attachments.Audio
 import java.io.File
 
 /**

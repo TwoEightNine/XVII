@@ -15,7 +15,7 @@ import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.*
+import com.twoeightnine.root.xvii.model.attachments.*
 
 const val MAX_WIDTH = 500
 const val MAX_HEIGHT = 500

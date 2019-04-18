@@ -8,10 +8,10 @@ import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachmentsViewModel
 import com.twoeightnine.root.xvii.chats.attachments.links.LinkAttachmentsViewModel
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachmentsViewModel
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsViewModel
-import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.AttachmentsResponse
 import com.twoeightnine.root.xvii.utils.subscribeSmart

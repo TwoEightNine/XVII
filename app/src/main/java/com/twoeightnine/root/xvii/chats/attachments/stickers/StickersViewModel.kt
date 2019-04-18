@@ -5,10 +5,10 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
@@ -21,7 +21,7 @@ class StickersViewModel(
         private val context: Context
 ) : ViewModel() {
 
-    private val stickersLiveData = WrappedMutableLiveData<ArrayList<Attachment.Sticker>>()
+    private val stickersLiveData = WrappedMutableLiveData<ArrayList<Sticker>>()
 
     private val availableStorage by lazy {
         StickersStorage(context, StickersStorage.Type.AVAILABLE)
@@ -31,7 +31,7 @@ class StickersViewModel(
         StickersStorage(context, StickersStorage.Type.RECENT)
     }
 
-    fun getStickers() = stickersLiveData as WrappedLiveData<ArrayList<Attachment.Sticker>>
+    fun getStickers() = stickersLiveData as WrappedLiveData<ArrayList<Sticker>>
 
     fun loadStickers(refresh: Boolean = false) {
         if (refresh) {
@@ -42,11 +42,11 @@ class StickersViewModel(
     }
 
     @SuppressLint("CheckResult")
-    fun onStickerSelected(sticker: Attachment.Sticker) {
+    fun onStickerSelected(sticker: Sticker) {
         Single.fromCallable {
             val recent = recentStorage.readFromFile()
             if (recent.isEmpty()) {
-                recent.addAll(Prefs.recentStickers.map { Attachment.Sticker(it) })
+                recent.addAll(Prefs.recentStickers.map { Sticker(it) })
             }
             if (sticker in recent) {
                 recent.removeAll { it == sticker }
@@ -67,11 +67,11 @@ class StickersViewModel(
     }
 
     @SuppressLint("CheckResult")
-    private fun updateStickers(available: ArrayList<Attachment.Sticker>) {
+    private fun updateStickers(available: ArrayList<Sticker>) {
         Single.fromCallable {
             val recent = recentStorage.readFromFile()
             if (recent.isEmpty()) {
-                recent.addAll(Prefs.recentStickers.map { Attachment.Sticker(it) })
+                recent.addAll(Prefs.recentStickers.map { Sticker(it) })
             }
             available.removeAll(recent)
             recent.addAll(available)
@@ -103,10 +103,10 @@ class StickersViewModel(
     private fun loadFromServer() {
         api.getStickers()
                 .subscribeSmart({ response ->
-                    val stickers = arrayListOf<Attachment.Sticker>()
+                    val stickers = arrayListOf<Sticker>()
                     response.dictionary?.forEach { mind ->
                         mind.userStickers?.forEach {
-                            stickers.add(Attachment.Sticker(it))
+                            stickers.add(Sticker(it))
                         }
                     }
                     val result = ArrayList(stickers.sortedBy { it.id }.distinctBy { it.id })
@@ -115,7 +115,7 @@ class StickersViewModel(
                 }, ::onErrorOccurred)
     }
 
-    private fun saveStickers(stickers: ArrayList<Attachment.Sticker>) {
+    private fun saveStickers(stickers: ArrayList<Sticker>) {
         Completable.fromCallable {
             availableStorage.writeToFile(stickers)
         }

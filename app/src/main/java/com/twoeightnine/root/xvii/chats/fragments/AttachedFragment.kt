@@ -5,7 +5,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.adapters.attachments.AttachmentsAdapter
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
-import com.twoeightnine.root.xvii.model.Attachment
+import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.utils.ApiUtils
 import com.twoeightnine.root.xvii.utils.AttachUtils
 import kotlinx.android.synthetic.main.fragment_attached.*

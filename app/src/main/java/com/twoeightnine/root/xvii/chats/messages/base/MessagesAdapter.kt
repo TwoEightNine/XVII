@@ -14,7 +14,8 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.*
+import com.twoeightnine.root.xvii.model.Message2
+import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
@@ -142,14 +143,8 @@ class MessagesAdapter(context: Context,
                                 llMessageContainer.addView(getPhoto(it, context, callback::onPhotoClicked))
                             }
 
-                            Attachment.TYPE_STICKER -> attachment.sticker?.photoMax?.also {
+                            Attachment.TYPE_STICKER -> attachment.sticker?.photo512?.also {
                                 val included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null, false)
-                                included.findViewById<ImageView>(R.id.ivInternal).load(it, placeholder = false)
-                                llMessageContainer.addView(included)
-                            }
-
-                            Attachment.TYPE_GRAFFITI -> attachment.graffiti?.url?.also {
-                                val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
                                 included.findViewById<ImageView>(R.id.ivInternal).load(it, placeholder = false)
                                 llMessageContainer.addView(included)
                             }

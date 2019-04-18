@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.model
+package com.twoeightnine.root.xvii.model.attachments
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Graffiti(
+data class GraffitiNew(
 
         @SerializedName("id")
         @Expose

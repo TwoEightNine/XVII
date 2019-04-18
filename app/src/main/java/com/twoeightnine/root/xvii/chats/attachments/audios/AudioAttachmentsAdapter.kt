@@ -7,7 +7,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.Audio
+import com.twoeightnine.root.xvii.model.attachments.Audio
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.secToTime
 import com.twoeightnine.root.xvii.utils.setVisible

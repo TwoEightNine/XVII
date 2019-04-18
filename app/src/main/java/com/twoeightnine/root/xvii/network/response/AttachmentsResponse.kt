@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.network.response
 
 import com.google.gson.annotations.SerializedName
-import com.twoeightnine.root.xvii.model.Attachment
+import com.twoeightnine.root.xvii.model.attachments.Attachment
 
 
 class AttachmentsResponse {

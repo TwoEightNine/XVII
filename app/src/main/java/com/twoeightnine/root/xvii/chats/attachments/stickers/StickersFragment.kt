@@ -10,8 +10,8 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
@@ -48,7 +48,7 @@ class StickersFragment : BaseFragment() {
         Style.forProgressBar(progressBar)
     }
 
-    private fun updateList(data: Wrapper<ArrayList<Attachment.Sticker>>) {
+    private fun updateList(data: Wrapper<ArrayList<Sticker>>) {
         swipeRefresh.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
@@ -63,7 +63,7 @@ class StickersFragment : BaseFragment() {
         rvAttachments.adapter = adapter
     }
 
-    private fun onClick(sticker: Attachment.Sticker) {
+    private fun onClick(sticker: Sticker) {
         viewModel.onStickerSelected(sticker)
         selectedSubject.onNext(sticker)
     }
@@ -73,9 +73,9 @@ class StickersFragment : BaseFragment() {
         const val SPAN_COUNT = 5
 
         private val disposables = CompositeDisposable()
-        private val selectedSubject = PublishSubject.create<Attachment.Sticker>()
+        private val selectedSubject = PublishSubject.create<Sticker>()
 
-        fun newInstance(onSelected: (Attachment.Sticker) -> Unit): StickersFragment {
+        fun newInstance(onSelected: (Sticker) -> Unit): StickersFragment {
             selectedSubject.subscribe(onSelected).let { disposables.add(it) }
             return StickersFragment()
         }

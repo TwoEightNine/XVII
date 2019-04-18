@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsFragment
-import com.twoeightnine.root.xvii.model.Link
+import com.twoeightnine.root.xvii.model.attachments.Link
 import com.twoeightnine.root.xvii.utils.simpleUrlIntent
 
 class LinkAttachmentsFragment : BaseAttachmentsFragment<Link>() {

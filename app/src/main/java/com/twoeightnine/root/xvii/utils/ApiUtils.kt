@@ -7,7 +7,7 @@ import com.twoeightnine.root.xvii.activities.VideoViewerActivity
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.model.Video
+import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import javax.inject.Inject

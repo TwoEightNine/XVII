@@ -7,8 +7,8 @@ import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.background.music.utils.TrackManager
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsViewModel
-import com.twoeightnine.root.xvii.model.Attachment
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.network.ApiService
 
 class AudioAttachmentsViewModel(

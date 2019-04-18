@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.model
+package com.twoeightnine.root.xvii.model.attachments
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
@@ -37,7 +37,7 @@ data class Audio(
         @SerializedName("url")
         @Expose
         private val _url: String? = null
-) : Parcelable {
+) : Parcelable, IdTypeable {
 
     val url: String?
         get() = try {
@@ -49,7 +49,9 @@ data class Audio(
     val fullId: String
         get() = "${id}_$ownerId"
 
-    constructor(audioMsg: Doc.Preview.AudioMsg, title: String) : this(
+    override fun getId() = "audio$fullId"
+
+    constructor(audioMsg: AudioMsg, title: String) : this(
             duration = audioMsg.duration,
             _url = audioMsg.linkMp3,
             title = title,

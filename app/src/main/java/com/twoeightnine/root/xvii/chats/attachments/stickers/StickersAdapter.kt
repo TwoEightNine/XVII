@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
-import com.twoeightnine.root.xvii.model.Attachment
+import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.load
 import kotlinx.android.synthetic.main.item_sticker.view.*
 
 class StickersAdapter(
         context: Context,
-        private val onClick: (Attachment.Sticker) -> Unit
-) : BaseAdapter<Attachment.Sticker, StickersAdapter.StickerViewHolder>(context) {
+        private val onClick: (Sticker) -> Unit
+) : BaseAdapter<Sticker, StickersAdapter.StickerViewHolder>(context) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = StickerViewHolder(inflater.inflate(R.layout.item_sticker, null))
@@ -24,7 +24,7 @@ class StickersAdapter(
 
     inner class StickerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(item: Attachment.Sticker) {
+        fun bind(item: Sticker) {
             with(itemView) {
                 ivSticker.load(item.photo256, placeholder = false)
                 setOnClickListener { onClick(items[adapterPosition]) }

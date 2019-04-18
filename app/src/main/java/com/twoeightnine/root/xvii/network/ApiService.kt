@@ -3,6 +3,9 @@ package com.twoeightnine.root.xvii.network
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.model.*
+import com.twoeightnine.root.xvii.model.attachments.Doc
+import com.twoeightnine.root.xvii.model.attachments.Photo
+import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.network.response.*
 import io.reactivex.Flowable
 import io.reactivex.Single

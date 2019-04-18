@@ -254,6 +254,14 @@
 
         </RelativeLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAttached"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:background="@color/background"
+            android:elevation="12dp" />
+
     </com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout>
 
     <RelativeLayout

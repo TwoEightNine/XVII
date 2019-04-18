@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
-import com.twoeightnine.root.xvii.model.Video
+import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.utils.loadRounded
 import com.twoeightnine.root.xvii.utils.secToTime
 import com.twoeightnine.root.xvii.utils.setVisible

@@ -104,6 +104,7 @@
     <string name="skype" translatable="false">Skype</string>
     <string name="attachments">Attachments</string>
     <string name="attached">Attached</string>
+    <string name="attach">Attach..</string>
     <string name="important">Starred</string>
     <string name="markAsImportant">Mark as important</string>
     <string name="not_playable_video">Video is not playable</string>

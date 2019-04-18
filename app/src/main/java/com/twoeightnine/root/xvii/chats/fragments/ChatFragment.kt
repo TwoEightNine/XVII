@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.chats.fragments
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
@@ -18,6 +19,8 @@ import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
 import com.twoeightnine.root.xvii.chats.BottomSheetController
 import com.twoeightnine.root.xvii.chats.ChatInputController
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
+import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
+import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
@@ -29,7 +32,8 @@ import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.*
+import com.twoeightnine.root.xvii.model.Message
+import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatFragmentView
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
@@ -57,6 +61,9 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     private val forwardedMessages by lazy { arguments?.getString(ARG_FORWARDED) }
 
     private val permissionHelper by lazy { PermissionHelper(this) }
+//    private val attachedAdapter by lazy {
+//        AttachedAdapter(safeContext) { showToast(context, "$it") }
+//    }
 
     private var dialogLoading: LoadingDialog? = null
     private lateinit var pagerAdapter: CommonPagerAdapter
@@ -72,6 +79,9 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         inputController = ChatInputController(safeContext, view, InputCallback())
         bottomSheet = BottomSheetController(rlBottom, rlHideBottom) { vpAttach?.currentItem = 1 } // reset to gallery
         swipeContainer.setOnRefreshListener { presenter.loadHistory(withClear = true) }
+
+//        rvAttached.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+//        rvAttached.adapter = attachedAdapter
 
         initAdapter()
         initMultiAction()
@@ -102,7 +112,10 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         Style.forTabLayout(tabsBottom)
 
         forwardedMessages?.also {
-            handler.postDelayed({ presenter.attachUtils.forwarded = it }, 1000L)
+            handler.postDelayed({
+                presenter.attachUtils.forwarded = it
+//                attachedAdapter.fwdMessages = it
+            }, 1000L)
         }
         if (Prefs.chatBack.isNotEmpty()) {
             try {
@@ -165,15 +178,15 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     private fun initPager() {
         pagerAdapter = CommonPagerAdapter(childFragmentManager)
-        pagerAdapter.add(AttachedFragment.newInstance(presenter.attachUtils), getString(R.string.attached))
-        pagerAdapter.add(GalleryFragment.newInstance(::onImagesSelected), getString(R.string.device_photos))
-        pagerAdapter.add(PhotoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.photos))
-        pagerAdapter.add(VideoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.videos))
-        pagerAdapter.add(DocAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.docs))
+//        pagerAdapter.add(AttachedFragment.newInstance(presenter.attachUtils), getString(R.string.attached))
+//        pagerAdapter.add(GalleryFragment.newInstance(::onImagesSelected), getString(R.string.device_photos))
+//        pagerAdapter.add(PhotoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.photos))
+//        pagerAdapter.add(VideoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.videos))
+//        pagerAdapter.add(DocAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.docs))
         vpAttach.adapter = pagerAdapter
         vpAttach.offscreenPageLimit = 5
         tabsBottom.setupWithViewPager(vpAttach, true)
-        vpAttach.currentItem = 1 // gallery
+//        vpAttach.currentItem = 1 // gallery
     }
 
     private fun initMultiAction() {
@@ -186,6 +199,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
         ivReplyMulti.setOnClickListener {
             presenter.attachUtils.forwarded = getSelectedMessageIds()
+//            attachedAdapter.fwdMessages = getSelectedMessageIds()
             adapter.clearMultiSelect()
         }
     }
@@ -329,7 +343,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     private fun onSend(text: String) {
-        if (text.isNotEmpty() || presenter.attachUtils.count > 0) {
+        if (text.isNotEmpty() || presenter.attachUtils.count > 0 /*|| attachedAdapter.count > 0*/) {
             presenter.send(text)
             etInput.setText("")
         }
@@ -339,6 +353,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         attachments.forEach {
             presenter.attachUtils.add(it)
         }
+//        attachedAdapter.addAll(attachments.toMutableList())
         bottomSheet.close()
     }
 
@@ -386,8 +401,9 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         Lg.wtf("in chat error: $error")
     }
 
-    override fun onPhotoUploaded(path: String) {
+    override fun onPhotoUploaded(path: String, attachment: Attachment) {
         inputController.removeItemAsLoaded(path)
+//        attachedAdapter.add(attachment)
     }
 
     override fun onHistoryLoaded(history: MutableList<Message>) {
@@ -550,12 +566,28 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         return false
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_ATTACH -> {
+                data?.extras?.apply {
+                    getParcelableArrayList<Attachment>(AttachFragment.ARG_ATTACHMENTS)
+                            ?.let(::onAttachmentsSelected)
+                    getStringArrayList(AttachFragment.ARG_PATHS)
+                            ?.let(::onImagesSelected)
+                }
+            }
+        }
+    }
+
     companion object {
 
         const val ARG_PEER_ID = "peerId"
         const val ARG_TITLE = "title"
         const val ARG_IS_ONLINE = "online"
         const val ARG_FORWARDED = "forwarded"
+
+        const val REQUEST_ATTACH = 7364
 
         fun newInstance(dialog: Dialog, forwarded: String = ""): ChatFragment {
             val fragment = ChatFragment()
@@ -588,7 +620,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             }
             return fragment
         }
-
     }
 
     private inner class AdapterCallback : ChatAdapter.ChatAdapterCallback {
@@ -603,7 +634,10 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 when (it.id) {
                     R.id.llCopy -> copyToClip(message.body)
                     R.id.llEdit -> showEditMessageDialog(message)
-                    R.id.llReply -> presenter.attachUtils.forwarded = "${message.id}"
+                    R.id.llReply -> {
+                        presenter.attachUtils.forwarded = "${message.id}"
+//                        attachedAdapter.fwdMessages = "${message.id}"
+                    }
                     R.id.llForward -> {
                         rootActivity.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
                     }
@@ -666,7 +700,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     private inner class InputCallback : ChatInputController.ChatInputCallback {
 
-        override fun onStickerClicked(sticker: Attachment.Sticker) {
+        override fun onStickerClicked(sticker: Sticker) {
             presenter.sendSticker(sticker)
         }
 
@@ -683,7 +717,8 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
 
         override fun onAttachClick() {
-            bottomSheet.open()
+//            bottomSheet.open()
+            AttachActivity.launch(this@ChatFragment, REQUEST_ATTACH)
         }
 
         override fun onTypingInvoke() {

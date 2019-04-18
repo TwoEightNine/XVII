@@ -1,6 +1,7 @@
 package com.twoeightnine.root.xvii.mvp.view
 
 import com.twoeightnine.root.xvii.model.Message
+import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.mvp.BaseView
 
 interface ChatFragmentView: BaseView {
@@ -21,7 +22,7 @@ interface ChatFragmentView: BaseView {
     fun onKeyExchangeFailed()
     fun onMessagesDeleted(mids: MutableList<Int>)
     fun onMessageEdited(mid: Int, newText: String)
-    fun onPhotoUploaded(path: String)
+    fun onPhotoUploaded(path: String, attachment: Attachment)
     fun onVoiceUploaded(path: String)
     fun onCacheRestored()
 

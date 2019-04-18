@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.chats.attachments.attach
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.ContentActivity
 
@@ -14,10 +14,10 @@ class AttachActivity : ContentActivity() {
 
     companion object {
 
-        fun launch(activity: Activity?, requestCode: Int) {
-            if (activity == null) return
+        fun launch(fragment: Fragment?, requestCode: Int) {
+            if (fragment?.context == null) return
 
-            activity.startActivityForResult(Intent(activity, AttachActivity::class.java), requestCode)
+            fragment.startActivityForResult(Intent(fragment.context, AttachActivity::class.java), requestCode)
         }
     }
 }

@@ -6,7 +6,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.model.Doc
+import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.utils.getSize
 import kotlinx.android.synthetic.main.item_attachments_doc.view.*
 

@@ -6,7 +6,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.ChatMessagesViewModel
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesViewModel
-import com.twoeightnine.root.xvii.model.*
+import com.twoeightnine.root.xvii.model.Message2
+import com.twoeightnine.root.xvii.model.WrappedLiveData
+import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
+import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import javax.inject.Inject

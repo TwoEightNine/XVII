@@ -9,7 +9,13 @@ import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.model.*
+import com.twoeightnine.root.xvii.model.Message
+import com.twoeightnine.root.xvii.model.UploadServer
+import com.twoeightnine.root.xvii.model.Uploaded
+import com.twoeightnine.root.xvii.model.User
+import com.twoeightnine.root.xvii.model.attachments.Attachment
+import com.twoeightnine.root.xvii.model.attachments.Doc
+import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.mvp.BasePresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatFragmentView
 import com.twoeightnine.root.xvii.network.ApiService
@@ -201,7 +207,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 })
     }
 
-    fun sendSticker(sticker: Attachment.Sticker) {
+    fun sendSticker(sticker: Sticker) {
         val flowable: Flowable<BaseResponse<Int>>
         if (peerId.matchesChatId()) {
             flowable = api
@@ -235,7 +241,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         })
     }
 
-    private fun attachStickerAsPic(sticker: Attachment.Sticker) {
+    private fun attachStickerAsPic(sticker: Sticker) {
         val fileName = "stick${sticker.id}.png"
         downloadFile(
                 App.context,
@@ -311,11 +317,12 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 uploaded.server
         )
                 .subscribeSmart({
-                    attachUtils.add(Attachment(it[0]))
+                    val att = Attachment(it[0])
+                    attachUtils.add(att)
                     if (isSticker) {
                         send("")
                     }
-                    view?.onPhotoUploaded(path)
+                    view?.onPhotoUploaded(path, att)
                 }, { error ->
                     view?.showError(error)
                     Lg.wtf("save uploaded photo error: $error")
@@ -392,8 +399,9 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     private fun saveDoc(path: String, file: String) {
         api.saveDoc(file)
                 .subscribeSmart({
-                    attachUtils.add(Attachment(it[0]))
-                    view?.onPhotoUploaded(path)
+                    val att = Attachment(it[0])
+                    attachUtils.add(att)
+                    view?.onPhotoUploaded(path, att)
                 }, { error ->
                     Lg.wtf("saving doc error: $error")
                     view?.showError(error)
