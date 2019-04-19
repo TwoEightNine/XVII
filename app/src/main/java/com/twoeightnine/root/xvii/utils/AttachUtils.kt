@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
-import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 
 class AttachUtils(
@@ -20,7 +19,7 @@ class AttachUtils(
             attachments.add(attachment)
             updateCounter()
         } else {
-            showError(context, R.string.ten_attachments)
+//            showError(context, R.string.ten_attachments)
         }
     }
 

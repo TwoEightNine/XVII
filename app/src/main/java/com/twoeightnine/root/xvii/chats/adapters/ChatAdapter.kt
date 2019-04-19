@@ -110,7 +110,7 @@ class ChatAdapter(context: Context,
         notifyDataSetChanged()
     }
 
-    inner class ChatViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+    inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(message: Message, level: Int = 0) {
             putViews(itemView, message, level)

@@ -18,7 +18,7 @@
             android:layout_marginBottom="92dp"
             android:src="@android:color/transparent" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?actionBarSize"
@@ -28,8 +28,8 @@
             <com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout
                 android:id="@+id/swipeContainer"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/rvAttached"
                 app:srl_direction="bottom">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -39,17 +39,27 @@
 
             </com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAttached"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_above="@+id/rlInput"
                 android:background="@color/background"
-                android:elevation="8dp">
+                android:elevation="6dp" />
+
+            <RelativeLayout
+                android:id="@+id/rlInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/background"
+                android:elevation="10dp">
 
                 <include layout="@layout/chat_input_panel" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -184,8 +194,8 @@
             android:id="@+id/fabHasMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginRight="@dimen/margin16"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/margin16"
             android:layout_marginBottom="72dp"
             android:src="@drawable/ic_chevron_down"
             android:visibility="invisible"
@@ -253,14 +263,6 @@
 
 
         </RelativeLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAttached"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:background="@color/background"
-            android:elevation="12dp" />
 
     </com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout>
 

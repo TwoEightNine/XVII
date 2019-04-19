@@ -17,13 +17,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/ivReply"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_reply"
-                android:visibility="gone" />
+            <RelativeLayout
+                android:id="@+id/rlFwdMessages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvFwdCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/ivEnvelope"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/main_text"
+                    android:textSize="19sp"
+                    tools:text="13" />
+
+                <ImageView
+                    android:id="@+id/ivEnvelope"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="6dp"
+                    android:src="@drawable/ic_envelope" />
+
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/ivEncrypted"
@@ -38,6 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:textAllCaps="true"
                 android:textColor="@color/main_text"
                 android:textSize="16sp"

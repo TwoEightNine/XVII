@@ -45,7 +45,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     private var timeUpSubscription: Disposable? = null
     private var longPollDisposable: Disposable? = null
 
-    lateinit var attachUtils: AttachUtils
+//    lateinit var attachUtils: AttachUtils
     lateinit var crypto: CryptoUtil
 
     var peerId: Int = 0
@@ -73,7 +73,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     fun initAttachments(context: Context, listener: ((Int) -> Unit)?) {
-        attachUtils = AttachUtils(context, listener)
+//        attachUtils = AttachUtils(context, listener)
     }
 
     fun loadHistory(offset: Int = 0, withClear: Boolean = false) {
@@ -137,8 +137,8 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         }
     }
 
-    fun send(text: String) {
-        val maxLen = 3500
+    fun send(text: String, fwdMessages: String = "", attachments: String = "") {
+        val maxLen = 1500
         var forLater = ""
         var message = if (text.length > maxLen) {
             forLater = text.substring(maxLen, text.length)
@@ -153,8 +153,8 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                     .sendChat(
                             peerId.asChatId(),
                             message,
-                            attachUtils.forwarded,
-                            attachUtils.asString(),
+                            fwdMessages,
+                            attachments,
                             0, null, null
                     )
         } else {
@@ -162,8 +162,8 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                     .send(
                             peerId,
                             message,
-                            attachUtils.forwarded,
-                            attachUtils.asString(),
+                            fwdMessages,
+                            attachments,
                             0, null, null
                     )
         }
@@ -171,7 +171,8 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
             if (Prefs.beOffline) {
                 utils.setOffline()
             }
-            attachUtils.clear()
+//            attachUtils.clear()
+            view?.onAttachmentsSent()
             if (forLater.isNotEmpty()) {
                 send(forLater)
             }
@@ -318,7 +319,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         )
                 .subscribeSmart({
                     val att = Attachment(it[0])
-                    attachUtils.add(att)
+//                    attachUtils.add(att)
                     if (isSticker) {
                         send("")
                     }
@@ -362,8 +363,9 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         api.saveDoc(file)
                 .subscribeSmart({ response ->
                     if (response.size > 0) {
-                        attachUtils.add(Attachment(response[0]))
+//                        attachUtils.add(Attachment(response[0]))
                         view?.onVoiceUploaded(path)
+                        send("", attachments = response[0].getId())
                     }
                 }, { error ->
                     Lg.wtf("saving voice error: $error")
@@ -400,7 +402,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         api.saveDoc(file)
                 .subscribeSmart({
                     val att = Attachment(it[0])
-                    attachUtils.add(att)
+//                    attachUtils.add(att)
                     view?.onPhotoUploaded(path, att)
                 }, { error ->
                     Lg.wtf("saving doc error: $error")

@@ -25,5 +25,6 @@ interface ChatFragmentView: BaseView {
     fun onPhotoUploaded(path: String, attachment: Attachment)
     fun onVoiceUploaded(path: String)
     fun onCacheRestored()
+    fun onAttachmentsSent()
 
 }
