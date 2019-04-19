@@ -14,6 +14,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.DialogTitle
 import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -165,6 +166,12 @@ object Style {
             d.setColor(Color.TRANSPARENT)
             d.setStroke(1, color)
         }
+    }
+
+    fun forCardView(cv: CardView, tag: String = DARK_TAG) {
+        if (ignore()) return
+
+        cv.setCardBackgroundColor(getColorByTag(tag))
     }
 
     fun forViewGroupColor(vg: ViewGroup) {

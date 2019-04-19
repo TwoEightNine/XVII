@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.activities
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.managers.Style
 
 abstract class ContentActivity : BaseActivity() {
 
@@ -14,6 +15,7 @@ abstract class ContentActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
         savedInstanceState ?: loadFragment(getFragment(intent.extras))
+        Style.setStatusBar(this)
     }
 
     protected fun loadFragment(fragment: Fragment) {

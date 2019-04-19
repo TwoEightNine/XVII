@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.activities
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -43,6 +44,14 @@ abstract class BaseActivity : AppCompatActivity() {
                 this, R.style.AppTheme
         )
         super.onResume()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?) = when(item?.itemId) {
+        android.R.id.home -> {
+            onBackPressed()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     protected fun styleScreen(container: ViewGroup) {

@@ -8,6 +8,7 @@
     android:padding="3dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cvItem"
         android:layout_width="@dimen/chat_attached_size"
         android:layout_height="@dimen/chat_attached_size"
         app:cardBackgroundColor="@color/popup"
@@ -28,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/ivEnvelope"
                     android:layout_centerHorizontal="true"
-                    android:textColor="@color/main_text"
+                    android:textColor="@color/toolbar_text"
                     android:textSize="19sp"
                     tools:text="13" />
 
@@ -58,7 +59,7 @@
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:textAllCaps="true"
-                android:textColor="@color/main_text"
+                android:textColor="@color/toolbar_text"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="doc" />

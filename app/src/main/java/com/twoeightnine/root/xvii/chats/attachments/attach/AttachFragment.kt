@@ -34,6 +34,7 @@ class AttachFragment : BaseFragment() {
             vpAttach.adapter = this
         }
         tabs.setupWithViewPager(vpAttach, true)
+        Style.forTabLayout(tabs)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -41,6 +42,8 @@ class AttachFragment : BaseFragment() {
         Style.forToolbar(toolbar)
         updateTitle(getString(R.string.attach))
     }
+
+    override fun getHomeAsUpIcon() = R.drawable.ic_back
 
     private fun onImagesSelected(paths: List<String>) {
         val intent = Intent().apply {

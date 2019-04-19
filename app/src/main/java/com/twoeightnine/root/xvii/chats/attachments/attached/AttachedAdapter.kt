@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.setVisible
@@ -33,7 +34,8 @@ class AttachedAdapter(
     val count
         get() = itemCount
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AttachmentViewHolder(inflater.inflate(R.layout.item_attached, null))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
+            = AttachmentViewHolder(inflater.inflate(R.layout.item_attached, null))
 
     override fun onBindViewHolder(holder: AttachmentViewHolder, position: Int) {
         holder.bind(items[position])
@@ -83,7 +85,7 @@ class AttachedAdapter(
 
         fun bind(attachment: Attachment) {
             with(itemView) {
-
+                Style.forCardView(cvItem)
                 val isForwarded = attachment == STUB_FWD_MESSAGES
                 val isEncrypted = attachment.doc?.isEncrypted == true
                 val infoText = when {

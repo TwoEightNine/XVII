@@ -8,12 +8,16 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
 import kotlinx.android.synthetic.main.toolbar.*
 
 abstract class BaseFragment : Fragment() {
 
     abstract fun getLayoutId(): Int
+
+    protected val baseActivity
+        get() = activity as? BaseActivity
 
     protected val rootActivity
         get() = activity as? RootActivity
@@ -37,11 +41,11 @@ abstract class BaseFragment : Fragment() {
 
     protected fun initToolbar() {
         if (toolbar != null) {
-            rootActivity?.setSupportActionBar(toolbar)
-            val actionBar = rootActivity?.supportActionBar
+            baseActivity?.setSupportActionBar(toolbar)
+            val actionBar = baseActivity?.supportActionBar
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true)
-                actionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
+                actionBar.setHomeAsUpIndicator(getHomeAsUpIcon())
                 actionBar.setHomeButtonEnabled(true)
                 actionBar.setDisplayUseLogoEnabled(false)
                 context?.let {
@@ -53,20 +57,22 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
+    protected open fun getHomeAsUpIcon() = R.drawable.ic_menu
+
     fun setTitle(title: CharSequence) {
         toolbar?.title = title
-        val actionBar = rootActivity?.supportActionBar
+        val actionBar = baseActivity?.supportActionBar
         if (actionBar != null) {
             actionBar.title = title
         }
     }
 
     fun setSubtitle(subtitle: CharSequence) {
-        rootActivity?.supportActionBar?.subtitle = subtitle
+        baseActivity?.supportActionBar?.subtitle = subtitle
     }
 
     fun updateTitle(title: String = "", subtitle: String = "") {
-        rootActivity?.supportActionBar?.title = title
-        rootActivity?.supportActionBar?.subtitle = subtitle
+        baseActivity?.supportActionBar?.title = title
+        baseActivity?.supportActionBar?.subtitle = subtitle
     }
 }
