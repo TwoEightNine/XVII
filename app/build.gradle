@@ -14,7 +14,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 118
-        versionName "4.17.1"
+        versionName "4.17.2test"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.ext.set("archivesBaseName", "xvii" + defaultConfig.versionName)
 
@@ -23,13 +23,15 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+        resConfigs "en", "fr", "ru"
     }
     testOptions {
         unitTests.returnDefaultValues = true
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BUILD_TIME", "\"${getDate()}\"")
         }

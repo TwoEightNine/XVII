@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/ivXvii"
         android:layout_marginTop="10dp"
-        android:src="@drawable/xvii512"
+        android:src="@mipmap/xvii512"
         android:layout_gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_width="150dp"

@@ -21,7 +21,6 @@ import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.fragments.AttachedFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
-import com.twoeightnine.root.xvii.chats.fragments.ChatInfoFragment
 import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.ChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
@@ -32,12 +31,10 @@ import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
-import com.twoeightnine.root.xvii.friends.fragments.SearchUsersFragment
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.search.SearchFragment
-import com.twoeightnine.root.xvii.searchmessages.fragments.SearchMessagesFragment
 import com.twoeightnine.root.xvii.settings.fragments.AboutFragment
 import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
@@ -62,10 +59,7 @@ interface AppComponent {
 
     fun inject(profileFragment: ProfileFragment)
     fun inject(wallPostFragment: WallPostFragment)
-    fun inject(searchUsersFragment: SearchUsersFragment)
-    fun inject(searchMessagesFragment: SearchMessagesFragment)
     fun inject(importantFragment: ImportantFragment)
-    fun inject(chatInfoFragment: ChatInfoFragment)
     fun inject(aboutFragment: AboutFragment)
     fun inject(accountsFragment: AccountsFragment)
     fun inject(attachedFragment: AttachedFragment)
