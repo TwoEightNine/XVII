@@ -22,18 +22,6 @@ class AttachmentsFragment : BaseFragment() {
         CommonPagerAdapter(childFragmentManager)
     }
 
-    companion object {
-        const val ARG_PEER_ID = "peerId"
-
-        fun newInstance(peerId: Int): AttachmentsFragment {
-            val frag = AttachmentsFragment()
-            frag.arguments = Bundle().apply {
-                putInt(ARG_PEER_ID, peerId)
-            }
-            return frag
-        }
-    }
-
     private val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
 
     override fun getLayoutId() = R.layout.fragment_attachments_history
@@ -59,12 +47,26 @@ class AttachmentsFragment : BaseFragment() {
         }
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager, true)
-//        viewPager.offscreenPageLimit = 4
         Style.forTabLayout(tabs)
     }
+
+    override fun getHomeAsUpIcon() = R.drawable.ic_back
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         menu?.clear()
     }
+
+    companion object {
+        const val ARG_PEER_ID = "peerId"
+
+        fun newInstance(peerId: Int): AttachmentsFragment {
+            val frag = AttachmentsFragment()
+            frag.arguments = Bundle().apply {
+                putInt(ARG_PEER_ID, peerId)
+            }
+            return frag
+        }
+    }
+
 }

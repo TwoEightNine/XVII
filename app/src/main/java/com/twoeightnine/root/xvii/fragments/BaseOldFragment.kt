@@ -9,6 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.managers.Style
 import kotlinx.android.synthetic.main.toolbar.*
@@ -18,7 +19,8 @@ open class BaseOldFragment: Fragment() {
     private var isNew = false
     private var isSearchOpen = false
 
-    protected lateinit var rootActivity: RootActivity
+    protected val rootActivity: BaseActivity?
+        get() = activity as? RootActivity ?: activity as? BaseActivity
 
     protected val safeActivity: androidx.fragment.app.FragmentActivity
         get() = activity ?: throw Exception()
@@ -53,7 +55,6 @@ open class BaseOldFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        rootActivity = activity as RootActivity
         initToolbar()
         styleScreen()
     }
@@ -69,15 +70,17 @@ open class BaseOldFragment: Fragment() {
 
     protected fun initToolbar() {
         if (toolbar != null) {
-            rootActivity.setSupportActionBar(toolbar)
-            val actionBar = rootActivity.supportActionBar
+            rootActivity?.setSupportActionBar(toolbar)
+            val actionBar = rootActivity?.supportActionBar
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true)
                 actionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
                 actionBar.setHomeButtonEnabled(true)
                 actionBar.setDisplayUseLogoEnabled(false)
-                toolbar?.setTitleTextColor(ContextCompat.getColor(rootActivity, R.color.toolbar_text))
-                toolbar?.setSubtitleTextColor(ContextCompat.getColor(rootActivity, R.color.toolbar_subtext))
+                rootActivity?.let {
+                    toolbar?.setTitleTextColor(ContextCompat.getColor(it, R.color.toolbar_text))
+                    toolbar?.setSubtitleTextColor(ContextCompat.getColor(it, R.color.toolbar_subtext))
+                }
             }
 
         }
@@ -85,20 +88,20 @@ open class BaseOldFragment: Fragment() {
 
     fun setTitle(title: CharSequence) {
         toolbar?.title = title
-        val actionBar = rootActivity.supportActionBar
+        val actionBar = rootActivity?.supportActionBar
         if (actionBar != null) {
             actionBar.title = title
         }
     }
 
     fun setSubtitle(subtitle: CharSequence) {
-        if (rootActivity.supportActionBar != null)
-            rootActivity.supportActionBar!!.subtitle = subtitle
+        if (rootActivity?.supportActionBar != null)
+            rootActivity?.supportActionBar?.subtitle = subtitle
     }
 
     fun updateTitle(title: String = "", subtitle: String = "") {
-        rootActivity.supportActionBar?.title = title
-        rootActivity.supportActionBar?.subtitle = subtitle
+        rootActivity?.supportActionBar?.title = title
+        rootActivity?.supportActionBar?.subtitle = subtitle
     }
 
     open fun onBackPressed() = false
@@ -106,6 +109,6 @@ open class BaseOldFragment: Fragment() {
     protected fun styleScreen(container: ViewGroup? = null) {
         if (toolbar != null) Style.forToolbar(toolbar!!)
         Style.forAll(container)
-        Style.setStatusBar(rootActivity)
+        rootActivity?.apply { Style.setStatusBar(this) }
     }
 }

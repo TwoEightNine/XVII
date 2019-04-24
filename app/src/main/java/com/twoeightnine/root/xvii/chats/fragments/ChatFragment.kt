@@ -9,21 +9,18 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.BottomSheetController
 import com.twoeightnine.root.xvii.chats.ChatInputController
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
-import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsFragment
-import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
+import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg
@@ -34,7 +31,7 @@ import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.mvp.view.ChatFragmentView
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
-import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.FingerPrintAlertDialog
 import com.twoeightnine.root.xvii.views.LoadingDialog
@@ -63,8 +60,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     private var dialogLoading: LoadingDialog? = null
-//    private lateinit var pagerAdapter: CommonPagerAdapter
-    private lateinit var bottomSheet: BottomSheetController<RelativeLayout>
     private lateinit var inputController: ChatInputController
     private lateinit var adapter: ChatAdapter
 
@@ -74,7 +69,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     override fun bindViews(view: View) {
         inputController = ChatInputController(safeContext, view, InputCallback())
-        bottomSheet = BottomSheetController(rlBottom, rlHideBottom) { vpAttach?.currentItem = 1 } // reset to gallery
         swipeContainer.setOnRefreshListener { presenter.loadHistory(withClear = true) }
 
         rvAttached.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
@@ -97,7 +91,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             }
             restartApp()
         }
-//        initPager()
 
         Style.forAll(rlMultiAction)
         Style.forViewGroupColor(rlHideBottom)
@@ -110,7 +103,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
         forwardedMessages?.also {
             handler.postDelayed({
-//                presenter.attachUtils.forwarded = it
                 attachedAdapter.fwdMessages = it
             }, 1000L)
         }
@@ -140,12 +132,13 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         try {
-            rootActivity.title = title
+            rootActivity?.title = title
             onChangeOnline(isOnline)
             toolbar?.setOnClickListener {
                 hideKeyboard(safeActivity)
                 if (peerId.matchesUserId()) {
-                    rootActivity.loadFragment(ProfileFragment.newInstance(peerId))
+//                    rootActivity.loadFragment(ProfileFragment.newInstance(peerId))
+                    ProfileActivity.launch(context, peerId)
                 }
             }
         } catch (e: UninitializedPropertyAccessException) {
@@ -169,29 +162,15 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         rvChatList.setOnScrollListener(ListScrollListener())
     }
 
-//    private fun initPager() {
-//        pagerAdapter = CommonPagerAdapter(childFragmentManager)
-////        pagerAdapter.add(AttachedFragment.newInstance(presenter.attachUtils), getString(R.string.attached))
-////        pagerAdapter.add(GalleryFragment.newInstance(::onImagesSelected), getString(R.string.device_photos))
-////        pagerAdapter.add(PhotoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.photos))
-////        pagerAdapter.add(VideoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.videos))
-////        pagerAdapter.add(DocAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.docs))
-//        vpAttach.adapter = pagerAdapter
-//        vpAttach.offscreenPageLimit = 5
-//        tabsBottom.setupWithViewPager(vpAttach, true)
-////        vpAttach.currentItem = 1 // gallery
-//    }
-
     private fun initMultiAction() {
         ivCancelMulti.setOnClickListener {
             adapter.clearMultiSelect()
         }
         ivMenuMulti.setOnClickListener { showMultiSelectPopup() }
         ivForwardMulti.setOnClickListener {
-            rootActivity.loadFragment(DialogsForwardFragment.newInstance(getSelectedMessageIds()))
+//            rootActivity.loadFragment(DialogsForwardFragment.newInstance(getSelectedMessageIds()))
         }
         ivReplyMulti.setOnClickListener {
-//            presenter.attachUtils.forwarded = getSelectedMessageIds()
             attachedAdapter.fwdMessages = getSelectedMessageIds()
             adapter.clearMultiSelect()
         }
@@ -291,8 +270,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 true
             }
             R.id.menu_attachments -> {
-                rootActivity.loadFragment(AttachmentsFragment.newInstance(peerId))
-                hideKeyboard(safeActivity)
+                AttachmentsActivity.launch(context, peerId)
                 true
             }
             R.id.menu_fingerprint -> {
@@ -347,11 +325,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     private fun onAttachmentsSelected(attachments: List<Attachment>) {
-//        attachments.forEach {
-//            presenter.attachUtils.add(it)
-//        }
         attachedAdapter.addAll(attachments.toMutableList())
-        bottomSheet.close()
     }
 
     private fun onImagesSelected(paths: List<String>) {
@@ -359,7 +333,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             presenter.attachPhoto(it, context = context)
             inputController.addItemAsBeingLoaded(it)
         }
-        bottomSheet.close()
     }
 
     private fun onAttachClicked(attachment: Attachment) {
@@ -472,7 +445,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     override fun onChangeOnline(isOnline: Boolean) {
-        rootActivity.supportActionBar?.subtitle = when {
+        rootActivity?.supportActionBar?.subtitle = when {
             peerId.matchesChatId() -> getString(R.string.conversation)
             peerId.matchesGroupId() -> getString(R.string.community)
             else -> if (isOnline) getString(R.string.online) else getString(R.string.offline)
@@ -560,19 +533,9 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     override fun onDetach() {
         super.onDetach()
         presenter.unsubscribe()
-//        PhotoAttachFragment.clear()
-//        GalleryFragment.clear()
-//        DocAttachFragment.clear()
-//        VideoAttachFragment.clear()
     }
 
-    override fun onBackPressed(): Boolean {
-        if (bottomSheet.isOpen()) {
-            bottomSheet.close()
-            return true
-        }
-        return false
-    }
+    override fun onBackPressed() = false
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -647,7 +610,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                         attachedAdapter.fwdMessages = "${message.id}"
                     }
                     R.id.llForward -> {
-                        rootActivity.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
+//                        rootActivity.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
                     }
                     R.id.llDelete -> {
                         val callback = { forAll: Boolean ->
@@ -675,7 +638,8 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
 
         override fun onUserClicked(userId: Int) {
-            rootActivity.loadFragment(ProfileFragment.newInstance(userId))
+//            rootActivity.loadFragment(ProfileFragment.newInstance(userId))
+            ProfileActivity.launch(context, userId)
         }
 
         override fun onDocClicked(doc: Doc) {

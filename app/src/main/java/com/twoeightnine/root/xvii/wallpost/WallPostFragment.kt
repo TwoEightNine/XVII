@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Group
@@ -77,7 +78,8 @@ class WallPostFragment : BaseOldFragment() {
             when (attachment.type) {
 
                 Attachment.TYPE_PHOTO -> attachment.photo?.also {
-                    holder.llContainer.addView(getPhotoWall(it, rootActivity) { photo ->
+                    val root = rootActivity as? RootActivity ?: return@also
+                    holder.llContainer.addView(getPhotoWall(it, root) { photo ->
                         val photos = ArrayList(post.getPhoto())
                         val position = photos.indexOf(photo)
                         ImageViewerActivity.viewImages(context, photos, position)
@@ -86,23 +88,23 @@ class WallPostFragment : BaseOldFragment() {
 
                 Attachment.TYPE_DOC -> attachment.doc?.also { doc ->
                     if (doc.isGif) {
-                        holder.llContainer.addView(getGif(doc, rootActivity))
+                        holder.llContainer.addView(getGif(doc, safeContext))
                     } else {
-                        holder.llContainer.addView(getDoc(doc, rootActivity))
+                        holder.llContainer.addView(getDoc(doc, safeContext))
                     }
                 }
 
                 Attachment.TYPE_AUDIO -> attachment.audio?.also {
-                    holder.llContainer.addView(getAudio(it, rootActivity))
+                    holder.llContainer.addView(getAudio(it, safeContext))
                 }
 
 
                 Attachment.TYPE_LINK -> attachment.link?.also {
-                    holder.llContainer.addView(getLink(it, rootActivity))
+                    holder.llContainer.addView(getLink(it, safeContext))
                 }
 
                 Attachment.TYPE_VIDEO -> attachment.video?.also {
-                    holder.llContainer.addView(getVideo(it, rootActivity) { video ->
+                    holder.llContainer.addView(getVideo(it, safeContext) { video ->
                         apiUtils.openVideo(safeActivity, video)
                     })
                 }
@@ -131,8 +133,8 @@ class WallPostFragment : BaseOldFragment() {
     private fun initLike(wp: WallPost) {
         val likes = wp.likes ?: return
 
-        val noLike = ContextCompat.getDrawable(rootActivity, R.drawable.ic_favorite)
-        val like = ContextCompat.getDrawable(rootActivity, R.drawable.ic_favorite_fill)
+        val noLike = ContextCompat.getDrawable(safeContext, R.drawable.ic_favorite)
+        val like = ContextCompat.getDrawable(safeContext, R.drawable.ic_favorite_fill)
         Style.forDrawable(like, Style.MAIN_TAG)
         Style.forDrawable(noLike, Style.MAIN_TAG)
         if (likes.isUserLiked) {

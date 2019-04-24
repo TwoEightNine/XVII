@@ -16,7 +16,7 @@ import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
-import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.copyToClip
 import com.twoeightnine.root.xvii.utils.getContextPopup
 import com.twoeightnine.root.xvii.utils.hide
@@ -69,7 +69,8 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         }
 
         override fun onUserClicked(userId: Int) {
-            rootActivity?.loadFragment(ProfileFragment.newInstance(userId))
+//            rootActivity?.loadFragment(ProfileFragment.newInstance(userId))
+            ProfileActivity.launch(context, userId)
         }
 
         override fun onEncryptedFileClicked(doc: Doc) {

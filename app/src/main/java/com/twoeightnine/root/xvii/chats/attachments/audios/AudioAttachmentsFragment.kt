@@ -40,7 +40,7 @@ class AudioAttachmentsFragment : BaseAttachmentsFragment<Track>() {
 
     private fun onClick(track: Track) {
         val tracks = ArrayList(adapter.items)
-        MusicService.launch(context, tracks, tracks.indexOf(track))
+        MusicService.launch(context?.applicationContext, tracks, tracks.indexOf(track))
     }
 
     private fun onLongClick(track: Track) {

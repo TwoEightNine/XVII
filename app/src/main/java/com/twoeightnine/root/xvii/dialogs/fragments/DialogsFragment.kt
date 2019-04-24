@@ -11,14 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
+import com.twoeightnine.root.xvii.chats.ChatActivity
+import com.twoeightnine.root.xvii.chats.attachments.audios.AudiosActivity
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
+import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.search.SearchFragment
+import com.twoeightnine.root.xvii.search.SearchActivity
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_dialogs_new.*
@@ -81,7 +83,8 @@ open class DialogsFragment : BaseFragment() {
     }
 
     protected open fun onClick(dialog: Dialog) {
-        rootActivity?.loadFragment(ChatFragment.newInstance(dialog))
+//        rootActivity?.loadFragment(ChatFragment.newInstance(dialog))
+        ChatActivity.launch(context, dialog.peerId, dialog.alias ?: dialog.title, dialog.isOnline)
 //        rootActivity?.loadFragment(ChatMessagesFragment.newInstance(dialog.peerId))
     }
 
@@ -107,18 +110,21 @@ open class DialogsFragment : BaseFragment() {
         super.onCreateOptionsMenu(menu, inflater)
         menu?.clear()
         inflater?.inflate(R.menu.dialog_menu, menu)
+        menu?.findItem(R.id.menu_music)?.isVisible = equalsDevUids(Session.uid)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.menu_search_users -> {
-                rootActivity?.loadFragment(SearchFragment())
-//                rootActivity?.loadFragment(SearchMessagesFragment())
+                SearchActivity.launch(context)
                 true
             }
             R.id.important_menu -> {
                 rootActivity?.loadFragment(StarredMessagesFragment.newInstance())
-//                rootActivity?.loadFragment(ImportantFragment())
+                true
+            }
+            R.id.menu_music -> {
+                AudiosActivity.launch(context)
                 true
             }
             else -> super.onOptionsItemSelected(item)

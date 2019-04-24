@@ -8,11 +8,11 @@
     <!--android:id="@+id/picturer_menu"-->
     <!--app:showAsAction="always" />-->
 
-    <!--<item-->
-    <!--android:title="Feed"-->
-    <!--android:icon="@drawable/ic_meme"-->
-    <!--android:id="@+id/feed_menu"-->
-    <!--app:showAsAction="always" />-->
+    <item
+        android:id="@+id/menu_music"
+        android:icon="@drawable/play_white"
+        android:title="Music"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_search_users"

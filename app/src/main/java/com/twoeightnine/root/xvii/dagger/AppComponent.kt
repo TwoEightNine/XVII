@@ -21,7 +21,6 @@ import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.fragments.AttachedFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
-import com.twoeightnine.root.xvii.chats.fragments.ImportantFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.ChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
@@ -35,8 +34,6 @@ import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.search.SearchFragment
-import com.twoeightnine.root.xvii.settings.fragments.AboutFragment
-import com.twoeightnine.root.xvii.settings.fragments.SettingsFragment
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import dagger.Component
 import javax.inject.Singleton
@@ -59,14 +56,11 @@ interface AppComponent {
 
     fun inject(profileFragment: ProfileFragment)
     fun inject(wallPostFragment: WallPostFragment)
-    fun inject(importantFragment: ImportantFragment)
-    fun inject(aboutFragment: AboutFragment)
     fun inject(accountsFragment: AccountsFragment)
     fun inject(attachedFragment: AttachedFragment)
     fun inject(friendsFragment: FriendsFragment)
     fun inject(dialogsFragment: DialogsFragment)
     fun inject(dialogsForwardFragment: DialogsForwardFragment)
-    fun inject(settingsFragment: SettingsFragment)
     fun inject(docAttachmentsFragment: DocAttachmentsFragment)
     fun inject(linkAttachmentsFragment: LinkAttachmentsFragment)
     fun inject(videoAttachmentsFragment: VideoAttachmentsFragment)

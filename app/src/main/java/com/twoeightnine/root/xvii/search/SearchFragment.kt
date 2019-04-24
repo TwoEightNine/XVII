@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
+import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
@@ -61,7 +61,8 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun onClick(dialog: Dialog) {
-        rootActivity?.loadFragment(ChatFragment.newInstance(dialog))
+//        rootActivity?.loadFragment(ChatFragment.newInstance(dialog))
+        ChatActivity.launch(context, dialog.peerId, dialog.title, dialog.isOnline)
     }
 
     private fun initRecycler() {

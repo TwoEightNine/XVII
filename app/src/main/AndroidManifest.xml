@@ -125,6 +125,9 @@
         <activity android:name=".accounts.activities.AccountsActivity" />
         <activity android:name=".chats.attachments.attachments.AttachmentsActivity" />
         <activity android:name=".chats.attachments.attach.AttachActivity" />
+        <activity android:name=".chats.attachments.audios.AudiosActivity" />
+        <activity android:name=".search.SearchActivity" />
+        <activity android:name=".egg.EggActivity" />
     </application>
 
 </manifest>

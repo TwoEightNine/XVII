@@ -16,8 +16,8 @@ import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
-import com.twoeightnine.root.xvii.search.SearchFragment
+import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
+import com.twoeightnine.root.xvii.search.SearchActivity
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
@@ -77,7 +77,7 @@ class FriendsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.menu_search -> {
-                rootActivity?.loadFragment(SearchFragment())
+                SearchActivity.launch(context)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -85,7 +85,8 @@ class FriendsFragment : BaseFragment() {
     }
 
     private fun onClick(user: User) {
-        rootActivity?.loadFragment(ProfileFragment.newInstance(user.id))
+//        rootActivity?.loadFragment(ProfileFragment.newInstance(user.id))
+        ProfileActivity.launch(context, user.id)
     }
 
     companion object {

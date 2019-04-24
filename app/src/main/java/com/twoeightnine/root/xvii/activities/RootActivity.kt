@@ -21,7 +21,7 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.DrawerItem
-import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_root.*
 import javax.inject.Inject
@@ -98,7 +98,8 @@ class RootActivity : BaseActivity() {
         tvFullName.text = Session.fullName
         civAvatar.load(Session.photo)
         civAvatar.setOnClickListener {
-            loadFragment(ProfileFragment.newInstance(Session.uid))
+//            loadFragment(ProfileFragment.newInstance(Session.uid))
+            ProfileActivity.launch(this, Session.uid)
             hideKeyboard(this)
             dlRoot.closeDrawer(GravityCompat.START)
         }
