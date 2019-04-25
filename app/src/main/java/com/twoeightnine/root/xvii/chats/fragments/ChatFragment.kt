@@ -82,7 +82,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             presenter.view = this
             presenter.peerId = peerId
             presenter.initCrypto()
-            presenter.initAttachments(safeActivity) {} // temporary
             presenter.subscribe()
         } catch (e: Exception) {
             Lg.i("bindViews: " + e.message)
@@ -137,7 +136,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             toolbar?.setOnClickListener {
                 hideKeyboard(safeActivity)
                 if (peerId.matchesUserId()) {
-//                    rootActivity.loadFragment(ProfileFragment.newInstance(peerId))
                     ProfileActivity.launch(context, peerId)
                 }
             }
@@ -320,7 +318,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     private fun onSend(text: String) {
-        if (text.isNotEmpty() || /*presenter.attachUtils.count > 0 ||*/ attachedAdapter.count > 0) {
+        if (text.isNotEmpty() || attachedAdapter.count > 0) {
             presenter.send(text, attachedAdapter.fwdMessages, attachedAdapter.asString())
             etInput.setText("")
         }
@@ -446,11 +444,19 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         rlRecordingVoice?.hide()
     }
 
-    override fun onChangeOnline(isOnline: Boolean) {
+    override fun onChangeOnline(isOnline: Boolean, timeStamp: Int) {
         rootActivity?.supportActionBar?.subtitle = when {
             peerId.matchesChatId() -> getString(R.string.conversation)
             peerId.matchesGroupId() -> getString(R.string.community)
-            else -> if (isOnline) getString(R.string.online) else getString(R.string.offline)
+            else -> {
+                val time = if (timeStamp == 0) {
+                    time() - (if (isOnline) 0 else 300)
+                } else {
+                    timeStamp
+                }
+                val stringRes = if (isOnline) R.string.online_seen else R.string.last_seen
+                getString(stringRes, getTime(time, full = true))
+            }
         }
     }
 

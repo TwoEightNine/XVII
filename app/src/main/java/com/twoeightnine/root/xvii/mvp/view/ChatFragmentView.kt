@@ -13,7 +13,7 @@ interface ChatFragmentView: BaseView {
     fun onHideTyping()
     fun onShowRecordingVoice()
     fun onHideRecordingVoice()
-    fun onChangeOnline(isOnline: Boolean)
+    fun onChangeOnline(isOnline: Boolean, timeStamp: Int = 0)
     fun onReadOut(mid: Int)
     fun onKeyGenerating()
     fun onKeySent()

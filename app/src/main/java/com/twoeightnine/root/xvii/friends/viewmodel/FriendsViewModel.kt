@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.friends.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.background.longpoll.models.events.OfflineEvent
 import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.model.User
@@ -10,6 +11,7 @@ import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.EventBus
+import com.twoeightnine.root.xvii.utils.matchesUserId
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import javax.inject.Inject
 
@@ -17,9 +19,14 @@ class FriendsViewModel(private val api: ApiService) : ViewModel() {
 
     init {
         EventBus.subscribeLongPollEventReceived { event ->
-            when(event) {
+            when (event) {
                 is OnlineEvent -> changeStatus(true, event.userId)
                 is OfflineEvent -> changeStatus(false, event.userId)
+                is NewMessageEvent -> {
+                    if (!event.isOut() && event.peerId.matchesUserId()) {
+                        changeStatus(true, event.peerId)
+                    }
+                }
             }
         }
     }

@@ -45,7 +45,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     private var timeUpSubscription: Disposable? = null
     private var longPollDisposable: Disposable? = null
 
-//    lateinit var attachUtils: AttachUtils
     lateinit var crypto: CryptoUtil
 
     var peerId: Int = 0
@@ -70,10 +69,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     fun initCrypto() {
         crypto = CryptoUtil(Session.uid, peerId)
         isEncrypted = false
-    }
-
-    fun initAttachments(context: Context, listener: ((Int) -> Unit)?) {
-//        attachUtils = AttachUtils(context, listener)
     }
 
     fun loadHistory(offset: Int = 0, withClear: Boolean = false) {
@@ -104,6 +99,11 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 .subscribeSmart({ response ->
                     response.map { users.put(it.id, it) }
                     insertUsers(history, withClear, cache)
+                    if (peerId.matchesUserId()) {
+                        val user = response.find { it.id == peerId }
+
+                        user?.let { view?.onChangeOnline(it.isOnline, it.lastSeen?.time ?: 0) }
+                    }
                 }, { error ->
                     view?.showError(error)
                 })
@@ -525,17 +525,17 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 }
             }
 
-//            is OfflineEvent -> {
-//                if (userId() == event.userId) {
-//                    view?.onChangeOnline(false)
-//                }
-//            }
-//
-//            is OnlineEvent -> {
-//                if (userId() == event.userId) {
-//                    view?.onChangeOnline(true)
-//                }
-//            }
+            is OfflineEvent -> {
+                if (peerId == event.userId) {
+                    view?.onChangeOnline(false)
+                }
+            }
+
+            is OnlineEvent -> {
+                if (peerId == event.userId) {
+                    view?.onChangeOnline(true)
+                }
+            }
 
             is TypingEvent -> {
                 if (peerId == event.userId && isShown) {
