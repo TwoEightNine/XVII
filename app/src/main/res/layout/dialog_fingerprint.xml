@@ -8,20 +8,20 @@
     android:padding="12dp">
 
     <TextView
-        style="@style/TextViewStyle.Large"
+        style="@style/MainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/fingerprint"
-        android:textColor="@color/main_text" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/tvKeyType"
-        android:layout_gravity="center"
+        style="@style/MainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/key_type"
-        android:textColor="@color/main_text" />
+        android:layout_gravity="center"
+        android:text="@string/key_type" />
 
     <ImageView
         android:id="@+id/ivGravatar"
@@ -32,18 +32,17 @@
 
     <TextView
         android:id="@+id/tvPrint"
-        style="@style/TextViewStyle.Small"
+        style="@style/MainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:fontFamily="monospace"
         android:gravity="center"
-        android:textColor="@color/main_text"
-        tools:text="A4 56 75 98 15 83 74 98\nA4 56 75 98 15 83 74 98\nA4 56 75 98 15 83 74 98\nA4 56 75 98 15 83 74 98\n" />
+        tools:text="a4 56 c5 98 15 e3 dd 98\na4 56 c5 98 15 e3 dd 98\na4 56 c5 98 15 e3 dd 98\na4 56 c5 98 15 e3 dd 98\n" />
 
     <TextView
-        style="@style/TextViewStyle.Small"
+        style="@style/MainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

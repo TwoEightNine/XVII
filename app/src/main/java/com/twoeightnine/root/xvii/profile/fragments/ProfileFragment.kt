@@ -78,7 +78,6 @@ class ProfileFragment : BaseFragment() {
         civPhoto.setOnClickListener { viewModel.loadPhotos(::onPhotosLoaded) }
         tvName.text = user.fullName
         rlChat.setOnClickListener {
-//            rootActivity?.loadFragment(ChatFragment.newInstance(user.id, user.fullName, user.isOnline))
             ChatActivity.launch(context, user.id, user.fullName, user.isOnline)
         }
         if (!user.deactivated.isNullOrEmpty()) return

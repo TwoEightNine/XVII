@@ -21,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
@@ -66,7 +67,11 @@ fun isOnline(): Boolean {
 fun showToast(context: Context?, message: String, duration: Int = Toast.LENGTH_SHORT) {
     if (context == null) return
 
-    Toast.makeText(context, message, duration).show()
+    val toast = Toast.makeText(context, message, duration)
+    toast.view.findViewById<TextView>(android.R.id.message)?.apply {
+        typeface = Style.SANS_SERIF_LIGHT
+    }
+    toast.show()
 }
 
 fun showToast(context: Context?, @StringRes text: Int, duration: Int = Toast.LENGTH_SHORT) {
@@ -101,7 +106,7 @@ fun showAlert(context: Context?, text: String?) {
 
     val dialog = AlertDialog.Builder(context)
             .setMessage(text)
-            .setPositiveButton(android.R.string.ok, null)
+            .setPositiveButton(R.string.ok, null)
             .create()
     dialog.show()
     Style.forDialog(dialog)
@@ -112,8 +117,8 @@ fun showConfirm(context: Context?, text: String, callback: (Boolean) -> Unit) {
 
     val dialog = AlertDialog.Builder(context)
             .setMessage(text)
-            .setPositiveButton(android.R.string.ok) { _, _ -> callback.invoke(true) }
-            .setNegativeButton(android.R.string.cancel) { _, _ -> callback.invoke(false) }
+            .setPositiveButton(R.string.ok) { _, _ -> callback.invoke(true) }
+            .setNegativeButton(R.string.cancel) { _, _ -> callback.invoke(false) }
             .create()
     dialog.show()
     Style.forDialog(dialog)
@@ -493,8 +498,8 @@ fun showDeleteDialog(context: Context?,
 
     val dialog = AlertDialog.Builder(context)
             .setMessage(message ?: context.getString(R.string.want_delete))
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(android.R.string.ok) { _, _ -> onDelete.invoke() }
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.ok) { _, _ -> onDelete.invoke() }
             .create()
     dialog.show()
     Style.forDialog(dialog)

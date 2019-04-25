@@ -47,7 +47,7 @@ class MainActivity : BaseActivity() {
     private fun initViewPager() {
         with(viewPager) {
             adapter = MainPagerAdapter(supportFragmentManager)
-//            isLocked = true
+            isLocked = true
             offscreenPageLimit = 3
         }
     }
@@ -55,7 +55,7 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         if (!LongPollCore.isRunning()) {
-            Lg.i("Service wasn't active since " +
+            Lg.i("service wasn't active since " +
                     "${getTime(LongPollCore.lastRun, format = "HH:mm:ss")}. Start again")
             Handler().postDelayed({ startNotificationService(this) }, 1000L)
         }

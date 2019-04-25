@@ -35,8 +35,8 @@
                     android:paddingEnd="28dp"
                     android:paddingBottom="8dp"
                     android:text="@string/private_messages_notifs"
-                    android:textColor="@color/other_text"
-                    android:textSize="15sp" />
+                    style="@style/OtherText"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -51,51 +51,51 @@
                     android:id="@+id/switchShowNotification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="8dp"
                     android:text="@string/show_notif"
-                    android:textColor="@color/main_text"
-                    android:textSize="15sp" />
+                    style="@style/MainText"
+                    android:textSize="16sp" />
 
                 <Switch
                     android:id="@+id/switchShowName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="8dp"
                     android:text="@string/show_name"
-                    android:textColor="@color/main_text"
-                    android:textSize="15sp" />
+                    style="@style/MainText"
+                    android:textSize="16sp" />
 
                 <Switch
                     android:id="@+id/switchVibrate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="8dp"
                     android:text="@string/vibrate"
-                    android:textColor="@color/main_text"
-                    android:textSize="15sp" />
+                    style="@style/MainText"
+                    android:textSize="16sp" />
 
                 <Switch
                     android:id="@+id/switchSound"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="8dp"
                     android:text="@string/sound"
-                    android:textColor="@color/main_text"
-                    android:textSize="15sp" />
+                    style="@style/MainText"
+                    android:textSize="16sp" />
 
                 <Switch
                     android:id="@+id/switchContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="8dp"
                     android:text="@string/show_content"
-                    android:textColor="@color/main_text"
-                    android:textSize="15sp" />
+                    style="@style/MainText"
+                    android:textSize="16sp" />
 
                 <RelativeLayout
                     android:id="@+id/rlLedColor"
@@ -108,8 +108,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/led_lights"
-                        android:textColor="@color/main_text"
-                        android:textSize="15sp" />
+                        style="@style/MainText"
+                        android:textSize="16sp" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="20dp"
@@ -145,8 +145,8 @@
                     android:paddingEnd="28dp"
                     android:paddingBottom="8dp"
                     android:text="@string/chats_notifs"
-                    android:textColor="@color/other_text"
-                    android:textSize="15sp" />
+                    style="@style/OtherText"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -161,51 +161,51 @@
                     android:id="@+id/switchNotifsChats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="8dp"
                     android:text="@string/show_chats_notifs"
-                    android:textColor="@color/main_text"
-                    android:textSize="15sp" />
+                    style="@style/MainText"
+                    android:textSize="16sp" />
 
                 <Switch
                     android:id="@+id/switchVibrateChats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="8dp"
                     android:text="@string/vibrate"
-                    android:textColor="@color/main_text"
-                    android:textSize="15sp" />
+                    style="@style/MainText"
+                    android:textSize="16sp" />
 
                 <Switch
                     android:id="@+id/switchSoundChats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="8dp"
                     android:text="@string/sound"
-                    android:textColor="@color/main_text"
-                    android:textSize="15sp" />
+                    style="@style/MainText"
+                    android:textSize="16sp" />
 
                 <Switch
                     android:id="@+id/switchLightsChats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="8dp"
                     android:text="@string/led_lights"
-                    android:textColor="@color/main_text"
-                    android:textSize="15sp" />
+                    style="@style/MainText"
+                    android:textSize="16sp" />
 
                 <Switch
                     android:id="@+id/switchContentChats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:layout_margin="8dp"
                     android:text="@string/show_content"
-                    android:textColor="@color/main_text"
-                    android:textSize="15sp" />
+                    style="@style/MainText"
+                    android:textSize="16sp" />
 
                 <RelativeLayout
                     android:id="@+id/rlLedColorChats"
@@ -218,8 +218,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/led_lights"
-                        android:textColor="@color/main_text"
-                        android:textSize="15sp" />
+                        style="@style/MainText"
+                        android:textSize="16sp" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="20dp"

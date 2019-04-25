@@ -25,11 +25,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:fontFamily="sans-serif-light"
                 android:maxLines="1"
                 android:textColor="@color/icons"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="MP3" />
+                tools:text="mp3" />
         </RelativeLayout>
 
         <LinearLayout
@@ -43,18 +43,18 @@
 
             <TextView
                 android:id="@+id/tvTitle"
+                style="@style/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:textColor="@color/main_text"
-                android:textSize="16sp"
+                android:textSize="17sp"
                 tools:text="kizaru.mp3" />
 
             <TextView
                 android:id="@+id/tvSize"
+                style="@style/OtherText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/other_text"
                 android:textSize="13sp"
                 tools:text="13 kB" />
 

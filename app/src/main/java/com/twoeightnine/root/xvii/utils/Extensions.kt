@@ -122,6 +122,10 @@ fun TextView.subscribeSearch(
             it.printStackTrace()
         }
 
+fun TextView.setTextLower(s: String) {
+    text = s.toLowerCase()
+}
+
 fun EditText.asText() = text.toString()
 
 fun EditText.clear() {

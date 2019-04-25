@@ -34,7 +34,7 @@ class PinPadView : GridLayout {
 
     private fun init() {
         columnCount = 3
-        orientation = GridLayout.HORIZONTAL
+        orientation = HORIZONTAL
         rowCount = 4
 
         for (i in 1..12) {
@@ -43,7 +43,7 @@ class PinPadView : GridLayout {
             if (i <= 10) {
                 tv.text = "${i % 10}"
             } else {
-                tv.setText(if (i == 11) R.string.clear else android.R.string.ok)
+                tv.setText(if (i == 11) R.string.clear else R.string.ok)
             }
             val pos = i
             view.setOnClickListener {

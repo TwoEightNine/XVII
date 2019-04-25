@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:id="@+id/llContainer"
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_marginTop="?actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?actionBarSize">
 
 
         <LinearLayout
@@ -20,36 +20,36 @@
 
             <LinearLayout
                 android:id="@+id/llRoot"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginRight="24dp"
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="12dp">
+                android:layout_marginBottom="12dp">
 
                 <ImageView
-                    android:tag="main"
                     android:id="@+id/ivLike"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_favorite" />
+                    android:src="@drawable/ic_favorite"
+                    android:tag="main" />
 
                 <TextView
                     android:id="@+id/tvLikes"
+                    style="@style/OtherText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="4dp"
+                    android:layout_marginRight="6dp"
                     android:layout_toLeftOf="@+id/ivLike"
-                    android:text="289"
-                    android:textColor="@color/main_text"
-                    android:textSize="14sp" />
+                    android:text="17/53"
+                    android:textSize="16sp" />
 
             </RelativeLayout>
 
@@ -60,9 +60,9 @@
 
     <ProgressBar
         android:id="@+id/loader"
-        android:visibility="gone"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

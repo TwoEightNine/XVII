@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,8 +13,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civAvatar"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -25,20 +26,21 @@
 
             <TextView
                 android:id="@+id/tvTitle"
+                style="@style/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="2dp"
                 android:maxLines="1"
-                android:textColor="@color/main_text"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                tools:text="some group title" />
 
             <TextView
                 android:id="@+id/tvDate"
+                style="@style/OtherText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/other_text"
-                android:textSize="12sp" />
+                android:textSize="13sp"
+                tools:text="today or year ago" />
 
         </LinearLayout>
 
@@ -48,18 +50,18 @@
 
     <TextView
         android:id="@+id/tvPost"
-        style="@style/TextViewStyle.Small"
+        style="@style/OtherText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="24dp"
         android:paddingRight="24dp" />
 
     <LinearLayout
-        android:layout_gravity="center_horizontal"
         android:id="@+id/llContainer"
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:orientation="vertical" />
 
 </LinearLayout>

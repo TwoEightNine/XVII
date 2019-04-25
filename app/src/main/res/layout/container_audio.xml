@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -20,20 +21,22 @@
 
         <TextView
             android:id="@+id/tvTitle"
-            style="@style/TextViewStyle.Medium"
+            style="@style/MainText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:maxLines="1"
-            android:text="Titlee" />
+            android:textSize="16sp"
+            tools:text="Titlee" />
 
         <TextView
             android:id="@+id/tvArtist"
-            style="@style/TextViewStyle.Small.Gray"
+            style="@style/OtherText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:text="Artist" />
+            android:textSize="13sp"
+            tools:text="Artist" />
 
     </LinearLayout>
 

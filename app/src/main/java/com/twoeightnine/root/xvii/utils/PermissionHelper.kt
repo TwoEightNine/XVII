@@ -8,6 +8,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
+import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Style
 
 class PermissionHelper {
@@ -63,8 +64,8 @@ class PermissionHelper {
         val dialog = AlertDialog.Builder(activity)
                 .setTitle(title)
                 .setMessage(detailMessage)
-                .setPositiveButton(android.R.string.ok) { _, _ -> requestPermissions(permission, requestCode) }
-                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.ok) { _, _ -> requestPermissions(permission, requestCode) }
+                .setNegativeButton(R.string.cancel, null)
                 .create()
         dialog.show()
         Style.forDialog(dialog)

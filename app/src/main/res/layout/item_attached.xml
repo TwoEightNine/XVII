@@ -29,8 +29,9 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/ivEnvelope"
                     android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif-light"
                     android:textColor="@color/toolbar_text"
-                    android:textSize="19sp"
+                    android:textSize="21sp"
                     tools:text="13" />
 
                 <ImageView
@@ -57,10 +58,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:textColor="@color/toolbar_text"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:textSize="17sp"
                 tools:text="doc" />
 
             <ImageView

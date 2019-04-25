@@ -13,12 +13,12 @@
         android:clickable="true">
 
         <TextView
+            style="@style/MainText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin16"
             android:text="@string/copy"
-            android:textColor="@color/main_text"
-            android:textSize="16sp" />
+            android:textSize="17sp" />
 
     </LinearLayout>
 
@@ -30,12 +30,12 @@
         android:clickable="true">
 
         <TextView
+            style="@style/MainText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin16"
             android:text="@string/unmark"
-            android:textColor="@color/main_text"
-            android:textSize="16sp" />
+            android:textSize="17sp" />
 
     </LinearLayout>
 
@@ -47,12 +47,12 @@
         android:clickable="true">
 
         <TextView
+            style="@style/MainText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin16"
             android:text="@string/forward"
-            android:textColor="@color/main_text"
-            android:textSize="16sp" />
+            android:textSize="17sp" />
 
     </LinearLayout>
 

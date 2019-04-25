@@ -81,21 +81,6 @@ class DialogsAdapter(
         }
 
         private fun getMessageBody(context: Context, dialog: Dialog): String {
-//            val fwdCount = if (message.fwdMessages == null) 0 else (message.fwdMessages as ArrayList).size
-//            val attCount = if (message.attachments == null) 0 else (message.attachments as ArrayList).size
-//            if (!message.body.isNullOrEmpty())
-//                return message.body ?: ""
-//            if (fwdCount != 0)
-//                return context.getString(R.string.fwd_message, fwdCount)
-//            if (attCount != 0) {
-//                return context.resources.getQuantityString(R.plurals.attach, attCount, attCount)
-//            }
-//            if (message.action == Message.OUT_OF_CHAT) {
-//                return context.getString(R.string.kick_chat)
-//            }
-//            if (message.action == Message.IN_CHAT) {
-//                return context.getString(R.string.invite_chat)
-//            }
             if (dialog.text.isNotEmpty()) {
                 return dialog.text
             }

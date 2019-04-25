@@ -21,26 +21,25 @@
             android:orientation="vertical">
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight"
-                android:visibility="invisible">
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/toolbar"-->
+            <!--android:orientation="vertical"-->
+            <!--android:tag="extraLight">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="56dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="28dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/accounts"
-                    android:textColor="@color/other_text"
-                    android:textSize="15sp" />
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingStart="56dp"-->
+            <!--android:paddingTop="8dp"-->
+            <!--android:paddingEnd="28dp"-->
+            <!--android:paddingBottom="8dp"-->
+            <!--android:text="@string/accounts"-->
+            <!--style="@style/OtherText"-->
+            <!--android:textSize="15sp" />-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
             <RelativeLayout
                 android:id="@+id/rlAccounts"
@@ -73,17 +72,17 @@
 
                     <TextView
                         android:id="@+id/tvName"
+                        style="@style/MainText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/main_text"
                         android:textSize="17sp"
                         tools:text="Gucci Mane" />
 
                     <TextView
+                        style="@style/OtherText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/accounts_hint"
-                        android:textColor="@color/other_text"
                         android:textSize="15sp" />
 
                 </LinearLayout>
@@ -107,6 +106,7 @@
                 android:tag="extraLight">
 
                 <TextView
+                    style="@style/OtherText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="56dp"
@@ -114,7 +114,6 @@
                     android:paddingEnd="28dp"
                     android:paddingBottom="8dp"
                     android:text="@string/addons"
-                    android:textColor="@color/other_text"
                     android:textSize="15sp" />
 
             </LinearLayout>
@@ -137,13 +136,13 @@
                     android:tag="dark" />
 
                 <TextView
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivAnalyse"
                     android:text="@string/analyse"
-                    android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -165,13 +164,13 @@
                     android:tag="dark" />
 
                 <TextView
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivStarred"
                     android:text="@string/important"
-                    android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -183,6 +182,7 @@
                 android:tag="extraLight">
 
                 <TextView
+                    style="@style/OtherText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="56dp"
@@ -190,7 +190,6 @@
                     android:paddingEnd="28dp"
                     android:paddingBottom="8dp"
                     android:text="@string/settings"
-                    android:textColor="@color/other_text"
                     android:textSize="15sp" />
 
             </LinearLayout>
@@ -213,13 +212,13 @@
                     android:tag="dark" />
 
                 <TextView
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivGeneral"
                     android:text="@string/general"
-                    android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -241,13 +240,13 @@
                     android:tag="dark" />
 
                 <TextView
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivNotifications"
                     android:text="@string/notifications"
-                    android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -269,13 +268,13 @@
                     android:tag="dark" />
 
                 <TextView
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivAppearance"
                     android:text="@string/appearance"
-                    android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -297,13 +296,13 @@
                     android:tag="dark" />
 
                 <TextView
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivPin"
                     android:text="@string/pin_settings"
-                    android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -315,6 +314,7 @@
                 android:tag="extraLight">
 
                 <TextView
+                    style="@style/OtherText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="56dp"
@@ -322,7 +322,6 @@
                     android:paddingEnd="28dp"
                     android:paddingBottom="8dp"
                     android:text="@string/about_app"
-                    android:textColor="@color/other_text"
                     android:textSize="15sp" />
 
             </LinearLayout>
@@ -345,13 +344,13 @@
                     android:tag="dark" />
 
                 <TextView
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivFeedback"
                     android:text="@string/feedback"
-                    android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -373,13 +372,13 @@
                     android:tag="dark" />
 
                 <TextView
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivRate"
                     android:text="@string/rate"
-                    android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -401,13 +400,13 @@
                     android:tag="dark" />
 
                 <TextView
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivShare"
                     android:text="@string/share"
-                    android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -429,13 +428,13 @@
                     android:tag="dark" />
 
                 <TextView
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivPrivacy"
                     android:text="@string/privacy_policy"
-                    android:textColor="@color/main_text"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
             </RelativeLayout>
 
@@ -448,6 +447,7 @@
 
                 <TextView
                     android:id="@+id/tvAbout"
+                    style="@style/OtherText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -456,7 +456,6 @@
                     android:paddingEnd="12dp"
                     android:paddingBottom="8dp"
                     android:text="@string/aboutbig"
-                    android:textColor="@color/other_text"
                     android:textSize="13sp" />
 
             </LinearLayout>

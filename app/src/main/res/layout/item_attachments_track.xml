@@ -27,21 +27,21 @@
 
         <TextView
             android:id="@+id/tvTitle"
+            style="@style/MainText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
+            android:textSize="17sp"
             tools:text="Titlee" />
 
         <TextView
             android:id="@+id/tvArtist"
+            style="@style/OtherText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/other_text"
-            android:textSize="13sp"
+            android:textSize="14sp"
             tools:text="Artist" />
 
     </LinearLayout>
@@ -64,13 +64,13 @@
 
         <TextView
             android:id="@+id/tvDuration"
+            style="@style/OtherText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivCached"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="6dp"
-            android:textColor="@color/other_text"
-            android:textSize="12sp"
+            android:textSize="13sp"
             tools:text="13:37" />
 
     </RelativeLayout>

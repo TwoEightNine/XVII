@@ -19,7 +19,6 @@ class EmojiKeyboard(
     override fun createView(): View {
         val view = View.inflate(context, R.layout.popup_emoji, null)
         val vpEmoji = view.findViewById<ViewPager>(R.id.viewPager)
-//        val tabs = view.findViewById(R.id.tabs) as TabLayout
         val pagerAdapter = EmojiPagerAdapter {
             onEmojiClick.invoke(it)
             val emojis = Prefs.recentEmojis

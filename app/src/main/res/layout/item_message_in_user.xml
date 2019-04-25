@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -26,28 +27,28 @@
 
             <TextView
                 android:id="@+id/tvDate"
+                style="@style/OtherText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
                 android:maxLines="1"
-                android:text="26.12.2923 32.19"
-                android:textColor="@color/other_text"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                tools:text="26.12.2923 32.19" />
 
 
             <TextView
                 android:id="@+id/tvBody"
+                style="@style/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
                 android:autoLink="web"
-                android:text="mgae"
-                android:textColor="@color/main_text"
                 android:textColorLink="@color/link_color"
-                android:textSize="@dimen/chat_message_text_size" />
+                android:textSize="@dimen/chat_message_text_size"
+                tools:text="mgae" />
 
             <LinearLayout
                 android:id="@+id/llMessageContainer"

@@ -44,7 +44,7 @@
 
                         <TextView
                             android:id="@+id/tvName"
-                            style="@style/TextViewStyle.Large"
+                            style="@style/MainText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -52,16 +52,17 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="12dp"
                             android:gravity="center"
+                            android:textSize="23sp"
                             tools:text="name name" />
 
                         <TextView
                             android:id="@+id/tvLastSeen"
+                            style="@style/OtherText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginBottom="4dp"
-                            android:textColor="@color/other_text"
-                            android:textSize="13sp"
+                            android:textSize="14sp"
                             tools:text="sdsdsdsdsd" />
 
                         <LinearLayout
@@ -88,7 +89,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="5dp"
-                                    android:text="289"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="17"
                                     android:textColor="@color/toolbar_text"
                                     android:textSize="28sp" />
 
@@ -97,6 +99,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginBottom="5dp"
+                                    android:fontFamily="sans-serif-light"
                                     android:text="@string/friends"
                                     android:textColor="@color/toolbar_subtext" />
 
@@ -114,7 +117,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="5dp"
-                                    android:text="289"
+                                    android:fontFamily="sans-serif-light"
+                                    android:text="53"
                                     android:textColor="@color/toolbar_text"
                                     android:textSize="28sp" />
 
@@ -123,6 +127,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginBottom="5dp"
+                                    android:fontFamily="sans-serif-light"
                                     android:text="@string/followers"
                                     android:textColor="@color/toolbar_subtext" />
 
@@ -145,6 +150,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="12dp"
+                                android:fontFamily="sans-serif-light"
                                 android:text="@string/open_chat"
                                 android:textColor="@color/toolbar_text"
                                 android:textSize="18sp" />

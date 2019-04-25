@@ -1,120 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/popup"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/llCopy"
-        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true">
 
         <TextView
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
-            android:text="@string/copy"
-            android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
+            android:text="@string/copy"
+            style="@style/MainText"
+            android:textSize="17sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llEdit"
-        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true">
 
         <TextView
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
-            android:text="@string/edit"
-            android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
+            android:text="@string/edit"
+            style="@style/MainText"
+            android:textSize="17sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llReply"
-        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true">
 
         <TextView
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
-            android:text="@string/reply"
-            android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
+            android:text="@string/reply"
+            style="@style/MainText"
+            android:textSize="17sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llForward"
-        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true">
 
         <TextView
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
-            android:text="@string/forward"
-            android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
+            android:text="@string/forward"
+            style="@style/MainText"
+            android:textSize="17sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llDelete"
-        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true">
 
         <TextView
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
-            android:text="@string/delete"
-            android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
+            android:text="@string/delete"
+            style="@style/MainText"
+            android:textSize="17sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llDecrypt"
-        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true">
 
         <TextView
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
-            android:text="@string/decrypt"
-            android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
+            android:text="@string/decrypt"
+            style="@style/MainText"
+            android:textSize="17sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llMarkImportant"
-        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="true">
 
         <TextView
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
-            android:text="@string/markasimportant"
-            android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin16"
+            android:text="@string/markasimportant"
+            style="@style/MainText"
+            android:textSize="17sp" />
 
     </LinearLayout>
 

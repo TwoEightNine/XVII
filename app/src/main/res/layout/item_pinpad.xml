@@ -5,9 +5,9 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:layout_margin="2dp"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
         android:background="@drawable/selector_pinpad">
 
         <TextView
@@ -15,8 +15,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:fontFamily="sans-serif-light"
             android:textColor="@color/toolbar_text"
-            android:textSize="40sp"
+            android:textSize="44sp"
             tools:text="4" />
 
     </RelativeLayout>

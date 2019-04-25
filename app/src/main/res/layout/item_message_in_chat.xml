@@ -41,21 +41,21 @@
 
                     <TextView
                         android:id="@+id/tvName"
+                        style="@style/MainText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:maxLines="2"
-                        android:textColor="@color/main_text"
                         android:textSize="13sp"
                         tools:text="Misdsdsdta Sisdsdsdnista" />
 
                     <TextView
                         android:id="@+id/tvDate"
+                        style="@style/OtherText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:maxLines="1"
-                        android:textColor="@color/other_text"
                         android:textSize="10sp"
                         tools:text="26.01.2016 12.34" />
 
@@ -65,13 +65,13 @@
 
             <TextView
                 android:id="@+id/tvBody"
+                style="@style/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
                 android:autoLink="web"
-                android:textColor="@color/main_text"
                 android:textColorLink="@color/link_color"
                 android:textSize="@dimen/chat_message_text_size"
                 tools:text="sfsdf dfsfsfsfsffdsfdsg " />

@@ -20,10 +20,11 @@
         android:layout_marginStart="16dp"
         android:layout_toStartOf="@+id/ivDelete"
         android:background="@android:color/transparent"
+        android:fontFamily="sans-serif-light"
         android:hint="@string/search_hint"
         android:maxLines="1"
         android:textColor="@color/main_text"
         android:textColorHint="@color/other_text"
-        android:textSize="16sp" />
+        android:textSize="17sp" />
 
 </RelativeLayout>

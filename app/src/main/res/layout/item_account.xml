@@ -31,16 +31,18 @@
 
                 <TextView
                     android:id="@+id/tvAccount"
-                    style="@style/TextViewStyle.Medium"
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="19sp"
                     tools:text="sdsd" />
 
                 <TextView
                     android:id="@+id/tvId"
-                    style="@style/TextViewStyle.Small.Gray"
+                    style="@style/OtherText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="15sp"
                     tools:text="id8778343" />
 
             </LinearLayout>

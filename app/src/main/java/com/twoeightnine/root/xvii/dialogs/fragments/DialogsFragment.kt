@@ -76,9 +76,7 @@ open class DialogsFragment : BaseFragment() {
     }
 
     protected open fun onClick(dialog: Dialog) {
-//        rootActivity?.loadFragment(ChatFragment.newInstance(dialog))
         ChatActivity.launch(context, dialog.peerId, dialog.alias ?: dialog.title, dialog.isOnline)
-//        rootActivity?.loadFragment(ChatMessagesFragment.newInstance(dialog.peerId))
     }
 
     protected open fun onLongClick(dialog: Dialog) {
@@ -91,10 +89,13 @@ open class DialogsFragment : BaseFragment() {
                 R.id.llDelete -> showDeleteDialog(context) {
                     viewModel.deleteDialog(dialog)
                 }
-                R.id.llAlias -> TextInputAlertDialog(contextOrThrow, getString(R.string.alias),
-                        dialog.title, dialog.alias ?: dialog.title, { newAlias ->
+                R.id.llAlias -> TextInputAlertDialog(
+                        contextOrThrow,
+                        dialog.title,
+                        dialog.alias ?: dialog.title
+                ) { newAlias ->
                     viewModel.addAlias(dialog, newAlias)
-                }).show()
+                }.show()
             }
         }.show()
     }

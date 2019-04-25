@@ -47,18 +47,19 @@
 
 
                 <TextView
+                    style="@style/MainText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="24dp"
                     android:text="@string/chat_back"
-                    android:textColor="@color/main_text"
-                    android:textSize="15sp" />
+                    android:textSize="16sp" />
 
             </RelativeLayout>
 
             <Switch
                 android:id="@+id/switchNight"
+                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -66,8 +67,7 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:text="@string/light_theme"
-                android:textColor="@color/main_text"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvDarkSample"
@@ -108,10 +108,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true"
+                                    android:fontFamily="sans-serif-light"
                                     android:text="@string/sample_text"
                                     android:textColor="#fff"
-                                    android:textSize="36dp"
-                                    android:textStyle="bold" />
+                                    android:textSize="36dp" />
 
                             </RelativeLayout>
 
@@ -125,10 +125,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
+                                android:fontFamily="sans-serif-light"
                                 android:text="@string/sample_text"
                                 android:textColor="#fff"
-                                android:textSize="36dp"
-                                android:textStyle="bold" />
+                                android:textSize="36dp" />
 
                         </RelativeLayout>
 
@@ -158,6 +158,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginEnd="4dp"
+                                            android:fontFamily="sans-serif-light"
                                             android:text="@string/sample_text"
                                             android:textColor="#ddd"
                                             android:textSize="20dp" />
@@ -165,6 +166,7 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="sans-serif-light"
                                             android:text="@string/sample_text"
                                             android:textColor="#aaa"
                                             android:textSize="16dp" />
@@ -201,6 +203,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginEnd="4dp"
+                                            android:fontFamily="sans-serif-light"
                                             android:text="@string/sample_text"
                                             android:textColor="#ddd"
                                             android:textSize="20dp" />
@@ -208,6 +211,7 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:fontFamily="sans-serif-light"
                                             android:text="@string/sample_text"
                                             android:textColor="#aaa"
                                             android:textSize="16dp" />
@@ -272,10 +276,10 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerInParent="true"
+                                        android:fontFamily="sans-serif-light"
                                         android:text="@string/sample_text"
                                         android:textColor="#fff"
-                                        android:textSize="36dp"
-                                        android:textStyle="bold" />
+                                        android:textSize="36dp" />
 
                                 </RelativeLayout>
 
@@ -289,10 +293,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true"
+                                    android:fontFamily="sans-serif-light"
                                     android:text="@string/sample_text"
                                     android:textColor="#fff"
-                                    android:textSize="36dp"
-                                    android:textStyle="bold" />
+                                    android:textSize="36dp" />
 
                             </RelativeLayout>
 
@@ -322,6 +326,7 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginEnd="4dp"
+                                                android:fontFamily="sans-serif-light"
                                                 android:text="@string/sample_text"
                                                 android:textColor="#222"
                                                 android:textSize="20dp" />
@@ -329,6 +334,7 @@
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
+                                                android:fontFamily="sans-serif-light"
                                                 android:text="@string/sample_text"
                                                 android:textColor="#444"
                                                 android:textSize="16dp" />
@@ -365,6 +371,7 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginEnd="4dp"
+                                                android:fontFamily="sans-serif-light"
                                                 android:text="@string/sample_text"
                                                 android:textColor="#222"
                                                 android:textSize="20dp" />
@@ -372,6 +379,7 @@
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
+                                                android:fontFamily="sans-serif-light"
                                                 android:text="@string/sample_text"
                                                 android:textColor="#444"
                                                 android:textSize="16dp" />
@@ -447,6 +455,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:fontFamily="sans-serif-light"
                 android:textColor="@color/toolbar_text"
                 android:textSize="18sp"
                 tools:text="Tut ya viebal ves russkiy IT" />

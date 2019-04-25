@@ -1,6 +1,5 @@
 package com.twoeightnine.root.xvii.views.emoji
 
-import androidx.viewpager.widget.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
@@ -47,7 +46,7 @@ class EmojiPagerAdapter(private var listener: (Emoji) -> Unit) : androidx.viewpa
                     6 -> getString(R.string.symbols)
                     7 -> getString(R.string.other)
                     else -> getString(R.string.recent)
-                }.toUpperCase()
+                }
             }
 
 

@@ -134,8 +134,8 @@ class PinActivity : BaseActivity() {
         val dialog = AlertDialog.Builder(this)
                 .setTitle(R.string.reset_pin)
                 .setMessage(R.string.reset_pin_desc)
-                .setPositiveButton(android.R.string.ok) { _, _ -> resetPin() }
-                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.ok) { _, _ -> resetPin() }
+                .setNegativeButton(R.string.cancel, null)
                 .create()
 
         dialog.show()

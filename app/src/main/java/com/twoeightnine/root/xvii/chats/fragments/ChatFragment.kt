@@ -164,7 +164,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
         ivMenuMulti.setOnClickListener { showMultiSelectPopup() }
         ivForwardMulti.setOnClickListener {
-//            rootActivity.loadFragment(DialogsForwardFragment.newInstance(getSelectedMessageIds()))
+            //            rootActivity.loadFragment(DialogsForwardFragment.newInstance(getSelectedMessageIds()))
         }
         ivReplyMulti.setOnClickListener {
             attachedAdapter.fwdMessages = getSelectedMessageIds()
@@ -214,7 +214,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 .setMessage(R.string.wanna_delete_messages)
                 .setNeutralButton(R.string.delete_for_all) { _, _ -> callback.invoke(true) }
                 .setPositiveButton(R.string.delete_only_for_me) { _, _ -> callback.invoke(false) }
-                .setNegativeButton(android.R.string.cancel, null)
+                .setNegativeButton(R.string.cancel, null)
                 .create()
         dialog.show()
         Style.forDialog(dialog)
@@ -222,12 +222,9 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     private fun showEditMessageDialog(message: Message) {
         if (message.isOut && time() - message.date < 3600 * 24) {
-            TextInputAlertDialog(
-                    safeContext,
-                    getString(R.string.edit_message), "",
-                    message.body,
-                    { presenter.editMessage(message.id, it) }
-            ).show()
+            TextInputAlertDialog(safeContext, "", message.body) {
+                presenter.editMessage(message.id, it)
+            }.show()
         } else {
             showError(context, R.string.unable_to_edit_message)
         }
@@ -305,14 +302,12 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     private fun showKeyInputDialog() {
         TextInputAlertDialog(
                 safeActivity,
-                getString(R.string.user_key),
-                getString(R.string.secure_length), "", {
+                getString(R.string.user_key), "") {
             presenter.setUserKey(it)
             presenter.isEncrypted = true
             safeActivity.invalidateOptionsMenu()
             showToast(activity, getString(R.string.key_set))
-        }
-        ).show()
+        }.show()
     }
 
     private fun onSend(text: String) {
@@ -334,7 +329,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     private fun onAttachClicked(attachment: Attachment) {
-        when(attachment.type) {
+        when (attachment.type) {
             Attachment.TYPE_PHOTO -> attachment.photo?.let {
                 ImageViewerActivity.viewImages(context, arrayListOf(it))
             }
@@ -489,7 +484,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     private fun keyGenerationHint() {
         val alertDialog = AlertDialog.Builder(safeContext)
                 .setMessage(R.string.generation_dh_hint)
-                .setPositiveButton(android.R.string.ok, { _, _ -> presenter.startKeyExchange() })
+                .setPositiveButton(R.string.ok, { _, _ -> presenter.startKeyExchange() })
                 .create()
         alertDialog.show()
         Style.forDialog(alertDialog)

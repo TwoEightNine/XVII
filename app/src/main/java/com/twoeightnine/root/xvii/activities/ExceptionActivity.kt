@@ -49,10 +49,11 @@ class ExceptionActivity : AppCompatActivity() {
     private fun showDialog(error: String) {
         val dialog = TextInputAlertDialog(
                 this,
-                getString(R.string.describe_actions),
-                getString(R.string.describe_hint), "",
-                { sendError("NEW CRASH IN ${BuildConfig.VERSION_NAME}:\n$it\n$error") }
-        )
+                getString(R.string.describe_actions)
+        ) {
+            sendError("NEW CRASH IN ${BuildConfig.VERSION_NAME}:\n$it\n$error")
+        }
+
         dialog.show()
     }
 

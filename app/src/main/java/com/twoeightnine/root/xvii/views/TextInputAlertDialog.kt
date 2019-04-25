@@ -1,59 +1,36 @@
 package com.twoeightnine.root.xvii.views
 
-import android.app.AlertDialog
 import android.content.Context
-import android.text.InputFilter
-import android.text.Spanned
+import android.content.DialogInterface
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Style
-import kotlinx.android.synthetic.main.chat_input_panel.*
-import kotlinx.android.synthetic.main.dialog_enter_text.view.*
+import com.twoeightnine.root.xvii.utils.asText
+import kotlinx.android.synthetic.main.dialog_comment.view.*
 
-class TextInputAlertDialog(context: Context,
-                           var title: String,
-                           hint: String,
-                           presetText: String = "",
-                           var listener: ((String) -> Unit)? = null,
-                           stylize: Boolean = true,
-                           useFilter: Boolean = false) : AlertDialog(context) {
+class TextInputAlertDialog(
+    context: Context,
+    hint: String,
+    presetText: String = "",
+    private val onCommentAdded: (String) -> Unit
+) : AlertDialog(context) {
 
     init {
-        val view = View.inflate(context, R.layout.dialog_enter_text, null)
+        val view = View.inflate(context, R.layout.dialog_comment, null)
         with(view) {
-            ivDone.setOnClickListener {
-                listener?.invoke(etInput.text.toString())
-                dismiss()
-            }
-            tvTitle.text = title
-            etInput.hint = hint
-            etInput.setText(presetText)
-            if (useFilter) {
-                val filter = object : InputFilter {
-                    override fun filter(source: CharSequence?, start: Int, end: Int, p3: Spanned?, p4: Int, p5: Int): CharSequence? {
-                        if (source == null) return null
-                        for (i in start until end) {
-                            if (!isPrintable(source[i])) {
-                                return ""
-                            }
-                        }
-                        return null
-                    }
-                }
-                etInput.filters = arrayOf(filter)
-            }
-            if (stylize) {
-                Style.forImageView(ivDone, Style.DARK_TAG)
-                val d2 = rlInputContainer.background
-                Style.forFrame(d2)
-                rlInputContainer.background = d2
-            }
+            etComment.hint = hint
+            etComment.setText(presetText)
         }
         setView(view)
+        setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.ok)) { _, _ ->
+            onCommentAdded(view.etComment.asText())
+            dismiss()
+        }
     }
 
-    private fun isPrintable(c: Char) = c.toByte() in 48..57 ||
-            c.toByte() in 65..90 ||
-            c.toByte() in 97..122
-
+    override fun show() {
+        super.show()
+        Style.forDialog(this)
+    }
 }

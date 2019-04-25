@@ -137,6 +137,29 @@ class CryptoEngine(
                 }
     }
 
+    /**
+     * returns:
+     *      - flag is file is verified
+     *      - path of decrypted file
+     */
+    @SuppressLint("CheckResult")
+    fun decryptFile(context: Context, path: String, onDecrypted: (Boolean, String?) -> Unit) {
+        Single.fromCallable {
+            val bytes = getBytesFromFile(context, path)
+            Cipher.decrypt(bytes, key)
+        }
+                .compose(applySingleSchedulers())
+                .subscribe { cipherResult ->
+                    if (!cipherResult.verified || cipherResult.bytes == null) {
+                        onDecrypted(false, null)
+                    } else {
+                        val resultName = "${getNameFromUrl(path)}${CryptoUtil.EXTENSION}"
+                        val cipherPath = writeBytesToFile(context, cipherResult.bytes, resultName)
+                        onDecrypted(true, cipherPath)
+                    }
+                }
+    }
+
     companion object {
 
         const val DATA_PREFIX = "xvii{"

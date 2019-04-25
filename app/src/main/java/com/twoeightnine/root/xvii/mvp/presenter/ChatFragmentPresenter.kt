@@ -101,7 +101,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                     insertUsers(history, withClear, cache)
                     if (peerId.matchesUserId()) {
                         val user = response.find { it.id == peerId }
-
                         user?.let { view?.onChangeOnline(it.isOnline, it.lastSeen?.time ?: 0) }
                     }
                 }, { error ->
@@ -308,7 +307,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         )
                 .subscribeSmart({
                     val att = Attachment(it[0])
-//                    attachUtils.add(att)
                     if (isSticker) {
                         send("")
                     }
@@ -352,7 +350,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         api.saveDoc(file)
                 .subscribeSmart({ response ->
                     if (response.size > 0) {
-//                        attachUtils.add(Attachment(response[0]))
                         view?.onVoiceUploaded(path)
                         send("", attachments = response[0].getId())
                     }
@@ -391,7 +388,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         api.saveDoc(file)
                 .subscribeSmart({
                     val att = Attachment(it[0])
-//                    attachUtils.add(att)
                     view?.onPhotoUploaded(path, att)
                 }, { error ->
                     Lg.wtf("saving doc error: $error")
@@ -431,7 +427,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         }
         return ids.toMutableList()
     }
-
 
     fun startKeyExchange() {
         timeUpSubscription = Flowable.just(true)

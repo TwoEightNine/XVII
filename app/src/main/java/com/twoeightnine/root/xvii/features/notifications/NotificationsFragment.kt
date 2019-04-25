@@ -129,7 +129,6 @@ class NotificationsFragment : BaseOldFragment() {
                             eggState = -2
                             handler.postDelayed({ switchEgg.isChecked = false }, 500L)
                             handler.postDelayed({
-//                                rootActivity.loadFragment(EggFragment.newInstance(EggFragment.MODE_LETOV_AGAINST))
                                 EggActivity.launch(context, EggFragment.MODE_LETOV_AGAINST)
                             }, 1000L)
                         }

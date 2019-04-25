@@ -206,6 +206,8 @@
     <string name="accounts_hint">tap to manage</string>
     <string name="sample_text" translatable="false">xvii</string>
     <string name="search_hint">search</string>
+    <string name="ok" translatable="false">ok</string>
+    <string name="cancel" translatable="false">cancel</string>
 
     <string name="no_access_to_mic">no access to the mic</string>
     <string name="no_access_to_storage">no access to the storage</string>

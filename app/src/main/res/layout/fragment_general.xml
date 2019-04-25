@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/big_margin"
@@ -22,33 +22,33 @@
 
             <Switch
                 android:id="@+id/switchOffline"
+                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_margin="8dp"
                 android:text="@string/beoffline"
-                android:textColor="@color/main_text"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <Switch
                 android:id="@+id/switchTyping"
+                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_margin="8dp"
                 android:text="@string/show_typing"
-                android:textColor="@color/main_text"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <Switch
                 android:id="@+id/switchRead"
+                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_margin="8dp"
                 android:text="@string/markasread"
-                android:textColor="@color/main_text"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <!--<Switch-->
             <!--android:id="@+id/switchManualUpd"-->
@@ -57,20 +57,21 @@
             <!--android:layout_gravity="right"-->
             <!--android:layout_margin="@dimen/frame_pad"-->
             <!--android:text="@string/manual_update"-->
-            <!--android:textColor="@color/main_text" />-->
+            <!--style="@style/MainText" />-->
 
             <Switch
                 android:id="@+id/switchStoreKeys"
+                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_margin="8dp"
                 android:text="@string/store_keys"
-                android:textColor="@color/main_text"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tvClearCache"
+                style="@style/OtherText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -79,8 +80,7 @@
                 android:focusable="true"
                 android:padding="8dp"
                 android:text="@string/clear_cache"
-                android:textColor="@color/other_text"
-                android:textSize="16sp" />
+                android:textSize="17sp" />
 
             <!--<Switch-->
             <!--android:visibility="gone"-->
@@ -89,17 +89,18 @@
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_gravity="right"-->
             <!--android:layout_margin="@dimen/frame_pad"-->
-            <!--android:textColor="@color/main_text"-->
+            <!--style="@style/MainText"-->
             <!--android:text="@string/assertion_enable" />-->
 
             <TextView
-                style="@style/TextViewStyle.Small"
+                style="@style/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
                 android:padding="8dp"
-                android:text="@string/offline_hint" />
+                android:text="@string/offline_hint"
+                android:textSize="15sp" />
 
 
         </LinearLayout>

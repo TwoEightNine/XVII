@@ -26,20 +26,20 @@
 
         <TextView
             android:id="@+id/tvTitle"
+            style="@style/MainText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:textColor="@color/main_text"
-            android:textSize="16sp"
+            android:textSize="17sp"
             tools:text="Titlee" />
 
         <TextView
             android:id="@+id/tvCaption"
+            style="@style/OtherText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/other_text"
             android:textSize="13sp"
             tools:text="Captionhtgyhrty65yyrty" />
 

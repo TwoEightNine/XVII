@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="256dp"
     android:layout_height="40dp">
 
     <TextView
-        android:layout_centerInParent="true"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:text="@string/wall_post"
-        android:textColor="@color/main_text"
+        style="@style/MainText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/wall_post"
+        android:textSize="24sp" />
 
 
 </RelativeLayout>

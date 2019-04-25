@@ -29,8 +29,7 @@ fun bytesToHex(bytes: ByteArray) = bytes
 
 fun getUiFriendlyHash(hash: String) = hash
         .mapIndexed { index, c -> if (index % 2 == 0) c.toString() else "$c " } // spaces
-        .mapIndexed { index, s -> if (index % 16 == 15) "$s\n" else s } // new-lines
-        .map { it.toUpperCase() }
+        .mapIndexed { index, s -> if (index % 16 == 15) "$s\n" else s } // new lines
         .joinToString(separator = "")
 
 fun getRandomBytes(numBytes: Int): ByteArray {

@@ -8,13 +8,14 @@ import android.util.TypedValue
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.copyToClip
 
 class LgAlertDialog(context: Context) : AlertDialog(context) {
 
     init {
         setMessage(Lg.getEvents())
-        setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok)) { _, _ ->
+        setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.ok)) { _, _ ->
             dismiss()
         }
         setButton(DialogInterface.BUTTON_NEUTRAL, context.getString(R.string.copy)) { _, _ ->
@@ -28,6 +29,11 @@ class LgAlertDialog(context: Context) : AlertDialog(context) {
             typeface = Typeface.MONOSPACE
             setTextSize(TypedValue.COMPLEX_UNIT_SP, FONT_SIZE)
         }
+    }
+
+    override fun show() {
+        super.show()
+        Style.forDialog(this, keepFont = true)
     }
 
     companion object {

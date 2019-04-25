@@ -70,7 +70,7 @@ fun getGif(doc: Doc, context: Context): View {
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
             .into(ivVideo)
-    included.findViewById<TextView>(R.id.tvDuration).text = "GIF"
+    included.findViewById<TextView>(R.id.tvDuration).text = "gif"
     included.setOnClickListener { GifViewerActivity.showGif(context, doc) }
     return included
 }

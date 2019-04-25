@@ -107,4 +107,9 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
+    <style name="TitleStripText" parent="MainText">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

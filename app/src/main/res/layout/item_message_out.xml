@@ -36,17 +36,18 @@
 
             <TextView
                 android:id="@+id/tvDate"
+                style="@style/OtherText"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:maxLines="1"
-                android:textColor="@color/other_text"
                 android:textSize="10sp"
                 tools:text="12.34" />
 
 
             <TextView
                 android:id="@+id/tvBody"
+                style="@style/MainText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
@@ -55,7 +56,6 @@
                 android:autoLink="web"
                 android:gravity="start"
                 android:minWidth="80dp"
-                android:textColor="@color/main_text"
                 android:textColorLink="@color/link_color"
                 android:textSize="@dimen/chat_message_text_size"
                 tools:text="ddjhjh" />

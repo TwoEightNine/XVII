@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.Typeface
 import android.graphics.drawable.*
 import android.util.Log
 import android.view.View
@@ -18,12 +19,13 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
-import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.pxFromDp
 
 object Style {
     private var STROKE = 3
+
+    val SANS_SERIF_LIGHT = Typeface.create("sans-serif-light", Typeface.NORMAL)
 
     const val PHOTO_STUB_URL = "https://dummyimage.com/200x200/%s/%s.png"
 
@@ -236,16 +238,62 @@ object Style {
 //        pb.progressTintList = ColorStateList.valueOf(mainColor)
     }
 
-    fun forDialog(dialog: AlertDialog?) {
+    fun forDialog(dialog: AlertDialog?, keepFont: Boolean = false) {
         if (dialog == null) return
-        val context = App.context
-        dialog.findViewById<View>(R.id.contentPanel)?.setBackgroundColor(ContextCompat.getColor(context, R.color.popup))
-        dialog.findViewById<View>(R.id.buttonPanel)?.setBackgroundColor(ContextCompat.getColor(context, R.color.popup))
-        dialog.findViewById<View>(R.id.topPanel)?.setBackgroundColor(ContextCompat.getColor(context, R.color.popup))
-        dialog.findViewById<DialogTitle>(R.id.alertTitle)?.setTextColor(ContextCompat.getColor(context, R.color.main_text))
-        dialog.findViewById<TextView>(android.R.id.message)?.setTextColor(ContextCompat.getColor(context, R.color.main_text))
-        dialog.findViewById<Button>(android.R.id.button1)?.setTextColor(ContextCompat.getColor(context, R.color.other_text))
-        dialog.findViewById<Button>(android.R.id.button2)?.setTextColor(ContextCompat.getColor(context, R.color.other_text))
+
+        with(dialog) {
+            val mainText = ContextCompat.getColor(context, R.color.main_text)
+            val otherText = ContextCompat.getColor(context, R.color.other_text)
+            val popupColor = ContextCompat.getColor(context, R.color.popup)
+
+            findViewById<View>(R.id.contentPanel)?.setBackgroundColor(popupColor)
+            findViewById<View>(R.id.buttonPanel)?.setBackgroundColor(popupColor)
+            findViewById<View>(R.id.topPanel)?.setBackgroundColor(popupColor)
+
+            findViewById<TextView>(android.R.id.message)?.apply {
+                if (!keepFont) {
+                    typeface = SANS_SERIF_LIGHT
+                    textSize = 18f
+                }
+                setTextColor(mainText)
+            }
+            findViewById<DialogTitle>(R.id.alertTitle)?.apply {
+                typeface = SANS_SERIF_LIGHT
+                textSize = 20f
+                setTextColor(mainText)
+            }
+            for (btn in arrayListOf(
+                    findViewById<Button>(android.R.id.button1),
+                    findViewById<Button>(android.R.id.button2),
+                    findViewById<Button>(android.R.id.button3)
+            )) {
+                btn?.apply {
+                    typeface = SANS_SERIF_LIGHT
+                    textSize = 18f
+                    isAllCaps = false
+                    setTextColor(otherText)
+                }
+
+            }
+//            findViewById<Button>(android.R.id.button1)?.apply {
+//                typeface = SANS_SERIF_LIGHT
+//                textSize = 18f
+//                isAllCaps = false
+//                setTextColor(otherText)
+//            }
+//            findViewById<Button>(android.R.id.button2)?.apply {
+//                typeface = SANS_SERIF_LIGHT
+//                textSize = 18f
+//                isAllCaps = false
+//                setTextColor(otherText)
+//            }
+//            findViewById<Button>(android.R.id.button3)?.apply {
+//                typeface = SANS_SERIF_LIGHT
+//                textSize = 18f
+//                isAllCaps = false
+//                setTextColor(otherText)
+//            }
+        }
     }
 
     private fun ignore(): Boolean {

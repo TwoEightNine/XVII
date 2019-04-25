@@ -23,7 +23,7 @@ class FingerPrintAlertDialog(context: Context,
         with(view) {
             tvPrint.text = getUiFriendlyHash(fingerprint)
             ivGravatar.loadRounded("https://www.gravatar.com/avatar/$fingerprint?s=256&d=identicon&r=PG")
-            tvKeyType.text = context.getString(R.string.key_type, context.getString(keyType.stringRes).toUpperCase())
+            tvKeyType.text = context.getString(R.string.key_type, context.getString(keyType.stringRes))
             if (keyType == CryptoUtil.KeyType.DEFAULT) {
                 tvKeyType.setTextColor(ContextCompat.getColor(context, R.color.error))
             }

@@ -35,7 +35,7 @@ class ChatAdapter(context: Context,
 
     private val mediaWidth = pxFromDp(context, MEDIA_WIDTH)
 
-    override fun createHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
+    override fun createHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             OUT -> ChatViewHolder(inflater.inflate(R.layout.item_message_out, null))
             IN_CHAT -> ChatViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
@@ -59,11 +59,11 @@ class ChatAdapter(context: Context,
         }
     }
 
-    override fun onAttachedToRecyclerView(recyclerView: androidx.recyclerview.widget.RecyclerView) {
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         //        super.onAttachedToRecyclerView(recyclerView);
         layoutManager = recyclerView.layoutManager
-        recyclerView.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 isAtEnd = lastVisiblePosition() == items.size - 1
                 if (dy >= 0)
@@ -71,7 +71,7 @@ class ChatAdapter(context: Context,
 
                 val total = itemCount
                 val first = firstVisiblePosition()
-                if (!isDone && !isLoading && first <= PaginationAdapter.THRESHOLD) {
+                if (!isDone && !isLoading && first <= THRESHOLD) {
                     loader.invoke(total)
                     startLoading()
                 }

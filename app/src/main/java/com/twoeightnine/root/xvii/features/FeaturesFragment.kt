@@ -106,9 +106,7 @@ class FeaturesFragment : BaseFragment() {
     }
 
     private fun showLogDialog() {
-        val dialog = LgAlertDialog(context ?: return)
-        dialog.show()
-        Style.forDialog(dialog)
+        LgAlertDialog(context ?: return).show()
     }
 
     private fun share() {
