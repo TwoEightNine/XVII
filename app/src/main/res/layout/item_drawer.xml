@@ -19,7 +19,6 @@
     </RelativeLayout>
 
     <TextView
-        android:textAllCaps="true"
         android:layout_gravity="center_horizontal"
         android:id="@+id/tvDrawer"
         android:textColor="#fff"

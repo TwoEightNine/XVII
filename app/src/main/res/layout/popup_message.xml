@@ -111,7 +111,7 @@
         <TextView
             android:textColor="@color/main_text"
             android:textSize="16sp"
-            android:text="@string/markAsImportant"
+            android:text="@string/markasimportant"
             android:layout_margin="@dimen/margin16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

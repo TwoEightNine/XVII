@@ -92,13 +92,11 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
 
         Style.forAll(rlMultiAction)
-        Style.forViewGroupColor(rlHideBottom)
         Style.forFAB(fabHasMore)
         Style.forViewGroupColor(rlTyping)
         Style.forViewGroupColor(rlRecordingVoice)
         Style.forAll(rlBack)
         Style.forAll(rlMultiAction)
-        Style.forTabLayout(tabsBottom)
 
         forwardedMessages?.also {
             handler.postDelayed({
@@ -428,7 +426,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     override fun onShowTyping() {
         rlTyping?.show()
-        handler.postDelayed({ onHideTyping() }, 4800L)
+        handler.postDelayed({ onHideTyping() }, 5000L)
     }
 
     override fun onHideTyping() {
@@ -437,7 +435,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     override fun onShowRecordingVoice() {
         rlRecordingVoice?.show()
-        handler.postDelayed({ onHideRecordingVoice() }, 4800L)
+        handler.postDelayed({ onHideRecordingVoice() }, 5000L)
     }
 
     override fun onHideRecordingVoice() {

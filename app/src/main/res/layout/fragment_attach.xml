@@ -19,6 +19,7 @@
         app:tabIndicatorColor="@color/toolbar_text"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/toolbar_text"
+        app:tabTextAppearance="@style/TabTextAppearance"
         app:tabTextColor="@color/toolbar_subtext" />
 
     <androidx.viewpager.widget.ViewPager

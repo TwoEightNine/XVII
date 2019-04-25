@@ -485,6 +485,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 if (peerId == event.peerId) {
                     if (!event.isOut()) {
                         view?.onHideTyping()
+                        view?.onChangeOnline(true, time())
                     }
                     if (TextUtils.isEmpty(event.text) || event.hasMedia()) {
                         api.getMessageById("${event.id}")

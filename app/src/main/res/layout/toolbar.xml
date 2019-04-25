@@ -6,5 +6,8 @@
     android:layout_height="?actionBarSize"
     android:background="@color/toolbar"
     android:elevation="4dp"
+    app:contentInsetStartWithNavigation="0dp"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:theme="@style/AppTheme.ToolBar" />
+    app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
+    app:theme="@style/AppTheme.ToolBar"
+    app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />

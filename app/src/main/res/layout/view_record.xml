@@ -47,7 +47,6 @@
             android:layout_centerInParent="true"
             android:maxLines="1"
             android:text="@string/mic_hint"
-            android:textAllCaps="true"
             android:textColor="#fff"
             android:textSize="14sp" />
 

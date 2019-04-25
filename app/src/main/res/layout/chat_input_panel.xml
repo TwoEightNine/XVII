@@ -51,8 +51,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:maxLength="1"
+                    android:fontFamily="sans-serif-light"
                     android:textColor="@color/toolbar_text"
-                    android:textSize="8sp"
+                    android:textSize="9sp"
                     android:textStyle="bold"
                     tools:text="3" />
 
@@ -70,12 +71,13 @@
             android:layout_toStartOf="@+id/ivKeyboard"
             android:layout_toEndOf="@+id/rlAttachContainer"
             android:background="@android:color/transparent"
+            android:fontFamily="sans-serif-light"
             android:hint="@string/write_message"
             android:inputType="textCapSentences|textMultiLine"
             android:maxLines="4"
             android:textColor="@color/main_text"
             android:textColorHint="@color/other_text"
-            android:textSize="17sp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/ivKeyboard"

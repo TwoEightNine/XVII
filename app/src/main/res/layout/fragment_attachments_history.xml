@@ -7,21 +7,22 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include layout="@layout/toolbar" />
 
         <com.google.android.material.tabs.TabLayout
-            android:elevation="4dp"
-            android:tag="main"
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tabs_height"
             android:background="@color/toolbar"
+            android:elevation="4dp"
+            android:tag="main"
             app:tabIndicatorColor="@color/toolbar_text"
             app:tabSelectedTextColor="@color/toolbar_text"
+            app:tabTextAppearance="@style/TabTextAppearance"
             app:tabTextColor="@color/toolbar_subtext" />
 
         <androidx.viewpager.widget.ViewPager
@@ -32,10 +33,10 @@
     </LinearLayout>
 
     <ProgressBar
-        android:visibility="invisible"
         android:id="@+id/loader"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
 
 </RelativeLayout>

@@ -67,7 +67,7 @@ class FeaturesFragment : BaseFragment() {
             )
         }
 
-        tvAbout.text = getString(R.string.aboutBig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
+        tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
 
         Style.forAll(llRoot)

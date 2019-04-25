@@ -455,7 +455,7 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="12dp"
                     android:paddingBottom="8dp"
-                    android:text="@string/aboutBig"
+                    android:text="@string/aboutbig"
                     android:textColor="@color/other_text"
                     android:textSize="13sp" />
 

@@ -67,4 +67,44 @@
         <item name="android:textColor">@color/main_text</item>
     </style>
 
+    <style name="MainText">
+        <item name="android:textColor">@color/main_text</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="OtherText">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/other_text</item>
+    </style>
+
+    <style name="AccentText">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
+    <style name="WhiteText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">19sp</item>
+    </style>
+
+    <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
 </resources>
