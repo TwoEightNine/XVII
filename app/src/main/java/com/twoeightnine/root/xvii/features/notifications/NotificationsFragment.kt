@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.settings.notifications
+package com.twoeightnine.root.xvii.features.notifications
 
 import android.os.Bundle
 import android.os.Handler
@@ -7,10 +7,10 @@ import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.egg.EggActivity
 import com.twoeightnine.root.xvii.egg.EggFragment
+import com.twoeightnine.root.xvii.features.notifications.color.ColorAlertDialog
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.settings.notifications.color.ColorAlertDialog
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
 /**
@@ -95,6 +95,8 @@ class NotificationsFragment : BaseOldFragment() {
         updateTitle(getString(R.string.notifications))
     }
 
+    override fun getHomeAsUpIcon() = R.drawable.ic_back
+
     private fun saveSwitches() {
         Prefs.showNotifs = switchShowNotification.isChecked
         Prefs.showName = switchShowName.isEnabled && switchShowName.isChecked
@@ -139,5 +141,9 @@ class NotificationsFragment : BaseOldFragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        fun newInstance() = NotificationsFragment()
     }
 }

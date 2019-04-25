@@ -12,7 +12,6 @@ import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.EventBus
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.subscribeSmart
@@ -49,7 +48,7 @@ class ProfileViewModel(private val api: ApiService) : ViewModel() {
         api.getUsers("$userId")
                 .subscribeSmart({ users ->
                     val user = users[0]
-                    CacheHelper.saveUserAsync(user)
+//                    CacheHelper.saveUserAsync(user)
                     userLiveData.value = Wrapper(user)
                     loadFoaf()
                 }, { error ->

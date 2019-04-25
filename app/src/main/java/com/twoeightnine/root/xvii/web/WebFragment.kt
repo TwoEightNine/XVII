@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.fragments
+package com.twoeightnine.root.xvii.web
 
 import android.os.Bundle
 import android.view.Menu
@@ -31,6 +31,8 @@ class WebFragment : BaseFragment() {
         }
         webView.loadUrl(url)
     }
+
+    override fun getHomeAsUpIcon() = R.drawable.ic_back
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

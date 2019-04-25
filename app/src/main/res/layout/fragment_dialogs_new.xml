@@ -5,13 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <include layout="@layout/toolbar" />
-
     <com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="?actionBarSize">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDialogs"

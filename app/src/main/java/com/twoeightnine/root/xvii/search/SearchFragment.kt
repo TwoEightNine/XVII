@@ -14,7 +14,6 @@ import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.hideKeyboard
 import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.showKeyboard
 import com.twoeightnine.root.xvii.utils.subscribeSearch
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.view_search.*
@@ -44,14 +43,6 @@ class SearchFragment : BaseFragment() {
         Style.forAll(llEmptyView)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        // remove later
-        etSearch.requestFocus()
-        activity?.also { showKeyboard(it) }
-    }
-
     private fun updateResults(data: Wrapper<ArrayList<Dialog>>) {
         if (data.data != null) {
             adapter.update(data.data)
@@ -61,7 +52,6 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun onClick(dialog: Dialog) {
-//        rootActivity?.loadFragment(ChatFragment.newInstance(dialog))
         ChatActivity.launch(context, dialog.peerId, dialog.title, dialog.isOnline)
     }
 

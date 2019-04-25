@@ -1,11 +1,11 @@
-package com.twoeightnine.root.xvii.settings.fragments
+package com.twoeightnine.root.xvii.features.appearance
 
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.fragments.GalleryFragment
+import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
@@ -64,7 +64,6 @@ class AppearanceFragment : BaseOldFragment() {
         switchNight.setOnCheckedChangeListener { _, b ->
             Prefs.isLightTheme = b
             llPicker.setVisible(b)
-//            cvDarkSample.setVisible(!b)
         }
         llPicker.setVisible(isNightBefore)
         switchNight.isChecked = isNightBefore
@@ -88,16 +87,18 @@ class AppearanceFragment : BaseOldFragment() {
                 R.string.no_access_to_storage,
                 R.string.need_access_to_storage
         ) {
-            bottomSheetHelper.openBottomSheet(GalleryFragment.newInstance({
+            bottomSheetHelper.openBottomSheet(GalleryFragment.newInstance {
                 bottomSheetHelper.closeBottomSheet()
-                if (it.size > 0) {
+                if (it.isNotEmpty()) {
                     convertPhoto(it[0])
                 } else {
                     showError(activity, R.string.error)
                 }
-            }, true), getString(R.string.gallery))
+            }, getString(R.string.gallery))
         }
     }
+
+    override fun getHomeAsUpIcon() = R.drawable.ic_back
 
     private fun showDialog() {
         if (Prefs.chatBack.isNotEmpty()) {
@@ -134,10 +135,16 @@ class AppearanceFragment : BaseOldFragment() {
 
     override fun onStop() {
         super.onStop()
+        GalleryFragment.clear()
         if (isNightBefore != switchNight.isChecked ||
                 switchNight.isChecked && currentColor != colorBefore) {
             Prefs.color = currentColor
             restartApp(getString(R.string.theme_changed))
         }
+    }
+
+    companion object {
+
+        fun newInstance() = AppearanceFragment()
     }
 }

@@ -11,7 +11,8 @@ class EggActivity : ContentActivity() {
     override fun getLayoutId() = R.layout.activity_content
 
     override fun getFragment(args: Bundle?) = EggFragment.newInstance(
-            args?.getInt(EggFragment.ARG_MODE) ?: EggFragment.MODE_FIGHT_CLUB)
+            args?.getInt(EggFragment.ARG_MODE) ?: EggFragment.MODE_FIGHT_CLUB
+    )
 
     companion object {
         fun launch(context: Context?, mode: Int = EggFragment.MODE_FIGHT_CLUB) {

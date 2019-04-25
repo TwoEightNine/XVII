@@ -1,7 +1,10 @@
 package com.twoeightnine.root.xvii.dagger
 
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
-import com.twoeightnine.root.xvii.activities.*
+import com.twoeightnine.root.xvii.activities.ExceptionActivity
+import com.twoeightnine.root.xvii.activities.LoginActivity
+import com.twoeightnine.root.xvii.activities.PinActivity
+import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.analyzer.dialog.AnalyzeDialogFragment
 import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
@@ -19,7 +22,6 @@ import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersFragment
 import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
-import com.twoeightnine.root.xvii.chats.fragments.AttachedFragment
 import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.ChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
@@ -30,11 +32,13 @@ import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
+import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
+import com.twoeightnine.root.xvii.web.GifViewerActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -44,7 +48,7 @@ interface AppComponent {
 
     //activities
     fun inject(loginActivity: LoginActivity)
-
+    fun inject(mainActivity: MainActivity)
     fun inject(exceptionActivity: ExceptionActivity)
     fun inject(rootActivity: RootActivity)
     fun inject(imageViewerActivity: ImageViewerActivity)
@@ -57,7 +61,6 @@ interface AppComponent {
     fun inject(profileFragment: ProfileFragment)
     fun inject(wallPostFragment: WallPostFragment)
     fun inject(accountsFragment: AccountsFragment)
-    fun inject(attachedFragment: AttachedFragment)
     fun inject(friendsFragment: FriendsFragment)
     fun inject(dialogsFragment: DialogsFragment)
     fun inject(dialogsForwardFragment: DialogsForwardFragment)

@@ -13,7 +13,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.chats.attachments.audios.AudiosActivity
-import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
+import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesActivity
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
@@ -24,7 +24,6 @@ import com.twoeightnine.root.xvii.search.SearchActivity
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_dialogs_new.*
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 open class DialogsFragment : BaseFragment() {
@@ -38,12 +37,6 @@ open class DialogsFragment : BaseFragment() {
     }
 
     override fun getLayoutId() = R.layout.fragment_dialogs_new
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.dialogs))
-        Style.forToolbar(toolbar)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -120,7 +113,7 @@ open class DialogsFragment : BaseFragment() {
                 true
             }
             R.id.important_menu -> {
-                rootActivity?.loadFragment(StarredMessagesFragment.newInstance())
+                StarredMessagesActivity.launch(context)
                 true
             }
             R.id.menu_music -> {

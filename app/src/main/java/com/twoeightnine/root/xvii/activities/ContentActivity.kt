@@ -7,7 +7,7 @@ import com.twoeightnine.root.xvii.managers.Style
 
 abstract class ContentActivity : BaseActivity() {
 
-    abstract fun getLayoutId(): Int
+    protected open fun getLayoutId() = R.layout.activity_content
 
     abstract fun getFragment(args: Bundle?): Fragment
 

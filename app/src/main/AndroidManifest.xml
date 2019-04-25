@@ -94,11 +94,11 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activities.GifViewerActivity"
+            android:name=".web.GifViewerActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activities.VideoViewerActivity"
+            android:name=".web.VideoViewerActivity"
             android:screenOrientation="landscape" />
 
         <activity
@@ -122,12 +122,45 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".accounts.activities.AccountsActivity" />
-        <activity android:name=".chats.attachments.attachments.AttachmentsActivity" />
-        <activity android:name=".chats.attachments.attach.AttachActivity" />
-        <activity android:name=".chats.attachments.audios.AudiosActivity" />
-        <activity android:name=".search.SearchActivity" />
-        <activity android:name=".egg.EggActivity" />
+        <activity
+            android:name=".accounts.activities.AccountsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".chats.attachments.attachments.AttachmentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".chats.attachments.attach.AttachActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".chats.attachments.audios.AudiosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".search.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".egg.EggActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".wallpost.WallPostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".chats.messages.starred.StarredMessagesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".web.WebActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".features.appearance.AppearanceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".features.general.GeneralActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".features.notifications.NotificationsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.MainActivity"
+            android:windowSoftInputMode="adjustNothing" />
     </application>
 
 </manifest>

@@ -7,13 +7,10 @@
     android:focusable="true"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar" />
-
     <com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFriends"

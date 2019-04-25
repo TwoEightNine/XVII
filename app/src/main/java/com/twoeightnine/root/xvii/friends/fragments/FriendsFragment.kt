@@ -22,7 +22,6 @@ import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_friends.*
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 class FriendsFragment : BaseFragment() {
@@ -50,12 +49,6 @@ class FriendsFragment : BaseFragment() {
         swipeRefresh.setOnRefreshListener {
             viewModel.loadFriends()
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setTitle(getString(R.string.fiends))
-        Style.forToolbar(toolbar)
     }
 
     private fun updateFriends(data: Wrapper<ArrayList<User>>) {

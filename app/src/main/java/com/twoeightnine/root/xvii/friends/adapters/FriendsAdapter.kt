@@ -17,7 +17,8 @@ class FriendsAdapter(context: Context,
                      private val onClick: (User) -> Unit
 ) : BaseAdapter<User, FriendsAdapter.FriendViewHolder>(context) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FriendViewHolder(inflater.inflate(R.layout.item_user, null))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
+            = FriendViewHolder(inflater.inflate(R.layout.item_user, null))
 
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
         holder.bind(items[position])

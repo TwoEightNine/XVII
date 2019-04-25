@@ -74,7 +74,7 @@ open class BaseOldFragment: Fragment() {
             val actionBar = rootActivity?.supportActionBar
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true)
-                actionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
+                actionBar.setHomeAsUpIndicator(getHomeAsUpIcon())
                 actionBar.setHomeButtonEnabled(true)
                 actionBar.setDisplayUseLogoEnabled(false)
                 rootActivity?.let {
@@ -85,6 +85,8 @@ open class BaseOldFragment: Fragment() {
 
         }
     }
+
+    protected open fun getHomeAsUpIcon() = R.drawable.ic_menu
 
     fun setTitle(title: CharSequence) {
         toolbar?.title = title

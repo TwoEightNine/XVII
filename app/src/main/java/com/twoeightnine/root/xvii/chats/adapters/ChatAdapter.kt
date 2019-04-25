@@ -12,14 +12,13 @@ import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.isSticker
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.wallpost.WallPostFragment
+import com.twoeightnine.root.xvii.wallpost.WallPostActivity
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
 
 /**
@@ -223,7 +222,7 @@ class ChatAdapter(context: Context,
                             Attachment.TYPE_WALL -> attachment.wall?.stringId?.also { postId ->
                                 val included = LayoutInflater.from(context).inflate(R.layout.container_wall, null, false)
                                 included.setOnClickListener {
-                                    (context as? RootActivity)?.loadFragment(WallPostFragment.newInstance(postId))
+                                    WallPostActivity.launch(context, postId)
                                 }
                                 llMessageContainer.addView(included)
                             }

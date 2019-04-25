@@ -100,28 +100,18 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     private fun loadUsers(history: MutableList<Message>, withClear: Boolean = false, cache: Boolean = false) {
         val userIds = getAllIds(history)
-        CacheHelper.getUsersAsync(userIds) {
-            it.first.forEach {
-                users.put(it.id, it)
-            }
-            if (it.second.isEmpty() || cache) {
-                insertUsers(history, withClear, cache)
-                return@getUsersAsync
-            }
-            api.getUsers(it.second, User.FIELDS)
-                    .subscribeSmart({ response ->
-                        response.map { users.put(it.id, it) }
-                        insertUsers(history, withClear, cache)
-                    }, { error ->
-                        view?.showError(error)
-                    })
-        }
+        api.getUsers(userIds.joinToString(separator = ","), User.FIELDS)
+                .subscribeSmart({ response ->
+                    response.map { users.put(it.id, it) }
+                    insertUsers(history, withClear, cache)
+                }, { error ->
+                    view?.showError(error)
+                })
 
     }
 
     private fun insertUsers(history: MutableList<Message>, withClear: Boolean, cache: Boolean = false) {
-        history
-                .map { it -> setMessageTitles(users, it, 0) }
+        history.map { setMessageTitles(users, it, 0) }
                 .toMutableList()
         if (withClear) {
             view?.onHistoryClear()
@@ -171,7 +161,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
             if (Prefs.beOffline) {
                 utils.setOffline()
             }
-//            attachUtils.clear()
             view?.onAttachmentsSent()
             if (forLater.isNotEmpty()) {
                 send(forLater)

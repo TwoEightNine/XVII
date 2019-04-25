@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.settings.notifications.color
+package com.twoeightnine.root.xvii.features.notifications.color
 
 import androidx.annotation.StringRes
 

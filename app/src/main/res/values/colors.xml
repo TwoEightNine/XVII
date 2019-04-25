@@ -29,4 +29,7 @@
     <color name="error">#85252B</color>
     <color name="input_panel">@color/toolbar</color>
     <color name="avatar">#341B4B</color>
+
+    <color name="bottom_icon_enabled">#7C43B8</color>
+    <color name="bottom_icon_disabled">#474552</color>
 </resources>

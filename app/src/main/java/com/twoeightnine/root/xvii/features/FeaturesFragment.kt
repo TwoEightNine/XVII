@@ -11,24 +11,23 @@ import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
+import com.twoeightnine.root.xvii.accounts.activities.AccountsActivity
 import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
-import com.twoeightnine.root.xvii.fragments.WebFragment
+import com.twoeightnine.root.xvii.chats.ChatActivity
+import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
+import com.twoeightnine.root.xvii.features.general.GeneralActivity
+import com.twoeightnine.root.xvii.features.notifications.NotificationsActivity
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.settings.fragments.AppearanceFragment
-import com.twoeightnine.root.xvii.settings.fragments.GeneralFragment
-import com.twoeightnine.root.xvii.settings.notifications.NotificationsFragment
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.rate
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.utils.showToast
+import com.twoeightnine.root.xvii.web.WebActivity
 import kotlinx.android.synthetic.main.fragment_features.*
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 class FeaturesFragment : BaseFragment() {
@@ -48,33 +47,28 @@ class FeaturesFragment : BaseFragment() {
         viewModel.loadAccount()
 
         rlAnalyse.setOnClickListener { showToast(context, R.string.in_future_versions) }
-//        rlAnalyse.setOnClickListener { rootActivity?.loadFragment(AnalyzeDialogFragment.newInstance(1)) }
 
-        rlAccounts.setOnClickListener { rootActivity?.loadFragment(AccountsFragment.newInstance()) }
-        rlGeneral.setOnClickListener { rootActivity?.loadFragment(GeneralFragment()) }
-        rlNotifications.setOnClickListener { rootActivity?.loadFragment(NotificationsFragment()) }
-        rlAppearance.setOnClickListener { rootActivity?.loadFragment(AppearanceFragment()) }
+        rlAccounts.setOnClickListener { AccountsActivity.launch(context) }
+        rlGeneral.setOnClickListener { GeneralActivity.launch(context) }
+        rlNotifications.setOnClickListener { NotificationsActivity.launch(context) }
+        rlAppearance.setOnClickListener { AppearanceActivity.launch(context) }
         rlPin.setOnClickListener { onPinClicked() }
 
-        rlFeedback.setOnClickListener { rootActivity?.loadFragment(ChatFragment.newInstance(-App.GROUP, getString(R.string.app_name))) }
+        rlFeedback.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }
         rlRate.setOnClickListener { context?.also { rate(it) } }
         rlShare.setOnClickListener { share() }
         rlPrivacy.setOnClickListener {
-            rootActivity?.loadFragment(WebFragment.newInstance(
+            WebActivity.launch(
+                    context,
                     "file:///android_asset/privacy.html",
-                    getString(R.string.privacy_policy)))
+                    getString(R.string.privacy_policy)
+            )
         }
 
         tvAbout.text = getString(R.string.aboutBig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
 
         Style.forAll(llRoot)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.settings))
-        Style.forToolbar(toolbar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

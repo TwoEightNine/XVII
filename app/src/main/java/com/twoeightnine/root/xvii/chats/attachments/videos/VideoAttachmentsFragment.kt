@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.VideoViewerActivity
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsFragment
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.web.VideoViewerActivity
 
 class VideoAttachmentsFragment : BaseAttachmentsFragment<Video>() {
 

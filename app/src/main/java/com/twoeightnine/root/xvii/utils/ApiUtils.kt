@@ -3,13 +3,13 @@ package com.twoeightnine.root.xvii.utils
 import android.content.Context
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.VideoViewerActivity
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import javax.inject.Inject
 
 class ApiUtils @Inject constructor(val api: ApiService) {

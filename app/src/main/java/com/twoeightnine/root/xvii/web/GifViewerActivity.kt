@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.activities
+package com.twoeightnine.root.xvii.web
 
 import android.content.Context
 import android.content.Intent
@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.fragments.WebFragment
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.utils.ApiUtils
 import com.twoeightnine.root.xvii.utils.toggle

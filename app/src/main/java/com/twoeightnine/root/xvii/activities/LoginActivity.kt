@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.activities
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
@@ -13,6 +12,7 @@ import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.*
@@ -77,7 +77,8 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun toDialogs() {
-        startActivity(Intent(this, RootActivity::class.java))
+//        startActivity(Intent(this, RootActivity::class.java))
+        MainActivity.launch(this)
         startNotificationService(this)
         this.finish()
     }
@@ -153,7 +154,8 @@ class LoginActivity : BaseActivity() {
 
     private fun goNext() {
         longPollStorage.clear()
-        startActivity(Intent(this, RootActivity::class.java))
+//        startActivity(Intent(this, RootActivity::class.java))
+        MainActivity.launch(this)
         finish()
     }
 

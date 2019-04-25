@@ -6,7 +6,6 @@ import android.view.MenuInflater
 import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.VideoViewerActivity
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
@@ -19,6 +18,7 @@ import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.copyToClip
 import com.twoeightnine.root.xvii.utils.getContextPopup
 import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.web.VideoViewerActivity
 
 class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
 

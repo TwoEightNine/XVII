@@ -10,7 +10,10 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.EmojiHelper
+import com.twoeightnine.root.xvii.utils.getTime
+import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.setVisible
 import kotlinx.android.synthetic.main.item_dialog.view.*
 
 class DialogsAdapter(
@@ -52,7 +55,6 @@ class DialogsAdapter(
                 tvYou.setVisible(dialog.isOut)
                 ivPinned.setVisible(dialog.isPinned)
                 ivOnlineDot.setVisible(dialog.isOnline)
-                rlMute.hide() //setVisible(dialog.isMute)
                 ivUnreadDotOut.setVisible(!dialog.isRead && dialog.isOut)
                 rlUnreadCount.setVisible(!dialog.isRead && !dialog.isOut && dialog.unreadCount > 0)
 

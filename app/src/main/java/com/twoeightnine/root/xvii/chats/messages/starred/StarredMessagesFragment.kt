@@ -6,7 +6,6 @@ import android.view.MenuInflater
 import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.VideoViewerActivity
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
@@ -21,6 +20,7 @@ import com.twoeightnine.root.xvii.utils.copyToClip
 import com.twoeightnine.root.xvii.utils.getContextPopup
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import kotlinx.android.synthetic.main.fragment_chat_new.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -31,6 +31,8 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
     override fun inject() {
         App.appComponent?.inject(this)
     }
+
+    override fun getHomeAsUpIcon() = R.drawable.ic_back
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

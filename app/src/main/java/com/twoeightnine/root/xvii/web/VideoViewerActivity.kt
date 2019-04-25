@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.activities
+package com.twoeightnine.root.xvii.web
 
 import android.annotation.SuppressLint
 import android.content.Context

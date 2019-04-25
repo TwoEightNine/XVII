@@ -25,6 +25,7 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
@@ -158,6 +159,14 @@ fun startNotificationAlarm(context: Context) {
             minute, pendingIntent
     )
     Lg.i("notification alarm started")
+}
+
+inline fun launchActivity(context: Context?,
+                          activityClass: Class<out AppCompatActivity>,
+                          intentBlock: Intent.() -> Unit = {}) {
+    context?.startActivity(Intent(context, activityClass).apply {
+        intentBlock()
+    })
 }
 
 fun copyToClip(text: String) {

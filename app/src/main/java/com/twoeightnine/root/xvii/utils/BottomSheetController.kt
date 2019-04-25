@@ -1,7 +1,7 @@
-package com.twoeightnine.root.xvii.chats
+package com.twoeightnine.root.xvii.utils
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import android.view.View
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.twoeightnine.root.xvii.views.UserLockBottomSheetBehavior
 
 /**

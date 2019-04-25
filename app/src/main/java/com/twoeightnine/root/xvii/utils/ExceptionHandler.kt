@@ -38,7 +38,6 @@ class ExceptionHandler(private var context: Context): Thread.UncaughtExceptionHa
     }
 
     companion object {
-        const val LINE = "\n"
         const val COUNT = 60
     }
 }

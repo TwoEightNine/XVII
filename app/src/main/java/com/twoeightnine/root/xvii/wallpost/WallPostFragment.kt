@@ -117,6 +117,8 @@ class WallPostFragment : BaseOldFragment() {
         }
     }
 
+    override fun getHomeAsUpIcon() = R.drawable.ic_back
+
     private fun getGroup(fromId: Int): Group {
         for (group in postResponse.groups) {
             if (group.id == fromId) {
@@ -171,7 +173,6 @@ class WallPostFragment : BaseOldFragment() {
     }
 
     companion object {
-
         const val ARG_POST_ID = "postId"
 
         fun newInstance(postId: String): WallPostFragment {

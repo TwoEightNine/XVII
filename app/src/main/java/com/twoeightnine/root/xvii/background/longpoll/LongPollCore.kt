@@ -28,6 +28,7 @@ import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadc
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
@@ -295,7 +296,8 @@ class LongPollCore(private val context: Context) {
     }
 
     private fun getOpenAppIntent(peerId: Int, userName: String): PendingIntent {
-        val openAppIntent = Intent(context, RootActivity::class.java).apply {
+//        val openAppIntent = Intent(context, RootActivity::class.java).apply {
+        val openAppIntent = Intent(context, MainActivity::class.java).apply {
             putExtra(RootActivity.USER_ID, peerId)
             putExtra(RootActivity.TITLE, userName)
         }

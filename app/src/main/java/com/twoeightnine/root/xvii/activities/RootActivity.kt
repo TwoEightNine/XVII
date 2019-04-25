@@ -1,6 +1,5 @@
 package com.twoeightnine.root.xvii.activities
 
-//import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -11,7 +10,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.DrawerAdapter
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
-import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
+import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
@@ -58,7 +57,7 @@ class RootActivity : BaseActivity() {
             val userId = getInt(USER_ID)
             if (userId != 0) {
                 val title = getString(TITLE) ?: ""
-                loadFragment(ChatFragment.newInstance(userId, title))
+                ChatActivity.launch(this@RootActivity, userId, title)
                 Lg.i("open chat $userId")
             }
         }
@@ -98,7 +97,6 @@ class RootActivity : BaseActivity() {
         tvFullName.text = Session.fullName
         civAvatar.load(Session.photo)
         civAvatar.setOnClickListener {
-//            loadFragment(ProfileFragment.newInstance(Session.uid))
             ProfileActivity.launch(this, Session.uid)
             hideKeyboard(this)
             dlRoot.closeDrawer(GravityCompat.START)

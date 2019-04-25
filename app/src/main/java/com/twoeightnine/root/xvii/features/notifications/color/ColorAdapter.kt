@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.settings.notifications.color
+package com.twoeightnine.root.xvii.features.notifications.color
 
 import android.content.Context
 import android.view.View

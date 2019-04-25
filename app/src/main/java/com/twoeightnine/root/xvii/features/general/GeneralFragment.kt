@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.settings.fragments
+package com.twoeightnine.root.xvii.features.general
 
 import android.os.Bundle
 import android.view.View
@@ -20,8 +20,6 @@ class GeneralFragment : BaseOldFragment() {
         initSwitches()
         tvClearCache.setOnClickListener {
             with (CacheHelper) {
-                deleteAllUsersAsync()
-                deleteAllGroupsAsync()
                 deleteAllMessagesAsync()
             }
             showToast(activity, R.string.cache_cleared)
@@ -34,11 +32,12 @@ class GeneralFragment : BaseOldFragment() {
         updateTitle(getString(R.string.general))
     }
 
+    override fun getHomeAsUpIcon() = R.drawable.ic_back
+
     private fun initSwitches() {
         switchOffline.isChecked = Prefs.beOffline
         switchRead.isChecked = Prefs.markAsRead
         switchTyping.isChecked = Prefs.showTyping
-//        switchManualUpd.isChecked = Prefs.manualUpdating
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
     }
 
@@ -46,7 +45,6 @@ class GeneralFragment : BaseOldFragment() {
         Prefs.beOffline = switchOffline.isChecked
         Prefs.markAsRead = switchRead.isChecked
         Prefs.showTyping = switchTyping.isChecked
-//        Prefs.manualUpdating = switchManualUpd.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
     }
 
@@ -56,4 +54,9 @@ class GeneralFragment : BaseOldFragment() {
     }
 
     override fun getLayout() = R.layout.fragment_general
+
+    companion object {
+
+        fun newInstance() = GeneralFragment()
+    }
 }

@@ -10,12 +10,12 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.GifViewerActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.attachments.*
+import com.twoeightnine.root.xvii.web.GifViewerActivity
 
 const val MAX_WIDTH = 500
 const val MAX_HEIGHT = 500

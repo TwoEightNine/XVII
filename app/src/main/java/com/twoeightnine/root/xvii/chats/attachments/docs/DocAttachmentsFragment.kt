@@ -3,10 +3,10 @@ package com.twoeightnine.root.xvii.chats.attachments.docs
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.activities.GifViewerActivity
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsFragment
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.utils.simpleUrlIntent
+import com.twoeightnine.root.xvii.web.GifViewerActivity
 
 class DocAttachmentsFragment : BaseAttachmentsFragment<Doc>() {
 
