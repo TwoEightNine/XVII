@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.twoeightnine.root.xvii.views.SquareLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.twoeightnine.root.xvii.views.SquareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/background"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <ImageView
-        android:layout_margin="2dp"
         android:id="@+id/ivKeyboard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvEmoji"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="2dp"
+        android:textColor="@color/main_text"
+        android:textSize="24sp" />
 
 </com.twoeightnine.root.xvii.views.SquareLinearLayout>

@@ -125,14 +125,6 @@ data class User(
         fun isStubTry(user: User) = user.id == -2
     }
 
-    constructor(userDb: UserDb) : this(
-            id = userDb.id,
-            firstName = userDb.firstName,
-            lastName = userDb.lastName,
-            photoMax = userDb.photoMax,
-            photo100 = userDb.photoMax
-    )
-
     fun getPageName() = domain ?: "id$id"
 
     val link: String

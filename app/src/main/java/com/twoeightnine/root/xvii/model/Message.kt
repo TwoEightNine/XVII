@@ -1,10 +1,8 @@
 package com.twoeightnine.root.xvii.model
 
 import android.os.Parcelable
-import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.google.gson.reflect.TypeToken
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.isSticker
 import kotlinx.android.parcel.Parcelize
@@ -76,21 +74,6 @@ data class Message(
         @SerializedName("chat_active")
         val chatActive: ArrayList<Int> = arrayListOf()
 ) : Parcelable {
-
-    constructor(messageDb: MessageDb) : this(
-            id = messageDb.id,
-            date = messageDb.date,
-            out = messageDb.out,
-            userId = messageDb.userId,
-            readState = messageDb.readState,
-            title = messageDb.title,
-            body = messageDb.body,
-            emoji = messageDb.emoji,
-            photo = messageDb.photo,
-            chatId = messageDb.chatId,
-            fwdMessages = Gson().fromJson(messageDb.fwdMessages, (object : TypeToken<MutableList<Message>>() {}).type),
-            attachments = Gson().fromJson(messageDb.attachments, (object : TypeToken<MutableList<Attachment>>() {}).type)
-    )
 
     val isOut: Boolean
         get() = out == 1

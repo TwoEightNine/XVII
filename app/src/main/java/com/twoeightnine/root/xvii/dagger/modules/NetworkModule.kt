@@ -11,7 +11,6 @@ import com.twoeightnine.root.xvii.network.TokenAndVersionInterceptor
 import com.twoeightnine.root.xvii.utils.ApiUtils
 import dagger.Module
 import dagger.Provides
-import io.realm.RealmObject
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -54,7 +53,7 @@ class NetworkModule {
     @Singleton
     fun provideGson(): Gson = GsonBuilder().setExclusionStrategies(object : ExclusionStrategy {
         override fun shouldSkipClass(clazz: Class<*>?) = false
-        override fun shouldSkipField(f: FieldAttributes) = f.declaredClass == RealmObject::class.java
+        override fun shouldSkipField(f: FieldAttributes) = false
     }).create()
 
     @Provides

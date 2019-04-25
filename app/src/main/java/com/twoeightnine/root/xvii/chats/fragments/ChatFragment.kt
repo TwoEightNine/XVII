@@ -81,7 +81,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         try {
             presenter.view = this
             presenter.peerId = peerId
-            presenter.initCrypto()
+            presenter.initCrypto(context)
             presenter.subscribe()
         } catch (e: Exception) {
             Lg.i("bindViews: " + e.message)
@@ -115,7 +115,13 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     override fun onNew(view: View) {
         try {
-            presenter.loadCachedHistory()
+            if (isOnline()) {
+                swipeContainer?.isRefreshing = true
+                presenter.loadHistory(withClear = true)
+            } else {
+                swipeContainer?.isRefreshing = false
+                showError(context, R.string.no_internet)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             restartApp()
@@ -193,7 +199,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                         // i haven't found how to make copy
                         val mids = MutableList(selectedList.size) { selectedList[it] }
                         presenter.deleteMessages(mids, it)
-                        CacheHelper.deleteMessagesAsync(mids)
+//                        CacheHelper.deleteMessagesAsync(mids)
                         adapter.clearMultiSelect()
                     }
                 }
@@ -458,7 +464,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             val message = adapter.items[position]
             if (message.id <= mid && !message.isRead) {
                 message.isRead = true
-                CacheHelper.saveMessageAsync(message)
+//                CacheHelper.saveMessageAsync(message)
                 adapter.notifyItemChanged(position)
             }
         }
@@ -523,12 +529,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     override fun onCacheRestored() {
-        if (isOnline()) {
-            swipeContainer?.isRefreshing = true
-            presenter.loadHistory(withClear = true)
-        } else {
-            swipeContainer?.isRefreshing = false
-        }
+
     }
 
     override fun onDetach() {
@@ -616,7 +617,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                     R.id.llDelete -> {
                         val callback = { forAll: Boolean ->
                             presenter.deleteMessages(mutableListOf(message.id), forAll)
-                            CacheHelper.deleteMessagesAsync(mutableListOf(message.id))
+//                            CacheHelper.deleteMessagesAsync(mutableListOf(message.id))
                         }
                         if (message.isOut && time() - message.date < 3600 * 24) {
                             showDeleteMessagesDialog(callback)

@@ -42,9 +42,21 @@ object EmojiHelper {
         return count
     }
 
+    fun isOnlyEmojis(text: String): Boolean {
+        var testString = text
+        for ((key, _) in emojis) {
+            if (key in testString) {
+                testString = testString.replace(key, "")
+            }
+        }
+        return testString.isEmpty()
+    }
+
     fun getEmojied(context: Context, text: String,
                    builder: SpannableStringBuilder = SpannableStringBuilder(text),
                    makeSafe: Boolean = true): SpannableStringBuilder {
+        if (true) return builder
+
         size = context.resources.getDimensionPixelSize(R.dimen.emoji_size)
         var text = text
         var makeSafe = makeSafe

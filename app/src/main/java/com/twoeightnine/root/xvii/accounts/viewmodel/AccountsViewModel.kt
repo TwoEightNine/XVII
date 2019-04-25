@@ -10,7 +10,6 @@ import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import javax.inject.Inject
@@ -72,7 +71,7 @@ class AccountsViewModel(
     fun logOut() {
         Session.token = ""
         appDb.clearAsync()
-        CacheHelper.deleteAllMessagesAsync()
+//        CacheHelper.deleteAllMessagesAsync()
     }
 
     /**

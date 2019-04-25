@@ -31,10 +31,4 @@ data class Group(
         @SerializedName("photo_200")
         @Expose
         val photo200: String? = null
-) : Parcelable {
-    constructor(groupDb: GroupDb) : this(
-            id = groupDb.id,
-            name = groupDb.name,
-            photo100 = groupDb.photo
-    )
-}
+) : Parcelable

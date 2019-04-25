@@ -7,8 +7,6 @@ import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
-import io.realm.Realm
-import io.realm.RealmConfiguration
 
 class App : Application() {
 
@@ -20,13 +18,6 @@ class App : Application() {
                 .contextModule(ContextModule(this))
                 .build()
         Style.init(applicationContext)
-
-        Realm.init(applicationContext)
-        val realmConfig = RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded()
-                .name("realmDb")
-                .build()
-        Realm.setDefaultConfiguration(realmConfig)
 
 //        try {
 //            StatTool.init(applicationContext)

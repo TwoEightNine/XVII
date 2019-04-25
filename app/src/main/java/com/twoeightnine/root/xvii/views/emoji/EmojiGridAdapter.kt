@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.SimpleAdapter
-import com.twoeightnine.root.xvii.utils.load
 import kotlinx.android.synthetic.main.item_emoji.view.*
 
 class EmojiGridAdapter : SimpleAdapter<Emoji>() {
@@ -26,7 +25,8 @@ class EmojiGridAdapter : SimpleAdapter<Emoji>() {
 
         fun bind(emoji: Emoji) {
             with(view) {
-                ivKeyboard.load("file:///android_asset/emoji/${emoji.res}", placeholder = false)
+                tvEmoji.text = emoji.code
+//                ivKeyboard.load("file:///android_asset/emoji/${emoji.res}", placeholder = false)
             }
         }
 

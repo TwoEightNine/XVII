@@ -6,6 +6,7 @@ import android.text.Html
 import android.text.TextUtils
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
+import com.twoeightnine.root.xvii.crypto.CryptoEngine
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
@@ -46,6 +47,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     private var longPollDisposable: Disposable? = null
 
     lateinit var crypto: CryptoUtil
+    lateinit var cryptoEngine: CryptoEngine
 
     var peerId: Int = 0
     var isShown = true
@@ -66,8 +68,11 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         }
     }
 
-    fun initCrypto() {
+    fun initCrypto(context: Context?) {
         crypto = CryptoUtil(Session.uid, peerId)
+//        context?.let {
+//            cryptoEngine = CryptoEngine(it, peerId)
+//        }
         isEncrypted = false
     }
 
@@ -84,11 +89,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 }, { error ->
                     view?.showError(error)
                 })
-    }
-
-    fun loadCachedHistory() {
-        view?.showLoading()
-        CacheHelper.getMessagesAsync(peerId) { loadUsers(it, cache = true) }
     }
 
     fun getSaved() = messages
@@ -116,7 +116,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
             view?.onHistoryClear()
         }
         messages.addAll(0, history)
-        CacheHelper.saveMessagesAsync(history)
         view?.onHistoryLoaded(history)
         if (cache) {
             view?.onCacheRestored()
@@ -135,6 +134,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         } else {
             text
         }
+//        message = if (isEncrypted && message.isNotEmpty()) cryptoEngine.encrypt(message) else message
         message = if (isEncrypted && message.isNotEmpty()) crypto.encrypt(message) else message
         val flowable: Flowable<BaseResponse<Int>>
         if (peerId.matchesChatId()) {
@@ -269,6 +269,9 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
             crypto.encryptFileAsync(context, path) {
                 getDocUploadServer(path, it)
             }
+//            cryptoEngine.encryptFile(context, path) {
+//                getDocUploadServer(path, it)
+//            }
         } else {
             getPhotoUploadServer(path, isSticker)
         }
@@ -411,6 +414,9 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     fun decryptDoc(context: Context, doc: Doc, callback: (String) -> Unit) {
         downloadDoc(context, doc) {
             crypto.decryptFileAsync(context, it, callback)
+//            cryptoEngine.decryptFile(context, it) { _, path ->
+//                if (path != null) callback(path)
+//            }
         }
     }
 
@@ -446,10 +452,15 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
             view?.onKeySent()
             send(it)
         }
+//        cryptoEngine.startExchange {
+//            view?.onKeySent()
+//            send(it)
+//        }
     }
 
     fun supportKeyExchange(key: String) {
         val ownKey = crypto.supportKeyExchange(key)
+//        val ownKey = cryptoEngine.supportExchange(key)
         isEncrypted = false
         send(ownKey)
         view?.onKeysExchanged()
@@ -458,6 +469,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     fun finishKeyExchange(key: String) {
         timeUpSubscription?.dispose()
         crypto.finishKeyExchange(key)
+//        cryptoEngine.finishExchange(key)
         view?.onKeysExchanged()
         crypto.printKey()
         crypto.isWaiting = false
@@ -486,7 +498,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                         api.getMessageById("${event.id}")
                                 .subscribeSmart({ response ->
                                     val message = setMessageTitles(users, response.items[0], 0)
-                                    CacheHelper.saveMessageAsync(message)
                                     view?.onMessageAdded(message)
                                     messages.add(0, message)
                                     if (Prefs.markAsRead && isShown) {
@@ -504,7 +515,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                             return
                         }
                         val message = getMessageFromLongPollFull(event, users, isShown)
-                        CacheHelper.saveMessageAsync(message)
                         view?.onMessageAdded(message)
                         messages.add(0, message)
                         if (Prefs.markAsRead && isShown) {

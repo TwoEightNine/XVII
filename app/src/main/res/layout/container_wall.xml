@@ -11,5 +11,4 @@
         android:text="@string/wall_post"
         android:textSize="24sp" />
 
-
 </RelativeLayout>

@@ -6,7 +6,6 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.utils.CacheHelper
 import com.twoeightnine.root.xvii.utils.showToast
 import kotlinx.android.synthetic.main.fragment_general.*
 
@@ -19,9 +18,6 @@ class GeneralFragment : BaseOldFragment() {
     override fun bindViews(view: View) {
         initSwitches()
         tvClearCache.setOnClickListener {
-            with (CacheHelper) {
-                deleteAllMessagesAsync()
-            }
             showToast(activity, R.string.cache_cleared)
         }
         Style.forAll(llContainer)
