@@ -26,8 +26,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/toolbar"
                 android:orientation="vertical"
-                android:visibility="invisible"
-                android:tag="extraLight">
+                android:tag="extraLight"
+                android:visibility="invisible">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -142,6 +142,34 @@
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivAnalyse"
                     android:text="@string/analyse"
+                    android:textColor="@color/main_text"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlStarred"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/selector_rect">
+
+                <ImageView
+                    android:id="@+id/ivStarred"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/ic_star"
+                    android:tag="dark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/ivStarred"
+                    android:text="@string/important"
                     android:textColor="@color/main_text"
                     android:textSize="16sp" />
 

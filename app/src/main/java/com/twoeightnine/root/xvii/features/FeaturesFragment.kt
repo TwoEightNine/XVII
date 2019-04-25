@@ -16,6 +16,7 @@ import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.ChatActivity
+import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesActivity
 import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
 import com.twoeightnine.root.xvii.features.general.GeneralActivity
 import com.twoeightnine.root.xvii.features.notifications.NotificationsActivity
@@ -47,6 +48,7 @@ class FeaturesFragment : BaseFragment() {
         viewModel.loadAccount()
 
         rlAnalyse.setOnClickListener { showToast(context, R.string.in_future_versions) }
+        rlStarred.setOnClickListener { StarredMessagesActivity.launch(context) }
 
         rlAccounts.setOnClickListener { AccountsActivity.launch(context) }
         rlGeneral.setOnClickListener { GeneralActivity.launch(context) }
