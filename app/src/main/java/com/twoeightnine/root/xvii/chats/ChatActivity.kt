@@ -25,6 +25,7 @@ class ChatActivity : ContentActivity() {
             message.chatId = userId - 2000000000
         }
         return ChatFragment.newInstance(userId, title, isOnline)
+//        return ChatMessagesFragment.newInstance(userId)
     }
 
     companion object {

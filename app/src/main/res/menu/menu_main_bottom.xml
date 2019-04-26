@@ -9,7 +9,7 @@
 
     <item
         android:id="@+id/menu_dialogs"
-        android:icon="@drawable/ic_speech_bubble"
+        android:icon="@drawable/ic_dialogs"
         android:title="@string/dialogs" />
 
     <item
@@ -19,7 +19,7 @@
 
     <item
         android:id="@+id/menu_features"
-        android:icon="@drawable/ic_menu"
+        android:icon="@drawable/ic_features_2"
         android:title="@string/settings" />
 
 </menu>

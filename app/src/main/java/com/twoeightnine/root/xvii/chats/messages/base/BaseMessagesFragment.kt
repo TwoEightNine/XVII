@@ -14,7 +14,7 @@ import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.setVisible
 import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
-import kotlinx.android.synthetic.main.fragment_chat_new.*
+import kotlinx.android.synthetic.main.fragment_chat.*
 import javax.inject.Inject
 
 abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment() {
@@ -37,7 +37,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
 
     protected open fun prepareViewModel() {}
 
-    override fun getLayoutId() = R.layout.fragment_chat_new
+    override fun getLayoutId() = R.layout.fragment_chat
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,7 +52,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         adapter.startLoading()
 
         progressBar.show()
-        swipeRefresh.setOnRefreshListener {
+        swipeContainer.setOnRefreshListener {
             loadMore(0)
             adapter.reset()
             adapter.startLoading()
@@ -60,7 +60,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
     }
 
     private fun updateMessages(data: Wrapper<ArrayList<Message2>>) {
-        swipeRefresh.isRefreshing = false
+        swipeContainer.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
             adapter.update(data.data.reversed())
@@ -74,18 +74,18 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
     }
 
     private fun initRecyclerView() {
-        rvMessages.layoutManager = LinearLayoutManager(context).apply {
+        rvChatList.layoutManager = LinearLayoutManager(context).apply {
             stackFromEnd = true
         }
-        rvMessages.adapter = adapter
-        rvMessages.itemAnimator = null
+        rvChatList.adapter = adapter
+        rvChatList.itemAnimator = null
         adapter.multiSelectListener = ::onMultiSelectChanged
     }
 
     private fun onMultiSelectChanged(selectedCount: Int) {
         rlMultiAction.setVisible(selectedCount > 0)
-        tvSelectedCount.text = context?.resources
-                ?.getQuantityString(R.plurals.messages, selectedCount, selectedCount)
+//        tvSelectedCount.text = context?.resources
+//                ?.getQuantityString(R.plurals.messages, selectedCount, selectedCount)
     }
 
     private fun initMultiAction() {

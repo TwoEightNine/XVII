@@ -8,16 +8,16 @@
         android:id="@+id/ivKeyboard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="2dp"
-        android:visibility="gone" />
+        android:layout_margin="2dp" />
 
-    <TextView
-        android:id="@+id/tvEmoji"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="2dp"
-        android:textColor="@color/main_text"
-        android:textSize="24sp" />
+    <!--<TextView-->
+    <!--android:id="@+id/tvEmoji"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_margin="2dp"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="@color/main_text"-->
+    <!--android:textSize="24sp" />-->
 
 </com.twoeightnine.root.xvii.views.SquareLinearLayout>

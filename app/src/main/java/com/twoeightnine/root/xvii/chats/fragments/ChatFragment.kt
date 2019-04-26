@@ -199,7 +199,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                         // i haven't found how to make copy
                         val mids = MutableList(selectedList.size) { selectedList[it] }
                         presenter.deleteMessages(mids, it)
-//                        CacheHelper.deleteMessagesAsync(mids)
                         adapter.clearMultiSelect()
                     }
                 }
@@ -347,7 +346,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     override fun onVoiceUploaded(path: String) {
         inputController.removeItemAsLoaded(path)
-//        onSend(etInput.text.toString())
     }
 
     private fun getDecrypted(text: String?) = getString(R.string.decrypted, presenter.crypto.decrypt(text

@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.text.Html
 import android.text.Spanned
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -134,21 +133,21 @@ class ChatAdapter(context: Context,
                 tvBody.setVisible(message.body.isNotEmpty() || !message.action.isNullOrEmpty())
                 tvBody.text = when {
                     message.body.isNotEmpty() -> when {
-//                        message.emoji == 1 -> EmojiHelper.getEmojied(context, message.body)
+                        message.emoji == 1 -> EmojiHelper.getEmojied(context, message.body)
                         isDecrypted(message.body) -> getWrapped(message.body)
                         else -> message.body
                     }
                     !message.action.isNullOrEmpty() -> getAction(message)
                     else -> ""
                 }
-                tvBody.setTextSize(
-                        TypedValue.COMPLEX_UNIT_SP,
-                        if (message.body.length <= 14 && EmojiHelper.isOnlyEmojis(message.body)) {
-                            32f
-                        } else {
-                            16f
-                        }
-                )
+//                tvBody.setTextSize(
+//                        TypedValue.COMPLEX_UNIT_SP,
+//                        if (message.body.length <= 14 && EmojiHelper.isOnlyEmojis(message.body)) {
+//                            32f
+//                        } else {
+//                            16f
+//                        }
+//                )
                 tvDate.text = getTime(message.date, full = true)
                 civPhoto?.apply {
                     load(message.photo)

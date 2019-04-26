@@ -34,7 +34,7 @@
             android:background="@color/background"
             android:elevation="8dp">
 
-            <include layout="@layout/view_chat_input_panel" />
+            <include layout="@layout/chat_input_panel" />
 
         </LinearLayout>
 

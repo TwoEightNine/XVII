@@ -55,7 +55,7 @@ object EmojiHelper {
     fun getEmojied(context: Context, text: String,
                    builder: SpannableStringBuilder = SpannableStringBuilder(text),
                    makeSafe: Boolean = true): SpannableStringBuilder {
-        if (true) return builder
+//        if (true) return builder
 
         size = context.resources.getDimensionPixelSize(R.dimen.emoji_size)
         var text = text
