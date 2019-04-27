@@ -11,7 +11,7 @@ import android.content.Intent
 
 class PrimeGeneratorService : Service() {
 
-    private val core by lazy { PrimeGeneratorCore() }
+    private val core by lazy { PrimeGeneratorCore(applicationContext) }
 
     override fun onBind(intent: Intent?) = null
 

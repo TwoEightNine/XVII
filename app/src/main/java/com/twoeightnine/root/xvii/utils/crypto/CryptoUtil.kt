@@ -152,7 +152,7 @@ class CryptoUtil(
     fun encrypt(text: String) = "$PREFIX${Base64.encodeToString(AES256Cipher.encrypt(aesIv, key256, text.toByteArray()), Base64.NO_WRAP)}$POSTFIX"
 
     fun decrypt(cipher: String): String {
-        val prepared = if (cipher.matchesXviiKey()) {
+        val prepared = if (cipher.matchesXviiCipher()) {
             cipher.substring(PREFIX.length, cipher.length - POSTFIX.length)
         } else {
             cipher

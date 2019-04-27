@@ -18,7 +18,7 @@
     <string name="beoffline">be offline (as soon as possible)</string>
     <string name="markasread">mark messages as read</string>
     <string name="show_typing">show typing</string>
-    <string name="feedback">feedback</string>
+    <string name="feedback">support</string>
     <string name="copied">%s has been copied to clipboard</string>
     <string name="fiends">friends</string>
     <string name="friends">friends</string>
@@ -47,6 +47,7 @@
     <string name="reply">reply</string>
     <string name="decrypt">decrypt</string>
     <string name="decrypted">decrypt: %s</string>
+    <string name="decrypted_with_fail" translatable="false">invalid ciphertext for given key</string>
     <string name="unread100" translatable="false">99+</string>
     <string name="accounts">accounts</string>
     <string name="new_acc">add an account..</string>

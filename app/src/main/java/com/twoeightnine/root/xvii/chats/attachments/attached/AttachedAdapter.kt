@@ -107,41 +107,6 @@ class AttachedAdapter(
                 ivAttach.setVisible(attachPhoto != null)
                 ivAttach.load(attachPhoto)
 
-//                when {
-//                    attachment === STUB_FWD_MESSAGES -> {
-//                        rlFwdMessages.show()
-//                        ivEncrypted.hide()
-//                        tvFwdCount.text = "${fwdMessages.split(",").size}"
-//                    }
-//                    else -> {
-//                        rlFwdMessages.hide()
-//                        when (attachment.type) {
-//                            Attachment.TYPE_PHOTO -> attachment.photo?.photo130?.let {
-//                                ivAttach.load(it)
-//                                tvInfo.text = ""
-//                                ivEncrypted.hide()
-//                            }
-//                            Attachment.TYPE_VIDEO -> attachment.video?.photo130?.let {
-//                                ivAttach.load(it)
-//                                tvInfo.text = ""
-//                                ivEncrypted.hide()
-//                            }
-//                            Attachment.TYPE_DOC -> attachment.doc?.let {
-//                                if (it.isEncrypted) {
-//                                    tvInfo.text = ""
-//                                    ivEncrypted.show()
-//                                    ivAttach.hide()
-//                                } else {
-//                                    tvInfo.text = it.ext
-//                                    ivEncrypted.hide()
-//                                    ivAttach.hide()
-//                                }
-//                            }
-//                            else -> attachment.type?.let { tvInfo.text = it }
-//                        }
-//
-//                    }
-//                }
                 setOnClickListener { onClick(items[adapterPosition]) }
                 setOnLongClickListener {
                     if (isForwarded) {

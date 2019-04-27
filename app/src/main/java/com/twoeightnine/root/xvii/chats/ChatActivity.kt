@@ -45,6 +45,7 @@ class ChatActivity : ContentActivity() {
                 putExtra(FORWARDED, forwarded)
                 putExtra(IS_ONLINE, isOnline)
                 putExtra(AVATAR, avatar)
+                flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TOP
             })
         }
     }

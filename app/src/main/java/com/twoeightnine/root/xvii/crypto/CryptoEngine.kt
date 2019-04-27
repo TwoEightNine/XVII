@@ -2,15 +2,13 @@ package com.twoeightnine.root.xvii.crypto
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.crypto.cipher.Cipher
 import com.twoeightnine.root.xvii.crypto.cipher.Pbkdf2HmacSha1
 import com.twoeightnine.root.xvii.crypto.dh.DhData
 import com.twoeightnine.root.xvii.crypto.dh.DiffieHellman
-import com.twoeightnine.root.xvii.utils.applySingleSchedulers
-import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
-import com.twoeightnine.root.xvii.utils.getBytesFromFile
-import com.twoeightnine.root.xvii.utils.getNameFromUrl
-import com.twoeightnine.root.xvii.utils.writeBytesToFile
+import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.Single
 import java.math.BigInteger
 
@@ -19,6 +17,9 @@ class CryptoEngine(
         private val peerId: Int,
         private val testing: Boolean = false
 ) {
+
+    var keyType = KeyType.DEFAULT
+        private set
 
     /**
      * the place all the keys are stored in
@@ -38,6 +39,10 @@ class CryptoEngine(
     init {
         if (storage.hasKey(peerId)) {
             key = storage.getKey(peerId)
+            keyType = KeyType.CUSTOM
+        } else {
+            setKey(getDefaultKey(), save = false)
+            keyType = KeyType.DEFAULT
         }
     }
 
@@ -65,6 +70,7 @@ class CryptoEngine(
         if (save) {
             storage.saveKey(peerId, key)
         }
+        keyType = KeyType.CUSTOM
     }
 
     /**
@@ -107,6 +113,7 @@ class CryptoEngine(
         val publicOther = strToNum(publicOtherWrapped)
         dh.publicOther = publicOther
         setKey(dh.key.toString())
+        keyType = KeyType.RANDOM
     }
 
     fun encrypt(message: String): String {
@@ -131,7 +138,7 @@ class CryptoEngine(
         }
                 .compose(applySingleSchedulers())
                 .subscribe { cipher ->
-                    val resultName = "${getNameFromUrl(path)}${CryptoUtil.EXTENSION}"
+                    val resultName = "${getNameFromUrl(path)}$EXTENSION"
                     val cipherPath = writeBytesToFile(context, cipher, resultName)
                     onEncrypted(cipherPath)
                 }
@@ -153,11 +160,36 @@ class CryptoEngine(
                     if (!cipherResult.verified || cipherResult.bytes == null) {
                         onDecrypted(false, null)
                     } else {
-                        val resultName = "${getNameFromUrl(path)}${CryptoUtil.EXTENSION}"
+                        val resultName = "${getNameFromUrl(path)}$EXTENSION"
                         val cipherPath = writeBytesToFile(context, cipherResult.bytes, resultName)
                         onDecrypted(true, cipherPath)
                     }
                 }
+    }
+
+    fun getFingerPrint() = sha256(bytesToHex(key))
+
+    /**
+     * !!!remove later!!!
+     * removes the saved key and sets the default one
+     */
+    fun resetKey() {
+        storage.removeKey(peerId)
+        setKey(getDefaultKey(), save = false)
+        keyType = KeyType.DEFAULT
+    }
+
+    /**
+     * !!!remove later!!!
+     * @param uid id of current user
+     * @param cid peerId of chat
+     */
+    private fun getDefaultKey(): String {
+        if (!peerId.matchesUserId()) {
+            return "$peerId"
+        }
+        val uid = Session.uid
+        return "${Math.min(uid, peerId)}${Math.max(uid, peerId)}"
     }
 
     companion object {
@@ -189,5 +221,11 @@ class CryptoEngine(
 
         fun strToNum(str: String) = BigInteger(fromBase64(str))
 
+    }
+
+    enum class KeyType(val stringRes: Int) {
+        DEFAULT(R.string.default_key_type),
+        CUSTOM(R.string.custom_key_type),
+        RANDOM(R.string.random_key_type)
     }
 }

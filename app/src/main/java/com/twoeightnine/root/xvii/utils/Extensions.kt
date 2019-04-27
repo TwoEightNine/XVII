@@ -9,9 +9,9 @@ import com.jakewharton.rxbinding.widget.RxTextView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.crypto.CryptoEngine
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.Error
-import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import rx.android.schedulers.AndroidSchedulers
@@ -19,9 +19,13 @@ import java.util.concurrent.TimeUnit
 
 const val CHAT_ID_START = 2000000000
 
-fun String.matchesXviiKey() = length > CryptoUtil.PREFIX.length + CryptoUtil.POSTFIX.length &&
-        this.substring(0, CryptoUtil.PREFIX.length) == CryptoUtil.PREFIX &&
-        this.substring(length - CryptoUtil.POSTFIX.length) == CryptoUtil.POSTFIX
+fun String.matchesXviiCipher(): Boolean {
+    val prefix = CryptoEngine.DATA_PREFIX
+    val postfix = CryptoEngine.DATA_POSTFIX
+    return length > prefix.length + postfix.length &&
+            substring(0, prefix.length) == prefix &&
+            substring(length - postfix.length) == postfix
+}
 
 
 fun Int.matchesUserId() = this in 0..CHAT_ID_START

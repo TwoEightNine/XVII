@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.model.attachments
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
+import com.twoeightnine.root.xvii.crypto.CryptoEngine
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -44,7 +44,7 @@ data class Doc(
                 preview.audioMsg != null
 
     val isEncrypted: Boolean
-        get() = ".$ext" == CryptoUtil.EXTENSION
+        get() = ".$ext" == CryptoEngine.EXTENSION
 
     override fun getId() = "doc${ownerId}_$id"
 

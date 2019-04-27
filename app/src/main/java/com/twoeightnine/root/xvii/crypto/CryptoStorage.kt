@@ -14,13 +14,14 @@ class CryptoStorage(private val context: Context,
     var prime
         get() = pref.getString(PRIME, DEFAULT_PRIME)
         set(value) {
-            pref.edit().putString(PRIME, value).apply()
-            pref.edit().putInt(TS, time()).apply()
+            pref.edit()
+                    .putString(PRIME, value)
+                    .putInt(TS, time())
+                    .apply()
         }
 
-    var ts
+    val ts
         get() = pref.getInt(TS, 0)
-        private set(value) = pref.edit().putInt(TS, value).apply()
 
     fun saveKey(peerId: Int, key: ByteArray) {
         pref.edit().putString(getPeerKey(peerId), toBase64(key)).apply()
@@ -32,7 +33,7 @@ class CryptoStorage(private val context: Context,
 
     fun getKey(peerId: Int) = fromBase64(pref.getString(getPeerKey(peerId), null) ?: "")
 
-    fun hasKey(peerId: Int) = !getKey(peerId).isEmpty()
+    fun hasKey(peerId: Int) = getKey(peerId).isNotEmpty()
 
     fun isObsolete() = time() - ts > STORAGE_DURATION
 

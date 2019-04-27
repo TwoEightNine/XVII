@@ -11,7 +11,7 @@ import androidx.core.app.JobIntentService
 
 class PrimeGeneratorJobIntentService : JobIntentService() {
 
-    private val core by lazy { PrimeGeneratorCore() }
+    private val core by lazy { PrimeGeneratorCore(applicationContext) }
 
     override fun onHandleWork(p0: Intent) {
         core.run()

@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_encrypt"
+                android:src="@drawable/ic_key"
                 android:visibility="gone" />
 
             <TextView

@@ -22,7 +22,6 @@ import com.twoeightnine.root.xvii.mvp.view.ChatFragmentView
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -46,8 +45,9 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     private var timeUpSubscription: Disposable? = null
     private var longPollDisposable: Disposable? = null
 
-    lateinit var crypto: CryptoUtil
+//    lateinit var crypto: CryptoUtil
     lateinit var cryptoEngine: CryptoEngine
+    private var isWaiting = false
 
     var peerId: Int = 0
     var isShown = true
@@ -69,10 +69,10 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     fun initCrypto(context: Context?) {
-        crypto = CryptoUtil(Session.uid, peerId)
-//        context?.let {
-//            cryptoEngine = CryptoEngine(it, peerId)
-//        }
+//        crypto = CryptoUtil(Session.uid, peerId)
+        context?.let {
+            cryptoEngine = CryptoEngine(it, peerId)
+        }
         isEncrypted = false
     }
 
@@ -134,8 +134,8 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         } else {
             text
         }
-//        message = if (isEncrypted && message.isNotEmpty()) cryptoEngine.encrypt(message) else message
-        message = if (isEncrypted && message.isNotEmpty()) crypto.encrypt(message) else message
+        message = if (isEncrypted && message.isNotEmpty()) cryptoEngine.encrypt(message) else message
+//        message = if (isEncrypted && message.isNotEmpty()) crypto.encrypt(message) else message
         val flowable: Flowable<BaseResponse<Int>>
         if (peerId.matchesChatId()) {
             flowable = api
@@ -266,12 +266,12 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun attachPhoto(path: String, isSticker: Boolean = false, context: Context? = null) {
         if (isEncrypted && context != null) {
-            crypto.encryptFileAsync(context, path) {
-                getDocUploadServer(path, it)
-            }
-//            cryptoEngine.encryptFile(context, path) {
+//            crypto.encryptFileAsync(context, path) {
 //                getDocUploadServer(path, it)
 //            }
+            cryptoEngine.encryptFile(context, path) {
+                getDocUploadServer(path, it)
+            }
         } else {
             getPhotoUploadServer(path, isSticker)
         }
@@ -411,12 +411,10 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         utils.downloadFile(doc.url, fileName, callback)
     }
 
-    fun decryptDoc(context: Context, doc: Doc, callback: (String) -> Unit) {
+    fun decryptDoc(context: Context, doc: Doc, callback: (Boolean, String?) -> Unit) {
         downloadDoc(context, doc) {
-            crypto.decryptFileAsync(context, it, callback)
-//            cryptoEngine.decryptFile(context, it) { _, path ->
-//                if (path != null) callback(path)
-//            }
+//            crypto.decryptFileAsync(context, it, callback)
+            cryptoEngine.decryptFile(context, it, callback)
         }
     }
 
@@ -444,26 +442,26 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 .observeOn(AndroidSchedulers.mainThread())
                 .map {
                     Lg.i("waiting state was reset")
-                    crypto.isWaiting = false
+                    isWaiting = false
                     view?.onKeyExchangeFailed()
                 }
                 .subscribe()
         view?.onKeyGenerating()
-        crypto.isWaiting = true
+        isWaiting = true
         isEncrypted = false
-        crypto.startKeyExchange {
-            view?.onKeySent()
-            send(it)
-        }
-//        cryptoEngine.startExchange {
+//        crypto.startKeyExchange {
 //            view?.onKeySent()
 //            send(it)
 //        }
+        cryptoEngine.startExchange {
+            view?.onKeySent()
+            send(it)
+        }
     }
 
     fun supportKeyExchange(key: String) {
-        val ownKey = crypto.supportKeyExchange(key)
-//        val ownKey = cryptoEngine.supportExchange(key)
+//        val ownKey = crypto.supportKeyExchange(key)
+        val ownKey = cryptoEngine.supportExchange(key)
         isEncrypted = false
         send(ownKey)
         view?.onKeysExchanged()
@@ -471,21 +469,23 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun finishKeyExchange(key: String) {
         timeUpSubscription?.dispose()
-        crypto.finishKeyExchange(key)
-//        cryptoEngine.finishExchange(key)
+//        crypto.finishKeyExchange(key)
+        cryptoEngine.finishExchange(key)
         view?.onKeysExchanged()
-        crypto.printKey()
-        crypto.isWaiting = false
+//        crypto.printKey()
+        isWaiting = false
     }
 
     fun setDefaultKey() {
-        crypto.resetKeys()
-        crypto.printKeys()
+//        crypto.resetKeys()
+        cryptoEngine.resetKey()
+//        crypto.printKeys()
     }
 
     fun setUserKey(key: String) {
-        crypto.setUserKey(key)
-        crypto.printKeys()
+//        crypto.setUserKey(key)
+//        crypto.printKeys()
+        cryptoEngine.setKey(key, Prefs.storeCustomKeys)
     }
 
     private fun onUpdate(event: BaseLongPollEvent) {
@@ -510,10 +510,10 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                                     Lg.wtf("new message error: $error")
                                 })
                     } else {
-                        if (event.text.contains("KeyEx{")) {
+                        if (event.text.contains(CryptoEngine.KEY_PREFIX)) {
                             deleteMessages(mutableListOf(event.id), false, true)
                             if (!event.isOut()) {
-                                view?.onKeyReceived(Html.fromHtml(event.text).toString(), crypto.isWaiting)
+                                view?.onKeyReceived(Html.fromHtml(event.text).toString(), isWaiting)
                             }
                             return
                         }

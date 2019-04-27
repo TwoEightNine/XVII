@@ -1,10 +1,10 @@
 package com.twoeightnine.root.xvii.crypto.prime
 
+import android.content.Context
+import com.twoeightnine.root.xvii.crypto.CryptoStorage
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.managers.KeyStorage
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.getTime
-import com.twoeightnine.root.xvii.utils.time
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import java.math.BigInteger
@@ -16,7 +16,11 @@ import java.util.*
  * generates safe prime for DH-2048
  */
 
-class PrimeGeneratorCore {
+class PrimeGeneratorCore(private val context: Context) {
+
+    private val storage by lazy {
+        CryptoStorage(context)
+    }
 
     private val secureRandom = SecureRandom()
 
@@ -24,7 +28,8 @@ class PrimeGeneratorCore {
     private var isCancelled = false
 
     fun run() {
-        if (KeyStorage.isDefault() || KeyStorage.isObsolete()) {
+        val storage = CryptoStorage(context)
+        if (storage.isDefault() || storage.isObsolete()) {
             for (i in 1..2) {
                 val s = Flowable.fromCallable { generate(i) }
                         .compose(applySchedulers())
@@ -39,7 +44,7 @@ class PrimeGeneratorCore {
                 composite.add(s)
             }
         } else {
-            l("already generated at ${getTime(KeyStorage.ts, full = true)}")
+            l("already generated at ${getTime(storage.ts, full = true)}")
         }
     }
 
@@ -58,17 +63,10 @@ class PrimeGeneratorCore {
             if (trie % 10 == 0) {
                 l("tries $trie", threadNumber)
             }
-        } while (!isPrime(q)  && !isPrime(bp) && !isCancelled)
+        } while (!isPrime(q) && !isPrime(bp) && !isCancelled)
         if (!isCancelled) {
-            if (isPrime(q)) {
-                KeyStorage.prime = p.toString()
-                KeyStorage.halfPrime = q.toString()
-            } else {
-                KeyStorage.prime = bp.toString()
-                KeyStorage.halfPrime = p.toString()
-            }
+            storage.prime = (if (isPrime(q)) p else bp).toString()
             l("found for ${(System.currentTimeMillis() - startTime) / 1000}s with $trie tries", threadNumber)
-            KeyStorage.ts = time()
         } else {
             l("cancelled", threadNumber)
         }

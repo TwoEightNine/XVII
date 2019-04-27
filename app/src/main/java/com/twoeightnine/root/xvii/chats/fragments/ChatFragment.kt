@@ -52,7 +52,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     private val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
     private val title by lazy { arguments?.getString(ARG_TITLE) ?: "" }
     private val photo by lazy { arguments?.getString(ARG_PHOTO) ?: "" }
-    private val isOnline by lazy { arguments?.getBoolean(ARG_IS_ONLINE) == true }
     private val forwardedMessages by lazy { arguments?.getString(ARG_FORWARDED) }
 
     private val permissionHelper by lazy { PermissionHelper(this) }
@@ -276,8 +275,8 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 true
             }
             R.id.menu_fingerprint -> {
-                val fingerprint = presenter.crypto.getFingerPrint()
-                val keyType = presenter.crypto.keyType
+                val fingerprint = presenter.cryptoEngine.getFingerPrint()
+                val keyType = presenter.cryptoEngine.keyType
                 FingerPrintAlertDialog(safeContext, fingerprint, keyType).show()
                 true
             }
@@ -350,8 +349,14 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         inputController.removeItemAsLoaded(path)
     }
 
-    private fun getDecrypted(text: String?) = getString(R.string.decrypted, presenter.crypto.decrypt(text
-            ?: ""))
+    private fun getDecrypted(text: String): String {
+        val cipherResult = presenter.cryptoEngine.decrypt(text)
+        return if (cipherResult.verified && cipherResult.bytes != null) {
+            getString(R.string.decrypted, String(cipherResult.bytes))
+        } else {
+            ""
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -406,7 +411,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     override fun onMessageAdded(message: Message) {
-        if (presenter.isEncrypted && message.body.matchesXviiKey()) {
+        if (presenter.isEncrypted && message.body.matchesXviiCipher()) {
             message.body = getDecrypted(message.body)
         }
         val wasAtEnd = adapter.isAtEnd
@@ -610,7 +615,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                     R.id.llCopy -> copyToClip(message.body)
                     R.id.llEdit -> showEditMessageDialog(message)
                     R.id.llReply -> {
-//                        presenter.attachUtils.forwarded = "${message.id}"
                         attachedAdapter.fwdMessages = "${message.id}"
                     }
                     R.id.llForward -> {
@@ -619,7 +623,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                     R.id.llDelete -> {
                         val callback = { forAll: Boolean ->
                             presenter.deleteMessages(mutableListOf(message.id), forAll)
-//                            CacheHelper.deleteMessagesAsync(mutableListOf(message.id))
                         }
                         if (message.isOut && time() - message.date < 3600 * 24) {
                             showDeleteMessagesDialog(callback)
@@ -652,12 +655,10 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                     safeContext.getString(R.string.decrypting_image)
             )
             dialogLoading?.show()
-            presenter.decryptDoc(safeContext, doc) {
+            presenter.decryptDoc(safeContext, doc) { verified, path ->
                 dialogLoading?.dismiss()
-                if (it.isNotEmpty()) {
-                    val fileForLog = if (BuildConfig.DEBUG) it else ""
-                    Lg.i("show decrypted $fileForLog")
-                    ImageViewerActivity.viewImage(safeContext, "file://$it")
+                if (path.isNullOrEmpty() && verified) {
+                    ImageViewerActivity.viewImage(safeContext, "file://$path")
                 } else {
                     showError(context, R.string.invalid_file)
                 }
@@ -692,7 +693,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
 
         override fun onAttachClick() {
-//            bottomSheet.open()
             AttachActivity.launch(this@ChatFragment, REQUEST_ATTACH)
         }
 
