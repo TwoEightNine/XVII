@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.managers.Style
+import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.setVisible
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.item_dialog_search.view.*
 
 class SearchAdapter(
@@ -32,7 +33,7 @@ class SearchAdapter(
                 tvTitle.text = dialog.title
                 ivOnlineDot.setVisible(dialog.isOnline)
 
-                Style.forImageView(ivOnlineDot, Style.MAIN_TAG)
+                ivOnlineDot.stylize(ColorManager.MAIN_TAG)
                 rlItemContainer.setOnClickListener { onClick(items[adapterPosition]) }
             }
         }

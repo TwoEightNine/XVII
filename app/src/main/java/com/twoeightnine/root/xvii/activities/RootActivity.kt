@@ -18,7 +18,6 @@ import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.DrawerItem
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.*
@@ -88,7 +87,7 @@ class RootActivity : BaseActivity() {
             dlRoot.closeDrawer(GravityCompat.START)
         }
         if (Prefs.isLightTheme) {
-            navigationView.setBackgroundColor(Style.getFromMain()[1])
+            navigationView.setBackgroundColor(ColorManager.getFromMain()[1])
         }
         initUser()
     }

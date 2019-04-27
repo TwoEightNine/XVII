@@ -42,6 +42,8 @@ class MainActivity : BaseActivity() {
         }
         startNotificationAlarm(this)
         apiUtils.trackVisitor()
+        stylize(isWhite = true)
+        bottomNavView.stylize()
     }
 
     private fun initViewPager() {

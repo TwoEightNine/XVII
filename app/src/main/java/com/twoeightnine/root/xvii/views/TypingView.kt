@@ -11,7 +11,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Style
+import com.twoeightnine.root.xvii.utils.stylizeColor
 
 class TypingView : LinearLayout {
 
@@ -30,7 +30,7 @@ class TypingView : LinearLayout {
         val iv1 = view.findViewById<ImageView>(R.id.ivDot1)
         val iv2 = view.findViewById<ImageView>(R.id.ivDot2)
         val iv3 = view.findViewById<ImageView>(R.id.ivDot3)
-        Style.forViewGroupColor(view.findViewById<RelativeLayout>(R.id.rlBack))
+        view.findViewById<RelativeLayout>(R.id.rlBack).stylizeColor()
 
         ValueAnimator.ofFloat(0f, 1f).apply {
             repeatCount = ValueAnimator.INFINITE

@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.setVisible
 import com.twoeightnine.root.xvii.utils.showAlert
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.item_attached.view.*
 
 class AttachedAdapter(
@@ -85,7 +85,7 @@ class AttachedAdapter(
 
         fun bind(attachment: Attachment) {
             with(itemView) {
-                Style.forCardView(cvItem)
+                cvItem.stylize()
                 val isForwarded = attachment == STUB_FWD_MESSAGES
                 val isEncrypted = attachment.doc?.isEncrypted == true
                 val infoText = when {

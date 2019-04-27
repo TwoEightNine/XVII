@@ -11,7 +11,6 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Photo
@@ -45,11 +44,11 @@ class ProfileFragment : BaseFragment() {
 
     private fun stylize() {
         if (Prefs.isLightTheme) {
-            Style.forViewGroupColor(rlBack)
+            rlBack.stylizeColor()
             llHeader.setBackgroundColor(Color.WHITE)
             llContainer.setBackgroundColor(Color.WHITE)
-            Style.forViewGroup(llCounters)
-            Style.forViewGroup(rlChat)
+            llCounters.stylize()
+            rlChat.stylize()
         }
     }
 
@@ -78,7 +77,7 @@ class ProfileFragment : BaseFragment() {
         civPhoto.setOnClickListener { viewModel.loadPhotos(::onPhotosLoaded) }
         tvName.text = user.fullName
         rlChat.setOnClickListener {
-            ChatActivity.launch(context, user.id, user.fullName, user.isOnline)
+            ChatActivity.launch(context, user.id, user.fullName, user.photo100, user.isOnline)
         }
         if (!user.deactivated.isNullOrEmpty()) return
         val onlineRes = if (user.isOnline) R.string.online_seen else R.string.last_seen

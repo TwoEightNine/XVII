@@ -7,10 +7,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.User
+import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.getTime
 import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.item_user.view.*
 
 class FriendsAdapter(context: Context,
@@ -30,7 +31,7 @@ class FriendsAdapter(context: Context,
             with(view) {
                 civPhoto.load(user.photo100)
                 val d = ContextCompat.getDrawable(context, R.drawable.dotshape)
-                Style.forDrawable(d, Style.MAIN_TAG)
+                d?.stylize(ColorManager.MAIN_TAG)
                 ivOnlineDot.setImageDrawable(if (user.isOnline) d else null)
                 tvName.text = user.fullName
 

@@ -9,7 +9,6 @@ import com.jakewharton.rxbinding.widget.RxTextView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.Error
 import com.twoeightnine.root.xvii.utils.crypto.CryptoUtil
@@ -79,7 +78,7 @@ fun View.hide() = setVisible(false)
 fun ImageView.load(url: String?, placeholder: Boolean = true,
                    block: RequestCreator.() -> RequestCreator = { this }) {
     val rc = Picasso.get().load(if (url.isNullOrEmpty()) {
-        Style.getPhotoStub()
+        ColorManager.getPhotoStub()
     } else {
         url
     })
@@ -100,7 +99,7 @@ fun ImageView.loadRounded(url: String?) {
 fun Picasso.loadRounded(url: String?): RequestCreator {
     return this
             .load(if (url.isNullOrEmpty()) {
-                Style.getPhotoStub()
+                ColorManager.getPhotoStub()
             } else {
                 url
             })

@@ -5,8 +5,8 @@ import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.showToast
+import com.twoeightnine.root.xvii.utils.stylizeAll
 import kotlinx.android.synthetic.main.fragment_general.*
 
 /**
@@ -20,7 +20,7 @@ class GeneralFragment : BaseOldFragment() {
         tvClearCache.setOnClickListener {
             showToast(activity, R.string.cache_cleared)
         }
-        Style.forAll(llContainer)
+        llContainer.stylizeAll()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

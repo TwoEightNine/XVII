@@ -8,8 +8,8 @@ import android.util.TypedValue
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.copyToClip
+import com.twoeightnine.root.xvii.utils.stylize
 
 class LgAlertDialog(context: Context) : AlertDialog(context) {
 
@@ -33,7 +33,7 @@ class LgAlertDialog(context: Context) : AlertDialog(context) {
 
     override fun show() {
         super.show()
-        Style.forDialog(this, keepFont = true)
+        stylize(keepFont = true)
     }
 
     companion object {

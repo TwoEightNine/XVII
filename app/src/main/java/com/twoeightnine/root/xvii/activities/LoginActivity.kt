@@ -14,7 +14,6 @@ import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
@@ -39,7 +38,7 @@ class LoginActivity : BaseActivity() {
         App.appComponent?.inject(this)
 
         checkToken()
-        Style.forProgressBar(progressBar)
+        progressBar.stylize()
     }
 
     private fun checkToken() {

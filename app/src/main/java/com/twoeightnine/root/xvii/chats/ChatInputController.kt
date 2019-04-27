@@ -9,7 +9,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.emoji.Emoji
@@ -114,7 +113,7 @@ class ChatInputController(
             KeyboardState.EMOJIS -> R.drawable.ic_keyboard
         }
         val d = ContextCompat.getDrawable(context, iconRes)
-        Style.forDrawable(d, Style.DARK_TAG)
+//        d?.stylize(ColorManager.DARK_TAG)
         rootView.ivKeyboard.setImageDrawable(d)
     }
 

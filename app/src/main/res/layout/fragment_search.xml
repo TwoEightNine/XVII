@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/ic_not_found"
-            android:tag="dark" />
+            android:tag="light" />
 
         <TextView
             style="@style/OtherText"

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseMultiSelectAdapter
-import com.twoeightnine.root.xvii.managers.Style
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.item_loader.view.*
 import kotlinx.android.synthetic.main.item_try_again.view.*
 
@@ -163,9 +163,7 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(
     inner class LoaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         init {
-            with(itemView) {
-                Style.forProgressBar(progressBar)
-            }
+            itemView.progressBar.stylize()
         }
     }
 

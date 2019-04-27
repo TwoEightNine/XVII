@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.utils
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -13,7 +14,6 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.web.GifViewerActivity
 
@@ -77,7 +77,7 @@ fun getGif(doc: Doc, context: Context): View {
 
 fun getDoc(doc: Doc, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_doc, null, false)
-    Style.forViewGroup(included.findViewById<RelativeLayout>(R.id.relativeLayout), false)
+    included.findViewById<RelativeLayout>(R.id.relativeLayout).stylize(changeStroke = false)
     included.findViewById<TextView>(R.id.tvExt).text = doc.ext?.toUpperCase()
     included.findViewById<TextView>(R.id.tvTitle).text = doc.title
     included.findViewById<TextView>(R.id.tvSize).text = getSize(context, doc.size)
@@ -89,7 +89,7 @@ fun getDoc(doc: Doc, context: Context): View {
 
 fun getEncrypted(doc: Doc, context: Context, decryptCallback: (Doc) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_enc, null, false)
-    Style.forViewGroup(included.findViewById(R.id.relativeLayout))
+    included.findViewById<ViewGroup>(R.id.relativeLayout).stylize(changeStroke = false)
     included.findViewById<TextView>(R.id.tvTitle).text = doc.title
     included.findViewById<TextView>(R.id.tvSize).text = getSize(context, doc.size)
     included.setOnClickListener {
@@ -102,8 +102,8 @@ fun getAudio(audio: Audio, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_audio, null, false)
     val dPlay = ContextCompat.getDrawable(context, R.drawable.ic_play)
     val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
-    Style.forDrawable(dPlay, Style.DARK_TAG)
-    Style.forDrawable(dPause, Style.DARK_TAG)
+    dPlay?.stylize(ColorManager.DARK_TAG)
+    dPause?.stylize(ColorManager.DARK_TAG)
     val ivButton = included.findViewById<ImageView>(R.id.ivButton)
     ivButton.setImageDrawable(dPlay)
     included.findViewById<TextView>(R.id.tvTitle).text = audio.title

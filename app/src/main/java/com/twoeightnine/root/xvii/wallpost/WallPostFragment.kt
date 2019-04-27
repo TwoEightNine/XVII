@@ -10,7 +10,6 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.model.attachments.Attachment
@@ -135,8 +134,8 @@ class WallPostFragment : BaseOldFragment() {
 
         val noLike = ContextCompat.getDrawable(safeContext, R.drawable.ic_favorite)
         val like = ContextCompat.getDrawable(safeContext, R.drawable.ic_favorite_fill)
-        Style.forDrawable(like, Style.MAIN_TAG)
-        Style.forDrawable(noLike, Style.MAIN_TAG)
+        like?.stylize(ColorManager.MAIN_TAG)
+        noLike?.stylize(ColorManager.MAIN_TAG)
         if (likes.isUserLiked) {
             ivLike.setImageDrawable(like)
         } else {

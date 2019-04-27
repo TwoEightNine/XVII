@@ -8,7 +8,6 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import kotlinx.android.synthetic.main.fragment_appearance.*
@@ -30,9 +29,9 @@ class AppearanceFragment : BaseOldFragment() {
         currentColor = colorBefore
         initViews()
         applyColors()
-        Style.forImageView(ivPreview, Style.MAIN_TAG)
-        Style.forSwitch(switchNight)
-        Style.forViewGroupColor(rlHideBottom)
+        ivPreview.stylize(ColorManager.MAIN_TAG)
+        switchNight.stylize()
+        rlHideBottom.stylizeColor()
         bottomSheetHelper = BottomSheetHelper(
                 rlBottom,
                 rlHideBottom,
@@ -47,7 +46,7 @@ class AppearanceFragment : BaseOldFragment() {
     override fun getLayout() = R.layout.fragment_appearance
 
     private fun applyColors() {
-        val colors = Style.getFromMain(currentColor)
+        val colors = ColorManager.getFromMain(currentColor)
         rlDark.setBackgroundColor(colors[0])
         rlMain.setBackgroundColor(colors[1])
         rlLight.setBackgroundColor(colors[2])
@@ -106,7 +105,7 @@ class AppearanceFragment : BaseOldFragment() {
                     .setNegativeButton(R.string.delete) { _, _ -> deletePhoto() }
                     .create()
             dialog.show()
-            Style.forDialog(dialog)
+            dialog.stylize()
         } else {
             openGallery()
         }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import com.twoeightnine.root.xvii.utils.stylize
 
 class ProfileActivity : BaseActivity() {
 
@@ -27,6 +28,7 @@ class ProfileActivity : BaseActivity() {
                 .beginTransaction()
                 .replace(R.id.flContainer, ProfileFragment.newInstance(getUserId()))
                 .commitAllowingStateLoss()
+        stylize()
     }
 
     private fun getUserId(): Int {

@@ -39,7 +39,6 @@ import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.User
 import io.reactivex.Completable
@@ -69,7 +68,7 @@ fun showToast(context: Context?, message: String, duration: Int = Toast.LENGTH_S
 
     val toast = Toast.makeText(context, message, duration)
     toast.view.findViewById<TextView>(android.R.id.message)?.apply {
-        typeface = Style.SANS_SERIF_LIGHT
+        typeface = SANS_SERIF_LIGHT
     }
     toast.show()
 }
@@ -109,7 +108,7 @@ fun showAlert(context: Context?, text: String?) {
             .setPositiveButton(R.string.ok, null)
             .create()
     dialog.show()
-    Style.forDialog(dialog)
+    dialog.stylize()
 }
 
 fun showConfirm(context: Context?, text: String, callback: (Boolean) -> Unit) {
@@ -121,7 +120,7 @@ fun showConfirm(context: Context?, text: String, callback: (Boolean) -> Unit) {
             .setNegativeButton(R.string.cancel) { _, _ -> callback.invoke(false) }
             .create()
     dialog.show()
-    Style.forDialog(dialog)
+    dialog.stylize()
 }
 
 fun startNotificationService(context: Context) {
@@ -502,7 +501,7 @@ fun showDeleteDialog(context: Context?,
             .setPositiveButton(R.string.ok) { _, _ -> onDelete.invoke() }
             .create()
     dialog.show()
-    Style.forDialog(dialog)
+    dialog.stylize()
 }
 
 

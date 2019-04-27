@@ -6,12 +6,8 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.attachments.Audio
-import com.twoeightnine.root.xvii.utils.hide
-import com.twoeightnine.root.xvii.utils.secToTime
-import com.twoeightnine.root.xvii.utils.setVisible
-import com.twoeightnine.root.xvii.utils.show
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.item_attachments_track.view.*
 
 class AudioAttachmentsAdapter(
@@ -43,16 +39,16 @@ class AudioAttachmentsAdapter(
             with(itemView) {
                 val icon = if (item == played) {
                     val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
-                    Style.forDrawable(dPause, Style.DARK_TAG)
+                    dPause?.stylize(ColorManager.DARK_TAG)
                     dPause
                 } else {
                     val dPlay = ContextCompat.getDrawable(context, R.drawable.ic_play)
-                    Style.forDrawable(dPlay, Style.DARK_TAG)
+                    dPlay?.stylize(ColorManager.DARK_TAG)
                     dPlay
                 }
-                Style.forImageView(ivDownload, Style.DARK_TAG)
-                Style.forImageView(ivCached, Style.DARK_TAG)
-                Style.forProgressBar(progressBar)
+                ivDownload.stylize(ColorManager.DARK_TAG)
+                ivCached.stylize(ColorManager.DARK_TAG)
+                progressBar.stylize()
 
                 val cached = item.isCached()
                 ivDownload.setVisible(!cached && cacheMode)

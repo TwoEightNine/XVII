@@ -12,7 +12,6 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.disposables.CompositeDisposable
@@ -57,7 +56,7 @@ class GalleryFragment : BaseFragment() {
                 selectedSubject.onNext(adapter.multiSelect)
                 adapter.clearMultiSelect()
             }
-            Style.forFAB(this)
+            stylize()
         }
         rlPermissions.setVisible(!permissionHelper.hasStoragePermissions())
         rlPermissions.setOnClickListener {
@@ -67,7 +66,7 @@ class GalleryFragment : BaseFragment() {
                 reloadData()
             }
         }
-        Style.forProgressBar(progressBar)
+        progressBar.stylize()
     }
 
     private fun reloadData() {

@@ -9,11 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.utils.EmojiHelper
-import com.twoeightnine.root.xvii.utils.getTime
-import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.setVisible
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.item_dialog.view.*
 
 class DialogsAdapter(
@@ -67,11 +63,11 @@ class DialogsAdapter(
                     tvUnreadCount.text = unread
                 }
 
-                Style.forImageView(ivOnlineDot, Style.MAIN_TAG)
-                Style.forImageView(ivUnreadDotOut, Style.MAIN_TAG, false)
-                Style.forImageView(ivMute, Style.DARK_TAG)
-                Style.forImageView(ivPinned, Style.DARK_TAG)
-                Style.forViewGroup(rlUnreadCount)
+                ivOnlineDot.stylize(ColorManager.MAIN_TAG)
+                ivUnreadDotOut.stylize(ColorManager.MAIN_TAG, changeStroke = false)
+//                ivMute.stylize(ColorManager.LIGHT_TAG)
+//                ivPinned.stylize(ColorManager.LIGHT_TAG)
+                rlUnreadCount.stylize()
                 rlItemContainer.setOnClickListener { onClick(items[adapterPosition]) }
                 rlItemContainer.setOnLongClickListener {
                     onLongClick(items[adapterPosition])

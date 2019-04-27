@@ -13,11 +13,7 @@ import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.utils.restartApp
-import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.showToast
-import com.twoeightnine.root.xvii.utils.time
+import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import kotlinx.android.synthetic.main.activity_pin.*
 import javax.inject.Inject
@@ -139,7 +135,7 @@ class PinActivity : BaseActivity() {
                 .create()
 
         dialog.show()
-        Style.forDialog(dialog)
+        dialog.stylize()
     }
 
     private fun resetPin() {

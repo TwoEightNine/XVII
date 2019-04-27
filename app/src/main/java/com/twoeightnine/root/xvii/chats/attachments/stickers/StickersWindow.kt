@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
@@ -49,7 +48,7 @@ class StickersWindow(
             swipeRefresh.setOnRefreshListener {
                 loadFromServer()
             }
-            Style.forProgressBar(progressBar)
+            progressBar.stylize()
         }
         return view
     }

@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseMultiSelectAdapter
-import com.twoeightnine.root.xvii.managers.Style
+import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.setVisible
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.item_gallery.view.*
 
 class GalleryAdapter(
@@ -35,7 +36,7 @@ class GalleryAdapter(
                 ivCamera.setVisible(isCamera)
                 ivThumb.setVisible(!isCamera)
                 if (isCamera) {
-                    Style.forImageView(ivCamera, Style.DARK_TAG)
+                    ivCamera.stylize(ColorManager.DARK_TAG)
                 } else {
                     ivThumb.load("file://$item") {
                         resize(GalleryAdapter.PHOTO_SIZE, GalleryAdapter.PHOTO_SIZE)

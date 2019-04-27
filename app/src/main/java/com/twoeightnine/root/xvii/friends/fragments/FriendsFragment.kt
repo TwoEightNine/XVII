@@ -13,7 +13,6 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.friends.adapters.FriendsAdapter
 import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
@@ -21,6 +20,7 @@ import com.twoeightnine.root.xvii.search.SearchActivity
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.fragment_friends.*
 import javax.inject.Inject
 
@@ -45,7 +45,7 @@ class FriendsFragment : BaseFragment() {
         rvFriends.layoutManager = LinearLayoutManager(context)
         rvFriends.adapter = adapter
 
-        Style.forProgressBar(progressBar)
+        progressBar.stylize()
         swipeRefresh.setOnRefreshListener {
             viewModel.loadFriends()
         }

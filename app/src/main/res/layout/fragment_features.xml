@@ -94,7 +94,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_arrow_right"
-                    android:tag="dark" />
+                    android:tag="main" />
 
             </RelativeLayout>
 
@@ -133,7 +133,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
                     android:src="@drawable/ic_analysis"
-                    android:tag="dark" />
+                    android:tag="main" />
 
                 <TextView
                     style="@style/MainText"
@@ -161,7 +161,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
                     android:src="@drawable/ic_star"
-                    android:tag="dark" />
+                    android:tag="main" />
 
                 <TextView
                     style="@style/MainText"
@@ -209,7 +209,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
                     android:src="@drawable/ic_general"
-                    android:tag="dark" />
+                    android:tag="main" />
 
                 <TextView
                     style="@style/MainText"
@@ -237,7 +237,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
                     android:src="@drawable/ic_notifications"
-                    android:tag="dark" />
+                    android:tag="main" />
 
                 <TextView
                     style="@style/MainText"
@@ -265,7 +265,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
                     android:src="@drawable/ic_appearance"
-                    android:tag="dark" />
+                    android:tag="main" />
 
                 <TextView
                     style="@style/MainText"
@@ -293,7 +293,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
                     android:src="@drawable/ic_pin"
-                    android:tag="dark" />
+                    android:tag="main" />
 
                 <TextView
                     style="@style/MainText"
@@ -341,7 +341,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
                     android:src="@drawable/ic_feedback"
-                    android:tag="dark" />
+                    android:tag="main" />
 
                 <TextView
                     style="@style/MainText"
@@ -369,7 +369,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
                     android:src="@drawable/ic_star"
-                    android:tag="dark" />
+                    android:tag="main" />
 
                 <TextView
                     style="@style/MainText"
@@ -397,7 +397,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
                     android:src="@drawable/ic_share"
-                    android:tag="dark" />
+                    android:tag="main" />
 
                 <TextView
                     style="@style/MainText"
@@ -425,7 +425,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
                     android:src="@drawable/ic_privacy"
-                    android:tag="dark" />
+                    android:tag="main" />
 
                 <TextView
                     style="@style/MainText"

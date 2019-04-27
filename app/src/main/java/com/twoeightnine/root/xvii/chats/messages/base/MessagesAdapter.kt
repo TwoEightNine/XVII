@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.utils.*
@@ -119,14 +118,14 @@ class MessagesAdapter(context: Context,
                     setOnClickListener { callback.onUserClicked(message.fromId) }
                 }
                 readStateDot?.apply {
-                    Style.forImageView(this, Style.MAIN_TAG, changeStroke = false)
+                    stylize(ColorManager.MAIN_TAG, changeStroke = false)
                     visibility = if (!message.read && message.isOut()) {
                         View.VISIBLE
                     } else {
                         View.INVISIBLE
                     }
                 }
-                Style.forMessage(llMessage, level + message.out)
+                llMessage.stylizeAsMessage(level + message.out)
                 rlImportant.hide()
                 llMessageContainer.removeAllViews()
 

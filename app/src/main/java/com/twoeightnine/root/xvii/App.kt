@@ -5,8 +5,8 @@ import android.content.Context
 import com.twoeightnine.root.xvii.dagger.AppComponent
 import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
+import com.twoeightnine.root.xvii.utils.ColorManager
 
 class App : Application() {
 
@@ -17,7 +17,8 @@ class App : Application() {
         appComponent = DaggerAppComponent.builder()
                 .contextModule(ContextModule(this))
                 .build()
-        Style.init(applicationContext)
+//        Style.init(applicationContext)
+        ColorManager.init(applicationContext)
 
 //        try {
 //            StatTool.init(applicationContext)

@@ -15,13 +15,8 @@ import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.accounts.viewmodel.AccountsViewModel
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.utils.restartApp
-import com.twoeightnine.root.xvii.utils.showConfirm
-import com.twoeightnine.root.xvii.utils.showDeleteDialog
-import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_accounts.*
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 class AccountsFragment : BaseFragment() {
@@ -52,7 +47,7 @@ class AccountsFragment : BaseFragment() {
             Session.token = ""
             restartApp(getString(R.string.restart_app))
         }
-        Style.forFAB(fabAdd)
+        fabAdd.stylize()
     }
 
     private fun updateAccounts(accounts: ArrayList<Account>) {
@@ -67,7 +62,6 @@ class AccountsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.accounts))
-        Style.forToolbar(toolbar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

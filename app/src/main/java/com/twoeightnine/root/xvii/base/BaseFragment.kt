@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.toolbar.*
 
 abstract class BaseFragment : Fragment() {
@@ -49,6 +50,7 @@ abstract class BaseFragment : Fragment() {
                     toolbar?.setSubtitleTextColor(ContextCompat.getColor(it, R.color.toolbar_subtext))
                 }
             }
+            toolbar.stylize()
         }
     }
 

@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.managers.Style
 
 class PermissionHelper {
 
@@ -68,7 +67,7 @@ class PermissionHelper {
                 .setNegativeButton(R.string.cancel, null)
                 .create()
         dialog.show()
-        Style.forDialog(dialog)
+        dialog.stylize()
     }
 
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

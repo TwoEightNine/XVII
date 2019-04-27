@@ -8,9 +8,10 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.utils.ExceptionHandler
 import com.twoeightnine.root.xvii.utils.NightModeHelper
+import com.twoeightnine.root.xvii.utils.stylize
+import com.twoeightnine.root.xvii.utils.stylizeAll
 
 /**
  * all its children will support theme applying
@@ -55,8 +56,10 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     protected fun styleScreen(container: ViewGroup) {
-        Style.forAll(container)
-        Style.setStatusBar(this)
+//        Style.forAll(container)
+//        Style.setStatusBar(this)
+        container.stylizeAll()
+        stylize()
     }
 
 }

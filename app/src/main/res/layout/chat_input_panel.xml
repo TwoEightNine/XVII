@@ -35,8 +35,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_attachment"
-                android:tag="dark" />
+                android:src="@drawable/ic_attachment" />
 
             <RelativeLayout
                 android:id="@+id/rlAttachCount"
@@ -87,8 +86,7 @@
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/flSendContainer"
             android:padding="4dp"
-            android:src="@drawable/ic_sticker"
-            android:tag="dark" />
+            android:src="@drawable/ic_sticker" />
 
         <FrameLayout
             android:id="@+id/flSendContainer"
@@ -104,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:src="@drawable/ic_send"
-                android:tag="dark"
+                android:tag="main"
                 android:visibility="gone" />
 
             <ImageView
@@ -113,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:src="@drawable/ic_mic_small"
-                android:tag="dark" />
+                android:tag="main" />
 
         </FrameLayout>
 

@@ -25,7 +25,6 @@ import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
@@ -38,7 +37,8 @@ import com.twoeightnine.root.xvii.views.LoadingDialog
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.toolbar.toolbar
+import kotlinx.android.synthetic.main.toolbar_chat.*
 import javax.inject.Inject
 
 class ChatFragment : BaseOldFragment(), ChatFragmentView {
@@ -51,6 +51,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     private val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
     private val title by lazy { arguments?.getString(ARG_TITLE) ?: "" }
+    private val photo by lazy { arguments?.getString(ARG_PHOTO) ?: "" }
     private val isOnline by lazy { arguments?.getBoolean(ARG_IS_ONLINE) == true }
     private val forwardedMessages by lazy { arguments?.getString(ARG_FORWARDED) }
 
@@ -91,12 +92,12 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             restartApp()
         }
 
-        Style.forAll(rlMultiAction)
-        Style.forFAB(fabHasMore)
-        Style.forViewGroupColor(rlTyping)
-        Style.forViewGroupColor(rlRecordingVoice)
-        Style.forAll(rlBack)
-        Style.forAll(rlMultiAction)
+        rlMultiAction.stylizeAll()
+        rlMultiAction.stylizeColor()
+        fabHasMore.stylize()
+//        rlTyping.stylizeColor()
+//        rlRecordingVoice.stylizeColor()
+        rlBack.stylizeAll()
 
         forwardedMessages?.also {
             handler.postDelayed({
@@ -135,8 +136,10 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         try {
-            rootActivity?.title = title
-            onChangeOnline(isOnline)
+//            rootActivity?.title = title
+            tvTitle.text = title
+//            onChangeOnline(isOnline)
+            ivAvatar.load(photo)
             toolbar?.setOnClickListener {
                 hideKeyboard(safeActivity)
                 if (peerId.matchesUserId()) {
@@ -222,7 +225,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 .setNegativeButton(R.string.cancel, null)
                 .create()
         dialog.show()
-        Style.forDialog(dialog)
+        dialog.stylize()
     }
 
     private fun showEditMessageDialog(message: Message) {
@@ -422,25 +425,36 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     override fun onShowTyping() {
-        rlTyping?.show()
+//        rlTyping?.show()
+        tvTyping.show()
+        tvRecordingVoice.hide()
+        tvSubtitle.hide()
         handler.postDelayed({ onHideTyping() }, 5000L)
     }
 
     override fun onHideTyping() {
-        rlTyping?.hide()
+//        rlTyping?.hide()
+        tvTyping.hide()
+        tvSubtitle.show()
     }
 
     override fun onShowRecordingVoice() {
-        rlRecordingVoice?.show()
+//        rlRecordingVoice?.show()
+        tvRecordingVoice.show()
+        tvTyping.hide()
+        tvSubtitle.hide()
         handler.postDelayed({ onHideRecordingVoice() }, 5000L)
     }
 
     override fun onHideRecordingVoice() {
-        rlRecordingVoice?.hide()
+//        rlRecordingVoice?.hide()
+        tvRecordingVoice.hide()
+        tvSubtitle.show()
     }
 
     override fun onChangeOnline(isOnline: Boolean, timeStamp: Int) {
-        rootActivity?.supportActionBar?.subtitle = when {
+//        rootActivity?.supportActionBar?.subtitle = when {
+        tvSubtitle.text = when {
             peerId.matchesChatId() -> getString(R.string.conversation)
             peerId.matchesGroupId() -> getString(R.string.community)
             else -> {
@@ -489,7 +503,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 .setPositiveButton(R.string.ok, { _, _ -> presenter.startKeyExchange() })
                 .create()
         alertDialog.show()
-        Style.forDialog(alertDialog)
+        alertDialog.stylize()
     }
 
     override fun onKeyGenerating() {
@@ -555,6 +569,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         const val ARG_TITLE = "title"
         const val ARG_IS_ONLINE = "online"
         const val ARG_FORWARDED = "forwarded"
+        const val ARG_PHOTO = "photo"
 
         const val REQUEST_ATTACH = 7364
 
@@ -564,6 +579,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 putInt(ARG_PEER_ID, dialog.peerId)
                 putString(ARG_TITLE, dialog.alias ?: dialog.title)
                 putBoolean(ARG_IS_ONLINE, dialog.isOnline)
+                putString(ARG_PHOTO, dialog.photo)
                 if (forwarded.isNotEmpty()) {
                     putString(ARG_FORWARDED, forwarded)
                 }
@@ -571,10 +587,11 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             return fragment
         }
 
-        fun newInstance(peerId: Int, title: String, isOnline: Boolean = false) = newInstance(Dialog(
+        fun newInstance(peerId: Int, title: String, photo: String?, isOnline: Boolean = false) = newInstance(Dialog(
                 peerId = peerId,
                 title = title,
-                isOnline = isOnline
+                isOnline = isOnline,
+                photo = photo
         ))
 
         fun newInstance(message: Message, forwarded: String = ""): ChatFragment {
@@ -583,6 +600,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 putInt(ARG_PEER_ID, getPeerId(message.userId, message.chatId))
                 putString(ARG_TITLE, message.title)
                 putBoolean(ARG_IS_ONLINE, false)
+                putString(ARG_PHOTO, message.photo)
                 if (forwarded.isNotEmpty()) {
                     putString(ARG_FORWARDED, forwarded)
                 }

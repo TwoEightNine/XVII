@@ -11,7 +11,8 @@ import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.activities.RootActivity
-import com.twoeightnine.root.xvii.managers.Style
+import com.twoeightnine.root.xvii.utils.stylize
+import com.twoeightnine.root.xvii.utils.stylizeAll
 import kotlinx.android.synthetic.main.toolbar.*
 
 open class BaseOldFragment: Fragment() {
@@ -107,8 +108,8 @@ open class BaseOldFragment: Fragment() {
     open fun onBackPressed() = false
 
     protected fun styleScreen(container: ViewGroup? = null) {
-        if (toolbar != null) Style.forToolbar(toolbar!!)
-        Style.forAll(container)
-        rootActivity?.apply { Style.setStatusBar(this) }
+        toolbar?.stylize()
+        container?.stylizeAll()
+        rootActivity?.stylize()
     }
 }

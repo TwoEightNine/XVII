@@ -17,8 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_navigation_height"
         android:layout_alignParentBottom="true"
-        android:elevation="12dp"
-        app:itemBackground="@color/toolbar"
+        android:background="@color/bottom_nav_view"
+        app:elevation="12dp"
         app:itemIconTint="@color/icon_bottom"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/menu_main_bottom" />

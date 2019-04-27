@@ -22,11 +22,7 @@ import com.twoeightnine.root.xvii.features.general.GeneralActivity
 import com.twoeightnine.root.xvii.features.notifications.NotificationsActivity
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.rate
-import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.showToast
+import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.web.WebActivity
 import kotlinx.android.synthetic.main.fragment_features.*
 import javax.inject.Inject
@@ -70,7 +66,7 @@ class FeaturesFragment : BaseFragment() {
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
 
-        Style.forAll(llRoot)
+        llRoot.stylizeAll()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -101,7 +97,7 @@ class FeaturesFragment : BaseFragment() {
                     .create()
 
             dialog.show()
-            Style.forDialog(dialog)
+            dialog.stylize()
         }
     }
 

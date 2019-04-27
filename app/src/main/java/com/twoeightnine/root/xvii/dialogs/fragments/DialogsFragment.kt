@@ -18,7 +18,6 @@ import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.search.SearchActivity
 import com.twoeightnine.root.xvii.utils.*
@@ -53,7 +52,7 @@ open class DialogsFragment : BaseFragment() {
             adapter.reset()
             adapter.startLoading()
         }
-        Style.forProgressBar(progressBar)
+        progressBar.stylize()
     }
 
     private fun initRecycler() {
@@ -76,7 +75,7 @@ open class DialogsFragment : BaseFragment() {
     }
 
     protected open fun onClick(dialog: Dialog) {
-        ChatActivity.launch(context, dialog.peerId, dialog.alias ?: dialog.title, dialog.isOnline)
+        ChatActivity.launch(context, dialog.peerId, dialog.alias ?: dialog.title, dialog.photo, dialog.isOnline)
     }
 
     protected open fun onLongClick(dialog: Dialog) {

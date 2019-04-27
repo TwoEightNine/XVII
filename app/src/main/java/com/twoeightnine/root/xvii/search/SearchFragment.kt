@@ -10,10 +10,10 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.hideKeyboard
 import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.stylizeAll
 import com.twoeightnine.root.xvii.utils.subscribeSearch
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.view_search.*
@@ -40,7 +40,7 @@ class SearchFragment : BaseFragment() {
 
         etSearch.subscribeSearch(true, viewModel::search)
         ivDelete.setOnClickListener { etSearch.setText("") }
-        Style.forAll(llEmptyView)
+        llEmptyView.stylizeAll()
     }
 
     private fun updateResults(data: Wrapper<ArrayList<Dialog>>) {
@@ -52,7 +52,7 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun onClick(dialog: Dialog) {
-        ChatActivity.launch(context, dialog.peerId, dialog.title, dialog.isOnline)
+        ChatActivity.launch(context, dialog.peerId, dialog.title, dialog.photo, dialog.isOnline)
     }
 
     private fun initRecycler() {

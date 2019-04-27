@@ -10,7 +10,7 @@ import com.twoeightnine.root.xvii.egg.EggFragment
 import com.twoeightnine.root.xvii.features.notifications.color.ColorAlertDialog
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Style
+import com.twoeightnine.root.xvii.utils.stylizeAll
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
 /**
@@ -116,7 +116,7 @@ class NotificationsFragment : BaseOldFragment() {
 
     override fun bindViews(view: View) {
         initSwitches()
-        Style.forAll(llContainer)
+        llContainer.stylizeAll()
         if (Math.random() > 0.85 || BuildConfig.DEBUG) {
             val handler = Handler()
             switchEgg.visibility = View.VISIBLE

@@ -18,7 +18,7 @@
     <color name="fab">#92b</color>
     <color name="accent">#666</color>
     <color name="shape">#9268a5</color>
-    <color name="selected_mess">#5aaa</color>
+    <color name="selected_mess">#7aaa</color>
 
     <color name="toolbar_text">#fff</color>
     <color name="toolbar_subtext">#e3e3e3</color>
@@ -26,4 +26,8 @@
 
     <color name="splash_color">#111</color>
     <color name="input_panel">#fff</color>
+    <color name="bottom_nav_view">#fff</color>
+
+    <color name="bottom_icon_enabled">#7C43B8</color>
+    <color name="bottom_icon_disabled">#bbb</color>
 </resources>

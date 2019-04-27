@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.managers.Style
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.dialog_color.view.*
 
 class ColorAlertDialog(
@@ -26,7 +26,7 @@ class ColorAlertDialog(
 
     override fun show() {
         super.show()
-        Style.forDialog(this)
+        stylize()
     }
 
     private fun onClick(color: Color) {

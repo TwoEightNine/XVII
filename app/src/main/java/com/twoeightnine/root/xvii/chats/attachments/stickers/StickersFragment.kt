@@ -9,12 +9,12 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.stylize
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_attachments.*
@@ -45,7 +45,7 @@ class StickersFragment : BaseFragment() {
         swipeRefresh.setOnRefreshListener {
             viewModel.loadStickers(refresh = true)
         }
-        Style.forProgressBar(progressBar)
+        progressBar.stylize()
     }
 
     private fun updateList(data: Wrapper<ArrayList<Sticker>>) {

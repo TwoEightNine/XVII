@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.fragment_attachments.*
 import javax.inject.Inject
 
@@ -51,7 +51,7 @@ abstract class BaseAttachmentsFragment<T : Any> : BaseFragment() {
             adapter.reset()
             adapter.startLoading()
         }
-        Style.forProgressBar(progressBar)
+        progressBar.stylize()
     }
 
     private fun updateList(data: Wrapper<ArrayList<T>>) {

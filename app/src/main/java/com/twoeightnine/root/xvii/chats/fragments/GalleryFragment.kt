@@ -11,11 +11,7 @@ import com.twoeightnine.root.xvii.chats.Titleable
 import com.twoeightnine.root.xvii.chats.adapters.GalleryAdapter
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.managers.Style
-import com.twoeightnine.root.xvii.utils.ImageUtils
-import com.twoeightnine.root.xvii.utils.PermissionHelper
-import com.twoeightnine.root.xvii.utils.hide
-import com.twoeightnine.root.xvii.utils.show
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_gallery.*
 import java.io.File
 
@@ -47,8 +43,8 @@ class GalleryFragment: BaseOldFragment(), Titleable, SimpleAdapter.OnMultiSelect
         if (fromSettings) {
             initAdapter()
         }
-        Style.forFAB(fabDone)
-        Style.forImageView(ivRefresh, Style.MAIN_TAG)
+        fabDone.stylize()
+        ivRefresh.stylize(ColorManager.MAIN_TAG)
         viewsBind = true
         ivRefresh.setOnClickListener { checkPermissions() }
         if (!permissionHelper.hasStoragePermissions()) {

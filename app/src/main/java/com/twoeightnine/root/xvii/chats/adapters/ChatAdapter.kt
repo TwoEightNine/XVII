@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
-import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.isSticker
@@ -154,14 +153,14 @@ class ChatAdapter(context: Context,
                     setOnClickListener { callback.onUserClicked(message.userId) }
                 }
                 readStateDot?.apply {
-                    Style.forImageView(this, Style.MAIN_TAG)
+                    stylize(ColorManager.MAIN_TAG)
                     visibility = if (!message.isRead && message.isOut) {
                         View.VISIBLE
                     } else {
                         View.INVISIBLE
                     }
                 }
-                Style.forMessage(llMessage, level + message.out)
+                llMessage.stylizeAsMessage(level + message.out)
                 rlImportant.hide()
                 llMessageContainer.removeAllViews()
 
