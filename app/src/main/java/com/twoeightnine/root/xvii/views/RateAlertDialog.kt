@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.views
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.rate
@@ -29,4 +29,9 @@ class RateAlertDialog(context: Context) : AlertDialog(context) {
         setView(view)
     }
 
+    override fun show() {
+        if (Prefs.showRate) {
+            super.show()
+        }
+    }
 }

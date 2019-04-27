@@ -33,6 +33,8 @@ class FeaturesFragment : BaseFragment() {
     lateinit var viewModelFactory: FeaturesViewModel.Factory
     private lateinit var viewModel: FeaturesViewModel
 
+    private var joinGroupShown = false
+
     override fun getLayoutId() = R.layout.fragment_features
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,10 +49,22 @@ class FeaturesFragment : BaseFragment() {
         rlStarred.setOnClickListener { StarredMessagesActivity.launch(context) }
 
         rlAccounts.setOnClickListener { AccountsActivity.launch(context) }
-        rlGeneral.setOnClickListener { GeneralActivity.launch(context) }
-        rlNotifications.setOnClickListener { NotificationsActivity.launch(context) }
-        rlAppearance.setOnClickListener { AppearanceActivity.launch(context) }
-        rlPin.setOnClickListener { onPinClicked() }
+        rlGeneral.setOnClickListener {
+            GeneralActivity.launch(context)
+            suggestJoin()
+        }
+        rlNotifications.setOnClickListener {
+            NotificationsActivity.launch(context)
+            suggestJoin()
+        }
+        rlAppearance.setOnClickListener {
+            AppearanceActivity.launch(context)
+            suggestJoin()
+        }
+        rlPin.setOnClickListener {
+            onPinClicked()
+            suggestJoin()
+        }
 
         rlFeedback.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }
         rlRate.setOnClickListener { context?.also { rate(it) } }
@@ -109,6 +123,21 @@ class FeaturesFragment : BaseFragment() {
         viewModel.shareXvii({
             showToast(context, R.string.shared)
         }, { showError(context, it) })
+    }
+
+    private fun suggestJoin() {
+        if (!joinGroupShown) {
+            viewModel.checkMembership { inGroup ->
+                if (!inGroup) {
+                    showConfirm(context, getString(R.string.join_us)) { yes ->
+                        if (yes) {
+                            viewModel.joinGroup()
+                        }
+                    }
+                }
+                joinGroupShown = true
+            }
+        }
     }
 
     companion object {

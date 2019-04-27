@@ -1,73 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@color/popup">
-    
+    android:background="@color/popup"
+    android:orientation="vertical">
+
     <ImageView
         android:id="@+id/ivXvii"
-        android:layout_marginTop="10dp"
-        android:src="@mipmap/xvii512"
-        android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
         android:layout_width="150dp"
-        android:layout_height="150dp" />
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/xvii512" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivXvii"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:textSize="18sp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:gravity="center"
-        android:textColor="@color/main_text"
         android:text="@string/like_app"
-        android:layout_below="@+id/ivXvii"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/main_text"
+        android:textSize="18sp" />
 
     <LinearLayout
-        android:weightSum="3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="3">
 
         <TextView
-            android:gravity="center"
-            android:layout_margin="8dp"
-            android:textSize="17sp"
-            android:textColor="@color/other_text"
-            android:text="@string/never"
             android:id="@+id/tvNever"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textSize="17sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/never"
             android:textColor="@color/other_text"
-            android:text="@string/not_now"
-            android:id="@+id/tvNotNow"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:textSize="17sp" />
 
         <TextView
-            android:gravity="center"
-            android:layout_margin="8dp"
-            android:textSize="18sp"
-            android:textColor="@color/main_text"
-            android:text="@string/rate"
-            android:id="@+id/tvRate"
-            android:layout_weight="1"
+            android:id="@+id/tvNotNow"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/not_now"
+            android:textColor="@color/other_text"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tvRate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/rate"
+            android:textColor="@color/main_text"
+            android:textSize="18sp" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>

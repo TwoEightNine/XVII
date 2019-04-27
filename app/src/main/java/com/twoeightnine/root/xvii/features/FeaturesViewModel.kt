@@ -9,6 +9,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.subscribeSmart
@@ -40,6 +41,21 @@ class FeaturesViewModel(
                 .subscribeSmart({
                     onSuccess()
                 }, onError)
+    }
+
+    fun checkMembership(callback: (Boolean) -> Unit) {
+        api.isGroupMember(App.GROUP, Session.uid)
+                .subscribeSmart({
+                    callback.invoke(it == 1)
+                }, {
+                    error ->
+                    Lg.wtf("check membership error: $error")
+                })
+    }
+
+    fun joinGroup() {
+        api.joinGroup(App.GROUP)
+                .subscribeSmart({}, {})
     }
 
     class Factory @Inject constructor(

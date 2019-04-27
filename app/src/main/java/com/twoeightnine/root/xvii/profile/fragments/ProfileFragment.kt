@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.viewmodels.ProfileViewModel
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.views.RateAlertDialog
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.item_user_field.view.*
 import javax.inject.Inject
@@ -40,6 +41,8 @@ class ProfileFragment : BaseFragment() {
         viewModel.getFoaf().observe(this, Observer { updateFoaf(it) })
         viewModel.userId = userId
         viewModel.loadUser()
+
+        context?.let { RateAlertDialog(it).show() }
     }
 
     private fun stylize() {
