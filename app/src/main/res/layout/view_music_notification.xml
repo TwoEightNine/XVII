@@ -26,10 +26,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
             android:maxLines="1"
             android:textColor="#111"
-            android:textSize="15sp"
-            android:textStyle="bold"
+            android:textSize="16sp"
             tools:text="Title" />
 
         <TextView
@@ -37,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
             android:maxLines="1"
             android:textColor="#444"
             android:textSize="13sp"
@@ -46,26 +47,32 @@
 
     <ImageView
         android:id="@+id/ivNext"
-        android:layout_width="50dp"
+        android:layout_width="52dp"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_skip_next" />
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:src="@drawable/ic_next" />
 
     <ImageView
         android:id="@+id/ivPlayPause"
-        android:layout_width="50dp"
+        android:layout_width="52dp"
         android:layout_height="40dp"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/ivNext"
-        android:src="@drawable/ic_pause_music" />
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:src="@drawable/ic_play_music" />
 
     <ImageView
         android:id="@+id/ivPrevious"
-        android:layout_width="50dp"
+        android:layout_width="52dp"
         android:layout_height="40dp"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/ivPlayPause"
-        android:src="@drawable/ic_skip_previous" />
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:src="@drawable/ic_previous" />
 
 </RelativeLayout>

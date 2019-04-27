@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />

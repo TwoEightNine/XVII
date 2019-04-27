@@ -100,8 +100,8 @@ fun getEncrypted(doc: Doc, context: Context, decryptCallback: (Doc) -> Unit = {}
 
 fun getAudio(audio: Audio, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_audio, null, false)
-    val dPlay = ContextCompat.getDrawable(context, R.drawable.ic_play_button)
-    val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause_button)
+    val dPlay = ContextCompat.getDrawable(context, R.drawable.ic_play)
+    val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
     Style.forDrawable(dPlay, Style.DARK_TAG)
     Style.forDrawable(dPause, Style.DARK_TAG)
     val ivButton = included.findViewById<ImageView>(R.id.ivButton)

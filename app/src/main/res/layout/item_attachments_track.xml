@@ -7,13 +7,13 @@
 
     <ImageView
         android:id="@+id/ivButton"
-        android:layout_width="53dp"
-        android:layout_height="45dp"
+        android:layout_width="45dp"
+        android:layout_height="37dp"
         android:layout_centerVertical="true"
-        android:layout_margin="4dp"
+        android:layout_margin="8dp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:src="@drawable/ic_play_button" />
+        android:src="@drawable/ic_play" />
 
     <LinearLayout
         android:id="@+id/llText"
@@ -91,6 +91,6 @@
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
         android:layout_toStartOf="@+id/rlEnding"
-        android:src="@drawable/ic_download_usual" />
+        android:src="@drawable/ic_download_arrow" />
 
 </RelativeLayout>

@@ -93,7 +93,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_chevron_right"
+                    android:src="@drawable/ic_arrow_right"
                     android:tag="dark" />
 
             </RelativeLayout>
@@ -132,7 +132,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_analytics"
+                    android:src="@drawable/ic_analysis"
                     android:tag="dark" />
 
                 <TextView
@@ -264,7 +264,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_color_palette"
+                    android:src="@drawable/ic_appearance"
                     android:tag="dark" />
 
                 <TextView
@@ -340,7 +340,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_edit"
+                    android:src="@drawable/ic_feedback"
                     android:tag="dark" />
 
                 <TextView
@@ -424,7 +424,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_security"
+                    android:src="@drawable/ic_privacy"
                     android:tag="dark" />
 
                 <TextView

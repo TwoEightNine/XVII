@@ -6,10 +6,10 @@
 
     <ImageView
         android:id="@+id/ivButton"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_margin="8dp"
-        android:src="@drawable/ic_play_button" />
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_margin="12dp"
+        android:src="@drawable/ic_play" />
 
     <LinearLayout
         android:layout_width="wrap_content"

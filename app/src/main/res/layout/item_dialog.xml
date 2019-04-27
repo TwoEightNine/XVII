@@ -47,7 +47,7 @@
                     android:layout_marginStart="4dp"
                     android:layout_toEndOf="@+id/tvTitle"
                     android:paddingTop="2dp"
-                    android:src="@drawable/ic_silence"
+                    android:src="@drawable/ic_muted"
                     android:visibility="gone" />
 
                 <ImageView

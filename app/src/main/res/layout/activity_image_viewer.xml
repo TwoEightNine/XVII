@@ -53,11 +53,12 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:drawableTop="@drawable/ic_add_to_photos"
+                android:drawableTop="@drawable/ic_copy"
                 android:fontFamily="sans-serif-light"
                 android:text="@string/add_to_saved"
+                android:textAllCaps="false"
                 android:textColor="@color/icons"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnDownload"
@@ -69,8 +70,9 @@
                 android:drawableTop="@drawable/ic_download"
                 android:fontFamily="sans-serif-light"
                 android:text="@string/download"
+                android:textAllCaps="false"
                 android:textColor="@color/icons"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 

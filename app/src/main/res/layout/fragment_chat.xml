@@ -164,7 +164,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="12dp"
-                    android:src="@drawable/ic_menu"
+                    android:src="@drawable/ic_features_2"
                     android:tag="dark" />
 
                 <ImageView
@@ -174,7 +174,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
                     android:layout_toLeftOf="@+id/ivMenuMulti"
-                    android:src="@drawable/ic_arrow_right_forward"
+                    android:src="@drawable/ic_transfer"
                     android:tag="dark" />
 
                 <ImageView
@@ -248,6 +248,7 @@
                     android:layout_centerInParent="true"
                     android:fontFamily="sans-serif-light"
                     android:maxLines="1"
+                    android:paddingBottom="4dp"
                     android:text="@string/mic_hint"
                     android:textColor="#fff"
                     android:textSize="16sp" />
@@ -256,6 +257,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="4dp"
                     android:layout_toLeftOf="@+id/tvMicHint"
                     android:src="@drawable/ic_arrow_left" />
 

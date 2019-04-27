@@ -42,11 +42,11 @@ class AudioAttachmentsAdapter(
         override fun bind(item: Track) {
             with(itemView) {
                 val icon = if (item == played) {
-                    val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause_button)
+                    val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
                     Style.forDrawable(dPause, Style.DARK_TAG)
                     dPause
                 } else {
-                    val dPlay = ContextCompat.getDrawable(context, R.drawable.ic_play_button)
+                    val dPlay = ContextCompat.getDrawable(context, R.drawable.ic_play)
                     Style.forDrawable(dPlay, Style.DARK_TAG)
                     dPlay
                 }
