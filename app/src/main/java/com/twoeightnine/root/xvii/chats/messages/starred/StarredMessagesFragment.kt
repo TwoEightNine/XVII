@@ -17,9 +17,11 @@ import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.copyToClip
 import com.twoeightnine.root.xvii.utils.getContextPopup
+import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.toolbar_chat.*
 
 class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>() {
 
@@ -31,6 +33,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        rlCustom.hide()
         (rlInput.layoutParams as? RelativeLayout.LayoutParams)?.height = 0
         ivReplyMulti.visibility = View.INVISIBLE
         ivMenuMulti.visibility = View.INVISIBLE

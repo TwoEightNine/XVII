@@ -36,10 +36,10 @@ class GalleryAdapter(
                 ivCamera.setVisible(isCamera)
                 ivThumb.setVisible(!isCamera)
                 if (isCamera) {
-                    ivCamera.stylize(ColorManager.DARK_TAG)
+                    ivCamera.stylize(ColorManager.MAIN_TAG)
                 } else {
                     ivThumb.load("file://$item") {
-                        resize(GalleryAdapter.PHOTO_SIZE, GalleryAdapter.PHOTO_SIZE)
+                        resize(PHOTO_SIZE, PHOTO_SIZE)
                                 .centerCrop()
                     }
                 }

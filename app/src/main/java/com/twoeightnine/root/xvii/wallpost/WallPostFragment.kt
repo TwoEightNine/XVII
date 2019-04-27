@@ -132,10 +132,8 @@ class WallPostFragment : BaseOldFragment() {
     private fun initLike(wp: WallPost) {
         val likes = wp.likes ?: return
 
-        val noLike = ContextCompat.getDrawable(safeContext, R.drawable.ic_favorite)
-        val like = ContextCompat.getDrawable(safeContext, R.drawable.ic_favorite_fill)
-        like?.stylize(ColorManager.MAIN_TAG)
-        noLike?.stylize(ColorManager.MAIN_TAG)
+        val noLike = ContextCompat.getDrawable(safeContext, R.drawable.ic_no_like)
+        val like = ContextCompat.getDrawable(safeContext, R.drawable.ic_like)
         if (likes.isUserLiked) {
             ivLike.setImageDrawable(like)
         } else {

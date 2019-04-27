@@ -25,6 +25,15 @@
         <item name="actionBarStyle">@style/ActionBarStyle</item>
     </style>
 
+    <style name="ToolbarPopup" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:colorBackground">@color/popup</item>
+        <item name="android:textColor">@color/main_text</item>
+        <item name="android:colorControlActivated">@color/main_text</item>
+        <item name="android:colorControlHighlight">@color/main_text</item>
+        <item name="android:colorControlNormal">@color/main_text</item>
+    </style>
 
     <style name="ActionBarStyle" parent="@style/Theme.AppCompat.Light">
         <item name="android:titleTextStyle">@style/ActionBarStyle.Title</item>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">xvii.</string>
+    <string name="app_name" translatable="false">xvii</string>
     <string name="app_name_music">xvii music</string>
     <string name="about_app">about</string>
     <string name="settings">settings</string>
