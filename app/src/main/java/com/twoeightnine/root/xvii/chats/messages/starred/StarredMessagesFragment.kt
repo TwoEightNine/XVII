@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
-import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.managers.Style
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.attachments.Doc
@@ -18,10 +18,9 @@ import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.copyToClip
 import com.twoeightnine.root.xvii.utils.getContextPopup
-import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
-import kotlinx.android.synthetic.main.fragment_chat_new.*
+import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>() {
@@ -32,11 +31,9 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         App.appComponent?.inject(this)
     }
 
-    override fun getHomeAsUpIcon() = R.drawable.ic_back
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        llInput.hide()
+        (rlInput.layoutParams as? RelativeLayout.LayoutParams)?.height = 0
         ivReplyMulti.visibility = View.INVISIBLE
         ivMenuMulti.visibility = View.INVISIBLE
     }
@@ -65,7 +62,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
                 when (it.id) {
                     R.id.llCopy -> copyToClip(message.text)
                     R.id.llUnmark -> viewModel.unmarkMessage(message)
-                    R.id.llForward -> rootActivity?.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
+//                    R.id.llForward -> rootActivity?.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
                 }
             }.show()
         }

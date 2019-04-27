@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.hide
@@ -84,6 +83,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
 
     private fun onMultiSelectChanged(selectedCount: Int) {
         rlMultiAction.setVisible(selectedCount > 0)
+        adapter.multiSelectMode
 //        tvSelectedCount.text = context?.resources
 //                ?.getQuantityString(R.plurals.messages, selectedCount, selectedCount)
     }
@@ -99,7 +99,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         ivForwardMulti.setOnClickListener {
             val messageIds = adapter.multiSelect.joinToString(separator = ",", transform = { it.id.toString() })
             adapter.multiSelectMode = false
-            rootActivity?.loadFragment(DialogsForwardFragment.newInstance(messageIds))
+//            rootActivity?.loadFragment(DialogsForwardFragment.newInstance(messageIds))
         }
         ivReplyMulti.setOnClickListener {
 

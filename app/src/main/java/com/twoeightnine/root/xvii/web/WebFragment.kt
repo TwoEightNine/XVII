@@ -32,8 +32,6 @@ class WebFragment : BaseFragment() {
         webView.loadUrl(url)
     }
 
-    override fun getHomeAsUpIcon() = R.drawable.ic_back
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(title ?: url ?: getString(R.string.app_name))

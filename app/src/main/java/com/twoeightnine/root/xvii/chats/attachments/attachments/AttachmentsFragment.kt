@@ -50,8 +50,6 @@ class AttachmentsFragment : BaseFragment() {
         Style.forTabLayout(tabs)
     }
 
-    override fun getHomeAsUpIcon() = R.drawable.ic_back
-
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         menu?.clear()

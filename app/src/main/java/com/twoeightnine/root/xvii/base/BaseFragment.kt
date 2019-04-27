@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
-import com.twoeightnine.root.xvii.activities.RootActivity
 import kotlinx.android.synthetic.main.toolbar.*
 
 abstract class BaseFragment : Fragment() {
@@ -18,9 +17,6 @@ abstract class BaseFragment : Fragment() {
 
     protected val baseActivity
         get() = activity as? BaseActivity
-
-    protected val rootActivity
-        get() = activity as? RootActivity
 
     protected val contextOrThrow: Context
         get() = context ?: throw IllegalStateException("Context has leaked away!")
@@ -45,7 +41,7 @@ abstract class BaseFragment : Fragment() {
             val actionBar = baseActivity?.supportActionBar
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true)
-                actionBar.setHomeAsUpIndicator(getHomeAsUpIcon())
+                actionBar.setHomeAsUpIndicator(R.drawable.ic_back)
                 actionBar.setHomeButtonEnabled(true)
                 actionBar.setDisplayUseLogoEnabled(false)
                 context?.let {
@@ -53,11 +49,8 @@ abstract class BaseFragment : Fragment() {
                     toolbar?.setSubtitleTextColor(ContextCompat.getColor(it, R.color.toolbar_subtext))
                 }
             }
-
         }
     }
-
-    protected open fun getHomeAsUpIcon() = R.drawable.ic_menu
 
     fun setTitle(title: CharSequence) {
         toolbar?.title = title

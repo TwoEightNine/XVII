@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 
 class DialogsForwardFragment : DialogsFragment() {
@@ -21,8 +20,8 @@ class DialogsForwardFragment : DialogsFragment() {
 
     override fun onClick(dialog: Dialog) {
         val forwarded = arguments?.getString(ARG_FORWARDED) ?: return
-        rootActivity?.onBackPressed()
-        rootActivity?.loadFragment(ChatFragment.newInstance(dialog, forwarded))
+//        rootActivity?.onBackPressed()
+//        rootActivity?.loadFragment(ChatFragment.newInstance(dialog, forwarded))
     }
 
     override fun onLongClick(dialog: Dialog) {}

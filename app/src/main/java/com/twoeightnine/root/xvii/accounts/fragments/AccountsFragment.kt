@@ -64,8 +64,6 @@ class AccountsFragment : BaseFragment() {
         rvAccounts.adapter = adapter
     }
 
-    override fun getHomeAsUpIcon() = R.drawable.ic_back
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.accounts))

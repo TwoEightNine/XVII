@@ -98,8 +98,6 @@ class AppearanceFragment : BaseOldFragment() {
         }
     }
 
-    override fun getHomeAsUpIcon() = R.drawable.ic_back
-
     private fun showDialog() {
         if (Prefs.chatBack.isNotEmpty()) {
             val dialog = AlertDialog.Builder(safeActivity)

@@ -95,8 +95,6 @@ class NotificationsFragment : BaseOldFragment() {
         updateTitle(getString(R.string.notifications))
     }
 
-    override fun getHomeAsUpIcon() = R.drawable.ic_back
-
     private fun saveSwitches() {
         Prefs.showNotifs = switchShowNotification.isChecked
         Prefs.showName = switchShowName.isEnabled && switchShowName.isChecked

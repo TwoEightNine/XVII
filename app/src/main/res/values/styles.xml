@@ -93,7 +93,7 @@
 
     <style name="ToolbarTitleTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textSize">19sp</item>
+        <item name="android:textSize">21sp</item>
     </style>
 
     <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

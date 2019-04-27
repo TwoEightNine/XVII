@@ -43,8 +43,6 @@ class AttachFragment : BaseFragment() {
         updateTitle(getString(R.string.attach))
     }
 
-    override fun getHomeAsUpIcon() = R.drawable.ic_back
-
     private fun onImagesSelected(paths: List<String>) {
         val intent = Intent().apply {
             putStringArrayListExtra(ARG_PATHS, ArrayList(paths))

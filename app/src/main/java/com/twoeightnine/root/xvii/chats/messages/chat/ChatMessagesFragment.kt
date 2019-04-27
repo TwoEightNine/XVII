@@ -8,7 +8,6 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
-import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Photo
@@ -57,7 +56,7 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
 //                    R.id.llEdit -> {}
 //                    R.id.llReply -> presenter.attachUtils.forwarded = "${message.id}"
                     R.id.llForward -> {
-                        rootActivity?.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
+//                        rootActivity?.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
                     }
 //                    R.id.llDelete -> {
 //                        val callback = { forAll: Boolean ->

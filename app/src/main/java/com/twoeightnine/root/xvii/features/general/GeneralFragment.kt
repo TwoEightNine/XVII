@@ -28,8 +28,6 @@ class GeneralFragment : BaseOldFragment() {
         updateTitle(getString(R.string.general))
     }
 
-    override fun getHomeAsUpIcon() = R.drawable.ic_back
-
     private fun initSwitches() {
         switchOffline.isChecked = Prefs.beOffline
         switchRead.isChecked = Prefs.markAsRead

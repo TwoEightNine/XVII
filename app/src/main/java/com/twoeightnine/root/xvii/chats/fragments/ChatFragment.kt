@@ -281,8 +281,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
     }
 
-    override fun getHomeAsUpIcon() = R.drawable.ic_back
-
     private fun showKeysDialog() {
         getContextPopup(safeActivity, R.layout.popup_keys) {
             when (it.id) {

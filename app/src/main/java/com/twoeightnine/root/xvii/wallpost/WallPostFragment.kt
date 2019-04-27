@@ -117,8 +117,6 @@ class WallPostFragment : BaseOldFragment() {
         }
     }
 
-    override fun getHomeAsUpIcon() = R.drawable.ic_back
-
     private fun getGroup(fromId: Int): Group {
         for (group in postResponse.groups) {
             if (group.id == fromId) {
