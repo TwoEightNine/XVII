@@ -17,7 +17,6 @@ import android.text.Html
 import androidx.core.app.NotificationCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.background.longpoll.models.events.LongPollEventFactory
@@ -191,16 +190,19 @@ class LongPollCore(private val context: Context) {
                             name,
                             name,
                             bitmap,
-                            ledColor
+                            ledColor,
+                            dialog.photo
                     )
                 }
             } else {
-                showNotification(content, timeStamp, event.peerId, event.id, dialog.title, ledColor = ledColor)
+                showNotification(content, timeStamp, event.peerId, event.id,
+                        dialog.title, ledColor = ledColor, photo = dialog.photo)
             }
         }, {
             if (event.peerId.matchesChatId()) {
                 // chats are shown as is
-                showNotification(content, timeStamp, event.peerId, event.id, event.title, ledColor = ledColor)
+                showNotification(content, timeStamp, event.peerId, event.id,
+                        event.title, ledColor = ledColor)
             } else {
 
                 // for groups and users try to resolve them
@@ -214,7 +216,8 @@ class LongPollCore(private val context: Context) {
                                 title,
                                 title,
                                 bitmap,
-                                ledColor
+                                ledColor,
+                                photo
                         )
                     }
                 }, {
@@ -246,7 +249,8 @@ class LongPollCore(private val context: Context) {
             userName: String = context.getString(R.string.app_name),
             title: String = context.getString(R.string.app_name),
             icon: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.xvii128),
-            ledColor: Int = Color.BLACK
+            ledColor: Int = Color.BLACK,
+            photo: String? = null
     ) {
 
         createNotificationChannel()
@@ -272,7 +276,7 @@ class LongPollCore(private val context: Context) {
                         context.getString(R.string.mark_as_read),
                         getMarkAsReadIntent(messageId, peerId)
                 )
-                .setContentIntent(getOpenAppIntent(peerId, userName))
+                .setContentIntent(getOpenAppIntent(peerId, userName, photo))
 
         if (ledColor != Color.BLACK) {
             builder.setLights(ledColor, 500, 500)
@@ -295,11 +299,13 @@ class LongPollCore(private val context: Context) {
         }
     }
 
-    private fun getOpenAppIntent(peerId: Int, userName: String): PendingIntent {
+    private fun getOpenAppIntent(peerId: Int, userName: String, photo: String?): PendingIntent {
 //        val openAppIntent = Intent(context, RootActivity::class.java).apply {
         val openAppIntent = Intent(context, MainActivity::class.java).apply {
-            putExtra(RootActivity.USER_ID, peerId)
-            putExtra(RootActivity.TITLE, userName)
+            putExtra(MainActivity.USER_ID, peerId)
+            putExtra(MainActivity.TITLE, userName)
+            putExtra(MainActivity.PHOTO, photo)
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         return PendingIntent.getActivity(
                 context,

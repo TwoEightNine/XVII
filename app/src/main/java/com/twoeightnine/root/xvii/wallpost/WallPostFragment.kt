@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.WallPost
@@ -77,8 +76,8 @@ class WallPostFragment : BaseOldFragment() {
             when (attachment.type) {
 
                 Attachment.TYPE_PHOTO -> attachment.photo?.also {
-                    val root = rootActivity as? RootActivity ?: return@also
-                    holder.llContainer.addView(getPhotoWall(it, root) { photo ->
+                    val act = activity ?: return@also
+                    holder.llContainer.addView(getPhotoWall(it, act) { photo ->
                         val photos = ArrayList(post.getPhoto())
                         val position = photos.indexOf(photo)
                         ImageViewerActivity.viewImages(context, photos, position)
@@ -143,7 +142,7 @@ class WallPostFragment : BaseOldFragment() {
         val flowableLike = api.like(wp.ownerId, wp.id)
         val flowableUnlike = api.unlike(wp.ownerId, wp.id)
         ivLike.setOnClickListener {
-            if (likes.isUserLiked) {
+            if (!likes.isUserLiked) {
                 ivLike.setImageDrawable(like)
                 flowableLike
                         .subscribeSmart({ response ->

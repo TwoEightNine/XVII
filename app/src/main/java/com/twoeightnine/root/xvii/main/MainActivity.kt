@@ -10,7 +10,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
-import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.lg.Lg
@@ -33,10 +32,11 @@ class MainActivity : BaseActivity() {
         bottomNavView.selectedItemId = R.id.menu_dialogs
 
         intent?.extras?.apply {
-            val userId = getInt(RootActivity.USER_ID)
+            val userId = getInt(USER_ID)
             if (userId != 0) {
-                val title = getString(RootActivity.TITLE) ?: ""
-                ChatActivity.launch(this@MainActivity, userId, title)
+                val title = getString(TITLE) ?: ""
+                val photo = getString(PHOTO)
+                ChatActivity.launch(this@MainActivity, userId, title, photo)
                 Lg.i("open chat $userId")
             }
         }
@@ -81,6 +81,11 @@ class MainActivity : BaseActivity() {
     }
 
     companion object {
+
+        const val USER_ID = "userId"
+        const val TITLE = "title"
+        const val PHOTO = "photo"
+
         fun launch(context: Context?) {
             launchActivity(context, MainActivity::class.java)
         }

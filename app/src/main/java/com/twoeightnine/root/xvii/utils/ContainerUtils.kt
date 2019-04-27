@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.utils
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.model.attachments.*
@@ -44,7 +44,7 @@ fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): Vie
     return view
 }
 
-fun getPhotoWall(photo: Photo, activity: RootActivity, onClick: (Photo) -> Unit = {}): View {
+fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}): View {
     val iv = ImageView(activity)
     val width = screenWidth(activity)
     val scale = width * 1.0f / photo.width

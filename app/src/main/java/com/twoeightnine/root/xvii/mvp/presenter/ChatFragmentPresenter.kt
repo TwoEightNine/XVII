@@ -423,6 +423,9 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     private fun getAllIds(messes: MutableList<Message>): MutableList<Int> {
         val ids = HashSet<Int>()
         ids.add(Session.uid)
+        if (peerId.matchesUserId()) {
+            ids.add(peerId)
+        }
         for (i in messes.indices) {
             if (!users.containsKey(messes[i].userId)) {
                 ids.add(messes[i].userId)
@@ -492,7 +495,7 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                 if (peerId == event.peerId) {
                     if (!event.isOut()) {
                         view?.onHideTyping()
-                        view?.onChangeOnline(true, time())
+                        view?.onChangeOnline(true)
                     }
                     if (TextUtils.isEmpty(event.text) || event.hasMedia()) {
                         api.getMessageById("${event.id}")

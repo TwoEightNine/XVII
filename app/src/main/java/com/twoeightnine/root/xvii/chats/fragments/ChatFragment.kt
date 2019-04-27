@@ -16,6 +16,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.ChatInputController
+import com.twoeightnine.root.xvii.chats.ChatToolbarController
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
@@ -37,7 +38,6 @@ import com.twoeightnine.root.xvii.views.LoadingDialog
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.toolbar.toolbar
 import kotlinx.android.synthetic.main.toolbar_chat.*
 import javax.inject.Inject
 
@@ -58,6 +58,9 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     private val permissionHelper by lazy { PermissionHelper(this) }
     private val attachedAdapter by lazy {
         AttachedAdapter(safeContext, ::onAttachClicked, inputController::setAttachedCount)
+    }
+    private val chatToolbarController by lazy {
+        ChatToolbarController(toolbar)
     }
 
     private var dialogLoading: LoadingDialog? = null
@@ -95,8 +98,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         rlMultiAction.stylizeAll()
         rlMultiAction.stylizeColor()
         fabHasMore.stylize()
-//        rlTyping.stylizeColor()
-//        rlRecordingVoice.stylizeColor()
         rlBack.stylizeAll()
 
         forwardedMessages?.also {
@@ -136,10 +137,10 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         try {
-//            rootActivity?.title = title
-            tvTitle.text = title
-//            onChangeOnline(isOnline)
-            ivAvatar.load(photo)
+            chatToolbarController.setTitle(title)
+            if (peerId != -App.GROUP) {
+                chatToolbarController.setAvatar(photo)
+            }
             toolbar?.setOnClickListener {
                 hideKeyboard(safeActivity)
                 if (peerId.matchesUserId()) {
@@ -425,36 +426,23 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     override fun onShowTyping() {
-//        rlTyping?.show()
-        tvTyping.show()
-        tvRecordingVoice.hide()
-        tvSubtitle.hide()
-        handler.postDelayed({ onHideTyping() }, 5000L)
+        chatToolbarController.showTyping()
     }
 
     override fun onHideTyping() {
-//        rlTyping?.hide()
-        tvTyping.hide()
-        tvSubtitle.show()
+        chatToolbarController.hideActions()
     }
 
     override fun onShowRecordingVoice() {
-//        rlRecordingVoice?.show()
-        tvRecordingVoice.show()
-        tvTyping.hide()
-        tvSubtitle.hide()
-        handler.postDelayed({ onHideRecordingVoice() }, 5000L)
+        chatToolbarController.showRecording()
     }
 
     override fun onHideRecordingVoice() {
-//        rlRecordingVoice?.hide()
-        tvRecordingVoice.hide()
-        tvSubtitle.show()
+        chatToolbarController.hideActions()
     }
 
     override fun onChangeOnline(isOnline: Boolean, timeStamp: Int) {
-//        rootActivity?.supportActionBar?.subtitle = when {
-        tvSubtitle.text = when {
+        chatToolbarController.setSubtitle(when {
             peerId.matchesChatId() -> getString(R.string.conversation)
             peerId.matchesGroupId() -> getString(R.string.community)
             else -> {
@@ -466,7 +454,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 val stringRes = if (isOnline) R.string.online_seen else R.string.last_seen
                 getString(stringRes, getTime(time, full = true))
             }
-        }
+        })
     }
 
     override fun onReadOut(mid: Int) {
@@ -474,7 +462,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             val message = adapter.items[position]
             if (message.id <= mid && !message.isRead) {
                 message.isRead = true
-//                CacheHelper.saveMessageAsync(message)
                 adapter.notifyItemChanged(position)
             }
         }
@@ -544,6 +531,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     override fun onDetach() {
         super.onDetach()
+        chatToolbarController.hideActions()
         presenter.unsubscribe()
     }
 
@@ -654,7 +642,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
 
         override fun onUserClicked(userId: Int) {
-//            rootActivity.loadFragment(ProfileFragment.newInstance(userId))
             ProfileActivity.launch(context, userId)
         }
 
