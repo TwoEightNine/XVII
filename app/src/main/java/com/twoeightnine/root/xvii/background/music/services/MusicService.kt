@@ -75,8 +75,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         } ?: return
 
         l("playing ${playedTrack?.audio?.fullId} when cached is ${playedTrack?.isCached() == true}")
-        player.reset()
         try {
+            player.reset()
             player.setDataSource(path)
             player.prepareAsync()
         } catch (e: Exception) {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primary">#555</color>
-    <color name="primary_dark">#000</color>
+    <color name="primary">#fff</color>
+    <color name="primary_dark">#fff</color>
     <color name="secondary_text">#656565</color>
     <color name="link_color">#55f</color>
 
@@ -18,7 +18,7 @@
     <color name="fab">#92b</color>
     <color name="accent">#666</color>
     <color name="shape">#9268a5</color>
-    <color name="selected_mess">#7aaa</color>
+    <color name="selected_mess">#7ccc</color>
 
     <color name="toolbar_text">#fff</color>
     <color name="toolbar_subtext">#e3e3e3</color>
