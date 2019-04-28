@@ -13,8 +13,8 @@ android {
         applicationId "com.twoeightnine.root.xvii"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 119
-        versionName "5.0"
+        versionCode 120
+        versionName "5.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.ext.set("archivesBaseName", "xvii" + defaultConfig.versionName)
 
@@ -30,14 +30,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BUILD_TIME", "\"${getDate()}\"")
         }
         debug {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BUILD_TIME", "\"${getDate()}\"")
         }

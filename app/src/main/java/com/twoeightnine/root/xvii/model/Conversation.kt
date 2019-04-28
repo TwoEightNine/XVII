@@ -36,7 +36,7 @@ data class ChatSettings(
 
         @SerializedName("title")
         @Expose
-        val title: String = "",
+        val title: String? = "",
 
         @SerializedName("photo")
         @Expose
