@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:src="@mipmap/xvii512" />
+        android:src="@mipmap/xvii_dark_logo_512" />
 
     <TextView
         android:layout_width="wrap_content"

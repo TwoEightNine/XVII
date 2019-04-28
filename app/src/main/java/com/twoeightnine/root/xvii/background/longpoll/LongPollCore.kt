@@ -248,7 +248,7 @@ class LongPollCore(private val context: Context) {
             messageId: Int,
             userName: String = context.getString(R.string.app_name),
             title: String = context.getString(R.string.app_name),
-            icon: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.xvii128),
+            icon: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.xvii_dark_logo_128),
             ledColor: Int = Color.BLACK,
             photo: String? = null
     ) {

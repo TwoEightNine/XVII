@@ -411,11 +411,11 @@ fun loadBitmapIcon(url: String?, callback: (Bitmap) -> Unit) {
                 .into(object : Target {
 
                     override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
-                        callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii64))
+                        callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii_dark_logo_128))
                     }
 
                     override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                        callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii64))
+                        callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii_dark_logo_128))
                     }
 
                     override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {

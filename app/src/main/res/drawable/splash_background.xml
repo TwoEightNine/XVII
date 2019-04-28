@@ -5,6 +5,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/xvii512" />
+            android:src="@mipmap/xvii_dark_logo_512" />
     </item>
 </layer-list>
