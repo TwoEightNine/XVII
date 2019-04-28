@@ -270,5 +270,6 @@
     <string name="not_found">мдаа.. ничего не найдено!\nпопробуйте изменить запрос</string>
     <string name="attach">прикрепить..</string>
     <string name="search_hint">поиск</string>
+    <string name="wanna_change_theme">тема была изменена. приложение будет перезапущено. продолжить?</string>
 
 </resources>

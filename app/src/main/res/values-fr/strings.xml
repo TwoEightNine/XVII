@@ -14,7 +14,7 @@
     <string name="beoffline">être hors ligne (plus tôt possible)</string>
     <string name="markasread">marquer comme lus</string>
     <string name="show_typing">montrer à taper</string>
-    <string name="feedback">support</string>
+    <string name="feedback">appui</string>
     <string name="copied">%s a été copié dans le presse-papiers</string>
     <string name="fiends">amis</string>
     <string name="friends">amis</string>
@@ -260,6 +260,7 @@
     <string name="not_found">ouais.. aucun trouvé!\néssayez modifier votre requête</string>
     <string name="attach">attacher..</string>
     <string name="search_hint">rechercher</string>
+    <string name="wanna_change_theme">vous avez changé le thème. l\'app se redémarrer. continuer?</string>
 
 </resources>
 
