@@ -30,4 +30,6 @@ abstract class ContentActivity : BaseActivity() {
                 .replace(R.id.flContainer, fragment)
                 .commitAllowingStateLoss()
     }
+
+    protected fun getFragment() = supportFragmentManager.findFragmentById(R.id.flContainer)
 }

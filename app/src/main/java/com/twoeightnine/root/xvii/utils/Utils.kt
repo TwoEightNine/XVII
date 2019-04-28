@@ -303,7 +303,7 @@ fun getContextPopup(context: Context, @LayoutRes layout: Int, listener: (View) -
 
 fun restartApp(title: String) {
     showToast(App.context, title)
-    Handler().postDelayed({ restartApp() }, 800L)
+    Handler().postDelayed({ restartApp() }, 400L)
 }
 
 fun restartApp() {
@@ -312,7 +312,7 @@ fun restartApp() {
     val mPendingIntentId = 123456
     val mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT)
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 500, mPendingIntent)
+    alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent)
 
     val notificationManager = context.getSystemService(
             Context.NOTIFICATION_SERVICE) as NotificationManager

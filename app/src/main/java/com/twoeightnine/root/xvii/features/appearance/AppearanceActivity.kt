@@ -9,6 +9,15 @@ class AppearanceActivity : ContentActivity() {
 
     override fun getFragment(args: Bundle?) = AppearanceFragment.newInstance()
 
+    override fun onBackPressed() {
+        val fragment = getFragment() as? AppearanceFragment
+        if (fragment != null && fragment.hasChanges()) {
+            fragment.askForRestarting()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     companion object {
         fun launch(context: Context?) {
             launchActivity(context, AppearanceActivity::class.java)

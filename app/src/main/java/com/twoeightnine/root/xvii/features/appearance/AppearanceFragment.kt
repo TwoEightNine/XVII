@@ -17,9 +17,10 @@ class AppearanceFragment : BaseOldFragment() {
     private lateinit var bottomSheetHelper: BottomSheetHelper
     private lateinit var permissionHelper: PermissionHelper
 
-    private var isNightBefore: Boolean = false
-    private var colorBefore: Int = 0
-    private var currentColor: Int = 0
+    private var isNightBefore = false
+    private var colorBefore = 0
+    private var currentColor = 0
+    private var changesApproved = false
 
     var dialog: LoadingDialog? = null
 
@@ -133,10 +134,27 @@ class AppearanceFragment : BaseOldFragment() {
     override fun onStop() {
         super.onStop()
         GalleryFragment.clear()
-        if (isNightBefore != switchNight.isChecked ||
-                switchNight.isChecked && currentColor != colorBefore) {
-            Prefs.color = currentColor
-            restartApp(getString(R.string.theme_changed))
+    }
+
+    /**
+     * for parent activity
+     */
+    fun hasChanges() = isNightBefore != switchNight.isChecked
+            || switchNight.isChecked && currentColor != colorBefore
+
+    /**
+     * for parent activity
+     */
+    fun askForRestarting() {
+        showConfirm(context, getString(R.string.wanna_change_theme)) { yes ->
+            if (yes) {
+                Prefs.color = currentColor
+                restartApp(getString(R.string.theme_changed))
+            } else {
+                switchNight.isChecked = isNightBefore
+                currentColor = colorBefore
+                activity?.onBackPressed()
+            }
         }
     }
 

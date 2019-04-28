@@ -48,6 +48,7 @@
     <string name="decrypt">decrypt</string>
     <string name="decrypted">decrypt: %s</string>
     <string name="decrypted_with_fail" translatable="false">invalid ciphertext for given key</string>
+    <string name="wanna_change_theme">you\'ve changed the theme. app will be restated. continue?</string>
     <string name="unread100" translatable="false">99+</string>
     <string name="accounts">accounts</string>
     <string name="new_acc">add an account..</string>
