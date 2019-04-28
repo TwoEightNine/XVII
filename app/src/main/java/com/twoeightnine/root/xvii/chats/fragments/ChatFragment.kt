@@ -649,7 +649,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             dialogLoading?.show()
             presenter.decryptDoc(safeContext, doc) { verified, path ->
                 dialogLoading?.dismiss()
-                if (path.isNullOrEmpty() && verified) {
+                if (!path.isNullOrEmpty() && verified) {
                     ImageViewerActivity.viewImage(safeContext, "file://$path")
                 } else {
                     showError(context, R.string.invalid_file)

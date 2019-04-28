@@ -7,6 +7,7 @@ import com.twoeightnine.root.xvii.crypto.cipher.Cipher
 import com.twoeightnine.root.xvii.crypto.cipher.Pbkdf2HmacSha1
 import com.twoeightnine.root.xvii.crypto.dh.DhData
 import com.twoeightnine.root.xvii.crypto.dh.DiffieHellman
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.Single
@@ -160,7 +161,7 @@ class CryptoEngine(
                     if (!cipherResult.verified || cipherResult.bytes == null) {
                         onDecrypted(false, null)
                     } else {
-                        val resultName = "${getNameFromUrl(path)}$EXTENSION"
+                        val resultName = getNameFromUrl(path).replace(EXTENSION, "")
                         val cipherPath = writeBytesToFile(context, cipherResult.bytes, resultName)
                         onDecrypted(true, cipherPath)
                     }
@@ -190,6 +191,10 @@ class CryptoEngine(
         }
         val uid = Session.uid
         return "${Math.min(uid, peerId)}${Math.max(uid, peerId)}"
+    }
+
+    private fun logKey() {
+        Lg.dbg("[crypto] ${getFingerPrint()}")
     }
 
     companion object {
