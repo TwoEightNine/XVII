@@ -300,7 +300,6 @@ class LongPollCore(private val context: Context) {
     }
 
     private fun getOpenAppIntent(peerId: Int, userName: String, photo: String?): PendingIntent {
-//        val openAppIntent = Intent(context, RootActivity::class.java).apply {
         val openAppIntent = Intent(context, MainActivity::class.java).apply {
             putExtra(MainActivity.USER_ID, peerId)
             putExtra(MainActivity.TITLE, userName)

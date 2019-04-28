@@ -52,7 +52,7 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun onClick(dialog: Dialog) {
-        ChatActivity.launch(context, dialog.peerId, dialog.title, dialog.photo, dialog.isOnline)
+        ChatActivity.launch(context, dialog)
     }
 
     private fun initRecycler() {

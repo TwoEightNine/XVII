@@ -45,7 +45,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     private var timeUpSubscription: Disposable? = null
     private var longPollDisposable: Disposable? = null
 
-//    lateinit var crypto: CryptoUtil
     lateinit var cryptoEngine: CryptoEngine
     private var isWaiting = false
 
@@ -69,7 +68,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     fun initCrypto(context: Context?) {
-//        crypto = CryptoUtil(Session.uid, peerId)
         context?.let {
             cryptoEngine = CryptoEngine(it, peerId)
         }
@@ -135,7 +133,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
             text
         }
         message = if (isEncrypted && message.isNotEmpty()) cryptoEngine.encrypt(message) else message
-//        message = if (isEncrypted && message.isNotEmpty()) crypto.encrypt(message) else message
         val flowable: Flowable<BaseResponse<Int>>
         if (peerId.matchesChatId()) {
             flowable = api
@@ -413,7 +410,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun decryptDoc(context: Context, doc: Doc, callback: (Boolean, String?) -> Unit) {
         downloadDoc(context, doc) {
-//            crypto.decryptFileAsync(context, it, callback)
             cryptoEngine.decryptFile(context, it, callback)
         }
     }
@@ -449,10 +445,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
         view?.onKeyGenerating()
         isWaiting = true
         isEncrypted = false
-//        crypto.startKeyExchange {
-//            view?.onKeySent()
-//            send(it)
-//        }
         cryptoEngine.startExchange {
             view?.onKeySent()
             send(it)
@@ -460,7 +452,6 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
     }
 
     fun supportKeyExchange(key: String) {
-//        val ownKey = crypto.supportKeyExchange(key)
         val ownKey = cryptoEngine.supportExchange(key)
         isEncrypted = false
         send(ownKey)
@@ -469,22 +460,16 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
 
     fun finishKeyExchange(key: String) {
         timeUpSubscription?.dispose()
-//        crypto.finishKeyExchange(key)
         cryptoEngine.finishExchange(key)
         view?.onKeysExchanged()
-//        crypto.printKey()
         isWaiting = false
     }
 
     fun setDefaultKey() {
-//        crypto.resetKeys()
         cryptoEngine.resetKey()
-//        crypto.printKeys()
     }
 
     fun setUserKey(key: String) {
-//        crypto.setUserKey(key)
-//        crypto.printKeys()
         cryptoEngine.setKey(key, Prefs.storeCustomKeys)
     }
 

@@ -108,8 +108,13 @@
         <activity
             android:name=".activities.TestLandscapeActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".chats.ChatActivity" />
-        <activity android:name=".profile.activities.ProfileActivity">
+        <activity
+            android:name=".chats.ChatActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".profile.activities.ProfileActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -161,6 +166,7 @@
         <activity
             android:name=".main.MainActivity"
             android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".dialogs.activities.DialogsForwardActivity" />
     </application>
 
 </manifest>

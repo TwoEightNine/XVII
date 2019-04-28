@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
@@ -16,6 +17,11 @@ abstract class ContentActivity : BaseActivity() {
         setContentView(getLayoutId())
         savedInstanceState ?: loadFragment(getFragment(intent.extras))
         stylize()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.apply { loadFragment(getFragment(extras)) }
     }
 
     protected fun loadFragment(fragment: Fragment) {

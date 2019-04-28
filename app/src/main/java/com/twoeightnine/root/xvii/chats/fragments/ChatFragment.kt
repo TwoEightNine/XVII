@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.chats.ChatInputController
 import com.twoeightnine.root.xvii.chats.ChatToolbarController
 import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
@@ -22,6 +23,8 @@ import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
 import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActivity
+import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
+import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg
@@ -102,7 +105,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         forwardedMessages?.also {
             handler.postDelayed({
                 attachedAdapter.fwdMessages = it
-            }, 1000L)
+            }, 500L)
         }
         if (Prefs.chatBack.isNotEmpty()) {
             try {
@@ -140,6 +143,9 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             if (peerId != -App.GROUP) {
                 chatToolbarController.setAvatar(photo)
             }
+            if (!peerId.matchesUserId()) {
+                onChangeOnline(false)
+            }
             toolbar?.setOnClickListener {
                 hideKeyboard(safeActivity)
                 if (peerId.matchesUserId()) {
@@ -173,7 +179,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
         ivMenuMulti.setOnClickListener { showMultiSelectPopup() }
         ivForwardMulti.setOnClickListener {
-            //            rootActivity.loadFragment(DialogsForwardFragment.newInstance(getSelectedMessageIds()))
+            DialogsForwardActivity.launch(this, REQUEST_FORWARD, getSelectedMessageIds())
         }
         ivReplyMulti.setOnClickListener {
             attachedAdapter.fwdMessages = getSelectedMessageIds()
@@ -553,6 +559,14 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                             ?.let(::onImagesSelected)
                 }
             }
+            REQUEST_FORWARD -> {
+                data?.extras?.apply {
+                    val forwarded = getString(DialogsForwardFragment.ARG_FORWARDED) ?: return@apply
+                    val dialog = getParcelable<Dialog>(DialogsForwardFragment.ARG_DIALOG)
+                            ?: return@apply
+                    ChatActivity.launch(context, dialog, forwarded)
+                }
+            }
         }
     }
 
@@ -560,40 +574,18 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
         const val ARG_PEER_ID = "peerId"
         const val ARG_TITLE = "title"
-        const val ARG_IS_ONLINE = "online"
         const val ARG_FORWARDED = "forwarded"
         const val ARG_PHOTO = "photo"
 
         const val REQUEST_ATTACH = 7364
+        const val REQUEST_FORWARD = 7346
 
         fun newInstance(dialog: Dialog, forwarded: String = ""): ChatFragment {
             val fragment = ChatFragment()
             fragment.arguments = Bundle().apply {
                 putInt(ARG_PEER_ID, dialog.peerId)
                 putString(ARG_TITLE, dialog.alias ?: dialog.title)
-                putBoolean(ARG_IS_ONLINE, dialog.isOnline)
                 putString(ARG_PHOTO, dialog.photo)
-                if (forwarded.isNotEmpty()) {
-                    putString(ARG_FORWARDED, forwarded)
-                }
-            }
-            return fragment
-        }
-
-        fun newInstance(peerId: Int, title: String, photo: String?, isOnline: Boolean = false) = newInstance(Dialog(
-                peerId = peerId,
-                title = title,
-                isOnline = isOnline,
-                photo = photo
-        ))
-
-        fun newInstance(message: Message, forwarded: String = ""): ChatFragment {
-            val fragment = ChatFragment()
-            fragment.arguments = Bundle().apply {
-                putInt(ARG_PEER_ID, getPeerId(message.userId, message.chatId))
-                putString(ARG_TITLE, message.title)
-                putBoolean(ARG_IS_ONLINE, false)
-                putString(ARG_PHOTO, message.photo)
                 if (forwarded.isNotEmpty()) {
                     putString(ARG_FORWARDED, forwarded)
                 }
@@ -618,7 +610,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                         attachedAdapter.fwdMessages = "${message.id}"
                     }
                     R.id.llForward -> {
-//                        rootActivity.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
+                        DialogsForwardActivity.launch(this@ChatFragment, REQUEST_FORWARD, "${message.id}")
                     }
                     R.id.llDelete -> {
                         val callback = { forAll: Boolean ->

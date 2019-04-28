@@ -22,7 +22,8 @@ import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.search.SearchActivity
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
-import kotlinx.android.synthetic.main.fragment_dialogs_new.*
+import kotlinx.android.synthetic.main.fragment_dialogs.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 open class DialogsFragment : BaseFragment() {
@@ -35,11 +36,12 @@ open class DialogsFragment : BaseFragment() {
         DialogsAdapter(contextOrThrow, ::loadMore, ::onClick, ::onLongClick)
     }
 
-    override fun getLayoutId() = R.layout.fragment_dialogs_new
+    override fun getLayoutId() = R.layout.fragment_dialogs
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
+        toolbar.hide()
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[DialogsViewModel::class.java]
         viewModel.getDialogs().observe(this, Observer { updateDialogs(it) })
@@ -75,7 +77,7 @@ open class DialogsFragment : BaseFragment() {
     }
 
     protected open fun onClick(dialog: Dialog) {
-        ChatActivity.launch(context, dialog.peerId, dialog.alias ?: dialog.title, dialog.photo, dialog.isOnline)
+        ChatActivity.launch(context, dialog)
     }
 
     protected open fun onLongClick(dialog: Dialog) {
