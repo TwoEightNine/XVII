@@ -1,13 +1,13 @@
 package com.twoeightnine.root.xvii.features.notifications
 
 import android.content.Context
-import android.os.Bundle
+import android.content.Intent
 import com.twoeightnine.root.xvii.activities.ContentActivity
 import com.twoeightnine.root.xvii.utils.launchActivity
 
 class NotificationsActivity : ContentActivity() {
 
-    override fun getFragment(args: Bundle?) = NotificationsFragment.newInstance()
+    override fun createFragment(intent: Intent?) = NotificationsFragment.newInstance()
 
     companion object {
         fun launch(context: Context?) {

@@ -1,13 +1,13 @@
 package com.twoeightnine.root.xvii.chats.messages.starred
 
 import android.content.Context
-import android.os.Bundle
+import android.content.Intent
 import com.twoeightnine.root.xvii.activities.ContentActivity
 import com.twoeightnine.root.xvii.utils.launchActivity
 
 class StarredMessagesActivity : ContentActivity() {
 
-    override fun getFragment(args: Bundle?) = StarredMessagesFragment.newInstance()
+    override fun createFragment(intent: Intent?) = StarredMessagesFragment.newInstance()
 
     companion object {
 

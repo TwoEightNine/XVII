@@ -1,13 +1,13 @@
 package com.twoeightnine.root.xvii.features.appearance
 
 import android.content.Context
-import android.os.Bundle
+import android.content.Intent
 import com.twoeightnine.root.xvii.activities.ContentActivity
 import com.twoeightnine.root.xvii.utils.launchActivity
 
 class AppearanceActivity : ContentActivity() {
 
-    override fun getFragment(args: Bundle?) = AppearanceFragment.newInstance()
+    override fun createFragment(intent: Intent?) = AppearanceFragment.newInstance()
 
     override fun onBackPressed() {
         val fragment = getFragment() as? AppearanceFragment

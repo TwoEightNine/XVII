@@ -108,7 +108,13 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     }
 
     private fun playOrPause() {
-        if (player.isPlaying) {
+        val isPlaying = try {
+            player.isPlaying
+        } catch (e: Exception) {
+            lw("isPlaying error: ${e.message}")
+            false
+        }
+        if (isPlaying) {
             stop()
         } else {
             try {

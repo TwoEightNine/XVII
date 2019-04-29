@@ -22,7 +22,6 @@ import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActiv
 import com.twoeightnine.root.xvii.chats.tools.ChatInputController
 import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
-import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.lg.Lg
@@ -54,6 +53,8 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     private val title by lazy { arguments?.getString(ARG_TITLE) ?: "" }
     private val photo by lazy { arguments?.getString(ARG_PHOTO) ?: "" }
     private val forwardedMessages by lazy { arguments?.getString(ARG_FORWARDED) }
+    private val shareText by lazy { arguments?.getString(ARG_SHARE_TEXT) }
+    private val shareImage by lazy { arguments?.getString(ARG_SHARE_IMAGE) }
 
     private val permissionHelper by lazy { PermissionHelper(this) }
     private val attachedAdapter by lazy {
@@ -75,10 +76,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         inputController = ChatInputController(safeContext, view, InputCallback())
         swipeContainer.setOnRefreshListener { presenter.loadHistory(withClear = true) }
 
-        rvAttached.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
-        rvAttached.adapter = attachedAdapter
-
-        initAdapter()
+        initAdapters()
         initMultiAction()
 
         App.appComponent?.inject(this)
@@ -94,25 +92,8 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
             }
             restartApp()
         }
-
-        rlMultiAction.stylizeAll()
-        rlMultiAction.stylizeColor()
-        fabHasMore.stylize()
-        rlBack.stylizeAll()
-
-        forwardedMessages?.also {
-            handler.postDelayed({
-                attachedAdapter.fwdMessages = it
-            }, 500L)
-        }
-        if (Prefs.chatBack.isNotEmpty()) {
-            try {
-                flContainer.backgroundImage = Drawable.createFromPath(Prefs.chatBack)
-            } catch (e: Exception) {
-                Prefs.chatBack = ""
-                showError(activity, e.message ?: "background not found")
-            }
-        }
+        stylize()
+        initContent()
     }
 
     override fun onNew(view: View) {
@@ -155,7 +136,41 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
     }
 
-    private fun initAdapter() {
+    private fun initContent() {
+        forwardedMessages?.also {
+            handler.postDelayed({
+                attachedAdapter.fwdMessages = it
+            }, 500L)
+        }
+        shareText?.also {
+            handler.postDelayed({
+                etInput.setText(it)
+            }, 500L)
+        }
+        shareImage?.also {
+            handler.postDelayed({
+                onImagesSelected(arrayListOf(it))
+            }, 500L)
+        }
+    }
+
+    private fun stylize() {
+        rlMultiAction.stylizeAll()
+        rlMultiAction.stylizeColor()
+        fabHasMore.stylize()
+        rlBack.stylizeAll()
+
+        if (Prefs.chatBack.isNotEmpty()) {
+            try {
+                flContainer.backgroundImage = Drawable.createFromPath(Prefs.chatBack)
+            } catch (e: Exception) {
+                Prefs.chatBack = ""
+                showError(activity, e.message ?: "background not found")
+            }
+        }
+    }
+
+    private fun initAdapters() {
         adapter = ChatAdapter(safeActivity, ::loadMore, AdapterCallback(), ChatAdapter.ChatAdapterSettings(
                 isImportant = false
         ))
@@ -169,6 +184,9 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
         fabHasMore.setOnClickListener { rvChatList.scrollToPosition(adapter.itemCount - 1) }
         rvChatList.setOnScrollListener(ListScrollListener())
+
+        rvAttached.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+        rvAttached.adapter = attachedAdapter
     }
 
     private fun initMultiAction() {
@@ -177,7 +195,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
         ivMenuMulti.setOnClickListener { showMultiSelectPopup() }
         ivForwardMulti.setOnClickListener {
-            DialogsForwardActivity.launch(this, REQUEST_FORWARD, getSelectedMessageIds())
+            DialogsForwardActivity.launch(context, forwarded = getSelectedMessageIds())
         }
         ivReplyMulti.setOnClickListener {
             attachedAdapter.fwdMessages = getSelectedMessageIds()
@@ -557,14 +575,14 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                             ?.let(::onImagesSelected)
                 }
             }
-            REQUEST_FORWARD -> {
-                data?.extras?.apply {
-                    val forwarded = getString(DialogsForwardFragment.ARG_FORWARDED) ?: return@apply
-                    val dialog = getParcelable<Dialog>(DialogsForwardFragment.ARG_DIALOG)
-                            ?: return@apply
-                    ChatActivity.launch(context, dialog, forwarded)
-                }
-            }
+//            REQUEST_FORWARD -> {
+//                data?.extras?.apply {
+//                    val forwarded = getString(DialogsForwardFragment.ARG_FORWARDED) ?: return@apply
+//                    val dialog = getParcelable<Dialog>(DialogsForwardFragment.ARG_DIALOG)
+//                            ?: return@apply
+//                    ChatActivity.launch(context, dialog, forwarded)
+//                }
+//            }
         }
     }
 
@@ -574,18 +592,26 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         const val ARG_TITLE = "title"
         const val ARG_FORWARDED = "forwarded"
         const val ARG_PHOTO = "photo"
+        const val ARG_SHARE_TEXT = "shareText"
+        const val ARG_SHARE_IMAGE = "shareImage"
 
         const val REQUEST_ATTACH = 7364
-        const val REQUEST_FORWARD = 7346
 
-        fun newInstance(dialog: Dialog, forwarded: String = ""): ChatFragment {
+        fun newInstance(dialog: Dialog, forwarded: String? = null,
+                        shareText: String? = null, shareImage: String? = null): ChatFragment {
             val fragment = ChatFragment()
             fragment.arguments = Bundle().apply {
                 putInt(ARG_PEER_ID, dialog.peerId)
                 putString(ARG_TITLE, dialog.alias ?: dialog.title)
                 putString(ARG_PHOTO, dialog.photo)
-                if (forwarded.isNotEmpty()) {
+                if (!forwarded.isNullOrEmpty()) {
                     putString(ARG_FORWARDED, forwarded)
+                }
+                if (!shareText.isNullOrEmpty()) {
+                    putString(ARG_SHARE_TEXT, shareText)
+                }
+                if (!shareImage.isNullOrEmpty()) {
+                    putString(ARG_SHARE_IMAGE, shareImage)
                 }
             }
             return fragment
@@ -608,7 +634,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                         attachedAdapter.fwdMessages = "${message.id}"
                     }
                     R.id.llForward -> {
-                        DialogsForwardActivity.launch(this@ChatFragment, REQUEST_FORWARD, "${message.id}")
+                        DialogsForwardActivity.launch(context, forwarded = "${message.id}")
                     }
                     R.id.llDelete -> {
                         val callback = { forAll: Boolean ->

@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.wallpost
 
 import android.content.Context
-import android.os.Bundle
+import android.content.Intent
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.ContentActivity
 import com.twoeightnine.root.xvii.utils.launchActivity
@@ -10,8 +10,8 @@ class WallPostActivity : ContentActivity() {
 
     override fun getLayoutId() = R.layout.activity_content
 
-    override fun getFragment(args: Bundle?) = WallPostFragment.newInstance(
-            args?.getString(WallPostFragment.ARG_POST_ID) ?: ""
+    override fun createFragment(intent: Intent?) = WallPostFragment.newInstance(
+            intent?.extras?.getString(WallPostFragment.ARG_POST_ID) ?: ""
     )
 
     companion object {

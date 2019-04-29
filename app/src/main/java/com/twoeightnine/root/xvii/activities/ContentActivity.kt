@@ -10,18 +10,18 @@ abstract class ContentActivity : BaseActivity() {
 
     protected open fun getLayoutId() = R.layout.activity_content
 
-    abstract fun getFragment(args: Bundle?): Fragment
+    abstract fun createFragment(intent: Intent?): Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
-        savedInstanceState ?: loadFragment(getFragment(intent.extras))
+        savedInstanceState ?: loadFragment(createFragment(intent))
         stylize()
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        intent?.apply { loadFragment(getFragment(extras)) }
+        intent?.apply { loadFragment(createFragment(this)) }
     }
 
     protected fun loadFragment(fragment: Fragment) {

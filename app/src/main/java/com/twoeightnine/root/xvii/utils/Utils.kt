@@ -256,7 +256,7 @@ fun simpleUrlIntent(context: Context?, urlArg: String?) {
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
         url = "http://$url"
     }
-    val intent = Intent(Intent.ACTION_VIEW).apply {
+    val intent = Intent(ACTION_VIEW).apply {
         data = Uri.parse(url)
     }
     context.startActivity(intent)

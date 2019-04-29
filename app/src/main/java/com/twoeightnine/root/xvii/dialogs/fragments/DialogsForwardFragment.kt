@@ -1,20 +1,19 @@
 package com.twoeightnine.root.xvii.dialogs.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.utils.show
 import kotlinx.android.synthetic.main.toolbar.*
 
 class DialogsForwardFragment : DialogsFragment() {
 
-    private val forwarded by lazy {
-        arguments?.getString(ARG_FORWARDED)
-    }
+    private val forwarded by lazy { arguments?.getString(ARG_FORWARDED) }
+    private val shareText by lazy { arguments?.getString(ARG_SHARE_TEXT) }
+    private val shareImage by lazy { arguments?.getString(ARG_SHARE_IMAGE) }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -28,26 +27,29 @@ class DialogsForwardFragment : DialogsFragment() {
     }
 
     override fun onClick(dialog: Dialog) {
-        val data = Intent().apply {
-            putExtra(ARG_DIALOG, dialog)
-            putExtra(ARG_FORWARDED, forwarded)
-        }
-        activity?.apply {
-            setResult(Activity.RESULT_OK, data)
-            finish()
-        }
+        ChatActivity.launch(context, dialog, forwarded, shareText, shareImage)
+        activity?.finish()
     }
 
     override fun onLongClick(dialog: Dialog) {}
 
     companion object {
         const val ARG_FORWARDED = "forwarded"
-        const val ARG_DIALOG = "dialog"
+        const val ARG_SHARE_TEXT = "shareText"
+        const val ARG_SHARE_IMAGE = "shareImage"
 
-        fun newInstance(forwarded: String): DialogsForwardFragment {
+        fun newInstance(forwarded: String? = null, shareText: String? = null, shareImage: String? = null): DialogsForwardFragment {
             val fragment = DialogsForwardFragment()
             fragment.arguments = Bundle().apply {
-                putString(ARG_FORWARDED, forwarded)
+                if (!forwarded.isNullOrEmpty()) {
+                    putString(ARG_FORWARDED, forwarded)
+                }
+                if (!shareText.isNullOrEmpty()) {
+                    putString(ARG_SHARE_TEXT, shareText)
+                }
+                if (!shareImage.isNullOrEmpty()) {
+                    putString(ARG_SHARE_IMAGE, shareImage)
+                }
             }
             return fragment
         }

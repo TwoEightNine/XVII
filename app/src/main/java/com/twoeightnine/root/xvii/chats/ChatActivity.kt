@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.chats
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.ContentActivity
@@ -13,15 +12,20 @@ class ChatActivity : ContentActivity() {
 
     override fun getLayoutId() = R.layout.activity_content
 
-    override fun getFragment(args: Bundle?): Fragment {
-        val forwarded = args?.getString(FORWARDED) ?: ""
+    override fun createFragment(intent: Intent?): Fragment {
+        val args = intent?.extras
+        val forwarded = args?.getString(FORWARDED)
+        val shareText = args?.getString(SHARE_TEXT)
+        val shareImage = args?.getString(SHARE_IMAGE)
         val dialog = args?.getParcelable(DIALOG) ?: Dialog()
-        return ChatFragment.newInstance(dialog, forwarded)
+        return ChatFragment.newInstance(dialog, forwarded, shareText, shareImage)
     }
 
     companion object {
         const val DIALOG = "dialog"
         const val FORWARDED = "forwarded"
+        const val SHARE_TEXT = "shareText"
+        const val SHARE_IMAGE = "shareImage"
 
         fun launch(context: Context?, userId: Int, title: String,
                    avatar: String? = null, forwarded: String = "") {
@@ -33,11 +37,21 @@ class ChatActivity : ContentActivity() {
 
         }
 
-        fun launch(context: Context?, dialog: Dialog, forwarded: String = "") {
+        fun launch(context: Context?, dialog: Dialog,
+                   forwarded: String? = null, shareText: String? = null,
+                   shareImage: String? = null) {
             context ?: return
 
             context.startActivity(Intent(context, ChatActivity::class.java).apply {
-                putExtra(FORWARDED, forwarded)
+                if (!forwarded.isNullOrEmpty()) {
+                    putExtra(FORWARDED, forwarded)
+                }
+                if (!shareText.isNullOrEmpty()) {
+                    putExtra(SHARE_TEXT, shareText)
+                }
+                if (!shareImage.isNullOrEmpty()) {
+                    putExtra(SHARE_IMAGE, shareImage)
+                }
                 putExtra(DIALOG, dialog)
                 flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TOP
             })

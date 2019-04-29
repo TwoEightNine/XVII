@@ -1,15 +1,15 @@
 package com.twoeightnine.root.xvii.web
 
 import android.content.Context
-import android.os.Bundle
+import android.content.Intent
 import com.twoeightnine.root.xvii.activities.ContentActivity
 import com.twoeightnine.root.xvii.utils.launchActivity
 
 class WebActivity : ContentActivity() {
 
-    override fun getFragment(args: Bundle?) = WebFragment.newInstance(
-            args?.getString(WebFragment.ARG_URL) ?: "",
-            args?.getString(WebFragment.ARG_TITLE) ?: ""
+    override fun createFragment(intent: Intent?) = WebFragment.newInstance(
+            intent?.extras?.getString(WebFragment.ARG_URL) ?: "",
+            intent?.extras?.getString(WebFragment.ARG_TITLE) ?: ""
     )
 
     companion object {
