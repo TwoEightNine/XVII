@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
-import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.utils.stylize
 import com.twoeightnine.root.xvii.utils.stylizeAll
 import kotlinx.android.synthetic.main.toolbar.*
@@ -18,12 +18,11 @@ import kotlinx.android.synthetic.main.toolbar.*
 open class BaseOldFragment: Fragment() {
 
     private var isNew = false
-    private var isSearchOpen = false
 
     protected val rootActivity: BaseActivity?
-        get() = activity as? RootActivity ?: activity as? BaseActivity
+        get() = activity as? BaseActivity
 
-    protected val safeActivity: androidx.fragment.app.FragmentActivity
+    protected val safeActivity: FragmentActivity
         get() = activity ?: throw Exception()
 
     protected val safeContext: Context

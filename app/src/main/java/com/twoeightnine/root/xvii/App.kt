@@ -17,7 +17,6 @@ class App : Application() {
         appComponent = DaggerAppComponent.builder()
                 .contextModule(ContextModule(this))
                 .build()
-//        Style.init(applicationContext)
         ColorManager.init(applicationContext)
 
 //        try {

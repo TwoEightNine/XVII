@@ -104,21 +104,12 @@ interface ApiService {
             @Query("start_from") startFrom: String?
     ): Flowable<BaseResponse<AttachmentsResponse>>
 
-    @GET("messages.searchDialogs")
-    fun searchDialogs(@Query("q") q: String,
-                      @Query("limit") limit: Int,
-                      @Query("fields") fields: String): Flowable<BaseResponse<MutableList<MessageSearchModel>>>
-
     @GET("messages.searchConversations?extended=1")
     fun searchConversations(
             @Query("q") q: String,
             @Query("count") count: Int,
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<BaseResponse<SearchConversationsResponse>>
-
-    @GET("messages.get?filters=8")
-    fun getImportantMessages(@Query("count") count: Int,
-                             @Query("offset") offset: Int): Flowable<BaseResponse<ListResponse<Message>>>
 
     @GET("messages.getImportantMessages?extended=1")
     fun getStarredMessages(
@@ -141,14 +132,6 @@ interface ApiService {
             @Query("peer_id") peerId: Int,
             @Query("type") type: String
     ): Flowable<BaseResponse<Int>>
-
-    @GET("messages.removeChatUser")
-    fun removeUser(@Query("chat_id") chatId: Int,
-                   @Query("user_id") userId: Int): Flowable<BaseResponse<Int>>
-
-    @GET("messages.editChat")
-    fun renameChat(@Query("chat_id") chatId: Int,
-                   @Query("title") title: String): Flowable<BaseResponse<Int>>
 
     //users
     @GET("users.get")
@@ -280,10 +263,6 @@ interface ApiService {
 
     @GET("messages.getLongPollServer")
     fun getLongPollServer(): Flowable<BaseResponse<LongPollServer>>
-
-    @GET("messages.getLongPollHistory")
-    fun getLongPollHistory(@Query("ts") ts: Int,
-                           @Query("events_limit") eventsLimit: Int): Flowable<BaseResponse<LongPollHistoryResponse>>
 
     //stats
     @GET("stats.trackVisitor")

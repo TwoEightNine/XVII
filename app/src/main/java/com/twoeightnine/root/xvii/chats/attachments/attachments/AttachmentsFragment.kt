@@ -5,7 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.CommonPagerAdapter
+import com.twoeightnine.root.xvii.adapters.BasePagerAdapter
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.audios.AudioAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachmentsFragment
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_attachments_history.*
 class AttachmentsFragment : BaseFragment() {
 
     private val adapter by lazy {
-        CommonPagerAdapter(childFragmentManager)
+        BasePagerAdapter(childFragmentManager)
     }
 
     private val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }

@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.chats.fragments
+package com.twoeightnine.root.xvii.chats
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -15,14 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.ChatActivity
-import com.twoeightnine.root.xvii.chats.ChatInputController
-import com.twoeightnine.root.xvii.chats.ChatToolbarController
-import com.twoeightnine.root.xvii.chats.adapters.ChatAdapter
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
 import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActivity
+import com.twoeightnine.root.xvii.chats.tools.ChatInputController
+import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog

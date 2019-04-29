@@ -35,8 +35,8 @@
     <string name="fwd_message">%d forwarded</string>
     <string name="error">error</string>
     <string name="bytes">%d b</string>
-    <string name="kilobytes">%d kb</string>
-    <string name="megabytes">%d mb</string>
+    <string name="kilobytes">%s kb</string>
+    <string name="megabytes">%s mb</string>
     <string name="kick_chat">out of chat</string>
     <string name="invite_chat">in chat</string>
     <string name="kick_chat_full">%s is out of chat now</string>
@@ -209,7 +209,7 @@
     <string name="sample_text" translatable="false">xvii</string>
     <string name="search_hint">search</string>
     <string name="ok" translatable="false">ok</string>
-    <string name="cancel" translatable="false">cancel</string>
+    <string name="cancel">cancel</string>
 
     <string name="no_access_to_mic">no access to the mic</string>
     <string name="no_access_to_storage">no access to the storage</string>

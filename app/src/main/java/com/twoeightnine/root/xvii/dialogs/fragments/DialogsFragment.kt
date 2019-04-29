@@ -1,9 +1,6 @@
 package com.twoeightnine.root.xvii.dialogs.fragments
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,14 +9,10 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.ChatActivity
-import com.twoeightnine.root.xvii.chats.attachments.audios.AudiosActivity
-import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesActivity
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.search.SearchActivity
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_dialogs.*
@@ -99,31 +92,6 @@ open class DialogsFragment : BaseFragment() {
                 }.show()
             }
         }.show()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
-        inflater?.inflate(R.menu.dialog_menu, menu)
-        menu?.findItem(R.id.menu_music)?.isVisible = equalsDevUids(Session.uid)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            R.id.menu_search_users -> {
-                SearchActivity.launch(context)
-                true
-            }
-            R.id.important_menu -> {
-                StarredMessagesActivity.launch(context)
-                true
-            }
-            R.id.menu_music -> {
-                AudiosActivity.launch(context)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     companion object {

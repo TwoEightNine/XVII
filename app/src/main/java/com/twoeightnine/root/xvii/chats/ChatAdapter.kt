@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.chats.adapters
+package com.twoeightnine.root.xvii.chats
 
 import android.content.Context
 import android.graphics.Color

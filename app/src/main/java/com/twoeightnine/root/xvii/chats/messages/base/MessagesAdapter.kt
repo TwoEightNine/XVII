@@ -11,12 +11,10 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
 
 /**
@@ -194,7 +192,7 @@ class MessagesAdapter(context: Context,
                             Attachment.TYPE_WALL -> attachment.wall?.stringId?.also { postId ->
                                 val included = LayoutInflater.from(context).inflate(R.layout.container_wall, null, false)
                                 included.setOnClickListener {
-                                    (context as? RootActivity)?.loadFragment(WallPostFragment.newInstance(postId))
+//                                    (context as? BaseA)?.loadFragment(WallPostFragment.newInstance(postId))
                                 }
                                 llMessageContainer.addView(included)
                             }

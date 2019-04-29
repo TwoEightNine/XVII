@@ -62,84 +62,6 @@
 
         <include layout="@layout/toolbar_chat" />
 
-        <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-
-        <!--<include layout="@layout/toolbar_chat" />-->
-
-        <!--<RelativeLayout-->
-        <!--android:id="@+id/rlTyping"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBottom="@+id/toolbar"-->
-        <!--android:layout_marginLeft="60dp"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:background="@color/toolbar"-->
-        <!--android:elevation="4dp"-->
-        <!--android:tag="main"-->
-        <!--android:visibility="gone">-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tvTyping"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginRight="2dp"-->
-        <!--android:fontFamily="sans-serif-light"-->
-        <!--android:text="@string/typing"-->
-        <!--android:textColor="@color/toolbar_subtext"-->
-        <!--android:textSize="14sp" />-->
-
-        <!--<com.twoeightnine.root.xvii.views.TypingView-->
-        <!--android:id="@+id/typingView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_toRightOf="@+id/tvTyping" />-->
-
-        <!--<androidx.legacy.widget.Space-->
-        <!--android:layout_width="80dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_toRightOf="@+id/typingView" />-->
-
-        <!--</RelativeLayout>-->
-
-        <!--<RelativeLayout-->
-        <!--android:id="@+id/rlRecordingVoice"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBottom="@+id/toolbar"-->
-        <!--android:layout_marginLeft="60dp"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:background="@color/toolbar"-->
-        <!--android:elevation="4dp"-->
-        <!--android:fontFamily="sans-serif-light"-->
-        <!--android:tag="main"-->
-        <!--android:visibility="gone">-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tvRecordingVoice"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginRight="2dp"-->
-        <!--android:text="@string/recording_voice"-->
-        <!--android:textColor="@color/toolbar_subtext"-->
-        <!--android:textSize="14sp" />-->
-
-        <!--<com.twoeightnine.root.xvii.views.TypingView-->
-        <!--android:id="@+id/typingViewVoice"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_toRightOf="@+id/tvRecordingVoice" />-->
-
-        <!--<androidx.legacy.widget.Space-->
-        <!--android:layout_width="80dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_toRightOf="@+id/typingViewVoice" />-->
-
-        <!--</RelativeLayout>-->
-
         <RelativeLayout
             android:id="@+id/rlMultiAction"
             android:layout_width="match_parent"
@@ -191,8 +113,6 @@
                 android:tag="dark" />
 
         </RelativeLayout>
-
-        <!--</RelativeLayout>-->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabHasMore"

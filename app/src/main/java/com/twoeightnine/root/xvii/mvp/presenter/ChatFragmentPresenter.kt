@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.mvp.presenter
 
 import android.content.Context
-import android.os.Environment
 import android.text.Html
 import android.text.TextUtils
 import com.twoeightnine.root.xvii.App
@@ -216,30 +215,11 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
             }
         }, { error ->
             Lg.i("send sticker error: $error")
-            if (error.contains("this sticker")) {
-                attachStickerAsPic(sticker)
-            } else {
-                view?.showError(error)
-            }
+            view?.showError(error)
             if (Prefs.beOffline) {
                 utils.setOffline()
             }
         })
-    }
-
-    private fun attachStickerAsPic(sticker: Sticker) {
-        val fileName = "stick${sticker.id}.png"
-        downloadFile(
-                App.context,
-                sticker.photo256,
-                fileName,
-                DownloadFileAsyncTask.STI,
-                {
-                    val file = Environment.getExternalStoragePublicDirectory(DownloadFileAsyncTask.STICKER_PATH)
-                    val chosenPhoto = File(file, fileName).absolutePath
-                    attachPhoto(chosenPhoto, true)
-
-                }, false, true)
     }
 
     fun setTyping() {

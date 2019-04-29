@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.chats
+package com.twoeightnine.root.xvii.chats.tools
 
 import android.content.Context
 import android.os.CountDownTimer

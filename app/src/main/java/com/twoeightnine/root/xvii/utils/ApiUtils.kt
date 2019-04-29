@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
-import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
@@ -15,7 +14,6 @@ import javax.inject.Inject
 class ApiUtils @Inject constructor(val api: ApiService) {
 
     companion object {
-        private const val STICKERS_UPD_DELAY = 60 * 60 * 12 // 12 hours
 
         const val ACTIVITY_TYPING = "typing"
         const val ACTIVITY_VOICE = "audiomessage"
@@ -109,28 +107,6 @@ class ApiUtils @Inject constructor(val api: ApiService) {
                 }, {
                     showError(context, it)
                 })
-    }
-
-    fun checkMembership(callback: (Boolean) -> Unit) {
-        api.isGroupMember(App.GROUP, Session.uid)
-                .subscribeSmart({
-                    callback.invoke(it == 1)
-                }, {
-                    error ->
-                    Lg.wtf("check membership error: $error")
-                })
-    }
-
-    fun joinGroup() {
-        api.joinGroup(App.GROUP)
-                .subscribeSmart({}, {})
-    }
-
-    fun repost(obj: String, onSuccess: () -> Unit = {}, onError: (String) -> Unit = {}) {
-        api.repost(obj)
-                .subscribeSmart({
-                    onSuccess.invoke()
-                }, onError)
     }
 
     fun trackVisitor(onSuccess: () -> Unit = {}) {

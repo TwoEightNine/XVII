@@ -56,19 +56,19 @@ class SizeNotifierFrameLayout : FrameLayout {
     }
 
     override fun onDraw(canvas: Canvas) {
-        if (backgroundImage != null) {
+        backgroundImage ?: super.onDraw(canvas)
+
+        backgroundImage?.let { backgroundImage ->
             if (backgroundImage is ColorDrawable) {
-                backgroundImage!!.setBounds(0, 0, measuredWidth, measuredHeight)
-                backgroundImage!!.draw(canvas)
+                backgroundImage.setBounds(0, 0, measuredWidth, measuredHeight)
+                backgroundImage.draw(canvas)
             } else if (backgroundImage is BitmapDrawable) {
-                val scale = measuredWidth.toFloat() / backgroundImage!!.intrinsicWidth.toFloat()
-                val width = Math.ceil((backgroundImage!!.intrinsicWidth * scale).toDouble()).toInt()
-                val height = Math.ceil((backgroundImage!!.intrinsicHeight * scale).toDouble()).toInt()
-                backgroundImage!!.setBounds(0, 0, width, height)
-                backgroundImage!!.draw(canvas)
+                val scale = measuredWidth.toFloat() / backgroundImage.intrinsicWidth.toFloat()
+                val width = Math.ceil((backgroundImage.intrinsicWidth * scale).toDouble()).toInt()
+                val height = Math.ceil((backgroundImage.intrinsicHeight * scale).toDouble()).toInt()
+                backgroundImage.setBounds(0, 0, width, height)
+                backgroundImage.draw(canvas)
             }
-        } else {
-            super.onDraw(canvas)
         }
     }
 }

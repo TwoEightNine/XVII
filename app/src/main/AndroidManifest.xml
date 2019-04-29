@@ -82,10 +82,6 @@
         </activity>
 
         <activity
-            android:name=".activities.RootActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".activities.PinActivity"
             android:screenOrientation="portrait" />
 
@@ -105,9 +101,6 @@
             android:name=".activities.ExceptionActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".activities.TestLandscapeActivity"
-            android:screenOrientation="landscape" />
         <activity
             android:name=".chats.ChatActivity"
             android:launchMode="singleTop"

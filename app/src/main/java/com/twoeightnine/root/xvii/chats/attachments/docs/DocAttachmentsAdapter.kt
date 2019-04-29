@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.chats.attachments.docs
 
 import android.content.Context
 import android.view.View
-import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.attachments.Doc
@@ -28,7 +27,7 @@ class DocAttachmentsAdapter(
             with(itemView) {
                 tvExt.text = item.ext
                 tvTitle.text = item.title
-                tvSize.text = getSize(App.context, item.size)
+                tvSize.text = getSize(resources, item.size)
                 relativeLayout.stylize(changeStroke = false)
                 setOnClickListener { onClick(items[adapterPosition]) }
             }

@@ -4,13 +4,13 @@ import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.activities.ExceptionActivity
 import com.twoeightnine.root.xvii.activities.LoginActivity
 import com.twoeightnine.root.xvii.activities.PinActivity
-import com.twoeightnine.root.xvii.activities.RootActivity
 import com.twoeightnine.root.xvii.analyzer.dialog.AnalyzeDialogFragment
 import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
+import com.twoeightnine.root.xvii.chats.ChatFragment
 import com.twoeightnine.root.xvii.chats.attachments.audios.AudioAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachmentsFragment
@@ -22,7 +22,6 @@ import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersFragment
 import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
-import com.twoeightnine.root.xvii.chats.fragments.ChatFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.ChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
@@ -50,7 +49,6 @@ interface AppComponent {
     fun inject(loginActivity: LoginActivity)
     fun inject(mainActivity: MainActivity)
     fun inject(exceptionActivity: ExceptionActivity)
-    fun inject(rootActivity: RootActivity)
     fun inject(imageViewerActivity: ImageViewerActivity)
     fun inject(gifViewerActivity: GifViewerActivity)
     fun inject(pinActivity: PinActivity)

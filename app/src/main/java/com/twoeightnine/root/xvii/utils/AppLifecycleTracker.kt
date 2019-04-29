@@ -2,8 +2,8 @@ package com.twoeightnine.root.xvii.utils
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.os.Bundle
-import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.activities.LoginActivity
 import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.managers.Session
@@ -12,9 +12,9 @@ class AppLifecycleTracker : Application.ActivityLifecycleCallbacks {
 
     private var numStarted = 0
 
-    private fun onForeground() {
+    private fun onForeground(context: Context) {
         if (Session.needToPromptPin()) {
-            PinActivity.launch(App.context, PinActivity.ACTION_ENTER)
+            PinActivity.launch(context, PinActivity.ACTION_ENTER)
         }
     }
 
@@ -27,9 +27,9 @@ class AppLifecycleTracker : Application.ActivityLifecycleCallbacks {
                     activity is PinActivity
 
     override fun onActivityStarted(activity: Activity?) {
-        if (ignore(activity)) return
+        if (activity == null || ignore(activity)) return
 
-        if (numStarted == 0) onForeground()
+        if (numStarted == 0) onForeground(activity)
         numStarted++
     }
 

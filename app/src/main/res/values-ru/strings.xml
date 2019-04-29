@@ -72,7 +72,7 @@
     <string name="key_set">ключи установлены успешно</string>
     <string name="kick_chat">вне чата</string>
     <string name="kick_chat_full">%s не в чате</string>
-    <string name="kilobytes">%d кб</string>
+    <string name="kilobytes">%s кб</string>
     <string name="last_seen">был: %s</string>
     <string name="leave_chat">покинуть</string>
     <string name="left_chat">вы покинули чат</string>
@@ -83,7 +83,7 @@
     <string name="logout">выйти</string>
     <string name="markasimportant">отметить важным</string>
     <string name="markasread">отмечать прочитанным</string>
-    <string name="megabytes">%d мб</string>
+    <string name="megabytes">%s мб</string>
     <string name="messages">сообщения</string>
     <string name="mphone">мобильный</string>
     <string name="mute">игнор-лист</string>
@@ -271,5 +271,6 @@
     <string name="attach">прикрепить..</string>
     <string name="search_hint">поиск</string>
     <string name="wanna_change_theme">тема была изменена. приложение будет перезапущено. продолжить?</string>
+    <string name="cancel">отмена</string>
 
 </resources>

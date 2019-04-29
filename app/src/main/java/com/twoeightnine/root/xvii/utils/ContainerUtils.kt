@@ -80,7 +80,7 @@ fun getDoc(doc: Doc, context: Context): View {
     included.findViewById<RelativeLayout>(R.id.relativeLayout).stylize(changeStroke = false)
     included.findViewById<TextView>(R.id.tvExt).text = doc.ext?.toUpperCase()
     included.findViewById<TextView>(R.id.tvTitle).text = doc.title
-    included.findViewById<TextView>(R.id.tvSize).text = getSize(context, doc.size)
+    included.findViewById<TextView>(R.id.tvSize).text = getSize(context.resources, doc.size)
     included.setOnClickListener {
         simpleUrlIntent(context, doc.url)
     }
@@ -91,7 +91,7 @@ fun getEncrypted(doc: Doc, context: Context, decryptCallback: (Doc) -> Unit = {}
     val included = LayoutInflater.from(context).inflate(R.layout.container_enc, null, false)
     included.findViewById<ViewGroup>(R.id.relativeLayout).stylize(changeStroke = false)
     included.findViewById<TextView>(R.id.tvTitle).text = doc.title
-    included.findViewById<TextView>(R.id.tvSize).text = getSize(context, doc.size)
+    included.findViewById<TextView>(R.id.tvSize).text = getSize(context.resources, doc.size)
     included.setOnClickListener {
         decryptCallback.invoke(doc)
     }

@@ -2,13 +2,11 @@ package com.twoeightnine.root.xvii.views
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.view.MotionEvent
-import java.lang.IllegalArgumentException
-import java.lang.IllegalStateException
+import androidx.viewpager.widget.ViewPager
 
-class LockableViewPager : androidx.viewpager.widget.ViewPager {
+class LockableViewPager : ViewPager {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet)

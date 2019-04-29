@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_image_viewer.*
@@ -53,13 +54,12 @@ class ImageViewerActivity : AppCompatActivity() {
 
             val url = photos[vpImage.currentItem].maxPhoto
             val fileName = getNameFromUrl(url)
-            downloadFile(
-                    this,
-                    url,
-                    fileName,
-                    DownloadFileAsyncTask.PIC,
-                    { showToast(this, getString(R.string.doenloaded, fileName)) }
-            )
+            DownloadFileService.startService(this, url, fileName) { path ->
+                if (path != null) {
+                    addToGallery(this, path)
+                    showToast(this, getString(R.string.doenloaded, fileName))
+                }
+            }
         }
         btnSaveToAlbum.setOnClickListener {
             if (photos.isEmpty()) return@setOnClickListener

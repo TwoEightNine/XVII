@@ -56,8 +56,6 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     protected fun styleScreen(container: ViewGroup) {
-//        Style.forAll(container)
-//        Style.setStatusBar(this)
         container.stylizeAll()
         stylize()
     }

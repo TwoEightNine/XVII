@@ -9,7 +9,7 @@
     <string name="city">ville</string>
     <string name="hometown">ville natale</string>
     <string name="relation">relation</string>
-    <string name="write_message"> écrire un message</string>
+    <string name="write_message">écrire un message</string>
     <string name="doenloaded">%s a été téléchargé</string>
     <string name="beoffline">être hors ligne (plus tôt possible)</string>
     <string name="markasread">marquer comme lus</string>
@@ -28,9 +28,9 @@
     <string name="logout">quitter</string>
     <string name="fwd_message">%d transférés</string>
     <string name="error">erreur</string>
-    <string name="bytes">%d b</string>
-    <string name="kilobytes">%d kb</string>
-    <string name="megabytes">%d mb</string>
+    <string name="bytes">%d o</string>
+    <string name="kilobytes">%s ko</string>
+    <string name="megabytes">%s mo</string>
     <string name="kick_chat">pas dans le tchat</string>
     <string name="invite_chat">dans le tchat</string>
     <string name="kick_chat_full">%s n\'est pas dans le tchat</string>
@@ -252,7 +252,7 @@
     <string name="white">blanc</string>
     <string name="cyan">azur</string>
     <string name="accounts_hint">tapez pour gérer</string>
-    <string name="pin">épingle</string>
+    <string name="pin">épingler</string>
     <string name="alias">pseudonyme</string>
     <string name="addons">ajouts</string>
     <string name="analyse">analyseur</string>
@@ -261,6 +261,7 @@
     <string name="attach">attacher..</string>
     <string name="search_hint">rechercher</string>
     <string name="wanna_change_theme">vous avez changé le thème. l\'app se redémarrer. continuer?</string>
+    <string name="cancel">anuller</string>
 
 </resources>
 

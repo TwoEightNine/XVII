@@ -115,14 +115,7 @@ data class User(
         const val FIELDS = "photo_max_orig,photo_50,photo_100,domain,city,status," +
                 "home_town,bdate,relation,photo_id,online,last_seen,counters,contacts,site,connections"
 
-        val stubLoad = User(-1)
-        val stubTry = User(-2)
-
         const val VK = "https://vk.com/"
-
-        fun isStubLoad(user: User) = user.id == -1
-
-        fun isStubTry(user: User) = user.id == -2
     }
 
     fun getPageName() = domain ?: "id$id"

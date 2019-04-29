@@ -55,7 +55,7 @@ class DownloadFileService : IntentService(NAME) {
                 context: Context?,
                 url: String,
                 path: String,
-                override: Boolean,
+                override: Boolean = false,
                 onFileDownloaded: (String?) -> Unit = {}
         ) {
             val intent = Intent(context, DownloadFileService::class.java).apply {
@@ -77,6 +77,7 @@ class DownloadFileService : IntentService(NAME) {
     }
 
     override fun onHandleIntent(intent: Intent?) {
+        l("starting")
         App.appComponent?.inject(this)
         url = intent?.extras?.getString(KEY_FILE_URL) ?: return
         file = File(intent.extras?.getString(KEY_FILE_DEST) ?: return)
@@ -91,6 +92,7 @@ class DownloadFileService : IntentService(NAME) {
                 .map { writeResponseBodyToDisk(it, file.absolutePath) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(::deliverResult) {
+                    lw("error during downloading: ${it.message}")
                     it.printStackTrace()
                     deliverResult(false)
                 }
@@ -124,7 +126,15 @@ class DownloadFileService : IntentService(NAME) {
     }
 
     private fun deliverResult(success: Boolean) {
-        Lg.i("Result $success for ${file.absolutePath}")
+        l("success = $success for ${file.absolutePath}")
         bus.onNext(Pair(file.absolutePath, success))
+    }
+
+    private fun l(s: String) {
+        Lg.i("[download] $s")
+    }
+
+    private fun lw(s: String) {
+        Lg.wtf("[download] $s")
     }
 }

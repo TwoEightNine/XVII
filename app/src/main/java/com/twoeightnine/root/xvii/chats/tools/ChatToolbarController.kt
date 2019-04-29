@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.chats
+package com.twoeightnine.root.xvii.chats.tools
 
 import androidx.appcompat.widget.Toolbar
 import com.twoeightnine.root.xvii.utils.hide

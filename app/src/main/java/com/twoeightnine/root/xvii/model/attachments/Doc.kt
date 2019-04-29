@@ -13,18 +13,42 @@ import java.util.*
 
 @Parcelize
 data class Doc(
+
+        @SerializedName("id")
+        @Expose
         val id: Int = 0,
+
         @SerializedName("owner_id")
+        @Expose
         val ownerId: Int = 0,
+
+        @SerializedName("title")
+        @Expose
         val title: String? = null,
+
         @SerializedName("access_key")
+        @Expose
         val accessKey: String? = null,
+
+        @SerializedName("ext")
+        @Expose
         val ext: String? = null,
+
+        @SerializedName("url")
+        @Expose
         val url: String? = null,
+
+        @SerializedName("size")
+        @Expose
         val size: Int = 0,
+
+        @SerializedName("type")
+        @Expose
         val type: Int = 0,
 
         //for voice messages and gifs
+        @SerializedName("preview")
+        @Expose
         val preview: Preview? = null
 ) : Parcelable, IdTypeable {
 
@@ -47,10 +71,6 @@ data class Doc(
         get() = ".$ext" == CryptoEngine.EXTENSION
 
     override fun getId() = "doc${ownerId}_$id"
-
-    override fun toString() = "{id: $id, title: $title, ext: $ext, type: $type, size: $size, url: $url}"
-
-    fun getPreview() = preview?.photo?.sizes?.get(0)?.src ?: ""
 }
 
 @Parcelize

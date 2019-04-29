@@ -5,6 +5,7 @@ import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
 import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.content.*
 import android.content.Intent.*
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
@@ -178,12 +179,20 @@ fun copyToClip(text: String) {
     clipboard.text = text
 }
 
-fun getSize(context: Context, bytes: Int) =
-        when {
-            bytes < 1024 -> context.getString(R.string.bytes, bytes)
-            bytes < 1048576 -> context.getString(R.string.kilobytes, bytes / 1024)
-            else -> context.getString(R.string.megabytes, bytes / 1048576)
+fun getSize(resources: Resources, bytes: Int): String {
+    val twoDecimalForm = DecimalFormat("#.##")
+    return when {
+        bytes < 1024 -> {
+            resources.getString(R.string.bytes, bytes)
         }
+        bytes < 1048576 -> {
+            resources.getString(R.string.kilobytes, twoDecimalForm.format(bytes.toDouble() / 1024))
+        }
+        else -> {
+            resources.getString(R.string.megabytes, twoDecimalForm.format(bytes.toDouble() / 1048576))
+        }
+    }
+}
 
 fun streamToBytes(input: InputStream): ByteArray {
     try {
@@ -364,7 +373,7 @@ fun callIntent(context: Context?, num: String?) {
     var number = num ?: return
     number = number.replace("-", "")
     number = number.replace(" ", "")
-    context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number")))
+    context.startActivity(Intent(ACTION_DIAL, Uri.parse("tel:$number")))
 }
 
 fun addToGallery(context: Context, path: String) {
@@ -388,18 +397,14 @@ fun getNameFromUrl(url: String): String {
     return res[res.size - 1]
 }
 
-fun downloadFile(context: Context, url: String, fileName: String, type: String, listener: (() -> Unit), refresh: Boolean = false, noGallery: Boolean = false) {
-    val task = DownloadFileAsyncTask(refresh, noGallery)
-    task.listener = {
-        addToGallery(context, it)
-        listener.invoke()
-    }
-    task.execute(url, fileName, type)
-}
-
-fun getPeerId(userId: Int, chatId: Int): Int = if (chatId == 0) userId else 2000000000 + chatId
-
-fun getFromPeerId(peerId: Int) = intArrayOf(if (peerId > 2000000000) 0 else peerId, if (peerId > 2000000000) peerId - 2000000000 else 0)
+//fun downloadFile(context: Context, url: String, fileName: String, type: String, listener: (() -> Unit), refresh: Boolean = false, noGallery: Boolean = false) {
+//    val task = DownloadFileAsyncTask(refresh, noGallery)
+//    task.listener = {
+//        addToGallery(context, it)
+//        listener.invoke()
+//    }
+//    task.execute(url, fileName, type)
+//}
 
 fun loadBitmapIcon(url: String?, callback: (Bitmap) -> Unit) {
     val uiHandler = Handler(Looper.getMainLooper())

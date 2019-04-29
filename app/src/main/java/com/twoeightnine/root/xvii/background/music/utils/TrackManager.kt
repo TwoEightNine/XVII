@@ -35,7 +35,7 @@ class TrackManager(private val context: Context) {
         val url = track.audio.url ?: return
 
         val trackPath = getFile(track.audio).absolutePath
-        DownloadFileService.startService(context, url, trackPath, false) {
+        DownloadFileService.startService(context, url, trackPath) {
             if (it == trackPath) {
                 callback(Track(track.audio, trackPath))
             }

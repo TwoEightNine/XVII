@@ -1,7 +1,5 @@
 package com.twoeightnine.root.xvii.utils
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
