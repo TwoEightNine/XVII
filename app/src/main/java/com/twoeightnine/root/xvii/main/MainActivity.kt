@@ -56,6 +56,7 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        stylize(isWhite = true)
         if (!LongPollCore.isRunning()) {
             Lg.i("service wasn't active since " +
                     "${getTime(LongPollCore.lastRun, format = "HH:mm:ss")}. Start again")
@@ -98,7 +99,7 @@ class MainActivity : BaseActivity() {
                         R.id.menu_search -> 0
                         R.id.menu_friends -> 2
                         R.id.menu_features -> 3
-                        else -> 1 // default menu_dialogs
+                            else -> 1 // default menu_dialogs
                     },
                     false
             )

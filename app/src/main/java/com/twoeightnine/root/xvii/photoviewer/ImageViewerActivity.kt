@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.photoviewer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_image_viewer.*
+import java.io.File
 import javax.inject.Inject
 
 class ImageViewerActivity : AppCompatActivity() {
@@ -54,7 +56,8 @@ class ImageViewerActivity : AppCompatActivity() {
 
             val url = photos[vpImage.currentItem].maxPhoto
             val fileName = getNameFromUrl(url)
-            DownloadFileService.startService(this, url, fileName) { path ->
+            val filePath = File(SAVE_FILE, fileName).absolutePath
+            DownloadFileService.startService(this, url, filePath) { path ->
                 if (path != null) {
                     addToGallery(this, path)
                     showToast(this, getString(R.string.doenloaded, fileName))
@@ -108,6 +111,9 @@ class ImageViewerActivity : AppCompatActivity() {
     private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.maxPhoto })
 
     companion object {
+
+        private const val SAVE_DIR = "vk"
+        val SAVE_FILE = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), SAVE_DIR)
 
         const val PHOTOS = "urls"
         const val POSITION = "position"

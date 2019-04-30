@@ -105,13 +105,14 @@ class DownloadFileService : IntentService(NAME) {
 
     private fun showNotification() {
         createNotificationChannel()
-        val mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_download)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.downloading_file))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build()
         val id = Random(System.currentTimeMillis()).nextInt(0, 65535)
-        startForeground(id, mBuilder.build())
+        startForeground(id, notification)
     }
 
     private fun createNotificationChannel() {

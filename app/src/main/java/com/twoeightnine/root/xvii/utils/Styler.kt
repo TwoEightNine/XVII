@@ -29,6 +29,8 @@ val SANS_SERIF_LIGHT = Typeface.create("sans-serif-light", Typeface.NORMAL)
 
 object ColorManager {
 
+    const val STROKE = 3 // in px
+
     const val PHOTO_STUB_URL = "https://dummyimage.com/200x200/%s/%s.png"
 
     const val MAIN_TAG = "main"
@@ -154,7 +156,7 @@ fun Drawable.stylize(tag: String, changeStroke: Boolean = true) {
         is GradientDrawable -> {
             setColor(color)
             if (changeStroke) {
-                setStroke(4, Color.WHITE)
+                setStroke(ColorManager.STROKE, Color.WHITE)
             }
         }
         is ColorDrawable -> this.color = color
