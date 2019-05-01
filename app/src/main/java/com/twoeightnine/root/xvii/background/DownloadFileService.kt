@@ -57,7 +57,7 @@ class DownloadFileService : IntentService(NAME) {
                 path: String,
                 override: Boolean = false,
                 onFileDownloaded: (String?) -> Unit = {}
-        ) {
+        ): Disposable {
             val intent = Intent(context, DownloadFileService::class.java).apply {
                 putExtra(KEY_FILE_URL, url)
                 putExtra(KEY_FILE_DEST, path)
@@ -68,7 +68,7 @@ class DownloadFileService : IntentService(NAME) {
             } else {
                 context?.startService(intent)
             }
-            bus.subscribe { pair ->
+            return bus.subscribe { pair ->
                 if (pair.first == path) {
                     onFileDownloaded(if (pair.second) path else null)
                 }
