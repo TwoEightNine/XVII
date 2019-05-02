@@ -54,7 +54,7 @@ class ImageViewerActivity : AppCompatActivity() {
         btnDownload.setOnClickListener {
             if (photos.isEmpty()) return@setOnClickListener
 
-            val url = photos[vpImage.currentItem].maxPhoto
+            val url = currentPhoto().maxPhoto
             val fileName = getNameFromUrl(url)
             val filePath = File(SAVE_FILE, fileName).absolutePath
             DownloadFileService.startService(this, url, filePath) { path ->
@@ -67,7 +67,7 @@ class ImageViewerActivity : AppCompatActivity() {
         btnSaveToAlbum.setOnClickListener {
             if (photos.isEmpty()) return@setOnClickListener
 
-            val photo = photos[vpImage.currentItem]
+            val photo = currentPhoto()
             apiUtils.saveToAlbum(this, photo.ownerId, photo.id, photo.accessKey)
         }
     }
@@ -106,7 +106,13 @@ class ImageViewerActivity : AppCompatActivity() {
 
     private fun setPosition(position: Int) {
         tvPosition.text = "${position + 1}/${photos.size}"
+        val text = currentPhoto().text
+        tvText.setVisible(!text.isNullOrEmpty())
+        tvText.text = text
+        tvDate.text = getTime(currentPhoto().date, full = true)
     }
+
+    private fun currentPhoto() = photos[vpImage.currentItem]
 
     private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.maxPhoto })
 

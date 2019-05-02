@@ -33,48 +33,76 @@
                 android:textSize="20sp"
                 tools:text="12/24" />
 
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                tools:text="13:37 13 mars" />
+
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/llBottom"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/black_transparent"
-            android:orientation="horizontal"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:weightSum="2">
+            android:background="@color/black_transparent">
 
-            <Button
-                android:id="@+id/btnSaveToAlbum"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvText"
+                style="@style/AccentText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:drawableTop="@drawable/ic_copy"
-                android:fontFamily="sans-serif-light"
-                android:text="@string/add_to_saved"
-                android:textAllCaps="false"
-                android:textColor="@color/icons"
-                android:textSize="16sp" />
+                android:padding="16dp"
+                android:textSize="16sp"
+                tools:text="the freedom is not to do what you want but not to do what you dont want" />
 
-            <Button
-                android:id="@+id/btnDownload"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/llBottom"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:drawableTop="@drawable/ic_download"
-                android:fontFamily="sans-serif-light"
-                android:text="@string/download"
-                android:textAllCaps="false"
-                android:textColor="@color/icons"
-                android:textSize="16sp" />
+                android:layout_below="@+id/tvText"
+                android:orientation="horizontal"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:weightSum="2">
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/btnSaveToAlbum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@drawable/ic_copy"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/add_to_saved"
+                    android:textAllCaps="false"
+                    android:textColor="@color/icons"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnDownload"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@drawable/ic_download"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/download"
+                    android:textAllCaps="false"
+                    android:textColor="@color/icons"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

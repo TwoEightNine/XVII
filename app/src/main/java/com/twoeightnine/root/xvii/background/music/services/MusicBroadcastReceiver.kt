@@ -7,8 +7,7 @@ import android.content.Intent
 class MusicBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val action = intent?.action ?: return
-        when (action) {
+        when (intent?.action ?: return) {
             ACTION_NEXT -> MusicService.next()
             ACTION_PREVIOUS -> MusicService.previous()
             ACTION_PLAY_PAUSE -> MusicService.playPause()

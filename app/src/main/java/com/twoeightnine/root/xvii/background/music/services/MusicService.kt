@@ -96,7 +96,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
     private fun stop() {
         try {
-            if (player.isPlaying) {
+            if (player.isPlayingSafe()) {
                 player.pause()
                 pausingAudioSubject.onNext(Unit)
             }
@@ -108,13 +108,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     }
 
     private fun playOrPause() {
-        val isPlaying = try {
-            player.isPlaying
-        } catch (e: Exception) {
-            lw("isPlaying error: ${e.message}")
-            false
-        }
-        if (isPlaying) {
+        if (player.isPlayingSafe()) {
             stop()
         } else {
             try {
@@ -194,7 +188,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         with(remoteViews) {
             setTextViewText(R.id.tvTitle, audio.title)
             setTextViewText(R.id.tvArtist, audio.artist)
-            val playPauseRes = if (player.isPlaying) R.drawable.ic_pause_music else R.drawable.ic_play_music
+            val playPauseRes = if (player.isPlayingSafe()) R.drawable.ic_pause_music else R.drawable.ic_play_music
             setImageViewResource(R.id.ivPlayPause, playPauseRes)
             setOnClickPendingIntent(R.id.ivNext, getActionPendingIntent(MusicBroadcastReceiver.ACTION_NEXT))
             setOnClickPendingIntent(R.id.ivPrevious, getActionPendingIntent(MusicBroadcastReceiver.ACTION_PREVIOUS))
@@ -220,6 +214,13 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         return false
     }
 
+    private fun MediaPlayer.isPlayingSafe() = try {
+        isPlaying
+    } catch (e: Exception) {
+        lw("isPlaying: ${e.message}")
+        false
+    }
+
     private fun l(s: String) {
         Lg.i("[music] $s")
     }
@@ -228,6 +229,9 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         Lg.wtf("[music] $s")
     }
 
+    /**
+     * also provides public API
+     */
     companion object {
 
         private const val FOREGROUND_ID = 3676
