@@ -4,6 +4,7 @@
     <color name="primary_dark">@color/primary</color>
     <color name="secondary_text">#656565</color>
     <color name="link_color">#79f</color>
+    <color name="status_bar">#0e0c13</color>
 
     <color name="background">#0e0c13</color>
     <color name="background_accented">#1c1826</color>
