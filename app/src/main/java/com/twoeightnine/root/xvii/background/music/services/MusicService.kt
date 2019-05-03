@@ -57,8 +57,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     override fun onDestroy() {
         try {
             pausingAudioSubject.onNext(Unit)
-            player.pause()
-            player.stop()
             player.release()
         } catch (e: Exception) {
             lw("destroying: ${e.message}")
@@ -94,32 +92,38 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         onCompletion(player)
     }
 
-    private fun stop() {
-        try {
-            if (player.isPlayingSafe()) {
-                player.pause()
-                pausingAudioSubject.onNext(Unit)
-            }
-        } catch (e: Exception) {
-            lw("error stopping: ${e.message}")
-            stopSelf()
-            onDestroy()
-        }
-    }
-
     private fun playOrPause() {
         if (player.isPlayingSafe()) {
-            stop()
+            try {
+                player.pause()
+                pausingAudioSubject.onNext(Unit)
+            } catch (e: Exception) {
+                lw("error stopping: ${e.message}")
+                stop()
+            }
         } else {
             try {
                 player.start()
                 playingAudioSubject.onNext(getPlayedTrack() ?: return)
             } catch (e: Exception) {
                 e.printStackTrace()
-                lw("start playing error: ${e.message}")
+                lw("playing error: ${e.message}")
+                startPlaying()
             }
         }
         showNotification()
+    }
+
+    private fun stop() {
+        try {
+            player.stop()
+            tracks.clear()
+            pausingAudioSubject.onNext(Unit)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            lw("error stopping: ${e.message}")
+            stopForeground(true)
+        }
     }
 
     override fun onPrepared(mp: MediaPlayer?) {
@@ -209,7 +213,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     override fun onBind(intent: Intent?) = binder
 
     override fun onUnbind(intent: Intent?): Boolean {
-        player.stop()
         player.release()
         return false
     }
