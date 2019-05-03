@@ -2,6 +2,8 @@ package com.twoeightnine.root.xvii.background.longpoll.models.events
 
 abstract class BaseLongPollEvent {
 
+    abstract fun getType(): Int
+
     companion object {
         const val TYPE_INSTALL_FLAGS = 2
         const val TYPE_NEW_MESSAGE = 4
@@ -15,7 +17,6 @@ abstract class BaseLongPollEvent {
         const val TYPE_TYPING_CHAT = 62
         const val TYPE_RECORDING_AUDIO = 64
         const val TYPE_COUNT = 80
-    }
 
-    abstract fun getType(): Int
+    }
 }
