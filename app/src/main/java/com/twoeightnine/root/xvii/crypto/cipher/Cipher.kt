@@ -20,6 +20,8 @@ object Cipher {
     }
 
     fun decrypt(bytes: ByteArray, key: ByteArray): Result {
+        if (bytes.size < IV_LENGTH + MAC_LENGTH) return Result(verified = false)
+
         val key1 = sha256Raw(key.copyOfRange(0, key.size / 2))
         val key2 = sha256Raw(key.copyOfRange(key.size / 2, key.size))
 
