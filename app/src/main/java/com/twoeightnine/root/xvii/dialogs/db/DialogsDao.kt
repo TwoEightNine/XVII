@@ -26,6 +26,6 @@ interface DialogsDao {
     @Delete
     fun removeDialog(dialog: Dialog): Single<Int>
 
-    @Query("DELETE FROM dialogs")
+    @Query("DELETE FROM dialogs where isPinned = 0 and alias = ''")
     fun removeAll(): Completable
 }
