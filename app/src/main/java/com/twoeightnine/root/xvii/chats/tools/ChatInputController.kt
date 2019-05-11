@@ -160,11 +160,13 @@ class ChatInputController(
         }
 
         private var xPress = 0f
+        private var alreadyStopped = false
 
         override fun onTouch(v: View?, event: MotionEvent?) = when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 xPress = event.x
                 delayTimer.start()
+                alreadyStopped = false
                 true
             }
 
@@ -178,13 +180,16 @@ class ChatInputController(
             }
 
             MotionEvent.ACTION_UP -> {
-                stop(shouldCancel(event))
+                if (!alreadyStopped) {
+                    stop(false)
+                }
                 true
             }
             else -> true
         }
 
         private fun stop(cancel: Boolean) {
+            alreadyStopped = true
             delayTimer.cancel()
             voiceRecorder.stopRecording(cancel)
         }
