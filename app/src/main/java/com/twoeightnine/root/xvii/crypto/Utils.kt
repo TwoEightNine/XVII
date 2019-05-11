@@ -1,8 +1,11 @@
 package com.twoeightnine.root.xvii.crypto
 
 import android.util.Base64
+import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.SecureRandom
+
+const val PRIME_TEST_PROBABILITY = 30
 
 fun md5Raw(plain: ByteArray) = MessageDigest
         .getInstance("MD5")
@@ -43,3 +46,33 @@ fun getRandomBytes(numBytes: Int): ByteArray {
 fun toBase64(bytes: ByteArray) = Base64.encodeToString(bytes, Base64.DEFAULT)
 
 fun fromBase64(str: String) = Base64.decode(str, Base64.DEFAULT)
+
+fun isPrime(r: BigInteger) = millerRabin(r)
+
+private fun millerRabinPass(a: BigInteger, n: BigInteger): Boolean {
+    val nMin1 = n.subtract(BigInteger.ONE)
+    var d = nMin1
+    val s = d.lowestSetBit
+    d = d.shiftRight(s)
+    var aToPow = a.modPow(d, n)
+    if (aToPow == BigInteger.ONE) return true
+    for (i in 0..s - 2) {
+        if (aToPow == nMin1) return true
+        aToPow = aToPow.multiply(aToPow).mod(n)
+    }
+    return (aToPow == nMin1)
+}
+
+private fun millerRabin(n: BigInteger): Boolean {
+    val secureRandom = SecureRandom()
+    for (repeat in 0 until PRIME_TEST_PROBABILITY) {
+        var a: BigInteger
+        do {
+            a = BigInteger(n.bitLength(), secureRandom)
+        } while (a == BigInteger.ZERO)
+        if (!millerRabinPass(a, n)) {
+            return false
+        }
+    }
+    return true
+}

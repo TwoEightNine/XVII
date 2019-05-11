@@ -2,13 +2,13 @@ package com.twoeightnine.root.xvii.crypto.prime
 
 import android.content.Context
 import com.twoeightnine.root.xvii.crypto.CryptoStorage
+import com.twoeightnine.root.xvii.crypto.isPrime
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.getTime
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import java.math.BigInteger
-import java.security.SecureRandom
 import java.util.*
 
 /**
@@ -21,8 +21,6 @@ class PrimeGeneratorCore(private val context: Context) {
     private val storage by lazy {
         CryptoStorage(context)
     }
-
-    private val secureRandom = SecureRandom()
 
     private val composite = CompositeDisposable()
     private var isCancelled = false
@@ -71,35 +69,6 @@ class PrimeGeneratorCore(private val context: Context) {
             l("cancelled", threadNumber)
         }
     }
-
-    private fun millerRabinPass(a: BigInteger, n: BigInteger): Boolean {
-        val nMin1 = n.subtract(BigInteger.ONE)
-        var d = nMin1
-        val s = d.lowestSetBit
-        d = d.shiftRight(s)
-        var aToPow = a.modPow(d, n)
-        if (aToPow == BigInteger.ONE) return true
-        for (i in 0..s - 2) {
-            if (aToPow == nMin1) return true
-            aToPow = aToPow.multiply(aToPow).mod(n)
-        }
-        return (aToPow == nMin1)
-    }
-
-    private fun millerRabin(n: BigInteger): Boolean {
-        for (repeat in 0..29) {
-            var a: BigInteger
-            do {
-                a = BigInteger(n.bitLength(), secureRandom)
-            } while (a == BigInteger.ZERO)
-            if (!millerRabinPass(a, n)) {
-                return false
-            }
-        }
-        return true
-    }
-
-    private fun isPrime(r: BigInteger) = millerRabin(r)
 
     private fun l(s: String, i: Int = 0) = Lg.i("[prime${if (i != 0) " $i" else ""}] $s")
 

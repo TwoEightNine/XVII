@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii
 
 import android.app.Application
 import android.content.Context
+import com.twoeightnine.root.xvii.crypto.KeyHolder
 import com.twoeightnine.root.xvii.dagger.AppComponent
 import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
@@ -18,6 +19,7 @@ class App : Application() {
                 .contextModule(ContextModule(this))
                 .build()
         ColorManager.init(applicationContext)
+        KeyHolder.reinit()
 
 //        try {
 //            StatTool.init(applicationContext)
