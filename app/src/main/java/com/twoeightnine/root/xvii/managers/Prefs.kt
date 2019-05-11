@@ -19,6 +19,7 @@ object Prefs {
     private const val MARK = "markAsRead"
     private const val TYPING = "typing"
     private const val MANUAL_UPD = "manualUpd"
+    private const val SHOW_SECONDS = "showSeconds"
     private const val STORE_CUSTOM_KEYS = "storeCustomKeys"
 
     //notifications
@@ -75,6 +76,10 @@ object Prefs {
     var manualUpdating: Boolean
         get() = data.getBoolean(MANUAL_UPD, false)
         set(value) = data.edit().putBoolean(MANUAL_UPD, value).apply()
+
+    var showSeconds: Boolean
+        get() = data.getBoolean(SHOW_SECONDS, false)
+        set(value) = data.edit().putBoolean(SHOW_SECONDS, value).apply()
 
     var storeCustomKeys
         get() = data.getBoolean(STORE_CUSTOM_KEYS, true)

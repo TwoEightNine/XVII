@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.model.attachments.Attachment
@@ -70,7 +71,7 @@ class WallPostFragment : BaseOldFragment() {
         val group = getGroup(-post.fromId)
         holder.tvTitle.text = group.name
         holder.civAvatar.load(group.photo100)
-        holder.tvDate.text = getTime(post.date, full = true)
+        holder.tvDate.text = getTime(post.date, withSeconds = Prefs.showSeconds)
         holder.tvPost.text = post.text
         post.attachments?.forEach { attachment ->
             when (attachment.type) {

@@ -12,6 +12,7 @@ import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.utils.*
@@ -110,7 +111,7 @@ class MessagesAdapter(context: Context,
 //                    !message.action.isNullOrEmpty() -> getAction(message)
                     else -> ""
                 }
-                tvDate.text = getTime(message.date, full = true)
+                tvDate.text = getTime(message.date, withSeconds = Prefs.showSeconds)
                 civPhoto?.apply {
                     load(message.photo)
                     setOnClickListener { callback.onUserClicked(message.fromId) }

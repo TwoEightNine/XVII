@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.PaginationAdapter
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.isSticker
@@ -147,7 +148,7 @@ class ChatAdapter(context: Context,
 //                            16f
 //                        }
 //                )
-                tvDate.text = getTime(message.date, full = true)
+                tvDate.text = getTime(message.date, withSeconds = Prefs.showSeconds)
                 civPhoto?.apply {
                     load(message.photo)
                     setOnClickListener { callback.onUserClicked(message.userId) }

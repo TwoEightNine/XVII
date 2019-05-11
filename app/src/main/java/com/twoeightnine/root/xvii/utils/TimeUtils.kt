@@ -7,18 +7,19 @@ import java.util.*
 
 
 @SuppressLint("SimpleDateFormat")
-fun getTime(ts: Int, full: Boolean = false, onlyTime: Boolean = false, format: String? = null): String {
+fun getTime(ts: Int, shortened: Boolean = false, withSeconds: Boolean = false, format: String? = null): String {
     val date = Date(ts * 1000L)
     val today = Date()
     if (format != null) {
         return SimpleDateFormat(format).format(date)
     }
+    val seconds = if (withSeconds) ":ss" else ""
     val fmt = when {
-        onlyTime || today.day == date.day &&
+        today.day == date.day &&
                 today.month == date.month &&
-                today.year == date.year -> "HH:mm"
-        full && today.year == date.year -> "HH:mm dd MMM"
-        full -> "HH:mm dd MMM yyyy"
+                today.year == date.year -> "HH:mm$seconds"
+        !shortened && today.year == date.year -> "HH:mm$seconds dd MMM"
+        !shortened -> "HH:mm$seconds dd MMM yyyy"
         today.year == date.year -> "dd MMM"
         else -> "dd MMM yyyy"
     }

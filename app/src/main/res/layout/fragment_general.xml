@@ -50,6 +50,16 @@
                 android:text="@string/markasread"
                 android:textSize="16sp" />
 
+            <Switch
+                android:id="@+id/switchShowSeconds"
+                style="@style/MainText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="8dp"
+                android:text="@string/show_seconds"
+                android:textSize="16sp" />
+
             <!--<Switch-->
             <!--android:id="@+id/switchManualUpd"-->
             <!--android:layout_width="match_parent"-->

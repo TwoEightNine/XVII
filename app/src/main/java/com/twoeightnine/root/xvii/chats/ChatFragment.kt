@@ -479,7 +479,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                     timeStamp
                 }
                 val stringRes = if (isOnline) R.string.online_seen else R.string.last_seen
-                getString(stringRes, getTime(time, full = true))
+                getString(stringRes, getTime(time, withSeconds = Prefs.showSeconds))
             }
         })
     }

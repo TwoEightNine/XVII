@@ -42,7 +42,7 @@ class PrimeGeneratorCore(private val context: Context) {
                 composite.add(s)
             }
         } else {
-            l("already generated at ${getTime(storage.ts, full = true)}")
+            l("already generated at ${getTime(storage.ts, withSeconds = true)}")
         }
     }
 

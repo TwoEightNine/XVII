@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.item_dialog.view.*
 
@@ -45,7 +46,7 @@ class DialogsAdapter(
                 } else {
                     Html.fromHtml(getMessageBody(context, dialog))
                 }
-                tvDate.text = getTime(dialog.timeStamp)
+                tvDate.text = getTime(dialog.timeStamp, shortened = true, withSeconds = Prefs.showSeconds)
 
                 ivMute.setVisible(dialog.isMute)
                 tvYou.setVisible(dialog.isOut)

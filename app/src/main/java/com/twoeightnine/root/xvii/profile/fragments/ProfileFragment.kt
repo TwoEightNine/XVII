@@ -82,7 +82,7 @@ class ProfileFragment : BaseFragment() {
         rlChat.setOnClickListener { ChatActivity.launch(context, user) }
         if (!user.deactivated.isNullOrEmpty()) return
         val onlineRes = if (user.isOnline) R.string.online_seen else R.string.last_seen
-        tvLastSeen.text = getString(onlineRes, getTime(user.lastSeen?.time ?: 0, full = true))
+        tvLastSeen.text = getString(onlineRes, getTime(user.lastSeen?.time ?: 0, withSeconds = Prefs.showSeconds))
 
         add(R.string.link, user.link, { goTo(user.link) }) { copy(user.link, R.string.link) }
         add(R.string.id, "${user.id}", null) { copy("${user.id}", R.string.id) }

@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.DownloadFileService
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_image_viewer.*
@@ -109,7 +110,7 @@ class ImageViewerActivity : AppCompatActivity() {
         val text = currentPhoto().text
         tvText.setVisible(!text.isNullOrEmpty())
         tvText.text = text
-        tvDate.text = getTime(currentPhoto().date, full = true)
+        tvDate.text = getTime(currentPhoto().date, withSeconds = Prefs.showSeconds)
     }
 
     private fun currentPhoto() = photos[vpImage.currentItem]

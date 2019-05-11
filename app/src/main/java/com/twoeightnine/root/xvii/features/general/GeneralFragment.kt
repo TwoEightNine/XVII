@@ -32,6 +32,7 @@ class GeneralFragment : BaseOldFragment() {
         switchOffline.isChecked = Prefs.beOffline
         switchRead.isChecked = Prefs.markAsRead
         switchTyping.isChecked = Prefs.showTyping
+        switchShowSeconds.isChecked = Prefs.showSeconds
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
     }
 
@@ -39,6 +40,7 @@ class GeneralFragment : BaseOldFragment() {
         Prefs.beOffline = switchOffline.isChecked
         Prefs.markAsRead = switchRead.isChecked
         Prefs.showTyping = switchTyping.isChecked
+        Prefs.showSeconds = switchShowSeconds.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
     }
 

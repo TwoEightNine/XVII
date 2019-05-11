@@ -17,6 +17,7 @@
     <string name="doenloaded">%s has been downloaded</string>
     <string name="beoffline">be offline (as soon as possible)</string>
     <string name="markasread">mark messages as read</string>
+    <string name="show_seconds">show seconds</string>
     <string name="show_typing">show typing</string>
     <string name="feedback">support</string>
     <string name="copied">%s has been copied to clipboard</string>

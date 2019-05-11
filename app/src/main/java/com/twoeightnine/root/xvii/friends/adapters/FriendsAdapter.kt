@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.getTime
@@ -37,7 +38,7 @@ class FriendsAdapter(context: Context,
 
                 val stringRes = if (user.isOnline) R.string.online_seen else R.string.last_seen
                 tvInfo.text = resources.getString(stringRes,
-                        getTime(user.lastSeen?.time ?: 0, full = true))
+                        getTime(user.lastSeen?.time ?: 0, withSeconds = Prefs.showSeconds))
                 setOnClickListener { onClick(items[adapterPosition]) }
             }
         }

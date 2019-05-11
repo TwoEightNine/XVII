@@ -38,7 +38,7 @@ object Lg {
     fun getEvents(count: Int = LOGS_COUNT): String {
         val list = if (logs.size > count) logs.drop(logs.size - count) else logs
         return list.map { event ->
-            val time = getTime(event.ts, format = "HH:mm:ss")
+            val time = getTime(event.ts, withSeconds = true)
             val wrap = if (event.type == LgEvent.Type.ERROR) " !! " else ""
             "$wrap$time: ${event.text}$wrap"
         }.joinToString(separator = "\n")
