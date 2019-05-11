@@ -27,7 +27,7 @@ class PinActivity : BaseActivity() {
     @Inject
     lateinit var appDb: AppDb
 
-    private var action: String? = null
+    private val action by lazy { intent?.extras?.getString(ACTION) }
     private var currentStage: String? = null
 
     private var pin = ""
@@ -40,11 +40,8 @@ class PinActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         App.appComponent?.inject(this)
         setContentView(R.layout.activity_pin)
-        if (intent.extras != null) {
-            action = intent.extras.getString(ACTION)
-        } else {
-            return
-        }
+
+        action ?: finish()
         init()
         styleScreen(rlContainer)
     }
