@@ -210,6 +210,7 @@
     <string name="search_hint">search</string>
     <string name="ok" translatable="false">ok</string>
     <string name="cancel">cancel</string>
+    <string name="too_deep_forwarding">too deep forwarding will be supported soon..</string>
 
     <string name="no_access_to_mic">no access to the mic</string>
     <string name="no_access_to_storage">no access to the storage</string>

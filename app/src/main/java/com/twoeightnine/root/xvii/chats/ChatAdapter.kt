@@ -242,7 +242,11 @@ class ChatAdapter(context: Context,
                     message.fwdMessages?.forEach {
                         val included = inflater.inflate(R.layout.item_message_in_chat, null)
                         included.tag = true
-                        putViews(included, it, level + 1)
+                        if (level < 4) {
+                            putViews(included, it, level + 1)
+                        } else {
+                            included.tvBody.text = context.getString(R.string.too_deep_forwarding)
+                        }
                         llMessageContainer.addView(included)
                     }
                 }

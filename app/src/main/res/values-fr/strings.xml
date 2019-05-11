@@ -262,6 +262,7 @@
     <string name="search_hint">rechercher</string>
     <string name="wanna_change_theme">vous avez changé le thème. l\'app se redémarrer. continuer?</string>
     <string name="cancel">anuller</string>
+    <string name="too_deep_forwarding">des messages trop profond sera appuyé bientôt..</string>
 
 </resources>
 
