@@ -79,6 +79,7 @@ class DownloadFileService : IntentService(NAME) {
     override fun onHandleIntent(intent: Intent?) {
         l("starting")
         App.appComponent?.inject(this)
+        showNotification()
         url = intent?.extras?.getString(KEY_FILE_URL) ?: return
         file = File(intent.extras?.getString(KEY_FILE_DEST) ?: return)
         if (intent.extras?.getBoolean(KEY_OVERRIDE) == false && file.exists()) {
@@ -87,7 +88,6 @@ class DownloadFileService : IntentService(NAME) {
                     .subscribe(::deliverResult)
             return
         }
-        showNotification()
         disposable = api.downloadFile(url)
                 .map { writeResponseBodyToDisk(it, file.absolutePath) }
                 .observeOn(AndroidSchedulers.mainThread())
