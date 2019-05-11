@@ -249,11 +249,11 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             private set
 
         fun launch(
-                context: Context?,
+                applicationContext: Context?,
                 tracks: ArrayList<Track>,
                 position: Int
         ) {
-            context ?: return
+            applicationContext ?: return
 
             val serviceConnection = object : ServiceConnection {
 
@@ -270,9 +270,9 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
                     isBound = false
                 }
             }
-            val intent = Intent(context, MusicService::class.java)
-            context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
-            context.startService(intent)
+            val intent = Intent(applicationContext, MusicService::class.java)
+            applicationContext.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+            applicationContext.startService(intent)
         }
 
         fun exit() {

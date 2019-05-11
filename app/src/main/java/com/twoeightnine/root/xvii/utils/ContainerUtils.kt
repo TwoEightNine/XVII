@@ -113,7 +113,7 @@ fun getAudio(audio: Audio, context: Context): View {
     }
     ivButton.setOnClickListener {
         ivButton.setImageDrawable(dPause)
-        MusicService.launch(context, arrayListOf(Track(audio)), 0)
+        MusicService.launch(context.applicationContext, arrayListOf(Track(audio)), 0)
         MusicService.subscribeOnAudioPlaying { track ->
             if (audio == track.audio) {
                 ivButton.setImageDrawable(dPause)
