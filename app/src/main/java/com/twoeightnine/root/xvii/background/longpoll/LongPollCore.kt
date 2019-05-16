@@ -1,6 +1,7 @@
 package com.twoeightnine.root.xvii.background.longpoll
 
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -157,7 +158,7 @@ class LongPollCore(private val context: Context) {
                 || Prefs.sound && event.isUser()
         if (!isInForeground()) {
             if (shouldVibrate) vibrate()
-            if (shouldRing) ringtone.play()
+//            if (shouldRing) ringtone.play()
         }
 
         val shouldShowContent = event.isUser() && Prefs.showContent
@@ -252,8 +253,12 @@ class LongPollCore(private val context: Context) {
             ledColor: Int = Color.BLACK,
             photo: String? = null
     ) {
+        val shouldVibrate = Prefs.vibrateChats && !peerId.matchesUserId()
+                || Prefs.vibrate && peerId.matchesUserId()
+        val shouldRing = Prefs.soundChats && !peerId.matchesUserId()
+                || Prefs.sound && peerId.matchesUserId()
 
-        createNotificationChannel()
+        createNotificationChannel(shouldRing, shouldVibrate)
 
         if (content.isEmpty()) {
             content.add(context.getString(R.string.messages))
@@ -277,23 +282,45 @@ class LongPollCore(private val context: Context) {
                         getMarkAsReadIntent(messageId, peerId)
                 )
                 .setContentIntent(getOpenAppIntent(peerId, userName, photo))
-
         if (ledColor != Color.BLACK) {
             builder.setLights(ledColor, 500, 500)
         }
+
+
+        val notification = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            if (shouldRing) {
+                builder.setSound(RING_URI)
+            }
+            if (shouldVibrate) {
+                builder.setVibrate(VIBRATE_PATTERN)
+            }
+
+            val notification = builder.build()
+            notification.defaults = notification.defaults or
+                    if (shouldRing) Notification.DEFAULT_SOUND else 0 or
+                            if (shouldVibrate) Notification.DEFAULT_VIBRATE else 0
+            notification
+        } else {
+            builder.build()
+        }
+
         if (!unreadMessages[peerId].isNullOrEmpty()) {
-            notificationManager.notify(peerId, builder.build())
+            notificationManager.notify(peerId, notification)
         }
     }
 
-    private fun createNotificationChannel() {
+    private fun createNotificationChannel(shouldRing: Boolean, shouldVibrate: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.app_name)
             val descriptionText = context.getString(R.string.app_name)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance)
             channel.description = descriptionText
-            channel.setSound(null, null)
+
+            channel.setSound(if (shouldRing) RING_URI else null, null)
+
+            channel.vibrationPattern = if (shouldVibrate) VIBRATE_PATTERN else null
+            channel.enableVibration(shouldVibrate)
 
             notificationManager.createNotificationChannel(channel)
         }
@@ -405,6 +432,9 @@ class LongPollCore(private val context: Context) {
         private const val NO_NETWORK_DELAY = 5000L
 
         private const val LAST_RUN_ALLOWED_DELAY = 1000L * 45
+
+        private val RING_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        private val VIBRATE_PATTERN = longArrayOf(0L, 200L)
 
         /**
          * watches for running
