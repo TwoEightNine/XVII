@@ -60,7 +60,7 @@ class ImageViewerActivity : AppCompatActivity() {
                     R.string.no_access_to_storage,
                     R.string.need_access_to_storage
             ) {
-                val url = currentPhoto().maxPhoto
+                val url = currentPhoto().getMaxPhoto().url
                 val fileName = getNameFromUrl(url)
                 val filePath = File(SAVE_FILE, fileName).absolutePath
                 DownloadFileService.startService(this, url, filePath) { path ->
@@ -122,7 +122,7 @@ class ImageViewerActivity : AppCompatActivity() {
 
     private fun currentPhoto() = photos[vpImage.currentItem]
 
-    private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.maxPhoto })
+    private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.getMaxPhoto().url })
 
     companion object {
 

@@ -16,6 +16,7 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.wallpost.WallPostActivity
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
 
 /**
@@ -157,6 +158,13 @@ class MessagesAdapter(context: Context,
                                 llMessageContainer.addView(getAudio(it, context))
                             }
 
+                            Attachment.TYPE_AUDIO_MESSAGE -> attachment.audioMessage?.also {
+                                llMessageContainer.addView(getAudio(
+                                        Audio(it, context.getString(R.string.voice_message)),
+                                        context
+                                ))
+                            }
+
                             Attachment.TYPE_LINK -> attachment.link?.also {
                                 llMessageContainer.addView(getLink(it, context))
                             }
@@ -193,7 +201,7 @@ class MessagesAdapter(context: Context,
                             Attachment.TYPE_WALL -> attachment.wall?.stringId?.also { postId ->
                                 val included = LayoutInflater.from(context).inflate(R.layout.container_wall, null, false)
                                 included.setOnClickListener {
-//                                    (context as? BaseA)?.loadFragment(WallPostFragment.newInstance(postId))
+                                    WallPostActivity.launch(context ?: return@setOnClickListener, postId)
                                 }
                                 llMessageContainer.addView(included)
                             }

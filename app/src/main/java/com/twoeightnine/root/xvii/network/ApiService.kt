@@ -62,14 +62,20 @@ interface ApiService {
     @GET("messages.markAsRead")
     fun markAsRead(@Query("message_ids") messageIds: String): Flowable<BaseResponse<Int>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.delete")
-    fun deleteMessages(@Query("message_ids") messageIds: String,
-                       @Query("delete_for_all") deleteForAll: Int): Flowable<BaseResponse<JSONObject>>
+    fun deleteMessages(
+            @Query("message_ids") messageIds: String,
+            @Query("delete_for_all") deleteForAll: Int
+    ): Flowable<BaseResponse<JSONObject>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.edit?keep_snippets=1&keep_forward_messages=1")
-    fun editMessage(@Query("peer_id") peerId: Int,
-                    @Query("message") message: String,
-                    @Query("message_id") messageId: Int): Flowable<BaseResponse<Int>>
+    fun editMessage(
+            @Query("peer_id") peerId: Int,
+            @Query("message") message: String,
+            @Query("message_id") messageId: Int
+    ): Flowable<BaseResponse<Int>>
 
     @GET("messages.send")
     fun send(@Query("user_id") userId: Int,
@@ -79,6 +85,18 @@ interface ApiService {
              @Query("sticker_id") stickerId: Int,
              @Query("captcha_sid") captchaSid: String?,
              @Query("captcha_key") captchaKey: String?): Flowable<BaseResponse<Int>>
+
+    @Headers(NEW_VERSION_HEADER)
+    @GET("messages.send")
+    fun sendMessage(
+            @Query("peer_id") peerId: Int,
+            @Query("random_id") randomId: Int,
+            @Query("message") text: String? = null,
+            @Query("forward_messages") forwardedMessages: String? = null,
+            @Query("attachment") attachments: String? = null,
+            @Query("reply_to") replyTo: Int? = null,
+            @Query("sticker_id") stickerId: Int? = null
+    ): Flowable<BaseResponse<Int>>
 
     @GET("messages.send")
     fun sendChat(@Query("chat_id") chatId: Int,
@@ -92,10 +110,14 @@ interface ApiService {
     @GET("messages.getById")
     fun getMessageById(@Query("message_ids") messageIds: String): Flowable<BaseResponse<ListResponse<Message>>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.markAsImportant")
-    fun markMessagesAsImportant(@Query("message_ids") messageIds: String,
-                                @Query("important") important: Int): Flowable<BaseResponse<MutableList<Int>>>
+    fun markMessagesAsImportant(
+            @Query("message_ids") messageIds: String,
+            @Query("important") important: Int
+    ): Flowable<BaseResponse<MutableList<Int>>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.getHistoryAttachments")
     fun getHistoryAttachments(
             @Query("peer_id") peerId: Int,
@@ -234,6 +256,7 @@ interface ApiService {
                @Query("access_key") accessKey: String): Flowable<BaseResponse<Int>>
 
     //wall
+    @Headers(NEW_VERSION_HEADER)
     @GET("wall.getById?extended=1")
     fun getWallPostById(@Query("posts") posts: String): Flowable<BaseResponse<WallPostResponse>>
 

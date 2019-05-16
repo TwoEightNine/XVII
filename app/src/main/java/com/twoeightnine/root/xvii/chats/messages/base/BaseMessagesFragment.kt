@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.hide
@@ -59,6 +60,9 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         }
     }
 
+    protected fun getSelectedMessageIds() = adapter.multiSelect
+            .joinToString(separator = ",", transform = { it.id.toString() })
+
     private fun updateMessages(data: Wrapper<ArrayList<Message2>>) {
         swipeContainer.isRefreshing = false
         progressBar.hide()
@@ -90,7 +94,6 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
 
     private fun onMultiSelectChanged(selectedCount: Int) {
         rlMultiAction.setVisible(selectedCount > 0)
-        adapter.multiSelectMode
 //        tvSelectedCount.text = context?.resources
 //                ?.getQuantityString(R.plurals.messages, selectedCount, selectedCount)
     }
@@ -100,16 +103,10 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
             adapter.multiSelectMode = false
             rlMultiAction.hide()
         }
-        ivMenuMulti.setOnClickListener {
-
-        }
         ivForwardMulti.setOnClickListener {
-            val messageIds = adapter.multiSelect.joinToString(separator = ",", transform = { it.id.toString() })
+            val messageIds = getSelectedMessageIds()
             adapter.multiSelectMode = false
-//            rootActivity?.loadFragment(DialogsForwardFragment.newInstance(messageIds))
-        }
-        ivReplyMulti.setOnClickListener {
-
+            DialogsForwardActivity.launch(context, forwarded = messageIds)
         }
     }
 

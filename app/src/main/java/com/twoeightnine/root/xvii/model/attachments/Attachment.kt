@@ -1,21 +1,54 @@
 package com.twoeightnine.root.xvii.model.attachments
 
 import android.os.Parcelable
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.model.WallPost
 import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
 data class Attachment(
+
+        @SerializedName("type")
+        @Expose
         var type: String? = null,
+
+        @SerializedName("photo")
+        @Expose
         var photo: Photo? = null,
+
+        @SerializedName("sticker")
+        @Expose
         val sticker: Sticker? = null,
+
+        @SerializedName("audio")
+        @Expose
         var audio: Audio? = null,
+
+        @SerializedName("link")
+        @Expose
         var link: Link? = null,
+
+        @SerializedName("video")
+        @Expose
         var video: Video? = null,
+
+        @SerializedName("doc")
+        @Expose
         var doc: Doc? = null,
+
+        @SerializedName("wall")
+        @Expose
         var wall: WallPost? = null,
-        var gift: Gift? = null
+
+        @SerializedName("gift")
+        @Expose
+        var gift: Gift? = null,
+
+        @SerializedName("audio_message")
+        @Expose
+        var audioMessage: AudioMessage? = null
 ) : Parcelable {
 
     constructor(photo: Photo) : this(
@@ -56,6 +89,7 @@ data class Attachment(
         const val TYPE_DOC = "doc"
         const val TYPE_WALL = "wall"
         const val TYPE_GIFT = "gift"
+        const val TYPE_AUDIO_MESSAGE = "audio_message"
     }
 }
 

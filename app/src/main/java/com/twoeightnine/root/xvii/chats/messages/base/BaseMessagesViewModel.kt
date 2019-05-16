@@ -23,21 +23,6 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
 
     abstract fun loadMessages(offset: Int = 0)
 
-    fun setOffline() {
-        api.setOffline()
-                .subscribeSmart({}, {})
-    }
-
-    fun setActivity(peerId: Int, type: String = ACTIVITY_TYPING) {
-        api.setActivity2(peerId, type)
-                .subscribeSmart({}, {})
-    }
-
-    fun markAsRead(messageIds: String) {
-        api.markAsRead(messageIds)
-                .subscribeSmart({}, {})
-    }
-
     fun loadVideo(
             context: Context,
             video: Video,
@@ -73,8 +58,7 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
     }
 
     companion object {
-        const val ACTIVITY_TYPING = "typing"
-        const val ACTIVITY_VOICE = "audiomessage"
+
     }
 
     class Factory @Inject constructor(

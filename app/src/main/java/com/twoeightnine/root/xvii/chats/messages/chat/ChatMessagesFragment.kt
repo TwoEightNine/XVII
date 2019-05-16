@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -16,6 +18,7 @@ import com.twoeightnine.root.xvii.chats.ChatFragment
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
+import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActivity
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.chats.tools.ChatInputController
@@ -28,7 +31,6 @@ import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.LoadingDialog
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import kotlinx.android.synthetic.main.chat_input_panel.*
@@ -53,7 +55,6 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
     }
 
     private val handler = Handler()
-    private var dialogLoading: LoadingDialog? = null
     private lateinit var inputController: ChatInputController
 
     override fun getViewModelClass() = ChatMessagesViewModel::class.java
@@ -70,12 +71,16 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         inputController = ChatInputController(contextOrThrow, view, InputCallback())
-        swipeContainer.setOnRefreshListener { /*presenter.loadHistory(withClear = true)*/ }
+        swipeContainer.setOnRefreshListener { viewModel.loadMessages() }
 
         rvAttached.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
         rvAttached.adapter = attachedAdapter
         stylize()
         initContent()
+        initMultiSelectMenu()
+
+        viewModel.getLastSeen().observe(this, Observer { onOnlineChanged(it.first, it.second) })
+        viewModel.getCanWrite().observe(this, Observer {  })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -92,6 +97,14 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
             if (peerId.matchesUserId()) {
                 ProfileActivity.launch(context, peerId)
             }
+        }
+    }
+
+    private fun initMultiSelectMenu() {
+        ivReplyMulti.setOnClickListener {
+            attachedAdapter.fwdMessages = getSelectedMessageIds()
+            attachedAdapter.isReply = true
+            adapter.multiSelectMode = false
         }
     }
 
@@ -153,7 +166,7 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
 
         if (message.isOut() && time() - message.date < 3600 * 24) {
             TextInputAlertDialog(context, "", message.text) {
-//                presenter.editMessage(message.id, it)
+                viewModel.editMessage(message.id, it)
             }.show()
         } else {
             showError(context, R.string.unable_to_edit_message)
@@ -169,7 +182,11 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
                 ImageViewerActivity.viewImages(context, arrayListOf(it))
             }
             Attachment.TYPE_VIDEO -> attachment.video?.let {
-//                apiUtils.openVideo(safeContext, it)
+                viewModel.loadVideo(context ?: return, it, { playerUrl ->
+                    VideoViewerActivity.launch(context, playerUrl)
+                }, { error ->
+                    showError(context, error)
+                })
             }
         }
     }
@@ -199,8 +216,21 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
 
     private fun onImagesSelected(paths: List<String>) {
         paths.forEach {
-//            presenter.attachPhoto(it, context = context)
+            viewModel.attachPhoto(it) { path, attachment ->
+                inputController.removeItemAsLoaded(path)
+                attachedAdapter.add(attachment)
+            }
             inputController.addItemAsBeingLoaded(it)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.menu_attachments -> {
+                AttachmentsActivity.launch(context, peerId)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -274,7 +304,7 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
                     }
                     R.id.llDelete -> {
                         val callback = { forAll: Boolean ->
-//                            presenter.deleteMessages(mutableListOf(message.id), forAll)
+                            viewModel.deleteMessages(message.id.toString(), forAll)
                         }
                         if (message.isOut() && time() - message.date < 3600 * 24) {
                             showDeleteMessagesDialog(callback)
@@ -284,15 +314,7 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
                             }
                         }
                     }
-//                    R.id.llDecrypt -> {
-//                        message.body = getDecrypted(message.body)
-//                        adapter.notifyItemChanged(adapter.items.indexOf(message))
-//                    }
-//                    R.id.llMarkImportant ->
-//                        presenter.markAsImportant(
-//                                mutableListOf(message.id),
-//                                1
-//                        )
+                    R.id.llMarkImportant -> viewModel.markAsImportant(message.id.toString())
                 }
             }.show()
         }
@@ -324,11 +346,24 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         }
 
         override fun onStickerClicked(sticker: Sticker) {
-//            presenter.sendSticker(sticker)
+            viewModel.sendSticker(sticker, attachedAdapter.replyTo)
         }
 
         override fun onSendClick() {
-//            onSend(etInput.asText())
+            val replyTo = attachedAdapter.replyTo
+            val forwarded = if (replyTo == null) {
+                attachedAdapter.fwdMessages
+            } else {
+                null
+            }
+            viewModel.sendMessage(
+                    text = etInput.asText(),
+                    attachments = attachedAdapter.asString(),
+                    forwardedMessages = forwarded,
+                    replyTo = replyTo
+            )
+            etInput.clear()
+            attachedAdapter.clear()
         }
 
         override fun hasMicPermissions(): Boolean {
@@ -344,7 +379,7 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         }
 
         override fun onTypingInvoke() {
-//            presenter.setTyping()
+            viewModel.setActivity(type = ChatMessagesViewModel.ACTIVITY_TYPING)
         }
 
         override fun onVoiceVisibilityChanged(visible: Boolean) {
@@ -354,13 +389,13 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         override fun onVoiceTimeUpdated(time: Int) {
             tvRecord.text = secToTime(time)
             if (time % 5 == 1) {
-//                presenter.setAudioMessaging()
+                viewModel.setActivity(type = ChatMessagesViewModel.ACTIVITY_VOICE)
             }
         }
 
         override fun onVoiceRecorded(fileName: String) {
             inputController.addItemAsBeingLoaded(fileName)
-//            presenter.attachVoice(fileName)
+            viewModel.attachVoice(fileName, inputController::removeItemAsLoaded)
         }
 
         override fun onVoiceError(error: String) {

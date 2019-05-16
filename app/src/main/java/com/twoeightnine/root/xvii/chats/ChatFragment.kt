@@ -271,37 +271,37 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         super.onCreateOptionsMenu(menu, inflater)
         menu?.clear()
         inflater?.inflate(R.menu.menu_chat, menu)
-        menu?.findItem(R.id.menu_fingerprint)?.isVisible = peerId.matchesUserId()
+//        menu?.findItem(R.id.menu_fingerprint)?.isVisible = peerId.matchesUserId()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
         super.onPrepareOptionsMenu(menu)
-        menu?.findItem(R.id.menu_encrypt)?.isChecked = presenter.isEncrypted
+//        menu?.findItem(R.id.menu_encrypt)?.isChecked = presenter.isEncrypted
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
-            R.id.menu_encrypt -> {
-                item.isChecked = !item.isChecked
-                presenter.isEncrypted = item.isChecked
-                showToast(activity, if (item.isChecked) R.string.enc_on else R.string.enc_off)
-                true
-            }
-            R.id.menu_keys -> {
-                hideKeyboard(safeActivity)
-                showKeysDialog()
-                true
-            }
+//            R.id.menu_encrypt -> {
+//                item.isChecked = !item.isChecked
+//                presenter.isEncrypted = item.isChecked
+//                showToast(activity, if (item.isChecked) R.string.enc_on else R.string.enc_off)
+//                true
+//            }
+//            R.id.menu_keys -> {
+//                hideKeyboard(safeActivity)
+//                showKeysDialog()
+//                true
+//            }
             R.id.menu_attachments -> {
                 AttachmentsActivity.launch(context, peerId)
                 true
             }
-            R.id.menu_fingerprint -> {
-                val fingerprint = presenter.cryptoEngine.getFingerPrint()
-                val keyType = presenter.cryptoEngine.keyType
-                FingerPrintAlertDialog(safeContext, fingerprint, keyType).show()
-                true
-            }
+//            R.id.menu_fingerprint -> {
+//                val fingerprint = presenter.cryptoEngine.getFingerPrint()
+//                val keyType = presenter.cryptoEngine.keyType
+//                FingerPrintAlertDialog(safeContext, fingerprint, keyType).show()
+//                true
+//            }
             else -> super.onOptionsItemSelected(item)
         }
     }

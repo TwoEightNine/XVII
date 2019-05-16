@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.ContentActivity
+import com.twoeightnine.root.xvii.chats.messages.chat.ChatMessagesFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.model.User
 
@@ -18,8 +19,8 @@ class ChatActivity : ContentActivity() {
         val shareText = args?.getString(SHARE_TEXT)
         val shareImage = args?.getString(SHARE_IMAGE)
         val dialog = args?.getParcelable(DIALOG) ?: Dialog()
-        return ChatFragment.newInstance(dialog, forwarded, shareText, shareImage)
-//        return ChatMessagesFragment.newInstance(dialog, forwarded, shareText, shareImage)
+//        return ChatFragment.newInstance(dialog, forwarded, shareText, shareImage)
+        return ChatMessagesFragment.newInstance(dialog, forwarded, shareText, shareImage)
     }
 
     companion object {

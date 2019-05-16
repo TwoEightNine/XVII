@@ -26,7 +26,7 @@ class PhotoAttachmentsAdapter(
         override fun bind(item: Photo) {
             with(itemView) {
                 ivCheck.setVisible(item in multiSelect)
-                ivPhoto.load(item.optimalPhoto)
+                ivPhoto.load(item.getOptimalPhoto().url)
                 ivPhoto.setOnClickListener {
                     if (multiSelectMode) {
                         val i = items[adapterPosition]

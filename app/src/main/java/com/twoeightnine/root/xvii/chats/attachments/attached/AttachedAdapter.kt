@@ -41,8 +41,14 @@ class AttachedAdapter(
     val count
         get() = itemCount
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-            = AttachmentViewHolder(inflater.inflate(R.layout.item_attached, null))
+    val replyTo: Int?
+        get() = try {
+            Integer.parseInt(fwdMessages)
+        } catch (e: java.lang.Exception) {
+            null
+        }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AttachmentViewHolder(inflater.inflate(R.layout.item_attached, null))
 
     override fun onBindViewHolder(holder: AttachmentViewHolder, position: Int) {
         holder.bind(items[position])
@@ -100,12 +106,14 @@ class AttachedAdapter(
                     attachment.doc != null && !isEncrypted -> attachment.doc?.ext
                     else -> attachment.type
                 }
-                val attachPhoto = attachment.photo?.photo130?.let { it }
+                val attachPhoto = attachment.photo?.getSmallPhoto()?.url?.let { it }
                         ?: attachment.video?.photo130?.let { it }
 
                 rlFwdMessages.setVisible(isForwarded)
-                if (isForwarded) {
-                    tvFwdCount.text = "${fwdMessages.split(",").size}"
+                fwdMessages?.apply {
+                    if (isForwarded) {
+                        tvFwdCount.text = "${split(",").size}"
+                    }
                 }
                 tvInfo.setVisible(infoText != null)
                 tvInfo.text = infoText

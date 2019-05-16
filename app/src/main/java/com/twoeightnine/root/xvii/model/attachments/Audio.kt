@@ -57,4 +57,11 @@ data class Audio(
             title = title,
             artist = secToTime(audioMsg.duration)
     )
+
+    constructor(audioMessage: AudioMessage, title: String): this(
+            duration = audioMessage.duration,
+            _url = audioMessage.linkMp3,
+            title = title,
+            artist = secToTime(audioMessage.duration)
+    )
 }

@@ -36,7 +36,7 @@ fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): Vie
 //    (view.layoutParams as? LinearLayout.LayoutParams)?.setMargins(0, 7, 0, 0)
     val view = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
     Picasso.get()
-            .loadRounded(photo.optimalPhoto)
+            .loadRounded(photo.getOptimalPhoto().url)
             .resize(pxFromDp(context, 250), pxFromDp(context, 300))
             .centerCrop()
             .into(view.findViewById<ImageView>(R.id.ivInternal))
@@ -47,14 +47,15 @@ fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): Vie
 fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}): View {
     val iv = ImageView(activity)
     val width = screenWidth(activity)
-    val scale = width * 1.0f / photo.width
-    val ivHeight = (photo.height * scale).toInt()
+    val photoSize = photo.getLargePhoto()
+    val scale = width * 1.0f / photoSize.width
+    val ivHeight = (photoSize.height * scale).toInt()
     val params = LinearLayout.LayoutParams(width, ivHeight)
     params.topMargin = 12
     params.bottomMargin = 12
     iv.layoutParams = params
     Picasso.get()
-            .loadRounded(photo.almostMax)
+            .loadRounded(photoSize.url)
             .resize(width, ivHeight)
             .centerCrop()
             .into(iv)
@@ -128,7 +129,7 @@ fun getAudio(audio: Audio, context: Context): View {
 
 fun getLink(link: Link, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_link, null, false)
-    (included.findViewById<ImageView>(R.id.ivPhoto)).load(link.photo?.smallPhoto)
+    (included.findViewById<ImageView>(R.id.ivPhoto)).load(link.photo?.getSmallPhoto()?.url)
 
     included.findViewById<TextView>(R.id.tvTitle).text = link.title
     included.findViewById<TextView>(R.id.tvCaption).text = link.url
