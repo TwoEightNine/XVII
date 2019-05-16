@@ -2,17 +2,22 @@ package com.twoeightnine.root.xvii.chats.messages.chat
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.twoeightnine.root.xvii.background.longpoll.models.events.OfflineEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.ReadOutgoingEvent
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.LastSeen
 import com.twoeightnine.root.xvii.model.Message2
+import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.MessagesHistoryResponse
+import com.twoeightnine.root.xvii.utils.EventBus
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.matchesUserId
 import com.twoeightnine.root.xvii.utils.subscribeSmart
@@ -39,6 +44,22 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
                 field = value
             }
         }
+
+    init {
+        EventBus.subscribeLongPollEventReceived { event ->
+            when(event) {
+                is OnlineEvent -> if (event.userId == peerId) {
+                    lastSeenLiveData.value = Pair(first = true, second = event.timeStamp)
+                }
+                is OfflineEvent -> if (event.userId == peerId) {
+                    lastSeenLiveData.value = Pair(first = true, second = event.timeStamp)
+                }
+                is ReadOutgoingEvent -> if (event.peerId == peerId) {
+                    readOutgoingMessages()
+                }
+            }
+        }
+    }
 
     fun getLastSeen() = lastSeenLiveData as LiveData<Pair<Boolean, Int>>
 
@@ -167,6 +188,13 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
                         markAsRead(messages[0].id.toString())
                     }
                 }, ::onErrorOccurred)
+    }
+
+    private fun readOutgoingMessages() {
+        messagesLiveData.value?.data?.forEach {
+            it.read = true
+        }
+        messagesLiveData.value = Wrapper(messagesLiveData.value?.data)
     }
 
     private fun convert(resp: BaseResponse<MessagesHistoryResponse>): BaseResponse<ArrayList<Message2>> {
