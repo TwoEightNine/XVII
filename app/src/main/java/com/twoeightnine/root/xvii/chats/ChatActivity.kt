@@ -19,6 +19,7 @@ class ChatActivity : ContentActivity() {
         val shareImage = args?.getString(SHARE_IMAGE)
         val dialog = args?.getParcelable(DIALOG) ?: Dialog()
         return ChatFragment.newInstance(dialog, forwarded, shareText, shareImage)
+//        return ChatMessagesFragment.newInstance(dialog, forwarded, shareText, shareImage)
     }
 
     companion object {

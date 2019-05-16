@@ -28,8 +28,15 @@ class AttachedAdapter(
             }
             notifyDataSetChanged()
             field = value
+            isReply = false
             updateCounter()
         }
+
+    /**
+     * indicates if [fwdMessages] is replied message and should be handled differently
+     * should be set after every change of [fwdMessages]
+     */
+    var isReply = false
 
     val count
         get() = itemCount

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.model.Message2
@@ -62,7 +63,10 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         swipeContainer.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
+            val lengthBefore = adapter.itemCount
+            val diff = adapter.lastVisiblePosition(rvChatList.layoutManager)
             adapter.update(data.data.reversed())
+            rvChatList.scrollToPosition(adapter.itemCount - lengthBefore + diff)
         } else {
             showError(context, data.error)
         }
@@ -79,6 +83,9 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         rvChatList.adapter = adapter
         rvChatList.itemAnimator = null
         adapter.multiSelectListener = ::onMultiSelectChanged
+
+        fabHasMore.setOnClickListener { rvChatList.scrollToPosition(adapter.itemCount - 1) }
+        rvChatList.addOnScrollListener(ListScrollListener())
     }
 
     private fun onMultiSelectChanged(selectedCount: Int) {
@@ -103,6 +110,20 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         }
         ivReplyMulti.setOnClickListener {
 
+        }
+    }
+
+    private inner class ListScrollListener : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            if (fabHasMore.visibility != View.VISIBLE &&
+                    adapter.lastVisiblePosition(rvChatList.layoutManager) != adapter.itemCount - 1) {
+                fabHasMore.show()
+            } else if (fabHasMore.visibility != View.INVISIBLE
+                    && adapter.lastVisiblePosition(rvChatList.layoutManager) == adapter.itemCount - 1) {
+                fabHasMore.hide()
+            }
         }
     }
 }

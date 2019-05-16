@@ -57,7 +57,7 @@ abstract class PaginationAdapter<T> @JvmOverloads constructor(
                 else -> createHolder(parent, viewType)
             }
 
-    abstract fun createHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder
+    abstract fun createHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
 
     open var stubLoadItem: T? = null
         get() = null

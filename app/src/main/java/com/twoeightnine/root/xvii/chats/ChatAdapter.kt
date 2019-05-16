@@ -36,12 +36,14 @@ class ChatAdapter(context: Context,
     private val mediaWidth = pxFromDp(context, MEDIA_WIDTH)
 
     override fun createHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
+        val holder = when (viewType) {
             OUT -> ChatViewHolder(inflater.inflate(R.layout.item_message_out, null))
             IN_CHAT -> ChatViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
             IN_USER -> ChatViewHolder(inflater.inflate(R.layout.item_message_in_user, null))
             else -> ChatViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
         }
+//        holder.itemView.tvBody.setTextSize(TypedValue.COMPLEX_UNIT_SP, settings.textSize)
+        return holder
     }
 
     override var stubLoadItem: Message? = Message.stubLoad
@@ -140,14 +142,6 @@ class ChatAdapter(context: Context,
                     !message.action.isNullOrEmpty() -> getAction(message)
                     else -> ""
                 }
-//                tvBody.setTextSize(
-//                        TypedValue.COMPLEX_UNIT_SP,
-//                        if (message.body.length <= 14 && EmojiHelper.isOnlyEmojis(message.body)) {
-//                            32f
-//                        } else {
-//                            16f
-//                        }
-//                )
                 tvDate.text = getTime(message.date, withSeconds = Prefs.showSeconds)
                 civPhoto?.apply {
                     load(message.photo)
@@ -288,6 +282,7 @@ class ChatAdapter(context: Context,
 
     data class ChatAdapterSettings(
             val isImportant: Boolean
+//            val textSize: Float
     )
 
     companion object {

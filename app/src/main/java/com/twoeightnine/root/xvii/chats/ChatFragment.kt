@@ -575,14 +575,6 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                             ?.let(::onImagesSelected)
                 }
             }
-//            REQUEST_FORWARD -> {
-//                data?.extras?.apply {
-//                    val forwarded = getString(DialogsForwardFragment.ARG_FORWARDED) ?: return@apply
-//                    val dialog = getParcelable<Dialog>(DialogsForwardFragment.ARG_DIALOG)
-//                            ?: return@apply
-//                    ChatActivity.launch(context, dialog, forwarded)
-//                }
-//            }
         }
     }
 
