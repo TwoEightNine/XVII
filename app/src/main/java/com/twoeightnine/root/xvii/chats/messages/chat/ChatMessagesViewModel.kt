@@ -2,9 +2,7 @@ package com.twoeightnine.root.xvii.chats.messages.chat
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.twoeightnine.root.xvii.background.longpoll.models.events.OfflineEvent
-import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
-import com.twoeightnine.root.xvii.background.longpoll.models.events.ReadOutgoingEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -37,6 +35,7 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
      */
     private val lastSeenLiveData = MutableLiveData<Pair<Boolean, Int>>()
     private val canWriteLiveData = MutableLiveData<CanWrite>()
+    private val activityLiveData = MutableLiveData<String>()
 
     var peerId: Int = 0
         set(value) {
@@ -47,7 +46,7 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
 
     init {
         EventBus.subscribeLongPollEventReceived { event ->
-            when(event) {
+            when (event) {
                 is OnlineEvent -> if (event.userId == peerId) {
                     lastSeenLiveData.value = Pair(first = true, second = event.timeStamp)
                 }
@@ -57,6 +56,18 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
                 is ReadOutgoingEvent -> if (event.peerId == peerId) {
                     readOutgoingMessages()
                 }
+                is TypingEvent -> if (event.userId == peerId) {
+                    activityLiveData.value = ACTIVITY_TYPING
+                }
+                is TypingChatEvent -> if (event.peerId == peerId) {
+                    activityLiveData.value = ACTIVITY_TYPING
+                }
+                is RecordingAudioEvent -> if (event.peerId == peerId) {
+                    activityLiveData.value = ACTIVITY_VOICE
+                }
+                is NewMessageEvent -> if (event.peerId == peerId) {
+                    onMessageReceived(event)
+                }
             }
         }
     }
@@ -64,6 +75,8 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
     fun getLastSeen() = lastSeenLiveData as LiveData<Pair<Boolean, Int>>
 
     fun getCanWrite() = canWriteLiveData as LiveData<CanWrite>
+
+    fun getActivity() = activityLiveData as LiveData<String>
 
     fun setOffline() {
         if (Prefs.beOffline) {
@@ -95,7 +108,7 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
                 .subscribeSmart({
                     setOffline()
                 }, { error ->
-
+                    lw("send message: $error")
                 })
     }
 
@@ -104,7 +117,7 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
                 .subscribeSmart({
                     setOffline()
                 }, { error ->
-
+                    lw("send sticker: $error")
                 })
     }
 
@@ -197,7 +210,33 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
         messagesLiveData.value = Wrapper(messagesLiveData.value?.data)
     }
 
-    private fun convert(resp: BaseResponse<MessagesHistoryResponse>): BaseResponse<ArrayList<Message2>> {
+    private fun onMessageReceived(event: NewMessageEvent) {
+        if (!event.isOut()) {
+            lastSeenLiveData.value = Pair(true, event.timeStamp)
+            activityLiveData.value = ACTIVITY_NONE
+        }
+        if (event.text.isEmpty() || event.hasMedia() || !peerId.matchesUserId()) {
+            api.getMessageById(event.id.toString())
+                    .map { convert(it, notify = false) }
+                    .subscribeSmart({ response ->
+                        val newMessage = response.getOrNull(0) ?: return@subscribeSmart
+                        val messages = messagesLiveData.value?.data ?: return@subscribeSmart
+                        messages.add(0, newMessage)
+                        messagesLiveData.value = Wrapper(messages)
+                        markAsRead(newMessage.id.toString())
+                    }, { error ->
+                        lw("new message error: $error")
+                    })
+        } else {
+            val newMessage = Message2(event)
+            val messages = messagesLiveData.value?.data ?: return
+            messages.add(0, newMessage)
+            messagesLiveData.value = Wrapper(messages)
+            markAsRead(newMessage.id.toString())
+        }
+    }
+
+    private fun convert(resp: BaseResponse<MessagesHistoryResponse>, notify: Boolean = true): BaseResponse<ArrayList<Message2>> {
         val messages = arrayListOf<Message2>()
         val response = resp.response
         response?.items?.forEach {
@@ -206,12 +245,14 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
             messages.add(message)
         }
 
-        if (peerId.matchesUserId()) {
-            response?.getProfileById(peerId)?.also { user ->
-                lastSeenLiveData.postValue(Pair(user.isOnline, user.lastSeen?.time ?: 0))
+        if (notify) {
+            if (peerId.matchesUserId()) {
+                response?.getProfileById(peerId)?.also { user ->
+                    lastSeenLiveData.postValue(Pair(user.isOnline, user.lastSeen?.time ?: 0))
+                }
             }
+            canWriteLiveData.postValue(response?.conversations?.getOrNull(0)?.canWrite)
         }
-        canWriteLiveData.postValue(response?.conversations?.getOrNull(0)?.canWrite)
         return BaseResponse(messages, resp.error)
     }
 
@@ -238,5 +279,6 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
 
         const val ACTIVITY_TYPING = "typing"
         const val ACTIVITY_VOICE = "audiomessage"
+        const val ACTIVITY_NONE = "none"
     }
 }

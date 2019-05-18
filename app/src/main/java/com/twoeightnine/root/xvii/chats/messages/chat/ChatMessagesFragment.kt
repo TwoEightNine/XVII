@@ -26,6 +26,7 @@ import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
@@ -80,7 +81,8 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         initMultiSelectMenu()
 
         viewModel.getLastSeen().observe(this, Observer { onOnlineChanged(it.first, it.second) })
-        viewModel.getCanWrite().observe(this, Observer {  })
+        viewModel.getCanWrite().observe(this, Observer { onCanWriteChanged(it) })
+        viewModel.getActivity().observe(this, Observer { onActivityChanged(it) })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -208,6 +210,22 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
                 getString(stringRes, getTime(time, withSeconds = Prefs.showSeconds))
             }
         })
+    }
+
+    /**
+     * handles setting peer's activity: one of [ChatMessagesViewModel.ACTIVITY_TYPING],
+     * [ChatMessagesViewModel.ACTIVITY_VOICE], [ChatMessagesViewModel.ACTIVITY_NONE]
+     */
+    private fun onActivityChanged(activity: String) {
+        when(activity) {
+            ChatMessagesViewModel.ACTIVITY_VOICE -> chatToolbarController.showRecording()
+            ChatMessagesViewModel.ACTIVITY_TYPING -> chatToolbarController.showTyping()
+            ChatMessagesViewModel.ACTIVITY_NONE -> chatToolbarController.hideActions()
+        }
+    }
+
+    private fun onCanWriteChanged(canWrite: CanWrite) {
+        rlCantWrite.setVisible(!canWrite.allowed)
     }
 
     private fun onAttachmentsSelected(attachments: List<Attachment>) {

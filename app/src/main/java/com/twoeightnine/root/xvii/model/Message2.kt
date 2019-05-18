@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.isSticker
 import com.twoeightnine.root.xvii.model.attachments.photosCount
@@ -71,6 +72,15 @@ data class Message2(
         @Expose
         var photo: String? = null
 ) : Parcelable {
+
+    constructor(event: NewMessageEvent) : this(
+            id = event.id,
+            peerId = event.peerId,
+            date = event.timeStamp,
+            fromId = event.info.from,
+            text = event.text,
+            out = if (event.isOut()) 1 else 0
+    )
 
     fun isOut() = out == 1
 

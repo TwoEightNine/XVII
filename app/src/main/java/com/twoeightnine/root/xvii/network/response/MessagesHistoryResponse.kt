@@ -29,13 +29,13 @@ data class MessagesHistoryResponse(
 
         @SerializedName("conversations")
         @Expose
-        val conversations: ArrayList<Conversation>
+        val conversations: ArrayList<Conversation>?
 ) {
     fun getProfileById(id: Int) = profiles.find { it.id == id }
 
     fun getGroupById(id: Int) = groups.find { it.id == id }
 
-    fun getConversationById(id: Int) = conversations.find { it.peer?.id == id }
+    fun getConversationById(id: Int) = conversations?.find { it.peer?.id == id }
 
     fun getNameForMessage(message: Message2) = when {
         message.peerId.matchesUserId() -> getProfileById(message.fromId)?.fullName

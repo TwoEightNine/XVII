@@ -465,12 +465,12 @@ class ChatFragmentPresenter(api: ApiService) : BasePresenter<ChatFragmentView>(a
                     if (TextUtils.isEmpty(event.text) || event.hasMedia()) {
                         api.getMessageById("${event.id}")
                                 .subscribeSmart({ response ->
-                                    val message = setMessageTitles(users, response.items[0], 0)
-                                    view?.onMessageAdded(message)
-                                    messages.add(0, message)
-                                    if (Prefs.markAsRead && isShown) {
-                                        markAsRead(message.id)
-                                    }
+//                                    val message = setMessageTitles(users, response.items[0], 0)
+//                                    view?.onMessageAdded(message)
+//                                    messages.add(0, message)
+//                                    if (Prefs.markAsRead && isShown) {
+//                                        markAsRead(message.id)
+//                                    }
                                 }, { error ->
                                     Lg.wtf("new message error: $error")
                                 })

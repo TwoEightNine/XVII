@@ -107,8 +107,11 @@ interface ApiService {
                  @Query("captcha_sid") captchaSid: String?,
                  @Query("captcha_key") captchaKey: String?): Flowable<BaseResponse<Int>>
 
-    @GET("messages.getById")
-    fun getMessageById(@Query("message_ids") messageIds: String): Flowable<BaseResponse<ListResponse<Message>>>
+    @Headers(NEW_VERSION_HEADER)
+    @GET("messages.getById?extended=1")
+    fun getMessageById(
+            @Query("message_ids") messageIds: String
+    ): Flowable<BaseResponse<MessagesHistoryResponse>>
 
     @Headers(NEW_VERSION_HEADER)
     @GET("messages.markAsImportant")

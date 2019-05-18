@@ -115,6 +115,36 @@
 
         </FrameLayout>
 
+        <RelativeLayout
+            android:id="@+id/rlCantWrite"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/input_panel"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/ivAttention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="13dp"
+                android:src="@drawable/ic_warning" />
+
+            <TextView
+
+                android:id="@+id/tvReason"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/ivAttention"
+                android:text="@string/unable_to_write"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
 </LinearLayout>
