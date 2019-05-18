@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.chats.messages.chat
+package com.twoeightnine.root.xvii.chats.messages.chat.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,7 +25,7 @@ import okhttp3.RequestBody
 import java.io.File
 import kotlin.random.Random
 
-class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
+open class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
 
     /**
      * Boolean - online flag
@@ -43,6 +43,8 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
                 field = value
             }
         }
+
+    var isShown = false
 
     init {
         EventBus.subscribeLongPollEventReceived { event ->
@@ -78,7 +80,7 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
 
     fun getActivity() = activityLiveData as LiveData<String>
 
-    fun setOffline() {
+    private fun setOffline() {
         if (Prefs.beOffline) {
             api.setOffline()
                     .subscribeSmart({}, {})
@@ -91,7 +93,7 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
     }
 
     fun markAsRead(messageIds: String) {
-        if (Prefs.markAsRead) {
+        if (Prefs.markAsRead && isShown) {
             api.markAsRead(messageIds)
                     .subscribeSmart({}, {})
         }
@@ -218,22 +220,21 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
         if (event.text.isEmpty() || event.hasMedia() || !peerId.matchesUserId()) {
             api.getMessageById(event.id.toString())
                     .map { convert(it, notify = false) }
-                    .subscribeSmart({ response ->
-                        val newMessage = response.getOrNull(0) ?: return@subscribeSmart
-                        val messages = messagesLiveData.value?.data ?: return@subscribeSmart
-                        messages.add(0, newMessage)
-                        messagesLiveData.value = Wrapper(messages)
-                        markAsRead(newMessage.id.toString())
+                    .subscribeSmart({
+                        addNewMessage(it.getOrNull(0) ?: return@subscribeSmart)
                     }, { error ->
                         lw("new message error: $error")
                     })
         } else {
-            val newMessage = Message2(event)
-            val messages = messagesLiveData.value?.data ?: return
-            messages.add(0, newMessage)
-            messagesLiveData.value = Wrapper(messages)
-            markAsRead(newMessage.id.toString())
+            addNewMessage(Message2(event))
         }
+    }
+
+    private fun addNewMessage(message: Message2) {
+        val messages = messagesLiveData.value?.data ?: return
+        messages.add(0, message)
+        messagesLiveData.value = Wrapper(messages)
+        markAsRead(message.id.toString())
     }
 
     private fun convert(resp: BaseResponse<MessagesHistoryResponse>, notify: Boolean = true): BaseResponse<ArrayList<Message2>> {
@@ -262,6 +263,9 @@ class ChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
         val fwd = arrayListOf<Message2>()
         message.fwdMessages?.forEach {
             fwd.add(putTitles(it, response))
+        }
+        message.replyMessage?.also {
+            message.replyMessage = putTitles(it, response)
         }
         message.fwdMessages?.clear()
         message.fwdMessages?.addAll(fwd)

@@ -201,7 +201,8 @@ class MessagesAdapter(context: Context,
                             Attachment.TYPE_WALL -> attachment.wall?.stringId?.also { postId ->
                                 val included = LayoutInflater.from(context).inflate(R.layout.container_wall, null, false)
                                 included.setOnClickListener {
-                                    WallPostActivity.launch(context ?: return@setOnClickListener, postId)
+                                    WallPostActivity.launch(context
+                                            ?: return@setOnClickListener, postId)
                                 }
                                 llMessageContainer.addView(included)
                             }
@@ -209,7 +210,7 @@ class MessagesAdapter(context: Context,
                     }
                 }
 
-                if (!message.fwdMessages.isNullOrEmpty()) {
+                if (!message.fwdMessages.isNullOrEmpty() && level < ALLOWED_DEEPNESS) {
                     llMessage.layoutParams.width = mediaWidth
                     message.fwdMessages.forEach {
                         val included = inflater.inflate(R.layout.item_message_in_chat, null)
@@ -217,6 +218,13 @@ class MessagesAdapter(context: Context,
                         putViews(included, it, level + 1)
                         llMessageContainer.addView(included)
                     }
+                }
+                message.replyMessage?.also {
+                    llMessage.layoutParams.width = mediaWidth
+                    val included = inflater.inflate(R.layout.item_message_in_chat, null)
+                    included.tag = true
+                    putViews(included, it, level + 1)
+                    llMessageContainer.addView(included)
                 }
             }
         }
@@ -257,6 +265,7 @@ class MessagesAdapter(context: Context,
     )
 
     companion object {
+        const val ALLOWED_DEEPNESS = 2
 
         const val OUT = 0
         const val IN_CHAT = 1

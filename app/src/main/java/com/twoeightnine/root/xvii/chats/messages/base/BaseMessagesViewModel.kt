@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.messages.chat.ChatMessagesViewModel
+import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
+import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatViewModel
+import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatMessagesViewModel
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesViewModel
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.WrappedLiveData
@@ -68,7 +70,9 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>) = when (modelClass) {
             StarredMessagesViewModel::class.java -> StarredMessagesViewModel(api) as T
+            BaseChatMessagesViewModel::class.java -> BaseChatMessagesViewModel(api) as T
             ChatMessagesViewModel::class.java -> ChatMessagesViewModel(api) as T
+            SecretChatViewModel::class.java -> SecretChatViewModel(api) as T
 
             else -> throw IllegalArgumentException("Unknown ViewModel class $modelClass")
         }

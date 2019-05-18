@@ -11,7 +11,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
-import com.twoeightnine.root.xvii.chats.ChatActivity
+import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_main.*

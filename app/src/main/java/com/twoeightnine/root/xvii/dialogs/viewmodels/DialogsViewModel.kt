@@ -59,6 +59,7 @@ class DialogsViewModel(
         api.getConversations(COUNT_CONVERSATIONS, offset)
                 .map { convertToDialogs(it) }
                 .subscribeSmart({ dialogs ->
+                    setOffline()
                     val existing = if (offset == 0) {
                         arrayListOf()
                     } else {
@@ -117,6 +118,13 @@ class DialogsViewModel(
         dialog.alias = if (alias.isNotEmpty()) alias else null
         notifyDialogsChanged()
         saveDialogAsync(dialog)
+    }
+
+    private fun setOffline() {
+        if (Prefs.beOffline) {
+            api.setOffline()
+                    .subscribeSmart({}, {})
+        }
     }
 
     private fun convertToDialogs(resp: BaseResponse<ConversationsResponse>): BaseResponse<ArrayList<Dialog>> {

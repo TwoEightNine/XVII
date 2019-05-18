@@ -1,12 +1,9 @@
-package com.twoeightnine.root.xvii.chats.messages.chat
+package com.twoeightnine.root.xvii.chats.messages.chat.base
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
@@ -18,13 +15,11 @@ import com.twoeightnine.root.xvii.chats.ChatFragment
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
-import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActivity
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.chats.tools.ChatInputController
 import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.Message2
@@ -38,11 +33,11 @@ import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.toolbar_chat.*
 
-class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
+abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMessagesFragment<VM>() {
 
-    private val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
-    private val title by lazy { arguments?.getString(ARG_TITLE) ?: "" }
-    private val photo by lazy { arguments?.getString(ARG_PHOTO) ?: "" }
+    protected val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
+    protected val title by lazy { arguments?.getString(ARG_TITLE) ?: "" }
+    protected val photo by lazy { arguments?.getString(ARG_PHOTO) ?: "" }
     private val forwardedMessages by lazy { arguments?.getString(ARG_FORWARDED) }
     private val shareText by lazy { arguments?.getString(ARG_SHARE_TEXT) }
     private val shareImage by lazy { arguments?.getString(ARG_SHARE_IMAGE) }
@@ -57,12 +52,6 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
 
     private val handler = Handler()
     private lateinit var inputController: ChatInputController
-
-    override fun getViewModelClass() = ChatMessagesViewModel::class.java
-
-    override fun inject() {
-        App.appComponent?.inject(this)
-    }
 
     override fun prepareViewModel() {
         viewModel.peerId = peerId
@@ -126,6 +115,16 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.isShown = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.isShown = false
+    }
+
     private fun initContent() {
         forwardedMessages?.also {
             handler.postDelayed({
@@ -142,12 +141,6 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
                 onImagesSelected(arrayListOf(it))
             }, 500L)
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
-        inflater?.inflate(R.menu.menu_chat, menu)
     }
 
     private fun showDeleteMessagesDialog(callback: (Boolean) -> Unit) {
@@ -213,14 +206,14 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
     }
 
     /**
-     * handles setting peer's activity: one of [ChatMessagesViewModel.ACTIVITY_TYPING],
-     * [ChatMessagesViewModel.ACTIVITY_VOICE], [ChatMessagesViewModel.ACTIVITY_NONE]
+     * handles setting peer's activity: one of [BaseChatMessagesViewModel.ACTIVITY_TYPING],
+     * [BaseChatMessagesViewModel.ACTIVITY_VOICE], [BaseChatMessagesViewModel.ACTIVITY_NONE]
      */
     private fun onActivityChanged(activity: String) {
-        when(activity) {
-            ChatMessagesViewModel.ACTIVITY_VOICE -> chatToolbarController.showRecording()
-            ChatMessagesViewModel.ACTIVITY_TYPING -> chatToolbarController.showTyping()
-            ChatMessagesViewModel.ACTIVITY_NONE -> chatToolbarController.hideActions()
+        when (activity) {
+            BaseChatMessagesViewModel.ACTIVITY_VOICE -> chatToolbarController.showRecording()
+            BaseChatMessagesViewModel.ACTIVITY_TYPING -> chatToolbarController.showTyping()
+            BaseChatMessagesViewModel.ACTIVITY_NONE -> chatToolbarController.hideActions()
         }
     }
 
@@ -239,16 +232,6 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
                 attachedAdapter.add(attachment)
             }
             inputController.addItemAsBeingLoaded(it)
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            R.id.menu_attachments -> {
-                AttachmentsActivity.launch(context, peerId)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -278,33 +261,12 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
     override fun getAdapterCallback() = AdapterCallback()
 
     companion object {
-
         const val ARG_PEER_ID = "peerId"
         const val ARG_TITLE = "title"
         const val ARG_FORWARDED = "forwarded"
         const val ARG_PHOTO = "photo"
         const val ARG_SHARE_TEXT = "shareText"
         const val ARG_SHARE_IMAGE = "shareImage"
-
-        fun newInstance(dialog: Dialog, forwarded: String? = null,
-                        shareText: String? = null, shareImage: String? = null): ChatMessagesFragment {
-            val fragment = ChatMessagesFragment()
-            fragment.arguments = Bundle().apply {
-                putInt(ARG_PEER_ID, dialog.peerId)
-                putString(ARG_TITLE, dialog.alias ?: dialog.title)
-                putString(ARG_PHOTO, dialog.photo)
-                if (!forwarded.isNullOrEmpty()) {
-                    putString(ARG_FORWARDED, forwarded)
-                }
-                if (!shareText.isNullOrEmpty()) {
-                    putString(ARG_SHARE_TEXT, shareText)
-                }
-                if (!shareImage.isNullOrEmpty()) {
-                    putString(ARG_SHARE_IMAGE, shareImage)
-                }
-            }
-            return fragment
-        }
     }
 
     inner class AdapterCallback : MessagesAdapter.Callback {
@@ -393,11 +355,11 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         }
 
         override fun onAttachClick() {
-            AttachActivity.launch(this@ChatMessagesFragment, ChatFragment.REQUEST_ATTACH)
+            AttachActivity.launch(this@BaseChatMessagesFragment, ChatFragment.REQUEST_ATTACH)
         }
 
         override fun onTypingInvoke() {
-            viewModel.setActivity(type = ChatMessagesViewModel.ACTIVITY_TYPING)
+            viewModel.setActivity(type = BaseChatMessagesViewModel.ACTIVITY_TYPING)
         }
 
         override fun onVoiceVisibilityChanged(visible: Boolean) {
@@ -407,7 +369,7 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         override fun onVoiceTimeUpdated(time: Int) {
             tvRecord.text = secToTime(time)
             if (time % 5 == 1) {
-                viewModel.setActivity(type = ChatMessagesViewModel.ACTIVITY_VOICE)
+                viewModel.setActivity(type = BaseChatMessagesViewModel.ACTIVITY_VOICE)
             }
         }
 

@@ -102,7 +102,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".chats.ChatActivity"
+            android:name=".chats.messages.chat.usual.ChatActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
@@ -174,6 +174,7 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
+        <activity android:name=".chats.messages.chat.secret.SecretChatActivity" />
         <activity android:name=".background.longpoll.LongPollExplanationActivity" />
         <activity android:name=".features.datausage.DataUsageActivity" />
 

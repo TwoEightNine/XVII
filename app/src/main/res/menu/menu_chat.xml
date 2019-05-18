@@ -4,8 +4,14 @@
 
     <item
         android:id="@+id/menu_attachments"
-        android:title="@string/attachments"
         android:icon="@drawable/ic_attachment"
+        android:title="@string/attachments"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_encryption"
+        android:icon="@drawable/ic_key"
+        android:title="@string/encryption"
         app:showAsAction="always" />
 
 </menu>

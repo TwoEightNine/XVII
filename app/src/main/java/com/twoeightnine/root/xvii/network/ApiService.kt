@@ -24,12 +24,14 @@ interface ApiService {
         const val NEW_VERSION_HEADER = "$NEW_VERSION_HEADER_KEY: 1"
     }
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.getConversations?filter=all&extended=1")
     fun getConversations(
             @Query("count") count: Int,
             @Query("offset") offset: Int = 0
     ): Flowable<BaseResponse<ConversationsResponse>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.deleteConversation")
     fun deleteConversation(
             @Query("peer_id") peerId: Int,
@@ -59,8 +61,11 @@ interface ApiService {
             @Query("offset") offset: Int = 0
     ): Flowable<BaseResponse<MessagesHistoryResponse>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.markAsRead")
-    fun markAsRead(@Query("message_ids") messageIds: String): Flowable<BaseResponse<Int>>
+    fun markAsRead(
+            @Query("message_ids") messageIds: String
+    ): Flowable<BaseResponse<Int>>
 
     @Headers(NEW_VERSION_HEADER)
     @GET("messages.delete")
@@ -184,7 +189,8 @@ interface ApiService {
                       @Query("offset") offset: Int): Flowable<BaseResponse<ListResponse<User>>>
 
     //photos
-    @GET("photos.getById")
+    @Headers(NEW_VERSION_HEADER)
+    @GET("photos.getById?photo_sizes=1")
     fun getPhotoById(@Query("photos") photos: String,
                      @Query("access_key") accessKey: String): Flowable<BaseResponse<MutableList<Photo>>>
 
@@ -193,7 +199,8 @@ interface ApiService {
                   @Query("photo_id") photoId: Int,
                   @Query("access_key") accessKey: String): Flowable<BaseResponse<Int>>
 
-    @GET("photos.get?rev=1")
+    @Headers(NEW_VERSION_HEADER)
+    @GET("photos.get?rev=1&photo_sizes=1")
     fun getPhotos(@Query("owner_id") ownerId: Int,
                   @Query("album_id") albumId: String,
                   @Query("count") count: Int,

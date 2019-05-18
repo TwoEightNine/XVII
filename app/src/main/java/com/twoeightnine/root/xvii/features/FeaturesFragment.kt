@@ -15,7 +15,7 @@ import com.twoeightnine.root.xvii.accounts.activities.AccountsActivity
 import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.chats.ChatActivity
+import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesActivity
 import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
 import com.twoeightnine.root.xvii.features.datausage.DataUsageActivity

@@ -1,11 +1,10 @@
-package com.twoeightnine.root.xvii.chats
+package com.twoeightnine.root.xvii.chats.messages.chat.usual
 
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.ContentActivity
-import com.twoeightnine.root.xvii.chats.messages.chat.ChatMessagesFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.model.User
 

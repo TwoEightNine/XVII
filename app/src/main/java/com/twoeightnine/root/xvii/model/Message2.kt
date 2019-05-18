@@ -59,6 +59,10 @@ data class Message2(
         @Expose
         val attachments: ArrayList<Attachment>? = arrayListOf(),
 
+        @SerializedName("reply_message")
+        @Expose
+        var replyMessage: Message2? = null,
+
         // ------------------- manually added values
         @SerializedName("read")
         @Expose
