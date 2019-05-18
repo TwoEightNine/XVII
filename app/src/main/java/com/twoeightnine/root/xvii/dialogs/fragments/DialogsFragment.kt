@@ -92,6 +92,11 @@ open class DialogsFragment : BaseFragment() {
                 }.show()
             }
         }.show()
+//        createContextPopup(context ?: return, arrayListOf(
+//                ContextPopupItem(R.drawable.ic_pin, R.string.pin) {
+//                    showToast(context, "pinpin")
+//                }
+//        )).show()
     }
 
     companion object {

@@ -299,9 +299,8 @@ fun getContextPopup(context: Context, @LayoutRes layout: Int, listener: (View) -
     }
 
     if (view is ViewGroup) {
-        val vg = view
-        for (i in 0 until vg.childCount) {
-            val v = vg.getChildAt(i)
+        for (i in 0 until view.childCount) {
+            val v = view.getChildAt(i)
             if (v is LinearLayout) {
                 v.setOnClickListener(click)
             }
