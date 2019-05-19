@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Doc
@@ -44,7 +45,9 @@ class SecretChatViewModel(
 
     fun startExchange() {
         crypto.startExchange {
-            sendMessage(it)
+            l("start exchange")
+            Lg.dbg(it)
+            sendData(it)
             isExchangeStarted = true
         }
     }
@@ -59,13 +62,19 @@ class SecretChatViewModel(
 
     override fun onMessageReceived(event: NewMessageEvent) {
         if (event.text.matchesXviiKeyEx()) {
-            if (isExchangeStarted) {
-                crypto.finishExchange(event.text)
-                isExchangeStarted = false
-                keysSetLiveData.value = true
-            } else {
-                val ownKeys = crypto.supportExchange(event.text)
-                sendMessage(ownKeys)
+            if (!event.isOut()) {
+                if (isExchangeStarted) {
+                    l("receive support")
+                    Lg.dbg(event.text)
+                    crypto.finishExchange(event.text)
+                    isExchangeStarted = false
+                    keysSetLiveData.value = true
+                } else {
+                    l("receive exchange")
+                    Lg.dbg(event.text)
+                    val ownKeys = crypto.supportExchange(event.text)
+                    sendData(ownKeys)
+                }
             }
             deleteMessages(event.id.toString(), forAll = false)
         } else if (!isKeyRequired()) {
@@ -109,6 +118,14 @@ class SecretChatViewModel(
         }
     }
 
+    private fun sendData(data: String) {
+        api.sendMessage(peerId, getRandomId(), data)
+                .subscribeSmart({
+                    setOffline()
+                }, { error ->
+                    lw("send message: $error")
+                })
+    }
 
     @SuppressLint("CheckResult")
     private fun downloadDoc(doc: Doc, callback: (String) -> Unit) {
@@ -149,5 +166,9 @@ class SecretChatViewModel(
         } else {
             ""
         }
+    }
+
+    private fun l(s: String) {
+        Lg.i("[secret] $s")
     }
 }

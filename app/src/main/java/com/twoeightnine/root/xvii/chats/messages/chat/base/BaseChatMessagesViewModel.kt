@@ -102,7 +102,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     fun getActivity() = activityLiveData as LiveData<String>
 
-    private fun setOffline() {
+    protected fun setOffline() {
         if (Prefs.beOffline) {
             api.setOffline()
                     .subscribeSmart({}, {})
@@ -270,7 +270,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         return message
     }
 
-    private fun getRandomId() = Random.nextInt()
+    protected fun getRandomId() = Random.nextInt()
 
     protected fun lw(s: String) {
         Lg.wtf("[chat] $s")

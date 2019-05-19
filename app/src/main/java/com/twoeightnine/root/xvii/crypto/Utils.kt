@@ -43,9 +43,9 @@ fun getRandomBytes(numBytes: Int): ByteArray {
     return bytes
 }
 
-fun toBase64(bytes: ByteArray) = Base64.encodeToString(bytes, Base64.DEFAULT)
+fun toBase64(bytes: ByteArray) = Base64.encodeToString(bytes, Base64.NO_WRAP or Base64.URL_SAFE)
 
-fun fromBase64(str: String) = Base64.decode(str, Base64.DEFAULT)
+fun fromBase64(str: String) = Base64.decode(str, Base64.NO_WRAP or Base64.URL_SAFE)
 
 fun isPrime(r: BigInteger) = millerRabin(r)
 
