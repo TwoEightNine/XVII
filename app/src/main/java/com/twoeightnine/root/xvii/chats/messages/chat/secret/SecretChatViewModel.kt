@@ -6,8 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
+import com.twoeightnine.root.xvii.model.attachments.Attachment
+import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.utils.matchesXviiKeyEx
+import com.twoeightnine.root.xvii.utils.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 
 class SecretChatViewModel(
         api: ApiService,
@@ -63,8 +69,71 @@ class SecretChatViewModel(
         }
     }
 
-    override fun prepareTextOut(text: String?) = when(text) {
-        null -> ""
+    override fun attachPhoto(path: String, onAttached: (String, Attachment) -> Unit) {
+        api.getDocUploadServer("doc")
+                .subscribeSmart({ uploadServer ->
+                    crypto.encryptFile(context, path) { encryptedPath ->
+                        val file = File(encryptedPath)
+                        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+                        api.uploadDoc(uploadServer.uploadUrl ?: "", body)
+                                .compose(applySchedulers())
+                                .subscribe({ uploaded ->
+                                    api.saveDoc(uploaded.file ?: return@subscribe)
+                                            .subscribeSmart({
+                                                onAttached(path, Attachment(it[0]))
+                                            }, { error ->
+                                                onErrorOccurred(error)
+                                                lw("save uploaded photo error: $error")
+                                            })
+                                }, { error ->
+                                    val message = error.message ?: "null"
+                                    lw("uploading photo error: $message")
+                                    onErrorOccurred(message)
+                                })
+                    }
+
+                }, { error ->
+                    onErrorOccurred(error)
+                    lw("getting ploading server error: $error")
+                })
+    }
+
+    fun decryptDoc(doc: Doc, callback: (Boolean, String?) -> Unit) {
+        downloadDoc(doc) {
+            crypto.decryptFile(context, it, callback)
+        }
+    }
+
+
+    private fun downloadDoc(doc: Doc, callback: (String) -> Unit) {
+        if (doc.url == null) return
+
+        val dir = context.cacheDir
+        val file = File(dir, doc.title ?: getNameFromUrl(doc.url))
+        val fileName = file.absolutePath
+        if (File(fileName).exists()) {
+            callback.invoke(fileName)
+            return
+        }
+        api.downloadFile(doc.url)
+                .compose(applySchedulers())
+                .subscribe({
+                    val written = writeResponseBodyToDisk(it, fileName)
+                    if (written) {
+                        callback(fileName)
+                    } else {
+                        lw("Error downloading $fileName: not written")
+                    }
+                }, {
+                    it.printStackTrace()
+                    val errorMsg = it.message ?: "download file error: null error"
+                    lw(errorMsg)
+                })
+    }
+
+    override fun prepareTextOut(text: String?) = when {
+        text.isNullOrEmpty() -> ""
         else -> crypto.encrypt(text)
     }
 
@@ -75,9 +144,5 @@ class SecretChatViewModel(
         } else {
             ""
         }
-    }
-
-    override fun preparePhoto(path: String, onPrepared: (String) -> Unit) {
-        crypto.encryptFile(context, path, onPrepared)
     }
 }

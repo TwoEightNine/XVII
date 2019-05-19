@@ -92,9 +92,9 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     abstract fun prepareTextIn(text: String): String
 
     /**
-     * prepares photo before uploading
+     * attaching photo has different logic
      */
-    abstract fun preparePhoto(path: String, onPrepared: (String) -> Unit)
+    abstract fun attachPhoto(path: String, onAttached: (String, Attachment) -> Unit)
 
     fun getLastSeen() = lastSeenLiveData as LiveData<Pair<Boolean, Int>>
 
@@ -154,39 +154,6 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     fun deleteMessages(messageIds: String, forAll: Boolean) {
         api.deleteMessages(messageIds, if (forAll) 1 else 0)
                 .subscribeSmart({}, ::onErrorOccurred)
-    }
-
-    fun attachPhoto(path: String, onAttached: (String, Attachment) -> Unit) {
-        api.getPhotoUploadServer()
-                .subscribeSmart({ uploadServer ->
-                    preparePhoto(path) { preparedPath ->
-                        val file = File(preparedPath)
-                        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-                        val body = MultipartBody.Part.createFormData("photo", file.name, requestFile)
-                        api.uploadPhoto(uploadServer.uploadUrl ?: "", body)
-                                .compose(applySchedulers())
-                                .subscribe({ uploaded ->
-                                    api.saveMessagePhoto(
-                                            uploaded.photo ?: "",
-                                            uploaded.hash ?: "",
-                                            uploaded.server
-                                    )
-                                            .subscribeSmart({
-                                                onAttached(path, Attachment(it[0]))
-                                            }, { error ->
-                                                onErrorOccurred(error)
-                                                lw("save uploaded photo error: $error")
-                                            })
-                                }, { error ->
-                                    val message = error.message ?: "null"
-                                    lw("uploading photo error: $message")
-                                    onErrorOccurred(message)
-                                })
-                    }
-                }, { error ->
-                    onErrorOccurred(error)
-                    lw("getting ploading server error: $error")
-                })
     }
 
     fun attachVoice(path: String, onAttached: (String) -> Unit) {
@@ -305,7 +272,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     private fun getRandomId() = Random.nextInt()
 
-    private fun lw(s: String) {
+    protected fun lw(s: String) {
         Lg.wtf("[chat] $s")
     }
 

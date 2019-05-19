@@ -11,8 +11,10 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.model.attachments.Doc
+import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.FingerPrintAlertDialog
+import com.twoeightnine.root.xvii.views.LoadingDialog
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.chat_input_panel.*
 
@@ -25,7 +27,19 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
     }
 
     override fun onEncryptedDocClicked(doc: Doc) {
-
+        val dialogLoading = LoadingDialog(
+                context ?: return,
+                getString(R.string.decrypting_image)
+        )
+        dialogLoading.show()
+        viewModel.decryptDoc(doc) { verified, path ->
+            dialogLoading.dismiss()
+            if (!path.isNullOrEmpty() && verified) {
+                ImageViewerActivity.viewImage(context, "file://$path")
+            } else {
+                showError(context, R.string.invalid_file)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

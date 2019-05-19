@@ -114,10 +114,12 @@ class ImageViewerActivity : AppCompatActivity() {
 
     private fun setPosition(position: Int) {
         tvPosition.text = "${position + 1}/${photos.size}"
-        val text = currentPhoto().text
-        tvText.setVisible(!text.isNullOrEmpty())
-        tvText.text = text
-        tvDate.text = getTime(currentPhoto().date, withSeconds = Prefs.showSeconds)
+        if (mode == MODE_PHOTOS_LIST) {
+            val text = currentPhoto().text
+            tvText.setVisible(!text.isNullOrEmpty())
+            tvText.text = text
+            tvDate.text = getTime(currentPhoto().date, withSeconds = Prefs.showSeconds)
+        }
     }
 
     private fun currentPhoto() = photos[vpImage.currentItem]
