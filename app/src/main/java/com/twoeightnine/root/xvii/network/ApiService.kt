@@ -61,7 +61,9 @@ interface ApiService {
             @Query("offset") offset: Int = 0
     ): Flowable<BaseResponse<MessagesHistoryResponse>>
 
-    @Headers(NEW_VERSION_HEADER)
+    /**
+     * since 5.80 it's not documented and doesn't support [messageIds]
+     */
     @GET("messages.markAsRead")
     fun markAsRead(
             @Query("message_ids") messageIds: String
