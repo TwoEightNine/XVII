@@ -36,7 +36,7 @@ interface ApiService {
     fun deleteConversation(
             @Query("peer_id") peerId: Int,
             @Query("count") count: Int
-    ): Flowable<BaseResponse<Int>>
+    ): Flowable<BaseResponse<Any>>
 
 
     @GET("messages.getHistory")

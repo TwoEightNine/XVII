@@ -191,7 +191,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 .map { convert(it) }
                 .subscribeSmart({ messages ->
                     onMessagesLoaded(messages, offset)
-                    if (offset == 0) {
+                    if (offset == 0 && messages.isNotEmpty()) {
                         markAsRead(messages[0].id.toString())
                     }
                 }, ::onErrorOccurred)
