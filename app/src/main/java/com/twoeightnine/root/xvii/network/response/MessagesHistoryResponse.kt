@@ -38,14 +38,14 @@ data class MessagesHistoryResponse(
     fun getConversationById(id: Int) = conversations?.find { it.peer?.id == id }
 
     fun getNameForMessage(message: Message) = when {
-        message.peerId.matchesUserId() -> getProfileById(message.fromId)?.fullName
+        message.fromId.matchesUserId() -> getProfileById(message.fromId)?.fullName
         message.peerId.matchesGroupId() -> getGroupById(-message.peerId)?.name
         message.peerId.matchesChatId() -> getConversationById(message.peerId)?.chatSettings?.title
         else -> null
     }
 
     fun getPhotoForMessage(message: Message) = when {
-        message.peerId.matchesUserId() -> getProfileById(message.fromId)?.photo100
+        message.fromId.matchesUserId() -> getProfileById(message.fromId)?.photo100
         message.peerId.matchesGroupId() -> getGroupById(-message.peerId)?.photo100
         message.peerId.matchesChatId() -> getConversationById(message.peerId)?.chatSettings?.photo?.photo100
         else -> null
