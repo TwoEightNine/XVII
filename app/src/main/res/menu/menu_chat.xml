@@ -6,12 +6,12 @@
         android:id="@+id/menu_attachments"
         android:icon="@drawable/ic_attachment"
         android:title="@string/attachments"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_encryption"
         android:icon="@drawable/ic_key"
         android:title="@string/encryption"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
 </menu>

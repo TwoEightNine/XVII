@@ -45,7 +45,7 @@
     <string name="edit">изменить</string>
     <string name="enc_off">шифрование отключено</string>
     <string name="enc_on">шифрование включено</string>
-    <string name="encryption">шифрование</string>
+    <string name="encryption">секретный чат</string>
     <string name="enter_new_pin">введите новый pin</string>
     <string name="enter_pin">введите pin</string>
     <string name="error">ошибка</string>
@@ -274,6 +274,10 @@
     <string name="wanna_change_theme">тема была изменена. приложение будет перезапущено. продолжить?</string>
     <string name="cancel">отмена</string>
     <string name="too_deep_forwarding">слишком большая вложенность. поддержка скоро появится..</string>
+    <string name="empty_user_key">ключ не может быть пустым!</string>
+    <string name="keys_not_set">ключи не заданы</string>
+    <string name="unable_to_write">к сожалению, вы не можете писать сообщения этому пользователю</string>
+    <string name="show_seconds">показывать секунды</string>
     <string name="longpoll_hint">нажмите, чтобы узнать больше</string>
     <string name="xvii_longpoll">фоновый сервис xvii</string>
     <string name="use_apple_emojis">использовать смайлики apple</string>

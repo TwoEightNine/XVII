@@ -149,7 +149,7 @@
     <string name="secure_length">please use long phrases</string>
     <string name="messages">messages</string>
     <string name="no_exchg_in_chats">key exchange is not available in this chat</string>
-    <string name="encryption">encryption</string>
+    <string name="encryption">secret chat</string>
     <string name="restart_app">restarting app..</string>
     <string name="hidden_message">message</string>
     <string name="shared">shared successfully</string>

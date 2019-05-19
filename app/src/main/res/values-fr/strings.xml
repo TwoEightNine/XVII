@@ -122,7 +122,7 @@
     <string name="secure_length">utilisez des mots longues</string>
     <string name="messages">messages</string>
     <string name="no_exchg_in_chats">l\'échange des clés n\'est pas disponible dans ce tchat</string>
-    <string name="encryption">chiffrement</string>
+    <string name="encryption">un échange secret</string>
     <string name="restart_app">on rédemarre l\'app..</string>
     <string name="hidden_message">message</string>
     <string name="shared">partagé avec succès</string>
@@ -265,6 +265,10 @@
     <string name="wanna_change_theme">vous avez changé le thème. l\'app se redémarrer. continuer?</string>
     <string name="cancel">anuller</string>
     <string name="too_deep_forwarding">des messages trop profond sera appuyé bientôt..</string>
+    <string name="empty_user_key">le clé ne peut pas être vide!</string>
+    <string name="keys_not_set">des clés n\'est pas mises</string>
+    <string name="unable_to_write">malheuresement, vous ne pouvez pas écrire un message à l\'utilisateur</string>
+    <string name="show_seconds">montrer des secondes</string>
     <string name="longpoll_hint">tapez pour decouvrir plus</string>
     <string name="xvii_longpoll">service en arrière-plan de xvii</string>
     <string name="use_apple_emojis">utiliser des emojis d\'apple</string>

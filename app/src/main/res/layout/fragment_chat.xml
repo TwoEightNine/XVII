@@ -12,10 +12,11 @@
         android:background="@color/background">
 
         <ImageView
+            android:id="@+id/ivKeyPattern"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="92dp"
-            android:src="@android:color/transparent" />
+            android:src="@drawable/key_pattern"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:layout_width="match_parent"

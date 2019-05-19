@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.views.FingerPrintAlertDialog
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.chat_input_panel.*
+import kotlinx.android.synthetic.main.fragment_chat.*
 
 class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>() {
 
@@ -51,6 +52,7 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
         rlNoKeys.setOnClickListener {
             showKeysDialog()
         }
+        ivKeyPattern.show()
 
         viewModel.getKeysSet().observe(this, Observer {
             rlNoKeys.setVisible(!it)
