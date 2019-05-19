@@ -83,13 +83,23 @@
                 android:tag="dark" />
 
             <ImageView
-                android:id="@+id/ivMenuMulti"
+                android:id="@+id/ivMarkMulti"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:src="@drawable/ic_features_2"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_star_white"
+                android:tag="dark" />
+
+            <ImageView
+                android:id="@+id/ivDeleteMulti"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@+id/ivMarkMulti"
+                android:src="@drawable/ic_delete"
                 android:tag="dark" />
 
             <ImageView
@@ -98,7 +108,7 @@
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16dp"
-                android:layout_toLeftOf="@+id/ivMenuMulti"
+                android:layout_toLeftOf="@+id/ivDeleteMulti"
                 android:src="@drawable/ic_transfer"
                 android:tag="dark" />
 

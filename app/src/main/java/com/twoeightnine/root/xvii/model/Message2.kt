@@ -33,7 +33,7 @@ data class Message2(
 
         @SerializedName("text")
         @Expose
-        val text: String = "",
+        var text: String = "",
 
         @SerializedName("out")
         @Expose
@@ -77,12 +77,12 @@ data class Message2(
         var photo: String? = null
 ) : Parcelable {
 
-    constructor(event: NewMessageEvent) : this(
+    constructor(event: NewMessageEvent, prepareText: (String) -> String = { it }) : this(
             id = event.id,
             peerId = event.peerId,
             date = event.timeStamp,
             fromId = event.info.from,
-            text = event.text,
+            text = prepareText(event.text),
             out = if (event.isOut()) 1 else 0
     )
 

@@ -195,7 +195,7 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         ivCancelMulti.setOnClickListener {
             adapter.clearMultiSelect()
         }
-        ivMenuMulti.setOnClickListener { showMultiSelectPopup() }
+//        ivMenuMulti.setOnClickListener { showMultiSelectPopup() }
         ivForwardMulti.setOnClickListener {
             DialogsForwardActivity.launch(context, forwarded = getSelectedMessageIds())
         }

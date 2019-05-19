@@ -126,9 +126,12 @@ class CryptoEngine(
 
     fun decrypt(message: String): Cipher.Result {
         checkKey()
-
-        val enc = fromBase64(unwrapData(message))
-        return Cipher.decrypt(enc, key)
+        return try {
+            val enc = fromBase64(unwrapData(message))
+            Cipher.decrypt(enc, key)
+        } catch (e: Exception) {
+            Cipher.Result(verified = false)
+        }
     }
 
     @SuppressLint("CheckResult")

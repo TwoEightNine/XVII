@@ -27,6 +27,13 @@ fun String.matchesXviiCipher(): Boolean {
             substring(length - postfix.length) == postfix
 }
 
+fun String.matchesXviiKeyEx(): Boolean {
+    val prefix = CryptoEngine.KEY_PREFIX
+    val postfix = CryptoEngine.KEY_POSTFIX
+    return length > prefix.length + postfix.length &&
+            substring(0, prefix.length) == prefix &&
+            substring(length - postfix.length) == postfix
+}
 
 fun Int.matchesUserId() = this in 0..CHAT_ID_START
 

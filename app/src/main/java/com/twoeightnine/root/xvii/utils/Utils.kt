@@ -100,12 +100,14 @@ fun showError(context: Context?, @StringRes text: Int) {
     showError(context, context?.getString(text))
 }
 
-fun showAlert(context: Context?, text: String?) {
+fun showAlert(context: Context?, text: String?, onOkPressed: (() -> Unit)? = null) {
     if (context == null) return
 
     val dialog = AlertDialog.Builder(context)
             .setMessage(text)
-            .setPositiveButton(R.string.ok, null)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                onOkPressed?.invoke()
+            }
             .create()
     dialog.show()
     dialog.stylize()

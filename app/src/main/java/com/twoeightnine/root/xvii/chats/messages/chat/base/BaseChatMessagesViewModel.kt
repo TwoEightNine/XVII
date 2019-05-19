@@ -25,7 +25,7 @@ import okhttp3.RequestBody
 import java.io.File
 import kotlin.random.Random
 
-open class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
+abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
 
     /**
      * Boolean - online flag
@@ -74,6 +74,21 @@ open class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(ap
         }
     }
 
+    /**
+     * prepares outgoing message text before sending or editing
+     */
+    abstract fun prepareTextOut(text: String?): String
+
+    /**
+     * prepares incoming message text before showing
+     */
+    abstract fun prepareTextIn(text: String): String
+
+    /**
+     * prepares photo before uploading
+     */
+    abstract fun preparePhoto(path: String, onPrepared: (String) -> Unit)
+
     fun getLastSeen() = lastSeenLiveData as LiveData<Pair<Boolean, Int>>
 
     fun getCanWrite() = canWriteLiveData as LiveData<CanWrite>
@@ -100,18 +115,19 @@ open class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(ap
     }
 
     fun editMessage(messageId: Int, text: String) {
-        api.editMessage(peerId, text, messageId)
+        api.editMessage(peerId, prepareTextOut(text), messageId)
                 .subscribeSmart({}, ::onErrorOccurred)
     }
 
     fun sendMessage(text: String? = null, attachments: String? = null,
                     replyTo: Int? = null, forwardedMessages: String? = null) {
-        api.sendMessage(peerId, getRandomId(), text, forwardedMessages, attachments, replyTo)
+        api.sendMessage(peerId, getRandomId(), prepareTextOut(text), forwardedMessages, attachments, replyTo)
                 .subscribeSmart({
                     setOffline()
                 }, { error ->
                     lw("send message: $error")
                 })
+
     }
 
     fun sendSticker(sticker: Sticker, replyTo: Int? = null) {
@@ -136,28 +152,30 @@ open class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(ap
     fun attachPhoto(path: String, onAttached: (String, Attachment) -> Unit) {
         api.getPhotoUploadServer()
                 .subscribeSmart({ uploadServer ->
-                    val file = File(path)
-                    val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-                    val body = MultipartBody.Part.createFormData("photo", file.name, requestFile)
-                    api.uploadPhoto(uploadServer.uploadUrl ?: "", body)
-                            .compose(applySchedulers())
-                            .subscribe({ uploaded ->
-                                api.saveMessagePhoto(
-                                        uploaded.photo ?: "",
-                                        uploaded.hash ?: "",
-                                        uploaded.server
-                                )
-                                        .subscribeSmart({
-                                            onAttached(path, Attachment(it[0]))
-                                        }, { error ->
-                                            onErrorOccurred(error)
-                                            lw("save uploaded photo error: $error")
-                                        })
-                            }, { error ->
-                                val message = error.message ?: "null"
-                                lw("uploading photo error: $message")
-                                onErrorOccurred(message)
-                            })
+                    preparePhoto(path) { preparedPath ->
+                        val file = File(preparedPath)
+                        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                        val body = MultipartBody.Part.createFormData("photo", file.name, requestFile)
+                        api.uploadPhoto(uploadServer.uploadUrl ?: "", body)
+                                .compose(applySchedulers())
+                                .subscribe({ uploaded ->
+                                    api.saveMessagePhoto(
+                                            uploaded.photo ?: "",
+                                            uploaded.hash ?: "",
+                                            uploaded.server
+                                    )
+                                            .subscribeSmart({
+                                                onAttached(path, Attachment(it[0]))
+                                            }, { error ->
+                                                onErrorOccurred(error)
+                                                lw("save uploaded photo error: $error")
+                                            })
+                                }, { error ->
+                                    val message = error.message ?: "null"
+                                    lw("uploading photo error: $message")
+                                    onErrorOccurred(message)
+                                })
+                    }
                 }, { error ->
                     onErrorOccurred(error)
                     lw("getting ploading server error: $error")
@@ -212,7 +230,7 @@ open class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(ap
         messagesLiveData.value = Wrapper(messagesLiveData.value?.data)
     }
 
-    private fun onMessageReceived(event: NewMessageEvent) {
+    protected open fun onMessageReceived(event: NewMessageEvent) {
         if (!event.isOut()) {
             lastSeenLiveData.value = Pair(true, event.timeStamp)
             activityLiveData.value = ACTIVITY_NONE
@@ -226,7 +244,7 @@ open class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(ap
                         lw("new message error: $error")
                     })
         } else {
-            addNewMessage(Message2(event))
+            addNewMessage(Message2(event, ::prepareTextIn))
         }
     }
 
@@ -243,7 +261,12 @@ open class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(ap
         response?.items?.forEach {
             val message = putTitles(it, response)
             message.read = response.isMessageRead(message)
-            messages.add(message)
+            val isEmptyMessage = message.text.isEmpty()
+                    && message.fwdMessages.isNullOrEmpty()
+                    && message.attachments.isNullOrEmpty()
+            if (!isEmptyMessage) {
+                messages.add(message)
+            }
         }
 
         if (notify) {
@@ -260,6 +283,7 @@ open class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(ap
     private fun putTitles(message: Message2, response: MessagesHistoryResponse): Message2 {
         message.name = response.getNameForMessage(message)
         message.photo = response.getPhotoForMessage(message)
+        message.text = prepareTextIn(message.text)
         val fwd = arrayListOf<Message2>()
         message.fwdMessages?.forEach {
             fwd.add(putTitles(it, response))

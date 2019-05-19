@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.background.longpoll.models.events
 
+import android.text.Html
 import com.google.gson.internal.LinkedTreeMap
 import com.twoeightnine.root.xvii.utils.asChatPeerId
 
@@ -13,7 +14,7 @@ object LongPollEventFactory {
                     update.asInt(2),
                     update.asInt(3),
                     update.asInt(4),
-                    update.asString(5),
+                    Html.fromHtml(update.asString(5)).toString(),
                     NewMessageEvent.MessageInfo.fromLinkedTreeMap(update[6] as LinkedTreeMap<String, Any>)
             )
             BaseLongPollEvent.TYPE_READ_INCOMING -> ReadIncomingEvent(update.asInt(1), update.asInt(2))

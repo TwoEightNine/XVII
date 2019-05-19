@@ -38,7 +38,8 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         rlCustom.hide()
         (rlInput.layoutParams as? RelativeLayout.LayoutParams)?.height = 0
         ivReplyMulti.visibility = View.INVISIBLE
-        ivMenuMulti.visibility = View.INVISIBLE
+        ivDeleteMulti.visibility = View.INVISIBLE
+        ivMarkMulti.visibility = View.INVISIBLE
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -73,7 +74,6 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         }
 
         override fun onUserClicked(userId: Int) {
-//            rootActivity?.loadFragment(ProfileFragment.newInstance(userId))
             ProfileActivity.launch(context, userId)
         }
 

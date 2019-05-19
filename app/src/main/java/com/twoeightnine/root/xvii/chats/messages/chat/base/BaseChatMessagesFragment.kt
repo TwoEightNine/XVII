@@ -97,6 +97,27 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             attachedAdapter.isReply = true
             adapter.multiSelectMode = false
         }
+        ivDeleteMulti.setOnClickListener {
+            val selectedMessages = adapter.multiSelect
+            val callback = { forAll: Boolean ->
+                viewModel.deleteMessages(getSelectedMessageIds(), forAll)
+                adapter.multiSelectMode = false
+            }
+            val edgeDate = time() - 3600 * 24
+            val isOut = selectedMessages.filter { !it.isOut() }.isEmpty()
+            val isRecent = selectedMessages.filter { it.date < edgeDate }.isEmpty()
+            if (isOut && isRecent) {
+                showDeleteMessagesDialog(callback)
+            } else {
+                context?.let {
+                    showDeleteDialog(it) { callback.invoke(false) }
+                }
+            }
+        }
+        ivMarkMulti.setOnClickListener {
+            viewModel.markAsImportant(getSelectedMessageIds())
+            adapter.multiSelectMode = false
+        }
     }
 
     private fun stylize() {
