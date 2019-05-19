@@ -108,7 +108,7 @@ class CryptoEngine(
      * finishes the exchange, receive other public nonce, obtains [key]
      */
     fun finishExchange(publicOtherWrapped: String) {
-        val publicOther = strToNum(publicOtherWrapped)
+        val publicOther = strToNum(unwrapKey(publicOtherWrapped))
         dh.publicOther = publicOther
         setKey(dh.key.toString())
         keyType = KeyType.RANDOM

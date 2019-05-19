@@ -16,7 +16,10 @@ import com.twoeightnine.root.xvii.utils.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import rx.Completable
+import rx.android.schedulers.AndroidSchedulers
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 class SecretChatViewModel(
         api: ApiService,
@@ -49,6 +52,10 @@ class SecretChatViewModel(
             Lg.dbg(it)
             sendData(it)
             isExchangeStarted = true
+            Completable.timer(10L, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+                    .subscribe {
+                        isExchangeStarted = false
+                    }
         }
     }
 
