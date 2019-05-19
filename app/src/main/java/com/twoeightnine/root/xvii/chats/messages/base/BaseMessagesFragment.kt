@@ -94,8 +94,11 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
 
     private fun onMultiSelectChanged(selectedCount: Int) {
         rlMultiAction.setVisible(selectedCount > 0)
-//        tvSelectedCount.text = context?.resources
-//                ?.getQuantityString(R.plurals.messages, selectedCount, selectedCount)
+        if (selectedCount == 0 && adapter.multiSelectMode) {
+            adapter.multiSelectMode = false
+        }
+        tvSelectedCount.text = context?.resources
+                ?.getQuantityString(R.plurals.messages, selectedCount, selectedCount)
     }
 
     private fun initMultiAction() {
