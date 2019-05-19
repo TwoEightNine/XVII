@@ -145,6 +145,36 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rlNoKeys"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/input_panel"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/ivNoKeys"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="13dp"
+                android:src="@drawable/ic_warning" />
+
+            <TextView
+
+                android:id="@+id/tvNoKeys"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/ivNoKeys"
+                android:text="@string/keys_not_set"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
 </LinearLayout>

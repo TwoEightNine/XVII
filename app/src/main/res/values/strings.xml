@@ -23,6 +23,7 @@
     <string name="show_stickers">show stickers/emojis icon</string>
     <string name="show_voice">show voice messaging icon</string>
     <string name="unable_to_write">unfortunately, you can\'t write a message to this user</string>
+    <string name="keys_not_set">keys aren\'t set</string>
     <string name="show_typing">show typing</string>
     <string name="feedback">support</string>
     <string name="copied">%s has been copied to clipboard</string>
@@ -143,6 +144,7 @@
     <string name="key_reset">keys were reset to default</string>
     <string name="generating_keys">generating keys\nit may take up to several minutes\n just for your security</string>
     <string name="key_set">keys were set successfully</string>
+    <string name="empty_user_key">key mustn\'t be empty!</string>
     <string name="key_exchanged">keys were exchanged</string>
     <string name="secure_length">please use long phrases</string>
     <string name="messages">messages</string>

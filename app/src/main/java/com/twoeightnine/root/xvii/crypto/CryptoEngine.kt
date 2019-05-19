@@ -41,9 +41,6 @@ class CryptoEngine(
         if (storage.hasKey(peerId)) {
             key = storage.getKey(peerId)
             keyType = KeyType.CUSTOM
-        } else {
-            setKey(getDefaultKey(), save = false)
-            keyType = KeyType.DEFAULT
         }
     }
 
@@ -136,6 +133,8 @@ class CryptoEngine(
 
     @SuppressLint("CheckResult")
     fun encryptFile(context: Context, path: String, onEncrypted: (String) -> Unit) {
+        checkKey()
+
         Single.fromCallable {
             val bytes = getBytesFromFile(context, path)
             Cipher.encrypt(bytes, key)
@@ -155,6 +154,8 @@ class CryptoEngine(
      */
     @SuppressLint("CheckResult")
     fun decryptFile(context: Context, path: String, onDecrypted: (Boolean, String?) -> Unit) {
+        checkKey()
+
         Single.fromCallable {
             val bytes = getBytesFromFile(context, path)
             Cipher.decrypt(bytes, key)
@@ -171,7 +172,10 @@ class CryptoEngine(
                 }
     }
 
-    fun getFingerPrint() = sha256(bytesToHex(key))
+    fun getFingerPrint(): String {
+        checkKey()
+        return sha256(bytesToHex(key))
+    }
 
     /**
      * !!!remove later!!!

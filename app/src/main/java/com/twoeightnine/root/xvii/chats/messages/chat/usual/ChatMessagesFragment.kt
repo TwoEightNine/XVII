@@ -10,6 +10,7 @@ import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActiv
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import com.twoeightnine.root.xvii.model.attachments.Doc
 
 class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
 
@@ -17,6 +18,10 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
 
     override fun inject() {
         App.appComponent?.inject(this)
+    }
+
+    override fun onEncryptedDocClicked(doc: Doc) {
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

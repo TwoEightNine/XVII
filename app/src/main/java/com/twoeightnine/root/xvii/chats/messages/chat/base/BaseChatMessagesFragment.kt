@@ -53,6 +53,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     private val handler = Handler()
     private lateinit var inputController: ChatInputController
 
+    abstract fun onEncryptedDocClicked(doc: Doc)
+
     override fun prepareViewModel() {
         viewModel.peerId = peerId
     }
@@ -325,6 +327,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onEncryptedFileClicked(doc: Doc) {
+            onEncryptedDocClicked(doc)
         }
 
         override fun onPhotoClicked(photo: Photo) {

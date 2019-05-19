@@ -1,6 +1,8 @@
 package com.twoeightnine.root.xvii.chats.messages.chat.secret
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
@@ -18,7 +20,15 @@ class SecretChatViewModel(
         CryptoEngine(context, peerId)
     }
 
+    private val keysSetLiveData = MutableLiveData<Boolean>()
+
+    fun getKeysSet() = keysSetLiveData as LiveData<Boolean>
+
     fun isKeyRequired() = crypto.isKeyRequired()
+
+    fun getFingerprint() = crypto.getFingerPrint()
+
+    fun getKeyType() = crypto.keyType
 
     fun setKey(key: String) {
         crypto.setKey(key)
@@ -42,6 +52,7 @@ class SecretChatViewModel(
             if (isExchangeStarted) {
                 crypto.finishExchange(event.text)
                 isExchangeStarted = false
+                keysSetLiveData.value = true
             } else {
                 val ownKeys = crypto.supportExchange(event.text)
                 sendMessage(ownKeys)

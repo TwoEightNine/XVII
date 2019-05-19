@@ -319,11 +319,11 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                 },
                 ContextPopupItem(R.drawable.ic_edit, R.string.user_key) {
                     showKeyInputDialog()
-                },
-                ContextPopupItem(R.drawable.ic_undo, R.string.default_key) {
-                    presenter.setDefaultKey()
-                    showToast(activity, R.string.key_reset)
                 }
+//                ContextPopupItem(R.drawable.ic_undo, R.string.default_key) {
+//                    presenter.setDefaultKey()
+//                    showToast(activity, R.string.key_reset)
+//                }
         )).show()
     }
 

@@ -45,6 +45,13 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         }
 
     var isShown = false
+        set(value) {
+            field = value
+            if (field) {
+                val message = messagesLiveData.value?.data?.getOrNull(0) ?: return
+                markAsRead(message.id.toString())
+            }
+        }
 
     init {
         EventBus.subscribeLongPollEventReceived { event ->
