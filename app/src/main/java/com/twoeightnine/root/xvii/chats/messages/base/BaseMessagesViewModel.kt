@@ -7,7 +7,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatViewModel
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatMessagesViewModel
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesViewModel
-import com.twoeightnine.root.xvii.model.Message2
+import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
 import com.twoeightnine.root.xvii.model.Wrapper
@@ -18,9 +18,9 @@ import javax.inject.Inject
 
 abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel() {
 
-    protected val messagesLiveData = WrappedMutableLiveData<ArrayList<Message2>>()
+    protected val messagesLiveData = WrappedMutableLiveData<ArrayList<Message>>()
 
-    fun getMessages() = messagesLiveData as WrappedLiveData<ArrayList<Message2>>
+    fun getMessages() = messagesLiveData as WrappedLiveData<ArrayList<Message>>
 
     abstract fun loadMessages(offset: Int = 0)
 
@@ -44,7 +44,7 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
                 }, onError)
     }
 
-    protected fun onMessagesLoaded(messages: ArrayList<Message2>, offset: Int = 0) {
+    protected fun onMessagesLoaded(messages: ArrayList<Message>, offset: Int = 0) {
         val existing = if (offset == 0) {
             arrayListOf()
         } else {

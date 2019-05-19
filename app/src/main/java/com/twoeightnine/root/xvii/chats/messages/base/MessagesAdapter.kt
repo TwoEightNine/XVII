@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.model.Message2
+import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.wallpost.WallPostActivity
@@ -26,7 +26,7 @@ class MessagesAdapter(context: Context,
                       loader: (Int) -> Unit,
                       private val callback: MessagesAdapter.Callback,
                       private val settings: MessagesAdapter.Settings
-) : BaseReachAdapter<Message2, MessagesAdapter.MessageViewHolder>(context, loader) {
+) : BaseReachAdapter<Message, MessagesAdapter.MessageViewHolder>(context, loader) {
 
     private val mediaWidth = pxFromDp(context, MEDIA_WIDTH)
 
@@ -39,11 +39,11 @@ class MessagesAdapter(context: Context,
         }
     }
 
-    override fun bind(holder: MessageViewHolder, item: Message2) {
+    override fun bind(holder: MessageViewHolder, item: Message) {
         holder.bind(item)
     }
 
-    override fun createStubLoadItem() = Message2()
+    override fun createStubLoadItem() = Message()
 
     override fun getItemViewType(position: Int): Int {
         val message = items[position]
@@ -58,7 +58,7 @@ class MessagesAdapter(context: Context,
 
     inner class MessageViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
-        fun bind(message: Message2, level: Int = 0) {
+        fun bind(message: Message, level: Int = 0) {
             putViews(itemView, message, level)
             with(itemView) {
                 rlBack.setOnClickListener { onClick(items[adapterPosition]) }
@@ -68,7 +68,7 @@ class MessagesAdapter(context: Context,
             }
         }
 
-        private fun onClick(message: Message2) {
+        private fun onClick(message: Message) {
             if (multiSelectMode) {
                 multiSelect(message)
                 invalidateBackground(message)
@@ -77,7 +77,7 @@ class MessagesAdapter(context: Context,
             }
         }
 
-        private fun onLongClick(message: Message2): Boolean {
+        private fun onLongClick(message: Message): Boolean {
             if (!multiSelectMode) {
                 multiSelectMode = true
                 multiSelect(message)
@@ -87,7 +87,7 @@ class MessagesAdapter(context: Context,
             return false
         }
 
-        private fun invalidateBackground(message: Message2, view: View = itemView, level: Int = 0) {
+        private fun invalidateBackground(message: Message, view: View = itemView, level: Int = 0) {
             with(view) {
                 rlBack.setBackgroundColor(if (level == 0 && message in multiSelect) {
                     ContextCompat.getColor(context, R.color.selected_mess)
@@ -97,7 +97,7 @@ class MessagesAdapter(context: Context,
             }
         }
 
-        private fun putViews(view: View, message: Message2, level: Int) {
+        private fun putViews(view: View, message: Message, level: Int) {
             with(view) {
                 invalidateBackground(message, this, level)
                 llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -243,7 +243,7 @@ class MessagesAdapter(context: Context,
             return Html.fromHtml(result)
         }
 
-//        private fun getAction(message: Message2) = when (message.action) {
+//        private fun getAction(message: Message) = when (message.action) {
 //            Message.IN_CHAT -> context.getString(R.string.invite_chat_full, "${message.actionMid}")
 //            Message.OUT_OF_CHAT -> context.getString(R.string.kick_chat_full, "${message.actionMid}")
 //            Message.TITLE_UPDATE -> context.getString(R.string.chat_title_updated, message.actionText)
@@ -253,7 +253,7 @@ class MessagesAdapter(context: Context,
     }
 
     interface Callback {
-        fun onClicked(message: Message2)
+        fun onClicked(message: Message)
         fun onUserClicked(userId: Int)
         fun onEncryptedFileClicked(doc: Doc)
         fun onPhotoClicked(photo: Photo)

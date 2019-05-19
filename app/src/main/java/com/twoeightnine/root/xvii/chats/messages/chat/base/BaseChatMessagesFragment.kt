@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.ChatFragment
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
@@ -22,7 +21,7 @@ import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
-import com.twoeightnine.root.xvii.model.Message2
+import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
@@ -179,7 +178,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         dialog.stylize()
     }
 
-    private fun showEditMessageDialog(message: Message2) {
+    private fun showEditMessageDialog(message: Message) {
         val context = context ?: return
 
         if (message.isOut() && time() - message.date < 3600 * 24) {
@@ -261,7 +260,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            ChatFragment.REQUEST_ATTACH -> {
+            REQUEST_ATTACH -> {
                 data?.extras?.apply {
                     getParcelableArrayList<Attachment>(AttachFragment.ARG_ATTACHMENTS)
                             ?.let(::onAttachmentsSelected)
@@ -290,10 +289,12 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         const val ARG_PHOTO = "photo"
         const val ARG_SHARE_TEXT = "shareText"
         const val ARG_SHARE_IMAGE = "shareImage"
+
+        const val REQUEST_ATTACH = 2653
     }
 
     inner class AdapterCallback : MessagesAdapter.Callback {
-        override fun onClicked(message: Message2) {
+        override fun onClicked(message: Message) {
             getContextPopup(context ?: return, R.layout.popup_message) {
                 when (it.id) {
                     R.id.llCopy -> copyToClip(message.text)
@@ -379,7 +380,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onAttachClick() {
-            AttachActivity.launch(this@BaseChatMessagesFragment, ChatFragment.REQUEST_ATTACH)
+            AttachActivity.launch(this@BaseChatMessagesFragment, REQUEST_ATTACH)
         }
 
         override fun onTypingInvoke() {

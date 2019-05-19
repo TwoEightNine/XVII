@@ -13,7 +13,7 @@ data class DialogMessage(
 
         @SerializedName("last_message")
         @Expose
-        val lastMessage: Message2
+        val lastMessage: Message
 ) {
     fun isChat() = lastMessage.peerId.matchesChatId()
 

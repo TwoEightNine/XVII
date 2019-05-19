@@ -2,7 +2,10 @@ package com.twoeightnine.root.xvii.network
 
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
-import com.twoeightnine.root.xvii.model.*
+import com.twoeightnine.root.xvii.model.Group
+import com.twoeightnine.root.xvii.model.UploadServer
+import com.twoeightnine.root.xvii.model.Uploaded
+import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.model.attachments.Video
@@ -37,12 +40,6 @@ interface ApiService {
             @Query("peer_id") peerId: Int,
             @Query("count") count: Int
     ): Flowable<BaseResponse<Any>>
-
-
-    @GET("messages.getHistory")
-    fun getHistory(@Query("count") count: Int,
-                   @Query("offset") offset: Int,
-                   @Query("user_id") userId: Int): Flowable<BaseResponse<ListResponse<Message>>>
 
     @GET("messages.getHistory?extended=1")
     @Headers(NEW_VERSION_HEADER)
@@ -104,15 +101,6 @@ interface ApiService {
             @Query("reply_to") replyTo: Int? = null,
             @Query("sticker_id") stickerId: Int? = null
     ): Flowable<BaseResponse<Int>>
-
-    @GET("messages.send")
-    fun sendChat(@Query("chat_id") chatId: Int,
-                 @Query("message") message: String,
-                 @Query("forward_messages") fwdMessages: String?,
-                 @Query("attachment") attachment: String?,
-                 @Query("sticker_id") stickerId: Int,
-                 @Query("captcha_sid") captchaSid: String?,
-                 @Query("captcha_key") captchaKey: String?): Flowable<BaseResponse<Int>>
 
     @Headers(NEW_VERSION_HEADER)
     @GET("messages.getById?extended=1")

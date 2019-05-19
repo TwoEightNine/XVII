@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.chats.messages.starred
 
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
-import com.twoeightnine.root.xvii.model.Message2
+import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
@@ -18,7 +18,7 @@ class StarredMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
                 }, ::onErrorOccurred)
     }
 
-    fun unmarkMessage(message: Message2) {
+    fun unmarkMessage(message: Message) {
         api.markMessagesAsImportant("${message.id}", 0)
                 .subscribeSmart({ response ->
                     if (response.getOrNull(0) == message.id) {
@@ -28,8 +28,8 @@ class StarredMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
                 }, ::onErrorOccurred)
     }
 
-    private fun convert(resp: BaseResponse<MessagesResponse>): BaseResponse<ArrayList<Message2>> {
-        val messages = arrayListOf<Message2>()
+    private fun convert(resp: BaseResponse<MessagesResponse>): BaseResponse<ArrayList<Message>> {
+        val messages = arrayListOf<Message>()
         val response = resp.response
         response?.messages?.items?.forEach {
             val message = putTitles(it, response)
@@ -40,10 +40,10 @@ class StarredMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
         return BaseResponse(messages, resp.error)
     }
 
-    private fun putTitles(message: Message2, response: MessagesResponse): Message2 {
+    private fun putTitles(message: Message, response: MessagesResponse): Message {
         message.name = response.getNameForMessage(message)
         message.photo = response.getPhotoForMessage(message)
-        val fwd = arrayListOf<Message2>()
+        val fwd = arrayListOf<Message>()
         message.fwdMessages?.forEach {
             fwd.add(putTitles(it, response))
         }

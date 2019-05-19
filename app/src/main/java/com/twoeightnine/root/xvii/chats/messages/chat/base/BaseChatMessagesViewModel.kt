@@ -8,7 +8,7 @@ import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.LastSeen
-import com.twoeightnine.root.xvii.model.Message2
+import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Sticker
@@ -218,19 +218,19 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                         lw("new message error: $error")
                     })
         } else {
-            addNewMessage(Message2(event, ::prepareTextIn))
+            addNewMessage(Message(event, ::prepareTextIn))
         }
     }
 
-    private fun addNewMessage(message: Message2) {
+    private fun addNewMessage(message: Message) {
         val messages = messagesLiveData.value?.data ?: return
         messages.add(0, message)
         messagesLiveData.value = Wrapper(messages)
         markAsRead(message.id.toString())
     }
 
-    private fun convert(resp: BaseResponse<MessagesHistoryResponse>, notify: Boolean = true): BaseResponse<ArrayList<Message2>> {
-        val messages = arrayListOf<Message2>()
+    private fun convert(resp: BaseResponse<MessagesHistoryResponse>, notify: Boolean = true): BaseResponse<ArrayList<Message>> {
+        val messages = arrayListOf<Message>()
         val response = resp.response
         response?.items?.forEach {
             val message = putTitles(it, response)
@@ -254,11 +254,11 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         return BaseResponse(messages, resp.error)
     }
 
-    private fun putTitles(message: Message2, response: MessagesHistoryResponse): Message2 {
+    private fun putTitles(message: Message, response: MessagesHistoryResponse): Message {
         message.name = response.getNameForMessage(message)
         message.photo = response.getPhotoForMessage(message)
         message.text = prepareTextIn(message.text)
-        val fwd = arrayListOf<Message2>()
+        val fwd = arrayListOf<Message>()
         message.fwdMessages?.forEach {
             fwd.add(putTitles(it, response))
         }

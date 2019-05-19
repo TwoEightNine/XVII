@@ -16,7 +16,6 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import android.text.Html
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
@@ -32,15 +31,12 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.model.Message
-import com.twoeightnine.root.xvii.model.User
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -614,54 +610,6 @@ fun shortifyNumber(value: Int): String {
         num += "K"
     }
     return num
-}
-
-fun getMessageFromLongPoll(event: NewMessageEvent,
-                           isShown: Boolean = false): Message {
-    val out = if (event.isOut()) 1 else 0
-    val message = Message(
-            id = event.id,
-            date = event.timeStamp,
-            userId = event.peerId,
-            out = out,
-            readState = if (isShown) 1 - out else 0,
-            title = event.title,
-            body = event.text,
-            emoji = if (event.hasEmoji()) 1 else 0
-    )
-    if (event.info.from != 0) {
-        message.userId = event.info.from
-    }
-    if (event.peerId.matchesChatId()) {
-        message.chatId = event.peerId.asChatId()
-    }
-    message.body = Html.fromHtml(message.body).toString()
-    return message
-}
-
-
-fun getMessageFromLongPollFull(event: NewMessageEvent,
-                               users: HashMap<Int, User>,
-                               isShown: Boolean = false): Message {
-    var message = getMessageFromLongPoll(event, isShown)
-    message = setMessageTitles(users, message, 0)
-    return message
-}
-
-fun setMessageTitles(users: HashMap<Int, User>, message: Message, level: Int): Message {
-    val user = users[message.userId]
-    if (user != null) {
-        message.title = user.fullName
-        message.photo = user.photo100
-    }
-    if (message.fwdMessages != null) {
-        val fwd = message.fwdMessages ?: arrayListOf()
-        for (i in fwd.indices) {
-            fwd[i] = setMessageTitles(users, fwd[i], level + 1)
-        }
-        message.fwdMessages = fwd
-    }
-    return message
 }
 
 fun writeResponseBodyToDisk(body: ResponseBody, fileName: String): Boolean {

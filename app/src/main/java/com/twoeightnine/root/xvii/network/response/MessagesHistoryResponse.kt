@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.Group
-import com.twoeightnine.root.xvii.model.Message2
+import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.utils.matchesChatId
 import com.twoeightnine.root.xvii.utils.matchesGroupId
@@ -17,7 +17,7 @@ data class MessagesHistoryResponse(
 
         @SerializedName("items")
         @Expose
-        val items: ArrayList<Message2> = arrayListOf(),
+        val items: ArrayList<Message> = arrayListOf(),
 
         @SerializedName("profiles")
         @Expose
@@ -37,19 +37,19 @@ data class MessagesHistoryResponse(
 
     fun getConversationById(id: Int) = conversations?.find { it.peer?.id == id }
 
-    fun getNameForMessage(message: Message2) = when {
+    fun getNameForMessage(message: Message) = when {
         message.peerId.matchesUserId() -> getProfileById(message.fromId)?.fullName
         message.peerId.matchesGroupId() -> getGroupById(-message.peerId)?.name
         message.peerId.matchesChatId() -> getConversationById(message.peerId)?.chatSettings?.title
         else -> null
     }
 
-    fun getPhotoForMessage(message: Message2) = when {
+    fun getPhotoForMessage(message: Message) = when {
         message.peerId.matchesUserId() -> getProfileById(message.fromId)?.photo100
         message.peerId.matchesGroupId() -> getGroupById(-message.peerId)?.photo100
         message.peerId.matchesChatId() -> getConversationById(message.peerId)?.chatSettings?.photo?.photo100
         else -> null
     }
 
-    fun isMessageRead(message: Message2) = message.id <= getConversationById(message.peerId)?.outRead ?: 0
+    fun isMessageRead(message: Message) = message.id <= getConversationById(message.peerId)?.outRead ?: 0
 }

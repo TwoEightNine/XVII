@@ -1,11 +1,13 @@
 package com.twoeightnine.root.xvii.chats.messages.chat.secret
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
+import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.network.ApiService
@@ -50,6 +52,8 @@ class SecretChatViewModel(
     override fun loadMessages(offset: Int) {
         if (!isKeyRequired()) {
             super.loadMessages(offset)
+        } else {
+            messagesLiveData.value = Wrapper(arrayListOf())
         }
     }
 
@@ -106,6 +110,7 @@ class SecretChatViewModel(
     }
 
 
+    @SuppressLint("CheckResult")
     private fun downloadDoc(doc: Doc, callback: (String) -> Unit) {
         if (doc.url == null) return
 

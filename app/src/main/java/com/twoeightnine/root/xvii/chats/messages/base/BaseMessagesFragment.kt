@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
-import com.twoeightnine.root.xvii.model.Message2
+import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.setVisible
@@ -63,7 +63,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
     protected fun getSelectedMessageIds() = adapter.multiSelect
             .joinToString(separator = ",", transform = { it.id.toString() })
 
-    private fun updateMessages(data: Wrapper<ArrayList<Message2>>) {
+    private fun updateMessages(data: Wrapper<ArrayList<Message>>) {
         swipeContainer.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
