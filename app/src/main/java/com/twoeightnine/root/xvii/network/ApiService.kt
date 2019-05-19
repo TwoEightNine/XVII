@@ -215,6 +215,7 @@ interface ApiService {
     fun uploadPhoto(@Url url: String,
                     @Part file: MultipartBody.Part): Flowable<Uploaded>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("photos.saveMessagesPhoto")
     fun saveMessagePhoto(@Query("photo") photo: String,
                          @Query("hash") hash: String,

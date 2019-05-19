@@ -58,7 +58,7 @@ class SecretChatViewModel(
                 sendMessage(ownKeys)
             }
             deleteMessages(event.id.toString(), forAll = false)
-        } else {
+        } else if (!isKeyRequired()) {
             super.onMessageReceived(event)
         }
     }
