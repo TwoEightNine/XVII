@@ -71,7 +71,8 @@
             android:clickable="true"
             android:elevation="4.1dp"
             android:focusable="true"
-            android:tag="extraLight">
+            android:tag="extraLight"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/ivCancelMulti"
