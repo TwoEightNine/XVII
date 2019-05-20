@@ -60,7 +60,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                     lastSeenLiveData.value = Pair(first = true, second = event.timeStamp)
                 }
                 is OfflineEvent -> if (event.userId == peerId) {
-                    lastSeenLiveData.value = Pair(first = true, second = event.timeStamp)
+                    lastSeenLiveData.value = Pair(first = false, second = event.timeStamp)
                 }
                 is ReadOutgoingEvent -> if (event.peerId == peerId) {
                     readOutgoingMessages()
