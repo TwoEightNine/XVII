@@ -191,7 +191,7 @@
     <string name="edit_message">edit message</string>
     <string name="unable_to_edit_message">unable to edit this message</string>
     <string name="unable_to_add_to_gallery">unable to add to gallery. it will be added automatically later</string>
-    <string name="generation_dh_hint">make sure your interlocutor has installed xvii and opened the dialog with you. it is necessary for key exchange.\nwarning! keys are valid only for one session. leaving this dialog means destroying and forgetting the keys forever!</string>
+    <string name="generation_dh_hint">make sure your interlocutor has installed xvii and opened the secret chat with you. it is necessary for key exchange</string>
     <string name="key_xchg_failed">the interlocutor have not supported the exchange. failed!</string>
     <string name="fingerprint">fingerprint</string>
     <string name="decrypting_image">image is being decrypted</string>

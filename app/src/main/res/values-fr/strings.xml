@@ -154,7 +154,7 @@
     <string name="not_now">pas maintenant</string>
     <string name="never">jamais</string>
     <string name="unable_to_add_to_gallery">incapable d\'ajouter à la gallerie. il va être ajouté bientôt</string>
-    <string name="generation_dh_hint">souyez sûr que votre interlocuteur a installé xvii et ouvert la conversation avec vous. c\'est necessaire pour l\'échangement des clés.\attention! les clés sont seulement valides dans cette session. après avoir quitté cette conversation les clés seront supprimés pour toujors!</string>
+    <string name="generation_dh_hint">souyez sûr que votre interlocuteur a installé xvii et ouvert l\'échange secret avec vous. c\'est necessaire pour l\'échangement des clés</string>
     <string name="key_xchg_failed">l\'interlocuteur n\'a pas soutenu l\'échangement. erreur!</string>
     <string name="fingerprint">empreinte digitale</string>
     <string name="decrypting_image">la photo est été décrypté</string>

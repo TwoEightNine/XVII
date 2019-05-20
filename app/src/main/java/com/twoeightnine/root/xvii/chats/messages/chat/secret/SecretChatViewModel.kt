@@ -54,6 +54,7 @@ class SecretChatViewModel(
             isExchangeStarted = true
             Completable.timer(10L, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                     .subscribe {
+                        l("exchange not supported")
                         isExchangeStarted = false
                     }
         }
