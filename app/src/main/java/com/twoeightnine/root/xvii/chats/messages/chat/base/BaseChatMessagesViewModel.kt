@@ -19,6 +19,7 @@ import com.twoeightnine.root.xvii.utils.EventBus
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.matchesUserId
 import com.twoeightnine.root.xvii.utils.subscribeSmart
+import io.reactivex.disposables.Disposable
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -36,6 +37,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     private val lastSeenLiveData = MutableLiveData<Pair<Boolean, Int>>()
     private val canWriteLiveData = MutableLiveData<CanWrite>()
     private val activityLiveData = MutableLiveData<String>()
+    private var eventsDisposable: Disposable? = null
 
     var peerId: Int = 0
         set(value) {
@@ -54,7 +56,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         }
 
     init {
-        EventBus.subscribeLongPollEventReceived { event ->
+        eventsDisposable = EventBus.subscribeLongPollEventReceived { event ->
             when (event) {
                 is OnlineEvent -> if (event.userId == peerId) {
                     lastSeenLiveData.value = Pair(first = true, second = event.timeStamp)
@@ -268,6 +270,11 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         message.fwdMessages?.clear()
         message.fwdMessages?.addAll(fwd)
         return message
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        eventsDisposable?.dispose()
     }
 
     protected fun getRandomId() = Random.nextInt()
