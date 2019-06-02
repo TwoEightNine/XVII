@@ -19,7 +19,6 @@ import com.twoeightnine.root.xvii.utils.EventBus
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.matchesUserId
 import com.twoeightnine.root.xvii.utils.subscribeSmart
-import io.reactivex.disposables.Disposable
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -37,7 +36,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     private val lastSeenLiveData = MutableLiveData<Pair<Boolean, Int>>()
     private val canWriteLiveData = MutableLiveData<CanWrite>()
     private val activityLiveData = MutableLiveData<String>()
-    private var eventsDisposable: Disposable? = null
+    private val eventsDisposable = getEventSubscription()
 
     var peerId: Int = 0
         set(value) {
@@ -54,34 +53,6 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 markAsRead(message.id.toString())
             }
         }
-
-    init {
-        eventsDisposable = EventBus.subscribeLongPollEventReceived { event ->
-            when (event) {
-                is OnlineEvent -> if (event.userId == peerId) {
-                    lastSeenLiveData.value = Pair(first = true, second = event.timeStamp)
-                }
-                is OfflineEvent -> if (event.userId == peerId) {
-                    lastSeenLiveData.value = Pair(first = false, second = event.timeStamp)
-                }
-                is ReadOutgoingEvent -> if (event.peerId == peerId) {
-                    readOutgoingMessages()
-                }
-                is TypingEvent -> if (event.userId == peerId) {
-                    activityLiveData.value = ACTIVITY_TYPING
-                }
-                is TypingChatEvent -> if (event.peerId == peerId) {
-                    activityLiveData.value = ACTIVITY_TYPING
-                }
-                is RecordingAudioEvent -> if (event.peerId == peerId) {
-                    activityLiveData.value = ACTIVITY_VOICE
-                }
-                is NewMessageEvent -> if (event.peerId == peerId) {
-                    onMessageReceived(event)
-                }
-            }
-        }
-    }
 
     /**
      * prepares outgoing message text before sending or editing
@@ -251,7 +222,9 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                     lastSeenLiveData.postValue(Pair(user.isOnline, user.lastSeen?.time ?: 0))
                 }
             }
-            canWriteLiveData.postValue(response?.conversations?.getOrNull(0)?.canWrite)
+            response?.conversations?.getOrNull(0)?.canWrite?.also { canWrite ->
+                canWriteLiveData.postValue(canWrite)
+            }
         }
         return BaseResponse(messages, resp.error)
     }
@@ -270,6 +243,32 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         message.fwdMessages?.clear()
         message.fwdMessages?.addAll(fwd)
         return message
+    }
+
+    private fun getEventSubscription() = EventBus.subscribeLongPollEventReceived { event ->
+        when (event) {
+            is OnlineEvent -> if (event.userId == peerId) {
+                lastSeenLiveData.value = Pair(first = true, second = event.timeStamp)
+            }
+            is OfflineEvent -> if (event.userId == peerId) {
+                lastSeenLiveData.value = Pair(first = false, second = event.timeStamp)
+            }
+            is ReadOutgoingEvent -> if (event.peerId == peerId) {
+                readOutgoingMessages()
+            }
+            is TypingEvent -> if (event.userId == peerId) {
+                activityLiveData.value = ACTIVITY_TYPING
+            }
+            is TypingChatEvent -> if (event.peerId == peerId) {
+                activityLiveData.value = ACTIVITY_TYPING
+            }
+            is RecordingAudioEvent -> if (event.peerId == peerId) {
+                activityLiveData.value = ACTIVITY_VOICE
+            }
+            is NewMessageEvent -> if (event.peerId == peerId) {
+                onMessageReceived(event)
+            }
+        }
     }
 
     override fun onCleared() {
