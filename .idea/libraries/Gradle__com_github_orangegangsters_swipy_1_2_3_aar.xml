@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.orangegangsters:swipy:1.2.3@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c307b42457b4263d387a8a938c212e89/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/deecb68ed8f4717f7caaae60fbd28f8d/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c307b42457b4263d387a8a938c212e89/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c307b42457b4263d387a8a938c212e89/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/deecb68ed8f4717f7caaae60fbd28f8d/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/deecb68ed8f4717f7caaae60fbd28f8d/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

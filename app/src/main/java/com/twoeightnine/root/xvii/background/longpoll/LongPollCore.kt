@@ -154,11 +154,8 @@ class LongPollCore(private val context: Context) {
 
         val shouldVibrate = Prefs.vibrateChats && !event.isUser()
                 || Prefs.vibrate && event.isUser()
-        val shouldRing = Prefs.soundChats && !event.isUser()
-                || Prefs.sound && event.isUser()
         if (!isInForeground()) {
             if (shouldVibrate) vibrate()
-//            if (shouldRing) ringtone.play()
         }
 
         val shouldShowContent = event.isUser() && Prefs.showContent

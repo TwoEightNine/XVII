@@ -139,8 +139,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             if (tracks.size > 1) {
                 startPlaying()
             } else {
-                showNotification()
-                pausingAudioSubject.onNext(Unit)
+                stop()
+                stopForeground(true)
             }
         } else {
             startPlaying()
