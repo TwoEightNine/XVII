@@ -21,6 +21,7 @@ import javax.inject.Inject
 class ImageViewerActivity : AppCompatActivity() {
 
     private val photos = arrayListOf<Photo>()
+    private val permissionHelper by lazy { PermissionHelper(this) }
     private val adapter by lazy {
         val urls = getUrlList()
         FullScreenImageAdapter(this, urls, ::onDismiss, ::onTap)
@@ -54,16 +55,22 @@ class ImageViewerActivity : AppCompatActivity() {
     private fun initButtons() {
         btnDownload.setOnClickListener {
             if (photos.isEmpty()) return@setOnClickListener
-
-            val url = currentPhoto().maxPhoto
-            val fileName = getNameFromUrl(url)
-            val filePath = File(SAVE_FILE, fileName).absolutePath
-            DownloadFileService.startService(this, url, filePath) { path ->
-                if (path != null) {
-                    addToGallery(this, path)
-                    showToast(this, getString(R.string.doenloaded, fileName))
+            permissionHelper.doOrRequest(
+                    arrayOf(PermissionHelper.WRITE_STORAGE, PermissionHelper.READ_STORAGE),
+                    R.string.no_access_to_storage,
+                    R.string.need_access_to_storage
+            ) {
+                val url = currentPhoto().maxPhoto
+                val fileName = getNameFromUrl(url)
+                val filePath = File(SAVE_FILE, fileName).absolutePath
+                DownloadFileService.startService(this, url, filePath) { path ->
+                    if (path != null) {
+                        addToGallery(this, path)
+                        showToast(this, getString(R.string.doenloaded, fileName))
+                    }
                 }
             }
+
         }
         btnSaveToAlbum.setOnClickListener {
             if (photos.isEmpty()) return@setOnClickListener
