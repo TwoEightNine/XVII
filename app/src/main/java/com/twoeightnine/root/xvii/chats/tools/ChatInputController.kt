@@ -1,20 +1,26 @@
 package com.twoeightnine.root.xvii.chats.tools
 
+import android.content.ClipDescription
 import android.content.Context
+import android.net.Uri
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
+import android.webkit.MimeTypeMap
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.emoji.Emoji
 import com.twoeightnine.root.xvii.views.emoji.EmojiKeyboard
 import kotlinx.android.synthetic.main.chat_input_panel.view.*
+import java.io.File
 import kotlin.math.abs
+
 
 /**
  * Created by msnthrp on 17/01/18.
@@ -41,6 +47,7 @@ class ChatInputController(
             ivAttach.setOnClickListener { callback.onAttachClick() }
             pbAttach.hide()
             etInput.addTextChangedListener(ChatTextWatcher())
+            etInput.onRichContentAdded = ::onRichContentAdded
             ivMic.setOnTouchListener(MicTouchListener())
         }
         emojiKeyboard.setSizeForSoftKeyboard()
@@ -142,6 +149,20 @@ class ChatInputController(
         updateKeyboardIcon()
     }
 
+    private fun onRichContentAdded(uri: Uri, description: ClipDescription) {
+        if (description.mimeTypeCount > 0) {
+            val fileExtension = MimeTypeMap.getSingleton()
+                    .getExtensionFromMimeType(description.getMimeType(0)) ?: return
+
+            val richContentFile = File(context.cacheDir, "richContent.$fileExtension")
+            if (!writeToFileFromContentUri(context, richContentFile, uri)) {
+                Lg.wtf("error adding rich content")
+            } else {
+                callback.onRichContentAdded(richContentFile.absolutePath)
+            }
+        }
+    }
+
     companion object {
         const val TYPING_INVOCATION_DELAY = 5 // seconds
     }
@@ -239,6 +260,7 @@ class ChatInputController(
         fun hasMicPermissions(): Boolean
         fun onAttachClick()
         fun onTypingInvoke()
+        fun onRichContentAdded(filePath: String)
     }
 
     private enum class KeyboardState {

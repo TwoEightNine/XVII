@@ -1,17 +1,27 @@
 package com.twoeightnine.root.xvii.views.emoji
 
+import android.content.ClipDescription
 import android.content.Context
-import androidx.appcompat.widget.AppCompatEditText
+import android.net.Uri
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.N_MR1
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.widget.EditText
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputConnection
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.view.inputmethod.EditorInfoCompat
+import androidx.core.view.inputmethod.InputConnectionCompat
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.utils.EmojiHelper
 
-class EmojiEditText : AppCompatEditText {
-    private var cursorStart = -1
-    private var cursorEnd = -1
 
+class EmojiEditText : AppCompatEditText {
+
+    var onRichContentAdded: ((Uri, ClipDescription) -> Unit)? = null
+
+    private var cursorStart = -1
     private var emojisBefore = 0
 
     constructor(context: Context) : super(context) {
@@ -34,11 +44,9 @@ class EmojiEditText : AppCompatEditText {
         if (cursorStart != -1) return
 
         cursorStart = selectionStart
-        cursorEnd = selectionEnd
-        updateText()
-        setSelection(cursorStart, cursorEnd)
+        text = EmojiHelper.getEmojied(context, text.toString())
+        setSelection(cursorStart, selectionEnd)
         cursorStart = -1
-        cursorEnd = -1
     }
 
     fun init() {
@@ -63,7 +71,32 @@ class EmojiEditText : AppCompatEditText {
         })
     }
 
-    private fun updateText() {
-        text = EmojiHelper.getEmojied(context, text.toString())
+    override fun onCreateInputConnection(editorInfo: EditorInfo): InputConnection {
+        val ic = super.onCreateInputConnection(editorInfo)
+        EditorInfoCompat.setContentMimeTypes(editorInfo, MIME_TYPES)
+        return InputConnectionCompat.createWrapper(ic, editorInfo,
+                InputConnectionCompat.OnCommitContentListener { inputContentInfo, flags, opts ->
+                    if (SDK_INT >= N_MR1 && (flags and InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION != 0)) {
+                        try {
+                            onRichContentAdded?.apply {
+                                inputContentInfo.requestPermission()
+                                invoke(
+                                        inputContentInfo.contentUri,
+                                        inputContentInfo.description
+                                )
+                                inputContentInfo.releasePermission()
+                            }
+                        } catch (e: Exception) {
+                            Lg.wtf("Error accepting rich content: " + e.message)
+                            e.printStackTrace()
+                            return@OnCommitContentListener false
+                        }
+                    }
+                    true
+                })
+    }
+
+    companion object {
+        private val MIME_TYPES = arrayOf("image/*", "image/png", "image/gif", "image/jpeg")
     }
 }
