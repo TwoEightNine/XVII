@@ -352,6 +352,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
         override fun onStickerClicked(sticker: Sticker) {
             viewModel.sendSticker(sticker, attachedAdapter.replyTo)
+            attachedAdapter.clear()
         }
 
         override fun onSendClick() {
