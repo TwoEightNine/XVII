@@ -44,8 +44,9 @@ class EmojiEditText : AppCompatEditText {
         if (cursorStart != -1) return
 
         cursorStart = selectionStart
+        val end = selectionEnd
         text = EmojiHelper.getEmojied(context, text.toString())
-        setSelection(cursorStart, selectionEnd)
+        setSelection(cursorStart, end)
         cursorStart = -1
     }
 
