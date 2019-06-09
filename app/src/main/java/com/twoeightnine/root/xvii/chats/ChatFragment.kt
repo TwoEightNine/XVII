@@ -684,6 +684,10 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     private inner class InputCallback : ChatInputController.ChatInputCallback {
 
+        override fun onRichContentAdded(filePath: String) {
+            onImagesSelected(arrayListOf(filePath))
+        }
+
         override fun onStickerClicked(sticker: Sticker) {
             presenter.sendSticker(sticker)
         }
