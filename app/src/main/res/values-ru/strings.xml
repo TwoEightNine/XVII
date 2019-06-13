@@ -273,5 +273,7 @@
     <string name="wanna_change_theme">тема была изменена. приложение будет перезапущено. продолжить?</string>
     <string name="cancel">отмена</string>
     <string name="too_deep_forwarding">слишком большая вложенность. поддержка скоро появится..</string>
+    <string name="longpoll_hint">нажмите, чтобы узнать больше</string>
+    <string name="xvii_longpoll">фоновый сервис xvii</string>
 
 </resources>

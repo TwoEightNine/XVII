@@ -1,10 +1,7 @@
 package com.twoeightnine.root.xvii.background.longpoll
 
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -35,21 +32,15 @@ import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
+
 class LongPollCore(private val context: Context) {
 
     private val vibrator by lazy { context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator }
-    private val ringtone by lazy {
-        RingtoneManager.getRingtone(
-                context,
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        )
-    }
     private val notificationManager by lazy {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     private val unreadMessages = hashMapOf<Int, ArrayList<String>>()
-    private val pendingNotifications = arrayListOf<Int>()
     private val disposables = CompositeDisposable()
     private var isRunning = false
 
@@ -263,7 +254,7 @@ class LongPollCore(private val context: Context) {
         val text = Html.fromHtml(content.last())
         val textBig = Html.fromHtml(content.joinToString(separator = "<br>"))
 
-        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
                 .setLargeIcon(icon)
                 .setSmallIcon(R.drawable.ic_envelope)
                 .setContentTitle(title)
@@ -311,7 +302,7 @@ class LongPollCore(private val context: Context) {
             val name = context.getString(R.string.app_name)
             val descriptionText = context.getString(R.string.app_name)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance)
+            val channel = NotificationChannel(NOTIFICATIONS_CHANNEL_ID, name, importance)
             channel.description = descriptionText
 
             channel.setSound(if (shouldRing) RING_URI else null, null)
@@ -320,6 +311,25 @@ class LongPollCore(private val context: Context) {
             channel.enableVibration(shouldVibrate)
 
             notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    fun showForeground(service: Service) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = context.getString(R.string.xvii_longpoll)
+            val channel = NotificationChannel(SERVICE_CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT)
+            notificationManager.createNotificationChannel(channel)
+            val explainIntent = Intent(context, LongPollExplanationActivity::class.java)
+            val explainPendingIntent = PendingIntent.getActivity(context, 0, explainIntent, 0)
+            val notification = NotificationCompat.Builder(context, SERVICE_CHANNEL_ID)
+                    .setContentIntent(explainPendingIntent)
+                    .setShowWhen(false)
+                    .setOngoing(true)
+                    .setSmallIcon(R.drawable.shape_transparent)
+                    .setContentTitle(context.getString(R.string.xvii_longpoll))
+                    .setContentText(context.getString(R.string.longpoll_hint))
+                    .build()
+            service.startForeground(9999, notification)
         }
     }
 
@@ -422,7 +432,8 @@ class LongPollCore(private val context: Context) {
 
     companion object {
 
-        private const val CHANNEL_ID = "xvii.notifications"
+        private const val NOTIFICATIONS_CHANNEL_ID = "xvii.notifications"
+        private const val SERVICE_CHANNEL_ID = "xvii.service"
 
         private const val VIBRATE_DELAY = 60L
         private const val WAIT_DELAY = 1000L

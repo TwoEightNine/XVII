@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.background.longpoll.services
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 
 
@@ -11,7 +12,11 @@ class NotificationService : Service() {
     companion object {
 
         fun launch(context: Context, intent: Intent = Intent(context, NotificationService::class.java)) {
-            context.startService(intent)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(intent)
+            } else {
+                context.startService(intent)
+            }
         }
 
         fun stop(context: Context, intent: Intent = Intent(context, NotificationService::class.java)) {
@@ -25,6 +30,7 @@ class NotificationService : Service() {
         Thread {
             core.run(intent)
         }.start()
+        core.showForeground(this)
         return START_REDELIVER_INTENT
     }
 

@@ -219,6 +219,10 @@
     <string name="need_access_to_storage">xvii needs an access to the storage to provide the feature of attaching and saving media files</string>
     <string name="tap_to_provide_permissions">tap here to allow xvii to use your storage</string>
 
+    <string name="xvii_longpoll">xvii background service</string>
+    <string name="longpoll_hint">tap to find out more</string>
+    <string name="longpoll_explanation" translatable="false">since android 8 (oreo) the operating system doesn\'t allow to run a background services and the only exception is firebase services. btw vk didn\'t publish api for its own firebase cloud messaging but longpoll. vk\'s longpoll requires a custom service and xvii needs to show this notification all the time to keep the background service running. but you can hide the notification by making a long tap on it</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>
@@ -280,6 +284,9 @@
     <string name="yellow">yellow</string>
     <string name="magenta">magenta</string>
     <string name="white">white</string>
+    <string name="unable_to_write">unfortunately, you can\'t write a message to this user</string>
+    <string name="keys_not_set">the keys aren\'t set</string>
+    <string name="empty_user_key">the key mustn\'t be empty!</string>
 
 </resources>
 
