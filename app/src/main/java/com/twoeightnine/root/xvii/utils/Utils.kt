@@ -34,7 +34,6 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadcastReceiver
-import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
@@ -126,11 +125,11 @@ fun showConfirm(context: Context?, text: String, callback: (Boolean) -> Unit) {
 
 fun startNotificationService(context: Context) {
     try {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            NotificationService.launch(context)
-        } else {
-            NotificationJobIntentService.enqueue(context)
-        }
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        NotificationService.launch(context)
+//        } else {
+//            NotificationJobIntentService.enqueue(context)
+//        }
     } catch (e: Exception) {
         e.printStackTrace()
         Lg.wtf("start service error: ${e.message}")
@@ -157,11 +156,11 @@ fun startNotificationAlarm(context: Context) {
     }
     val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
     val alarms = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    val minute = 60 * 1000L
+    val tenMinutes = 60 * 1000L * 10
     alarms.setRepeating(
             AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis() + minute,
-            minute, pendingIntent
+            System.currentTimeMillis() + tenMinutes,
+            tenMinutes, pendingIntent
     )
     Lg.i("notification alarm started")
 }
