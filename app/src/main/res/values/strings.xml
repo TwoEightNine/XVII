@@ -221,7 +221,7 @@
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap to find out more</string>
-    <string name="longpoll_explanation" translatable="false">since android 8 (oreo) the operating system doesn\'t allow to run a background services and the only exception is firebase services. btw vk didn\'t publish api for its own firebase cloud messaging but longpoll. vk\'s longpoll requires a custom service and xvii needs to show this notification all the time to keep the background service running. but you can hide the notification by making a long tap on it</string>
+    <string name="longpoll_explanation">since android 8 (oreo) the OS doesn\'t allow to run a background services and the only exception is firebase services. btw vk didn\'t publish api for its own firebase cloud messaging but the only longpoll. vk\'s longpoll requires a custom service and xvii needs to show this notification all the time to keep the background service running. but you can hide the notification by making a long tap on it\n\nmake sure you hide a notifications from background service, not vk events. see applications -> xvii -> notifications -> check if \'xvii background service\' is turned off. that\'s all</string>
 
     <string-array name="relations">
         <item>single</item>

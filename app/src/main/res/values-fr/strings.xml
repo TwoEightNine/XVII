@@ -160,6 +160,8 @@
     <string name="decrypting_image">la photo est été décrypté</string>
     <string name="invalid_file">disponible de décrypter ce fichier</string>
     <string name="fingerprint_hint">cette photo et ce texte étaient généré de les clés de chiffrement. s\'ils sont les mêmes dans un appareil de votre interlocuteur et les clés étaient mises, soyez sûr que personne ne va pas casser votre confidentialité. sinon, votre conversation n\'est pas securicée!</string>
+    <string name="longpoll_explanation">depuis android 8 (oreo) le système d\'exploitation ne permet pas lancer des services en arrière-plan et l\'exception seule c\'est des services firebase. mais vk n\'a pas publié l\'api pout sa firebase cloud messaging, seulement pour longpoll. longpoll du vk necessite une service en arrière-plan et xvii doit montrer la notification pour le temps pour continuer un travail de la service. vous pouvez cacher la notification avec un clic long\n\ns\'assurez vous cachez la notification de la service en arrière-plan, pas des event du vk. regardez applications -> xvii -> notifications -> vérifiez que \'xvii background service\' est désactivé. c\'est tout</string>
+
 
     <string-array name="relations">
         <item>célibataire</item>
