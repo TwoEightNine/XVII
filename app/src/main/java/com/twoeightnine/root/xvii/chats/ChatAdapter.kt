@@ -145,10 +145,10 @@ class ChatAdapter(context: Context,
                     !message.action.isNullOrEmpty() -> getAction(message)
                     else -> ""
                 }
-                val fewEmojis = message.isFewEmojis()
+                val largeEmojis = message.isFewEmojis() && !Prefs.appleEmojis
                 tvBody.setTextSize(
                         TypedValue.COMPLEX_UNIT_SP,
-                        if (fewEmojis) {
+                        if (largeEmojis) {
                             EMOJIS_TEXT_SIZE
                         } else {
                             USUAL_TEXT_SIZE
@@ -166,7 +166,7 @@ class ChatAdapter(context: Context,
                         View.INVISIBLE
                     }
                 }
-                llMessage.stylizeAsMessage(level + message.out, message.isSticker() || fewEmojis)
+                llMessage.stylizeAsMessage(level + message.out, message.isSticker() || largeEmojis)
                 rlImportant.hide()
                 llMessageContainer.removeAllViews()
 
