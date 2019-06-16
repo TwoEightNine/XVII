@@ -41,6 +41,9 @@ object ColorManager {
     var shouldIgnore: Boolean = false
         private set
 
+    var shapeColor: Int = 0
+        private set
+
     var defaultColor: Int = 0
         private set
 
@@ -63,6 +66,7 @@ object ColorManager {
         lightColor = other[2]
         extraLightColor = other[3]
         defaultColor = ContextCompat.getColor(context, R.color.avatar)
+        shapeColor = ContextCompat.getColor(context, R.color.shape)
         shouldIgnore = !Prefs.isLightTheme
     }
 
@@ -134,15 +138,24 @@ fun Toolbar.stylize() {
 }
 
 
-fun ViewGroup.stylizeAsMessage(level: Int) {
-    if (ColorManager.shouldIgnore) return
-
-    if (level % 2 == 0) {
-        (background as GradientDrawable)
-                .setColor(ColorManager.lightColor)
-    } else {
-        (background as GradientDrawable)
-                .setColor(ColorManager.extraLightColor)
+fun ViewGroup.stylizeAsMessage(level: Int, hide: Boolean = false) {
+    when {
+        hide -> {
+            (background as GradientDrawable)
+                    .setColor(Color.TRANSPARENT)
+        }
+        ColorManager.shouldIgnore -> {
+            (background as GradientDrawable)
+                    .setColor(ColorManager.shapeColor)
+        }
+        level % 2 == 0 -> {
+            (background as GradientDrawable)
+                    .setColor(ColorManager.lightColor)
+        }
+        else -> {
+            (background as GradientDrawable)
+                    .setColor(ColorManager.extraLightColor)
+        }
     }
 }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.text.Html
 import android.text.Spanned
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.twoeightnine.root.xvii.adapters.PaginationAdapter
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.attachments.*
+import com.twoeightnine.root.xvii.model.isFewEmojis
 import com.twoeightnine.root.xvii.model.isSticker
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.wallpost.WallPostActivity
@@ -143,6 +145,14 @@ class ChatAdapter(context: Context,
                     !message.action.isNullOrEmpty() -> getAction(message)
                     else -> ""
                 }
+                val fewEmojis = message.isFewEmojis()
+                tvBody.setTextSize(
+                        TypedValue.COMPLEX_UNIT_SP,
+                        if (fewEmojis) {
+                            EMOJIS_TEXT_SIZE
+                        } else {
+                            USUAL_TEXT_SIZE
+                        })
                 tvDate.text = getTime(message.date, withSeconds = Prefs.showSeconds)
                 civPhoto?.apply {
                     load(message.photo)
@@ -156,7 +166,7 @@ class ChatAdapter(context: Context,
                         View.INVISIBLE
                     }
                 }
-                llMessage.stylizeAsMessage(level + message.out)
+                llMessage.stylizeAsMessage(level + message.out, message.isSticker() || fewEmojis)
                 rlImportant.hide()
                 llMessageContainer.removeAllViews()
 
@@ -293,5 +303,8 @@ class ChatAdapter(context: Context,
         const val IN_USER = 2
 
         const val MEDIA_WIDTH = 276
+        const val USUAL_TEXT_SIZE = 16f
+        const val EMOJIS_TEXT_SIZE = 32f
+        const val EMOJIS_MAX_LENGTH = 14 // 7 emojis * 2 chars
     }
 }

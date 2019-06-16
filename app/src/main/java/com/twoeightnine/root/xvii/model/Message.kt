@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.isSticker
+import com.twoeightnine.root.xvii.utils.EmojiHelper
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -95,6 +96,7 @@ data class Message(
         const val TITLE_UPDATE = "chat_title_update"
         const val CREATE = "chat_create"
 
+        const val EMOJIS_MAX_LENGTH = 14
 
         fun isStubLoad(mess: Message) = mess.id == -1
 
@@ -103,6 +105,8 @@ data class Message(
 }
 
 fun Message.isSticker() = attachments?.isSticker() == true
+
+fun Message.isFewEmojis() = body.length in 1..Message.EMOJIS_MAX_LENGTH && EmojiHelper.isOnlyEmojis(body)
 
 fun Message.isSinglePhoto() = !attachments.isNullOrEmpty()
         && attachments[0].type == Attachment.TYPE_PHOTO

@@ -11,6 +11,7 @@ import android.text.style.ImageSpan
 import android.view.accessibility.AccessibilityManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.views.emoji.Emoji
 
 object EmojiHelper {
@@ -55,7 +56,7 @@ object EmojiHelper {
     fun getEmojied(context: Context, text: String,
                    builder: SpannableStringBuilder = SpannableStringBuilder(text),
                    makeSafe: Boolean = true): SpannableStringBuilder {
-//        if (true) return builder
+        if (!Prefs.appleEmojis) return builder
 
         size = context.resources.getDimensionPixelSize(R.dimen.emoji_size)
         var text = text
