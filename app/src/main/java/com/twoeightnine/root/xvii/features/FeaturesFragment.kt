@@ -22,6 +22,7 @@ import com.twoeightnine.root.xvii.features.general.GeneralActivity
 import com.twoeightnine.root.xvii.features.notifications.NotificationsActivity
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.web.WebActivity
 import kotlinx.android.synthetic.main.fragment_features.*
@@ -91,6 +92,7 @@ class FeaturesFragment : BaseFragment() {
     private fun updateAccount(account: Account) {
         ivPhoto.load(account.photo)
         tvName.text = account.name
+        if (Prefs.lowerTexts) tvName.lower()
     }
 
     private fun onPinClicked() {
@@ -126,7 +128,7 @@ class FeaturesFragment : BaseFragment() {
     }
 
     private fun suggestJoin() {
-        if (!joinGroupShown) {
+        if (!joinGroupShown && !equalsDevUids(Session.uid)) {
             viewModel.checkMembership { inGroup ->
                 if (!inGroup) {
                     showConfirm(context, getString(R.string.join_us)) { yes ->

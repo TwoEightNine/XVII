@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.lower
 import kotlinx.android.synthetic.main.item_account.view.*
 
 class AccountsAdapter(
@@ -29,6 +31,7 @@ class AccountsAdapter(
         fun bind(account: Account) {
             with(view) {
                 tvAccount.text = account.name
+                if (Prefs.lowerTexts) tvAccount.lower()
                 tvId.text = "@id${account.uid}"
                 if (Session.token == account.token) {
                     tvAccount.paintFlags = tvAccount.paintFlags or Paint.UNDERLINE_TEXT_FLAG

@@ -125,8 +125,8 @@ fun TextView.subscribeSearch(
             it.printStackTrace()
         }
 
-fun TextView.setTextLower(s: String) {
-    text = s.toLowerCase()
+fun TextView.lower() {
+    text = text.toString().toLowerCase()
 }
 
 fun EditText.asText() = text.toString()

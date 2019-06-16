@@ -33,6 +33,8 @@ class GeneralFragment : BaseOldFragment() {
         switchRead.isChecked = Prefs.markAsRead
         switchTyping.isChecked = Prefs.showTyping
         switchShowSeconds.isChecked = Prefs.showSeconds
+        switchLowerTexts.isChecked = Prefs.lowerTexts
+        switchAppleEmojis.isChecked = Prefs.appleEmojis
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
     }
 
@@ -41,6 +43,8 @@ class GeneralFragment : BaseOldFragment() {
         Prefs.markAsRead = switchRead.isChecked
         Prefs.showTyping = switchTyping.isChecked
         Prefs.showSeconds = switchShowSeconds.isChecked
+        Prefs.lowerTexts = switchLowerTexts.isChecked
+        Prefs.appleEmojis = switchAppleEmojis.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
     }
 

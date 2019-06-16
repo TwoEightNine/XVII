@@ -9,10 +9,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.utils.ColorManager
-import com.twoeightnine.root.xvii.utils.getTime
-import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.stylize
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.item_user.view.*
 
 class FriendsAdapter(context: Context,
@@ -35,6 +32,9 @@ class FriendsAdapter(context: Context,
                 d?.stylize(ColorManager.MAIN_TAG)
                 ivOnlineDot.setImageDrawable(if (user.isOnline) d else null)
                 tvName.text = user.fullName
+                if (Prefs.lowerTexts) {
+                    tvName.lower()
+                }
 
                 val stringRes = if (user.isOnline) R.string.online_seen else R.string.last_seen
                 tvInfo.text = resources.getString(stringRes,

@@ -18,6 +18,8 @@
     <string name="beoffline">be offline (as soon as possible)</string>
     <string name="markasread">mark messages as read</string>
     <string name="show_seconds">show seconds</string>
+    <string name="lower_texts">use lowercase for names and inputs</string>
+    <string name="use_apple_emojis">use apple\'s emojis</string>
     <string name="show_typing">show typing</string>
     <string name="feedback">support</string>
     <string name="copied">%s has been copied to clipboard</string>

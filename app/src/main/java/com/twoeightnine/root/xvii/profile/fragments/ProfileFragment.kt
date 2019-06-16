@@ -79,6 +79,7 @@ class ProfileFragment : BaseFragment() {
         civPhoto.load(user.photoMax)
         civPhoto.setOnClickListener { viewModel.loadPhotos(::onPhotosLoaded) }
         tvName.text = user.fullName
+        if (Prefs.lowerTexts) tvName.lower()
         rlChat.setOnClickListener { ChatActivity.launch(context, user) }
         if (!user.deactivated.isNullOrEmpty()) return
         val onlineRes = if (user.isOnline) R.string.online_seen else R.string.last_seen

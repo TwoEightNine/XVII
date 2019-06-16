@@ -70,6 +70,9 @@ class WallPostFragment : BaseOldFragment() {
     private fun putViews(holder: WallViewHolder, post: WallPost, level: Int) {
         val group = getGroup(-post.fromId)
         holder.tvTitle.text = group.name
+        if (Prefs.lowerTexts) {
+            holder.tvTitle.lower()
+        }
         holder.civAvatar.load(group.photo100)
         holder.tvDate.text = getTime(post.date, withSeconds = Prefs.showSeconds)
         holder.tvPost.text = post.text

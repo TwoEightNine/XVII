@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.CountDownTimer
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
 import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.emoji.Emoji
@@ -48,6 +50,9 @@ class ChatInputController(
             pbAttach.hide()
             etInput.addTextChangedListener(ChatTextWatcher())
             etInput.onRichContentAdded = ::onRichContentAdded
+            if (!Prefs.lowerTexts) {
+                etInput.inputType = etInput.inputType or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+            }
             ivMic.setOnTouchListener(MicTouchListener())
         }
         emojiKeyboard.setSizeForSoftKeyboard()

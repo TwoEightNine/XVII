@@ -1,10 +1,8 @@
 package com.twoeightnine.root.xvii.chats.tools
 
 import androidx.appcompat.widget.Toolbar
-import com.twoeightnine.root.xvii.utils.hide
-import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.show
-import com.twoeightnine.root.xvii.utils.time
+import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.toolbar_chat.view.*
 import rx.Completable
 import rx.Subscription
@@ -18,6 +16,7 @@ class ChatToolbarController(private val toolbar: Toolbar) {
 
     fun setTitle(title: String) {
         toolbar.tvTitle.text = title
+        if (Prefs.lowerTexts) toolbar.tvTitle.lower()
     }
 
     fun setSubtitle(subtitle: String) {

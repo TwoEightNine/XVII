@@ -20,6 +20,8 @@ object Prefs {
     private const val TYPING = "typing"
     private const val MANUAL_UPD = "manualUpd"
     private const val SHOW_SECONDS = "showSeconds"
+    private const val LOWER_TEXTS = "lowerTexts"
+    private const val APPLE_EMOJIS = "appleEmojis"
     private const val STORE_CUSTOM_KEYS = "storeCustomKeys"
 
     //notifications
@@ -80,6 +82,14 @@ object Prefs {
     var showSeconds: Boolean
         get() = data.getBoolean(SHOW_SECONDS, false)
         set(value) = data.edit().putBoolean(SHOW_SECONDS, value).apply()
+
+    var lowerTexts: Boolean
+        get() = data.getBoolean(LOWER_TEXTS, false)
+        set(value) = data.edit().putBoolean(LOWER_TEXTS, value).apply()
+
+    var appleEmojis: Boolean
+        get() = data.getBoolean(APPLE_EMOJIS, true)
+        set(value) = data.edit().putBoolean(APPLE_EMOJIS, value).apply()
 
     var storeCustomKeys
         get() = data.getBoolean(STORE_CUSTOM_KEYS, true)

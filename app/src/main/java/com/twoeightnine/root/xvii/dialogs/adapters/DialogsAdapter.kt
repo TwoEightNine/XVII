@@ -37,6 +37,7 @@ class DialogsAdapter(
                 civPhoto.load(dialog.photo)
 
                 tvTitle.text = dialog.alias ?: dialog.title
+                if (Prefs.lowerTexts) tvTitle.lower()
                 tvBody.text = if (EmojiHelper.hasEmojis(dialog.text)) {
                     EmojiHelper.getEmojied(
                             context,

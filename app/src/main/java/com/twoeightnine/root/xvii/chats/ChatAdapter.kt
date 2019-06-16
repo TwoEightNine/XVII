@@ -132,6 +132,7 @@ class ChatAdapter(context: Context,
                 })
                 llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
                 tvName?.text = message.title
+                if (Prefs.lowerTexts) tvName?.lower()
                 tvBody.setVisible(message.body.isNotEmpty() || !message.action.isNullOrEmpty())
                 tvBody.text = when {
                     message.body.isNotEmpty() -> when {
