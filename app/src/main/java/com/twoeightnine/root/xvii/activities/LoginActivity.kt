@@ -167,6 +167,7 @@ class LoginActivity : BaseActivity() {
                 "display=touch&" +
                 "v=${App.VERSION}&" +
                 "response_type=token"
+        // https://oauth.vk.com/authorize?client_id=6079611&scope=&redirect_uri=https://oauth.vk.com/blank.html&display=touch&v=5.95&response_type=token
 
     }
 

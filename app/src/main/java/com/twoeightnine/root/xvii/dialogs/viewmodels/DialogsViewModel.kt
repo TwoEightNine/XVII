@@ -67,6 +67,7 @@ class DialogsViewModel(
                     dialogsLiveData.value = Wrapper(existing.apply { addAll(dialogs) })
                     notifyDialogsChanged()
                     saveDialogsAsync(dialogs)
+                    setOffline()
                 }, ::onErrorOccurred)
     }
 
@@ -145,6 +146,13 @@ class DialogsViewModel(
             }
         }
         return BaseResponse(dialogs, resp.error)
+    }
+
+    private fun setOffline() {
+        if (Prefs.beOffline) {
+            api.setOffline()
+                    .subscribeSmart({}, {})
+        }
     }
 
     @SuppressLint("CheckResult")
