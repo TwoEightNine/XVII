@@ -14,6 +14,8 @@ import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
+import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_dialogs.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -74,29 +76,32 @@ open class DialogsFragment : BaseFragment() {
     }
 
     protected open fun onLongClick(dialog: Dialog) {
-        getContextPopup(context ?: return, R.layout.popup_dialogs) { view ->
-            when (view.id) {
-
-                R.id.llPin -> viewModel.pinDialog(dialog)
-                R.id.llRead -> viewModel.readDialog(dialog)
-                R.id.llMute -> viewModel.muteDialog(dialog)
-                R.id.llDelete -> showDeleteDialog(context) {
-                    viewModel.deleteDialog(dialog)
+        createContextPopup(context
+                ?: return, arrayListOf(
+                ContextPopupItem(R.drawable.ic_pinned, R.string.pin) {
+                    viewModel.pinDialog(dialog)
+                },
+                ContextPopupItem(R.drawable.ic_eye, R.string.read) {
+                    viewModel.readDialog(dialog)
+                },
+                ContextPopupItem(R.drawable.ic_silence, R.string.mute) {
+                    viewModel.muteDialog(dialog)
+                },
+                ContextPopupItem(R.drawable.ic_delete, R.string.delete) {
+                    showDeleteDialog(context) {
+                        viewModel.deleteDialog(dialog)
+                    }
+                },
+                ContextPopupItem(R.drawable.ic_alias, R.string.alias) {
+                    TextInputAlertDialog(
+                            contextOrThrow,
+                            dialog.title,
+                            dialog.alias ?: dialog.title
+                    ) { newAlias ->
+                        viewModel.addAlias(dialog, newAlias)
+                    }.show()
                 }
-                R.id.llAlias -> TextInputAlertDialog(
-                        contextOrThrow,
-                        dialog.title,
-                        dialog.alias ?: dialog.title
-                ) { newAlias ->
-                    viewModel.addAlias(dialog, newAlias)
-                }.show()
-            }
-        }.show()
-//        createContextPopup(context ?: return, arrayListOf(
-//                ContextPopupItem(R.drawable.ic_pin, R.string.pin) {
-//                    showToast(context, "pinpin")
-//                }
-//        )).show()
+        )).show()
     }
 
     companion object {

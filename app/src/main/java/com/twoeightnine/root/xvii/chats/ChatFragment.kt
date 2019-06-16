@@ -33,6 +33,8 @@ import com.twoeightnine.root.xvii.mvp.view.ChatFragmentView
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
+import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.FingerPrintAlertDialog
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
@@ -213,26 +215,24 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
 
     private fun showMultiSelectPopup() {
         val selectedList = adapter.multiSelect.map { it.id }.toMutableList()
-        getContextPopup(safeActivity, R.layout.popup_message_multiselect) {
-            when (it.id) {
-                R.id.llDecrypt -> {
+        createContextPopup(context ?: return, arrayListOf(
+                ContextPopupItem(R.drawable.ic_decrypt, R.string.decrypt) {
                     decrypt(selectedList)
                     adapter.clearMultiSelect()
-                }
-                R.id.llDelete -> {
+                },
+                ContextPopupItem(R.drawable.ic_delete, R.string.delete) {
                     showDeleteMessagesDialog {
                         // i haven't found how to make copy
                         val mids = MutableList(selectedList.size) { selectedList[it] }
                         presenter.deleteMessages(mids, it)
                         adapter.clearMultiSelect()
                     }
-                }
-                R.id.llMarkImportant -> {
+                },
+                ContextPopupItem(R.drawable.ic_star_popup, R.string.markasimportant) {
                     presenter.markAsImportant(selectedList, 1)
                     adapter.clearMultiSelect()
                 }
-            }
-        }.show()
+        )).show()
     }
 
     override fun onAttachmentsSent() {
@@ -307,9 +307,8 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
     }
 
     private fun showKeysDialog() {
-        getContextPopup(safeActivity, R.layout.popup_keys) {
-            when (it.id) {
-                R.id.llRandomKey -> {
+        createContextPopup(context ?: return, arrayListOf(
+                ContextPopupItem(R.drawable.ic_exchange, R.string.random_key) {
                     if (peerId.matchesUserId()) {
                         presenter.isEncrypted = false
                         safeActivity.invalidateOptionsMenu()
@@ -317,14 +316,15 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                     } else {
                         showError(activity, R.string.no_exchg_in_chats)
                     }
-                }
-                R.id.llUserKey -> showKeyInputDialog()
-                R.id.llDefaultKey -> {
+                },
+                ContextPopupItem(R.drawable.ic_edit, R.string.user_key) {
+                    showKeyInputDialog()
+                },
+                ContextPopupItem(R.drawable.ic_undo, R.string.default_key) {
                     presenter.setDefaultKey()
                     showToast(activity, R.string.key_reset)
                 }
-            }
-        }.show()
+        )).show()
     }
 
     private fun showKeyInputDialog() {
@@ -618,17 +618,20 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
         }
 
         override fun onLongClicked(message: Message): Boolean {
-            getContextPopup(safeActivity, R.layout.popup_message) {
-                when (it.id) {
-                    R.id.llCopy -> copyToClip(message.body)
-                    R.id.llEdit -> showEditMessageDialog(message)
-                    R.id.llReply -> {
+            createContextPopup(context ?: return false, arrayListOf(
+                    ContextPopupItem(R.drawable.ic_copy_popup, R.string.copy) {
+                        copyToClip(message.body)
+                    },
+                    ContextPopupItem(R.drawable.ic_edit, R.string.edit) {
+                        showEditMessageDialog(message)
+                    },
+                    ContextPopupItem(R.drawable.ic_reply_popup, R.string.reply) {
                         attachedAdapter.fwdMessages = "${message.id}"
-                    }
-                    R.id.llForward -> {
+                    },
+                    ContextPopupItem(R.drawable.ic_transfer_popup, R.string.forward) {
                         DialogsForwardActivity.launch(context, forwarded = "${message.id}")
-                    }
-                    R.id.llDelete -> {
+                    },
+                    ContextPopupItem(R.drawable.ic_delete, R.string.delete) {
                         val callback = { forAll: Boolean ->
                             presenter.deleteMessages(mutableListOf(message.id), forAll)
                         }
@@ -637,18 +640,18 @@ class ChatFragment : BaseOldFragment(), ChatFragmentView {
                         } else {
                             showDeleteDialog(safeActivity) { callback.invoke(false) }
                         }
-                    }
-                    R.id.llDecrypt -> {
+                    },
+                    ContextPopupItem(R.drawable.ic_decrypt, R.string.decrypt) {
                         message.body = getDecrypted(message.body)
                         adapter.notifyItemChanged(adapter.items.indexOf(message))
-                    }
-                    R.id.llMarkImportant ->
+                    },
+                    ContextPopupItem(R.drawable.ic_star_popup, R.string.markasimportant) {
                         presenter.markAsImportant(
                                 mutableListOf(message.id),
                                 1
                         )
-                }
-            }.show()
+                    }
+            )).show()
             return true
         }
 

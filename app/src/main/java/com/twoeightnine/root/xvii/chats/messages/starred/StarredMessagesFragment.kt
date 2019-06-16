@@ -9,14 +9,16 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
+import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
+import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
+import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.utils.copyToClip
-import com.twoeightnine.root.xvii.utils.getContextPopup
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
@@ -57,14 +59,17 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
     override fun getAdapterCallback() = object : MessagesAdapter.Callback {
 
         override fun onClicked(message: Message2) {
-
-            getContextPopup(context ?: return, R.layout.popup_important) {
-                when (it.id) {
-                    R.id.llCopy -> copyToClip(message.text)
-                    R.id.llUnmark -> viewModel.unmarkMessage(message)
-//                    R.id.llForward -> rootActivity?.loadFragment(DialogsForwardFragment.newInstance("${message.id}"))
-                }
-            }.show()
+            createContextPopup(context ?: return, arrayListOf(
+                    ContextPopupItem(R.drawable.ic_copy_popup, R.string.copy) {
+                        copyToClip(message.text)
+                    },
+                    ContextPopupItem(R.drawable.ic_star_crossed, R.string.unmark) {
+                        viewModel.unmarkMessage(message)
+                    },
+                    ContextPopupItem(R.drawable.ic_transfer_popup, R.string.forward) {
+                        DialogsForwardActivity.launch(context, message.id.toString())
+                    }
+            )).show()
         }
 
         override fun onUserClicked(userId: Int) {
