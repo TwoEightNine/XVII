@@ -295,9 +295,6 @@
     <string name="yellow">yellow</string>
     <string name="magenta">magenta</string>
     <string name="white">white</string>
-    <string name="unable_to_write">unfortunately, you can\'t write a message to this user</string>
-    <string name="keys_not_set">the keys aren\'t set</string>
-    <string name="empty_user_key">the key mustn\'t be empty!</string>
 
 </resources>
 
