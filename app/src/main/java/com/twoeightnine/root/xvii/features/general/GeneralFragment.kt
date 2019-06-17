@@ -18,7 +18,7 @@ class GeneralFragment : BaseOldFragment() {
     override fun bindViews(view: View) {
         initSwitches()
         tvClearCache.setOnClickListener {
-            showToast(activity, R.string.cache_cleared)
+            showToast(activity, R.string.cache_cleared) // TODO wtf??
         }
         llContainer.stylizeAll()
     }
