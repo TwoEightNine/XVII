@@ -80,6 +80,26 @@
                 android:text="@string/use_apple_emojis"
                 android:textSize="16sp" />
 
+            <Switch
+                android:id="@+id/switchShowStickers"
+                style="@style/MainText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="8dp"
+                android:text="@string/show_stickers"
+                android:textSize="16sp" />
+
+            <Switch
+                android:id="@+id/switchShowVoice"
+                style="@style/MainText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="8dp"
+                android:text="@string/show_voice"
+                android:textSize="16sp" />
+
             <!--<Switch-->
             <!--android:id="@+id/switchManualUpd"-->
             <!--android:layout_width="match_parent"-->

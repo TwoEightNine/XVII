@@ -35,6 +35,8 @@ class GeneralFragment : BaseOldFragment() {
         switchShowSeconds.isChecked = Prefs.showSeconds
         switchLowerTexts.isChecked = Prefs.lowerTexts
         switchAppleEmojis.isChecked = Prefs.appleEmojis
+        switchShowStickers.isChecked = Prefs.showStickers
+        switchShowVoice.isChecked = Prefs.showVoice
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
     }
 
@@ -45,6 +47,8 @@ class GeneralFragment : BaseOldFragment() {
         Prefs.showSeconds = switchShowSeconds.isChecked
         Prefs.lowerTexts = switchLowerTexts.isChecked
         Prefs.appleEmojis = switchAppleEmojis.isChecked
+        Prefs.showStickers = switchShowStickers.isChecked
+        Prefs.showVoice = switchShowVoice.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
     }
 

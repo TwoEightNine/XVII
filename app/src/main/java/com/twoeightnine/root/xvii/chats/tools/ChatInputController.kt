@@ -46,6 +46,7 @@ class ChatInputController(
         with(rootView) {
             ivSend.setOnClickListener { callback.onSendClick() }
             ivKeyboard.setOnClickListener { switchKeyboardState() }
+            ivKeyboard.setVisible(Prefs.showStickers)
             ivAttach.setOnClickListener { callback.onAttachClick() }
             pbAttach.hide()
             etInput.addTextChangedListener(ChatTextWatcher())
@@ -74,7 +75,7 @@ class ChatInputController(
         attachedCount = count
         if (count == 0) {
             rootView.rlAttachCount.visibility = View.GONE
-            if (rootView.etInput.asText().isBlank()) {
+            if (rootView.etInput.asText().isBlank() && Prefs.showVoice) {
                 switchToMic()
             } else {
                 switchToSend()
@@ -244,7 +245,7 @@ class ChatInputController(
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             val text = s ?: ""
 
-            if (text.isBlank() && attachedCount == 0) {
+            if (text.isBlank() && attachedCount == 0 && Prefs.showVoice) {
                 switchToMic()
             } else {
                 switchToSend()

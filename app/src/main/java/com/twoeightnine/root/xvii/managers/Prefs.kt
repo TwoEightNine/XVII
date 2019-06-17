@@ -22,6 +22,8 @@ object Prefs {
     private const val SHOW_SECONDS = "showSeconds"
     private const val LOWER_TEXTS = "lowerTexts"
     private const val APPLE_EMOJIS = "appleEmojis"
+    private const val SHOW_STICKERS = "showStickers"
+    private const val SHOW_VOICE = "showVoice"
     private const val STORE_CUSTOM_KEYS = "storeCustomKeys"
 
     //notifications
@@ -90,6 +92,14 @@ object Prefs {
     var appleEmojis: Boolean
         get() = data.getBoolean(APPLE_EMOJIS, true)
         set(value) = data.edit().putBoolean(APPLE_EMOJIS, value).apply()
+
+    var showStickers: Boolean
+        get() = data.getBoolean(SHOW_STICKERS, true)
+        set(value) = data.edit().putBoolean(SHOW_STICKERS, value).apply()
+
+    var showVoice: Boolean
+        get() = data.getBoolean(SHOW_VOICE, true)
+        set(value) = data.edit().putBoolean(SHOW_VOICE, value).apply()
 
     var storeCustomKeys
         get() = data.getBoolean(STORE_CUSTOM_KEYS, true)

@@ -20,6 +20,8 @@
     <string name="show_seconds">show seconds</string>
     <string name="lower_texts">use lowercase for names and inputs</string>
     <string name="use_apple_emojis">use apple\'s emojis</string>
+    <string name="show_stickers">show stickers/emojis icon</string>
+    <string name="show_voice">show voice messaging icon</string>
     <string name="show_typing">show typing</string>
     <string name="feedback">support</string>
     <string name="copied">%s has been copied to clipboard</string>
