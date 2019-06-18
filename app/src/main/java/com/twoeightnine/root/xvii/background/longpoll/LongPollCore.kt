@@ -437,9 +437,9 @@ class LongPollCore(private val context: Context) {
 
         private const val VIBRATE_DELAY = 60L
         private const val WAIT_DELAY = 1000L
-        private const val NO_NETWORK_DELAY = 5000L
+        private const val NO_NETWORK_DELAY = 2000L
 
-        private const val LAST_RUN_ALLOWED_DELAY = 1000L * 45
+        private const val LAST_RUN_ALLOWED_DELAY = 45
 
         private val RING_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         private val VIBRATE_PATTERN = longArrayOf(0L, 200L)
