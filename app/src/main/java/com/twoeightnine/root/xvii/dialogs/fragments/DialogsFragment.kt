@@ -87,7 +87,7 @@ open class DialogsFragment : BaseFragment() {
                 ContextPopupItem(R.drawable.ic_silence, R.string.mute) {
                     viewModel.muteDialog(dialog)
                 },
-                ContextPopupItem(R.drawable.ic_delete, R.string.delete) {
+                ContextPopupItem(R.drawable.ic_delete_popup, R.string.delete) {
                     showDeleteDialog(context) {
                         viewModel.deleteDialog(dialog)
                     }
