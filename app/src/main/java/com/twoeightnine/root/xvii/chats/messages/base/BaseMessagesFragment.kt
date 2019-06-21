@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
-import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.setVisible
@@ -38,6 +38,11 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
 
     protected open fun prepareViewModel() {}
 
+    /**
+     * handle 'scrolled to bottom' events
+     */
+    protected open fun onScrolled(isAtBottom: Boolean) {}
+
     override fun getLayoutId() = R.layout.fragment_chat
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,7 +53,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         initMultiAction()
         viewModel = ViewModelProviders.of(this, viewModelFactory)[getViewModelClass()]
         prepareViewModel()
-        viewModel.getMessages().observe(this, Observer { updateMessages(it) })
+        viewModel.getInteraction().observe(this, Observer { updateMessages2(it) })
         viewModel.loadMessages()
         adapter.startLoading()
 
@@ -63,16 +68,30 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
     protected fun getSelectedMessageIds() = adapter.multiSelect
             .joinToString(separator = ",", transform = { it.id.toString() })
 
-    private fun updateMessages(data: Wrapper<ArrayList<Message>>) {
+    private fun updateMessages2(data: Wrapper<Interaction>) {
         swipeContainer.isRefreshing = false
         progressBar.hide()
-        if (data.data != null) {
-            val lengthBefore = adapter.itemCount
-            val diff = adapter.lastVisiblePosition(rvChatList.layoutManager)
-            adapter.update(data.data.reversed())
-            rvChatList.scrollToPosition(adapter.itemCount - lengthBefore + diff)
-        } else {
+        if (data.data == null) {
             showError(context, data.error)
+        }
+        val interaction = data.data ?: return
+
+        when (interaction.type) {
+            Interaction.Type.CLEAR -> {
+                adapter.clear()
+            }
+            Interaction.Type.ADD -> {
+                val isAtEnd = adapter.isAtBottom(rvChatList.layoutManager as? LinearLayoutManager)
+                adapter.addAll(interaction.messages.toMutableList(), interaction.position)
+                adapter.stopLoading(interaction.messages.isEmpty())
+                if (isAtEnd) rvChatList.scrollToPosition(adapter.itemCount - 1)
+            }
+            Interaction.Type.UPDATE -> {
+                adapter.update(interaction.messages, interaction.position)
+            }
+            Interaction.Type.REMOVE -> {
+                adapter.removeAt(interaction.position)
+            }
         }
     }
 
@@ -120,9 +139,11 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
             if (fabHasMore.visibility != View.VISIBLE &&
                     adapter.lastVisiblePosition(rvChatList.layoutManager) != adapter.itemCount - 1) {
                 fabHasMore.show()
+                onScrolled(isAtBottom = false)
             } else if (fabHasMore.visibility != View.INVISIBLE
                     && adapter.lastVisiblePosition(rvChatList.layoutManager) == adapter.itemCount - 1) {
                 fabHasMore.hide()
+                onScrolled(isAtBottom = true)
             }
         }
     }

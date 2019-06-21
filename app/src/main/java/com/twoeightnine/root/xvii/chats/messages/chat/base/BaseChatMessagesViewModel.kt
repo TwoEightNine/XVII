@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.chats.messages.chat.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
+import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -38,6 +39,11 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     private val activityLiveData = MutableLiveData<String>()
     private val eventsDisposable = getEventSubscription()
 
+    /**
+     * id of last message that was marked as read. to prevent too many requests
+     */
+    private var lastMarkedAsReadId: Int = 0
+
     var peerId: Int = 0
         set(value) {
             if (field == 0) {
@@ -47,10 +53,15 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     var isShown = false
         set(value) {
+            if (field == value) return
+
             field = value
             if (field) {
-                val message = messagesLiveData.value?.data?.getOrNull(0) ?: return
-                markAsRead(message.id.toString())
+                val message = messages.lastOrNull() ?: return
+
+                if (message.id != lastMarkedAsReadId) {
+                    markAsRead(message.id)
+                }
             }
         }
 
@@ -87,10 +98,12 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 .subscribeSmart({}, {})
     }
 
-    fun markAsRead(messageIds: String) {
+    private fun markAsRead(messageId: Int) {
         if (Prefs.markAsRead && isShown) {
-            api.markAsRead(messageIds)
-                    .subscribeSmart({}, {})
+            api.markAsRead("$messageId")
+                    .subscribeSmart({
+                        lastMarkedAsReadId = messageId
+                    }, {})
         }
     }
 
@@ -165,16 +178,18 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 .subscribeSmart({ messages ->
                     onMessagesLoaded(messages, offset)
                     if (offset == 0 && messages.isNotEmpty()) {
-                        markAsRead(messages[0].id.toString())
+                        markAsRead(messages[0].id)
                     }
                 }, ::onErrorOccurred)
     }
 
     private fun readOutgoingMessages() {
-        messagesLiveData.value?.data?.forEach {
-            it.read = true
-        }
-        messagesLiveData.value = Wrapper(messagesLiveData.value?.data)
+        val firstUnreadPos = messages.indexOfFirst { !it.read }
+        if (firstUnreadPos == -1) return
+
+        val unreadMessages = messages.subList(firstUnreadPos, messages.size)
+        unreadMessages.forEach { it.read = true }
+        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.UPDATE, firstUnreadPos, unreadMessages))
     }
 
     protected open fun onMessageReceived(event: NewMessageEvent) {
@@ -196,10 +211,9 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     private fun addNewMessage(message: Message) {
-        val messages = messagesLiveData.value?.data ?: return
-        messages.add(0, message)
-        messagesLiveData.value = Wrapper(messages)
-        markAsRead(message.id.toString())
+        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, messages.size, arrayListOf(message)))
+        messages.add(message)
+        markAsRead(message.id)
     }
 
     private fun convert(resp: BaseResponse<MessagesHistoryResponse>, notify: Boolean = true): BaseResponse<ArrayList<Message>> {

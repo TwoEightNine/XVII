@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatViewModel
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatMessagesViewModel
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesViewModel
@@ -18,9 +19,14 @@ import javax.inject.Inject
 
 abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel() {
 
-    protected val messagesLiveData = WrappedMutableLiveData<ArrayList<Message>>()
+    /**
+     * stored in natural ui order: eldest first
+     */
+    protected val messages = arrayListOf<Message>()
 
-    fun getMessages() = messagesLiveData as WrappedLiveData<ArrayList<Message>>
+    protected val interactionsLiveData = WrappedMutableLiveData<Interaction>()
+
+    fun getInteraction() = interactionsLiveData as WrappedLiveData<Interaction>
 
     abstract fun loadMessages(offset: Int = 0)
 
@@ -44,18 +50,19 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
                 }, onError)
     }
 
-    protected fun onMessagesLoaded(messages: ArrayList<Message>, offset: Int = 0) {
-        val existing = if (offset == 0) {
-            arrayListOf()
-        } else {
-            messagesLiveData.value?.data ?: arrayListOf()
+    protected fun onMessagesLoaded(items: ArrayList<Message>, offset: Int = 0) {
+        val newMessages = items.reversed()
+        if (offset == 0) {
+            messages.clear()
+            interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.CLEAR))
         }
+        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, 0, newMessages))
+        messages.addAll(0, newMessages)
 
-        messagesLiveData.value = Wrapper(existing.also { it.addAll(messages) })
     }
 
     protected fun onErrorOccurred(error: String) {
-        messagesLiveData.value = Wrapper(error = error)
+        interactionsLiveData.value = Wrapper(error = error)
     }
 
     class Factory @Inject constructor(

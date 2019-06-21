@@ -149,6 +149,10 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         viewModel.isShown = false
     }
 
+    override fun onScrolled(isAtBottom: Boolean) {
+        viewModel.isShown = isAtBottom
+    }
+
     private fun initContent() {
         forwardedMessages?.also {
             handler.postDelayed({

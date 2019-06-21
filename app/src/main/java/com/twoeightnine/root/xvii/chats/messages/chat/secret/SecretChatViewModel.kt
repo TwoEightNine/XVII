@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
+import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
 import com.twoeightnine.root.xvii.lg.Lg
@@ -64,7 +65,7 @@ class SecretChatViewModel(
         if (!isKeyRequired()) {
             super.loadMessages(offset)
         } else {
-            messagesLiveData.value = Wrapper(arrayListOf())
+            interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.CLEAR))
         }
     }
 

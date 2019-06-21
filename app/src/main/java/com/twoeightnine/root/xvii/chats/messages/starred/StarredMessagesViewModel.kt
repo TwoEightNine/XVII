@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.chats.messages.starred
 
+import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
 import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.Wrapper
@@ -22,8 +23,11 @@ class StarredMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
         api.markMessagesAsImportant("${message.id}", 0)
                 .subscribeSmart({ response ->
                     if (response.getOrNull(0) == message.id) {
-                        messagesLiveData.value?.data?.remove(message)
-                        messagesLiveData.value = Wrapper(messagesLiveData.value?.data)
+//                        messagesLiveData.value?.data?.remove(message)
+//                        messagesLiveData.value = Wrapper(messagesLiveData.value?.data)
+                        val pos = messages.indexOf(message)
+                        messages.remove(message)
+                        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.REMOVE, pos))
                     }
                 }, ::onErrorOccurred)
     }

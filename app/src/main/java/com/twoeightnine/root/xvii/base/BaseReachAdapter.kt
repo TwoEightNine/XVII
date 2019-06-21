@@ -111,6 +111,11 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
         }
     }
 
+    fun stopLoading(finished: Boolean = false) {
+        remove(stubLoadItem)
+        switchStates(if (finished) State.FINISHED else State.USUAL)
+    }
+
     /**
      * restarts loading
      */
