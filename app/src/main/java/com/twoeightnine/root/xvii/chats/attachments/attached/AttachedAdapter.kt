@@ -42,9 +42,13 @@ class AttachedAdapter(
         get() = itemCount
 
     val replyTo: Int?
-        get() = try {
-            Integer.parseInt(fwdMessages)
-        } catch (e: java.lang.Exception) {
+        get() = if (isReply) {
+            try {
+                Integer.parseInt(fwdMessages)
+            } catch (e: Exception) {
+                null
+            }
+        } else {
             null
         }
 

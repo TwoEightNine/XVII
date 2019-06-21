@@ -114,7 +114,12 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     fun sendMessage(text: String? = null, attachments: String? = null,
                     replyTo: Int? = null, forwardedMessages: String? = null) {
-        api.sendMessage(peerId, getRandomId(), prepareTextOut(text), forwardedMessages, attachments, replyTo)
+        // reply with empty message is prohibited. send it as forwarded
+        if (text.isNullOrEmpty() && replyTo != null) {
+            api.sendMessage(peerId, getRandomId(), prepareTextOut(text), "$replyTo", attachments)
+        } else {
+            api.sendMessage(peerId, getRandomId(), prepareTextOut(text), forwardedMessages, attachments, replyTo)
+        }
                 .subscribeSmart({
                     setOffline()
                 }, { error ->
