@@ -9,13 +9,26 @@ object LongPollEventFactory {
     fun create(update: ArrayList<Any>): BaseLongPollEvent? {
         val type = (update[0] as Double).toInt()
         return when (type) {
+            BaseLongPollEvent.TYPE_INSTALL_FLAGS -> InstallFlagsEvent(
+                    update.asInt(1),
+                    update.asInt(2),
+                    update.asInt(3)
+            )
             BaseLongPollEvent.TYPE_NEW_MESSAGE -> NewMessageEvent(
                     update.asInt(1),
                     update.asInt(2),
                     update.asInt(3),
                     update.asInt(4),
                     Html.fromHtml(update.asString(5)).toString(),
-                    NewMessageEvent.MessageInfo.fromLinkedTreeMap(update[6] as LinkedTreeMap<String, Any>)
+                    BaseMessageEvent.MessageInfo.fromLinkedTreeMap(update[6] as LinkedTreeMap<String, Any>)
+            )
+            BaseLongPollEvent.TYPE_EDIT_MESSAGE -> EditMessageEvent(
+                    update.asInt(1),
+                    update.asInt(2),
+                    update.asInt(3),
+                    update.asInt(4),
+                    Html.fromHtml(update.asString(5)).toString(),
+                    BaseMessageEvent.MessageInfo.fromLinkedTreeMap(update[6] as LinkedTreeMap<String, Any>)
             )
             BaseLongPollEvent.TYPE_READ_INCOMING -> ReadIncomingEvent(update.asInt(1), update.asInt(2))
             BaseLongPollEvent.TYPE_READ_OUTGOING -> ReadOutgoingEvent(update.asInt(1), update.asInt(2))

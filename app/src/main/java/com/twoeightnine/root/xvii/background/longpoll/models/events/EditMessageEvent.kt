@@ -1,6 +1,6 @@
 package com.twoeightnine.root.xvii.background.longpoll.models.events
 
-class NewMessageEvent(
+class EditMessageEvent(
         id: Int,
         flags: Int,
         peerId: Int,
@@ -9,5 +9,5 @@ class NewMessageEvent(
         info: MessageInfo
 ) : BaseMessageEvent(id, flags, peerId, timeStamp, text, info) {
 
-    override fun getType() = TYPE_NEW_MESSAGE
+    override fun getType() = TYPE_EDIT_MESSAGE
 }

@@ -197,7 +197,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.UPDATE, firstUnreadPos, unreadMessages))
     }
 
-    protected open fun onMessageReceived(event: NewMessageEvent) {
+    protected open fun onMessageReceived(event: BaseMessageEvent) {
         if (!event.isOut()) {
             lastSeenLiveData.value = Pair(true, event.timeStamp)
             activityLiveData.value = ACTIVITY_NONE
@@ -206,12 +206,21 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
             api.getMessageById(event.id.toString())
                     .map { convert(it, notify = false) }
                     .subscribeSmart({
-                        addNewMessage(it.getOrNull(0) ?: return@subscribeSmart)
+                        val message = it.getOrNull(0) ?: return@subscribeSmart
+                        when (event) {
+                            is NewMessageEvent -> addNewMessage(message)
+                            is EditMessageEvent -> updateMessage(message)
+                        }
                     }, { error ->
                         lw("new message error: $error")
                     })
         } else {
-            addNewMessage(Message(event, ::prepareTextIn))
+            val message = Message(event, ::prepareTextIn)
+            when (event) {
+                is NewMessageEvent -> addNewMessage(message)
+                is EditMessageEvent -> updateMessage(message)
+            }
+
         }
     }
 
@@ -219,6 +228,22 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, messages.size, arrayListOf(message)))
         messages.add(message)
         markAsRead(message.id)
+    }
+
+    private fun updateMessage(message: Message) {
+        val pos = messages.indexOfFirst { it.id == message.id }
+        if (pos == -1) return
+
+        messages[pos] = message
+        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.UPDATE, pos, arrayListOf(message)))
+    }
+
+    private fun deleteMessage(messageId: Int) {
+        val pos = messages.indexOfFirst { it.id == messageId }
+        if (pos == -1) return
+
+        messages.removeAt(pos)
+        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.REMOVE, pos))
     }
 
     private fun convert(resp: BaseResponse<MessagesHistoryResponse>, notify: Boolean = true): BaseResponse<ArrayList<Message>> {
@@ -284,8 +309,11 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
             is RecordingAudioEvent -> if (event.peerId == peerId) {
                 activityLiveData.value = ACTIVITY_VOICE
             }
-            is NewMessageEvent -> if (event.peerId == peerId) {
+            is BaseMessageEvent -> if (event.peerId == peerId) {
                 onMessageReceived(event)
+            }
+            is InstallFlagsEvent -> if (event.peerId == peerId && event.isDeleted) {
+                deleteMessage(event.id)
             }
         }
     }

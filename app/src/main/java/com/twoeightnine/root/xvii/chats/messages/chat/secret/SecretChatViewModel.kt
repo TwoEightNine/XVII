@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.BaseMessageEvent
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
@@ -69,7 +69,7 @@ class SecretChatViewModel(
         }
     }
 
-    override fun onMessageReceived(event: NewMessageEvent) {
+    override fun onMessageReceived(event: BaseMessageEvent) {
         if (event.text.matchesXviiKeyEx()) {
             if (!event.isOut()) {
                 if (isExchangeStarted) {

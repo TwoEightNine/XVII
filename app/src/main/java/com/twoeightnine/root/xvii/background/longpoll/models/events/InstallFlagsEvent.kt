@@ -1,6 +1,13 @@
 package com.twoeightnine.root.xvii.background.longpoll.models.events
 
-class InstallFlagsEvent(private val flags: Int) : BaseLongPollEvent() {
+/**
+ * used to handle deleted messages
+ */
+class InstallFlagsEvent(
+        val id: Int,
+        val flags: Int,
+        val peerId: Int
+) : BaseLongPollEvent() {
 
     override fun getType() = TYPE_INSTALL_FLAGS
 
