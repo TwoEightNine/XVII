@@ -420,7 +420,8 @@ class LongPollCore(private val context: Context) {
         }
     }
 
-    private fun getConnectSingle(longPollServer: LongPollServer) = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
+    private fun getConnectSingle(longPollServer: LongPollServer)
+            = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
 
     @SuppressLint("CheckResult")
     private fun waitInBg(delayMs: Long) {

@@ -220,7 +220,6 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 is NewMessageEvent -> addNewMessage(message)
                 is EditMessageEvent -> updateMessage(message)
             }
-
         }
     }
 

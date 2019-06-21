@@ -245,6 +245,16 @@
         <item>in civil onion</item>
     </string-array>
 
+    <string-array name="devices">
+        <item>via mobile</item>
+        <item>via iphone</item>
+        <item>via ipad</item>
+        <item>via android</item>
+        <item>via winphone</item>
+        <item>via win8</item>
+        <item> </item>
+    </string-array>
+
     <plurals name="attach">
         <item quantity="one">%d attachment</item>
         <item quantity="other">%d attachments</item>

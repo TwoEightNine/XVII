@@ -32,7 +32,7 @@ object LongPollEventFactory {
             )
             BaseLongPollEvent.TYPE_READ_INCOMING -> ReadIncomingEvent(update.asInt(1), update.asInt(2))
             BaseLongPollEvent.TYPE_READ_OUTGOING -> ReadOutgoingEvent(update.asInt(1), update.asInt(2))
-            BaseLongPollEvent.TYPE_ONLINE -> OnlineEvent(-update.asInt(1), update.asInt(3))
+            BaseLongPollEvent.TYPE_ONLINE -> OnlineEvent(-update.asInt(1), update.asInt(2), update.asInt(3))
             BaseLongPollEvent.TYPE_OFFLINE -> OfflineEvent(-update.asInt(1), update.asInt(3))
             BaseLongPollEvent.TYPE_DELETE_MESSAGES -> DeleteMessagesEvent(update.asInt(1))
             BaseLongPollEvent.TYPE_TYPING -> TypingEvent(update.asInt(1))

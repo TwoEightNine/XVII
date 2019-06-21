@@ -20,11 +20,11 @@ class FriendsViewModel(private val api: ApiService) : ViewModel() {
     init {
         EventBus.subscribeLongPollEventReceived { event ->
             when (event) {
-                is OnlineEvent -> changeStatus(true, event.userId)
-                is OfflineEvent -> changeStatus(false, event.userId)
+                is OnlineEvent -> changeStatus(true, event.userId, event.timeStamp)
+                is OfflineEvent -> changeStatus(false, event.userId, event.timeStamp)
                 is NewMessageEvent -> {
                     if (!event.isOut() && event.peerId.matchesUserId()) {
-                        changeStatus(true, event.peerId)
+                        changeStatus(true, event.peerId, event.timeStamp)
                     }
                 }
             }
@@ -44,9 +44,10 @@ class FriendsViewModel(private val api: ApiService) : ViewModel() {
                 })
     }
 
-    private fun changeStatus(isOnline: Boolean, userId: Int) {
+    private fun changeStatus(isOnline: Boolean, userId: Int, timeStamp: Int) {
         val user = friendsLiveData.value?.data?.find { it.id == userId } ?: return
         user.isOnline = isOnline
+        user.lastSeen?.time = timeStamp
 
         friendsLiveData.value = Wrapper(friendsLiveData.value?.data)
     }
