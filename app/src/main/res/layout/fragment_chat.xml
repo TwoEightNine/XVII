@@ -91,7 +91,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
                 android:layout_toEndOf="@+id/ivCancelMulti"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 tools:text="289 messages" />
 
             <ImageView

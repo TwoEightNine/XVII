@@ -59,7 +59,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
 
     override fun getAdapterCallback() = object : MessagesAdapter.Callback {
 
-        override fun onClicked(message: Message2) {
+        override fun onClicked(message: Message) {
             createContextPopup(context ?: return, arrayListOf(
                     ContextPopupItem(R.drawable.ic_copy_popup, R.string.copy) {
                         copyToClip(message.text)

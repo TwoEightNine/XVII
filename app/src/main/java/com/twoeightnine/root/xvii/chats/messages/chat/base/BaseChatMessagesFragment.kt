@@ -26,6 +26,8 @@ import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
+import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import kotlinx.android.synthetic.main.chat_input_panel.*
@@ -295,18 +297,21 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     inner class AdapterCallback : MessagesAdapter.Callback {
         override fun onClicked(message: Message) {
-            getContextPopup(context ?: return, R.layout.popup_message) {
-                when (it.id) {
-                    R.id.llCopy -> copyToClip(message.text)
-                    R.id.llEdit -> showEditMessageDialog(message)
-                    R.id.llReply -> {
+            createContextPopup(context ?: return, arrayListOf(
+                    ContextPopupItem(R.drawable.ic_copy_popup, R.string.copy) {
+                        copyToClip(message.text)
+                    },
+                    ContextPopupItem(R.drawable.ic_edit_popup, R.string.edit) {
+                        showEditMessageDialog(message)
+                    },
+                    ContextPopupItem(R.drawable.ic_reply_popup, R.string.reply) {
                         attachedAdapter.fwdMessages = "${message.id}"
                         attachedAdapter.isReply = true
-                    }
-                    R.id.llForward -> {
+                    },
+                    ContextPopupItem(R.drawable.ic_transfer_popup, R.string.forward) {
                         DialogsForwardActivity.launch(context, forwarded = "${message.id}")
-                    }
-                    R.id.llDelete -> {
+                    },
+                    ContextPopupItem(R.drawable.ic_delete_popup, R.string.delete) {
                         val callback = { forAll: Boolean ->
                             viewModel.deleteMessages(message.id.toString(), forAll)
                         }
@@ -317,10 +322,11 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                                 showDeleteDialog(it) { callback.invoke(false) }
                             }
                         }
+                    },
+                    ContextPopupItem(R.drawable.ic_star_popup, R.string.markasimportant) {
+                        viewModel.markAsImportant(message.id.toString())
                     }
-                    R.id.llMarkImportant -> viewModel.markAsImportant(message.id.toString())
-                }
-            }.show()
+            )).show()
         }
 
         override fun onUserClicked(userId: Int) {
