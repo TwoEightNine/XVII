@@ -216,6 +216,10 @@
     <string name="ok" translatable="false">ok</string>
     <string name="cancel">cancel</string>
     <string name="too_deep_forwarding">too deep forwarding will be supported soon..</string>
+    <string name="request">request</string>
+    <string name="summary">summary</string>
+    <string name="outgoing">outgoing\ndata</string>
+    <string name="incoming">incoming\ndata</string>
 
     <string name="no_access_to_mic">no access to the mic</string>
     <string name="no_access_to_storage">no access to the storage</string>

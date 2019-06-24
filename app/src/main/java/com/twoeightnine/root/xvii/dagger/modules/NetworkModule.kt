@@ -8,6 +8,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.TokenAndVersionInterceptor
+import com.twoeightnine.root.xvii.network.datausage.DataUsageInterceptor
 import com.twoeightnine.root.xvii.utils.ApiUtils
 import dagger.Module
 import dagger.Provides
@@ -27,6 +28,11 @@ class NetworkModule {
     @Singleton
     fun provideTokenAndVersionInterceptor(): TokenAndVersionInterceptor = TokenAndVersionInterceptor()
 
+
+    @Provides
+    @Singleton
+    fun provideDataUsageInterceptor(): DataUsageInterceptor = DataUsageInterceptor()
+
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
@@ -39,10 +45,12 @@ class NetworkModule {
     @Singleton
     fun provideOkHttpClient(
             loggingInterceptor: HttpLoggingInterceptor,
-            tokenAndVersionInterceptor: TokenAndVersionInterceptor
+            tokenAndVersionInterceptor: TokenAndVersionInterceptor,
+            dataUsageInterceptor: DataUsageInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(tokenAndVersionInterceptor)
+            .addInterceptor(dataUsageInterceptor)
             .readTimeout(timeout, TimeUnit.SECONDS)
             .writeTimeout(timeout, TimeUnit.SECONDS)
             .connectTimeout(timeout, TimeUnit.SECONDS)

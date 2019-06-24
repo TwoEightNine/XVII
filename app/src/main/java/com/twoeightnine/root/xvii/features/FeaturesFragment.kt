@@ -18,6 +18,7 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.ChatActivity
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesActivity
 import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
+import com.twoeightnine.root.xvii.features.datausage.DataUsageActivity
 import com.twoeightnine.root.xvii.features.general.GeneralActivity
 import com.twoeightnine.root.xvii.features.notifications.NotificationsActivity
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
@@ -80,6 +81,10 @@ class FeaturesFragment : BaseFragment() {
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
+        tvAbout.setOnLongClickListener {
+            DataUsageActivity.launch(context)
+            true
+        }
 
         llRoot.stylizeAll()
     }

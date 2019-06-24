@@ -175,6 +175,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".background.longpoll.LongPollExplanationActivity" />
+        <activity android:name=".features.datausage.DataUsageActivity" />
 
     </application>
 
