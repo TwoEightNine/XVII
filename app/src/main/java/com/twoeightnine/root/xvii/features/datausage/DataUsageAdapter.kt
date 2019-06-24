@@ -27,7 +27,7 @@ class DataUsageAdapter(context: Context) : BaseAdapter<DataUsageEvent, DataUsage
                 var name = dataUsageEvent.name
                 name = name.replace("api.vk.com/method/", "")
                 tvName.text = name
-                tvTime.text = getTime(dataUsageEvent.timeStamp)
+                tvTime.text = getTime(dataUsageEvent.timeStamp, withSeconds = true)
                 tvOutgoing.text = getSize(resources, dataUsageEvent.requestSize.toInt())
                 tvIncoming.text = getSize(resources, dataUsageEvent.responseSize.toInt())
             }
