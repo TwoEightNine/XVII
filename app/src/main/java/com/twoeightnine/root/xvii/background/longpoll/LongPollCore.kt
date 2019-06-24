@@ -75,7 +75,6 @@ class LongPollCore(private val context: Context) {
         getConnectSingle(longPollStorage.getLongPollServer() ?: return)
                 .subscribe({ longPollUpdate: LongPollUpdate ->
                     onUpdateReceived(longPollUpdate)
-                    isRunning = false
                 }, {
                     lw("error ${it.message} during getting updates")
                     Thread.sleep(NO_NETWORK_DELAY)
@@ -105,6 +104,7 @@ class LongPollCore(private val context: Context) {
             else -> {
                 updateTs(longPollStorage.getLongPollServer() ?: return, longPollUpdate.ts)
                 deliverUpdate(longPollUpdate.updates)
+                isRunning = false
             }
         }
     }
