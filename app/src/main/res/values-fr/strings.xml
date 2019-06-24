@@ -267,6 +267,15 @@
     <string name="too_deep_forwarding">des messages trop profond sera appuyé bientôt..</string>
     <string name="longpoll_hint">tapez pour decouvrir plus</string>
     <string name="xvii_longpoll">service en arrière-plan de xvii</string>
+    <string name="use_apple_emojis">utiliser des emojis d\'apple</string>
+    <string name="summary">totallément</string>
+    <string name="show_voice">montrer l\'icône l\'audio</string>
+    <string name="show_stickers">montrer l\'icône des emojis/autocollants</string>
+    <string name="show_seconds">montrer des sécondes</string>
+    <string name="request">requête</string>
+    <string name="outgoing">données\nsortantes</string>
+    <string name="lower_texts">utiliser des minuscules pour les noms</string>
+    <string name="incoming">données\nentrantes</string>
 
 </resources>
 

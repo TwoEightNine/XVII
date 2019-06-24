@@ -276,5 +276,14 @@
     <string name="too_deep_forwarding">слишком большая вложенность. поддержка скоро появится..</string>
     <string name="longpoll_hint">нажмите, чтобы узнать больше</string>
     <string name="xvii_longpoll">фоновый сервис xvii</string>
+    <string name="use_apple_emojis">использовать смайлики apple</string>
+    <string name="summary">всего</string>
+    <string name="show_voice">показывать иконку голосовых сообщений</string>
+    <string name="show_stickers">показывать иконку смайликов/стикеров</string>
+    <string name="show_seconds">показывать секунды</string>
+    <string name="request">запрос</string>
+    <string name="outgoing">исходящие\nданные</string>
+    <string name="lower_texts">использовать строчные буквы для имен</string>
+    <string name="incoming">входящие\nданные</string>
 
 </resources>
