@@ -30,6 +30,8 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
 
     abstract fun loadMessages(offset: Int = 0)
 
+    fun getStoredMessages() = ArrayList(messages)
+
     fun loadVideo(
             context: Context,
             video: Video,

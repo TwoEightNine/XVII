@@ -275,7 +275,6 @@
     <string name="summary">totallément</string>
     <string name="show_voice">montrer l\'icône l\'audio</string>
     <string name="show_stickers">montrer l\'icône des emojis/autocollants</string>
-    <string name="show_seconds">montrer des sécondes</string>
     <string name="request">requête</string>
     <string name="outgoing">données\nsortantes</string>
     <string name="lower_texts">utiliser des minuscules pour les noms</string>

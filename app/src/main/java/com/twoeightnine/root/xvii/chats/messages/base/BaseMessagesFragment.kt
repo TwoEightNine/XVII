@@ -76,22 +76,44 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         }
         val interaction = data.data ?: return
 
-        when (interaction.type) {
-            Interaction.Type.CLEAR -> {
-                adapter.clear()
+        try {
+            when (interaction.type) {
+                Interaction.Type.CLEAR -> {
+                    adapter.clear()
+                }
+                Interaction.Type.ADD -> {
+                    val firstLoad = adapter.isEmpty
+                    val isAtEnd = adapter.isAtBottom(rvChatList.layoutManager as? LinearLayoutManager)
+                    adapter.addAll(interaction.messages.toMutableList(), interaction.position)
+                    adapter.stopLoading(interaction.messages.isEmpty())
+                    when {
+                        firstLoad -> {
+                            var unreadPos = adapter.itemCount - 1 // default last item
+                            for (index in interaction.messages.indices) {
+                                val message = interaction.messages[index]
+                                if (!message.read && !message.isOut()) {
+                                    unreadPos = index
+                                    break
+                                }
+                            }
+                            rvChatList.scrollToPosition(unreadPos)
+                        }
+                        isAtEnd -> {
+                            rvChatList.scrollToPosition(adapter.itemCount - 1)
+                        }
+                    }
+                }
+                Interaction.Type.UPDATE -> {
+                    adapter.update(interaction.messages, interaction.position)
+                }
+                Interaction.Type.REMOVE -> {
+                    adapter.removeAt(interaction.position)
+                }
             }
-            Interaction.Type.ADD -> {
-                val isAtEnd = adapter.isAtBottom(rvChatList.layoutManager as? LinearLayoutManager)
-                adapter.addAll(interaction.messages.toMutableList(), interaction.position)
-                adapter.stopLoading(interaction.messages.isEmpty())
-                if (isAtEnd) rvChatList.scrollToPosition(adapter.itemCount - 1)
-            }
-            Interaction.Type.UPDATE -> {
-                adapter.update(interaction.messages, interaction.position)
-            }
-            Interaction.Type.REMOVE -> {
-                adapter.removeAt(interaction.position)
-            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            adapter.update(viewModel.getStoredMessages())
+            rvChatList.scrollToPosition(adapter.itemCount - 1)
         }
     }
 

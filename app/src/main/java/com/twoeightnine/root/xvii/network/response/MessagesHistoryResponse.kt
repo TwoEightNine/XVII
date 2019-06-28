@@ -51,5 +51,6 @@ data class MessagesHistoryResponse(
         else -> null
     }
 
-    fun isMessageRead(message: Message) = message.id <= getConversationById(message.peerId)?.outRead ?: 0
+    fun isMessageRead(message: Message) = message.isOut() && message.id <= getConversationById(message.peerId)?.outRead ?: 0
+            || !message.isOut() && message.id <= getConversationById(message.peerId)?.inRead ?: 0
 }
