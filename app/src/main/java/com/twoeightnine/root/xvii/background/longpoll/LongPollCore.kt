@@ -29,7 +29,10 @@ import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -77,8 +80,7 @@ class LongPollCore(private val context: Context) {
                     onUpdateReceived(longPollUpdate)
                 }, {
                     lw("error ${it.message} during getting updates")
-                    Thread.sleep(NO_NETWORK_DELAY)
-                    isRunning = false
+                    waitInBg(NO_NETWORK_DELAY)
                 }).let { disposables.add(it) }
     }
 
@@ -89,12 +91,10 @@ class LongPollCore(private val context: Context) {
                     isRunning = false
                 }, { msg ->
                     lw("error during updating: $msg")
-                    Thread.sleep(NO_NETWORK_DELAY)
-                    isRunning = false
+                    waitInBg(NO_NETWORK_DELAY)
                 }, {
                     lw("no network")
-                    Thread.sleep(NO_NETWORK_DELAY)
-                    isRunning = false
+                    waitInBg(NO_NETWORK_DELAY)
                 }).let { disposables.add(it) }
     }
 
@@ -422,6 +422,15 @@ class LongPollCore(private val context: Context) {
 
     private fun getConnectSingle(longPollServer: LongPollServer) = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
 
+    @SuppressLint("CheckResult")
+    private fun waitInBg(delayMs: Long) {
+        Observable.timer(delayMs, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .subscribe {
+                    isRunning = false
+                }
+    }
+
     private fun l(s: String) {
         Lg.i("[longpoll] $s")
     }
@@ -437,7 +446,7 @@ class LongPollCore(private val context: Context) {
 
         private const val VIBRATE_DELAY = 60L
         private const val WAIT_DELAY = 1000L
-        private const val NO_NETWORK_DELAY = 2000L
+        private const val NO_NETWORK_DELAY = 5000L
 
         private const val LAST_RUN_ALLOWED_DELAY = 45
 
