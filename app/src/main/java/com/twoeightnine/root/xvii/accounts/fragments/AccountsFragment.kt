@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.adapters.AccountsAdapter
 import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.accounts.viewmodel.AccountsViewModel
+import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*
@@ -74,6 +75,7 @@ class AccountsFragment : BaseFragment() {
         R.id.menu_log_out -> {
             showConfirm(context, getString(R.string.wanna_logout)) { logout ->
                 if (logout) {
+                    NotificationService.stop(context)
                     viewModel.logOut()
                     restartApp(getString(R.string.restart_app))
                 }

@@ -19,8 +19,8 @@ class NotificationService : Service() {
             }
         }
 
-        fun stop(context: Context, intent: Intent = Intent(context, NotificationService::class.java)) {
-            context.stopService(intent)
+        fun stop(context: Context?, intent: Intent = Intent(context, NotificationService::class.java)) {
+            context?.stopService(intent)
         }
     }
 
