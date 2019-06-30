@@ -9,10 +9,10 @@ import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.LastSeen
-import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Sticker
+import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.MessagesHistoryResponse
@@ -265,9 +265,16 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         response?.items?.forEach {
             val message = putTitles(it, response)
             message.read = response.isMessageRead(message)
+            message.action?.apply {
+                actioner = response.getProfileById(message.fromId)
+                memberId?.also { left = response.getProfileById(it) }
+
+
+            }
             val isEmptyMessage = message.text.isEmpty()
                     && message.fwdMessages.isNullOrEmpty()
                     && message.attachments.isNullOrEmpty()
+                    && !message.isSystem()
             if (!isEmptyMessage) {
                 messages.add(message)
             }

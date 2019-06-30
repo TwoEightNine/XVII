@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.model
+package com.twoeightnine.root.xvii.model.messages
 
 import android.content.Context
 import android.os.Parcelable
@@ -39,9 +39,9 @@ data class Message(
         @Expose
         val out: Int = 0,
 
-//        @SerializedName("action")
-//        @Expose
-//        val action: String? = null,
+        @SerializedName("action")
+        @Expose
+        val action: MessageAction? = null,
 //
 //        @SerializedName("action_text")
 //        @Expose
@@ -87,6 +87,8 @@ data class Message(
     )
 
     fun isOut() = out == 1
+
+    fun isSystem() = action != null
 
     fun isSticker() = attachments != null && attachments.isSticker() && replyMessage == null
 

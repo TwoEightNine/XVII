@@ -8,11 +8,11 @@ import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatViewModel
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatMessagesViewModel
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesViewModel
-import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Video
+import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import javax.inject.Inject

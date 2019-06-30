@@ -13,8 +13,8 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.attachments.*
+import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.wallpost.WallPostActivity
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
@@ -35,6 +35,7 @@ class MessagesAdapter(context: Context,
             OUT -> MessageViewHolder(inflater.inflate(R.layout.item_message_out, null))
             IN_CHAT -> MessageViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
             IN_USER -> MessageViewHolder(inflater.inflate(R.layout.item_message_in_user, null))
+            SYSTEM -> MessageViewHolder(inflater.inflate(R.layout.item_message_system, null))
             else -> MessageViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
         }
     }
@@ -50,6 +51,7 @@ class MessagesAdapter(context: Context,
         val superType = super.getItemViewType(position)
         return when {
             superType != NO_STUB -> superType
+            message.isSystem() -> SYSTEM
             message.isOut() -> OUT
             message.isChat() || settings.isImportant -> IN_CHAT
             else -> IN_USER
@@ -60,11 +62,13 @@ class MessagesAdapter(context: Context,
 
         fun bind(message: Message, level: Int = 0) {
             putViews(itemView, message, level)
-            with(itemView) {
-                rlBack.setOnClickListener { onClick(items[adapterPosition]) }
-                rlBack.setOnLongClickListener { onLongClick(items[adapterPosition]) }
-                tvBody.setOnClickListener { onClick(items[adapterPosition]) }
-                tvBody.setOnLongClickListener { onLongClick(items[adapterPosition]) }
+            if (!message.isSystem()) {
+                with(itemView) {
+                    rlBack.setOnClickListener { onClick(items[adapterPosition]) }
+                    rlBack.setOnLongClickListener { onLongClick(items[adapterPosition]) }
+                    tvBody.setOnClickListener { onClick(items[adapterPosition]) }
+                    tvBody.setOnLongClickListener { onLongClick(items[adapterPosition]) }
+                }
             }
         }
 
@@ -99,6 +103,10 @@ class MessagesAdapter(context: Context,
 
         private fun putViews(view: View, message: Message, level: Int) {
             with(view) {
+                if (message.isSystem()) {
+                    tvSystem.text = message.action?.getSystemMessage(context)
+                    return
+                }
                 invalidateBackground(message, this, level)
                 llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
                 tvName?.text = message.name
@@ -270,6 +278,7 @@ class MessagesAdapter(context: Context,
         const val OUT = 0
         const val IN_CHAT = 1
         const val IN_USER = 2
+        const val SYSTEM = 3
 
         const val MEDIA_WIDTH = 276
     }

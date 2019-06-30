@@ -1,6 +1,6 @@
 package com.twoeightnine.root.xvii.chats.messages
 
-import com.twoeightnine.root.xvii.model.Message
+import com.twoeightnine.root.xvii.model.messages.Message
 
 /**
  * for interaction with messages

@@ -4,8 +4,8 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.Group
-import com.twoeightnine.root.xvii.model.Message
 import com.twoeightnine.root.xvii.model.User
+import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.matchesChatId
 import com.twoeightnine.root.xvii.utils.matchesGroupId
 import com.twoeightnine.root.xvii.utils.matchesUserId

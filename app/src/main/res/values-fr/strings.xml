@@ -100,7 +100,7 @@
     <string name="privacy_policy">politique de confidentialité</string>
     <string name="chat">tchat</string>
     <string name="leave_chat">quitter le tchat</string>
-    <string name="chat_title_updated">nom du tchat était mis à jour: \"%s\"</string>
+    <string name="chat_title_updated">%s a mis à jour le nom du tchat: \"%s\"</string>
     <string name="new_dialog">nouvelle conversation</string>
     <string name="offline_hint">attention! tous clients ne peuvent plus appuyer mode hors ligne. c\'est causé par vk api qui allume le statut automatiquement chaque fois aprés mis á jour. heureusement, vous pouvez allumer mode \"presque\" hors ligne qui vous fera hors ligne, mais votre last seen time sera changé.</string>
     <string name="ten_attachments">vous ne pouvez pas ajouter plus de 10 attachments</string>
