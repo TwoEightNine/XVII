@@ -288,5 +288,9 @@
     <string name="outgoing">исходящие\nданные</string>
     <string name="lower_texts">использовать строчные буквы для имен</string>
     <string name="incoming">входящие\nданные</string>
+    <string name="chat_photo_updated">%s изменил фото беседы</string>
+    <string name="user_kicked_user">%s исключил %s</string>
+    <string name="user_leaved_chat">%s покинул беседу</string>
+    <string name="user_pinned_message">%s закрепил сообщение: \"%s\"</string>
 
 </resources>

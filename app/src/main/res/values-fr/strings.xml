@@ -279,6 +279,10 @@
     <string name="outgoing">données\nsortantes</string>
     <string name="lower_texts">utiliser des minuscules pour les noms</string>
     <string name="incoming">données\nentrantes</string>
+    <string name="chat_photo_updated">%s a mis à jour le photo du tchat</string>
+    <string name="user_kicked_user">% a vivé %s</string>
+    <string name="user_leaved_chat">%s a laissé le tchat</string>
+    <string name="user_pinned_message">%s a épinglé le message: \"%s\"</string>
 
 </resources>
 
