@@ -131,11 +131,13 @@
         <RelativeLayout
             android:id="@+id/rlUnreadCount"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="23dp"
             android:layout_alignTop="@+id/civPhoto"
             android:layout_alignEnd="@+id/civPhoto"
+            android:layout_marginTop="-1.5dp"
+            android:layout_marginEnd="-1.5dp"
             android:background="@drawable/unread_count_shape"
-            android:minWidth="20dp"
+            android:minWidth="23dp"
             android:tag="main">
 
             <TextView
@@ -144,10 +146,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_margin="2dp"
+                android:fontFamily="sans-serif-light"
                 android:text="1"
                 android:textColor="@color/background"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
