@@ -11,7 +11,9 @@ fun getTime(ts: Int, shortened: Boolean = false, withSeconds: Boolean = false, f
     val date = Date(ts * 1000L)
     val today = Date()
     if (format != null) {
-        return SimpleDateFormat(format).format(date)
+        return SimpleDateFormat(format)
+                .also { it.timeZone = TimeZone.getDefault() }
+                .format(date)
     }
     val seconds = if (withSeconds) ":ss" else ""
     val fmt = when {
@@ -23,7 +25,10 @@ fun getTime(ts: Int, shortened: Boolean = false, withSeconds: Boolean = false, f
         today.year == date.year -> "dd MMM"
         else -> "dd MMM yyyy"
     }
-    return SimpleDateFormat(fmt).format(date).toLowerCase()
+    return SimpleDateFormat(fmt)
+            .also { it.timeZone = TimeZone.getDefault() }
+            .format(date)
+            .toLowerCase()
 }
 
 fun secToTime(sec: Int): String {
@@ -41,7 +46,13 @@ fun formatDate(date: String): String = try {
     val isTruncated = date.count { it == '.' } == 1
     val inPattern = if (isTruncated) "dd.MM" else "dd.MM.yyyy"
     val outPattern = if (isTruncated) "dd MMM" else "dd MMM yyyy"
-    SimpleDateFormat(outPattern).format(SimpleDateFormat(inPattern).parse(date))
+    SimpleDateFormat(outPattern)
+            .also { it.timeZone = TimeZone.getDefault() }
+            .format(
+                    SimpleDateFormat(inPattern)
+                            .also { it.timeZone = TimeZone.getDefault() }
+                            .parse(date)
+            )
 } catch (e: Exception) {
     Lg.wtf("format date: ${e.message}")
     e.printStackTrace()
