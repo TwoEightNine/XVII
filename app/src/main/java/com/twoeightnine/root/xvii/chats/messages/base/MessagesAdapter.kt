@@ -125,7 +125,7 @@ class MessagesAdapter(context: Context,
                         View.INVISIBLE
                     }
                 }
-                llMessage.stylizeAsMessage(level + message.out)
+                llMessage.stylizeAsMessage(level + message.out, hide = message.isSticker())
                 rlImportant.hide()
                 llMessageContainer.removeAllViews()
 

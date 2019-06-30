@@ -58,8 +58,8 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
             messages.clear()
             interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.CLEAR))
         }
-        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, 0, newMessages))
         messages.addAll(0, newMessages)
+        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, 0, newMessages))
 
     }
 

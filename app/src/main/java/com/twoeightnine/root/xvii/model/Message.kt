@@ -88,7 +88,7 @@ data class Message(
 
     fun isOut() = out == 1
 
-    fun isSticker() = attachments != null && attachments.isSticker()
+    fun isSticker() = attachments != null && attachments.isSticker() && replyMessage == null
 
     fun hasPhotos() = attachments != null && attachments.photosCount() > 0
 

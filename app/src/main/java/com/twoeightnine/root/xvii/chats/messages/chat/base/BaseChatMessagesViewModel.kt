@@ -177,6 +177,19 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 })
     }
 
+    /**
+     * helps with synchronising ui and viewmodel
+     * checks [lastMessageId] with id of last stored message in [messages]
+     * if not the same invokes interaction to update ui
+     */
+    fun invalidateMessages(lastMessageId: Int) {
+        if (messages.lastOrNull()?.id != lastMessageId) {
+            lw("invalidate messages: last was $lastMessageId")
+            interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.CLEAR))
+            interactionsLiveData.value = Wrapper((Interaction(Interaction.Type.ADD, 0, messages)))
+        }
+    }
+
     override fun loadMessages(offset: Int) {
         api.getMessages(peerId, COUNT, offset)
                 .map { convert(it) }
@@ -224,8 +237,9 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     private fun addNewMessage(message: Message) {
-        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, messages.size, arrayListOf(message)))
+        val count = messages.size
         messages.add(message)
+        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, count, arrayListOf(message)))
         markAsRead(message.id)
     }
 
