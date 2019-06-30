@@ -6,6 +6,8 @@ import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.activities.ContentActivity
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
+import com.twoeightnine.root.xvii.utils.writeToFileFromContentUri
+import java.io.File
 
 class DialogsForwardActivity : ContentActivity() {
 
@@ -19,7 +21,15 @@ class DialogsForwardActivity : ContentActivity() {
             }
             intent?.action == Intent.ACTION_SEND
                     && intent.type?.startsWith("image/") == true -> {
-                shareImage = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.path
+                intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)?.also { uri ->
+                    val imageFile = File(cacheDir, "share.jpg")
+                    val written = writeToFileFromContentUri(this, imageFile, uri)
+                    shareImage = if (written) {
+                        imageFile.absolutePath
+                    } else {
+                        uri.path
+                    }
+                }
             }
             else -> {
                 forwarded = intent?.extras?.getString(DialogsForwardFragment.ARG_FORWARDED)
