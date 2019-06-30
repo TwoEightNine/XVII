@@ -4,7 +4,9 @@ import com.twoeightnine.root.xvii.utils.time
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class DataUsageInterceptor : Interceptor {
+class DataUsageInterceptor(
+        private val type: DataUsageEvent.Type = DataUsageEvent.Type.API
+) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
@@ -22,7 +24,7 @@ class DataUsageInterceptor : Interceptor {
         responseSize += response.headers().byteCount()
         responseSize += response.code().toString().length
 
-        events.add(DataUsageEvent(requestUrl, requestSize, responseSize, time()))
+        events.add(DataUsageEvent(requestUrl, requestSize, responseSize, time(), type))
         return response
     }
 

@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.utils.XviiPicasso
 
 class FullScreenImageAdapter(private val activity: Activity,
                              private val urls: ArrayList<String>,
@@ -33,7 +33,7 @@ class FullScreenImageAdapter(private val activity: Activity,
         val url = urls[position]
         val fromFile = url.startsWith("file://")
 
-        var requestCreator = Picasso.get()
+        var requestCreator = XviiPicasso.get()
                 .load(urls[position])
 
         if (fromFile) {

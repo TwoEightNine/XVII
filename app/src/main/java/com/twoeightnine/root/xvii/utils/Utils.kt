@@ -432,7 +432,7 @@ fun getNameFromUrl(url: String): String {
 fun loadBitmapIcon(url: String?, callback: (Bitmap) -> Unit) {
     val uiHandler = Handler(Looper.getMainLooper())
     uiHandler.post {
-        Picasso.get()
+        XviiPicasso.get()
                 .loadRounded(url)
                 .resize(200, 200)
                 .centerCrop()

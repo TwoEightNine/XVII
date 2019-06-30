@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.features.appearance
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
@@ -68,7 +67,7 @@ class AppearanceFragment : BaseOldFragment() {
         llPicker.setVisible(isNightBefore)
         switchNight.isChecked = isNightBefore
         if (Prefs.chatBack.isNotEmpty()) {
-            Picasso.get()
+            XviiPicasso.get()
                     .load("file://${Prefs.chatBack}")
                     .resize(100, 100)
                     .centerCrop()
@@ -124,7 +123,7 @@ class AppearanceFragment : BaseOldFragment() {
     }
 
     private fun hideDialog(newPath: String) {
-        Picasso.get()
+        XviiPicasso.get()
                 .load("file://$newPath")
                 .resize(100, 100)
                 .centerCrop()

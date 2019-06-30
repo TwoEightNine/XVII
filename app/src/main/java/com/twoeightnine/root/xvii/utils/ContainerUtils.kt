@@ -10,7 +10,6 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
@@ -35,7 +34,7 @@ fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): Vie
 //    view.layoutParams = LinearLayout.LayoutParams(newWidth, newHeight)
 //    (view.layoutParams as? LinearLayout.LayoutParams)?.setMargins(0, 7, 0, 0)
     val view = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-    Picasso.get()
+    XviiPicasso.get()
             .loadRounded(photo.getOptimalPhoto().url)
             .resize(pxFromDp(context, 250), pxFromDp(context, 300))
             .centerCrop()
@@ -54,7 +53,7 @@ fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}
     params.topMargin = 12
     params.bottomMargin = 12
     iv.layoutParams = params
-    Picasso.get()
+    XviiPicasso.get()
             .loadRounded(photoSize.url)
             .resize(width, ivHeight)
             .centerCrop()
@@ -66,7 +65,7 @@ fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}
 fun getGif(doc: Doc, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
     val ivVideo = included.findViewById<ImageView>(R.id.ivVideo)
-    Picasso.get()
+    XviiPicasso.get()
             .loadRounded(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
@@ -139,7 +138,7 @@ fun getLink(link: Link, context: Context): View {
 
 fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
-    Picasso.get()
+    XviiPicasso.get()
             .loadRounded(video.maxPhoto)
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()

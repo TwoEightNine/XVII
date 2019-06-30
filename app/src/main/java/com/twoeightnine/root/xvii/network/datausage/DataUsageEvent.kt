@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.network.datausage
 data class DataUsageEvent(
 
         /**
-         * ui-friendly identifier
+         * name of request
          */
         val name: String,
 
@@ -18,7 +18,25 @@ data class DataUsageEvent(
         val responseSize: Long,
 
         /**
-         * time when the request was sent
+         * time when the request was finished
          */
-        val timeStamp: Int
-)
+        val timeStamp: Int,
+
+        val type: Type
+) {
+    /**
+     * type of request
+     */
+    enum class Type {
+
+        /**
+         * usual call to vk api
+         */
+        API,
+
+        /**
+         * loading photo using [XviiPicasso]
+         */
+        PHOTO
+    }
+}
