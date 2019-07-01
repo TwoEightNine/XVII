@@ -2,8 +2,9 @@ package com.twoeightnine.root.xvii.features.general
 
 import android.os.Bundle
 import android.view.View
+import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.fragments.BaseOldFragment
+import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.showToast
 import com.twoeightnine.root.xvii.utils.stylizeAll
@@ -13,9 +14,10 @@ import kotlinx.android.synthetic.main.fragment_general.*
  * Created by root on 2/2/17.
  */
 
-class GeneralFragment : BaseOldFragment() {
+class GeneralFragment : BaseFragment() {
 
-    override fun bindViews(view: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initSwitches()
         tvClearCache.setOnClickListener {
             showToast(activity, R.string.cache_cleared) // TODO wtf??
@@ -57,7 +59,7 @@ class GeneralFragment : BaseOldFragment() {
         saveSwitches()
     }
 
-    override fun getLayout() = R.layout.fragment_general
+    override fun getLayoutId() = R.layout.fragment_general
 
     companion object {
 

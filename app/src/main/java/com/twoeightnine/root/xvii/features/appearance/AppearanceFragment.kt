@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
 import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -11,7 +12,7 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import kotlinx.android.synthetic.main.fragment_appearance.*
 
-class AppearanceFragment : BaseOldFragment() {
+class AppearanceFragment : BaseFragment() {
 
     private lateinit var bottomSheetHelper: BottomSheetHelper
     private lateinit var permissionHelper: PermissionHelper
@@ -19,12 +20,11 @@ class AppearanceFragment : BaseOldFragment() {
     private var isNightBefore = false
     private var colorBefore = 0
     private var currentColor = 0
-    private var changesApproved = false
 
     var dialog: LoadingDialog? = null
 
-    override fun bindViews(view: View) {
-        super.bindViews(view)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         colorBefore = Prefs.color
         currentColor = colorBefore
         initViews()
@@ -43,7 +43,7 @@ class AppearanceFragment : BaseOldFragment() {
         permissionHelper = PermissionHelper(this)
     }
 
-    override fun getLayout() = R.layout.fragment_appearance
+    override fun getLayoutId() = R.layout.fragment_appearance
 
     private fun applyColors() {
         val colors = ColorManager.getFromMain(currentColor)
@@ -98,8 +98,10 @@ class AppearanceFragment : BaseOldFragment() {
     }
 
     private fun showDialog() {
+        val context = context ?: return
+
         if (Prefs.chatBack.isNotEmpty()) {
-            val dialog = AlertDialog.Builder(safeActivity)
+            val dialog = AlertDialog.Builder(context)
                     .setMessage(R.string.chat_back_exists)
                     .setPositiveButton(R.string.change) { _, _ -> openGallery() }
                     .setNegativeButton(R.string.delete) { _, _ -> deletePhoto() }
@@ -117,7 +119,9 @@ class AppearanceFragment : BaseOldFragment() {
     }
 
     private fun convertPhoto(path: String) {
-        val newPath = getCroppedImagePath(safeActivity, path)
+        val activity = activity ?: return
+
+        val newPath = getCroppedImagePath(activity, path)
         Prefs.chatBack = newPath
         hideDialog(newPath)
     }

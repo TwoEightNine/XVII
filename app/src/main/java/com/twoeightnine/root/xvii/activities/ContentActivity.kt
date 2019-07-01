@@ -6,6 +6,11 @@ import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.stylize
 
+/**
+ * it is often needed to place the only fragment inside an activity
+ * so this activity is for this case!
+ * just extend it and override [createFragment]
+ */
 abstract class ContentActivity : BaseActivity() {
 
     protected open fun getLayoutId() = R.layout.activity_content
