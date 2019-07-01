@@ -83,10 +83,11 @@ class ProfileFragment : BaseFragment() {
         if (Prefs.lowerTexts) tvName.lower()
         rlChat.setOnClickListener { ChatActivity.launch(context, user) }
         if (!user.deactivated.isNullOrEmpty()) return
-        val onlineRes = if (user.isOnline) R.string.online_seen else R.string.last_seen
-        val lastSeen = getString(onlineRes, getTime(user.lastSeen?.time ?: 0, withSeconds = Prefs.showSeconds))
-        val deviceCodeName = OnlineEvent.getDeviceName(context, user.lastSeen?.platform ?: 0)
-        tvLastSeen.text = "$lastSeen $deviceCodeName"
+
+        user.lastSeen?.also {
+            tvLastSeen.text = getLastSeenText(context?.resources, user.isOnline, it.time, it.platform)
+        }
+
         add(R.string.link, user.link, { goTo(user.link) }) { copy(user.link, R.string.link) }
         add(R.string.id, "${user.id}", null) { copy("${user.id}", R.string.id) }
         add(R.string.status, user.status, null) { copy(user.status, R.string.status) }

@@ -1,6 +1,6 @@
 package com.twoeightnine.root.xvii.background.longpoll.models.events
 
-import android.content.Context
+import android.content.res.Resources
 import com.twoeightnine.root.xvii.R
 
 data class OnlineEvent(
@@ -16,10 +16,10 @@ data class OnlineEvent(
 
     companion object {
 
-        fun getDeviceName(context: Context?, deviceCode: Int): String {
-            if (context == null || deviceCode !in 1..7) return ""
+        fun getDeviceName(resources: Resources?, deviceCode: Int): String {
+            if (resources == null || deviceCode !in 1..7) return ""
 
-            return context.resources.getStringArray(R.array.devices)[deviceCode - 1]
+            return resources.getStringArray(R.array.devices)[deviceCode - 1]
         }
 
     }

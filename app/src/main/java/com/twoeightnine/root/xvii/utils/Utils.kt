@@ -31,12 +31,14 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.managers.Prefs
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -107,6 +109,20 @@ fun showAlert(context: Context?, text: String?, onOkPressed: (() -> Unit)? = nul
             .create()
     dialog.show()
     dialog.stylize()
+}
+
+fun getLastSeenText(resources: Resources?, isOnline: Boolean, timeStamp: Int, deviceCode: Int): String {
+    if (resources == null) return ""
+
+    val deviceCodeName = OnlineEvent.getDeviceName(resources, deviceCode)
+    val time = if (timeStamp == 0) {
+        time() - (if (isOnline) 0 else 300)
+    } else {
+        timeStamp
+    }
+    val stringRes = if (isOnline) R.string.online_seen else R.string.last_seen
+    val lastSeen = resources.getString(stringRes, getTime(time, withSeconds = Prefs.showSeconds))
+    return "$lastSeen $deviceCodeName"
 }
 
 fun showConfirm(context: Context?, text: String, callback: (Boolean) -> Unit) {

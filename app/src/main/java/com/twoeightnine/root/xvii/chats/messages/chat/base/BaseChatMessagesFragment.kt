@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
@@ -224,22 +223,10 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
      *  - device code
      */
     private fun onOnlineChanged(value: Triple<Boolean, Int, Int>) {
-        val isOnline = value.first
-        val timeStamp = value.second
-        val deviceCodeName = OnlineEvent.getDeviceName(context, value.third)
         chatToolbarController.setSubtitle(when {
             peerId.matchesChatId() -> getString(R.string.conversation)
             peerId.matchesGroupId() -> getString(R.string.community)
-            else -> {
-                val time = if (timeStamp == 0) {
-                    time() - (if (isOnline) 0 else 300)
-                } else {
-                    timeStamp
-                }
-                val stringRes = if (isOnline) R.string.online_seen else R.string.last_seen
-                val lastSeen = getString(stringRes, getTime(time, withSeconds = Prefs.showSeconds))
-                "$lastSeen $deviceCodeName"
-            }
+            else -> getLastSeenText(context?.resources, value.first, value.second, value.third)
         })
     }
 

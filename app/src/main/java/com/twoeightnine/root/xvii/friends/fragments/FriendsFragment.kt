@@ -78,7 +78,6 @@ class FriendsFragment : BaseFragment() {
     }
 
     private fun onClick(user: User) {
-//        rootActivity?.loadFragment(ProfileFragment.newInstance(user.id))
         ProfileActivity.launch(context, user.id)
     }
 
