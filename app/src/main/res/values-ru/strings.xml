@@ -283,7 +283,7 @@
     <string name="search_hint">поиск</string>
     <string name="wanna_change_theme">тема была изменена. приложение будет перезапущено. продолжить?</string>
     <string name="cancel">отмена</string>
-    <string name="too_deep_forwarding">слишком большая вложенность. поддержка скоро появится..</string>
+    <string name="too_deep_forwarding">нажмите, чтобы увидеть все</string>
     <string name="empty_user_key">ключ не может быть пустым!</string>
     <string name="keys_not_set">ключи не заданы</string>
     <string name="unable_to_write">к сожалению, вы не можете писать сообщения этому пользователю</string>

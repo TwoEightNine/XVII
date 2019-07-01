@@ -12,6 +12,7 @@ import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
+import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
@@ -24,8 +25,8 @@ import kotlinx.android.synthetic.main.item_message_wtf.view.*
  */
 class MessagesAdapter(context: Context,
                       loader: (Int) -> Unit,
-                      private val callback: MessagesAdapter.Callback,
-                      private val settings: MessagesAdapter.Settings
+                      private val callback: Callback,
+                      private val settings: Settings
 ) : BaseReachAdapter<Message, MessagesAdapter.MessageViewHolder>(context, loader) {
 
     private val mediaWidth = pxFromDp(context, MEDIA_WIDTH)
@@ -110,14 +111,13 @@ class MessagesAdapter(context: Context,
                 invalidateBackground(message, this, level)
                 llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
                 tvName?.text = message.name
-                tvBody.setVisible(message.text.isNotEmpty() /*|| !message.action.isNullOrEmpty()*/)
+                tvBody.setVisible(message.text.isNotEmpty())
                 tvBody.text = when {
                     message.text.isNotEmpty() -> when {
                         EmojiHelper.hasEmojis(message.text) -> EmojiHelper.getEmojied(context, message.text)
                         isDecrypted(message.text) -> getWrapped(message.text)
                         else -> message.text
                     }
-//                    !message.action.isNullOrEmpty() -> getAction(message)
                     else -> ""
                 }
                 tvDate.text = getTime(message.date, withSeconds = Prefs.showSeconds)
@@ -140,7 +140,6 @@ class MessagesAdapter(context: Context,
                 if (!message.attachments.isNullOrEmpty()) {
                     llMessage.layoutParams.width = when {
                         message.isSticker() -> pxFromDp(context, 180)
-//                        message.isSinglePhoto() -> LinearLayout.LayoutParams.WRAP_CONTENT
                         else -> mediaWidth
                     }
                     message.attachments.forEach { attachment ->
@@ -218,12 +217,19 @@ class MessagesAdapter(context: Context,
                     }
                 }
 
-                if (!message.fwdMessages.isNullOrEmpty() && level < ALLOWED_DEEPNESS) {
+                if (!message.fwdMessages.isNullOrEmpty()) {
                     llMessage.layoutParams.width = mediaWidth
                     message.fwdMessages.forEach {
                         val included = inflater.inflate(R.layout.item_message_in_chat, null)
                         included.tag = true
-                        putViews(included, it, level + 1)
+                        if (level < ALLOWED_DEEPNESS || settings.fullDeepness) {
+                            putViews(included, it, level + 1)
+                        } else {
+                            with(included) {
+                                tvBody.text = resources.getString(R.string.too_deep_forwarding)
+                                setOnClickListener { DeepForwardedActivity.launch(context, items[adapterPosition]) }
+                            }
+                        }
                         llMessageContainer.addView(included)
                     }
                 }
@@ -250,14 +256,6 @@ class MessagesAdapter(context: Context,
             val result = "<font color=\"#$color\"><i>$prefix</i></font>${text.substring(prefix.length)}"
             return Html.fromHtml(result)
         }
-
-//        private fun getAction(message: Message) = when (message.action) {
-//            Message.IN_CHAT -> context.getString(R.string.invite_chat_full, "${message.actionMid}")
-//            Message.OUT_OF_CHAT -> context.getString(R.string.kick_chat_full, "${message.actionMid}")
-//            Message.TITLE_UPDATE -> context.getString(R.string.chat_title_updated, message.actionText)
-//            Message.CREATE -> context.getString(R.string.chat_created)
-//            else -> ""
-//        }
     }
 
     interface Callback {
@@ -269,7 +267,12 @@ class MessagesAdapter(context: Context,
     }
 
     data class Settings(
-            val isImportant: Boolean
+            val isImportant: Boolean,
+
+            /**
+             * if true forwarded messages shown as is. used in [DeepForwardedFragment]
+             */
+            val fullDeepness: Boolean = false
     )
 
     companion object {

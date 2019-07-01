@@ -222,7 +222,7 @@
     <string name="search_hint">search</string>
     <string name="ok" translatable="false">ok</string>
     <string name="cancel">cancel</string>
-    <string name="too_deep_forwarding">too deep forwarding will be supported soon..</string>
+    <string name="too_deep_forwarding">tap to see fully</string>
     <string name="request">request</string>
     <string name="summary">summary</string>
     <string name="outgoing">outgoing\ndata</string>

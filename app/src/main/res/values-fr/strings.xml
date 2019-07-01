@@ -264,7 +264,7 @@
     <string name="search_hint">rechercher</string>
     <string name="wanna_change_theme">vous avez changé le thème. l\'app se redémarrer. continuer?</string>
     <string name="cancel">anuller</string>
-    <string name="too_deep_forwarding">des messages trop profond sera appuyé bientôt..</string>
+    <string name="too_deep_forwarding">tapez pour regarder tout</string>
     <string name="empty_user_key">le clé ne peut pas être vide!</string>
     <string name="keys_not_set">des clés n\'est pas mises</string>
     <string name="unable_to_write">malheuresement, vous ne pouvez pas écrire un message à l\'utilisateur</string>
