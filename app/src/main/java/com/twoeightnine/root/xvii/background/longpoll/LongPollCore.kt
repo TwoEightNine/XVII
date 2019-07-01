@@ -17,10 +17,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
-import com.twoeightnine.root.xvii.background.longpoll.models.events.LongPollEventFactory
-import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
-import com.twoeightnine.root.xvii.background.longpoll.models.events.ReadOutgoingEvent
-import com.twoeightnine.root.xvii.background.longpoll.models.events.UnreadCountEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
@@ -119,13 +116,13 @@ class LongPollCore(private val context: Context) {
 
             when (event) {
                 is UnreadCountEvent -> processUnreadCount(event)
-                is ReadOutgoingEvent -> processReadOutgoing(event)
+                is ReadIncomingEvent -> processReadIncoming(event)
                 is NewMessageEvent -> processNewMessage(event)
             }
         }
     }
 
-    private fun processReadOutgoing(event: ReadOutgoingEvent) {
+    private fun processReadIncoming(event: ReadIncomingEvent) {
         unreadMessages[event.peerId]?.clear()
         notificationManager.cancel(event.peerId)
     }
