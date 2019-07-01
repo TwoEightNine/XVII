@@ -98,6 +98,8 @@ data class Message(
 
     fun isSticker() = attachments != null && attachments.isSticker() && replyMessage == null
 
+    fun isReplyingSticker() = attachments != null && attachments.isSticker() && replyMessage != null
+
     fun hasPhotos() = attachments != null && attachments.photosCount() > 0
 
     fun isChat() = peerId.matchesChatId()

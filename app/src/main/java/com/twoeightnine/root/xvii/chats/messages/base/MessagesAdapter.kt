@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
@@ -230,6 +229,9 @@ class MessagesAdapter(context: Context,
                     message.fwdMessages.forEach {
                         val included = inflater.inflate(R.layout.item_message_in_chat, null)
                         included.tag = true
+                        with(included.rlBack) {
+                            setPadding(paddingLeft, paddingTop, 6, paddingBottom)
+                        }
                         if (level < ALLOWED_DEEPNESS || settings.fullDeepness) {
                             putViews(included, it, level + 1)
                         } else {
@@ -245,9 +247,15 @@ class MessagesAdapter(context: Context,
                     }
                 }
                 message.replyMessage?.also {
-                    llMessage.layoutParams.width = mediaWidth
+                    llMessage.layoutParams.width = when {
+                        message.isReplyingSticker() -> pxFromDp(context, 180)
+                        else -> mediaWidth
+                    }
                     val included = inflater.inflate(R.layout.item_message_in_chat, null)
                     included.tag = true
+                    with(included.rlBack) {
+                        setPadding(paddingLeft, paddingTop, 6, paddingBottom)
+                    }
                     putViews(included, it, level + 1)
                     llMessageContainer.addView(included)
                 }
