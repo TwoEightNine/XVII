@@ -349,13 +349,14 @@ fun getContextPopup(context: Context, @LayoutRes layout: Int, listener: (View) -
     return dialog
 }
 
-fun restartApp(title: String) {
-    showToast(App.context, title)
-    Handler().postDelayed({ restartApp() }, 400L)
+fun restartApp(context: Context?, title: String) {
+    showToast(context, title)
+    Handler().postDelayed({ restartApp(context) }, 400L)
 }
 
-fun restartApp() {
-    val context = App.context
+fun restartApp(context: Context?) {
+    context ?: return
+
     val mStartActivity = getRestartIntent(context)
     val mPendingIntentId = 123456
     val mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT)

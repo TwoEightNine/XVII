@@ -6,7 +6,6 @@ import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
-import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoadingDialog
@@ -152,7 +151,7 @@ class AppearanceFragment : BaseFragment() {
         showConfirm(context, getString(R.string.wanna_change_theme)) { yes ->
             if (yes) {
                 Prefs.color = currentColor
-                restartApp(getString(R.string.theme_changed))
+                restartApp(context, getString(R.string.theme_changed))
             } else {
                 switchNight.isChecked = isNightBefore
                 currentColor = colorBefore

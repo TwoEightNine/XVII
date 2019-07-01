@@ -46,7 +46,7 @@ class AccountsFragment : BaseFragment() {
         fabAdd.setOnClickListener {
             viewModel.updateRunningAccount()
             Session.token = ""
-            restartApp(getString(R.string.restart_app))
+            restartApp(context, getString(R.string.restart_app))
         }
         fabAdd.stylize()
     }
@@ -77,7 +77,7 @@ class AccountsFragment : BaseFragment() {
                 if (logout) {
                     NotificationService.stop(context)
                     viewModel.logOut()
-                    restartApp(getString(R.string.restart_app))
+                    restartApp(context, getString(R.string.restart_app))
                 }
             }
             true
@@ -91,7 +91,7 @@ class AccountsFragment : BaseFragment() {
         } else {
             selectedAccount = account
             viewModel.switchTo(account)
-            restartApp(getString(R.string.restart_app))
+            restartApp(context, getString(R.string.restart_app))
         }
     }
 

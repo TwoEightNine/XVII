@@ -89,6 +89,6 @@ class ExceptionActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        restartApp()
+        restartApp(this)
     }
 }
