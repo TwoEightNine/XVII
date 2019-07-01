@@ -199,6 +199,16 @@
         <item quantity="other">%d сообщений</item>
     </plurals>
 
+    <string-array name="devices">
+        <item>(моб.)</item>
+        <item>(iphone)</item>
+        <item>(ipad)</item>
+        <item>(android)</item>
+        <item>(winphone)</item>
+        <item>(win8)</item>
+        <item> </item>
+    </string-array>
+
     <string name="aboutbig">xvii мессенджер (от twoeightnine)\nвер. %s от %s</string>
     <string name="added_to_docs">успешно добавлено в документы</string>
     <string name="doc">документ</string>

@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -83,8 +84,9 @@ class ProfileFragment : BaseFragment() {
         rlChat.setOnClickListener { ChatActivity.launch(context, user) }
         if (!user.deactivated.isNullOrEmpty()) return
         val onlineRes = if (user.isOnline) R.string.online_seen else R.string.last_seen
-        tvLastSeen.text = getString(onlineRes, getTime(user.lastSeen?.time ?: 0, withSeconds = Prefs.showSeconds))
-
+        val lastSeen = getString(onlineRes, getTime(user.lastSeen?.time ?: 0, withSeconds = Prefs.showSeconds))
+        val deviceCodeName = OnlineEvent.getDeviceName(context, user.lastSeen?.platform ?: 0)
+        tvLastSeen.text = "$lastSeen $deviceCodeName"
         add(R.string.link, user.link, { goTo(user.link) }) { copy(user.link, R.string.link) }
         add(R.string.id, "${user.id}", null) { copy("${user.id}", R.string.id) }
         add(R.string.status, user.status, null) { copy(user.status, R.string.status) }

@@ -31,10 +31,11 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     /**
      * Boolean - online flag
      * Int - last seen time
+     * Int - device code
      *
      * [LastSeen] doesn't support online flag
      */
-    private val lastSeenLiveData = MutableLiveData<Pair<Boolean, Int>>()
+    private val lastSeenLiveData = MutableLiveData<Triple<Boolean, Int, Int>>()
     private val canWriteLiveData = MutableLiveData<CanWrite>()
     private val activityLiveData = MutableLiveData<String>()
     private val eventsDisposable = getEventSubscription()
@@ -80,7 +81,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
      */
     abstract fun attachPhoto(path: String, onAttached: (String, Attachment) -> Unit)
 
-    fun getLastSeen() = lastSeenLiveData as LiveData<Pair<Boolean, Int>>
+    fun getLastSeen() = lastSeenLiveData as LiveData<Triple<Boolean, Int, Int>>
 
     fun getCanWrite() = canWriteLiveData as LiveData<CanWrite>
 
@@ -212,7 +213,8 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     protected open fun onMessageReceived(event: BaseMessageEvent) {
         if (!event.isOut()) {
-            lastSeenLiveData.value = Pair(true, event.timeStamp)
+            val deviceCode = lastSeenLiveData.value?.third ?: 0
+            lastSeenLiveData.value = Triple(true, event.timeStamp, deviceCode)
             activityLiveData.value = ACTIVITY_NONE
         }
         if (event.text.isEmpty() || event.hasMedia() || !peerId.matchesUserId()) {
@@ -283,7 +285,13 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         if (notify) {
             if (peerId.matchesUserId()) {
                 response?.getProfileById(peerId)?.also { user ->
-                    lastSeenLiveData.postValue(Pair(user.isOnline, user.lastSeen?.time ?: 0))
+                    val lastSeen = user.lastSeen
+                    val value = if (lastSeen == null) {
+                        Triple(user.isOnline, 0, 0)
+                    } else {
+                        Triple(user.isOnline, lastSeen.time, lastSeen.platform)
+                    }
+                    lastSeenLiveData.postValue(value)
                 }
             }
             response?.conversations?.getOrNull(0)?.canWrite?.also { canWrite ->
@@ -312,10 +320,11 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     private fun getEventSubscription() = EventBus.subscribeLongPollEventReceived { event ->
         when (event) {
             is OnlineEvent -> if (event.userId == peerId) {
-                lastSeenLiveData.value = Pair(first = true, second = event.timeStamp)
+                lastSeenLiveData.value = Triple(true, event.timeStamp, event.deviceCode)
             }
             is OfflineEvent -> if (event.userId == peerId) {
-                lastSeenLiveData.value = Pair(first = false, second = event.timeStamp)
+                val deviceCode = lastSeenLiveData.value?.third ?: 0
+                lastSeenLiveData.value = Triple(false, event.timeStamp, deviceCode)
             }
             is ReadOutgoingEvent -> if (event.peerId == peerId) {
                 readOutgoingMessages()

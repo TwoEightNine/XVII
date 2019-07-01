@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
@@ -72,7 +73,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         initContent()
         initMultiSelectMenu()
 
-        viewModel.getLastSeen().observe(this, Observer { onOnlineChanged(it.first, it.second) })
+        viewModel.getLastSeen().observe(this, Observer { onOnlineChanged(it) })
         viewModel.getCanWrite().observe(this, Observer { onCanWriteChanged(it) })
         viewModel.getActivity().observe(this, Observer { onActivityChanged(it) })
     }
@@ -84,7 +85,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             chatToolbarController.setAvatar(photo)
         }
         if (!peerId.matchesUserId()) {
-            onOnlineChanged(false)
+            onOnlineChanged(Triple(false, 0, 0))
         }
         toolbar?.setOnClickListener {
             activity?.let { hideKeyboard(it) }
@@ -217,8 +218,15 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     /**
      * handle setting subtitle and changing user's status
+     * triple represents:
+     *  - online flag
+     *  - last seen time
+     *  - device code
      */
-    private fun onOnlineChanged(isOnline: Boolean, timeStamp: Int = 0) {
+    private fun onOnlineChanged(value: Triple<Boolean, Int, Int>) {
+        val isOnline = value.first
+        val timeStamp = value.second
+        val deviceCodeName = OnlineEvent.getDeviceName(context, value.third)
         chatToolbarController.setSubtitle(when {
             peerId.matchesChatId() -> getString(R.string.conversation)
             peerId.matchesGroupId() -> getString(R.string.community)
@@ -229,7 +237,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                     timeStamp
                 }
                 val stringRes = if (isOnline) R.string.online_seen else R.string.last_seen
-                getString(stringRes, getTime(time, withSeconds = Prefs.showSeconds))
+                val lastSeen = getString(stringRes, getTime(time, withSeconds = Prefs.showSeconds))
+                "$lastSeen $deviceCodeName"
             }
         })
     }

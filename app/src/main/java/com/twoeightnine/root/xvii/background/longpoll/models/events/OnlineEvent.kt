@@ -11,11 +11,17 @@ data class OnlineEvent(
 
     override fun getType() = TYPE_ONLINE
 
-    fun getDeviceName(context: Context?): String {
-        if (context == null) return ""
+    val deviceCode: Int
+        get() = extras and 0xff
 
-        val deviceCode = extras and 0xff
-        return context.resources.getStringArray(R.array.devices)[deviceCode - 1]
+    companion object {
+
+        fun getDeviceName(context: Context?, deviceCode: Int): String {
+            if (context == null || deviceCode !in 1..7) return ""
+
+            return context.resources.getStringArray(R.array.devices)[deviceCode - 1]
+        }
+
     }
 
 }

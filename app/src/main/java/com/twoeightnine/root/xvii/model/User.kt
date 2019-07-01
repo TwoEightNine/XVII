@@ -148,7 +148,11 @@ data class City(
 data class LastSeen(
         @SerializedName("time")
         @Expose
-        var time: Int = 0
+        var time: Int = 0,
+
+        @SerializedName("platform")
+        @Expose
+        var platform: Int = 0
 ) : Parcelable
 
 @Parcelize
