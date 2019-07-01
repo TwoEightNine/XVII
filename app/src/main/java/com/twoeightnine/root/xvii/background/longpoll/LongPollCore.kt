@@ -17,7 +17,10 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
-import com.twoeightnine.root.xvii.background.longpoll.models.events.*
+import com.twoeightnine.root.xvii.background.longpoll.models.events.LongPollEventFactory
+import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.ReadIncomingEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.UnreadCountEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
@@ -130,7 +133,12 @@ class LongPollCore(private val context: Context) {
     private fun processUnreadCount(event: UnreadCountEvent) {
         if (event.unreadCount == 0) {
             unreadMessages.clear()
-            notificationManager.cancelAll()
+            try {
+                notificationManager.cancelAll()
+            } catch (e: SecurityException) {
+                e.printStackTrace()
+                lw("error cancelling all: ${e.message}")
+            }
         }
     }
 

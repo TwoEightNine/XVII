@@ -142,7 +142,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     override fun onResume() {
         super.onResume()
         viewModel.isShown = true
-        adapter.items.lastOrNull()?.also { viewModel.invalidateMessages(it.id) }
+        adapter.items.lastOrNull()?.also { viewModel.invalidateMessages(it) }
     }
 
     override fun onPause() {

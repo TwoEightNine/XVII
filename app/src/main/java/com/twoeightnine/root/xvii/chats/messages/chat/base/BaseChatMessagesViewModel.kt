@@ -180,9 +180,11 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
      * checks [lastMessageId] with id of last stored message in [messages]
      * if not the same invokes interaction to update ui
      */
-    fun invalidateMessages(lastMessageId: Int) {
-        if (messages.lastOrNull()?.id != lastMessageId) {
-            lw("invalidate messages: last was $lastMessageId")
+    fun invalidateMessages(message: Message) {
+        val lastMessage = messages.lastOrNull() ?: return
+
+        if (lastMessage.id != message.id || message.read != lastMessage.read) {
+            lw("invalidate messages: last was ${message.id}")
             interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.CLEAR))
             interactionsLiveData.value = Wrapper((Interaction(Interaction.Type.ADD, 0, messages)))
         }
