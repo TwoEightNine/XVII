@@ -302,5 +302,7 @@
     <string name="user_kicked_user">%s исключил %s</string>
     <string name="user_leaved_chat">%s покинул беседу</string>
     <string name="user_pinned_message">%s закрепил сообщение: \"%s\"</string>
+    <string name="edited">изменено</string>
+    <string name="forwarded_message">сообщение</string>
 
 </resources>
