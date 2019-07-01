@@ -228,6 +228,7 @@
     <string name="outgoing">outgoing\ndata</string>
     <string name="incoming">incoming\ndata</string>
     <string name="forwarded_message">message</string>
+    <string name="edited">edited</string>
 
     <string name="no_access_to_mic">no access to the mic</string>
     <string name="no_access_to_storage">no access to the storage</string>

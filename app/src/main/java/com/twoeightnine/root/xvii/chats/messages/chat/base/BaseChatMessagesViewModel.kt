@@ -16,10 +16,7 @@ import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.MessagesHistoryResponse
-import com.twoeightnine.root.xvii.utils.EventBus
-import com.twoeightnine.root.xvii.utils.applySchedulers
-import com.twoeightnine.root.xvii.utils.matchesUserId
-import com.twoeightnine.root.xvii.utils.subscribeSmart
+import com.twoeightnine.root.xvii.utils.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -249,6 +246,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         val pos = messages.indexOfFirst { it.id == message.id }
         if (pos == -1) return
 
+        message.updateTime = time()
         messages[pos] = message
         interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.UPDATE, pos, arrayListOf(message)))
     }

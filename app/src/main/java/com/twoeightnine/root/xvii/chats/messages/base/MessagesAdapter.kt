@@ -120,7 +120,9 @@ class MessagesAdapter(context: Context,
                     }
                     else -> ""
                 }
-                tvDate.text = getTime(message.date, withSeconds = Prefs.showSeconds)
+                val date = getTime(message.date, withSeconds = Prefs.showSeconds)
+                val edited = if (message.isEdited()) resources.getString(R.string.edited) else ""
+                tvDate.text = "$date $edited"
                 civPhoto?.apply {
                     load(message.photo)
                     setOnClickListener { callback.onUserClicked(message.fromId) }

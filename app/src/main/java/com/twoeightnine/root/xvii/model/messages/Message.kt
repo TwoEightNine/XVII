@@ -63,6 +63,10 @@ data class Message(
         @Expose
         var replyMessage: Message? = null,
 
+        @SerializedName("update_time")
+        @Expose
+        var updateTime: Int = 0,
+
         // ------------------- manually added values
         @SerializedName("read")
         @Expose
@@ -85,6 +89,8 @@ data class Message(
             text = prepareText(event.text),
             out = if (event.isOut()) 1 else 0
     )
+
+    fun isEdited() = updateTime != 0
 
     fun isOut() = out == 1
 
