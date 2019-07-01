@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.activity_exception.*
 import javax.inject.Inject
+import kotlin.random.Random
 
 class ExceptionActivity : AppCompatActivity() {
 
@@ -65,7 +66,7 @@ class ExceptionActivity : AppCompatActivity() {
             sendLater = message.substring(maxSize)
             message = message.substring(0, maxSize)
         }
-        api.send(-App.GROUP, message, "", "", 0, "", "")
+        api.sendMessage(-App.GROUP, getRandomId(), message)
                 .subscribeSmart({ response ->
                     deleteReport(response)
                     if (sendLater.isEmpty()) {
@@ -78,6 +79,8 @@ class ExceptionActivity : AppCompatActivity() {
                     showError(this, it)
                 })
     }
+
+    private fun getRandomId() = Random.nextInt()
 
     private fun deleteReport(mid: Int) {
         api.deleteMessages("$mid", 0)

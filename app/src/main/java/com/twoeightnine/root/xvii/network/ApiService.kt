@@ -81,15 +81,6 @@ interface ApiService {
             @Query("message_id") messageId: Int
     ): Flowable<BaseResponse<Int>>
 
-    @GET("messages.send")
-    fun send(@Query("user_id") userId: Int,
-             @Query("message") message: String,
-             @Query("forward_messages") fwdMessages: String?,
-             @Query("attachment") attachment: String?,
-             @Query("sticker_id") stickerId: Int,
-             @Query("captcha_sid") captchaSid: String?,
-             @Query("captcha_key") captchaKey: String?): Flowable<BaseResponse<Int>>
-
     @Headers(NEW_VERSION_HEADER)
     @GET("messages.send")
     fun sendMessage(
@@ -131,6 +122,7 @@ interface ApiService {
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<BaseResponse<SearchConversationsResponse>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.getImportantMessages?extended=1")
     fun getStarredMessages(
             @Query("count") count: Int,
@@ -143,12 +135,6 @@ interface ApiService {
 
     @GET("messages.setActivity")
     fun setActivity(
-            @Query("user_id") userId: Int,
-            @Query("type") type: String
-    ): Flowable<BaseResponse<Int>>
-
-    @GET("messages.setActivity")
-    fun setActivity2(
             @Query("peer_id") peerId: Int,
             @Query("type") type: String
     ): Flowable<BaseResponse<Int>>
@@ -179,11 +165,6 @@ interface ApiService {
                       @Query("offset") offset: Int): Flowable<BaseResponse<ListResponse<User>>>
 
     //photos
-    @Headers(NEW_VERSION_HEADER)
-    @GET("photos.getById?photo_sizes=1")
-    fun getPhotoById(@Query("photos") photos: String,
-                     @Query("access_key") accessKey: String): Flowable<BaseResponse<MutableList<Photo>>>
-
     @GET("photos.copy")
     fun copyPhoto(@Query("owner_id") ownerId: Int,
                   @Query("photo_id") photoId: Int,

@@ -16,23 +16,8 @@ import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.web.GifViewerActivity
 
-const val MAX_WIDTH = 500
-const val MAX_HEIGHT = 500
-const val C_RATIO = MAX_WIDTH.toDouble() / MAX_HEIGHT
 
 fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): View {
-//    val newHeight: Int
-//    val newWidth: Int
-//    if (photo.ratio > C_RATIO) {
-//        newWidth = MAX_WIDTH
-//        newHeight = (newWidth.toDouble() / photo.ratio).toInt()
-//    } else {
-//        newHeight = MAX_HEIGHT
-//        newWidth = (newHeight * photo.ratio).toInt()
-//    }
-//    val view = ImageView(context)
-//    view.layoutParams = LinearLayout.LayoutParams(newWidth, newHeight)
-//    (view.layoutParams as? LinearLayout.LayoutParams)?.setMargins(0, 7, 0, 0)
     val view = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
     XviiPicasso.get()
             .loadRounded(photo.getOptimalPhoto().url)

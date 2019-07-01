@@ -95,7 +95,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     fun setActivity(type: String = ACTIVITY_TYPING) {
-        api.setActivity2(peerId, type)
+        api.setActivity(peerId, type)
                 .subscribeSmart({}, {})
     }
 
