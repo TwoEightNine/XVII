@@ -11,6 +11,7 @@ import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragm
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.model.attachments.Doc
+import com.twoeightnine.root.xvii.utils.matchesUserId
 
 class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
 
@@ -28,6 +29,7 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
         super.onCreateOptionsMenu(menu, inflater)
         menu?.clear()
         inflater?.inflate(R.menu.menu_chat, menu)
+        menu?.findItem(R.id.menu_encryption)?.isVisible = peerId.matchesUserId()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
