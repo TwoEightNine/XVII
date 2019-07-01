@@ -58,7 +58,7 @@ class ChatToolbarController(private val toolbar: Toolbar) {
         lastAction = time()
         actionSubscription = Completable.timer(ACTION_DELAY_MS, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 .subscribe {
-                    l("time fired")
+                    l("time fired: $lastAction ${time()}")
                     if (time() - lastAction >= ACTION_DELAY_S) {
                         hide()
                     }
@@ -80,6 +80,6 @@ class ChatToolbarController(private val toolbar: Toolbar) {
 
     companion object {
         private const val ACTION_DELAY_MS = 5500L
-        private const val ACTION_DELAY_S = ACTION_DELAY_MS.toDouble() / 1000
+        private const val ACTION_DELAY_S = 5
     }
 }
