@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
@@ -220,7 +221,11 @@ class MessagesAdapter(context: Context,
                 }
 
                 if (!message.fwdMessages.isNullOrEmpty()) {
-                    llMessage.layoutParams.width = mediaWidth
+                    llMessage.layoutParams.width = if (settings.fullDeepness) {
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    } else {
+                        mediaWidth
+                    }
                     rlBack.setPadding(rlBack.paddingLeft, rlBack.paddingTop, 6, rlBack.paddingBottom)
                     message.fwdMessages.forEach {
                         val included = inflater.inflate(R.layout.item_message_in_chat, null)
