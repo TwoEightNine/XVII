@@ -23,6 +23,8 @@ import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatMessagesFragment
+import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
+import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedViewModel
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.dagger.modules.NetworkModule
@@ -72,6 +74,7 @@ interface AppComponent {
     fun inject(starredMessagesFragment: StarredMessagesFragment)
     fun inject(chatMessagesFragment: ChatMessagesFragment)
     fun inject(secretChatMessagesFragment: SecretChatMessagesFragment)
+    fun inject(deepForwardedFragment: DeepForwardedFragment)
     fun inject(featuresFragment: FeaturesFragment)
     fun inject(searchFragment: SearchFragment)
     fun inject(analyzeDialogFragment: AnalyzeDialogFragment)

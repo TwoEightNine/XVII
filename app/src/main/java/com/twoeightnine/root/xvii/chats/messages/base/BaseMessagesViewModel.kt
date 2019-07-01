@@ -7,6 +7,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatViewModel
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatMessagesViewModel
+import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedViewModel
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesViewModel
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
@@ -75,6 +76,7 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>) = when (modelClass) {
             StarredMessagesViewModel::class.java -> StarredMessagesViewModel(api) as T
+            DeepForwardedViewModel::class.java -> DeepForwardedViewModel(api) as T
             ChatMessagesViewModel::class.java -> ChatMessagesViewModel(api) as T
             SecretChatViewModel::class.java -> SecretChatViewModel(api, context) as T
 

@@ -219,6 +219,7 @@ class MessagesAdapter(context: Context,
 
                 if (!message.fwdMessages.isNullOrEmpty()) {
                     llMessage.layoutParams.width = mediaWidth
+                    rlBack.setPadding(rlBack.paddingLeft, rlBack.paddingTop, 6, rlBack.paddingBottom)
                     message.fwdMessages.forEach {
                         val included = inflater.inflate(R.layout.item_message_in_chat, null)
                         included.tag = true
@@ -227,7 +228,10 @@ class MessagesAdapter(context: Context,
                         } else {
                             with(included) {
                                 tvBody.text = resources.getString(R.string.too_deep_forwarding)
-                                setOnClickListener { DeepForwardedActivity.launch(context, items[adapterPosition]) }
+                                civPhoto.hide()
+                                tvName.hide()
+                                tvDate.hide()
+                                setOnClickListener { DeepForwardedActivity.launch(context, items[adapterPosition].id) }
                             }
                         }
                         llMessageContainer.addView(included)
