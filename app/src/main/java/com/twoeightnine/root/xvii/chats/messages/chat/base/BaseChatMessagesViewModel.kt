@@ -359,7 +359,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     companion object {
-        const val COUNT = 200
+        const val COUNT = 50
 
         const val ACTIVITY_TYPING = "typing"
         const val ACTIVITY_VOICE = "audiomessage"

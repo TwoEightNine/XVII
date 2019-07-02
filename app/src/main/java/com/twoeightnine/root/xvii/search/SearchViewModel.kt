@@ -42,7 +42,7 @@ class SearchViewModel(private val api: ApiService) : ViewModel() {
 
     companion object {
 
-        const val COUNT = 200
+        const val COUNT = 50
     }
 
     private inner class ResponseCombinerFunction :

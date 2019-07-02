@@ -56,7 +56,7 @@ class FriendsViewModel(private val api: ApiService) : ViewModel() {
     }
 
     companion object {
-        const val COUNT = 200
+        const val COUNT = 50
     }
 
     class Factory @Inject constructor(private val api: ApiService) : ViewModelProvider.Factory {
