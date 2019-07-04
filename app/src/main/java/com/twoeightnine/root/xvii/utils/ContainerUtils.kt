@@ -132,3 +132,11 @@ fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): Vie
     included.setOnClickListener { onClick.invoke(video) }
     return included
 }
+
+fun getPoll(poll: Poll, context: Context): View {
+    val included = LayoutInflater.from(context).inflate(R.layout.container_poll, null, false)
+
+    included.findViewById<TextView>(R.id.tvQuestion).text = poll.question
+    included.setOnClickListener {  }
+    return included
+}

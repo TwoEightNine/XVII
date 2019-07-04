@@ -48,7 +48,11 @@ data class Attachment(
 
         @SerializedName("audio_message")
         @Expose
-        var audioMessage: AudioMessage? = null
+        var audioMessage: AudioMessage? = null,
+
+        @SerializedName("poll")
+        @Expose
+        val poll: Poll? = null
 ) : Parcelable {
 
     constructor(photo: Photo) : this(
@@ -76,6 +80,7 @@ data class Attachment(
         TYPE_AUDIO -> audio
         TYPE_VIDEO -> video
         TYPE_DOC -> doc
+        TYPE_POLL -> poll
         else -> null
     } as? IdTypeable)?.getId() ?: "null"
 
@@ -90,6 +95,7 @@ data class Attachment(
         const val TYPE_WALL = "wall"
         const val TYPE_GIFT = "gift"
         const val TYPE_AUDIO_MESSAGE = "audio_message"
+        const val TYPE_POLL = "poll"
     }
 }
 

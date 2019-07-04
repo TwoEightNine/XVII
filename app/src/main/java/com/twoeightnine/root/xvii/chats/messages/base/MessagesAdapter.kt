@@ -207,6 +207,10 @@ class MessagesAdapter(context: Context,
 
                             }
 
+                            Attachment.TYPE_POLL -> attachment.poll?.also {
+                                llMessageContainer.addView(getPoll(it, context))
+                            }
+
                             Attachment.TYPE_WALL -> attachment.wall?.stringId?.also { postId ->
                                 val included = LayoutInflater.from(context).inflate(R.layout.container_wall, null, false)
                                 included.setOnClickListener {

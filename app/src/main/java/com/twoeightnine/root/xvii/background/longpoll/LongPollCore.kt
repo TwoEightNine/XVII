@@ -454,7 +454,11 @@ class LongPollCore(private val context: Context) {
         private const val WAIT_DELAY = 1000L
         private const val NO_NETWORK_DELAY = 5000L
 
-        private const val LAST_RUN_ALLOWED_DELAY = 45
+        /**
+         * if the core didn't call [getUpdates] for [LAST_RUN_ALLOWED_DELAY] seconds
+         * it is probably down =(
+         */
+        private const val LAST_RUN_ALLOWED_DELAY = 60
 
         private val RING_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         private val VIBRATE_PATTERN = longArrayOf(0L, 200L)

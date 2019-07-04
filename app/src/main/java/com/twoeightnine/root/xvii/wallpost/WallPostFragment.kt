@@ -112,6 +112,12 @@ class WallPostFragment : BaseFragment() {
                     }
                 }
 
+                Attachment.TYPE_POLL -> attachment.poll?.also { poll ->
+                    context?.also {
+                        holder.llContainer.addView(getPoll(poll, it))
+                    }
+                }
+
                 Attachment.TYPE_VIDEO -> attachment.video?.also { video ->
                     activity?.also {
                         holder.llContainer.addView(getVideo(video, it) { video ->

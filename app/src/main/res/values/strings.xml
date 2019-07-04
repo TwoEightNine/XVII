@@ -50,6 +50,8 @@
     <string name="invite_chat_full">%s is in chat now</string>
     <string name="link">link</string>
     <string name="wall_post">wall post</string>
+    <string name="poll_public">public poll</string>
+    <string name="poll_anon">anonymous poll</string>
     <string name="copy">copy</string>
     <string name="reply">reply</string>
     <string name="decrypt">decrypt</string>
