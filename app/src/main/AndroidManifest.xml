@@ -174,10 +174,18 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".chats.messages.chat.secret.SecretChatActivity" />
-        <activity android:name=".background.longpoll.LongPollExplanationActivity" />
-        <activity android:name=".features.datausage.DataUsageActivity" />
-        <activity android:name=".chats.messages.deepforwarded.DeepForwardedActivity" />
+        <activity
+            android:name=".chats.messages.chat.secret.SecretChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".background.longpoll.LongPollExplanationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".features.datausage.DataUsageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".chats.messages.deepforwarded.DeepForwardedActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 
