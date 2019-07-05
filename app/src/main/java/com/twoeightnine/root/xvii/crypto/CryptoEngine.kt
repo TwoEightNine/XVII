@@ -177,33 +177,6 @@ class CryptoEngine(
         return sha256(bytesToHex(key))
     }
 
-    /**
-     * !!!remove later!!!
-     * removes the saved key and sets the default one
-     */
-    fun resetKey() {
-        storage.removeKey(peerId)
-        setKey(getDefaultKey(), save = false)
-        keyType = KeyType.DEFAULT
-    }
-
-    /**
-     * !!!remove later!!!
-     * @param uid id of current user
-     * @param cid peerId of chat
-     */
-    private fun getDefaultKey(): String {
-        if (!peerId.matchesUserId()) {
-            return "$peerId"
-        }
-        val uid = Session.uid
-        return "${Math.min(uid, peerId)}${Math.max(uid, peerId)}"
-    }
-
-    private fun logKey() {
-        Lg.dbg("[crypto] ${getFingerPrint()}")
-    }
-
     companion object {
 
         const val DATA_PREFIX = "xvii{"

@@ -23,8 +23,7 @@ class ImageViewerActivity : AppCompatActivity() {
     private val photos = arrayListOf<Photo>()
     private val permissionHelper by lazy { PermissionHelper(this) }
     private val adapter by lazy {
-        val urls = getUrlList()
-        FullScreenImageAdapter(this, urls, ::onDismiss, ::onTap)
+        FullScreenImageAdapter(this, getUrlList(), ::onDismiss, ::onTap)
     }
 
     private var position: Int = 0

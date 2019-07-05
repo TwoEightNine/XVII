@@ -59,7 +59,7 @@ class MainActivity : BaseActivity() {
         stylize(isWhite = true)
         if (!LongPollCore.isRunning()) {
             Lg.i("service wasn't active since " +
-                    "${getTime(LongPollCore.lastRun, withSeconds = true)}. Start again")
+                    "${getTime(LongPollCore.lastRun, withSeconds = true)}. start again")
             Handler().postDelayed({ startNotificationService(this) }, 1000L)
         }
         removeNotification(this)
