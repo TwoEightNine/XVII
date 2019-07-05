@@ -238,6 +238,9 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     private fun addNewMessage(message: Message) {
+        // check if [message] is not the latest
+        if (messages.last().id >= message.id) return
+
         val count = messages.size
         messages.add(message)
         interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, count, arrayListOf(message)))
