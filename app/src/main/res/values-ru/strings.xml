@@ -22,7 +22,7 @@
     <string name="chat_back">фон чата</string>
     <string name="chat_back_exists">фон чата уже выбран</string>
     <string name="chat_created">создан успешно</string>
-    <string name="chat_title_updated">название беседы изменено: %s</string>
+    <string name="chat_title_updated">%s изменил название беседы: %s</string>
     <string name="chats_notifs">чаты</string>
     <string name="choose_dialog">выберите диалог</string>
     <string name="city">город</string>
@@ -45,7 +45,7 @@
     <string name="edit">изменить</string>
     <string name="enc_off">шифрование отключено</string>
     <string name="enc_on">шифрование включено</string>
-    <string name="encryption">шифрование</string>
+    <string name="encryption">секретный чат</string>
     <string name="enter_new_pin">введите новый pin</string>
     <string name="enter_pin">введите pin</string>
     <string name="error">ошибка</string>
@@ -153,7 +153,7 @@
     <string name="clear_cache">очистить кэш</string>
     <string name="cache_cleared">кэш очищен</string>
     <string name="wanna_logout">действительно хотите выйти?</string>
-    <string name="generation_dh_hint">убедитесь, что ваш собеседний установил xvii и открыл диалог с вами. это необходимо для обмена ключами.\nвнимание! ключи актуальны только для текущей сессии. после выхода из диалога ключи уничтожатся и забудутся навсегда!</string>
+    <string name="generation_dh_hint">убедитесь, что ваш собеседний установил xvii и открыл секретный чат с вами. это необходимо для обмена ключами</string>
     <string name="key_xchg_failed">собеседник не поддержал обмен ключами. неудача!</string>
     <string name="decrypting_image">изображение расшифровывается</string>
     <string name="invalid_file">невозможно расшифровать файл</string>
@@ -198,6 +198,16 @@
         <item quantity="many">%d сообщений</item>
         <item quantity="other">%d сообщений</item>
     </plurals>
+
+    <string-array name="devices">
+        <item>(моб.)</item>
+        <item>(iphone)</item>
+        <item>(ipad)</item>
+        <item>(android)</item>
+        <item>(winphone)</item>
+        <item>(win8)</item>
+        <item> </item>
+    </string-array>
 
     <string name="aboutbig">xvii мессенджер (от twoeightnine)\nвер. %s от %s</string>
     <string name="added_to_docs">успешно добавлено в документы</string>
@@ -273,17 +283,26 @@
     <string name="search_hint">поиск</string>
     <string name="wanna_change_theme">тема была изменена. приложение будет перезапущено. продолжить?</string>
     <string name="cancel">отмена</string>
-    <string name="too_deep_forwarding">слишком большая вложенность. поддержка скоро появится..</string>
+    <string name="too_deep_forwarding">нажмите, чтобы увидеть все</string>
+    <string name="empty_user_key">ключ не может быть пустым!</string>
+    <string name="keys_not_set">ключи не заданы</string>
+    <string name="unable_to_write">к сожалению, вы не можете писать сообщения этому пользователю</string>
+    <string name="show_seconds">показывать секунды</string>
     <string name="longpoll_hint">нажмите, чтобы узнать больше</string>
     <string name="xvii_longpoll">фоновый сервис xvii</string>
     <string name="use_apple_emojis">использовать смайлики apple</string>
     <string name="summary">всего</string>
     <string name="show_voice">показывать иконку голосовых сообщений</string>
     <string name="show_stickers">показывать иконку смайликов/стикеров</string>
-    <string name="show_seconds">показывать секунды</string>
     <string name="request">запрос</string>
     <string name="outgoing">исходящие\nданные</string>
     <string name="lower_texts">использовать строчные буквы для имен</string>
     <string name="incoming">входящие\nданные</string>
+    <string name="chat_photo_updated">%s изменил фото беседы</string>
+    <string name="user_kicked_user">%s исключил %s</string>
+    <string name="user_leaved_chat">%s покинул беседу</string>
+    <string name="user_pinned_message">%s закрепил сообщение: \"%s\"</string>
+    <string name="edited">изменено</string>
+    <string name="forwarded_message">сообщение</string>
 
 </resources>

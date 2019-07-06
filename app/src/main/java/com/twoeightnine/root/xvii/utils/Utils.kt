@@ -16,7 +16,6 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import android.text.Html
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
@@ -32,15 +31,14 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.model.Message
-import com.twoeightnine.root.xvii.model.User
+import com.twoeightnine.root.xvii.managers.Prefs
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -100,15 +98,31 @@ fun showError(context: Context?, @StringRes text: Int) {
     showError(context, context?.getString(text))
 }
 
-fun showAlert(context: Context?, text: String?) {
+fun showAlert(context: Context?, text: String?, onOkPressed: (() -> Unit)? = null) {
     if (context == null) return
 
     val dialog = AlertDialog.Builder(context)
             .setMessage(text)
-            .setPositiveButton(R.string.ok, null)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                onOkPressed?.invoke()
+            }
             .create()
     dialog.show()
     dialog.stylize()
+}
+
+fun getLastSeenText(resources: Resources?, isOnline: Boolean, timeStamp: Int, deviceCode: Int): String {
+    if (resources == null) return ""
+
+    val deviceCodeName = OnlineEvent.getDeviceName(resources, deviceCode)
+    val time = if (timeStamp == 0) {
+        time() - (if (isOnline) 0 else 300)
+    } else {
+        timeStamp
+    }
+    val stringRes = if (isOnline) R.string.online_seen else R.string.last_seen
+    val lastSeen = resources.getString(stringRes, getTime(time, withSeconds = Prefs.showSeconds))
+    return "$lastSeen $deviceCodeName"
 }
 
 fun showConfirm(context: Context?, text: String, callback: (Boolean) -> Unit) {
@@ -335,13 +349,14 @@ fun getContextPopup(context: Context, @LayoutRes layout: Int, listener: (View) -
     return dialog
 }
 
-fun restartApp(title: String) {
-    showToast(App.context, title)
-    Handler().postDelayed({ restartApp() }, 400L)
+fun restartApp(context: Context?, title: String) {
+    showToast(context, title)
+    Handler().postDelayed({ restartApp(context) }, 400L)
 }
 
-fun restartApp() {
-    val context = App.context
+fun restartApp(context: Context?) {
+    context ?: return
+
     val mStartActivity = getRestartIntent(context)
     val mPendingIntentId = 123456
     val mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT)
@@ -434,7 +449,7 @@ fun getNameFromUrl(url: String): String {
 fun loadBitmapIcon(url: String?, callback: (Bitmap) -> Unit) {
     val uiHandler = Handler(Looper.getMainLooper())
     uiHandler.post {
-        Picasso.get()
+        XviiPicasso.get()
                 .loadRounded(url)
                 .resize(200, 200)
                 .centerCrop()
@@ -612,54 +627,6 @@ fun shortifyNumber(value: Int): String {
         num += "K"
     }
     return num
-}
-
-fun getMessageFromLongPoll(event: NewMessageEvent,
-                           isShown: Boolean = false): Message {
-    val out = if (event.isOut()) 1 else 0
-    val message = Message(
-            id = event.id,
-            date = event.timeStamp,
-            userId = event.peerId,
-            out = out,
-            readState = if (isShown) 1 - out else 0,
-            title = event.title,
-            body = event.text,
-            emoji = if (event.hasEmoji()) 1 else 0
-    )
-    if (event.info.from != 0) {
-        message.userId = event.info.from
-    }
-    if (event.peerId.matchesChatId()) {
-        message.chatId = event.peerId.asChatId()
-    }
-    message.body = Html.fromHtml(message.body).toString()
-    return message
-}
-
-
-fun getMessageFromLongPollFull(event: NewMessageEvent,
-                               users: HashMap<Int, User>,
-                               isShown: Boolean = false): Message {
-    var message = getMessageFromLongPoll(event, isShown)
-    message = setMessageTitles(users, message, 0)
-    return message
-}
-
-fun setMessageTitles(users: HashMap<Int, User>, message: Message, level: Int): Message {
-    val user = users[message.userId]
-    if (user != null) {
-        message.title = user.fullName
-        message.photo = user.photo100
-    }
-    if (message.fwdMessages != null) {
-        val fwd = message.fwdMessages ?: arrayListOf()
-        for (i in fwd.indices) {
-            fwd[i] = setMessageTitles(users, fwd[i], level + 1)
-        }
-        message.fwdMessages = fwd
-    }
-    return message
 }
 
 fun writeResponseBodyToDisk(body: ResponseBody, fileName: String): Boolean {

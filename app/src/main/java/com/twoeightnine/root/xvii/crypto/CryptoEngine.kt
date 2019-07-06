@@ -41,9 +41,6 @@ class CryptoEngine(
         if (storage.hasKey(peerId)) {
             key = storage.getKey(peerId)
             keyType = KeyType.CUSTOM
-        } else {
-            setKey(getDefaultKey(), save = false)
-            keyType = KeyType.DEFAULT
         }
     }
 
@@ -111,7 +108,7 @@ class CryptoEngine(
      * finishes the exchange, receive other public nonce, obtains [key]
      */
     fun finishExchange(publicOtherWrapped: String) {
-        val publicOther = strToNum(publicOtherWrapped)
+        val publicOther = strToNum(unwrapKey(publicOtherWrapped))
         dh.publicOther = publicOther
         setKey(dh.key.toString())
         keyType = KeyType.RANDOM
@@ -126,13 +123,18 @@ class CryptoEngine(
 
     fun decrypt(message: String): Cipher.Result {
         checkKey()
-
-        val enc = fromBase64(unwrapData(message))
-        return Cipher.decrypt(enc, key)
+        return try {
+            val enc = fromBase64(unwrapData(message))
+            Cipher.decrypt(enc, key)
+        } catch (e: Exception) {
+            Cipher.Result(verified = false)
+        }
     }
 
     @SuppressLint("CheckResult")
     fun encryptFile(context: Context, path: String, onEncrypted: (String) -> Unit) {
+        checkKey()
+
         Single.fromCallable {
             val bytes = getBytesFromFile(context, path)
             Cipher.encrypt(bytes, key)
@@ -152,6 +154,8 @@ class CryptoEngine(
      */
     @SuppressLint("CheckResult")
     fun decryptFile(context: Context, path: String, onDecrypted: (Boolean, String?) -> Unit) {
+        checkKey()
+
         Single.fromCallable {
             val bytes = getBytesFromFile(context, path)
             Cipher.decrypt(bytes, key)
@@ -168,33 +172,9 @@ class CryptoEngine(
                 }
     }
 
-    fun getFingerPrint() = sha256(bytesToHex(key))
-
-    /**
-     * !!!remove later!!!
-     * removes the saved key and sets the default one
-     */
-    fun resetKey() {
-        storage.removeKey(peerId)
-        setKey(getDefaultKey(), save = false)
-        keyType = KeyType.DEFAULT
-    }
-
-    /**
-     * !!!remove later!!!
-     * @param uid id of current user
-     * @param cid peerId of chat
-     */
-    private fun getDefaultKey(): String {
-        if (!peerId.matchesUserId()) {
-            return "$peerId"
-        }
-        val uid = Session.uid
-        return "${Math.min(uid, peerId)}${Math.max(uid, peerId)}"
-    }
-
-    private fun logKey() {
-        Lg.dbg("[crypto] ${getFingerPrint()}")
+    fun getFingerPrint(): String {
+        checkKey()
+        return sha256(bytesToHex(key))
     }
 
     companion object {

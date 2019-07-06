@@ -115,7 +115,6 @@ class LoginActivity : BaseActivity() {
     private fun onFailed(error: String) {
         showError(this, error)
         Session.token = ""
-        restartApp(getString(R.string.auth_error))
     }
 
     private fun onChecked() {

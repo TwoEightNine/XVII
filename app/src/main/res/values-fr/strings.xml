@@ -100,7 +100,7 @@
     <string name="privacy_policy">politique de confidentialité</string>
     <string name="chat">tchat</string>
     <string name="leave_chat">quitter le tchat</string>
-    <string name="chat_title_updated">nom du tchat était mis à jour: \"%s\"</string>
+    <string name="chat_title_updated">%s a mis à jour le nom du tchat: \"%s\"</string>
     <string name="new_dialog">nouvelle conversation</string>
     <string name="offline_hint">attention! tous clients ne peuvent plus appuyer mode hors ligne. c\'est causé par vk api qui allume le statut automatiquement chaque fois aprés mis á jour. heureusement, vous pouvez allumer mode \"presque\" hors ligne qui vous fera hors ligne, mais votre last seen time sera changé.</string>
     <string name="ten_attachments">vous ne pouvez pas ajouter plus de 10 attachments</string>
@@ -122,7 +122,7 @@
     <string name="secure_length">utilisez des mots longues</string>
     <string name="messages">messages</string>
     <string name="no_exchg_in_chats">l\'échange des clés n\'est pas disponible dans ce tchat</string>
-    <string name="encryption">chiffrement</string>
+    <string name="encryption">un échange secret</string>
     <string name="restart_app">on rédemarre l\'app..</string>
     <string name="hidden_message">message</string>
     <string name="shared">partagé avec succès</string>
@@ -154,7 +154,7 @@
     <string name="not_now">pas maintenant</string>
     <string name="never">jamais</string>
     <string name="unable_to_add_to_gallery">incapable d\'ajouter à la gallerie. il va être ajouté bientôt</string>
-    <string name="generation_dh_hint">souyez sûr que votre interlocuteur a installé xvii et ouvert la conversation avec vous. c\'est necessaire pour l\'échangement des clés.\attention! les clés sont seulement valides dans cette session. après avoir quitté cette conversation les clés seront supprimés pour toujors!</string>
+    <string name="generation_dh_hint">souyez sûr que votre interlocuteur a installé xvii et ouvert l\'échange secret avec vous. c\'est necessaire pour l\'échangement des clés</string>
     <string name="key_xchg_failed">l\'interlocuteur n\'a pas soutenu l\'échangement. erreur!</string>
     <string name="fingerprint">empreinte digitale</string>
     <string name="decrypting_image">la photo est été décrypté</string>
@@ -264,18 +264,27 @@
     <string name="search_hint">rechercher</string>
     <string name="wanna_change_theme">vous avez changé le thème. l\'app se redémarrer. continuer?</string>
     <string name="cancel">anuller</string>
-    <string name="too_deep_forwarding">des messages trop profond sera appuyé bientôt..</string>
+    <string name="too_deep_forwarding">tapez pour regarder tout</string>
+    <string name="empty_user_key">le clé ne peut pas être vide!</string>
+    <string name="keys_not_set">des clés n\'est pas mises</string>
+    <string name="unable_to_write">malheuresement, vous ne pouvez pas écrire un message à l\'utilisateur</string>
+    <string name="show_seconds">montrer des secondes</string>
     <string name="longpoll_hint">tapez pour decouvrir plus</string>
     <string name="xvii_longpoll">service en arrière-plan de xvii</string>
     <string name="use_apple_emojis">utiliser des emojis d\'apple</string>
     <string name="summary">totallément</string>
     <string name="show_voice">montrer l\'icône l\'audio</string>
     <string name="show_stickers">montrer l\'icône des emojis/autocollants</string>
-    <string name="show_seconds">montrer des sécondes</string>
     <string name="request">requête</string>
     <string name="outgoing">données\nsortantes</string>
     <string name="lower_texts">utiliser des minuscules pour les noms</string>
     <string name="incoming">données\nentrantes</string>
+    <string name="chat_photo_updated">%s a mis à jour le photo du tchat</string>
+    <string name="user_kicked_user">% a vivé %s</string>
+    <string name="user_leaved_chat">%s a laissé le tchat</string>
+    <string name="user_pinned_message">%s a épinglé le message: \"%s\"</string>
+    <string name="edited">modifié</string>
+    <string name="forwarded_message">message</string>
 
 </resources>
 

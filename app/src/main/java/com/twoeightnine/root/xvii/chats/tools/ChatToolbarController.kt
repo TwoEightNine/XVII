@@ -47,18 +47,15 @@ class ChatToolbarController(private val toolbar: Toolbar) {
     }
 
     fun hideActions() {
-        l("hide actions")
         actionSubscription?.unsubscribe()
         hide()
     }
 
     private fun startTimer() {
-        l("start timer")
         actionSubscription?.unsubscribe()
         lastAction = time()
         actionSubscription = Completable.timer(ACTION_DELAY_MS, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 .subscribe {
-                    l("time fired")
                     if (time() - lastAction >= ACTION_DELAY_S) {
                         hide()
                     }
@@ -67,19 +64,14 @@ class ChatToolbarController(private val toolbar: Toolbar) {
 
     private fun hide() {
         with(toolbar) {
-            l("hide")
             tvSubtitle.show()
             tvRecordingVoice.hide()
             tvTyping.hide()
         }
     }
 
-    private fun l(s: String) {
-        Lg.i("[toolbar] $s")
-    }
-
     companion object {
         private const val ACTION_DELAY_MS = 5500L
-        private const val ACTION_DELAY_S = ACTION_DELAY_MS.toDouble() / 1000
+        private const val ACTION_DELAY_S = 5
     }
 }

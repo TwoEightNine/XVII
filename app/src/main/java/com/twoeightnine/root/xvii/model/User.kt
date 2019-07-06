@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.model
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.twoeightnine.root.xvii.utils.time
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -130,8 +129,6 @@ data class User(
         get() = (online ?: 0) == 1
         set(isOnline) {
             online = if (isOnline) 1 else 0
-            // if !isOnline user was online 5 minutes ago
-            lastSeen?.time = time() - (if (isOnline) 0 else 300)
         }
 }
 
@@ -151,7 +148,11 @@ data class City(
 data class LastSeen(
         @SerializedName("time")
         @Expose
-        var time: Int = 0
+        var time: Int = 0,
+
+        @SerializedName("platform")
+        @Expose
+        var platform: Int = 0
 ) : Parcelable
 
 @Parcelize

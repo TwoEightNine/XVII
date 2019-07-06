@@ -19,7 +19,7 @@
             android:layout_marginTop="@dimen/chat_shape_margin_vert"
             android:layout_marginBottom="@dimen/chat_shape_margin_vert"
             android:background="@drawable/shape_message"
-            android:elevation="2dp"
+            android:elevation="0.5dp"
             android:minWidth="140dp"
             android:orientation="vertical">
 

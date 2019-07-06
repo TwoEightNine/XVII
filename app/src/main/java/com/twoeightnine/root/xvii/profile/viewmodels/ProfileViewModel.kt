@@ -22,8 +22,12 @@ class ProfileViewModel(private val api: ApiService) : ViewModel() {
     init {
         EventBus.subscribeLongPollEventReceived { event ->
             when (event) {
-                is OnlineEvent -> if (event.userId == userId) updateStatus(true)
-                is OfflineEvent -> if (event.userId == userId) updateStatus(false)
+                is OnlineEvent -> if (event.userId == userId) {
+                    updateStatus(true, event.timeStamp, event.deviceCode)
+                }
+                is OfflineEvent -> if (event.userId == userId) {
+                    updateStatus(false, event.timeStamp)
+                }
             }
         }
     }
@@ -89,9 +93,13 @@ class ProfileViewModel(private val api: ApiService) : ViewModel() {
         return "${date.substring(8)}.${date.substring(5, 7)}.${date.substring(0, 4)}"
     }
 
-    private fun updateStatus(isOnline: Boolean) {
+    private fun updateStatus(isOnline: Boolean, timeStamp: Int, platform: Int = 0) {
         val user = userLiveData.value?.data ?: return
         user.isOnline = isOnline
+        user.lastSeen?.time = timeStamp
+        if (platform != 0) {
+            user.lastSeen?.platform = platform
+        }
         userLiveData.value = Wrapper(user)
     }
 

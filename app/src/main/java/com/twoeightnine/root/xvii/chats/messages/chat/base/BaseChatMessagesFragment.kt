@@ -1,18 +1,16 @@
-package com.twoeightnine.root.xvii.chats.messages.chat
+package com.twoeightnine.root.xvii.chats.messages.chat.base
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.ChatFragment
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
@@ -21,25 +19,26 @@ import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.chats.tools.ChatInputController
 import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.model.Message2
+import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.attachments.*
+import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.LoadingDialog
+import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
+import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.toolbar_chat.*
 
-class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
+abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMessagesFragment<VM>() {
 
-    private val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
-    private val title by lazy { arguments?.getString(ARG_TITLE) ?: "" }
-    private val photo by lazy { arguments?.getString(ARG_PHOTO) ?: "" }
+    protected val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
+    protected val title by lazy { arguments?.getString(ARG_TITLE) ?: "" }
+    protected val photo by lazy { arguments?.getString(ARG_PHOTO) ?: "" }
     private val forwardedMessages by lazy { arguments?.getString(ARG_FORWARDED) }
     private val shareText by lazy { arguments?.getString(ARG_SHARE_TEXT) }
     private val shareImage by lazy { arguments?.getString(ARG_SHARE_IMAGE) }
@@ -53,14 +52,9 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
     }
 
     private val handler = Handler()
-    private var dialogLoading: LoadingDialog? = null
     private lateinit var inputController: ChatInputController
 
-    override fun getViewModelClass() = ChatMessagesViewModel::class.java
-
-    override fun inject() {
-        App.appComponent?.inject(this)
-    }
+    abstract fun onEncryptedDocClicked(doc: Doc)
 
     override fun prepareViewModel() {
         viewModel.peerId = peerId
@@ -70,12 +64,17 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         inputController = ChatInputController(contextOrThrow, view, InputCallback())
-        swipeContainer.setOnRefreshListener { /*presenter.loadHistory(withClear = true)*/ }
+        swipeContainer.setOnRefreshListener { viewModel.loadMessages() }
 
         rvAttached.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
         rvAttached.adapter = attachedAdapter
         stylize()
         initContent()
+        initMultiSelectMenu()
+
+        viewModel.getLastSeen().observe(this, Observer { onOnlineChanged(it) })
+        viewModel.getCanWrite().observe(this, Observer { onCanWriteChanged(it) })
+        viewModel.getActivity().observe(this, Observer { onActivityChanged(it) })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -85,13 +84,42 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
             chatToolbarController.setAvatar(photo)
         }
         if (!peerId.matchesUserId()) {
-            onOnlineChanged(false)
+            onOnlineChanged(Triple(false, 0, 0))
         }
         toolbar?.setOnClickListener {
             activity?.let { hideKeyboard(it) }
             if (peerId.matchesUserId()) {
                 ProfileActivity.launch(context, peerId)
             }
+        }
+    }
+
+    private fun initMultiSelectMenu() {
+        ivReplyMulti.setOnClickListener {
+            attachedAdapter.fwdMessages = getSelectedMessageIds()
+            attachedAdapter.isReply = true
+            adapter.multiSelectMode = false
+        }
+        ivDeleteMulti.setOnClickListener {
+            val selectedMessages = adapter.multiSelect
+            val callback = { forAll: Boolean ->
+                viewModel.deleteMessages(getSelectedMessageIds(), forAll)
+                adapter.multiSelectMode = false
+            }
+            val edgeDate = time() - 3600 * 24
+            val isOut = selectedMessages.filter { !it.isOut() }.isEmpty()
+            val isRecent = selectedMessages.filter { it.date < edgeDate }.isEmpty()
+            if (isOut && isRecent) {
+                showDeleteMessagesDialog(callback)
+            } else {
+                context?.let {
+                    showDeleteDialog(it) { callback.invoke(false) }
+                }
+            }
+        }
+        ivMarkMulti.setOnClickListener {
+            viewModel.markAsImportant(getSelectedMessageIds())
+            adapter.multiSelectMode = false
         }
     }
 
@@ -109,6 +137,21 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
                 showError(activity, e.message ?: "background not found")
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.isShown = true
+        adapter.items.lastOrNull()?.also { viewModel.invalidateMessages(it) }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.isShown = false
+    }
+
+    override fun onScrolled(isAtBottom: Boolean) {
+        viewModel.isShown = isAtBottom
     }
 
     private fun initContent() {
@@ -129,12 +172,6 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
-        inflater?.inflate(R.menu.menu_chat, menu)
-    }
-
     private fun showDeleteMessagesDialog(callback: (Boolean) -> Unit) {
         val context = context ?: return
 
@@ -148,12 +185,12 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         dialog.stylize()
     }
 
-    private fun showEditMessageDialog(message: Message2) {
+    private fun showEditMessageDialog(message: Message) {
         val context = context ?: return
 
         if (message.isOut() && time() - message.date < 3600 * 24) {
             TextInputAlertDialog(context, "", message.text) {
-//                presenter.editMessage(message.id, it)
+                viewModel.editMessage(message.id, it)
             }.show()
         } else {
             showError(context, R.string.unable_to_edit_message)
@@ -169,28 +206,44 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
                 ImageViewerActivity.viewImages(context, arrayListOf(it))
             }
             Attachment.TYPE_VIDEO -> attachment.video?.let {
-//                apiUtils.openVideo(safeContext, it)
+                viewModel.loadVideo(context ?: return, it, { playerUrl ->
+                    VideoViewerActivity.launch(context, playerUrl)
+                }, { error ->
+                    showError(context, error)
+                })
             }
         }
     }
 
     /**
      * handle setting subtitle and changing user's status
+     * triple represents:
+     *  - online flag
+     *  - last seen time
+     *  - device code
      */
-    private fun onOnlineChanged(isOnline: Boolean, timeStamp: Int = 0) {
+    private fun onOnlineChanged(value: Triple<Boolean, Int, Int>) {
         chatToolbarController.setSubtitle(when {
             peerId.matchesChatId() -> getString(R.string.conversation)
             peerId.matchesGroupId() -> getString(R.string.community)
-            else -> {
-                val time = if (timeStamp == 0) {
-                    time() - (if (isOnline) 0 else 300)
-                } else {
-                    timeStamp
-                }
-                val stringRes = if (isOnline) R.string.online_seen else R.string.last_seen
-                getString(stringRes, getTime(time, withSeconds = Prefs.showSeconds))
-            }
+            else -> getLastSeenText(context?.resources, value.first, value.second, value.third)
         })
+    }
+
+    /**
+     * handles setting peer's activity: one of [BaseChatMessagesViewModel.ACTIVITY_TYPING],
+     * [BaseChatMessagesViewModel.ACTIVITY_VOICE], [BaseChatMessagesViewModel.ACTIVITY_NONE]
+     */
+    private fun onActivityChanged(activity: String) {
+        when (activity) {
+            BaseChatMessagesViewModel.ACTIVITY_VOICE -> chatToolbarController.showRecording()
+            BaseChatMessagesViewModel.ACTIVITY_TYPING -> chatToolbarController.showTyping()
+            BaseChatMessagesViewModel.ACTIVITY_NONE -> chatToolbarController.hideActions()
+        }
+    }
+
+    private fun onCanWriteChanged(canWrite: CanWrite) {
+        rlCantWrite.setVisible(!canWrite.allowed)
     }
 
     private fun onAttachmentsSelected(attachments: List<Attachment>) {
@@ -199,7 +252,10 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
 
     private fun onImagesSelected(paths: List<String>) {
         paths.forEach {
-//            presenter.attachPhoto(it, context = context)
+            viewModel.attachPhoto(it) { path, attachment ->
+                inputController.removeItemAsLoaded(path)
+                attachedAdapter.add(attachment)
+            }
             inputController.addItemAsBeingLoaded(it)
         }
     }
@@ -207,7 +263,7 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            ChatFragment.REQUEST_ATTACH -> {
+            REQUEST_ATTACH -> {
                 data?.extras?.apply {
                     getParcelableArrayList<Attachment>(AttachFragment.ARG_ATTACHMENTS)
                             ?.let(::onAttachmentsSelected)
@@ -230,7 +286,6 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
     override fun getAdapterCallback() = AdapterCallback()
 
     companion object {
-
         const val ARG_PEER_ID = "peerId"
         const val ARG_TITLE = "title"
         const val ARG_FORWARDED = "forwarded"
@@ -238,43 +293,28 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         const val ARG_SHARE_TEXT = "shareText"
         const val ARG_SHARE_IMAGE = "shareImage"
 
-        fun newInstance(dialog: Dialog, forwarded: String? = null,
-                        shareText: String? = null, shareImage: String? = null): ChatMessagesFragment {
-            val fragment = ChatMessagesFragment()
-            fragment.arguments = Bundle().apply {
-                putInt(ARG_PEER_ID, dialog.peerId)
-                putString(ARG_TITLE, dialog.alias ?: dialog.title)
-                putString(ARG_PHOTO, dialog.photo)
-                if (!forwarded.isNullOrEmpty()) {
-                    putString(ARG_FORWARDED, forwarded)
-                }
-                if (!shareText.isNullOrEmpty()) {
-                    putString(ARG_SHARE_TEXT, shareText)
-                }
-                if (!shareImage.isNullOrEmpty()) {
-                    putString(ARG_SHARE_IMAGE, shareImage)
-                }
-            }
-            return fragment
-        }
+        const val REQUEST_ATTACH = 2653
     }
 
     inner class AdapterCallback : MessagesAdapter.Callback {
-        override fun onClicked(message: Message2) {
-            getContextPopup(context ?: return, R.layout.popup_message) {
-                when (it.id) {
-                    R.id.llCopy -> copyToClip(message.text)
-                    R.id.llEdit -> showEditMessageDialog(message)
-                    R.id.llReply -> {
+        override fun onClicked(message: Message) {
+            createContextPopup(context ?: return, arrayListOf(
+                    ContextPopupItem(R.drawable.ic_copy_popup, R.string.copy) {
+                        copyToClip(message.text)
+                    },
+                    ContextPopupItem(R.drawable.ic_edit_popup, R.string.edit) {
+                        showEditMessageDialog(message)
+                    },
+                    ContextPopupItem(R.drawable.ic_reply_popup, R.string.reply) {
                         attachedAdapter.fwdMessages = "${message.id}"
                         attachedAdapter.isReply = true
-                    }
-                    R.id.llForward -> {
+                    },
+                    ContextPopupItem(R.drawable.ic_transfer_popup, R.string.forward) {
                         DialogsForwardActivity.launch(context, forwarded = "${message.id}")
-                    }
-                    R.id.llDelete -> {
+                    },
+                    ContextPopupItem(R.drawable.ic_delete_popup, R.string.delete) {
                         val callback = { forAll: Boolean ->
-//                            presenter.deleteMessages(mutableListOf(message.id), forAll)
+                            viewModel.deleteMessages(message.id.toString(), forAll)
                         }
                         if (message.isOut() && time() - message.date < 3600 * 24) {
                             showDeleteMessagesDialog(callback)
@@ -283,18 +323,11 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
                                 showDeleteDialog(it) { callback.invoke(false) }
                             }
                         }
+                    },
+                    ContextPopupItem(R.drawable.ic_star_popup, R.string.markasimportant) {
+                        viewModel.markAsImportant(message.id.toString())
                     }
-//                    R.id.llDecrypt -> {
-//                        message.body = getDecrypted(message.body)
-//                        adapter.notifyItemChanged(adapter.items.indexOf(message))
-//                    }
-//                    R.id.llMarkImportant ->
-//                        presenter.markAsImportant(
-//                                mutableListOf(message.id),
-//                                1
-//                        )
-                }
-            }.show()
+            )).show()
         }
 
         override fun onUserClicked(userId: Int) {
@@ -302,6 +335,7 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         }
 
         override fun onEncryptedFileClicked(doc: Doc) {
+            onEncryptedDocClicked(doc)
         }
 
         override fun onPhotoClicked(photo: Photo) {
@@ -324,11 +358,25 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         }
 
         override fun onStickerClicked(sticker: Sticker) {
-//            presenter.sendSticker(sticker)
+            viewModel.sendSticker(sticker, attachedAdapter.replyTo)
+            attachedAdapter.clear()
         }
 
         override fun onSendClick() {
-//            onSend(etInput.asText())
+            val replyTo = attachedAdapter.replyTo
+            val forwarded = if (replyTo == null) {
+                attachedAdapter.fwdMessages
+            } else {
+                null
+            }
+            viewModel.sendMessage(
+                    text = etInput.asText(),
+                    attachments = attachedAdapter.asString(),
+                    forwardedMessages = forwarded,
+                    replyTo = replyTo
+            )
+            etInput.clear()
+            attachedAdapter.clear()
         }
 
         override fun hasMicPermissions(): Boolean {
@@ -340,11 +388,11 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         }
 
         override fun onAttachClick() {
-            AttachActivity.launch(this@ChatMessagesFragment, ChatFragment.REQUEST_ATTACH)
+            AttachActivity.launch(this@BaseChatMessagesFragment, REQUEST_ATTACH)
         }
 
         override fun onTypingInvoke() {
-//            presenter.setTyping()
+            viewModel.setActivity(type = BaseChatMessagesViewModel.ACTIVITY_TYPING)
         }
 
         override fun onVoiceVisibilityChanged(visible: Boolean) {
@@ -354,13 +402,13 @@ class ChatMessagesFragment : BaseMessagesFragment<ChatMessagesViewModel>() {
         override fun onVoiceTimeUpdated(time: Int) {
             tvRecord.text = secToTime(time)
             if (time % 5 == 1) {
-//                presenter.setAudioMessaging()
+                viewModel.setActivity(type = BaseChatMessagesViewModel.ACTIVITY_VOICE)
             }
         }
 
         override fun onVoiceRecorded(fileName: String) {
             inputController.addItemAsBeingLoaded(fileName)
-//            presenter.attachVoice(fileName)
+            viewModel.attachVoice(fileName, inputController::removeItemAsLoaded)
         }
 
         override fun onVoiceError(error: String) {

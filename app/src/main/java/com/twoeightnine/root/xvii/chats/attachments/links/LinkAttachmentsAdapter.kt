@@ -27,7 +27,7 @@ class LinkAttachmentsAdapter(
             with(itemView) {
                 tvTitle.text = item.title
                 tvCaption.text = item.caption
-                ivPhoto.load(item.photo?.smallPhoto)
+                ivPhoto.load(item.photo?.getSmallPhoto()?.url)
                 setOnClickListener { onClick(items[adapterPosition]) }
             }
         }

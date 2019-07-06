@@ -37,20 +37,20 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/llDefaultKey"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/llDefaultKey"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:clickable="true">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin16"
-            android:text="@string/default_key"
-            style="@style/MainText"
-            android:textSize="17sp" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="@dimen/margin16"-->
+            <!--android:text="@string/default_key"-->
+            <!--style="@style/MainText"-->
+            <!--android:textSize="17sp" />-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
 </LinearLayout>

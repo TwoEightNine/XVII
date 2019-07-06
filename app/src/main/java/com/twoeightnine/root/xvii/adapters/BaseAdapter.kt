@@ -69,6 +69,16 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
         invalidateEmptiness()
     }
 
+    fun update(items: List<T>, pos: Int) {
+        var i = 0
+        while (pos + i < itemCount && i < items.size) {
+            this.items[pos + i] = items[i]
+            i++
+        }
+        notifyItemRangeChanged(pos, i)
+        invalidateEmptiness()
+    }
+
     open fun clear() {
         items.clear()
         notifyDataSetChanged()

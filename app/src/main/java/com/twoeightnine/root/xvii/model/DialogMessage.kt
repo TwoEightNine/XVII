@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.matchesChatId
 import com.twoeightnine.root.xvii.utils.matchesGroupId
 
@@ -13,7 +14,7 @@ data class DialogMessage(
 
         @SerializedName("last_message")
         @Expose
-        val lastMessage: Message2
+        val lastMessage: Message
 ) {
     fun isChat() = lastMessage.peerId.matchesChatId()
 

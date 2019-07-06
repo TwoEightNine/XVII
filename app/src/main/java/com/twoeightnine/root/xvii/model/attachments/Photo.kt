@@ -23,29 +23,9 @@ data class Photo(
         @Expose
         val ownerId: Int = 0,
 
-        @SerializedName("photo_75")
+        @SerializedName("sizes")
         @Expose
-        val photo75: String? = null,
-
-        @SerializedName("photo_130")
-        @Expose
-        val photo130: String? = null,
-
-        @SerializedName("photo_604")
-        @Expose
-        val photo604: String? = null,
-
-        @SerializedName("photo_807")
-        @Expose
-        val photo807: String? = null,
-
-        @SerializedName("photo_1280")
-        @Expose
-        val photo1280: String? = null,
-
-        @SerializedName("photo_2560")
-        @Expose
-        val photo2560: String? = null,
+        val sizes: ArrayList<PhotoSize> = arrayListOf(),
 
         @SerializedName("width")
         @Expose
@@ -72,35 +52,6 @@ data class Photo(
         var accessKey: String = ""
 ) : Parcelable, IdTypeable {
 
-    val maxPhoto: String
-        get() {
-            var max = almostMax
-            if (photo2560 != null) max = photo2560
-            return max
-        }
-
-    val almostMax: String
-        get() {
-            var max = optimalPhoto
-            if (photo807 != null) max = photo807
-            if (photo1280 != null) max = photo1280
-            return max
-        }
-
-    val optimalPhoto: String
-        get() {
-            var max = smallPhoto
-            if (photo604 != null) max = photo604
-            return max
-        }
-
-    val smallPhoto: String
-        get() {
-            var max = photo75
-            if (photo130 != null) max = photo130
-            return max ?: ""
-        }
-
     val ratio: Double
         get() = width.toDouble() / height
 
@@ -108,4 +59,70 @@ data class Photo(
         get() = "${ownerId}_$id"
 
     override fun getId() = "photo$photoId"
+
+    /**
+     * removes unnecessary sizes, keeps only [types]
+     * sorts by size descending
+     */
+    private fun filteredSizes() = sizes.filter { it.type in types }
+            .sortedByDescending { types.indexOf(it.type) }
+
+    /**
+     * keeps only sizes that are smaller that [type]
+     */
+    private fun filteredByType(type: String) = filteredSizes()
+            .filter { types.indexOf(it.type) <= types.indexOf(type) }
+
+    fun getOptimalPhoto() = filteredByType(TYPE_Y).first()
+
+    fun getLargePhoto() = filteredByType(TYPE_Z).first()
+
+    fun getMaxPhoto() = filteredByType(TYPE_W).first()
+
+    fun getSmallPhoto() = filteredByType(TYPE_M).first()
+
+    fun getMediumPhoto() = filteredByType(TYPE_P).first()
+
+    companion object {
+
+        const val TYPE_S = "s"
+        const val TYPE_M = "m"
+        const val TYPE_P = "p"
+        const val TYPE_Q = "q"
+        const val TYPE_X = "x"
+        const val TYPE_Y = "y"
+        const val TYPE_Z = "z"
+        const val TYPE_W = "w"
+
+        val types = arrayListOf(
+                TYPE_S,
+                TYPE_M,
+                TYPE_P,
+                TYPE_Q,
+                TYPE_X,
+                TYPE_Y,
+                TYPE_Z,
+                TYPE_W
+        )
+    }
 }
+
+@Parcelize
+data class PhotoSize(
+
+        @SerializedName("type")
+        @Expose
+        val type: String,
+
+        @SerializedName("url")
+        @Expose
+        val url: String,
+
+        @SerializedName("width")
+        @Expose
+        val width: Int,
+
+        @SerializedName("height")
+        @Expose
+        val height: Int
+) : Parcelable

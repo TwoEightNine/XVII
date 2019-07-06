@@ -31,6 +31,7 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
         private set
 
     private lateinit var stubLoadItem: T
+    private var stackFromEnd = false
 
     abstract fun createHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
 
@@ -41,7 +42,7 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         stubLoadItem = createStubLoadItem()
-        val stackFromEnd = (recyclerView.layoutManager
+        stackFromEnd = (recyclerView.layoutManager
                 as? LinearLayoutManager)?.stackFromEnd == true
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -102,8 +103,17 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
     fun startLoading(addLoader: Boolean = false) {
         switchStates(State.LOADING)
         if (addLoader) {
-            add(stubLoadItem)
+            if (stackFromEnd) {
+                add(stubLoadItem, 0)
+            } else {
+                add(stubLoadItem)
+            }
         }
+    }
+
+    fun stopLoading(finished: Boolean = false) {
+        remove(stubLoadItem)
+        switchStates(if (finished) State.FINISHED else State.USUAL)
     }
 
     /**

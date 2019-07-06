@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.egg
 import android.os.Bundle
 import android.text.Html
 import android.view.View
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.utils.load
@@ -32,11 +31,10 @@ class EggFragment : BaseFragment() {
         val scale = 500f / 335f
         val width = screenWidth(activity ?: return)
         val height = (width / scale).toInt()
-        Picasso.get()
-                .load(URL_FIGHT_CLUB)
-                .resize(width, height)
-                .centerCrop()
-                .into(ivBack)
+        ivBack.load(URL_FIGHT_CLUB, placeholder = false) {
+            resize(width, height)
+            centerCrop()
+        }
         tvText.text = Html.fromHtml(getString(R.string.quote))
     }
 

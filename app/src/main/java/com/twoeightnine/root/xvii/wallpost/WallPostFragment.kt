@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.fragments.BaseOldFragment
+import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.WallPost
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.content_wall_post.view.*
 import kotlinx.android.synthetic.main.fragment_wall_post.*
 import javax.inject.Inject
 
-class WallPostFragment : BaseOldFragment() {
+class WallPostFragment : BaseFragment() {
 
     private val postId by lazy { arguments?.getString(ARG_POST_ID) }
     private lateinit var postResponse: WallPostResponse
@@ -32,12 +32,13 @@ class WallPostFragment : BaseOldFragment() {
     @Inject
     lateinit var apiUtils: ApiUtils
 
-    override fun bindViews(view: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         App.appComponent?.inject(this)
         getWallPostRequest()
     }
 
-    override fun getLayout() = R.layout.fragment_wall_post
+    override fun getLayoutId() = R.layout.fragment_wall_post
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -60,10 +61,10 @@ class WallPostFragment : BaseOldFragment() {
                         putViews(WallViewHolder(llRoot), response.items[0], 0)
                         initLike(response.items[0])
                     } else {
-                        showError(rootActivity, getString(R.string.error))
+                        showError(context, getString(R.string.error))
                     }
                 }, {
-                    showError(rootActivity, it)
+                    showError(context, it)
                 })
     }
 
@@ -89,26 +90,40 @@ class WallPostFragment : BaseOldFragment() {
                 }
 
                 Attachment.TYPE_DOC -> attachment.doc?.also { doc ->
-                    if (doc.isGif) {
-                        holder.llContainer.addView(getGif(doc, safeContext))
-                    } else {
-                        holder.llContainer.addView(getDoc(doc, safeContext))
+                    context?.also {
+                        if (doc.isGif) {
+                            holder.llContainer.addView(getGif(doc, it))
+                        } else {
+                            holder.llContainer.addView(getDoc(doc, it))
+                        }
                     }
                 }
 
-                Attachment.TYPE_AUDIO -> attachment.audio?.also {
-                    holder.llContainer.addView(getAudio(it, safeContext))
+                Attachment.TYPE_AUDIO -> attachment.audio?.also { audio ->
+                    context?.also {
+                        holder.llContainer.addView(getAudio(audio, it))
+                    }
                 }
 
 
-                Attachment.TYPE_LINK -> attachment.link?.also {
-                    holder.llContainer.addView(getLink(it, safeContext))
+                Attachment.TYPE_LINK -> attachment.link?.also { link ->
+                    context?.also {
+                        holder.llContainer.addView(getLink(link, it))
+                    }
                 }
 
-                Attachment.TYPE_VIDEO -> attachment.video?.also {
-                    holder.llContainer.addView(getVideo(it, safeContext) { video ->
-                        apiUtils.openVideo(safeActivity, video)
-                    })
+                Attachment.TYPE_POLL -> attachment.poll?.also { poll ->
+                    context?.also {
+                        holder.llContainer.addView(getPoll(poll, it))
+                    }
+                }
+
+                Attachment.TYPE_VIDEO -> attachment.video?.also { video ->
+                    activity?.also {
+                        holder.llContainer.addView(getVideo(video, it) { video ->
+                            apiUtils.openVideo(it, video)
+                        })
+                    }
                 }
             }
         }
@@ -129,14 +144,15 @@ class WallPostFragment : BaseOldFragment() {
     }
 
     private fun fillContent(root: ViewGroup) {
-        root.addView(View.inflate(rootActivity, R.layout.content_wall_post, null))
+        root.addView(View.inflate(context, R.layout.content_wall_post, null))
     }
 
     private fun initLike(wp: WallPost) {
         val likes = wp.likes ?: return
+        val context = context ?: return
 
-        val noLike = ContextCompat.getDrawable(safeContext, R.drawable.ic_no_like)
-        val like = ContextCompat.getDrawable(safeContext, R.drawable.ic_like)
+        val noLike = ContextCompat.getDrawable(context, R.drawable.ic_no_like)
+        val like = ContextCompat.getDrawable(context, R.drawable.ic_like)
         if (likes.isUserLiked) {
             ivLike.setImageDrawable(like)
         } else {
@@ -153,7 +169,7 @@ class WallPostFragment : BaseOldFragment() {
                             likes.isUserLiked = true
                             tvLikes.text = response.likes.toString()
                         }, {
-                            showError(rootActivity, it)
+                            showError(context, it)
                             ivLike.setImageDrawable(noLike)
                         })
             } else {
@@ -163,7 +179,7 @@ class WallPostFragment : BaseOldFragment() {
                             likes.isUserLiked = false
                             tvLikes.text = response.likes.toString()
                         }, {
-                            showError(rootActivity, it)
+                            showError(context, it)
                             ivLike.setImageDrawable(like)
                         })
             }

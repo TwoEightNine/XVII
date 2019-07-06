@@ -10,7 +10,6 @@ import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
-import com.twoeightnine.root.xvii.chats.ChatFragment
 import com.twoeightnine.root.xvii.chats.attachments.audios.AudioAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachmentsFragment
@@ -22,7 +21,10 @@ import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersFragment
 import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
-import com.twoeightnine.root.xvii.chats.messages.chat.ChatMessagesFragment
+import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatMessagesFragment
+import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatMessagesFragment
+import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
+import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedViewModel
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.dagger.modules.NetworkModule
@@ -32,7 +34,6 @@ import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.main.MainActivity
-import com.twoeightnine.root.xvii.mvp.presenter.ChatFragmentPresenter
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.search.SearchFragment
@@ -53,9 +54,7 @@ interface AppComponent {
     fun inject(gifViewerActivity: GifViewerActivity)
     fun inject(pinActivity: PinActivity)
 
-    //fragments
-    fun inject(chatFragment: ChatFragment)
-
+    // fragments
     fun inject(profileFragment: ProfileFragment)
     fun inject(wallPostFragment: WallPostFragment)
     fun inject(accountsFragment: AccountsFragment)
@@ -74,6 +73,8 @@ interface AppComponent {
     fun inject(stickersFragment: StickersFragment)
     fun inject(starredMessagesFragment: StarredMessagesFragment)
     fun inject(chatMessagesFragment: ChatMessagesFragment)
+    fun inject(secretChatMessagesFragment: SecretChatMessagesFragment)
+    fun inject(deepForwardedFragment: DeepForwardedFragment)
     fun inject(featuresFragment: FeaturesFragment)
     fun inject(searchFragment: SearchFragment)
     fun inject(analyzeDialogFragment: AnalyzeDialogFragment)
@@ -83,7 +84,6 @@ interface AppComponent {
     fun inject(downloadFileService: DownloadFileService)
     fun inject(notfJobIntentService: NotificationJobIntentService)
     fun inject(longPollCore: LongPollCore)
-    fun inject(chatFragmentPresenter: ChatFragmentPresenter)
     fun inject(markAsReadBroadcastReceiver: MarkAsReadBroadcastReceiver)
     fun inject(stickersWindow: StickersWindow)
 

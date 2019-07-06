@@ -10,33 +10,17 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.web.GifViewerActivity
 
-const val MAX_WIDTH = 500
-const val MAX_HEIGHT = 500
-const val C_RATIO = MAX_WIDTH.toDouble() / MAX_HEIGHT
 
 fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): View {
-//    val newHeight: Int
-//    val newWidth: Int
-//    if (photo.ratio > C_RATIO) {
-//        newWidth = MAX_WIDTH
-//        newHeight = (newWidth.toDouble() / photo.ratio).toInt()
-//    } else {
-//        newHeight = MAX_HEIGHT
-//        newWidth = (newHeight * photo.ratio).toInt()
-//    }
-//    val view = ImageView(context)
-//    view.layoutParams = LinearLayout.LayoutParams(newWidth, newHeight)
-//    (view.layoutParams as? LinearLayout.LayoutParams)?.setMargins(0, 7, 0, 0)
     val view = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-    Picasso.get()
-            .loadRounded(photo.optimalPhoto)
+    XviiPicasso.get()
+            .loadRounded(photo.getOptimalPhoto().url)
             .resize(pxFromDp(context, 250), pxFromDp(context, 300))
             .centerCrop()
             .into(view.findViewById<ImageView>(R.id.ivInternal))
@@ -47,14 +31,15 @@ fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): Vie
 fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}): View {
     val iv = ImageView(activity)
     val width = screenWidth(activity)
-    val scale = width * 1.0f / photo.width
-    val ivHeight = (photo.height * scale).toInt()
+    val photoSize = photo.getLargePhoto()
+    val scale = width * 1.0f / photoSize.width
+    val ivHeight = (photoSize.height * scale).toInt()
     val params = LinearLayout.LayoutParams(width, ivHeight)
     params.topMargin = 12
     params.bottomMargin = 12
     iv.layoutParams = params
-    Picasso.get()
-            .loadRounded(photo.almostMax)
+    XviiPicasso.get()
+            .loadRounded(photoSize.url)
             .resize(width, ivHeight)
             .centerCrop()
             .into(iv)
@@ -65,7 +50,7 @@ fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}
 fun getGif(doc: Doc, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
     val ivVideo = included.findViewById<ImageView>(R.id.ivVideo)
-    Picasso.get()
+    XviiPicasso.get()
             .loadRounded(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
@@ -128,7 +113,7 @@ fun getAudio(audio: Audio, context: Context): View {
 
 fun getLink(link: Link, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_link, null, false)
-    (included.findViewById<ImageView>(R.id.ivPhoto)).load(link.photo?.smallPhoto)
+    (included.findViewById<ImageView>(R.id.ivPhoto)).load(link.photo?.getSmallPhoto()?.url)
 
     included.findViewById<TextView>(R.id.tvTitle).text = link.title
     included.findViewById<TextView>(R.id.tvCaption).text = link.url
@@ -138,12 +123,21 @@ fun getLink(link: Link, context: Context): View {
 
 fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
-    Picasso.get()
+    XviiPicasso.get()
             .loadRounded(video.maxPhoto)
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
             .into(included.findViewById<ImageView>(R.id.ivVideo))
     included.findViewById<TextView>(R.id.tvDuration).text = secToTime(video.duration)
     included.setOnClickListener { onClick.invoke(video) }
+    return included
+}
+
+fun getPoll(poll: Poll, context: Context): View {
+    val included = LayoutInflater.from(context).inflate(R.layout.container_poll, null, false)
+
+    included.findViewById<TextView>(R.id.tvQuestion).text = poll.question
+    included.findViewById<ImageView>(R.id.ivPhoto).stylize()
+    included.setOnClickListener { showToast(context, R.string.in_future_versions) }
     return included
 }

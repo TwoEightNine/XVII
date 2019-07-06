@@ -36,9 +36,9 @@ class FriendsAdapter(context: Context,
                     tvName.lower()
                 }
 
-                val stringRes = if (user.isOnline) R.string.online_seen else R.string.last_seen
-                tvInfo.text = resources.getString(stringRes,
-                        getTime(user.lastSeen?.time ?: 0, withSeconds = Prefs.showSeconds))
+                user.lastSeen?.also {
+                    tvInfo.text = getLastSeenText(resources, user.isOnline, it.time, it.platform)
+                }
                 setOnClickListener { onClick(items[adapterPosition]) }
             }
         }

@@ -1,10 +1,11 @@
-package com.twoeightnine.root.xvii.model
+package com.twoeightnine.root.xvii.model.messages
 
 import android.content.Context
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.longpoll.models.events.BaseMessageEvent
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.isSticker
 import com.twoeightnine.root.xvii.model.attachments.photosCount
@@ -12,7 +13,7 @@ import com.twoeightnine.root.xvii.utils.matchesChatId
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Message2(
+data class Message(
 
         @SerializedName("id")
         @Expose
@@ -32,15 +33,15 @@ data class Message2(
 
         @SerializedName("text")
         @Expose
-        val text: String = "",
+        var text: String = "",
 
         @SerializedName("out")
         @Expose
         val out: Int = 0,
 
-//        @SerializedName("action")
-//        @Expose
-//        val action: String? = null,
+        @SerializedName("action")
+        @Expose
+        val action: MessageAction? = null,
 //
 //        @SerializedName("action_text")
 //        @Expose
@@ -52,11 +53,19 @@ data class Message2(
 
         @SerializedName("fwd_messages")
         @Expose
-        val fwdMessages: ArrayList<Message2>? = arrayListOf(),
+        val fwdMessages: ArrayList<Message>? = arrayListOf(),
 
         @SerializedName("attachments")
         @Expose
         val attachments: ArrayList<Attachment>? = arrayListOf(),
+
+        @SerializedName("reply_message")
+        @Expose
+        var replyMessage: Message? = null,
+
+        @SerializedName("update_time")
+        @Expose
+        var updateTime: Int = 0,
 
         // ------------------- manually added values
         @SerializedName("read")
@@ -72,9 +81,24 @@ data class Message2(
         var photo: String? = null
 ) : Parcelable {
 
+    constructor(event: BaseMessageEvent, prepareText: (String) -> String = { it }) : this(
+            id = event.id,
+            peerId = event.peerId,
+            date = event.timeStamp,
+            fromId = event.info.from,
+            text = prepareText(event.text),
+            out = if (event.isOut()) 1 else 0
+    )
+
+    fun isEdited() = updateTime != 0
+
     fun isOut() = out == 1
 
-    fun isSticker() = attachments != null && attachments.isSticker()
+    fun isSystem() = action != null
+
+    fun isSticker() = attachments != null && attachments.isSticker() && replyMessage == null
+
+    fun isReplyingSticker() = attachments != null && attachments.isSticker() && replyMessage != null
 
     fun hasPhotos() = attachments != null && attachments.photosCount() > 0
 

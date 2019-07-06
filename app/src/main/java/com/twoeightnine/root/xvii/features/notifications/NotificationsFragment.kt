@@ -5,10 +5,10 @@ import android.os.Handler
 import android.view.View
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.egg.EggActivity
 import com.twoeightnine.root.xvii.egg.EggFragment
 import com.twoeightnine.root.xvii.features.notifications.color.ColorAlertDialog
-import com.twoeightnine.root.xvii.fragments.BaseOldFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.stylizeAll
 import kotlinx.android.synthetic.main.fragment_notifications.*
@@ -17,11 +17,11 @@ import kotlinx.android.synthetic.main.fragment_notifications.*
  * Created by root on 2/2/17.
  */
 
-class NotificationsFragment : BaseOldFragment() {
+class NotificationsFragment : BaseFragment() {
 
     private var eggState = 0
 
-    override fun getLayout() = R.layout.fragment_notifications
+    override fun getLayoutId() = R.layout.fragment_notifications
 
     private fun initSwitches() {
         if (Prefs.showNotifs) {
@@ -75,16 +75,20 @@ class NotificationsFragment : BaseOldFragment() {
             }
         }
         rlLedColor.setOnClickListener {
-            ColorAlertDialog(safeContext) { color ->
-                Prefs.ledColor = color
-                ivLedColor.setBackgroundColor(color)
-            }.show()
+            context?.also {
+                ColorAlertDialog(it) { color ->
+                    Prefs.ledColor = color
+                    ivLedColor.setBackgroundColor(color)
+                }.show()
+            }
         }
         rlLedColorChats.setOnClickListener {
-            ColorAlertDialog(safeContext) { color ->
-                Prefs.ledColorChats = color
-                ivLedColorChats.setBackgroundColor(color)
-            }.show()
+            context?.also {
+                ColorAlertDialog(it) { color ->
+                    Prefs.ledColorChats = color
+                    ivLedColorChats.setBackgroundColor(color)
+                }.show()
+            }
         }
         ivLedColor.setBackgroundColor(Prefs.ledColor)
         ivLedColorChats.setBackgroundColor(Prefs.ledColorChats)
@@ -114,7 +118,8 @@ class NotificationsFragment : BaseOldFragment() {
         saveSwitches()
     }
 
-    override fun bindViews(view: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initSwitches()
         llContainer.stylizeAll()
         if (Math.random() > 0.85 || BuildConfig.DEBUG) {

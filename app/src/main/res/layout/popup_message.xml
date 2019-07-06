@@ -86,22 +86,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llDecrypt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin16"
-            android:text="@string/decrypt"
-            style="@style/MainText"
-            android:textSize="17sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/llMarkImportant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

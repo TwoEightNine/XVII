@@ -139,7 +139,7 @@ class PinActivity : BaseActivity() {
         appDb.clearAsync()
         Session.token = ""
         Prefs.pin = ""
-        restartApp(getString(R.string.restart_app))
+        restartApp(this, getString(R.string.restart_app))
     }
 
     private fun resetInput() {

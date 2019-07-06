@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.chats.ChatActivity
+import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
@@ -87,7 +87,7 @@ open class DialogsFragment : BaseFragment() {
                 ContextPopupItem(R.drawable.ic_silence, R.string.mute) {
                     viewModel.muteDialog(dialog)
                 },
-                ContextPopupItem(R.drawable.ic_delete, R.string.delete) {
+                ContextPopupItem(R.drawable.ic_delete_popup, R.string.delete) {
                     showDeleteDialog(context) {
                         viewModel.deleteDialog(dialog)
                     }

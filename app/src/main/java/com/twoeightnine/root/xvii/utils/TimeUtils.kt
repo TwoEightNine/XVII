@@ -6,29 +6,31 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
+const val SS = ":ss"
+const val HH_MM = "HH:mm"
+const val DD_MM = "dd.MM"
+const val DD_MMM = "dd MMM"
+const val DD_MM_YYYY = "dd.MM.yyyy"
+const val DD_MMM_YYYY = "dd MMM yyyy"
+
 @SuppressLint("SimpleDateFormat")
 fun getTime(ts: Int, shortened: Boolean = false, withSeconds: Boolean = false, format: String? = null): String {
     val date = Date(ts * 1000L)
     val today = Date()
     if (format != null) {
-        return SimpleDateFormat(format)
-                .also { it.timeZone = TimeZone.getDefault() }
-                .format(date)
+        return SimpleDateFormat(format).format(date)
     }
-    val seconds = if (withSeconds) ":ss" else ""
+    val seconds = if (withSeconds) SS else ""
     val fmt = when {
         today.day == date.day &&
                 today.month == date.month &&
-                today.year == date.year -> "HH:mm$seconds"
-        !shortened && today.year == date.year -> "HH:mm$seconds dd MMM"
-        !shortened -> "HH:mm$seconds dd MMM yyyy"
-        today.year == date.year -> "dd MMM"
-        else -> "dd MMM yyyy"
+                today.year == date.year -> "$HH_MM$seconds"
+        !shortened && today.year == date.year -> "$HH_MM$seconds $DD_MMM"
+        !shortened -> "$HH_MM$seconds $DD_MMM_YYYY"
+        today.year == date.year -> DD_MMM
+        else -> DD_MMM_YYYY
     }
-    return SimpleDateFormat(fmt)
-            .also { it.timeZone = TimeZone.getDefault() }
-            .format(date)
-            .toLowerCase()
+    return SimpleDateFormat(fmt).format(date).toLowerCase()
 }
 
 fun secToTime(sec: Int): String {
@@ -44,15 +46,9 @@ fun secToTime(sec: Int): String {
 @SuppressLint("SimpleDateFormat")
 fun formatDate(date: String): String = try {
     val isTruncated = date.count { it == '.' } == 1
-    val inPattern = if (isTruncated) "dd.MM" else "dd.MM.yyyy"
-    val outPattern = if (isTruncated) "dd MMM" else "dd MMM yyyy"
-    SimpleDateFormat(outPattern)
-            .also { it.timeZone = TimeZone.getDefault() }
-            .format(
-                    SimpleDateFormat(inPattern)
-                            .also { it.timeZone = TimeZone.getDefault() }
-                            .parse(date)
-            )
+    val inPattern = if (isTruncated) DD_MM else DD_MM_YYYY
+    val outPattern = if (isTruncated) DD_MMM else DD_MMM_YYYY
+    SimpleDateFormat(outPattern).format(SimpleDateFormat(inPattern).parse(date))
 } catch (e: Exception) {
     Lg.wtf("format date: ${e.message}")
     e.printStackTrace()

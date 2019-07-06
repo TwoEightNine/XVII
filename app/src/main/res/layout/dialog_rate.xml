@@ -15,6 +15,7 @@
         android:src="@mipmap/xvii_dark_logo_512" />
 
     <TextView
+        style="@style/MainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivXvii"
@@ -24,7 +25,6 @@
         android:layout_marginBottom="12dp"
         android:gravity="center"
         android:text="@string/like_app"
-        android:textColor="@color/main_text"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -34,35 +34,35 @@
 
         <TextView
             android:id="@+id/tvNever"
+            style="@style/OtherText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/never"
-            android:textColor="@color/other_text"
             android:textSize="17sp" />
 
         <TextView
             android:id="@+id/tvNotNow"
+            style="@style/OtherText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/not_now"
-            android:textColor="@color/other_text"
             android:textSize="17sp" />
 
         <TextView
             android:id="@+id/tvRate"
+            style="@style/MainText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/rate"
-            android:textColor="@color/main_text"
             android:textSize="18sp" />
 
     </LinearLayout>

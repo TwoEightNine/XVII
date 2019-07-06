@@ -10,17 +10,15 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
-import com.twoeightnine.root.xvii.model.Message2
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.model.attachments.Video
+import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
+import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
-import com.twoeightnine.root.xvii.utils.copyToClip
-import com.twoeightnine.root.xvii.utils.hide
-import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.toolbar_chat.*
@@ -38,7 +36,10 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         rlCustom.hide()
         (rlInput.layoutParams as? RelativeLayout.LayoutParams)?.height = 0
         ivReplyMulti.visibility = View.INVISIBLE
-        ivMenuMulti.visibility = View.INVISIBLE
+        ivDeleteMulti.visibility = View.INVISIBLE
+        ivMarkMulti.visibility = View.INVISIBLE
+        rlMultiAction.stylizeAll()
+        rlMultiAction.stylizeColor()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -58,7 +59,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
 
     override fun getAdapterCallback() = object : MessagesAdapter.Callback {
 
-        override fun onClicked(message: Message2) {
+        override fun onClicked(message: Message) {
             createContextPopup(context ?: return, arrayListOf(
                     ContextPopupItem(R.drawable.ic_copy_popup, R.string.copy) {
                         copyToClip(message.text)
@@ -73,7 +74,6 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         }
 
         override fun onUserClicked(userId: Int) {
-//            rootActivity?.loadFragment(ProfileFragment.newInstance(userId))
             ProfileActivity.launch(context, userId)
         }
 

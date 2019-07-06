@@ -19,7 +19,7 @@ import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.background.longpoll.models.events.LongPollEventFactory
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
-import com.twoeightnine.root.xvii.background.longpoll.models.events.ReadOutgoingEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.ReadIncomingEvent
 import com.twoeightnine.root.xvii.background.longpoll.models.events.UnreadCountEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.db.AppDb
@@ -119,13 +119,13 @@ class LongPollCore(private val context: Context) {
 
             when (event) {
                 is UnreadCountEvent -> processUnreadCount(event)
-                is ReadOutgoingEvent -> processReadOutgoing(event)
+                is ReadIncomingEvent -> processReadIncoming(event)
                 is NewMessageEvent -> processNewMessage(event)
             }
         }
     }
 
-    private fun processReadOutgoing(event: ReadOutgoingEvent) {
+    private fun processReadIncoming(event: ReadIncomingEvent) {
         unreadMessages[event.peerId]?.clear()
         notificationManager.cancel(event.peerId)
     }
@@ -133,7 +133,12 @@ class LongPollCore(private val context: Context) {
     private fun processUnreadCount(event: UnreadCountEvent) {
         if (event.unreadCount == 0) {
             unreadMessages.clear()
-            notificationManager.cancelAll()
+            try {
+                notificationManager.cancelAll()
+            } catch (e: SecurityException) {
+                e.printStackTrace()
+                lw("error cancelling all: ${e.message}")
+            }
         }
     }
 
@@ -420,7 +425,8 @@ class LongPollCore(private val context: Context) {
         }
     }
 
-    private fun getConnectSingle(longPollServer: LongPollServer) = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
+    private fun getConnectSingle(longPollServer: LongPollServer)
+            = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
 
     @SuppressLint("CheckResult")
     private fun waitInBg(delayMs: Long) {
@@ -448,7 +454,11 @@ class LongPollCore(private val context: Context) {
         private const val WAIT_DELAY = 1000L
         private const val NO_NETWORK_DELAY = 5000L
 
-        private const val LAST_RUN_ALLOWED_DELAY = 45
+        /**
+         * if the core didn't call [getUpdates] for [LAST_RUN_ALLOWED_DELAY] seconds
+         * it is probably down =(
+         */
+        private const val LAST_RUN_ALLOWED_DELAY = 60
 
         private val RING_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         private val VIBRATE_PATTERN = longArrayOf(0L, 200L)

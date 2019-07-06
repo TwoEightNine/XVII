@@ -3,25 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_encrypt"
-        android:title="@string/encryption"
-        android:checkable="true"
-        app:showAsAction="never"
-         />
-
-    <item
-        android:id="@+id/menu_keys"
-        android:title="@string/change_keys"
-        app:showAsAction="never" />
-
-    <item
-        android:title="@string/attachments"
         android:id="@+id/menu_attachments"
-        app:showAsAction="never" />
-    <item
-        android:title="@string/fingerprint"
-        android:id="@+id/menu_fingerprint"
+        android:icon="@drawable/ic_attachment"
+        android:title="@string/attachments"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/menu_encryption"
+        android:icon="@drawable/ic_key"
+        android:title="@string/encryption"
+        app:showAsAction="never" />
 
 </menu>

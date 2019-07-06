@@ -27,6 +27,13 @@ fun String.matchesXviiCipher(): Boolean {
             substring(length - postfix.length) == postfix
 }
 
+fun String.matchesXviiKeyEx(): Boolean {
+    val prefix = CryptoEngine.KEY_PREFIX
+    val postfix = CryptoEngine.KEY_POSTFIX
+    return length > prefix.length + postfix.length &&
+            substring(0, prefix.length) == prefix &&
+            substring(length - postfix.length) == postfix
+}
 
 fun Int.matchesUserId() = this in 0..CHAT_ID_START
 
@@ -81,7 +88,7 @@ fun View.hide() = setVisible(false)
 
 fun ImageView.load(url: String?, placeholder: Boolean = true,
                    block: RequestCreator.() -> RequestCreator = { this }) {
-    val rc = Picasso.get().load(if (url.isNullOrEmpty()) {
+    val rc = XviiPicasso.get().load(if (url.isNullOrEmpty()) {
         ColorManager.getPhotoStub()
     } else {
         url
@@ -95,7 +102,7 @@ fun ImageView.load(url: String?, placeholder: Boolean = true,
 
 fun ImageView.loadRounded(url: String?) {
     if (url == null) return
-    Picasso.get()
+    XviiPicasso.get()
             .loadRounded(url)
             .into(this)
 }

@@ -23,8 +23,7 @@ class ImageViewerActivity : AppCompatActivity() {
     private val photos = arrayListOf<Photo>()
     private val permissionHelper by lazy { PermissionHelper(this) }
     private val adapter by lazy {
-        val urls = getUrlList()
-        FullScreenImageAdapter(this, urls, ::onDismiss, ::onTap)
+        FullScreenImageAdapter(this, getUrlList(), ::onDismiss, ::onTap)
     }
 
     private var position: Int = 0
@@ -60,7 +59,7 @@ class ImageViewerActivity : AppCompatActivity() {
                     R.string.no_access_to_storage,
                     R.string.need_access_to_storage
             ) {
-                val url = currentPhoto().maxPhoto
+                val url = currentPhoto().getMaxPhoto().url
                 val fileName = getNameFromUrl(url)
                 val filePath = File(SAVE_FILE, fileName).absolutePath
                 DownloadFileService.startService(this, url, filePath) { path ->
@@ -114,15 +113,17 @@ class ImageViewerActivity : AppCompatActivity() {
 
     private fun setPosition(position: Int) {
         tvPosition.text = "${position + 1}/${photos.size}"
-        val text = currentPhoto().text
-        tvText.setVisible(!text.isNullOrEmpty())
-        tvText.text = text
-        tvDate.text = getTime(currentPhoto().date, withSeconds = Prefs.showSeconds)
+        if (mode == MODE_PHOTOS_LIST) {
+            val text = currentPhoto().text
+            tvText.setVisible(!text.isNullOrEmpty())
+            tvText.text = text
+            tvDate.text = getTime(currentPhoto().date, withSeconds = Prefs.showSeconds)
+        }
     }
 
     private fun currentPhoto() = photos[vpImage.currentItem]
 
-    private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.maxPhoto })
+    private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.getMaxPhoto().url })
 
     companion object {
 

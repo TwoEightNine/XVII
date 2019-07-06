@@ -22,6 +22,8 @@
     <string name="use_apple_emojis">use apple\'s emojis</string>
     <string name="show_stickers">show stickers/emojis icon</string>
     <string name="show_voice">show voice messaging icon</string>
+    <string name="unable_to_write">unfortunately, you can\'t write a message to this user</string>
+    <string name="keys_not_set">keys aren\'t set</string>
     <string name="show_typing">show typing</string>
     <string name="feedback">support</string>
     <string name="copied">%s has been copied to clipboard</string>
@@ -48,6 +50,8 @@
     <string name="invite_chat_full">%s is in chat now</string>
     <string name="link">link</string>
     <string name="wall_post">wall post</string>
+    <string name="poll_public">public poll</string>
+    <string name="poll_anon">anonymous poll</string>
     <string name="copy">copy</string>
     <string name="reply">reply</string>
     <string name="decrypt">decrypt</string>
@@ -125,7 +129,11 @@
     <string name="privacy_policy">privacy policy and credits</string>
     <string name="chat">chat</string>
     <string name="leave_chat">leave chat</string>
-    <string name="chat_title_updated">chat title was updated: \"%s\"</string>
+    <string name="chat_title_updated">%s updated chat title: \"%s\"</string>
+    <string name="chat_photo_updated">%s updated chat photo</string>
+    <string name="user_leaved_chat">%s left chat</string>
+    <string name="user_kicked_user">%s kicked %s out of chat</string>
+    <string name="user_pinned_message">%s pinned message: \"%s\"</string>
     <string name="new_dialog">new conversation</string>
     <string name="offline_hint">pay attention that offline mode will not work on every vk client no more. this is caused by vk api that turns online status on automatically every time you refresh dialogs. not handy, we understand, but that is.. fortunately, you can enable \"almost\" offline that will make you offline, but your last seen time will be changed.</string>
     <string name="ten_attachments">you cannot add more than 10 attachments</string>
@@ -142,11 +150,12 @@
     <string name="key_reset">keys were reset to default</string>
     <string name="generating_keys">generating keys\nit may take up to several minutes\n just for your security</string>
     <string name="key_set">keys were set successfully</string>
+    <string name="empty_user_key">key mustn\'t be empty!</string>
     <string name="key_exchanged">keys were exchanged</string>
     <string name="secure_length">please use long phrases</string>
     <string name="messages">messages</string>
     <string name="no_exchg_in_chats">key exchange is not available in this chat</string>
-    <string name="encryption">encryption</string>
+    <string name="encryption">secret chat</string>
     <string name="restart_app">restarting app..</string>
     <string name="hidden_message">message</string>
     <string name="shared">shared successfully</string>
@@ -188,7 +197,7 @@
     <string name="edit_message">edit message</string>
     <string name="unable_to_edit_message">unable to edit this message</string>
     <string name="unable_to_add_to_gallery">unable to add to gallery. it will be added automatically later</string>
-    <string name="generation_dh_hint">make sure your interlocutor has installed xvii and opened the dialog with you. it is necessary for key exchange.\nwarning! keys are valid only for one session. leaving this dialog means destroying and forgetting the keys forever!</string>
+    <string name="generation_dh_hint">make sure your interlocutor has installed xvii and opened the secret chat with you. it is necessary for key exchange</string>
     <string name="key_xchg_failed">the interlocutor have not supported the exchange. failed!</string>
     <string name="fingerprint">fingerprint</string>
     <string name="decrypting_image">image is being decrypted</string>
@@ -215,11 +224,13 @@
     <string name="search_hint">search</string>
     <string name="ok" translatable="false">ok</string>
     <string name="cancel">cancel</string>
-    <string name="too_deep_forwarding">too deep forwarding will be supported soon..</string>
+    <string name="too_deep_forwarding">tap to see fully</string>
     <string name="request">request</string>
     <string name="summary">summary</string>
     <string name="outgoing">outgoing\ndata</string>
     <string name="incoming">incoming\ndata</string>
+    <string name="forwarded_message">message</string>
+    <string name="edited">edited</string>
 
     <string name="no_access_to_mic">no access to the mic</string>
     <string name="no_access_to_storage">no access to the storage</string>
@@ -240,6 +251,16 @@
         <item>actively searching</item>
         <item>in love</item>
         <item>in civil onion</item>
+    </string-array>
+
+    <string-array name="devices">
+        <item>via mobile</item>
+        <item>via iphone</item>
+        <item>via ipad</item>
+        <item>via android</item>
+        <item>via winphone</item>
+        <item>via win8</item>
+        <item> </item>
     </string-array>
 
     <plurals name="attach">
@@ -292,9 +313,6 @@
     <string name="yellow">yellow</string>
     <string name="magenta">magenta</string>
     <string name="white">white</string>
-    <string name="unable_to_write">unfortunately, you can\'t write a message to this user</string>
-    <string name="keys_not_set">the keys aren\'t set</string>
-    <string name="empty_user_key">the key mustn\'t be empty!</string>
 
 </resources>
 
