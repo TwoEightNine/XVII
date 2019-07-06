@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.model.attachments
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.twoeightnine.root.xvii.R
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -51,9 +50,6 @@ data class Poll(
 ) : Parcelable, IdTypeable {
 
     override fun getId() = "poll${ownerId}_$id"
-
-    val typeStringRes: Int
-        get() = if (anonymous) R.string.poll_anon else R.string.poll_public
 }
 
 @Parcelize
@@ -73,5 +69,5 @@ data class PollAnswer(
 
         @SerializedName("rate")
         @Expose
-        val rate: Int
+        val rate: Double
 ) : Parcelable

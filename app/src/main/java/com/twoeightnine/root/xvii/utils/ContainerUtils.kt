@@ -137,6 +137,7 @@ fun getPoll(poll: Poll, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_poll, null, false)
 
     included.findViewById<TextView>(R.id.tvQuestion).text = poll.question
-    included.setOnClickListener {  }
+    included.findViewById<ImageView>(R.id.ivPhoto).stylize()
+    included.setOnClickListener { showToast(context, R.string.in_future_versions) }
     return included
 }
