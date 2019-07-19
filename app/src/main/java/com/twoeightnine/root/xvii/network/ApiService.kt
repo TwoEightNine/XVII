@@ -74,23 +74,25 @@ interface ApiService {
     ): Flowable<BaseResponse<JSONObject>>
 
     @Headers(NEW_VERSION_HEADER)
-    @GET("messages.edit?keep_snippets=1&keep_forward_messages=1")
+    @FormUrlEncoded
+    @POST("messages.edit?keep_snippets=1&keep_forward_messages=1")
     fun editMessage(
-            @Query("peer_id") peerId: Int,
-            @Query("message") message: String,
-            @Query("message_id") messageId: Int
+            @Field("peer_id") peerId: Int,
+            @Field("message") message: String,
+            @Field("message_id") messageId: Int
     ): Flowable<BaseResponse<Int>>
 
     @Headers(NEW_VERSION_HEADER)
-    @GET("messages.send")
+    @FormUrlEncoded
+    @POST("messages.send")
     fun sendMessage(
-            @Query("peer_id") peerId: Int,
-            @Query("random_id") randomId: Int,
-            @Query("message") text: String? = null,
-            @Query("forward_messages") forwardedMessages: String? = null,
-            @Query("attachment") attachments: String? = null,
-            @Query("reply_to") replyTo: Int? = null,
-            @Query("sticker_id") stickerId: Int? = null
+            @Field("peer_id") peerId: Int,
+            @Field("random_id") randomId: Int,
+            @Field("message") text: String? = null,
+            @Field("forward_messages") forwardedMessages: String? = null,
+            @Field("attachment") attachments: String? = null,
+            @Field("reply_to") replyTo: Int? = null,
+            @Field("sticker_id") stickerId: Int? = null
     ): Flowable<BaseResponse<Int>>
 
     @Headers(NEW_VERSION_HEADER)
