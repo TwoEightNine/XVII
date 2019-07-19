@@ -59,22 +59,11 @@ class ExceptionActivity : AppCompatActivity() {
     }
 
     private fun sendError(error: String) {
-        val maxSize = 3000
-        var message = error
-        var sendLater = ""
-        if (message.length > maxSize) {
-            sendLater = message.substring(maxSize)
-            message = message.substring(0, maxSize)
-        }
-        api.sendMessage(-App.GROUP, getRandomId(), message)
+        api.sendMessage(-App.GROUP, getRandomId(), error)
                 .subscribeSmart({ response ->
                     deleteReport(response)
-                    if (sendLater.isEmpty()) {
-                        showToast(this, R.string.report_sent)
-                        Handler().postDelayed({ onBackPressed() }, 200L)
-                    } else {
-                        sendError(sendLater)
-                    }
+                    showToast(this, R.string.report_sent)
+                    Handler().postDelayed({ onBackPressed() }, 200L)
                 }, {
                     showError(this, it)
                 })
