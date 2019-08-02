@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -16,6 +17,7 @@ import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
+import com.twoeightnine.root.xvii.chats.messages.base.MessagesReplyItemCallback
 import com.twoeightnine.root.xvii.chats.tools.ChatInputController
 import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
@@ -68,6 +70,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
         rvAttached.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
         rvAttached.adapter = attachedAdapter
+        val swipeToReply = ItemTouchHelper(MessagesReplyItemCallback(context, ::onSwipedToReply))
+        swipeToReply.attachToRecyclerView(rvChatList)
         stylize()
         initContent()
         initMultiSelectMenu()
@@ -244,6 +248,13 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     private fun onCanWriteChanged(canWrite: CanWrite) {
         rlCantWrite.setVisible(!canWrite.allowed)
+    }
+
+    private fun onSwipedToReply(position: Int) {
+        val message = adapter.items.getOrNull(position) ?: return
+
+        attachedAdapter.fwdMessages = "${message.id}"
+        attachedAdapter.isReply = true
     }
 
     private fun onAttachmentsSelected(attachments: List<Attachment>) {
