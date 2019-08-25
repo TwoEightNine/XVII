@@ -1,14 +1,18 @@
 package com.twoeightnine.root.xvii.utils
 
+import android.annotation.TargetApi
 import android.app.*
 import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
 import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.content.*
 import android.content.Intent.*
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.Icon
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
@@ -34,9 +38,11 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
+import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService
+import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import io.reactivex.Completable
@@ -667,6 +673,69 @@ fun isInForeground(): Boolean {
     return appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE
 }
 
+fun createShortcut(context: Context?, dialog: Dialog) {
+    val intent = Intent(context, ChatActivity::class.java).apply {
+        putExtra(ChatActivity.PEER_ID, dialog.peerId)
+        putExtra(ChatActivity.TITLE, dialog.alias ?: dialog.title)
+        putExtra(ChatActivity.AVATAR, dialog.photo)
+        flags = flags or FLAG_ACTIVITY_CLEAR_TOP
+    }
+    val name = dialog.alias ?: dialog.title
+    XviiPicasso.get()
+            .load(dialog.photo)
+            .transform(CircleTransform())
+            .into(object : Target {
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                }
+
+                override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
+                    go(null)
+                }
+
+                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                    go(bitmap)
+                }
+
+                private fun go(bitmap: Bitmap?) {
+                    if (Build.VERSION.SDK_INT >= 25) {
+                        createShortcutNew(bitmap)
+                    } else {
+                        createShortcut(bitmap)
+                    }
+                }
+
+                private fun createShortcut(bitmap: Bitmap?) {
+                    context?.sendBroadcast(Intent().apply {
+                        putExtra(EXTRA_SHORTCUT_INTENT, intent)
+                        putExtra(EXTRA_SHORTCUT_NAME, dialog)
+                        if (bitmap != null) {
+                            putExtra(EXTRA_SHORTCUT_ICON, bitmap)
+                        } else {
+                            putExtra(EXTRA_SHORTCUT_ICON_RESOURCE,
+                                    ShortcutIconResource.fromContext(context, R.drawable.xvii_dark_logo_128))
+                        }
+                        putExtra("duplicate", false)
+                        action = "com.android.launcher.action.INSTALL_SHORTCUT"
+                    })
+                }
+
+                @TargetApi(25)
+                private fun createShortcutNew(bitmap: Bitmap?) {
+                    val shortcutManager = context?.getSystemService(ShortcutManager::class.java)
+                    intent.action = ACTION_VIEW
+
+                    val shortcutInfo = ShortcutInfo.Builder(context, dialog.peerId.toString())
+                            .setShortLabel(name)
+                            .setIcon(Icon.createWithBitmap(bitmap))
+                            .setIntent(intent)
+                            .build()
+                    shortcutManager?.addDynamicShortcuts(arrayListOf(shortcutInfo))
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        shortcutManager?.requestPinShortcut(shortcutInfo, null)
+                    }
+                }
+            })
+}
 
 
 

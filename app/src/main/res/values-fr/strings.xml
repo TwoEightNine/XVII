@@ -285,6 +285,9 @@
     <string name="user_pinned_message">%s a épinglé le message: \"%s\"</string>
     <string name="edited">modifié</string>
     <string name="forwarded_message">message</string>
+    <string name="add_shortcut">ajouter un raccourci</string>
+    <string name="poll_anon">sondage anonyme</string>
+    <string name="poll_public">sondage publique</string>
 
 </resources>
 

@@ -304,5 +304,8 @@
     <string name="user_pinned_message">%s закрепил сообщение: \"%s\"</string>
     <string name="edited">изменено</string>
     <string name="forwarded_message">сообщение</string>
+    <string name="add_shortcut">добавить ярлык</string>
+    <string name="poll_anon">анонимный опрос</string>
+    <string name="poll_public">открытый опрос</string>
 
 </resources>

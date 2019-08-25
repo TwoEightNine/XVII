@@ -17,7 +17,11 @@ class ChatActivity : ContentActivity() {
         val forwarded = args?.getString(FORWARDED)
         val shareText = args?.getString(SHARE_TEXT)
         val shareImage = args?.getString(SHARE_IMAGE)
-        val dialog = args?.getParcelable(DIALOG) ?: Dialog()
+        val dialog = args?.getParcelable(DIALOG) ?: Dialog(
+                peerId = args?.getInt(PEER_ID) ?: 0,
+                title = args?.getString(TITLE) ?: "",
+                photo = args?.getString(AVATAR)
+        )
         return ChatMessagesFragment.newInstance(dialog, forwarded, shareText, shareImage)
     }
 
@@ -26,6 +30,9 @@ class ChatActivity : ContentActivity() {
         const val FORWARDED = "forwarded"
         const val SHARE_TEXT = "shareText"
         const val SHARE_IMAGE = "shareImage"
+        const val PEER_ID = "peerId"
+        const val TITLE = "title"
+        const val AVATAR = "avatar"
 
         fun launch(context: Context?, userId: Int, title: String,
                    avatar: String? = null, forwarded: String = "") {
