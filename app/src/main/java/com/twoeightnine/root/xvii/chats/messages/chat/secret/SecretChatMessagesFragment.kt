@@ -10,6 +10,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.utils.*
@@ -89,7 +90,7 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
         getContextPopup(context ?: return, R.layout.popup_keys) {
             when (it.id) {
                 R.id.llRandomKey -> {
-                    if (peerId.matchesUserId()) {
+                    if (peerId.matchesUserId() && peerId != Session.uid) {
                         showAlert(context, getString(R.string.generation_dh_hint)) {
                             viewModel.startExchange()
                         }
