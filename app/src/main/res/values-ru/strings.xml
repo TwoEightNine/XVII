@@ -307,5 +307,7 @@
     <string name="add_shortcut">добавить ярлык</string>
     <string name="poll_anon">анонимный опрос</string>
     <string name="poll_public">открытый опрос</string>
+    <string name="share">поделиться</string>
+    <string name="share_image">поделиться изображением</string>
 
 </resources>

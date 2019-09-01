@@ -288,6 +288,8 @@
     <string name="add_shortcut">ajouter un raccourci</string>
     <string name="poll_anon">sondage anonyme</string>
     <string name="poll_public">sondage publique</string>
+    <string name="share">partager</string>
+    <string name="share_image">partager l\'image</string>
 
 </resources>
 
