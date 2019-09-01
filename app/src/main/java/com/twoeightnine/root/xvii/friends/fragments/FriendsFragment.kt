@@ -30,7 +30,9 @@ class FriendsFragment : BaseFragment() {
     lateinit var viewModelFactory: FriendsViewModel.Factory
     private lateinit var viewModel: FriendsViewModel
 
-    private val adapter by lazy { FriendsAdapter(contextOrThrow, ::onClick) }
+    private val adapter by lazy {
+        FriendsAdapter(contextOrThrow, ::onClick, ::loadMore)
+    }
 
     override fun getLayoutId() = R.layout.fragment_friends
 
@@ -40,6 +42,7 @@ class FriendsFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[FriendsViewModel::class.java]
         viewModel.getFriends().observe(this, Observer { updateFriends(it) })
         viewModel.loadFriends()
+        adapter.startLoading()
 
         progressBar.show()
         rvFriends.layoutManager = LinearLayoutManager(context)
@@ -48,6 +51,8 @@ class FriendsFragment : BaseFragment() {
         progressBar.stylize()
         swipeRefresh.setOnRefreshListener {
             viewModel.loadFriends()
+            adapter.reset()
+            adapter.startLoading()
         }
     }
 
@@ -59,6 +64,10 @@ class FriendsFragment : BaseFragment() {
         } else {
             showError(context, data.error ?: getString(R.string.error))
         }
+    }
+
+    private fun loadMore(offset: Int) {
+        viewModel.loadFriends(offset)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

@@ -38,7 +38,13 @@ class FriendsViewModel(private val api: ApiService) : ViewModel() {
     fun loadFriends(offset: Int = 0) {
         api.getFriends(COUNT, offset)
                 .subscribeSmart({ friends ->
-                    friendsLiveData.value = Wrapper(ArrayList(friends.items))
+                    val existing = if (offset == 0) {
+                        arrayListOf()
+                    } else {
+                        friendsLiveData.value?.data ?: arrayListOf()
+                    }
+                    existing.addAll(friends.items)
+                    friendsLiveData.value = Wrapper(existing)
                 }, { error ->
                     friendsLiveData.value = Wrapper(error = error)
                 })
