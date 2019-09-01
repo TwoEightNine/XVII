@@ -114,7 +114,7 @@
     <string name="restart_app">перезагрузка приложения..</string>
     <string name="secure_length">используйте длинные фразы</string>
     <string name="settings">настройки</string>
-    <string name="share">рассказать об xvii на стене</string>
+    <string name="share_on_wall">рассказать об xvii на стене</string>
     <string name="shared">успешно отправлено на стену</string>
     <string name="show_content">показывать содержимое сообщения</string>
     <string name="led_lights">цвет led</string>

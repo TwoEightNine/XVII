@@ -69,8 +69,7 @@
                 android:layout_below="@+id/tvText"
                 android:orientation="horizontal"
                 android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:weightSum="2">
+                android:paddingBottom="12dp">
 
                 <Button
                     android:id="@+id/btnSaveToAlbum"
@@ -96,6 +95,20 @@
                     android:drawableTop="@drawable/ic_download"
                     android:fontFamily="sans-serif-light"
                     android:text="@string/download"
+                    android:textAllCaps="false"
+                    android:textColor="@color/icons"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnShare"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@drawable/ic_share_white"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/share"
                     android:textAllCaps="false"
                     android:textColor="@color/icons"
                     android:textSize="16sp" />

@@ -1,7 +1,7 @@
 <resources>
     <string name="about_app">à propos</string>
     <string name="settings">paramètres</string>
-    <string name="share">partager xvii sur mon mur</string>
+    <string name="share_on_wall">partager xvii sur mon mur</string>
 
     <string name="last_seen">était en ligne: %s</string>
     <string name="status">statut</string>

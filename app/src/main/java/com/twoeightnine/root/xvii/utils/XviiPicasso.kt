@@ -16,7 +16,7 @@ object XviiPicasso {
     }
 
     private fun create() = Picasso.Builder(App.context)
-            // not convenient and applicable
+            // not convenient and not applicable
 //            .downloader(OkHttp3Downloader(
 //                    OkHttpClient.Builder()
 //                            .addInterceptor(DataUsageInterceptor(DataUsageEvent.Type.PHOTO))

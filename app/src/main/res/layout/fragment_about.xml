@@ -48,7 +48,7 @@
                 android:background="@drawable/selector_rect"
                 android:clickable="true"
                 android:padding="@dimen/activity_vertical_margin"
-                android:text="@string/share"
+                android:text="@string/share_on_wall"
                 android:textColor="@color/main_text"
                 android:textSize="18sp" />
 
