@@ -50,6 +50,8 @@ class ImageViewerActivity : AppCompatActivity() {
 
         vpImage.adapter = adapter
         vpImage.addOnPageChangeListener(ImageViewerPageListener())
+        vpImage.pageMargin = 30
+        vpImage.setPageTransformer(false, ImagePageTransformer())
         vpImage.currentItem = position
         initButtons()
         if (mode == MODE_ONE_PATH) {
