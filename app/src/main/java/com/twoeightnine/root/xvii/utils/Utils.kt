@@ -654,6 +654,7 @@ fun writeResponseBodyToDisk(body: ResponseBody, fileName: String): Boolean {
             return true
 
         } catch (e: IOException) {
+            Lg.wtf("write response to disk error: ${e.message}")
             e.printStackTrace()
             return false
 
@@ -662,6 +663,7 @@ fun writeResponseBodyToDisk(body: ResponseBody, fileName: String): Boolean {
             outputStream?.close()
         }
     } catch (e: IOException) {
+        Lg.wtf("write response to disk error: ${e.message}")
         e.printStackTrace()
         return false
     }
