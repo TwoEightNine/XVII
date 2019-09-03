@@ -15,7 +15,8 @@ class ContextPopupAdapter(
         private val dialog: AlertDialog
 ) : BaseAdapter<ContextPopupItem, ContextPopupAdapter.ContextPopupItemHolder>(context) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ContextPopupItemHolder(inflater.inflate(R.layout.item_context_popup, null))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            ContextPopupItemHolder(inflater.inflate(R.layout.item_context_popup, parent, false))
 
     override fun onBindViewHolder(holder: ContextPopupItemHolder, position: Int) {
         holder.bind(items[position])
