@@ -74,6 +74,7 @@
     <string name="join_us">follow us for getting the freshest news about app</string>
     <string name="stickers">stickers</string>
     <string name="download">download</string>
+    <string name="downloading">downloading</string>
     <string name="add_to_saved">save to album</string>
     <string name="added_to_saved">photo has been saved to album</string>
     <string name="notifications">notifications</string>

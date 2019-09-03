@@ -111,6 +111,7 @@ class MessagesAdapter(context: Context,
                 invalidateBackground(message, this, level)
                 llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
                 tvName?.text = message.name
+                if (Prefs.lowerTexts) tvName?.lower()
                 tvBody.setVisible(message.text.isNotEmpty())
                 tvBody.text = when {
                     message.text.isNotEmpty() -> when {

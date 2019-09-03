@@ -1,7 +1,10 @@
 package com.twoeightnine.root.xvii.photoviewer
 
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -9,13 +12,13 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.utils.*
@@ -24,6 +27,7 @@ import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
 
+
 class ImageViewerActivity : AppCompatActivity() {
 
     private val photos = arrayListOf<Photo>()
@@ -31,6 +35,9 @@ class ImageViewerActivity : AppCompatActivity() {
     private val adapter by lazy {
         FullScreenImageAdapter(this, getUrlList(), ::onDismiss, ::onTap)
     }
+
+    private val downloadingQueue = hashMapOf<Long, String>()
+    private val actionDownloadedReceiver = ActionDownloadedReceiver()
 
     private var position: Int = 0
     private var filePath: String? = null
@@ -57,6 +64,7 @@ class ImageViewerActivity : AppCompatActivity() {
         if (mode == MODE_ONE_PATH) {
             rlControls.hide()
         }
+        registerReceiver(actionDownloadedReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 
     private fun initButtons() {
@@ -67,15 +75,22 @@ class ImageViewerActivity : AppCompatActivity() {
                     R.string.no_access_to_storage,
                     R.string.need_access_to_storage
             ) {
-                val url = currentPhoto().getMaxPhoto().url
-                val fileName = getNameFromUrl(url)
-                val filePath = File(SAVE_FILE, fileName).absolutePath
-                DownloadFileService.startService(this, url, filePath) { path ->
-                    if (path != null) {
-                        addToGallery(this, path)
-                        showToast(this, getString(R.string.doenloaded, fileName))
-                    }
-                }
+                val photo = currentPhoto()
+                val url = photo.getMaxPhoto().url
+                val fileName = getNameFromUrl(url).toLowerCase()
+                val file = File(SAVE_FILE, fileName)
+
+                val request = DownloadManager.Request(Uri.parse(url))
+                        .setTitle(fileName)
+                        .setDescription(getString(R.string.download))
+                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                        .setDestinationUri(Uri.fromFile(file))
+                        .setAllowedOverMetered(true)
+                        .setAllowedOverRoaming(true)
+
+                val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                val downloadId = downloadManager.enqueue(request)
+                downloadingQueue[downloadId] = file.absolutePath
             }
 
         }
@@ -173,6 +188,11 @@ class ImageViewerActivity : AppCompatActivity() {
 
     private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.getMaxPhoto().url })
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(actionDownloadedReceiver)
+    }
+
     companion object {
 
         private const val SAVE_DIR = "vk"
@@ -219,6 +239,19 @@ class ImageViewerActivity : AppCompatActivity() {
         }
 
         override fun onPageScrollStateChanged(state: Int) {}
+    }
+
+    private inner class ActionDownloadedReceiver : BroadcastReceiver() {
+
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val id = intent?.extras?.getLong(DownloadManager.EXTRA_DOWNLOAD_ID) ?: -1
+
+            downloadingQueue[id]?.also { path ->
+                val activity = this@ImageViewerActivity
+                addToGallery(activity, path)
+                Toast.makeText(activity, getString(R.string.doenloaded, getNameFromUrl(path)), Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }

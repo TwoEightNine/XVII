@@ -290,6 +290,7 @@
     <string name="poll_public">sondage publique</string>
     <string name="share">partager</string>
     <string name="share_image">partager l\'image</string>
+    <string name="downloading">telechargement</string>
 
 </resources>
 

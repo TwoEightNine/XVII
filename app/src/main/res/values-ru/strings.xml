@@ -309,5 +309,6 @@
     <string name="poll_public">открытый опрос</string>
     <string name="share">поделиться</string>
     <string name="share_image">поделиться изображением</string>
+    <string name="downloading">загрузка</string>
 
 </resources>
