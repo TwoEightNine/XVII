@@ -411,7 +411,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onVoiceTimeUpdated(time: Int) {
-            tvRecord.text = secToTime(time)
+            tvRecord?.text = secToTime(time)
             if (time % 5 == 1) {
                 viewModel.setActivity(type = BaseChatMessagesViewModel.ACTIVITY_VOICE)
             }

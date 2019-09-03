@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.KeyboardWindow
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_attachments.view.*
 import javax.inject.Inject
 
@@ -25,6 +26,8 @@ class StickersWindow(
 
     @Inject
     lateinit var api: ApiService
+
+    private var disposable: Disposable? = null
 
     private val availableStorage by lazy {
         StickersStorage(context, StickersStorage.Type.AVAILABLE)
@@ -46,7 +49,7 @@ class StickersWindow(
 
             progressBar.show()
             swipeRefresh.setOnRefreshListener {
-                loadFromServer()
+                loadStickers(forceFetch = true)
             }
             progressBar.stylize()
         }
@@ -56,10 +59,11 @@ class StickersWindow(
     override fun onViewCreated() {
         super.onViewCreated()
         App.appComponent?.inject(this)
-        loadFromStorage()
+        loadStickers()
+        setOnDismissListener { disposable?.dispose() }
     }
 
-    private fun updateList(data: ArrayList<Sticker>) {
+    private fun updateList(data: List<Sticker>) {
         with(contentView) {
             swipeRefresh.isRefreshing = false
             progressBar.hide()
@@ -70,19 +74,18 @@ class StickersWindow(
     @SuppressLint("CheckResult")
     private fun onStickerSelected(sticker: Sticker) {
         onStickerClicked(sticker)
-        Single.fromCallable {
+        Completable.fromCallable {
             val recent = recentStorage.readFromFile()
             if (sticker in recent) {
                 recent.removeAll { it == sticker }
             }
             recent.add(0, sticker)
             recentStorage.writeToFile(recent)
-            availableStorage.readFromFile()
         }
-                .compose(applySingleSchedulers())
+                .compose(applyCompletableSchedulers())
                 .subscribe({}) {
                     it.printStackTrace()
-                    Lg.i("[stickers] selecting: ${it.message}")
+                    Lg.wtf("[stickers] selecting: ${it.message}")
                 }
     }
 
@@ -91,65 +94,60 @@ class StickersWindow(
     }
 
     /**
-     * accepts a list fo available stickers, reads recent stickers,
-     * creates single list and refreshes ui
+     * saves stickers to [availableStorage]
      */
-    @SuppressLint("CheckResult")
-    private fun updateStickers(available: ArrayList<Sticker>) {
-        Single.fromCallable {
-            val recent = recentStorage.readFromFile()
-            available.removeAll(recent)
-            recent.addAll(available)
-            recent
-        }
-                .compose(applySingleSchedulers())
-                .subscribe(::updateList) {
-                    it.printStackTrace()
-                    Lg.i("[stickers] updating: ${it.message}")
-                    onErrorOccurred(it.message ?: "No stickers")
-                }
-    }
+    private fun saveAvailable(stickers: List<Sticker>) =
+            Single.fromCallable {
+                availableStorage.writeToFile(ArrayList(stickers))
+                stickers
+            }
 
-    @SuppressLint("CheckResult")
-    private fun loadFromStorage() {
-        Single.fromCallable {
+    /**
+     * loads stickers from server, saves to [availableStorage]
+     */
+    private fun loadStickersFromServer() =
+            api.getStickers()
+                    .compose(applySchedulers())
+                    .map { it.response?.getStickers() ?: arrayListOf() }
+                    .singleOrError()
+                    .flatMap(::saveAvailable)
+
+    /**
+     * adds recent stickers to available stickers
+     * @param stickers available
+     */
+    private fun extendAvailableWithRecent(stickers: List<Sticker>) =
+            Single.fromCallable {
+                val available = ArrayList(stickers)
+                val recent = recentStorage.readFromFile()
+                available.addAll(0, recent)
+                available
+            }
+
+    /**
+     * loads stickers and updates ui
+     * @param forceFetch if true loads from server anyway
+     */
+    private fun loadStickers(forceFetch: Boolean = false) {
+        disposable?.dispose()
+        disposable = Single.fromCallable {
             availableStorage.readFromFile()
         }
                 .compose(applySingleSchedulers())
-                .subscribe({ stickers ->
-                    if (stickers.isNotEmpty()) {
-                        updateStickers(stickers)
+                .flatMap { stickers ->
+                    if (stickers.isEmpty() || forceFetch) {
+                        loadStickersFromServer()
                     } else {
-                        loadFromServer()
+                        Single.just(stickers)
                     }
-                }) {
-                    it.printStackTrace()
-                    Lg.i("[stickers] loading from storage: ${it.message}")
-                    loadFromServer()
                 }
-    }
-
-    private fun loadFromServer() {
-        api.getStickers()
-                .subscribeSmart({ response ->
-                    val stickers = arrayListOf<Sticker>()
-                    response.dictionary?.forEach { mind ->
-                        mind.userStickers?.forEach {
-                            stickers.add(Sticker(it))
-                        }
-                    }
-                    val result = ArrayList(stickers.sortedBy { it.id }.distinctBy { it.id })
-                    updateStickers(result)
-                    saveStickers(result)
-                }, ::onErrorOccurred)
-    }
-
-    private fun saveStickers(stickers: ArrayList<Sticker>) {
-        Completable.fromCallable {
-            availableStorage.writeToFile(stickers)
-        }
-                .compose(applyCompletableSchedulers())
-                .subscribe()
+                .flatMap(::extendAvailableWithRecent)
+                .subscribe(::updateList) {
+                    it.printStackTrace()
+                    Lg.wtf("[stickers] updating: ${it.message}")
+                    onErrorOccurred(it.message ?: "No stickers")
+                    updateList(arrayListOf())
+                }
     }
 
     override fun getAdditionalHeight() = 0
