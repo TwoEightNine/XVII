@@ -56,11 +56,8 @@ class LongPollCore(private val context: Context) {
     @Inject
     lateinit var appDb: AppDb
 
-    init {
-        App.appComponent?.inject(this)
-    }
-
     fun run(intent: Intent?) {
+        App.appComponent?.inject(this)
         while (true) {
             while (isRunning) {
                 Thread.sleep(WAIT_DELAY)
