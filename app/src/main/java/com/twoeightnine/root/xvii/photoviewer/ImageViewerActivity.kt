@@ -54,12 +54,13 @@ class ImageViewerActivity : AppCompatActivity() {
         App.appComponent?.inject(this)
         initData()
         setPosition(position)
-
-        vpImage.adapter = adapter
-        vpImage.addOnPageChangeListener(ImageViewerPageListener())
-        vpImage.pageMargin = 30
-        vpImage.setPageTransformer(false, ImagePageTransformer())
-        vpImage.currentItem = position
+        with(vpImage) {
+            adapter = this@ImageViewerActivity.adapter
+            addOnPageChangeListener(ImageViewerPageListener())
+            pageMargin = 30
+            setPageTransformer(false, ImagePageTransformer())
+            currentItem = position
+        }
         initButtons()
         if (mode == MODE_ONE_PATH) {
             rlControls.hide()

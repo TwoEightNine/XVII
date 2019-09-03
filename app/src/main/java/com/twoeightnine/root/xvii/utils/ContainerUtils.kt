@@ -83,7 +83,7 @@ fun getEncrypted(doc: Doc, context: Context, decryptCallback: (Doc) -> Unit = {}
     return included
 }
 
-fun getAudio(audio: Audio, context: Context): View {
+fun getAudio(audio: Audio, context: Context, audios: List<Audio> = arrayListOf(audio)): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_audio, null, false)
     val dPlay = ContextCompat.getDrawable(context, R.drawable.ic_play)
     val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
@@ -98,7 +98,9 @@ fun getAudio(audio: Audio, context: Context): View {
     }
     ivButton.setOnClickListener {
         ivButton.setImageDrawable(dPause)
-        MusicService.launch(context.applicationContext, arrayListOf(Track(audio)), 0)
+        val position = audios.indexOf(audio)
+        val tracks = ArrayList(audios.map { Track(it) })
+        MusicService.launch(context.applicationContext, tracks, position)
         MusicService.subscribeOnAudioPlaying { track ->
             if (audio == track.audio) {
                 ivButton.setImageDrawable(dPause)

@@ -349,8 +349,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             onEncryptedDocClicked(doc)
         }
 
-        override fun onPhotoClicked(photo: Photo) {
-            ImageViewerActivity.viewImages(context, arrayListOf(photo))
+        override fun onPhotoClicked(position: Int, photos: ArrayList<Photo>) {
+            ImageViewerActivity.viewImages(context, photos, position)
         }
 
         override fun onVideoClicked(video: Video) {

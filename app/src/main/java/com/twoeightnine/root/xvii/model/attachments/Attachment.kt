@@ -104,3 +104,7 @@ fun ArrayList<Attachment>.isSticker() = isNotEmpty() && this[0].sticker != null
 fun ArrayList<Attachment>.getPhotos() = ArrayList(this.mapNotNull { it.photo })
 
 fun ArrayList<Attachment>.photosCount() = getPhotos().size
+
+fun ArrayList<Attachment>.getAudios() = filter { it.type == Attachment.TYPE_AUDIO }.map { it.audio }
+
+fun ArrayList<Attachment>.getAudioMessage() = find { it.type == Attachment.TYPE_AUDIO_MESSAGE }?.audioMessage

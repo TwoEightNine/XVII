@@ -80,8 +80,8 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         override fun onEncryptedFileClicked(doc: Doc) {
         }
 
-        override fun onPhotoClicked(photo: Photo) {
-            ImageViewerActivity.viewImages(context, arrayListOf(photo))
+        override fun onPhotoClicked(position: Int, photos: ArrayList<Photo>) {
+            ImageViewerActivity.viewImages(context, photos, position)
         }
 
         override fun onVideoClicked(video: Video) {

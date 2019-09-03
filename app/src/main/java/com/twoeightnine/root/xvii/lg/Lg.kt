@@ -3,21 +3,26 @@ package com.twoeightnine.root.xvii.lg
 import android.util.Log
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.utils.getTime
+import java.util.concurrent.locks.ReentrantLock
 
 object Lg {
 
     private const val TAG = "vktag"
     private const val LOGS_COUNT = 500
 
-    private val logs by lazy { arrayListOf<LgEvent>() }
+    private val logs = arrayListOf<LgEvent>()
+    private val lock = ReentrantLock()
 
     fun i(s: String) {
+        lock.lock()
         try {
             Log.i(TAG, s)
             logs.add(LgEvent(s))
             truncate()
         } catch (e: Exception) {
             e.printStackTrace()
+        } finally {
+            lock.unlock()
         }
     }
 
@@ -26,27 +31,46 @@ object Lg {
     }
 
     fun wtf(s: String) {
+        lock.lock()
         try {
             Log.wtf(TAG, s)
             logs.add(LgEvent(s, LgEvent.Type.ERROR))
             truncate()
         } catch (e: Exception) {
             e.printStackTrace()
+        } finally {
+            lock.unlock()
         }
     }
 
     fun getEvents(count: Int = LOGS_COUNT): String {
-        val list = if (logs.size > count) logs.drop(logs.size - count) else logs
-        return list.map { event ->
-            val time = getTime(event.ts, withSeconds = true)
-            val wrap = if (event.type == LgEvent.Type.ERROR) " !! " else ""
-            "$wrap$time: ${event.text}$wrap"
-        }.joinToString(separator = "\n")
+        lock.lock()
+        var result = ""
+        try {
+            val list = if (logs.size > count) logs.drop(logs.size - count) else logs
+            result = list.joinToString(separator = "\n") { event ->
+                val time = getTime(event.ts, withSeconds = true)
+                val wrap = if (event.type == LgEvent.Type.ERROR) " !! " else ""
+                "$wrap$time: ${event.text}$wrap"
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        } finally {
+            lock.unlock()
+        }
+        return result
     }
 
     private fun truncate() {
-        if (logs.size > LOGS_COUNT) {
-            logs.removeAt(0)
+        lock.lock()
+        try {
+            if (logs.size > LOGS_COUNT) {
+                logs.removeAt(0)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            lock.unlock()
         }
     }
 
