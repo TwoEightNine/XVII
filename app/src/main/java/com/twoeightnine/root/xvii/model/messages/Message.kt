@@ -67,6 +67,9 @@ data class Message(
         @Expose
         var updateTime: Int = 0,
 
+        @SerializedName("important")
+        val important: Boolean = false,
+
         // ------------------- manually added values
         @SerializedName("read")
         @Expose

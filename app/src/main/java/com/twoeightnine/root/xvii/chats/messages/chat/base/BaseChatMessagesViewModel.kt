@@ -140,6 +140,11 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 .subscribeSmart({}, ::onErrorOccurred)
     }
 
+    fun unmarkAsImportant(messageIds: String) {
+        api.markMessagesAsImportant(messageIds, important = 0)
+                .subscribeSmart({}, ::onErrorOccurred)
+    }
+
     fun deleteMessages(messageIds: String, forAll: Boolean) {
         api.deleteMessages(messageIds, if (forAll) 1 else 0)
                 .subscribeSmart({}, ::onErrorOccurred)
