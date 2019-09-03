@@ -83,7 +83,7 @@ class ImageViewerActivity : AppCompatActivity() {
                 val request = DownloadManager.Request(Uri.parse(url))
                         .setTitle(fileName)
                         .setDescription(getString(R.string.download))
-                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                         .setDestinationUri(Uri.fromFile(file))
                         .setAllowedOverMetered(true)
                         .setAllowedOverRoaming(true)
