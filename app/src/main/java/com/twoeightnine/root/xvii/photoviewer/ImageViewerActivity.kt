@@ -133,7 +133,7 @@ class ImageViewerActivity : AppCompatActivity() {
                     val out = FileOutputStream(file)
                     bmp.compress(Bitmap.CompressFormat.PNG, 90, out)
                     out.close()
-                    bmpUri = Uri.fromFile(file)
+                    bmpUri = getUriForFile(context, file)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

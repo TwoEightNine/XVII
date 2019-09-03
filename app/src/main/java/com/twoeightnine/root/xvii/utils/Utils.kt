@@ -31,6 +31,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
@@ -739,5 +740,11 @@ fun createShortcut(context: Context?, dialog: Dialog) {
             })
 }
 
+fun getUriForFile(context: Context?, file: File): Uri? {
+    context ?: return null
+
+    val authority = "${context.applicationContext.packageName}.provider"
+    return FileProvider.getUriForFile(context, authority, file)
+}
 
 
