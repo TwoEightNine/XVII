@@ -10,9 +10,12 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
+import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.FingerPrintAlertDialog
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
@@ -86,20 +89,20 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
     }
 
     private fun showKeysDialog() {
-        getContextPopup(context ?: return, R.layout.popup_keys) {
-            when (it.id) {
-                R.id.llRandomKey -> {
-                    if (peerId.matchesUserId()) {
+        val canMakeExchange = peerId.matchesUserId() && peerId != Session.uid
+        if (canMakeExchange) {
+            createContextPopup(context ?: return, arrayListOf(
+                    ContextPopupItem(R.drawable.ic_edit_popup, R.string.user_key) {
+                        showKeyInputDialog()
+                    },
+                    ContextPopupItem(R.drawable.ic_exchange, R.string.random_key) {
                         showAlert(context, getString(R.string.generation_dh_hint)) {
                             viewModel.startExchange()
                         }
-                    } else {
-                        showError(activity, R.string.no_exchg_in_chats)
-                    }
-                }
-                R.id.llUserKey -> showKeyInputDialog()
-            }
-        }.show()
+                    })).show()
+        } else {
+            showKeyInputDialog()
+        }
     }
 
     private fun showKeyInputDialog() {

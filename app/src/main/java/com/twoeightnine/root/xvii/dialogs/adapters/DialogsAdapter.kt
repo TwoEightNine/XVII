@@ -70,9 +70,11 @@ class DialogsAdapter(
 //                ivMute.stylize(ColorManager.LIGHT_TAG)
 //                ivPinned.stylize(ColorManager.LIGHT_TAG)
                 rlUnreadCount.stylize()
-                rlItemContainer.setOnClickListener { onClick(items[adapterPosition]) }
+                rlItemContainer.setOnClickListener {
+                    items.getOrNull(adapterPosition)?.also(onClick)
+                }
                 rlItemContainer.setOnLongClickListener {
-                    onLongClick(items[adapterPosition])
+                    items.getOrNull(adapterPosition)?.also(onLongClick)
                     true
                 }
             }

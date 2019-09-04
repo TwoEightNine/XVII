@@ -19,7 +19,6 @@ import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.hide
-import com.twoeightnine.root.xvii.utils.showAlert
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import kotlinx.android.synthetic.main.fragment_deep_forwarded.*
@@ -98,8 +97,8 @@ class DeepForwardedFragment : BaseFragment() {
 
         }
 
-        override fun onPhotoClicked(photo: Photo) {
-            ImageViewerActivity.viewImages(context, arrayListOf(photo))
+        override fun onPhotoClicked(position: Int, photos: ArrayList<Photo>) {
+            ImageViewerActivity.viewImages(context, photos, position)
         }
 
         override fun onVideoClicked(video: Video) {

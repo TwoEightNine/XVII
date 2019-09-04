@@ -309,7 +309,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     inner class AdapterCallback : MessagesAdapter.Callback {
         override fun onClicked(message: Message) {
-            createContextPopup(context ?: return, arrayListOf(
+            val items = arrayListOf(
                     ContextPopupItem(R.drawable.ic_copy_popup, R.string.copy) {
                         copyToClip(message.text)
                     },
@@ -334,11 +334,18 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                                 showDeleteDialog(it) { callback.invoke(false) }
                             }
                         }
-                    },
-                    ContextPopupItem(R.drawable.ic_star_popup, R.string.markasimportant) {
-                        viewModel.markAsImportant(message.id.toString())
                     }
-            )).show()
+            )
+            items.add(if (message.important) {
+                ContextPopupItem(R.drawable.ic_star_crossed, R.string.unmark) {
+                    viewModel.unmarkAsImportant(message.id.toString())
+                }
+            } else {
+                ContextPopupItem(R.drawable.ic_star_popup, R.string.markasimportant) {
+                    viewModel.markAsImportant(message.id.toString())
+                }
+            })
+            createContextPopup(context ?: return, items).show()
         }
 
         override fun onUserClicked(userId: Int) {
@@ -349,8 +356,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             onEncryptedDocClicked(doc)
         }
 
-        override fun onPhotoClicked(photo: Photo) {
-            ImageViewerActivity.viewImages(context, arrayListOf(photo))
+        override fun onPhotoClicked(position: Int, photos: ArrayList<Photo>) {
+            ImageViewerActivity.viewImages(context, photos, position)
         }
 
         override fun onVideoClicked(video: Video) {
@@ -411,7 +418,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onVoiceTimeUpdated(time: Int) {
-            tvRecord.text = secToTime(time)
+            tvRecord?.text = secToTime(time)
             if (time % 5 == 1) {
                 viewModel.setActivity(type = BaseChatMessagesViewModel.ACTIVITY_VOICE)
             }

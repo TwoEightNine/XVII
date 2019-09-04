@@ -14,8 +14,8 @@ fun createContextPopup(context: Context, items: List<ContextPopupItem>, title: S
     val content = RecyclerView(context)
     content.layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT, itemHeight * items.size)
-    content.setBackgroundColor(ContextCompat.getColor(context, R.color.popup))
     val dialog = AlertDialog.Builder(context).create()
+    dialog.window?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.shape_context_dialog))
 
     val adapter = ContextPopupAdapter(context, dialog)
     content.layoutManager = LinearLayoutManager(context)

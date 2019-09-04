@@ -60,4 +60,5 @@
     <dimen name="dialogs_search_photo_size">45dp</dimen>
 
     <dimen name="context_popup_item_height">56dp</dimen>
+    <dimen name="context_popup_radius">8dp</dimen>
 </resources>

@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_dialogs.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
+
 open class DialogsFragment : BaseFragment() {
 
     @Inject
@@ -100,6 +101,9 @@ open class DialogsFragment : BaseFragment() {
                     ) { newAlias ->
                         viewModel.addAlias(dialog, newAlias)
                     }.show()
+                },
+                ContextPopupItem(R.drawable.ic_home, R.string.add_shortcut) {
+                    createShortcut(context, dialog)
                 }
         )).show()
     }

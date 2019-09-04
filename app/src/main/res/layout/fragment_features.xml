@@ -405,7 +405,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivShare"
-                    android:text="@string/share"
+                    android:text="@string/share_on_wall"
                     android:textSize="17sp" />
 
             </RelativeLayout>

@@ -1,22 +1,32 @@
 package com.twoeightnine.root.xvii.photoviewer
 
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_image_viewer.*
 import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
+
 
 class ImageViewerActivity : AppCompatActivity() {
 
@@ -25,6 +35,9 @@ class ImageViewerActivity : AppCompatActivity() {
     private val adapter by lazy {
         FullScreenImageAdapter(this, getUrlList(), ::onDismiss, ::onTap)
     }
+
+    private val downloadingQueue = hashMapOf<Long, String>()
+    private val actionDownloadedReceiver = ActionDownloadedReceiver()
 
     private var position: Int = 0
     private var filePath: String? = null
@@ -41,14 +54,18 @@ class ImageViewerActivity : AppCompatActivity() {
         App.appComponent?.inject(this)
         initData()
         setPosition(position)
-
-        vpImage.adapter = adapter
-        vpImage.addOnPageChangeListener(ImageViewerPageListener())
-        vpImage.currentItem = position
+        with(vpImage) {
+            adapter = this@ImageViewerActivity.adapter
+            addOnPageChangeListener(ImageViewerPageListener())
+            pageMargin = 30
+            setPageTransformer(false, ImagePageTransformer())
+            currentItem = position
+        }
         initButtons()
         if (mode == MODE_ONE_PATH) {
             rlControls.hide()
         }
+        registerReceiver(actionDownloadedReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 
     private fun initButtons() {
@@ -59,15 +76,22 @@ class ImageViewerActivity : AppCompatActivity() {
                     R.string.no_access_to_storage,
                     R.string.need_access_to_storage
             ) {
-                val url = currentPhoto().getMaxPhoto().url
-                val fileName = getNameFromUrl(url)
-                val filePath = File(SAVE_FILE, fileName).absolutePath
-                DownloadFileService.startService(this, url, filePath) { path ->
-                    if (path != null) {
-                        addToGallery(this, path)
-                        showToast(this, getString(R.string.doenloaded, fileName))
-                    }
-                }
+                val photo = currentPhoto()
+                val url = photo.getMaxPhoto().url
+                val fileName = getNameFromUrl(url).toLowerCase()
+                val file = File(SAVE_FILE, fileName)
+
+                val request = DownloadManager.Request(Uri.parse(url))
+                        .setTitle(fileName)
+                        .setDescription(getString(R.string.download))
+                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                        .setDestinationUri(Uri.fromFile(file))
+                        .setAllowedOverMetered(true)
+                        .setAllowedOverRoaming(true)
+
+                val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                val downloadId = downloadManager.enqueue(request)
+                downloadingQueue[downloadId] = file.absolutePath
             }
 
         }
@@ -76,6 +100,12 @@ class ImageViewerActivity : AppCompatActivity() {
 
             val photo = currentPhoto()
             apiUtils.saveToAlbum(this, photo.ownerId, photo.id, photo.accessKey)
+        }
+        btnShare.setOnClickListener {
+            if (photos.isEmpty()) return@setOnClickListener
+
+            val photo = currentPhoto()
+            shareImage(this, photo.getMaxPhoto().url)
         }
     }
 
@@ -93,6 +123,40 @@ class ImageViewerActivity : AppCompatActivity() {
                 else -> finish()
             }
         }
+    }
+
+    private fun shareImage(context: Context?, url: String) {
+        if (context == null) return
+
+        XviiPicasso.get().load(url).into(object : Target {
+            override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
+                val i = Intent(Intent.ACTION_SEND).apply {
+                    type = "image/png"
+                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    putExtra(Intent.EXTRA_STREAM, saveBitmap(bitmap))
+                }
+                context.startActivity(Intent.createChooser(i, context.getString(R.string.share_image)))
+            }
+
+            override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
+
+            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+
+            private fun saveBitmap(bmp: Bitmap): Uri? {
+                var bmpUri: Uri? = null
+                try {
+                    val file = File(context.externalCacheDir, "${System.currentTimeMillis()}.png")
+                    val out = FileOutputStream(file)
+                    bmp.compress(Bitmap.CompressFormat.PNG, 90, out)
+                    out.close()
+                    bmpUri = getUriForFile(context, file)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                return bmpUri
+            }
+
+        })
     }
 
     private fun onDismiss() {
@@ -124,6 +188,11 @@ class ImageViewerActivity : AppCompatActivity() {
     private fun currentPhoto() = photos[vpImage.currentItem]
 
     private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.getMaxPhoto().url })
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(actionDownloadedReceiver)
+    }
 
     companion object {
 
@@ -171,6 +240,19 @@ class ImageViewerActivity : AppCompatActivity() {
         }
 
         override fun onPageScrollStateChanged(state: Int) {}
+    }
+
+    private inner class ActionDownloadedReceiver : BroadcastReceiver() {
+
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val id = intent?.extras?.getLong(DownloadManager.EXTRA_DOWNLOAD_ID) ?: -1
+
+            downloadingQueue[id]?.also { path ->
+                val activity = this@ImageViewerActivity
+                addToGallery(activity, path)
+                Toast.makeText(activity, getString(R.string.doenloaded, getNameFromUrl(path)), Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }

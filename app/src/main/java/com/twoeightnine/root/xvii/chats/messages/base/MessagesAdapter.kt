@@ -111,6 +111,7 @@ class MessagesAdapter(context: Context,
                 invalidateBackground(message, this, level)
                 llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
                 tvName?.text = message.name
+                if (Prefs.lowerTexts) tvName?.lower()
                 tvBody.setVisible(message.text.isNotEmpty())
                 tvBody.text = when {
                     message.text.isNotEmpty() -> when {
@@ -148,7 +149,10 @@ class MessagesAdapter(context: Context,
                         when (attachment.type) {
 
                             Attachment.TYPE_PHOTO -> attachment.photo?.also {
-                                llMessageContainer.addView(getPhoto(it, context, callback::onPhotoClicked))
+                                llMessageContainer.addView(getPhoto(it, context) { photo ->
+                                    val photos = message.attachments.getPhotos()
+                                    callback.onPhotoClicked(photos.indexOf(photo), photos)
+                                })
                             }
 
                             Attachment.TYPE_STICKER -> attachment.sticker?.photo512?.also {
@@ -164,13 +168,21 @@ class MessagesAdapter(context: Context,
                             }
 
                             Attachment.TYPE_AUDIO -> attachment.audio?.also {
-                                llMessageContainer.addView(getAudio(it, context))
+                                val audios = arrayListOf<Audio>()
+                                items.forEach { message ->
+                                    message.attachments?.getAudios()?.apply {
+                                        audios.addAll(filterNotNull())
+                                    }
+                                }
+                                llMessageContainer.addView(getAudio(it, context, audios))
                             }
 
-                            Attachment.TYPE_AUDIO_MESSAGE -> attachment.audioMessage?.also {
+                            Attachment.TYPE_AUDIO_MESSAGE -> attachment.audioMessage?.also { audioMessage ->
+                                val audios = items.mapNotNull { it.attachments?.getAudioMessage() }
+                                        .map { Audio(it, context.getString(R.string.voice_message)) }
                                 llMessageContainer.addView(getAudio(
-                                        Audio(it, context.getString(R.string.voice_message)),
-                                        context
+                                        Audio(audioMessage, context.getString(R.string.voice_message)),
+                                        context, audios
                                 ))
                             }
 
@@ -285,7 +297,7 @@ class MessagesAdapter(context: Context,
         fun onClicked(message: Message)
         fun onUserClicked(userId: Int)
         fun onEncryptedFileClicked(doc: Doc)
-        fun onPhotoClicked(photo: Photo)
+        fun onPhotoClicked(position: Int, photos: ArrayList<Photo>)
         fun onVideoClicked(video: Video)
     }
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="about_app">à propos</string>
     <string name="settings">paramètres</string>
-    <string name="share">partager xvii sur mon mur</string>
+    <string name="share_on_wall">partager xvii sur mon mur</string>
 
     <string name="last_seen">était en ligne: %s</string>
     <string name="status">statut</string>
@@ -285,6 +285,12 @@
     <string name="user_pinned_message">%s a épinglé le message: \"%s\"</string>
     <string name="edited">modifié</string>
     <string name="forwarded_message">message</string>
+    <string name="add_shortcut">ajouter un raccourci</string>
+    <string name="poll_anon">sondage anonyme</string>
+    <string name="poll_public">sondage publique</string>
+    <string name="share">partager</string>
+    <string name="share_image">partager l\'image</string>
+    <string name="downloading">telechargement</string>
 
 </resources>
 

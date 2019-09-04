@@ -114,7 +114,7 @@
     <string name="restart_app">перезагрузка приложения..</string>
     <string name="secure_length">используйте длинные фразы</string>
     <string name="settings">настройки</string>
-    <string name="share">рассказать об xvii на стене</string>
+    <string name="share_on_wall">рассказать об xvii на стене</string>
     <string name="shared">успешно отправлено на стену</string>
     <string name="show_content">показывать содержимое сообщения</string>
     <string name="led_lights">цвет led</string>
@@ -304,5 +304,11 @@
     <string name="user_pinned_message">%s закрепил сообщение: \"%s\"</string>
     <string name="edited">изменено</string>
     <string name="forwarded_message">сообщение</string>
+    <string name="add_shortcut">добавить ярлык</string>
+    <string name="poll_anon">анонимный опрос</string>
+    <string name="poll_public">открытый опрос</string>
+    <string name="share">поделиться</string>
+    <string name="share_image">поделиться изображением</string>
+    <string name="downloading">загрузка</string>
 
 </resources>

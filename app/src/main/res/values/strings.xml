@@ -4,7 +4,9 @@
     <string name="about_app">about</string>
     <string name="settings">settings</string>
     <string name="addons">add-ons</string>
-    <string name="share">share xvii on my wall</string>
+    <string name="share_on_wall">share xvii on my wall</string>
+    <string name="share">share</string>
+    <string name="share_image">share the image</string>
 
     <string name="last_seen">last seen: %s</string>
     <string name="online_seen">online: %s</string>
@@ -49,6 +51,7 @@
     <string name="kick_chat_full">%s is out of chat now</string>
     <string name="invite_chat_full">%s is in chat now</string>
     <string name="link">link</string>
+    <string name="add_shortcut">add shortcut</string>
     <string name="wall_post">wall post</string>
     <string name="poll_public">public poll</string>
     <string name="poll_anon">anonymous poll</string>
@@ -71,6 +74,7 @@
     <string name="join_us">follow us for getting the freshest news about app</string>
     <string name="stickers">stickers</string>
     <string name="download">download</string>
+    <string name="downloading">downloading</string>
     <string name="add_to_saved">save to album</string>
     <string name="added_to_saved">photo has been saved to album</string>
     <string name="notifications">notifications</string>
