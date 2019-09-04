@@ -270,6 +270,14 @@ fun AlertDialog.stylize(keepFont: Boolean = false) {
         }
 
     }
+
+    if (!keepFont) {
+        WindowManager.LayoutParams().apply {
+            copyFrom(window?.attributes)
+            width = 550
+            window?.attributes = this
+        }
+    }
 }
 
 fun ViewGroup.stylizeAll(level: Int = 0) {
