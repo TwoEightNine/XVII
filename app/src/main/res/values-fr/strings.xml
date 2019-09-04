@@ -110,7 +110,7 @@
     <string name="chats_notifs">tchats</string>
     <string name="show_content">montrer le contenu des messages</string>
     <string name="led_lights">couleur de la diode</string>
-    <string name="mute">liste des bruits</string>
+    <string name="mute">muter</string>
     <string name="change_keys">changer les clés</string>
     <string name="random_key">générer au hasard</string>
     <string name="user_key">entrer une propre clé</string>
@@ -291,6 +291,8 @@
     <string name="share">partager</string>
     <string name="share_image">partager l\'image</string>
     <string name="downloading">telechargement</string>
+    <string name="unpin">désépingler</string>
+    <string name="unmute">réactiver</string>
 
 </resources>
 

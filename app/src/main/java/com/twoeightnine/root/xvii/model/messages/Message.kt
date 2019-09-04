@@ -10,6 +10,7 @@ import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.isSticker
 import com.twoeightnine.root.xvii.model.attachments.photosCount
 import com.twoeightnine.root.xvii.utils.matchesChatId
+import com.twoeightnine.root.xvii.utils.time
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -107,6 +108,12 @@ data class Message(
 
     fun isChat() = peerId.matchesChatId()
 
+    fun isFresh() = time() - date < DAY
+
+    fun isEditable() = isOut() && isFresh() && !isSticker()
+
+    fun isDeletableForAll() = isOut() && isFresh()
+
     fun getResolvedMessage(context: Context?) = when {
         context == null || text.isNotBlank() -> text
         attachments != null && attachments.isSticker() -> context.getString(R.string.sticker)
@@ -119,5 +126,9 @@ data class Message(
             context.resources.getQuantityString(R.plurals.messages, count, count)
         }
         else -> text
+    }
+
+    companion object {
+        const val DAY = 3600 * 24
     }
 }

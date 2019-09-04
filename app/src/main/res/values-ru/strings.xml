@@ -86,7 +86,7 @@
     <string name="megabytes">%s мб</string>
     <string name="messages">сообщения</string>
     <string name="mphone">мобильный</string>
-    <string name="mute">игнор-лист</string>
+    <string name="mute">приглушить</string>
     <string name="new_acc">добавить новый аккаунт</string>
     <string name="new_dialog">новая беседа</string>
     <string name="no_exchg_in_chats">обмен ключами невозможен в этом чате</string>
@@ -310,5 +310,7 @@
     <string name="share">поделиться</string>
     <string name="share_image">поделиться изображением</string>
     <string name="downloading">загрузка</string>
+    <string name="unpin">открепить</string>
+    <string name="unmute">возобновить</string>
 
 </resources>
