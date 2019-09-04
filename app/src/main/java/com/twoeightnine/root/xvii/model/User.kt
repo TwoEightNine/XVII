@@ -1,8 +1,11 @@
 package com.twoeightnine.root.xvii.model
 
+import android.content.Context
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
+import com.twoeightnine.root.xvii.utils.getLastSeenText
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -109,7 +112,21 @@ data class User(
         @SerializedName("twitter")
         @Expose
         val twitter: String? = null
-) : Parcelable {
+) : Parcelable, ChatOwner {
+
+    override fun getPeerId() = id
+
+    override fun getAvatar() = photoMax
+
+    override fun getTitle() = fullName
+
+    override fun getInfoText(context: Context): String =
+            getLastSeenText(
+                    context.resources, isOnline,
+                    lastSeen?.time ?: 0,
+                    lastSeen?.platform ?: 0
+            )
+
     companion object {
         const val FIELDS = "photo_max_orig,photo_50,photo_100,domain,city,status," +
                 "home_town,bdate,relation,photo_id,online,last_seen,counters,contacts,site,connections"

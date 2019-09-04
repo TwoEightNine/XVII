@@ -1,7 +1,10 @@
 package com.twoeightnine.root.xvii.model
 
+import android.content.Context
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 
 data class Conversation(
 
@@ -28,7 +31,16 @@ data class Conversation(
         @SerializedName("can_write")
         @Expose
         val canWrite: CanWrite? = null
-) {
+) : ChatOwner {
+
+    override fun getPeerId() = peer?.id ?: 0
+
+    override fun getAvatar() = chatSettings?.photo?.photo100
+
+    override fun getTitle() = chatSettings?.title ?: ""
+
+    override fun getInfoText(context: Context): String = context.getString(R.string.conversation)
+
     fun isRead() = inRead == outRead
 }
 

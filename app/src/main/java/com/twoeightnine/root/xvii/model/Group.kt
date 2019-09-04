@@ -1,8 +1,11 @@
 package com.twoeightnine.root.xvii.model
 
+import android.content.Context
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -31,4 +34,13 @@ data class Group(
         @SerializedName("photo_200")
         @Expose
         val photo200: String? = null
-) : Parcelable
+) : Parcelable, ChatOwner {
+
+    override fun getPeerId() = -id
+
+    override fun getAvatar() = photo200
+
+    override fun getTitle() = name
+
+    override fun getInfoText(context: Context): String = context.getString(R.string.community)
+}
