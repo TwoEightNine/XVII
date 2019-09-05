@@ -20,6 +20,8 @@ import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.model.attachments.Photo
+import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_chat_owner.ivAvatar
 import kotlinx.android.synthetic.main.fragment_chat_owner.nsvContent
@@ -52,6 +54,13 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                 ChatActivity.launch(context, it)
             }
         }
+        ivAvatar.setOnClickListener {
+            viewModel.photos.value?.also { photos ->
+                if (photos.isNotEmpty()) {
+                    ImageViewerActivity.viewImages(context, ArrayList(photos))
+                }
+            }
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,6 +73,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
         viewModel = ViewModelProviders.of(this)[ChatOwnerViewModel::class.java]
         viewModel.chatOwner.observe(viewLifecycleOwner, Observer(::onChatOwnerLoaded))
+        viewModel.photos.observe(viewLifecycleOwner, Observer(::onPhotosLoaded))
         viewModel.loadChatOwner(peerId, getChatOwnerClass())
     }
 
@@ -89,9 +99,16 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                 swNotifications.isChecked = viewModel.getShowNotifications(getPeerId())
                 resetValues()
                 bindChatOwner(this as? T)
+                viewModel.loadPhotos(getPeerId(), getChatOwnerClass())
             }
         } else {
             showError(context, data.error ?: "")
+        }
+    }
+
+    private fun onPhotosLoaded(photos: List<Photo>) {
+        if (photos.isNotEmpty()) {
+            ivAvatar.load(photos[0].getOptimalPhoto().url)
         }
     }
 
