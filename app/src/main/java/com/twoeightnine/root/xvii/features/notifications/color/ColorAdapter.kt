@@ -14,7 +14,7 @@ class ColorAdapter(
 ) : BaseAdapter<Color, ColorAdapter.ColorViewHolder>(context) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-            = ColorViewHolder(inflater.inflate(R.layout.item_color, null))
+            = ColorViewHolder(inflater.inflate(R.layout.item_color, parent, false))
 
     override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
         holder.bind(items[position])

@@ -79,13 +79,14 @@ open class DialogsFragment : BaseFragment() {
     protected open fun onLongClick(dialog: Dialog) {
         createContextPopup(context
                 ?: return, arrayListOf(
-                ContextPopupItem(R.drawable.ic_pinned, R.string.pin) {
+                ContextPopupItem(R.drawable.ic_pinned, if (dialog.isPinned) R.string.unpin else R.string.pin) {
                     viewModel.pinDialog(dialog)
                 },
                 ContextPopupItem(R.drawable.ic_eye, R.string.read) {
                     viewModel.readDialog(dialog)
                 },
-                ContextPopupItem(R.drawable.ic_silence, R.string.mute) {
+                ContextPopupItem(if (dialog.isMute) R.drawable.ic_notifications_popup else R.drawable.ic_silence,
+                        if (dialog.isMute) R.string.unmute else R.string.mute) {
                     viewModel.muteDialog(dialog)
                 },
                 ContextPopupItem(R.drawable.ic_delete_popup, R.string.delete) {

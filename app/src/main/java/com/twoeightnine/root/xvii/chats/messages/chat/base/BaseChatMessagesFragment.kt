@@ -192,13 +192,9 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     private fun showEditMessageDialog(message: Message) {
         val context = context ?: return
 
-        if (message.isOut() && time() - message.date < 3600 * 24) {
-            TextInputAlertDialog(context, "", message.text) {
-                viewModel.editMessage(message.id, it)
-            }.show()
-        } else {
-            showError(context, R.string.unable_to_edit_message)
-        }
+        TextInputAlertDialog(context, "", message.text) {
+            viewModel.editMessage(message.id, it)
+        }.show()
     }
 
     /**
@@ -313,9 +309,6 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                     ContextPopupItem(R.drawable.ic_copy_popup, R.string.copy) {
                         copyToClip(message.text)
                     },
-                    ContextPopupItem(R.drawable.ic_edit_popup, R.string.edit) {
-                        showEditMessageDialog(message)
-                    },
                     ContextPopupItem(R.drawable.ic_reply_popup, R.string.reply) {
                         attachedAdapter.fwdMessages = "${message.id}"
                         attachedAdapter.isReply = true
@@ -327,7 +320,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                         val callback = { forAll: Boolean ->
                             viewModel.deleteMessages(message.id.toString(), forAll)
                         }
-                        if (message.isOut() && time() - message.date < 3600 * 24) {
+                        if (message.isDeletableForAll()) {
                             showDeleteMessagesDialog(callback)
                         } else {
                             context?.let {
@@ -336,6 +329,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                         }
                     }
             )
+
             items.add(if (message.important) {
                 ContextPopupItem(R.drawable.ic_star_crossed, R.string.unmark) {
                     viewModel.unmarkAsImportant(message.id.toString())
@@ -345,6 +339,11 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                     viewModel.markAsImportant(message.id.toString())
                 }
             })
+            if (message.isEditable()) {
+                items.add(ContextPopupItem(R.drawable.ic_edit_popup, R.string.edit) {
+                    showEditMessageDialog(message)
+                })
+            }
             createContextPopup(context ?: return, items).show()
         }
 

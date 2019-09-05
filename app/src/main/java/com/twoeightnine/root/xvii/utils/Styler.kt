@@ -239,6 +239,8 @@ fun AlertDialog.stylize(keepFont: Boolean = false) {
     val otherText = ContextCompat.getColor(context, R.color.other_text)
     val popupColor = ContextCompat.getColor(context, R.color.popup)
 
+    window?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.shape_context_dialog))
+
     findViewById<View>(R.id.contentPanel)?.setBackgroundColor(popupColor)
     findViewById<View>(R.id.buttonPanel)?.setBackgroundColor(popupColor)
     findViewById<View>(R.id.topPanel)?.setBackgroundColor(popupColor)
@@ -267,6 +269,14 @@ fun AlertDialog.stylize(keepFont: Boolean = false) {
             setTextColor(otherText)
         }
 
+    }
+
+    if (!keepFont) {
+        WindowManager.LayoutParams().apply {
+            copyFrom(window?.attributes)
+            width = 550
+            window?.attributes = this
+        }
     }
 }
 

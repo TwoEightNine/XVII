@@ -68,6 +68,7 @@
     <string name="gallery">gallery</string>
     <string name="delete">delete</string>
     <string name="pin">pin</string>
+    <string name="unpin">unpin</string>
     <string name="alias">alias</string>
     <string name="unmark">unmark</string>
     <string name="read">read</string>
@@ -146,7 +147,8 @@
     <string name="chat_back">chat background</string>
     <string name="show_content">show message content</string>
     <string name="led_lights">led color</string>
-    <string name="mute">mute list</string>
+    <string name="mute">mute</string>
+    <string name="unmute">unmute</string>
     <string name="change_keys">change keys</string>
     <string name="random_key">generate randomly</string>
     <string name="user_key">enter own key</string>
