@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
+import com.twoeightnine.root.xvii.model.messages.Message
 
 data class Conversation(
 
@@ -39,11 +40,21 @@ data class Conversation(
 
     override fun getTitle() = chatSettings?.title ?: ""
 
-    override fun getInfoText(context: Context): String = context.getString(R.string.conversation)
+    override fun getInfoText(context: Context): String {
+        val count = chatSettings?.membersCount ?: 0
+        return context.resources.getQuantityString(R.plurals.participants, count, count)
+    }
 
-    override fun getPrivacyInfo(context: Context): String? = null
+    override fun getPrivacyInfo(context: Context): String? = when {
+        canWrite?.allowed == false -> context.getString(R.string.unable_to_write)
+        else -> null
+    }
 
     fun isRead() = inRead == outRead
+
+    companion object {
+        const val FIELDS = ""
+    }
 }
 
 data class ChatSettings(
@@ -54,7 +65,16 @@ data class ChatSettings(
 
         @SerializedName("photo")
         @Expose
-        val photo: ChatPhoto
+        val photo: ChatPhoto,
+
+        @SerializedName("members_count")
+        val membersCount: Int = 0,
+
+        @SerializedName("active_ids")
+        val activeIds: List<Int> = arrayListOf(),
+
+        @SerializedName("pinned_message")
+        val pinnedMessage: Message? = null
 )
 
 data class ChatPhoto(

@@ -51,6 +51,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="@dimen/profile_content_min_height"
                 android:orientation="vertical">
 
                 <TextView

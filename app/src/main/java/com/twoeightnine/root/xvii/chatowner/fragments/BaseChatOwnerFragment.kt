@@ -90,6 +90,8 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                 resetValues()
                 bindChatOwner(this as? T)
             }
+        } else {
+            showError(context, data.error ?: "")
         }
     }
 

@@ -2,10 +2,7 @@ package com.twoeightnine.root.xvii.network
 
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
-import com.twoeightnine.root.xvii.model.Group
-import com.twoeightnine.root.xvii.model.UploadServer
-import com.twoeightnine.root.xvii.model.Uploaded
-import com.twoeightnine.root.xvii.model.User
+import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.model.attachments.Video
@@ -33,6 +30,13 @@ interface ApiService {
             @Query("count") count: Int,
             @Query("offset") offset: Int = 0
     ): Flowable<BaseResponse<ConversationsResponse>>
+
+    @Headers(NEW_VERSION_HEADER)
+    @GET("messages.getConversationsById?extended=1")
+    fun getConversationsById(
+            @Query("peer_ids") peerIds: String,
+            @Query("fields") fields: String = Conversation.FIELDS
+    ): Flowable<BaseResponse<com.twoeightnine.root.xvii.chatowner.model.api.ConversationsResponse>>
 
     @Headers(NEW_VERSION_HEADER)
     @GET("messages.deleteConversation")

@@ -27,6 +27,7 @@ class ChatOwnerViewModel : ViewModel() {
         when (chatOwnerClass) {
             User::class.java -> loadUser(peerId)
             Group::class.java -> loadGroup(-peerId)
+            Conversation::class.java -> loadConversation(peerId)
         }
     }
 
@@ -59,6 +60,15 @@ class ChatOwnerViewModel : ViewModel() {
         api.getGroups(id.toString())
                 .subscribeSmart({
                     chatOwnerLiveData.value = Wrapper(it.getOrNull(0))
+                }, { error ->
+                    chatOwnerLiveData.value = Wrapper(error = error)
+                })
+    }
+
+    private fun loadConversation(peerId: Int) {
+        api.getConversationsById(peerId.toString())
+                .subscribeSmart({
+                    chatOwnerLiveData.value = Wrapper(it.items.getOrNull(0))
                 }, { error ->
                     chatOwnerLiveData.value = Wrapper(error = error)
                 })

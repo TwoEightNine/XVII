@@ -92,9 +92,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
         toolbar?.setOnClickListener {
             activity?.let { hideKeyboard(it) }
-            if (!peerId.matchesChatId()) {
-                ChatOwnerActivity.launch(context, peerId)
-            }
+            ChatOwnerActivity.launch(context, peerId)
         }
     }
 
