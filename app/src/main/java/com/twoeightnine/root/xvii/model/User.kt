@@ -141,7 +141,6 @@ data class User(
         deactivated != null -> context.getString(R.string.profile_deactivated)
         blacklisted == 1 -> context.getString(R.string.profile_blacklisted_you)
         isClosed && !canAccessClosed -> context.getString(R.string.profile_closed)
-        canWrite == 0 -> context.getString(R.string.unable_to_write)
         else -> null
     }
 

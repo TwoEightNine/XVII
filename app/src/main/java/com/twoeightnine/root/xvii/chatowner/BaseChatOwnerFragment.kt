@@ -1,11 +1,12 @@
 package com.twoeightnine.root.xvii.chatowner
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -44,7 +45,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val behavior = BottomSheetBehavior.from(nsvContent)
-        behavior.setBottomSheetCallback(ProfileBottomSheetCallback(context?.resources ?: return))
+        behavior.setBottomSheetCallback(ProfileBottomSheetCallback(activity ?: return))
         fabOpenChat.setOnClickListener {
             chatOwner?.also {
                 ChatActivity.launch(context, it)
@@ -131,15 +132,20 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         const val BOTTOM_SHEET_TRIGGER_CALLBACK = 0.97
     }
 
-    private inner class ProfileBottomSheetCallback(resources: Resources) : BottomSheetBehavior.BottomSheetCallback() {
+    private inner class ProfileBottomSheetCallback(activity: Activity) : BottomSheetBehavior.BottomSheetCallback() {
 
         private var toolbarColored = false
         private val imageHeight = resources.getDimensionPixelSize(R.dimen.profile_avatar_height)
+        private val screenHeight = activity.let {
+            val displayMetrics = DisplayMetrics()
+            it.windowManager.defaultDisplay.getMetrics(displayMetrics)
+            displayMetrics.heightPixels
+        }
 
         override fun onSlide(p0: View, offset: Float) {
             when {
                 offset <= 0f -> return
-                offset > BOTTOM_SHEET_TRIGGER_CALLBACK -> if (!toolbarColored) {
+                offset > BOTTOM_SHEET_TRIGGER_CALLBACK -> if (!toolbarColored && shouldColorToolbar()) {
                     (toolbar.background as? TransitionDrawable)?.startTransition(0)
                     vShadow.show()
                     var title = chatOwner?.getTitle()
@@ -169,5 +175,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         override fun onStateChanged(p0: View, state: Int) {
 
         }
+
+        private fun shouldColorToolbar() = screenHeight <= cvInfo.height
     }
 }
