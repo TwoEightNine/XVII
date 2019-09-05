@@ -150,12 +150,20 @@ data class User(
                 "connections,is_closed,blacklisted,can_write_private_message"
 
         const val VK = "https://vk.com/"
+        const val TWITTER = "https://twitter.com/"
+        const val INST = "https://instagram.com/"
     }
 
     fun getPageName() = domain ?: "id$id"
 
     val link: String
         get() = "$VK${getPageName()}"
+
+    val linkTwitter: String
+        get() = "$TWITTER$twitter"
+
+    val linkInst: String
+        get() = "$INST$instagram"
 
     val fullName: String
         get() = "$firstName $lastName"

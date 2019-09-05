@@ -112,21 +112,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".profile.activities.ProfileActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="vk.com"
-                    android:pathPrefix="/id"
-                    android:scheme="https" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".accounts.activities.AccountsActivity"
             android:screenOrientation="portrait" />
         <activity

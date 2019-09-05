@@ -16,7 +16,6 @@ import com.twoeightnine.root.xvii.friends.adapters.FriendsAdapter
 import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.search.SearchActivity
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.show

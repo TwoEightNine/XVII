@@ -18,7 +18,6 @@ import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
-import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.web.VideoViewerActivity

@@ -189,6 +189,26 @@
         <item quantity="other">%d messages</item>
     </plurals>
 
+    <plurals name="friends">
+        <item quantity="one">%d ami</item>
+        <item quantity="other">%d amis</item>
+    </plurals>
+
+    <plurals name="mutual_friends">
+        <item quantity="one">%d ami en commun</item>
+        <item quantity="other">%d amis en commun</item>
+    </plurals>
+
+    <plurals name="followers">
+        <item quantity="one">%d abonné</item>
+        <item quantity="other">%d abonnés</item>
+    </plurals>
+
+    <plurals name="participants">
+        <item quantity="one">%d participant</item>
+        <item quantity="other">%d participants</item>
+    </plurals>
+
     <string name="aboutbig">xvii messenger (par twoeightnine)\nver. %s depuis %s</string>
 
     <string name="online">en ligne</string>
@@ -293,6 +313,10 @@
     <string name="downloading">telechargement</string>
     <string name="unpin">désépingler</string>
     <string name="unmute">réactiver</string>
+    <string name="group_closed">la communauté est fermée</string>
+    <string name="profile_blacklisted_you">vous êtes dans une liste noire de l\'utilisateur</string>
+    <string name="profile_closed">le profil est fermé</string>
+    <string name="profile_deactivated">le profil est désactivé</string>
 
 </resources>
 

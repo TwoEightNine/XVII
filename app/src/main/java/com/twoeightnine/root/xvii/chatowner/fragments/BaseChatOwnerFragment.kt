@@ -143,6 +143,16 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         }
     }
 
+    protected fun copy(text: String?, title: Int) {
+        copyToClip(text ?: return)
+        showToast(activity, getString(R.string.copied, getString(title)))
+    }
+
+    protected fun goTo(url: String?) {
+        simpleUrlIntent(context, url)
+    }
+
+
     override fun onDestroyView() {
         chatOwner?.getPeerId()?.also { peerId ->
             viewModel.setShowNotifications(peerId, swNotifications.isChecked)
