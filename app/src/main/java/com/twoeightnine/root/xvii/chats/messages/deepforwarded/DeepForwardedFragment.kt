@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
@@ -90,7 +91,7 @@ class DeepForwardedFragment : BaseFragment() {
         }
 
         override fun onUserClicked(userId: Int) {
-            ProfileActivity.launch(context, userId)
+            ChatOwnerActivity.launch(context, userId)
         }
 
         override fun onEncryptedFileClicked(doc: Doc) {

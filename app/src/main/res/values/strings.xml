@@ -24,7 +24,7 @@
     <string name="use_apple_emojis">use apple\'s emojis</string>
     <string name="show_stickers">show stickers/emojis icon</string>
     <string name="show_voice">show voice messaging icon</string>
-    <string name="unable_to_write">unfortunately, you can\'t write a message to this user</string>
+    <string name="unable_to_write">you can\'t write a message to this user</string>
     <string name="keys_not_set">keys aren\'t set</string>
     <string name="show_typing">show typing</string>
     <string name="feedback">support</string>
@@ -237,6 +237,9 @@
     <string name="incoming">incoming\ndata</string>
     <string name="forwarded_message">message</string>
     <string name="edited">edited</string>
+    <string name="profile_deactivated">this profile is deactivated</string>
+    <string name="profile_closed">this profile is closed</string>
+    <string name="profile_blacklisted_you">you are in the user\'s black list</string>
 
     <string name="no_access_to_mic">no access to the mic</string>
     <string name="no_access_to_storage">no access to the storage</string>

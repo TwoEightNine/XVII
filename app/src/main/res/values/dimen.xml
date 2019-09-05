@@ -63,8 +63,8 @@
     <dimen name="context_popup_radius">8dp</dimen>
 
     <dimen name="profile_bottom_peek_height">300dp</dimen>
-    <dimen name="profile_margin_start">16dp</dimen>
-    <dimen name="profile_margin_end">16dp</dimen>
+    <dimen name="profile_margin_start">24dp</dimen>
+    <dimen name="profile_margin_end">24dp</dimen>
     <dimen name="profile_avatar_height">240dp</dimen>
     <dimen name="profile_card_margin_top">46dp</dimen>
     <dimen name="profile_card_radius">10dp</dimen> <!--actionBarSize - profile_card_margin_top-->

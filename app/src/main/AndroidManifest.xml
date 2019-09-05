@@ -107,8 +107,8 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -192,7 +192,21 @@
         <activity
             android:name=".chats.messages.deepforwarded.DeepForwardedActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".chatowner.ChatOwnerActivity" />
+        <activity
+            android:name=".chatowner.ChatOwnerActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="vk.com"
+                    android:pathPrefix="/id"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
 
     </application>
 

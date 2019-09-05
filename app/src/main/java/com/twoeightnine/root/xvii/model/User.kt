@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 import com.twoeightnine.root.xvii.utils.getLastSeenText
 import kotlinx.android.parcel.Parcelize
@@ -32,6 +33,15 @@ data class User(
         @SerializedName("is_closed")
         @Expose
         val isClosed: Boolean = false,
+
+        @SerializedName("can_access_closed")
+        val canAccessClosed: Boolean = false,
+
+        @SerializedName("can_write_private_message")
+        val canWrite: Int = 0,
+
+        @SerializedName("blacklisted")
+        val blacklisted: Int = 0,
 
         @SerializedName("photo_max_orig")
         @Expose
@@ -127,11 +137,18 @@ data class User(
                     lastSeen?.platform ?: 0
             )
 
-    override fun getPrivacyInfo(context: Context): String? = null
+    override fun getPrivacyInfo(context: Context): String? = when {
+        deactivated != null -> context.getString(R.string.profile_deactivated)
+        blacklisted == 1 -> context.getString(R.string.profile_blacklisted_you)
+        isClosed && !canAccessClosed -> context.getString(R.string.profile_closed)
+        canWrite == 0 -> context.getString(R.string.unable_to_write)
+        else -> null
+    }
 
     companion object {
         const val FIELDS = "photo_max_orig,photo_50,photo_100,domain,city,status," +
-                "home_town,bdate,relation,photo_id,online,last_seen,counters,contacts,site,connections"
+                "home_town,bdate,relation,photo_id,online,last_seen,counters,contacts,site," +
+                "connections,is_closed,blacklisted,can_write_private_message"
 
         const val VK = "https://vk.com/"
     }
@@ -149,6 +166,9 @@ data class User(
         set(isOnline) {
             online = if (isOnline) 1 else 0
         }
+
+    val canWriteThisUser: Boolean
+        get() = blacklisted == 0 && canWrite == 1
 }
 
 @Parcelize

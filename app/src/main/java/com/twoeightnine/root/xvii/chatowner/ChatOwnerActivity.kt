@@ -8,12 +8,28 @@ import com.twoeightnine.root.xvii.activities.ContentActivity
 class ChatOwnerActivity : ContentActivity() {
 
     override fun createFragment(intent: Intent?): Fragment {
-        val peerId = intent?.extras?.getInt(BaseChatOwnerFragment.ARG_PEER_ID) ?: 0
+        val peerId = resolvePeerId()
 
         return when {
             else -> UserChatOwnerFragment.newInstance(peerId)
         }
     }
+
+    private fun resolvePeerId(): Int {
+        if (intent.action == Intent.ACTION_VIEW) {
+            intent?.data?.lastPathSegment?.also { path ->
+                return try {
+                    Integer.parseInt(path.replace("id", ""))
+                } catch (e: NumberFormatException) {
+                    0
+                }
+            }
+            return 0
+        } else {
+            return intent?.extras?.getInt(BaseChatOwnerFragment.ARG_PEER_ID) ?: 0
+        }
+    }
+
 
     companion object {
 

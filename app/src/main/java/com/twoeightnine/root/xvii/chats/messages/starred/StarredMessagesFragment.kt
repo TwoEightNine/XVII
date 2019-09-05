@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
@@ -15,7 +16,6 @@ import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
-import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
@@ -74,7 +74,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         }
 
         override fun onUserClicked(userId: Int) {
-            ProfileActivity.launch(context, userId)
+            ChatOwnerActivity.launch(context, userId)
         }
 
         override fun onEncryptedFileClicked(doc: Doc) {

@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.chatowner
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
@@ -38,6 +39,22 @@ class ChatOwnerViewModel : ViewModel() {
                 }, { error ->
                     chatOwnerLiveData.value = Wrapper(error = error)
                 })
+    }
+
+    fun getShowNotifications(peerId: Int) = peerId !in Prefs.muteList
+
+    fun setShowNotifications(peerId: Int, show: Boolean) {
+        val muteList = Prefs.muteList
+        val inMuteList = peerId in muteList
+        when {
+            show && inMuteList -> {
+                muteList.remove(peerId)
+            }
+            !show && !inMuteList -> {
+                muteList.add(peerId)
+            }
+        }
+        Prefs.muteList = muteList
     }
 
 }

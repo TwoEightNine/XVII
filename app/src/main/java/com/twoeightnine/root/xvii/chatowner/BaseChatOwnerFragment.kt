@@ -84,13 +84,14 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                     tvTitle.lower()
                     tvInfo.lower()
                 }
+                swNotifications.isChecked = viewModel.getShowNotifications(getPeerId())
                 resetValues()
                 bindChatOwner(this as? T)
             }
         }
     }
 
-    protected fun resetValues() {
+    private fun resetValues() {
         llContainer.removeAllViews()
     }
 
@@ -115,6 +116,13 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
             }
             llContainer.addView(this)
         }
+    }
+
+    override fun onDestroyView() {
+        chatOwner?.getPeerId()?.also { peerId ->
+            viewModel.setShowNotifications(peerId, swNotifications.isChecked)
+        }
+        super.onDestroyView()
     }
 
     companion object {

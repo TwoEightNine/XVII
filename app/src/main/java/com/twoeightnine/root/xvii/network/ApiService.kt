@@ -142,6 +142,7 @@ interface ApiService {
     ): Flowable<BaseResponse<Int>>
 
     //users
+    @Headers(NEW_VERSION_HEADER)
     @GET("users.get")
     fun getUsers(@Query("user_ids") userIds: String,
                  @Query("fields") fields: String = User.FIELDS): Flowable<BaseResponse<MutableList<User>>>

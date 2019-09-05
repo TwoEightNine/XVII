@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
@@ -93,7 +94,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         toolbar?.setOnClickListener {
             activity?.let { hideKeyboard(it) }
             if (peerId.matchesUserId()) {
-                ProfileActivity.launch(context, peerId)
+                ChatOwnerActivity.launch(context, peerId)
             }
         }
     }
@@ -348,7 +349,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onUserClicked(userId: Int) {
-            ProfileActivity.launch(context, userId)
+            ChatOwnerActivity.launch(context, userId)
         }
 
         override fun onEncryptedFileClicked(doc: Doc) {

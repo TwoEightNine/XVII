@@ -6,6 +6,8 @@ import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.utils.formatBdate
 import com.twoeightnine.root.xvii.utils.formatDate
 import com.twoeightnine.root.xvii.utils.getRelation
+import com.twoeightnine.root.xvii.utils.setVisible
+import kotlinx.android.synthetic.main.fragment_chat_owner_user.*
 
 class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
 
@@ -16,6 +18,7 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
     override fun bindChatOwner(chatOwner: User?) {
         val user = chatOwner ?: return
 
+        fabOpenChat.setVisible(user.canWriteThisUser)
         addValue(R.drawable.ic_quotation, user.status)
         addValue(0, formatDate(formatBdate(user.bdate)).toLowerCase())
         addValue(R.drawable.ic_pin_home, user.city?.title)
