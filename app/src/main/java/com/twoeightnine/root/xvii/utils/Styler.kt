@@ -59,6 +59,9 @@ object ColorManager {
     var extraLightColor: Int = 0
         private set
 
+    var toolbarColor: Int = 0
+        get() = if (Prefs.isLightTheme) mainColor else field
+
     fun init(context: Context) {
         mainColor = Prefs.color
         val other = getFromMain(mainColor)
@@ -67,6 +70,7 @@ object ColorManager {
         extraLightColor = other[3]
         defaultColor = ContextCompat.getColor(context, R.color.avatar)
         shapeColor = ContextCompat.getColor(context, R.color.shape)
+        toolbarColor = ContextCompat.getColor(context, R.color.toolbar)
         shouldIgnore = !Prefs.isLightTheme
     }
 

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/popup">
+
+    <include layout="@layout/toolbar" />
+
+    <View
+        android:id="@+id/vShadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginTop="?actionBarSize"
+        android:background="@drawable/shape_shadow"
+        android:elevation="14dp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/profile_avatar_height"
+        android:scaleType="centerCrop" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/profile_avatar_height"
+        android:background="#3000" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="@dimen/profile_bottom_peek_height"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/profile_card_margin_top"
+            android:layout_marginBottom="-10dp"
+            app:cardBackgroundColor="@color/popup"
+            app:cardCornerRadius="@dimen/profile_card_radius"
+            app:cardElevation="12dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    style="@style/MainText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/profile_margin_start"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/profile_margin_end"
+                    android:textSize="32sp"
+                    tools:text="volodimer soloviev" />
+
+                <TextView
+                    android:id="@+id/tvInfo"
+                    style="@style/OtherText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvTitle"
+                    android:layout_marginStart="@dimen/profile_margin_start"
+                    android:layout_marginEnd="@dimen/profile_margin_end"
+                    tools:text="last seen 13:37 via ipad" />
+
+                <ImageView
+                    android:id="@+id/ivWarning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvInfo"
+                    android:layout_marginStart="@dimen/profile_margin_start"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/ic_warning" />
+
+                <TextView
+                    android:id="@+id/tvPrivacy"
+                    style="@style/MainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvInfo"
+                    android:layout_alignTop="@+id/ivWarning"
+                    android:layout_alignBottom="@+id/ivWarning"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="@dimen/profile_margin_end"
+                    android:layout_toEndOf="@+id/ivWarning"
+                    android:gravity="center_vertical"
+                    tools:text="u cant write bla bla bla" />
+
+                <LinearLayout
+                    android:id="@+id/llContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ivWarning"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/profile_bottom_peek_height" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabOpenChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_envelope"
+        app:backgroundTint="@color/fab"
+        app:layout_anchor="@id/nsvContent"
+        app:layout_anchorGravity="end" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

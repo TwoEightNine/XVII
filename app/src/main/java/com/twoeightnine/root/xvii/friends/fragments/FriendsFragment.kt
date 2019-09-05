@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.friends.adapters.FriendsAdapter
 import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
 import com.twoeightnine.root.xvii.model.User
@@ -87,7 +88,8 @@ class FriendsFragment : BaseFragment() {
     }
 
     private fun onClick(user: User) {
-        ProfileActivity.launch(context, user.id)
+//        ProfileActivity.launch(context, user.id)
+        ChatOwnerActivity.launch(context, user.id)
     }
 
     companion object {

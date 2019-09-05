@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.ContentActivity
+import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.model.User
 
@@ -33,6 +34,14 @@ class ChatActivity : ContentActivity() {
         const val PEER_ID = "peerId"
         const val TITLE = "title"
         const val AVATAR = "avatar"
+
+        fun launch(context: Context?, chatOwner: ChatOwner) {
+            launch(context, Dialog(
+                    peerId = chatOwner.getPeerId(),
+                    title = chatOwner.getTitle(),
+                    photo = chatOwner.getAvatar()
+            ))
+        }
 
         fun launch(context: Context?, userId: Int, title: String,
                    avatar: String? = null, forwarded: String = "") {

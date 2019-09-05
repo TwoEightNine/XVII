@@ -41,6 +41,8 @@ data class Conversation(
 
     override fun getInfoText(context: Context): String = context.getString(R.string.conversation)
 
+    override fun getPrivacyInfo(context: Context): String? = null
+
     fun isRead() = inRead == outRead
 }
 

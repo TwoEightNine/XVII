@@ -10,6 +10,7 @@ import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerViewModel
 import com.twoeightnine.root.xvii.chats.attachments.audios.AudioAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachmentsFragment
@@ -86,5 +87,7 @@ interface AppComponent {
     fun inject(longPollCore: LongPollCore)
     fun inject(markAsReadBroadcastReceiver: MarkAsReadBroadcastReceiver)
     fun inject(stickersWindow: StickersWindow)
+
+    fun inject(chatOwnerViewModel: ChatOwnerViewModel)
 
 }

@@ -284,6 +284,26 @@
         <item quantity="other">%d messages</item>
     </plurals>
 
+    <plurals name="friends">
+        <item quantity="one">%d friend</item>
+        <item quantity="other">%d friends</item>
+    </plurals>
+
+    <plurals name="mutual_friends">
+        <item quantity="one">%d mutual friend</item>
+        <item quantity="other">%d mutual friends</item>
+    </plurals>
+
+    <plurals name="followers">
+        <item quantity="one">%d follower</item>
+        <item quantity="other">%d followers</item>
+    </plurals>
+
+    <plurals name="participants">
+        <item quantity="one">%d participant</item>
+        <item quantity="other">%d participants</item>
+    </plurals>
+
     <string name="aboutbig">xvii messenger (by twoeightnine)\nver. %s since %s</string>
 
     <string name="faces">faces</string>

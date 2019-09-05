@@ -14,5 +14,5 @@ interface ChatOwner {
     fun getAvatar(): String?
     fun getTitle(): String
     fun getInfoText(context: Context): String
-
+    fun getPrivacyInfo(context: Context): String?
 }

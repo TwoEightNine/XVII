@@ -127,6 +127,8 @@ data class User(
                     lastSeen?.platform ?: 0
             )
 
+    override fun getPrivacyInfo(context: Context): String? = null
+
     companion object {
         const val FIELDS = "photo_max_orig,photo_50,photo_100,domain,city,status," +
                 "home_town,bdate,relation,photo_id,online,last_seen,counters,contacts,site,connections"

@@ -43,4 +43,6 @@ data class Group(
     override fun getTitle() = name
 
     override fun getInfoText(context: Context): String = context.getString(R.string.community)
+
+    override fun getPrivacyInfo(context: Context): String?  = null
 }
