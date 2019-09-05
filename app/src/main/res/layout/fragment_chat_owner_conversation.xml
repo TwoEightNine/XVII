@@ -141,10 +141,17 @@
                     android:layout_below="@+id/tvNotifications"
                     android:background="@color/divider" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvUsers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vNotificationsBottom"
+                    android:layout_marginTop="12dp" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="16dp"
-                    android:layout_below="@+id/vNotificationsBottom" />
+                    android:layout_below="@+id/rvUsers" />
 
                 <RelativeLayout
                     android:id="@+id/rlLoader"

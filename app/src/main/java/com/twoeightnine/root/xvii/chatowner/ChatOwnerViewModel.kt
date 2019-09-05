@@ -20,12 +20,16 @@ class ChatOwnerViewModel : ViewModel() {
 
     private val chatOwnerLiveData = WrappedMutableLiveData<ChatOwner>()
     private val photosLiveData = MutableLiveData<List<Photo>>()
+    private val conversationMembersLiveData = MutableLiveData<List<User>>()
 
     val chatOwner: WrappedLiveData<ChatOwner>
         get() = chatOwnerLiveData
 
     val photos: LiveData<List<Photo>>
         get() = photosLiveData
+
+    val conversationMembers: LiveData<List<User>>
+        get() = conversationMembersLiveData
 
     init {
         App.appComponent?.inject(this)
@@ -45,6 +49,15 @@ class ChatOwnerViewModel : ViewModel() {
                     photosLiveData.value = it.items
                 }, { error ->
                     Lg.wtf("cant load photos for $peerId: $error")
+                })
+    }
+
+    fun loadChatMembers(peerId: Int) {
+        api.getConversationMembers(peerId)
+                .subscribeSmart({
+                    conversationMembersLiveData.value = it.profiles
+                }, { error ->
+                    Lg.wtf("cant load members for $peerId: $error")
                 })
     }
 

@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.network
 
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
+import com.twoeightnine.root.xvii.chatowner.model.api.MembersResponse
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Photo
@@ -127,6 +128,11 @@ interface ApiService {
             @Query("count") count: Int,
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<BaseResponse<SearchConversationsResponse>>
+
+    @GET("messages.getConversationMembers?fields=last_seen,photo_100,online")
+    fun getConversationMembers(
+            @Query("peer_id") peerId: Int
+    ): Flowable<BaseResponse<MembersResponse>>
 
     @Headers(NEW_VERSION_HEADER)
     @GET("messages.getImportantMessages?extended=1")
