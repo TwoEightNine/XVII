@@ -45,7 +45,7 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
         addValue(R.drawable.ic_phone, user.homePhone, { callIntent(context, user.homePhone) }) {
             copy(user.homePhone, R.string.hphone)
         }
-        addValue(0, getRelation(context, user.relation))
+        addValue(R.drawable.ic_relation, getRelation(context, user.relation))
         addValue(R.drawable.ic_worldwide, user.site, { goTo(user.site) }) {
             copy(user.site, R.string.site)
         }
