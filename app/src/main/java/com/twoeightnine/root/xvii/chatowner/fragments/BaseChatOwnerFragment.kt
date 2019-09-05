@@ -23,6 +23,7 @@ import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.views.RateAlertDialog
 import kotlinx.android.synthetic.main.fragment_chat_owner.ivAvatar
 import kotlinx.android.synthetic.main.fragment_chat_owner.nsvContent
 import kotlinx.android.synthetic.main.fragment_chat_owner.tvInfo
@@ -61,6 +62,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                 }
             }
         }
+        context?.let { RateAlertDialog(it).show() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -108,7 +110,9 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
     private fun onPhotosLoaded(photos: List<Photo>) {
         if (photos.isNotEmpty()) {
-            ivAvatar.load(photos[0].getOptimalPhoto().url)
+            ivAvatar.postDelayed({
+                ivAvatar.load(photos[0].getOptimalPhoto().url)
+            }, 1000L)
         }
     }
 
