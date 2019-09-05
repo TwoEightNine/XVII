@@ -10,6 +10,7 @@
     <color name="background_accented">#f7f7f7</color>
     <color name="popup">#fff</color>
     <color name="toolbar">#15121c</color>
+    <color name="divider">#ddd</color>
     <color name="icons">#fff</color>
     <color name="online">#8e30d8</color>
     <color name="main_text">#222</color>

@@ -2,8 +2,10 @@ package com.twoeightnine.root.xvii.chatowner.fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -13,6 +15,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerViewModel
@@ -55,13 +59,8 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                 ChatActivity.launch(context, it)
             }
         }
-        ivAvatar.setOnClickListener {
-            viewModel.photos.value?.also { photos ->
-                if (photos.isNotEmpty()) {
-                    ImageViewerActivity.viewImages(context, ArrayList(photos))
-                }
-            }
-        }
+        ivAvatar.setOnClickListener(::onAvatarClicked)
+        ivAvatarHighRes?.setOnClickListener(::onAvatarClicked)
         context?.let { RateAlertDialog(it).show() }
     }
 
@@ -77,6 +76,9 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         viewModel.chatOwner.observe(viewLifecycleOwner, Observer(::onChatOwnerLoaded))
         viewModel.photos.observe(viewLifecycleOwner, Observer(::onPhotosLoaded))
         viewModel.loadChatOwner(peerId, getChatOwnerClass())
+
+        swNotifications.stylize()
+        fabOpenChat.stylize()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -111,8 +113,16 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     private fun onPhotosLoaded(photos: List<Photo>) {
         if (photos.isNotEmpty()) {
             ivAvatar.postDelayed({
-                ivAvatar.load(photos[0].getOptimalPhoto().url)
+                loadHighResWithAnimation(photos[0].getOptimalPhoto().url)
             }, 1000L)
+        }
+    }
+
+    private fun onAvatarClicked(v: View) {
+        viewModel.photos.value?.also { photos ->
+            if (photos.isNotEmpty()) {
+                ImageViewerActivity.viewImages(context, ArrayList(photos))
+            }
         }
     }
 
@@ -131,6 +141,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         with(View.inflate(context, R.layout.item_chat_owner_field, null)) {
             if (icon != 0) {
                 ivIcon.setImageResource(icon)
+                ivIcon.stylize()
             }
             tvValue.text = text.toLowerCase()
             onClick?.also {
@@ -152,6 +163,22 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         simpleUrlIntent(context, url)
     }
 
+    private fun loadHighResWithAnimation(url: String) {
+        XviiPicasso.get()
+                .load(url)
+                .into(object : Target {
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+
+                    override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
+
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                        ivAvatarHighRes?.setImageBitmap(bitmap)
+                        ivAvatarHighRes?.fadeIn(700L) {
+                            ivAvatar.hide()
+                        }
+                    }
+                })
+    }
 
     override fun onDestroyView() {
         chatOwner?.getPeerId()?.also { peerId ->
@@ -164,6 +191,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
         const val ARG_PEER_ID = "peerId"
         const val BOTTOM_SHEET_TRIGGER_CALLBACK = 0.97
+        const val PARALLAX_COEFF = 0.5f
     }
 
     private inner class ProfileBottomSheetCallback(activity: Activity) : BottomSheetBehavior.BottomSheetCallback() {
@@ -196,10 +224,14 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                     toolbarColored = false
                 }
                 else -> {
-                    val margin = imageHeight * -offset * 0.5f
+                    val margin = imageHeight * -offset * PARALLAX_COEFF
                     (ivAvatar.layoutParams as? CoordinatorLayout.LayoutParams)?.apply {
                         topMargin = margin.toInt()
                         ivAvatar.layoutParams = this
+                    }
+                    (ivAvatarHighRes?.layoutParams as? CoordinatorLayout.LayoutParams)?.apply {
+                        topMargin = margin.toInt()
+                        ivAvatarHighRes?.layoutParams = this
                     }
                 }
             }

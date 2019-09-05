@@ -12,7 +12,8 @@
         android:id="@+id/ivIcon"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginStart="24dp" />
+        android:layout_marginStart="24dp"
+        android:tag="main" />
 
     <TextView
         android:id="@+id/tvValue"
