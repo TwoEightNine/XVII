@@ -154,6 +154,20 @@
                     android:layout_height="16dp"
                     android:layout_below="@+id/vNotificationsBottom" />
 
+                <RelativeLayout
+                    android:id="@+id/rlLoader"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/profile_bottom_peek_height"
+                    android:background="@color/popup"
+                    android:clickable="true">
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                </RelativeLayout>
+
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>

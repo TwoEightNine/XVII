@@ -84,6 +84,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     @Suppress("UNCHECKED_CAST")
     private fun onChatOwnerLoaded(data: Wrapper<ChatOwner>) {
         if (data.data != null) {
+            rlLoader.hide()
             chatOwner = data.data
             chatOwner?.apply {
                 ivAvatar.load(getAvatar())
@@ -174,7 +175,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                     override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
                         ivAvatarHighRes?.setImageBitmap(bitmap)
                         ivAvatarHighRes?.fadeIn(700L) {
-                            ivAvatar.hide()
+                            ivAvatar?.hide()
                         }
                     }
                 })

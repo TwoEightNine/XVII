@@ -24,21 +24,33 @@ class SearchViewModel(private val api: ApiService) : ViewModel() {
 
     fun search(q: String) {
         if (q.isEmpty()) {
-            resultLiveData.value = Wrapper(arrayListOf())
-            return
+            api.searchUsers(q, User.FIELDS, COUNT, 0)
+                    .subscribeSmart({ response ->
+                        resultLiveData.value = Wrapper(ArrayList(response.items.map { createFromUser(it) }))
+                    }, { error ->
+                        resultLiveData.value = Wrapper(error = error)
+                    })
+        } else {
+            Flowable.zip(
+                    api.searchFriends(q, User.FIELDS, COUNT, 0),
+                    api.searchUsers(q, User.FIELDS, COUNT, 0),
+                    api.searchConversations(q, COUNT),
+                    ResponseCombinerFunction()
+            )
+                    .subscribeSmart({ response ->
+                        resultLiveData.value = Wrapper(ArrayList(response.distinctBy { it.peerId }))
+                    }, { error ->
+                        resultLiveData.value = Wrapper(error = error)
+                    })
         }
-        Flowable.zip(
-                api.searchFriends(q, User.FIELDS, COUNT, 0),
-                api.searchUsers(q, User.FIELDS, COUNT, 0),
-                api.searchConversations(q, COUNT),
-                ResponseCombinerFunction()
-        )
-                .subscribeSmart({ response ->
-                    resultLiveData.value = Wrapper(ArrayList(response.distinctBy { it.peerId }))
-                }, { error ->
-                    resultLiveData.value = Wrapper(error = error)
-                })
     }
+
+    private fun createFromUser(user: User) = Dialog(
+            peerId = user.id,
+            title = user.fullName,
+            photo = user.photo100,
+            isOnline = user.isOnline
+    )
 
     companion object {
 
@@ -72,13 +84,6 @@ class SearchViewModel(private val api: ApiService) : ViewModel() {
 
             return BaseResponse(dialogs)
         }
-
-        private fun createFromUser(user: User) = Dialog(
-                peerId = user.id,
-                title = user.fullName,
-                photo = user.photo100,
-                isOnline = user.isOnline
-        )
     }
 
     class Factory @Inject constructor(private val api: ApiService) : ViewModelProvider.Factory {

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.hideKeyboard
@@ -52,7 +52,7 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun onClick(dialog: Dialog) {
-        ChatActivity.launch(context, dialog)
+        ChatOwnerActivity.launch(context, dialog.peerId)
     }
 
     private fun initRecycler() {
