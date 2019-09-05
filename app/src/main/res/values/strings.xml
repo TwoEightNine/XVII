@@ -240,6 +240,7 @@
     <string name="profile_deactivated">this profile is deactivated</string>
     <string name="profile_closed">this profile is closed</string>
     <string name="profile_blacklisted_you">you are in the user\'s black list</string>
+    <string name="group_closed">this community is closed</string>
 
     <string name="no_access_to_mic">no access to the mic</string>
     <string name="no_access_to_storage">no access to the storage</string>

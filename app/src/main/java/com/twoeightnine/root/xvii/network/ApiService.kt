@@ -197,7 +197,10 @@ interface ApiService {
 
     //groups
     @GET("groups.getById")
-    fun getGroups(@Query("group_ids") groupIds: String): Flowable<BaseResponse<MutableList<Group>>>
+    fun getGroups(
+            @Query("group_ids") groupIds: String,
+            @Query("fields") fields: String = Group.FIELDS
+    ): Flowable<BaseResponse<MutableList<Group>>>
 
     @GET("groups.join")
     fun joinGroup(@Query("group_id") groupId: Int): Flowable<BaseResponse<Int>>

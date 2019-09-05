@@ -27,7 +27,6 @@ import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
-import com.twoeightnine.root.xvii.profile.activities.ProfileActivity
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
@@ -93,7 +92,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
         toolbar?.setOnClickListener {
             activity?.let { hideKeyboard(it) }
-            if (peerId.matchesUserId()) {
+            if (!peerId.matchesChatId()) {
                 ChatOwnerActivity.launch(context, peerId)
             }
         }

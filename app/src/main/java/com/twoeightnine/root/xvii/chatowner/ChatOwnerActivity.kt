@@ -4,6 +4,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.activities.ContentActivity
+import com.twoeightnine.root.xvii.chatowner.fragments.BaseChatOwnerFragment
+import com.twoeightnine.root.xvii.chatowner.fragments.GroupChatOwnerFragment
+import com.twoeightnine.root.xvii.chatowner.fragments.UserChatOwnerFragment
+import com.twoeightnine.root.xvii.utils.matchesGroupId
 
 class ChatOwnerActivity : ContentActivity() {
 
@@ -11,6 +15,7 @@ class ChatOwnerActivity : ContentActivity() {
         val peerId = resolvePeerId()
 
         return when {
+            peerId.matchesGroupId() -> GroupChatOwnerFragment.newInstance(peerId)
             else -> UserChatOwnerFragment.newInstance(peerId)
         }
     }

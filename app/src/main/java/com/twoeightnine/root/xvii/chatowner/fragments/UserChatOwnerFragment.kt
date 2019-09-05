@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.chatowner
+package com.twoeightnine.root.xvii.chatowner.fragments
 
 import android.os.Bundle
 import com.twoeightnine.root.xvii.R
@@ -20,7 +20,7 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
 
         fabOpenChat.setVisible(user.canWriteThisUser)
         addValue(R.drawable.ic_quotation, user.status)
-        addValue(0, formatDate(formatBdate(user.bdate)).toLowerCase())
+        addValue(R.drawable.ic_calendar, formatDate(formatBdate(user.bdate)).toLowerCase())
         addValue(R.drawable.ic_pin_home, user.city?.title)
         addValue(R.drawable.ic_home, user.hometown)
         addValue(R.drawable.ic_phone, user.mobilePhone)

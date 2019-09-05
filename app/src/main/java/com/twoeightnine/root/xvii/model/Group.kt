@@ -33,7 +33,22 @@ data class Group(
 
         @SerializedName("photo_200")
         @Expose
-        val photo200: String? = null
+        val photo200: String? = null,
+
+        @SerializedName("is_closed")
+        val isClosed: Int = 0,
+
+        @SerializedName("screen_name")
+        val screenName: String = "",
+
+        @SerializedName("description")
+        val description: String = "",
+
+        @SerializedName("status")
+        val status: String = "",
+
+        @SerializedName("members_count")
+        val membersCount: Int = 0
 ) : Parcelable, ChatOwner {
 
     override fun getPeerId() = -id
@@ -42,7 +57,15 @@ data class Group(
 
     override fun getTitle() = name
 
-    override fun getInfoText(context: Context): String = context.getString(R.string.community)
+    override fun getInfoText(context: Context): String =
+            context.resources.getQuantityString(R.plurals.participants, membersCount, membersCount)
 
-    override fun getPrivacyInfo(context: Context): String?  = null
+    override fun getPrivacyInfo(context: Context): String? = when {
+        isClosed != 0 -> context.getString(R.string.group_closed)
+        else -> null
+    }
+
+    companion object {
+        const val FIELDS = "place,description,members_count,status"
+    }
 }
