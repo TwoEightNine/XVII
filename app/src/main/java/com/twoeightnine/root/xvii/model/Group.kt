@@ -6,6 +6,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
+import com.twoeightnine.root.xvii.utils.shortifyNumber
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -58,7 +59,7 @@ data class Group(
     override fun getTitle() = name
 
     override fun getInfoText(context: Context): String =
-            context.resources.getQuantityString(R.plurals.participants, membersCount, membersCount)
+            context.resources.getQuantityString(R.plurals.participants, membersCount, shortifyNumber(membersCount))
 
     override fun getPrivacyInfo(context: Context): String? = when {
         isClosed != 0 -> context.getString(R.string.group_closed)

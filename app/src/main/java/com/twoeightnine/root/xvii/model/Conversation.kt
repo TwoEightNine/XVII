@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 import com.twoeightnine.root.xvii.model.messages.Message
+import com.twoeightnine.root.xvii.utils.shortifyNumber
 
 data class Conversation(
 
@@ -42,7 +43,8 @@ data class Conversation(
 
     override fun getInfoText(context: Context): String {
         val count = chatSettings?.membersCount ?: 0
-        return context.resources.getQuantityString(R.plurals.participants, count, count)
+        val number = shortifyNumber(count)
+        return context.resources.getQuantityString(R.plurals.participants, count, number)
     }
 
     override fun getPrivacyInfo(context: Context): String? = when {

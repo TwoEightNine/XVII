@@ -190,8 +190,8 @@
     </plurals>
 
     <plurals name="friends">
-        <item quantity="one">%d ami</item>
-        <item quantity="other">%d amis</item>
+        <item quantity="one">%s ami</item>
+        <item quantity="other">%s amis</item>
     </plurals>
 
     <plurals name="mutual_friends">
@@ -200,13 +200,13 @@
     </plurals>
 
     <plurals name="followers">
-        <item quantity="one">%d abonné</item>
-        <item quantity="other">%d abonnés</item>
+        <item quantity="one">%s abonné</item>
+        <item quantity="other">%s abonnés</item>
     </plurals>
 
     <plurals name="participants">
-        <item quantity="one">%d participant</item>
-        <item quantity="other">%d participants</item>
+        <item quantity="one">%s participant</item>
+        <item quantity="other">%s participants</item>
     </plurals>
 
     <string name="aboutbig">xvii messenger (par twoeightnine)\nver. %s depuis %s</string>

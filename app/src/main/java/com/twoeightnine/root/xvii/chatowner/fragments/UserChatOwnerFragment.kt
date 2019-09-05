@@ -19,6 +19,23 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
         addValue(R.drawable.ic_quotation, user.status, null) {
             copy(user.status, R.string.status)
         }
+        user.counters?.friends?.also { count ->
+            if (count != 0) {
+                val number = shortifyNumber(count)
+                addValue(R.drawable.ic_friends_popup, resources.getQuantityString(R.plurals.friends, count, number))
+            }
+        }
+        user.counters?.mutual?.also { count ->
+            if (count != 0) {
+                addValue(R.drawable.ic_mutual_friends, resources.getQuantityString(R.plurals.mutual_friends, count, count))
+            }
+        }
+        user.counters?.followers?.also { count ->
+            if (count != 0) {
+                val number = shortifyNumber(count)
+                addValue(R.drawable.ic_followers, resources.getQuantityString(R.plurals.followers, count, number))
+            }
+        }
         addValue(R.drawable.ic_calendar, formatDate(formatBdate(user.bdate)).toLowerCase())
         addValue(R.drawable.ic_pin_home, user.city?.title)
         addValue(R.drawable.ic_home, user.hometown)

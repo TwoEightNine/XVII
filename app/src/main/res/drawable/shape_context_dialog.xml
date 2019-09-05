@@ -4,6 +4,6 @@
 
     <corners android:radius="@dimen/context_popup_radius" />
 
-    <solid android:color="@color/shape" />
+    <solid android:color="@color/popup" />
 
 </shape>

@@ -200,10 +200,10 @@
     </plurals>
 
     <plurals name="friends">
-        <item quantity="one">%d друг</item>
-        <item quantity="few">%d друга</item>
-        <item quantity="many">%d друзей</item>
-        <item quantity="other">%d друзей</item>
+        <item quantity="one">%s друг</item>
+        <item quantity="few">%s друга</item>
+        <item quantity="many">%s друзей</item>
+        <item quantity="other">%s друзей</item>
     </plurals>
 
     <plurals name="mutual_friends">
@@ -214,17 +214,17 @@
     </plurals>
 
     <plurals name="followers">
-        <item quantity="one">%d подписчик</item>
-        <item quantity="few">%d подписчика</item>
-        <item quantity="many">%d подписчиков</item>
-        <item quantity="other">%d подписчиков</item>
+        <item quantity="one">%s подписчик</item>
+        <item quantity="few">%s подписчика</item>
+        <item quantity="many">%s подписчиков</item>
+        <item quantity="other">%s подписчиков</item>
     </plurals>
 
     <plurals name="participants">
-        <item quantity="one">%d участник</item>
-        <item quantity="few">%d участник</item>
-        <item quantity="many">%d участников</item>
-        <item quantity="other">%d участников</item>
+        <item quantity="one">%s участник</item>
+        <item quantity="few">%s участник</item>
+        <item quantity="many">%s участников</item>
+        <item quantity="other">%s участников</item>
     </plurals>
 
     <string-array name="devices">
