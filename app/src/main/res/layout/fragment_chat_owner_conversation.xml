@@ -91,7 +91,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvInfo"
                     android:layout_alignTop="@+id/ivWarning"
-                    android:layout_alignBottom="@+id/ivWarning"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="@dimen/profile_margin_end"
                     android:layout_toEndOf="@+id/ivWarning"
@@ -102,7 +101,7 @@
                     android:id="@+id/llContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/ivWarning"
+                    android:layout_below="@+id/tvPrivacy"
                     android:layout_marginTop="12dp"
                     android:orientation="vertical" />
 
