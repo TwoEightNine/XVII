@@ -88,6 +88,13 @@ interface ApiService {
     ): Flowable<BaseResponse<Int>>
 
     @Headers(NEW_VERSION_HEADER)
+    @GET("messages.editChat")
+    fun editChatTitle(
+            @Query("chat_id") chatId: Int,
+            @Query("title") newTitle: String
+    ): Flowable<BaseResponse<Int>>
+
+    @Headers(NEW_VERSION_HEADER)
     @FormUrlEncoded
     @POST("messages.send")
     fun sendMessage(

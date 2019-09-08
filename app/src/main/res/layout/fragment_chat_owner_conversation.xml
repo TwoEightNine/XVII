@@ -59,11 +59,23 @@
                     style="@style/MainText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/ivEdit"
                     android:layout_marginStart="@dimen/profile_margin_start"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="@dimen/profile_margin_end"
                     android:textSize="32sp"
                     tools:text="volodimer soloviev" />
+
+                <ImageView
+                    android:id="@+id/ivEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/tvTitle"
+                    android:layout_alignBottom="@+id/tvTitle"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/profile_margin_end"
+                    android:src="@drawable/ic_edit_popup"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tvInfo"
@@ -157,7 +169,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/profile_bottom_peek_height"
                     android:background="@color/popup"
-                    android:clickable="true">
+                    android:clickable="true"
+                    android:visibility="gone">
 
                     <ProgressBar
                         android:layout_width="wrap_content"

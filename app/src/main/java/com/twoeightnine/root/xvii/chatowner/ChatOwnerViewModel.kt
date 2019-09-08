@@ -10,6 +10,7 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.utils.asChatId
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import javax.inject.Inject
 
@@ -21,6 +22,7 @@ class ChatOwnerViewModel : ViewModel() {
     private val chatOwnerLiveData = WrappedMutableLiveData<ChatOwner>()
     private val photosLiveData = MutableLiveData<List<Photo>>()
     private val conversationMembersLiveData = MutableLiveData<List<User>>()
+    private val titleLiveData = WrappedMutableLiveData<String>()
 
     val chatOwner: WrappedLiveData<ChatOwner>
         get() = chatOwnerLiveData
@@ -30,6 +32,9 @@ class ChatOwnerViewModel : ViewModel() {
 
     val conversationMembers: LiveData<List<User>>
         get() = conversationMembersLiveData
+
+    val title: WrappedLiveData<String>
+        get() = titleLiveData
 
     init {
         App.appComponent?.inject(this)
@@ -58,6 +63,17 @@ class ChatOwnerViewModel : ViewModel() {
                     conversationMembersLiveData.value = it.profiles
                 }, { error ->
                     Lg.wtf("cant load members for $peerId: $error")
+                })
+    }
+
+    fun changeChatTitle(peerId: Int, newTitle: String) {
+        api.editChatTitle(peerId.asChatId(), newTitle)
+                .subscribeSmart({
+                    if (it == 1) {
+                        titleLiveData.value = Wrapper(newTitle)
+                    }
+                }, { error ->
+                    titleLiveData.value = Wrapper(error = error)
                 })
     }
 

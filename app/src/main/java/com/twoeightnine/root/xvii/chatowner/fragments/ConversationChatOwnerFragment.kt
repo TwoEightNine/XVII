@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
-import com.twoeightnine.root.xvii.friends.adapters.FriendsAdapter
+import com.twoeightnine.root.xvii.chatowner.MembersAdapter
 import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.utils.setVisible
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
 class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
 
     private val adapter by lazy {
-        FriendsAdapter(context ?: return@lazy null, ::onUserClick, ::loadMore)
+        MembersAdapter(context ?: return@lazy null, ::onUserClick, ::onUserLongClick)
     }
 
     override fun getLayoutId() = R.layout.fragment_chat_owner_conversation
@@ -27,8 +27,6 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
 
         fabOpenChat.setVisible(conversation.canWrite?.allowed != false)
         addValue(R.drawable.ic_pinned, conversation.chatSettings?.pinnedMessage?.text)
-
-        adapter?.startLoading(addLoader = true)
         viewModel.loadChatMembers(conversation.getPeerId())
     }
 
@@ -51,8 +49,8 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
         ChatOwnerActivity.launch(context, user.id)
     }
 
-    private fun loadMore(offset: Int) {
-        adapter?.stopLoading(finished = true)
+    private fun onUserLongClick(user: User) {
+
     }
 
     companion object {
