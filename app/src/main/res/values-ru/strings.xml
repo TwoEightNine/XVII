@@ -21,7 +21,6 @@
     <string name="chat">чат</string>
     <string name="chat_back">фон чата</string>
     <string name="chat_back_exists">фон чата уже выбран</string>
-    <string name="chat_created">создан успешно</string>
     <string name="chat_title_updated">%s изменил название беседы: %s</string>
     <string name="chats_notifs">чаты</string>
     <string name="choose_dialog">выберите диалог</string>
@@ -344,5 +343,12 @@
     <string name="profile_blacklisted_you">вы в чёрном списке этого пользователя</string>
     <string name="profile_closed">профиль закрыт</string>
     <string name="profile_deactivated">пользователь неактивен</string>
+    <string name="user_unpinned_message">%s открепил сообщение: \"%s\"</string>
+    <string name="user_entered_chat">%s вступил в чат</string>
+    <string name="user_entered_chat_via_link">%s вступил в чат по ссылке</string>
+    <string name="user_invited_user">%s пригласил %s</string>
+    <string name="user_invited_user_via_link">%s пригласил %s по ссылке</string>
+    <string name="chat_created">%s создал чат</string>
+    <string name="chat_photo_removed">%s удалил фото чата</string>
 
 </resources>

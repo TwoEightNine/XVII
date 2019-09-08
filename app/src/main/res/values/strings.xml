@@ -134,11 +134,18 @@
     <string name="privacy_policy">privacy policy and credits</string>
     <string name="chat">chat</string>
     <string name="leave_chat">leave chat</string>
+    <string name="chat_created">%s created the chat</string>
     <string name="chat_title_updated">%s updated chat title: \"%s\"</string>
     <string name="chat_photo_updated">%s updated chat photo</string>
+    <string name="chat_photo_removed">%s removed chat photo</string>
     <string name="user_leaved_chat">%s left chat</string>
+    <string name="user_invited_user">%s invited %s</string>
+    <string name="user_invited_user_via_link">%s invited %s via link</string>
+    <string name="user_entered_chat">%s entered the chat</string>
+    <string name="user_entered_chat_via_link">%s entered the chat via link</string>
     <string name="user_kicked_user">%s kicked %s out of chat</string>
     <string name="user_pinned_message">%s pinned message: \"%s\"</string>
+    <string name="user_unpinned_message">%s unpinned message: \"%s\"</string>
     <string name="new_dialog">new conversation</string>
     <string name="offline_hint">pay attention that offline mode will not work on every vk client no more. this is caused by vk api that turns online status on automatically every time you refresh dialogs. not handy, we understand, but that is.. fortunately, you can enable \"almost\" offline that will make you offline, but your last seen time will be changed.</string>
     <string name="ten_attachments">you cannot add more than 10 attachments</string>
@@ -166,7 +173,6 @@
     <string name="hidden_message">message</string>
     <string name="shared">shared successfully</string>
     <string name="cannot_create_chat">cannot create chat</string>
-    <string name="chat_created">created successfully</string>
     <string name="denied">access denied</string>
     <string name="audio_denied">prohibited by vk</string>
     <string name="audios">audio</string>

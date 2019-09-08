@@ -127,7 +127,6 @@
     <string name="hidden_message">message</string>
     <string name="shared">partagé avec succès</string>
     <string name="cannot_create_chat">pas disponible de creater un tchat</string>
-    <string name="chat_created">creaté avec succès</string>
     <string name="denied">accés refusé</string>
     <string name="audio_denied">rejetée par vk</string>
     <string name="permissions_info">l\'app veut avoir l\'accès à vos fichiers pour envoyer et télécharger des photos et votre microphone pour envoyer un message vocal</string>
@@ -317,6 +316,13 @@
     <string name="profile_blacklisted_you">vous êtes dans une liste noire de l\'utilisateur</string>
     <string name="profile_closed">le profil est fermé</string>
     <string name="profile_deactivated">le profil est désactivé</string>
+    <string name="chat_created">%s a créé le tchat</string>
+    <string name="chat_photo_removed">%s a supprimé le photodu tchat</string>
+    <string name="user_entered_chat">%s a entré le tchat</string>
+    <string name="user_entered_chat_via_link">%s a entré le tchat via un lien</string>
+    <string name="user_invited_user">%s a invité %s</string>
+    <string name="user_invited_user_via_link">%s a invité %s via un lien</string>
+    <string name="user_unpinned_message">%s a detaché le message: \"%s\"</string>
 
 </resources>
 

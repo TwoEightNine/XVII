@@ -276,8 +276,8 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
             val message = putTitles(it, response)
             message.read = response.isMessageRead(message)
             message.action?.apply {
-                actioner = response.getProfileById(message.fromId)
-                memberId?.also { left = response.getProfileById(it) }
+                subject = response.getProfileById(message.fromId)
+                memberId?.also { objekt = response.getProfileById(it) }
 
 
             }
