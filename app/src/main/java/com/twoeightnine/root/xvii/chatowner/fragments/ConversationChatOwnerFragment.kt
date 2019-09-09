@@ -69,7 +69,7 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
 
         TextInputAlertDialog(context, getString(R.string.new_title), oldTitle) { newTitle ->
             viewModel.changeChatTitle(chatOwner.getPeerId(), newTitle)
-        }
+        }.show()
     }
 
     companion object {

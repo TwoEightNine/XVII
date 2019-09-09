@@ -386,7 +386,6 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                 if (message.date == 0) return
 
                 val uiDate = getDate(message.date)
-                Lg.i("date = $uiDate")
                 showDate(uiDate)
                 lastHandledPosition = adapterPosition
 

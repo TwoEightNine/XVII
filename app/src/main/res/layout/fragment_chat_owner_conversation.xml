@@ -74,8 +74,7 @@
                     android:layout_alignBottom="@+id/tvTitle"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/profile_margin_end"
-                    android:src="@drawable/ic_edit_popup"
-                    android:visibility="gone" />
+                    android:src="@drawable/ic_edit_popup" />
 
                 <TextView
                     android:id="@+id/tvInfo"
