@@ -49,7 +49,7 @@
                 android:layout_margin="16dp"
                 android:fontFamily="monospace"
                 android:textColor="@color/main_text"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 

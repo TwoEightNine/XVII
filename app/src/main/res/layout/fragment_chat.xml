@@ -60,6 +60,26 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/rlDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/shape_message_system"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvDatePopup"
+                    style="@style/WhiteText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:textSize="13sp"
+                    tools:text="28 sep" />
+
+            </RelativeLayout>
+
         </RelativeLayout>
 
         <include layout="@layout/toolbar_chat" />

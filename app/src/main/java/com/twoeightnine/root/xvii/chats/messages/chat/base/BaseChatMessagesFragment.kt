@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
@@ -22,6 +23,7 @@ import com.twoeightnine.root.xvii.chats.messages.base.MessagesReplyItemCallback
 import com.twoeightnine.root.xvii.chats.tools.ChatInputController
 import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.attachments.*
@@ -32,9 +34,12 @@ import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
+import io.reactivex.Completable
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.toolbar_chat.*
+import java.util.concurrent.TimeUnit
 
 abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMessagesFragment<VM>() {
 
@@ -68,6 +73,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         inputController = ChatInputController(contextOrThrow, view, InputCallback())
         swipeContainer.setOnRefreshListener { viewModel.loadMessages() }
 
+        rvChatList.addOnScrollListener(RecyclerDateScroller())
         rvAttached.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
         rvAttached.adapter = attachedAdapter
         val swipeToReply = ItemTouchHelper(MessagesReplyItemCallback(context, ::onSwipedToReply))
@@ -363,6 +369,48 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             }, { error ->
                 showError(context, error)
             })
+        }
+    }
+
+    private inner class RecyclerDateScroller : RecyclerView.OnScrollListener() {
+
+        private var lastHandledPosition = -1
+        private var disposable: Disposable? = null
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val adapterPosition = (recyclerView.layoutManager as? LinearLayoutManager)
+                    ?.findFirstVisibleItemPosition() ?: -1
+            if (adapterPosition != lastHandledPosition && adapterPosition != -1) {
+                val message = adapter.items.getOrNull(adapterPosition) ?: return
+                if (message.date == 0) return
+
+                val uiDate = getDate(message.date)
+                Lg.i("date = $uiDate")
+                showDate(uiDate)
+                lastHandledPosition = adapterPosition
+
+                disposable?.dispose()
+                disposable = Completable.timer(2L, TimeUnit.SECONDS)
+                        .compose(applyCompletableSchedulers())
+                        .subscribe {
+                            hideDate()
+                        }
+            }
+        }
+
+        private fun showDate(date: String) {
+            if (!rlDate.isShown) {
+                rlDate.fadeIn(200L)
+                rlDate.show()
+            }
+            tvDatePopup.text = date
+        }
+
+        private fun hideDate() {
+            rlDate?.fadeOut(200L) {
+                rlDate?.hide()
+            }
         }
     }
 

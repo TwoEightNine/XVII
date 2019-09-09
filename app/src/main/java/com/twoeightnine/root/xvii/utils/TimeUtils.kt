@@ -14,7 +14,7 @@ const val DD_MM_YYYY = "dd.MM.yyyy"
 const val DD_MMM_YYYY = "dd MMM yyyy"
 
 @SuppressLint("SimpleDateFormat")
-fun getTime(ts: Int, shortened: Boolean = false, withSeconds: Boolean = false, format: String? = null): String {
+fun getTime(ts: Int, shortened: Boolean = false, withSeconds: Boolean = false, noDate: Boolean = false, format: String? = null): String {
     val date = Date(ts * 1000L)
     val today = Date()
     if (format != null) {
@@ -22,11 +22,23 @@ fun getTime(ts: Int, shortened: Boolean = false, withSeconds: Boolean = false, f
     }
     val seconds = if (withSeconds) SS else ""
     val fmt = when {
-        today.day == date.day &&
+        noDate ||
+                today.day == date.day &&
                 today.month == date.month &&
                 today.year == date.year -> "$HH_MM$seconds"
         !shortened && today.year == date.year -> "$HH_MM$seconds $DD_MMM"
         !shortened -> "$HH_MM$seconds $DD_MMM_YYYY"
+        today.year == date.year -> DD_MMM
+        else -> DD_MMM_YYYY
+    }
+    return SimpleDateFormat(fmt).format(date).toLowerCase()
+}
+
+@SuppressLint("SimpleDateFormat")
+fun getDate(ts: Int): String {
+    val date = Date(ts * 1000L)
+    val today = Date()
+    val fmt = when {
         today.year == date.year -> DD_MMM
         else -> DD_MMM_YYYY
     }
