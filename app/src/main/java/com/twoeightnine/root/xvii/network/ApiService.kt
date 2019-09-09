@@ -95,6 +95,13 @@ interface ApiService {
     ): Flowable<BaseResponse<Int>>
 
     @Headers(NEW_VERSION_HEADER)
+    @GET("messages.removeChatUser")
+    fun kickUser(
+            @Query("chat_id") chatId: Int,
+            @Query("user_id") userId: Int
+    ): Flowable<BaseResponse<Int>>
+
+    @Headers(NEW_VERSION_HEADER)
     @FormUrlEncoded
     @POST("messages.send")
     fun sendMessage(

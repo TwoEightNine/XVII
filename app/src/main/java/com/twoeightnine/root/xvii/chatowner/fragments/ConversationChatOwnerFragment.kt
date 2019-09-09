@@ -10,6 +10,7 @@ import com.twoeightnine.root.xvii.chatowner.MembersAdapter
 import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.utils.setVisible
+import com.twoeightnine.root.xvii.utils.showConfirm
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
 
@@ -53,7 +54,12 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
     }
 
     private fun onUserLongClick(user: User) {
-
+        val peerId = getChatOwner()?.getPeerId() ?: 0
+        showConfirm(context, "") { confirmed ->
+            if (confirmed) {
+                viewModel.kickUser(peerId, user.id)
+            }
+        }
     }
 
     private fun showTitleDialog() {

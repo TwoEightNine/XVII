@@ -77,6 +77,16 @@ class ChatOwnerViewModel : ViewModel() {
                 })
     }
 
+    fun kickUser(peerId: Int, userId: Int) {
+        api.kickUser(peerId.asChatId(), userId)
+                .subscribeSmart({
+                    if (it == 1) {
+                        val members = conversationMembers.value ?: arrayListOf()
+                        conversationMembersLiveData.value = members.filter { it.id != userId }
+                    }
+                }, {})
+    }
+
     fun getShowNotifications(peerId: Int) = peerId !in Prefs.muteList
 
     fun setShowNotifications(peerId: Int, show: Boolean) {
