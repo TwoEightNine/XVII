@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:ignore="SpUsage">
 
     <RelativeLayout
         android:id="@+id/rlItemContainer"
@@ -12,8 +14,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civPhoto"
-            android:layout_width="@dimen/dialogs_photo_size"
-            android:layout_height="@dimen/dialogs_photo_size"
+            android:layout_width="@dimen/user_photo_size"
+            android:layout_height="@dimen/user_photo_size"
             android:layout_margin="@dimen/item_margin"
             android:src="@drawable/placeholder"
             app:civ_border_color="@color/icons" />
@@ -36,8 +38,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text="Medium Text"
-                    android:textSize="19sp" />
+                    android:textSize="@dimen/user_name_text_size"
+                    tools:text="conversation" />
 
                 <ImageView
                     android:id="@+id/ivMute"
@@ -65,7 +67,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp">
+                android:layout_marginTop="@dimen/user_margin_between">
 
                 <TextView
                     android:id="@+id/tvYou"
@@ -75,7 +77,7 @@
                     android:layout_alignBottom="@+id/tvBody"
                     android:paddingEnd="4dp"
                     android:text="@string/you_sender"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/user_info_text_size"
                     android:visibility="gone" />
 
                 <TextView
@@ -88,9 +90,8 @@
                     android:layout_toEndOf="@+id/tvYou"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Small Text"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/user_info_text_size"
+                    tools:text="message" />
 
                 <TextView
                     android:id="@+id/tvDate"
@@ -102,14 +103,13 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:maxLines="1"
-                    android:text="Small Text"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="12sp" />
+                    android:textSize="11dp"
+                    tools:text="13:37" />
 
                 <ImageView
                     android:id="@+id/ivUnreadDotOut"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="9dp"
+                    android:layout_height="9dp"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="6dp"
                     android:layout_toStartOf="@+id/tvDate"
@@ -146,10 +146,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="2dp"
-                android:textStyle="bold"
-                android:text="1"
                 android:textColor="@color/background"
-                android:textSize="15sp" />
+                android:textSize="14dp"
+                android:textStyle="bold"
+                tools:text="1" />
 
         </RelativeLayout>
 

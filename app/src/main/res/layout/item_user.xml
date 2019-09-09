@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:ignore="SpUsage">
 
     <RelativeLayout
         android:id="@+id/rlItemContainer"
@@ -34,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:textSize="19sp"
+                android:textSize="@dimen/user_name_text_size"
                 tools:text="text meduim" />
 
             <TextView
@@ -42,8 +43,9 @@
                 style="@style/OtherText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/user_margin_between"
                 android:maxLines="1"
-                android:textSize="15sp"
+                android:textSize="@dimen/user_info_text_size"
                 tools:text="text smaall" />
 
         </LinearLayout>

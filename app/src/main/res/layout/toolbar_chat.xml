@@ -12,7 +12,8 @@
     app:popupTheme="@style/ToolbarPopup"
     app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
     app:theme="@style/AppTheme.ToolBar"
-    app:titleTextAppearance="@style/ToolbarTitleTextAppearance">
+    app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+    tools:ignore="SpUsage">
 
     <RelativeLayout
         android:id="@+id/rlCustom"
@@ -47,33 +48,38 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_view_top_margin"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/toolbar_text"
-                android:textSize="20sp"
+                android:textSize="@dimen/user_name_text_size"
                 tools:text="mista sinista" />
 
             <RelativeLayout
                 android:id="@+id/rlSubtitle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/user_margin_between">
 
                 <TextView
                     android:id="@+id/tvSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_view_top_margin"
                     android:fontFamily="sans-serif-light"
+                    android:maxLines="1"
                     android:text="@string/offline"
                     android:textColor="@color/toolbar_subtext"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/user_info_text_size" />
 
                 <TextView
                     android:id="@+id/tvTyping"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_view_top_margin"
                     android:fontFamily="sans-serif-light"
                     android:text="@string/typing"
                     android:textColor="@color/toolbar_text"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/user_info_text_size"
                     android:textStyle="bold"
                     android:visibility="gone" />
 
@@ -81,10 +87,11 @@
                     android:id="@+id/tvRecordingVoice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_view_top_margin"
                     android:fontFamily="sans-serif-light"
                     android:text="@string/recording_voice"
                     android:textColor="@color/toolbar_text"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/user_info_text_size"
                     android:textStyle="bold"
                     android:visibility="gone" />
 

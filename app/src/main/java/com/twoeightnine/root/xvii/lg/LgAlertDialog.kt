@@ -37,7 +37,7 @@ class LgAlertDialog(context: Context) : AlertDialog(context) {
     }
 
     companion object {
-        const val FONT_SIZE = 12f
+        const val FONT_SIZE = 10f
     }
 
 }

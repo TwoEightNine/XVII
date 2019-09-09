@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-light"
+            android:gravity="center"
             android:textColor="@color/toolbar_text"
             android:textSize="26sp"
             tools:text="enter pin blyat" />

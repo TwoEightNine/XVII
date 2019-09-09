@@ -75,15 +75,16 @@
                         style="@style/MainText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="17sp"
+                        android:textSize="@dimen/user_name_text_size"
                         tools:text="Gucci Mane" />
 
                     <TextView
                         style="@style/OtherText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/user_margin_between"
                         android:text="@string/accounts_hint"
-                        android:textSize="15sp" />
+                        android:textSize="@dimen/user_info_text_size" />
 
                 </LinearLayout>
 
