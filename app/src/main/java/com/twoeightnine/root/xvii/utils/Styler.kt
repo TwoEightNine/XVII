@@ -237,6 +237,14 @@ fun ProgressBar.stylize() {
     indeterminateDrawable.setColorFilter(ColorManager.mainColor, PorterDuff.Mode.MULTIPLY)
 }
 
+fun Button.stylize() {
+    if (ColorManager.shouldIgnore) return
+
+    val b = background
+    b.stylize(ColorManager.MAIN_TAG, changeStroke = false)
+    background = b
+}
+
 fun AlertDialog.stylize(keepFont: Boolean = false) {
 
     val mainText = ContextCompat.getColor(context, R.color.main_text)
@@ -298,15 +306,13 @@ fun ViewGroup.stylizeAll(level: Int = 0) {
         l(r + v)
         when (v) {
             is Switch -> v.stylize()
+            is Button -> v.stylize()
             is FloatingActionButton -> v.stylize()
             is ImageView -> v.stylize()
             is Toolbar -> v.stylize()
             is TabLayout -> v.stylize()
             is ProgressBar -> v.stylize()
-            is ViewGroup -> {
-                v.stylizeAll(level + 1)
-            }
-
+            is ViewGroup -> v.stylizeAll(level + 1)
         }
     }
 }

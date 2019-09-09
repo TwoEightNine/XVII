@@ -101,14 +101,14 @@
                 android:textSize="16sp" />
 
             <!--<Switch-->
-                <!--android:id="@+id/switchManualUpd"-->
-                <!--style="@style/MainText"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="right"-->
-                <!--android:layout_margin="8dp"-->
-                <!--android:text="@string/manual_update"-->
-                <!--android:textSize="16sp" />-->
+            <!--android:id="@+id/switchManualUpd"-->
+            <!--style="@style/MainText"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:layout_margin="8dp"-->
+            <!--android:text="@string/manual_update"-->
+            <!--android:textSize="16sp" />-->
 
             <Switch
                 android:id="@+id/switchStoreKeys"
@@ -120,18 +120,16 @@
                 android:text="@string/store_keys"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tvClearCache"
-                style="@style/OtherText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="@drawable/selector_rect"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="8dp"
-                android:text="@string/clear_cache"
-                android:textSize="17sp" />
+            <Button
+                android:id="@+id/btnClearCache"
+                style="@style/AccentButton"
+                android:layout_marginBottom="6dp"
+                android:layout_width="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="1dp"
+                android:drawableStart="@drawable/ic_delete"
+                android:text="@string/clear_cache" />
 
             <!--<Switch-->
             <!--android:visibility="gone"-->
@@ -144,14 +142,14 @@
             <!--android:text="@string/assertion_enable" />-->
 
             <!--<TextView-->
-                <!--style="@style/MainText"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:layout_marginTop="16dp"-->
-                <!--android:padding="8dp"-->
-                <!--android:text="@string/offline_hint"-->
-                <!--android:textSize="15sp" />-->
+            <!--style="@style/MainText"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:padding="8dp"-->
+            <!--android:text="@string/offline_hint"-->
+            <!--android:textSize="15sp" />-->
 
 
         </LinearLayout>

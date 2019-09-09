@@ -2,6 +2,10 @@ package com.twoeightnine.root.xvii.chatowner
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Bundle
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.activities.ContentActivity
 import com.twoeightnine.root.xvii.chatowner.fragments.BaseChatOwnerFragment
@@ -11,7 +15,15 @@ import com.twoeightnine.root.xvii.chatowner.fragments.UserChatOwnerFragment
 import com.twoeightnine.root.xvii.utils.matchesChatId
 import com.twoeightnine.root.xvii.utils.matchesGroupId
 
+
 class ChatOwnerActivity : ContentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        window.statusBarColor = Color.TRANSPARENT
+    }
 
     override fun createFragment(intent: Intent?): Fragment {
         val peerId = resolvePeerId()
