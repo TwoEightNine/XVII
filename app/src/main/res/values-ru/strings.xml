@@ -350,5 +350,6 @@
     <string name="user_invited_user_via_link">%s пригласил %s по ссылке</string>
     <string name="chat_created">%s создал чат</string>
     <string name="chat_photo_removed">%s удалил фото чата</string>
+    <string name="new_title">новое название</string>
 
 </resources>

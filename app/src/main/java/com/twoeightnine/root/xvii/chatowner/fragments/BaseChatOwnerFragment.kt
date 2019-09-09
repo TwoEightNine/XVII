@@ -82,6 +82,9 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     }
 
     @Suppress("UNCHECKED_CAST")
+    protected fun getChatOwner(): T? = viewModel.chatOwner.value?.data as? T
+
+    @Suppress("UNCHECKED_CAST")
     private fun onChatOwnerLoaded(data: Wrapper<ChatOwner>) {
         if (data.data != null) {
             rlLoader.hide()

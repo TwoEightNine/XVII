@@ -10,6 +10,7 @@ import com.twoeightnine.root.xvii.chatowner.MembersAdapter
 import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.utils.setVisible
+import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
 
 class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
@@ -34,6 +35,8 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
         super.onViewCreated(view, savedInstanceState)
         rvUsers.layoutManager = LinearLayoutManager(context)
         rvUsers.adapter = adapter
+
+        ivEdit.setOnClickListener { showTitleDialog() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -51,6 +54,16 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
 
     private fun onUserLongClick(user: User) {
 
+    }
+
+    private fun showTitleDialog() {
+        val context = context ?: return
+        val chatOwner = getChatOwner() ?: return
+        val oldTitle = chatOwner.getTitle()
+
+        TextInputAlertDialog(context, getString(R.string.new_title), oldTitle) { newTitle ->
+            viewModel.changeChatTitle(chatOwner.getPeerId(), newTitle)
+        }
     }
 
     companion object {

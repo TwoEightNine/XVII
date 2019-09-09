@@ -134,6 +134,7 @@
     <string name="privacy_policy">privacy policy and credits</string>
     <string name="chat">chat</string>
     <string name="leave_chat">leave chat</string>
+    <string name="new_title">new title</string>
     <string name="chat_created">%s created the chat</string>
     <string name="chat_title_updated">%s updated chat title: \"%s\"</string>
     <string name="chat_photo_updated">%s updated chat photo</string>

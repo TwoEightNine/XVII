@@ -323,6 +323,7 @@
     <string name="user_invited_user">%s a invité %s</string>
     <string name="user_invited_user_via_link">%s a invité %s via un lien</string>
     <string name="user_unpinned_message">%s a detaché le message: \"%s\"</string>
+    <string name="new_title">nouveau titre</string>
 
 </resources>
 
