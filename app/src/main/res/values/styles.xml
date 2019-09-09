@@ -69,35 +69,26 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="TextViewStyle.Large">
-        <item name="android:layout_margin">10dp</item>
-        <item name="android:textSize">22sp</item>
-    </style>
-
-    <style name="TextViewStyle.Small.Gray" parent="TextViewStyle.Small">
-        <item name="android:textColor">@color/main_text</item>
-    </style>
-
-    <style name="TextViewStyle.Medium.Gray" parent="TextViewStyle.Medium">
-        <item name="android:textColor">@color/main_text</item>
-    </style>
-
     <style name="MainText">
+        <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
         <item name="android:textColor">@color/main_text</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="OtherText">
+        <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textColor">@color/other_text</item>
     </style>
 
     <style name="AccentText">
+        <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textColor">@color/accent</item>
     </style>
 
     <style name="WhiteText">
+        <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
