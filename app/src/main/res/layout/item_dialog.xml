@@ -103,7 +103,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:maxLines="1"
-                    android:textSize="11dp"
+                    android:textSize="11sp"
                     tools:text="13:37" />
 
                 <ImageView
