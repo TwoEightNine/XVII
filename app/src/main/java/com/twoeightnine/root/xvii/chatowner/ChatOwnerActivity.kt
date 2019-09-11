@@ -18,13 +18,6 @@ import com.twoeightnine.root.xvii.utils.matchesGroupId
 
 class ChatOwnerActivity : ContentActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        window.statusBarColor = Color.TRANSPARENT
-    }
-
     override fun createFragment(intent: Intent?): Fragment {
         val peerId = resolvePeerId()
 
