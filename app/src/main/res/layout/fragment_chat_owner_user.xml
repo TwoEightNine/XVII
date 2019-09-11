@@ -149,10 +149,45 @@
                     android:layout_below="@+id/tvNotifications"
                     android:background="@color/divider" />
 
+                <Button
+                    android:id="@+id/btnSecretChat"
+                    style="@style/AccentButton"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@+id/vNotificationsBottom"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="@dimen/profile_margin_start"
+                    android:drawableStart="@drawable/ic_start_secret_chat"
+                    android:text="@string/encryption" />
+
+                <Button
+                    android:id="@+id/btnBlockUser"
+                    style="@style/RedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@+id/btnSecretChat"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="@dimen/profile_margin_start"
+                    android:drawableStart="@drawable/ic_block_user"
+                    android:text="@string/block_user" />
+
+                <Button
+                    android:id="@+id/btnUnblockUser"
+                    style="@style/RedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@+id/btnSecretChat"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="@dimen/profile_margin_start"
+                    android:drawableStart="@drawable/ic_unblock_user"
+                    android:text="@string/unblock_user"
+                    android:visibility="gone" />
+
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="16dp"
-                    android:layout_below="@+id/vNotificationsBottom" />
+                    android:layout_height="22dp"
+                    android:layout_below="@+id/btnSecretChat"
+                    android:layout_marginTop="@dimen/button_accent_height" />
 
                 <RelativeLayout
                     android:id="@+id/rlLoader"

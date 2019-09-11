@@ -29,17 +29,12 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
         super.onCreateOptionsMenu(menu, inflater)
         menu?.clear()
         inflater?.inflate(R.menu.menu_chat, menu)
-        menu?.findItem(R.id.menu_encryption)?.isVisible = peerId.matchesUserId()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.menu_attachments -> {
                 AttachmentsActivity.launch(context, peerId)
-                true
-            }
-            R.id.menu_encryption -> {
-                SecretChatActivity.launch(context, peerId, title, photo)
                 true
             }
             else -> super.onOptionsItemSelected(item)

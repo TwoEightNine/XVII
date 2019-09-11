@@ -8,10 +8,4 @@
         android:title="@string/attachments"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/menu_encryption"
-        android:icon="@drawable/ic_key"
-        android:title="@string/encryption"
-        app:showAsAction="never" />
-
 </menu>

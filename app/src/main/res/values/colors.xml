@@ -9,6 +9,7 @@
     <color name="background">#0e0c13</color>
     <color name="background_accented">#1c1826</color>
     <color name="popup">#1c1826</color>
+    <color name="popup_error">#7A2737</color>
     <color name="toolbar">#15121c</color>
     <color name="divider">#45454B</color>
     <color name="icons">#fff</color>

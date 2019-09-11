@@ -177,6 +177,16 @@ interface ApiService {
                     @Query("count") count: Int,
                     @Query("offset") offset: Int): Flowable<BaseResponse<ListResponse<User>>>
 
+    @GET("account.ban")
+    fun blockUser(
+            @Query("owner_id") ownerId: Int
+    ): Flowable<BaseResponse<Int>>
+
+    @GET("account.unban")
+    fun unblockUser(
+            @Query("owner_id") ownerId: Int
+    ): Flowable<BaseResponse<Int>>
+
     //friends
     @GET("friends.get?order=hints")
     fun getFriends(

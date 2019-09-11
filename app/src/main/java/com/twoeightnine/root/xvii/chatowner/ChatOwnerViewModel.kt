@@ -23,6 +23,7 @@ class ChatOwnerViewModel : ViewModel() {
     private val photosLiveData = MutableLiveData<List<Photo>>()
     private val conversationMembersLiveData = MutableLiveData<List<User>>()
     private val titleLiveData = WrappedMutableLiveData<String>()
+    private val blockedLiveData = WrappedMutableLiveData<Boolean>()
 
     val chatOwner: WrappedLiveData<ChatOwner>
         get() = chatOwnerLiveData
@@ -35,6 +36,9 @@ class ChatOwnerViewModel : ViewModel() {
 
     val title: WrappedLiveData<String>
         get() = titleLiveData
+
+    val blocked: WrappedLiveData<Boolean>
+        get() = blockedLiveData
 
     init {
         App.appComponent?.inject(this)
@@ -87,6 +91,24 @@ class ChatOwnerViewModel : ViewModel() {
                 }, {})
     }
 
+    fun blockUser(userId: Int) {
+        api.blockUser(userId)
+                .subscribeSmart({
+                    blockedLiveData.value = Wrapper(it == 1)
+                }, { error ->
+                    blockedLiveData.value = Wrapper(error = error)
+                })
+    }
+
+    fun unblockUser(userId: Int) {
+        api.unblockUser(userId)
+                .subscribeSmart({
+                    blockedLiveData.value = Wrapper(it != 1)
+                }, { error ->
+                    blockedLiveData.value = Wrapper(error = error)
+                })
+    }
+
     fun getShowNotifications(peerId: Int) = peerId !in Prefs.muteList
 
     fun setShowNotifications(peerId: Int, show: Boolean) {
@@ -106,8 +128,11 @@ class ChatOwnerViewModel : ViewModel() {
     private fun loadUser(userId: Int) {
         api.getUsers(userId.toString())
                 .subscribeSmart({
-                    chatOwnerLiveData.value = Wrapper(it.getOrNull(0))
+                    val user = it.getOrNull(0)
+                    blockedLiveData.value = Wrapper(user?.blacklistedByMe == 1)
+                    chatOwnerLiveData.value = Wrapper(user)
                 }, { error ->
+                    blockedLiveData.value = Wrapper(false)
                     chatOwnerLiveData.value = Wrapper(error = error)
                 })
     }

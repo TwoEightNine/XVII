@@ -43,6 +43,9 @@ data class User(
         @SerializedName("blacklisted")
         val blacklisted: Int = 0,
 
+        @SerializedName("blacklisted_by_me")
+        val blacklistedByMe: Int = 0,
+
         @SerializedName("photo_max_orig")
         @Expose
         val photoMax: String? = null,
@@ -147,7 +150,7 @@ data class User(
     companion object {
         const val FIELDS = "photo_max_orig,photo_50,photo_100,domain,city,status," +
                 "home_town,bdate,relation,photo_id,online,last_seen,counters,contacts,site," +
-                "connections,is_closed,blacklisted,can_write_private_message"
+                "connections,is_closed,blacklisted,can_write_private_message,blacklisted_by_me"
 
         const val VK = "https://vk.com/"
         const val TWITTER = "https://twitter.com/"

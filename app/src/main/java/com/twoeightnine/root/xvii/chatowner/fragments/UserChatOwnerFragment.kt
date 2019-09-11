@@ -1,8 +1,12 @@
 package com.twoeightnine.root.xvii.chatowner.fragments
 
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Observer
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.model.User
+import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_chat_owner_user.*
 
@@ -11,6 +15,31 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
     override fun getLayoutId() = R.layout.fragment_chat_owner_user
 
     override fun getChatOwnerClass() = User::class.java
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        btnSecretChat.setOnClickListener {
+            getChatOwner()?.also {
+                SecretChatActivity.launch(context, it)
+            }
+        }
+        btnBlockUser.setOnClickListener {
+            showConfirm(context, getString(R.string.block_user_confirmation)) { confirmed ->
+                if (confirmed) {
+                    viewModel.blockUser(getChatOwner()?.getPeerId() ?: 0)
+                }
+            }
+        }
+        btnUnblockUser.setOnClickListener {
+            viewModel.unblockUser(getChatOwner()?.getPeerId() ?: 0)
+        }
+        btnSecretChat.stylize()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.blocked.observe(viewLifecycleOwner, Observer(::onBlockedChanged))
+    }
 
     override fun bindChatOwner(chatOwner: User?) {
         val user = chatOwner ?: return
@@ -61,6 +90,15 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
         }
         addValue(R.drawable.ic_fb, user.facebook, null) {
             copy(user.facebook, R.string.facebook)
+        }
+    }
+
+    private fun onBlockedChanged(data: Wrapper<Boolean>) {
+        if (data.data != null) {
+            btnBlockUser.setVisible(!data.data)
+            btnUnblockUser.setVisible(data.data)
+        } else {
+            showError(context, data.error ?: "")
         }
     }
 

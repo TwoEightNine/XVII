@@ -95,7 +95,7 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
                     ContextPopupItem(R.drawable.ic_edit_popup, R.string.user_key) {
                         showKeyInputDialog()
                     },
-                    ContextPopupItem(R.drawable.ic_exchange, R.string.random_key) {
+                    ContextPopupItem(R.drawable.ic_key_exchange, R.string.random_key) {
                         showAlert(context, getString(R.string.generation_dh_hint)) {
                             viewModel.startExchange()
                         }

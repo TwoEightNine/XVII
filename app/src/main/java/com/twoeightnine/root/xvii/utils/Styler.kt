@@ -286,7 +286,7 @@ fun AlertDialog.stylize(keepFont: Boolean = false) {
     if (!keepFont) {
         WindowManager.LayoutParams().apply {
             copyFrom(window?.attributes)
-            width = 550
+            width = pxFromDp(context, 280)
             window?.attributes = this
         }
     }

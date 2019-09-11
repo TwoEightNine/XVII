@@ -120,16 +120,24 @@
         <item name="android:textSize">15dp</item>
     </style>
 
-    <style name="AccentButton">
+    <style name="Button">
         <item name="android:layout_height">48dp</item>
-        <item name="android:background">@drawable/shape_button</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="AccentButton" parent="Button">
+        <item name="android:background">@drawable/shape_button</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="RedButton" parent="Button">
+        <item name="android:background">@drawable/shape_button_red</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

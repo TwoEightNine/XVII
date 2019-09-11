@@ -9,8 +9,10 @@ import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chatowner.MembersAdapter
 import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.User
+import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.setVisible
 import com.twoeightnine.root.xvii.utils.showConfirm
+import com.twoeightnine.root.xvii.utils.stylize
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
 
@@ -38,6 +40,7 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
         rvUsers.adapter = adapter
 
         ivEdit.setOnClickListener { showTitleDialog() }
+        ivEdit.stylize(ColorManager.LIGHT_TAG)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
