@@ -23,7 +23,6 @@ import com.twoeightnine.root.xvii.chats.messages.base.MessagesReplyItemCallback
 import com.twoeightnine.root.xvii.chats.tools.ChatInputController
 import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
-import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.attachments.*
@@ -374,20 +373,26 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     private inner class RecyclerDateScroller : RecyclerView.OnScrollListener() {
 
-        private var lastHandledPosition = -1
+        private var lastHandledTopPosition = -1
+        private var lastHandledBottomPosition = -1
         private var disposable: Disposable? = null
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            val adapterPosition = (recyclerView.layoutManager as? LinearLayoutManager)
+            val adapterTopPosition = (recyclerView.layoutManager as? LinearLayoutManager)
                     ?.findFirstVisibleItemPosition() ?: -1
-            if (adapterPosition != lastHandledPosition && adapterPosition != -1) {
-                val message = adapter.items.getOrNull(adapterPosition) ?: return
+            val adapterBottomPosition = (recyclerView.layoutManager as? LinearLayoutManager)
+                    ?.findLastVisibleItemPosition() ?: -1
+            if (adapterTopPosition != lastHandledTopPosition
+                    && adapterTopPosition != -1
+                    && adapterBottomPosition != lastHandledBottomPosition) {
+                val message = adapter.items.getOrNull(adapterTopPosition) ?: return
                 if (message.date == 0) return
 
                 val uiDate = getDate(message.date)
                 showDate(uiDate)
-                lastHandledPosition = adapterPosition
+                lastHandledTopPosition = adapterTopPosition
+                lastHandledBottomPosition = adapterBottomPosition
 
                 disposable?.dispose()
                 disposable = Completable.timer(2L, TimeUnit.SECONDS)
@@ -395,6 +400,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                         .subscribe {
                             hideDate()
                         }
+
             }
         }
 
