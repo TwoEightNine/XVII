@@ -351,5 +351,8 @@
     <string name="chat_created">%s создал чат</string>
     <string name="chat_photo_removed">%s удалил фото чата</string>
     <string name="new_title">новое название</string>
+    <string name="block_user">заблокировать</string>
+    <string name="block_user_confirmation">действительно хотите заблокировать пользователя?</string>
+    <string name="unblock_user">разблокировать</string>
 
 </resources>

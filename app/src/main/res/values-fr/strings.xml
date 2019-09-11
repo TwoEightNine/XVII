@@ -324,6 +324,9 @@
     <string name="user_invited_user_via_link">%s a invité %s via un lien</string>
     <string name="user_unpinned_message">%s a detaché le message: \"%s\"</string>
     <string name="new_title">nouveau titre</string>
+    <string name="block_user">bloquer l\'utilisateur</string>
+    <string name="block_user_confirmation">vous voulez réellement bloquer l\'utilisateur?</string>
+    <string name="unblock_user">débloquer l\'utilisateur</string>
 
 </resources>
 

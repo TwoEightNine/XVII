@@ -250,7 +250,7 @@ class ImageViewerActivity : AppCompatActivity() {
             downloadingQueue[id]?.also { path ->
                 val activity = this@ImageViewerActivity
                 addToGallery(activity, path)
-                Toast.makeText(activity, getString(R.string.doenloaded, getNameFromUrl(path)), Toast.LENGTH_SHORT).show()
+                showToast(activity, getString(R.string.doenloaded, getNameFromUrl(path)))
             }
         }
     }
