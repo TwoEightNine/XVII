@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseMultiSelectAdapter
+import com.twoeightnine.root.xvii.chats.attachments.gallery.model.GalleryItem
 import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.setVisible
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.item_gallery.view.*
 class GalleryAdapter(
         context: Context,
         private val onCameraClick: () -> Unit
-) : BaseMultiSelectAdapter<String, GalleryAdapter.GalleryViewHolder>(context) {
+) : BaseMultiSelectAdapter<GalleryItem, GalleryAdapter.GalleryViewHolder>(context) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GalleryViewHolder(inflater.inflate(R.layout.item_gallery, null))
 
@@ -24,13 +25,13 @@ class GalleryAdapter(
     }
 
     companion object {
-        const val CAMERA_STUB = "cameraaa"
+        val CAMERA_STUB = GalleryItem(0L, "", GalleryItem.Type.PHOTO)
         const val PHOTO_SIZE = 180
     }
 
     inner class GalleryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(item: String) {
+        fun bind(item: GalleryItem) {
             with(itemView) {
                 val isCamera = item == CAMERA_STUB
                 ivCamera.setVisible(isCamera)
@@ -38,7 +39,7 @@ class GalleryAdapter(
                 if (isCamera) {
                     ivCamera.stylize(ColorManager.MAIN_TAG)
                 } else {
-                    ivThumb.load("file://$item") {
+                    ivThumb.load("file://${item.path}") {
                         resize(PHOTO_SIZE, PHOTO_SIZE)
                                 .centerCrop()
                     }

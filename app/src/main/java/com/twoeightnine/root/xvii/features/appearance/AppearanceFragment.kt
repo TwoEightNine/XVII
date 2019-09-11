@@ -88,7 +88,7 @@ class AppearanceFragment : BaseFragment() {
             bottomSheetHelper.openBottomSheet(GalleryFragment.newInstance {
                 bottomSheetHelper.closeBottomSheet()
                 if (it.isNotEmpty()) {
-                    convertPhoto(it[0])
+                    convertPhoto(it[0].path)
                 } else {
                     showError(activity, R.string.error)
                 }

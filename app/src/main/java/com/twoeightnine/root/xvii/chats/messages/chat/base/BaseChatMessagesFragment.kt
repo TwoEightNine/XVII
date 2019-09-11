@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
+import com.twoeightnine.root.xvii.chats.attachments.gallery.model.GalleryItem
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesReplyItemCallback
@@ -174,7 +175,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
         shareImage?.also {
             handler.postDelayed({
-                onImagesSelected(arrayListOf(it))
+                onImageSelected(it)
             }, 500L)
         }
     }
@@ -260,15 +261,24 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         attachedAdapter.addAll(attachments.toMutableList())
     }
 
-    private fun onImagesSelected(paths: List<String>) {
+    private fun onSelectedFromGallery(paths: List<GalleryItem>) {
         paths.forEach {
-            viewModel.attachPhoto(it) { path, attachment ->
+            viewModel.attachPhoto(it.path) { path, attachment ->
                 inputController.removeItemAsLoaded(path)
                 attachedAdapter.add(attachment)
             }
-            inputController.addItemAsBeingLoaded(it)
+            inputController.addItemAsBeingLoaded(it.path)
         }
     }
+
+    private fun onImageSelected(path: String) {
+        viewModel.attachPhoto(path) { pathAttached, attachment ->
+            inputController.removeItemAsLoaded(pathAttached)
+            attachedAdapter.add(attachment)
+        }
+        inputController.addItemAsBeingLoaded(path)
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -277,8 +287,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                 data?.extras?.apply {
                     getParcelableArrayList<Attachment>(AttachFragment.ARG_ATTACHMENTS)
                             ?.let(::onAttachmentsSelected)
-                    getStringArrayList(AttachFragment.ARG_PATHS)
-                            ?.let(::onImagesSelected)
+                    getParcelableArrayList<GalleryItem>(AttachFragment.ARG_PATHS)
+                            ?.let(::onSelectedFromGallery)
                 }
             }
         }
@@ -422,7 +432,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     private inner class InputCallback : ChatInputController.ChatInputCallback {
 
         override fun onRichContentAdded(filePath: String) {
-            onImagesSelected(arrayListOf(filePath))
+            onImageSelected(filePath)
         }
 
         override fun onStickerClicked(sticker: Sticker) {

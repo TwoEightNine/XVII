@@ -11,6 +11,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
+import com.twoeightnine.root.xvii.chats.attachments.gallery.model.GalleryItem
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.*
@@ -78,7 +79,7 @@ class GalleryFragment : BaseFragment() {
         }
     }
 
-    private fun updateList(data: Wrapper<ArrayList<String>>) {
+    private fun updateList(data: Wrapper<ArrayList<GalleryItem>>) {
         swipeRefresh.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
@@ -110,7 +111,7 @@ class GalleryFragment : BaseFragment() {
 
         val path = imageUtils.getPath(requestCode, data)
         if (path != null && File(path).length() != 0L) {
-            selectedSubject.onNext(arrayListOf(path))
+            selectedSubject.onNext(arrayListOf(GalleryItem(time() * 1000L, path, GalleryItem.Type.PHOTO)))
             adapter.clearMultiSelect()
         } else {
             Lg.wtf("[camera] path is empty but request code is $requestCode and data = $data")
@@ -121,9 +122,9 @@ class GalleryFragment : BaseFragment() {
         const val SPAN_COUNT = 4
 
         private val disposables = CompositeDisposable()
-        private val selectedSubject = PublishSubject.create<List<String>>()
+        private val selectedSubject = PublishSubject.create<List<GalleryItem>>()
 
-        fun newInstance(onSelected: (List<String>) -> Unit): GalleryFragment {
+        fun newInstance(onSelected: (List<GalleryItem>) -> Unit): GalleryFragment {
             selectedSubject.subscribe(onSelected).let { disposables.add(it) }
             return GalleryFragment()
         }

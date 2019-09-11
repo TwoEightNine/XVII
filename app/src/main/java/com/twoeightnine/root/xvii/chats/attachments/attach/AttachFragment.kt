@@ -9,6 +9,7 @@ import com.twoeightnine.root.xvii.adapters.BasePagerAdapter
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
+import com.twoeightnine.root.xvii.chats.attachments.gallery.model.GalleryItem
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.model.attachments.Attachment
@@ -26,7 +27,7 @@ class AttachFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(adapter) {
-            add(GalleryFragment.newInstance(::onImagesSelected), getString(R.string.device_photos))
+            add(GalleryFragment.newInstance(::onSelectedFromGallery), getString(R.string.device_photos))
             add(PhotoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.photos))
             add(VideoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.videos))
             add(DocAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.docs))
@@ -41,9 +42,9 @@ class AttachFragment : BaseFragment() {
         updateTitle(getString(R.string.attach))
     }
 
-    private fun onImagesSelected(paths: List<String>) {
+    private fun onSelectedFromGallery(paths: List<GalleryItem>) {
         val intent = Intent().apply {
-            putStringArrayListExtra(ARG_PATHS, ArrayList(paths))
+            putParcelableArrayListExtra(ARG_PATHS, ArrayList(paths))
         }
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
