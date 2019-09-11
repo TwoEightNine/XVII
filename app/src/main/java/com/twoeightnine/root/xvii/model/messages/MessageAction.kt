@@ -58,11 +58,7 @@ data class MessageAction(
             } else { // user invited a user
                 context.getString(R.string.user_invited_user, subjectName, objektName)
             }
-            TYPE_INVITED_BY_LINK -> if (subject == objekt) { // user entered
-                context.getString(R.string.user_entered_chat_via_link, subjectName)
-            } else { // user invited a user
-                context.getString(R.string.user_invited_user_via_link, subjectName, objektName)
-            }
+            TYPE_INVITED_BY_LINK -> context.getString(R.string.user_entered_chat_via_link, subjectName)
             TYPE_PIN_MESSAGE -> context.getString(R.string.user_pinned_message, subjectName, message ?: "")
             TYPE_UNPIN_MESSAGE -> context.getString(R.string.user_unpinned_message, subjectName, message ?: "")
             TYPE_NEW_CHAT -> context.getString(R.string.chat_created, subjectName)

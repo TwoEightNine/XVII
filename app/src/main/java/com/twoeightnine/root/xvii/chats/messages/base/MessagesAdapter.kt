@@ -106,6 +106,11 @@ class MessagesAdapter(context: Context,
             with(view) {
                 if (message.isSystem()) {
                     tvSystem.text = message.action?.getSystemMessage(context)
+                    var userId = message.action?.memberId
+                    if (userId == 0 || userId == null) {
+                        userId = message.fromId
+                    }
+                    tvSystem.setOnClickListener { callback.onUserClicked(userId) }
                     return
                 }
                 invalidateBackground(message, this, level)
@@ -121,7 +126,7 @@ class MessagesAdapter(context: Context,
                     }
                     else -> ""
                 }
-                val date = getTime(message.date, withSeconds = Prefs.showSeconds, noDate = true)
+                val date = getTime(message.date, withSeconds = Prefs.showSeconds, noDate = level == 0)
                 val edited = if (message.isEdited()) resources.getString(R.string.edited) else ""
                 tvDate.text = "$date $edited"
                 civPhoto?.apply {
