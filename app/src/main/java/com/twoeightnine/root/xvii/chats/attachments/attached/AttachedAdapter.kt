@@ -114,7 +114,7 @@ class AttachedAdapter(
                         ?: attachment.video?.photo130?.let { it }
 
                 rlFwdMessages.setVisible(isForwarded)
-                fwdMessages?.apply {
+                fwdMessages.apply {
                     if (isForwarded) {
                         tvFwdCount.text = "${split(",").size}"
                     }

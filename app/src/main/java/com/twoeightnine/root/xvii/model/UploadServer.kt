@@ -18,5 +18,8 @@ data class UploadServer(
 
         @SerializedName("user_id")
         @Expose
-        val userId: Int = 0
+        val userId: Int = 0,
+
+        @SerializedName("access_key")
+        val accessKey: String? = null
 )

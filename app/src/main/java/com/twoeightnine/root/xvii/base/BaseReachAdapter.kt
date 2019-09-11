@@ -39,6 +39,8 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
 
     abstract fun createStubLoadItem(): T
 
+    protected open fun getThreshold() = THRESHOLD
+
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         stubLoadItem = createStubLoadItem()
@@ -54,10 +56,10 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
                 val total = itemCount
                 val thresholdPassed = if (stackFromEnd) {
                     val first = firstVisiblePosition(recyclerView.layoutManager)
-                    first <= THRESHOLD
+                    first <= getThreshold()
                 } else {
                     val last = lastVisiblePosition(recyclerView.layoutManager)
-                    last >= total - THRESHOLD
+                    last >= total - getThreshold()
                 }
                 val rightState = state in arrayListOf(State.INITIAL, State.USUAL)
                 if (rightState && thresholdPassed) {

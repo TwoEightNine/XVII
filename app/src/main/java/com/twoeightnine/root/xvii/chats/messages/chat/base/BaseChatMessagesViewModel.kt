@@ -12,6 +12,7 @@ import com.twoeightnine.root.xvii.model.LastSeen
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Sticker
+import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
@@ -170,6 +171,28 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                                             lw("saving voice error: $error")
                                             onErrorOccurred(error)
                                         })
+                            }, {
+                                lw("uploading error: $it")
+                                onErrorOccurred(it.message ?: "")
+                            })
+                }, { error ->
+                    lw("getting upload server error: $error")
+                    onErrorOccurred(error)
+                })
+    }
+
+    fun attachVideo(path: String, onAttached: (String, Attachment) -> Unit) {
+        api.getVideoUploadServer()
+                .subscribeSmart({ uploadServer ->
+                    val file = File(path)
+                    val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+                    api.uploadVideo(uploadServer.uploadUrl ?: return@subscribeSmart, body)
+                            .compose(applySchedulers())
+                            .subscribe({ response ->
+                                val video = Video(response.videoId, response.ownerId)
+                                onAttached(path, Attachment(video))
                             }, {
                                 lw("uploading error: $it")
                                 onErrorOccurred(it.message ?: "")

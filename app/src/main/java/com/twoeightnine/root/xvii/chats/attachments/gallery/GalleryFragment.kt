@@ -32,7 +32,7 @@ class GalleryFragment : BaseFragment() {
     }
 
     private val adapter by lazy {
-        GalleryAdapter(contextOrThrow, ::onCameraClick)
+        GalleryAdapter(contextOrThrow, ::onCameraClick, ::loadMore)
     }
 
     private val permissionHelper by lazy {
@@ -48,13 +48,19 @@ class GalleryFragment : BaseFragment() {
         initRecycler()
         viewModel.getAttach().observe(this, Observer { updateList(it) })
         reloadData()
+        adapter.startLoading()
 
         progressBar.show()
         swipeRefresh.setOnRefreshListener { reloadData() }
 
         with(fabDone) {
             setOnClickListener {
-                selectedSubject.onNext(adapter.multiSelect)
+                val items = adapter.multiSelect
+                items.forEach { item ->
+                    item.thumbnail?.recycle()
+                    item.thumbnail = null
+                }
+                selectedSubject.onNext(items)
                 adapter.clearMultiSelect()
             }
             stylize()
@@ -72,6 +78,8 @@ class GalleryFragment : BaseFragment() {
 
     private fun reloadData() {
         if (permissionHelper.hasStoragePermissions()) {
+            adapter.reset()
+            adapter.startLoading()
             viewModel.loadAttach()
         } else {
             rlPermissions.show()
@@ -87,6 +95,10 @@ class GalleryFragment : BaseFragment() {
         } else {
             showError(context, data.error ?: getString(R.string.error))
         }
+    }
+
+    private fun loadMore(offset: Int) {
+        viewModel.loadAttach(offset)
     }
 
     private fun initRecycler() {

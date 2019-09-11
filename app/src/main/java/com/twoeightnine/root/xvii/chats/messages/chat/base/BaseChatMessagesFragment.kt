@@ -263,11 +263,18 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     private fun onSelectedFromGallery(paths: List<GalleryItem>) {
         paths.forEach {
-            viewModel.attachPhoto(it.path) { path, attachment ->
-                inputController.removeItemAsLoaded(path)
-                attachedAdapter.add(attachment)
-            }
+
             inputController.addItemAsBeingLoaded(it.path)
+            when (it.type) {
+                GalleryItem.Type.PHOTO -> viewModel.attachPhoto(it.path) { path, attachment ->
+                    inputController.removeItemAsLoaded(path)
+                    attachedAdapter.add(attachment)
+                }
+                GalleryItem.Type.VIDEO -> viewModel.attachVideo(it.path) { path, attachment ->
+                    inputController.removeItemAsLoaded(path)
+                    attachedAdapter.add(attachment)
+                }
+            }
         }
     }
 

@@ -255,6 +255,16 @@ interface ApiService {
                   @Query("offset") offset: Int = 0
     ): Flowable<BaseResponse<ListResponse<Video>>>
 
+    @Headers(NEW_VERSION_HEADER)
+    @GET("video.save?is_private=1")
+    fun getVideoUploadServer(): Flowable<BaseResponse<UploadServer>>
+
+    @Multipart
+    @POST
+    @Headers(NO_TOKEN_HEADER)
+    fun uploadVideo(@Url url: String,
+                    @Part file: MultipartBody.Part): Flowable<UploadedVideo>
+
     //docs
     @GET("docs.getMessagesUploadServer")
     fun getDocUploadServer(@Query("type") type: String): Flowable<BaseResponse<UploadServer>>
