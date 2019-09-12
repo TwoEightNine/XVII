@@ -286,6 +286,13 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         inputController.addItemAsBeingLoaded(path)
     }
 
+    private fun onDocSelected(path: String) {
+        viewModel.attachDoc(path) { pathAttached, attachment ->
+            inputController.removeItemAsLoaded(pathAttached)
+            attachedAdapter.add(attachment)
+        }
+        inputController.addItemAsBeingLoaded(path)
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -439,7 +446,11 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     private inner class InputCallback : ChatInputController.ChatInputCallback {
 
         override fun onRichContentAdded(filePath: String) {
-            onImageSelected(filePath)
+            if (filePath.endsWith("gif", ignoreCase = true)) {
+                onDocSelected(filePath)
+            } else {
+                onImageSelected(filePath)
+            }
         }
 
         override fun onStickerClicked(sticker: Sticker) {

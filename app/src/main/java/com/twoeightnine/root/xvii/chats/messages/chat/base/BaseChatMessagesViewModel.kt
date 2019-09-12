@@ -203,6 +203,35 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 })
     }
 
+    fun attachDoc(path: String, onAttached: (String, Attachment) -> Unit) {
+        api.getDocUploadServer("doc")
+                .subscribeSmart({ uploadServer ->
+                    val file = File(path)
+                    val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+                    api.uploadDoc(uploadServer.uploadUrl ?: return@subscribeSmart, body)
+                            .compose(applySchedulers())
+                            .subscribe({ response ->
+                                api.saveDoc(response.file ?: return@subscribe)
+                                        .subscribeSmart({
+                                            if (it.size > 0) {
+                                                onAttached(path, Attachment(it[0]))
+                                            }
+                                        }, { error ->
+                                            lw("saving voice error: $error")
+                                            onErrorOccurred(error)
+                                        })
+                            }, {
+                                lw("uploading error: $it")
+                                onErrorOccurred(it.message ?: "")
+                            })
+                }, { error ->
+                    lw("getting upload server error: $error")
+                    onErrorOccurred(error)
+                })
+    }
+
     /**
      * helps with synchronising ui and viewmodel
      * checks [lastMessageId] with id of last stored message in [messages]
