@@ -136,12 +136,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         playedPosition++
         if (playedPosition !in tracks.indices) {
             playedPosition = 0
-            if (tracks.size > 1) {
-                startPlaying()
-            } else {
-                stop()
-                stopForeground(true)
-            }
+            stop()
+            stopForeground(true)
         } else {
             startPlaying()
         }
