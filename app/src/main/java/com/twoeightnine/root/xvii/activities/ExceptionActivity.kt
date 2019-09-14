@@ -8,10 +8,17 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.activity_exception.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -52,18 +59,46 @@ class ExceptionActivity : AppCompatActivity() {
                 this,
                 getString(R.string.describe_actions)
         ) {
-            sendError("NEW CRASH IN ${BuildConfig.VERSION_NAME}:\n$it\n$error")
+            val file = File(cacheDir, "crash_in_${BuildConfig.VERSION_NAME}_${getTime(time())}.txt")
+            val writer = BufferedWriter(FileWriter(file))
+            writer.write("$it\n$error")
+            writer.close()
+            sendError(file.absolutePath)
         }
 
         dialog.show()
     }
 
-    private fun sendError(error: String) {
-        api.sendMessage(-App.GROUP, getRandomId(), error)
-                .subscribeSmart({ response ->
-                    deleteReport(response)
-                    showToast(this, R.string.report_sent)
-                    Handler().postDelayed({ onBackPressed() }, 200L)
+    private fun sendError(path: String) {
+        api.getDocUploadServer("doc")
+                .subscribeSmart({ uploadServer ->
+                    val file = File(path)
+                    val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+                    api.uploadDoc(uploadServer.uploadUrl ?: return@subscribeSmart, body)
+                            .compose(applySchedulers())
+                            .subscribe({ response ->
+                                api.saveDoc(response.file ?: return@subscribe)
+                                        .subscribeSmart({
+                                            val doc = it.getOrNull(0) ?: return@subscribeSmart
+
+                                            api.sendMessage(-App.GROUP, getRandomId(), attachments = doc.getId())
+                                                    .subscribeSmart({ response ->
+                                                        deleteReport(response)
+                                                        deleteDoc(doc)
+                                                        showToast(this, R.string.report_sent)
+                                                        Handler().postDelayed({ onBackPressed() }, 200L)
+                                                    }, { error ->
+                                                        showError(this, error)
+                                                    })
+
+                                        }, { error ->
+                                            showError(this, error)
+                                        })
+                            }, {
+                                showError(this, it.message ?: "")
+                            })
                 }, {
                     showError(this, it)
                 })
@@ -73,6 +108,11 @@ class ExceptionActivity : AppCompatActivity() {
 
     private fun deleteReport(mid: Int) {
         api.deleteMessages("$mid", 0)
+                .subscribeSmart({}, {})
+    }
+
+    private fun deleteDoc(doc: Doc) {
+        api.deleteDoc(doc.ownerId, doc.id)
                 .subscribeSmart({}, {})
     }
 

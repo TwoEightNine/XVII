@@ -269,6 +269,12 @@ interface ApiService {
     @GET("docs.getMessagesUploadServer")
     fun getDocUploadServer(@Query("type") type: String): Flowable<BaseResponse<UploadServer>>
 
+    @GET("docs.delete")
+    fun deleteDoc(
+            @Query("owner_id") ownerId: Int,
+            @Query("doc_id") docId: Int
+    ): Flowable<BaseResponse<Int>>
+
     @Multipart
     @POST
     @Headers(NO_TOKEN_HEADER)
