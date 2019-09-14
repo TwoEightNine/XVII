@@ -70,6 +70,7 @@ class ExceptionActivity : AppCompatActivity() {
     }
 
     private fun sendError(path: String) {
+        rlLoader.show()
         api.getDocUploadServer("doc")
                 .subscribeSmart({ uploadServer ->
                     val file = File(path)
@@ -85,10 +86,11 @@ class ExceptionActivity : AppCompatActivity() {
 
                                             api.sendMessage(-App.GROUP, getRandomId(), attachments = doc.getId())
                                                     .subscribeSmart({ response ->
+                                                        rlLoader.hide()
                                                         deleteReport(response)
                                                         deleteDoc(doc)
                                                         showToast(this, R.string.report_sent)
-                                                        Handler().postDelayed({ onBackPressed() }, 200L)
+                                                        Handler().postDelayed({ onBackPressed() }, 400L)
                                                     }, { error ->
                                                         showError(this, error)
                                                     })
