@@ -17,7 +17,7 @@ import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
-import com.twoeightnine.root.xvii.chats.attachments.gallery.model.GalleryItem
+import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesReplyItemCallback
@@ -261,16 +261,20 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         attachedAdapter.addAll(attachments.toMutableList())
     }
 
-    private fun onSelectedFromGallery(paths: List<GalleryItem>) {
+    private fun onSelectedFromGallery(paths: List<DeviceItem>) {
         paths.forEach {
 
             inputController.addItemAsBeingLoaded(it.path)
             when (it.type) {
-                GalleryItem.Type.PHOTO -> viewModel.attachPhoto(it.path) { path, attachment ->
+                DeviceItem.Type.PHOTO -> viewModel.attachPhoto(it.path) { path, attachment ->
                     inputController.removeItemAsLoaded(path)
                     attachedAdapter.add(attachment)
                 }
-                GalleryItem.Type.VIDEO -> viewModel.attachVideo(it.path) { path, attachment ->
+                DeviceItem.Type.VIDEO -> viewModel.attachVideo(it.path) { path, attachment ->
+                    inputController.removeItemAsLoaded(path)
+                    attachedAdapter.add(attachment)
+                }
+                DeviceItem.Type.DOC -> viewModel.attachDoc(it.path) { path, attachment ->
                     inputController.removeItemAsLoaded(path)
                     attachedAdapter.add(attachment)
                 }
@@ -301,7 +305,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                 data?.extras?.apply {
                     getParcelableArrayList<Attachment>(AttachFragment.ARG_ATTACHMENTS)
                             ?.let(::onAttachmentsSelected)
-                    getParcelableArrayList<GalleryItem>(AttachFragment.ARG_PATHS)
+                    getParcelableArrayList<DeviceItem>(AttachFragment.ARG_PATHS)
                             ?.let(::onSelectedFromGallery)
                 }
             }

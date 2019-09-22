@@ -8,7 +8,7 @@ import android.graphics.BitmapFactory
 import android.media.ThumbnailUtils
 import android.provider.MediaStore
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
-import com.twoeightnine.root.xvii.chats.attachments.gallery.model.GalleryItem
+import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.saveBmp
@@ -17,10 +17,10 @@ import io.reactivex.disposables.Disposable
 import java.io.File
 import kotlin.math.min
 
-class GalleryViewModel(private val context: Context) : BaseAttachViewModel<GalleryItem>() {
+class GalleryViewModel(private val context: Context) : BaseAttachViewModel<DeviceItem>() {
 
     private var disposable: Disposable? = null
-    private val preloadedItems = arrayListOf<GalleryItem>()
+    private val preloadedItems = arrayListOf<DeviceItem>()
 
     init {
         File(context.cacheDir, CACHE_DIR).mkdir()
@@ -45,24 +45,21 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Galle
                 .flatMap(::loadThumbnailsForItems)
                 .compose(applySingleSchedulers())
                 .subscribe({ photos ->
-                    if (offset == 0) {
-                        photos.add(0, GalleryAdapter.CAMERA_STUB)
-                    }
                     onAttachmentsLoaded(offset, ArrayList(photos))
                 }, { onErrorOccurred(it.message ?: "") })
     }
 
-    private fun loadThumbnailsForItems(items: MutableList<GalleryItem>): Single<MutableList<GalleryItem>> {
+    private fun loadThumbnailsForItems(items: MutableList<DeviceItem>): Single<MutableList<DeviceItem>> {
         items.forEach { item ->
             val cachedThumbnail = getThumbnail(item)
             item.thumbnail = cachedThumbnail ?: when (item.type) {
-                GalleryItem.Type.PHOTO -> {
+                DeviceItem.Type.VIDEO -> {
+                    ThumbnailUtils.createVideoThumbnail(item.path, MediaStore.Images.Thumbnails.MICRO_KIND)
+                }
+                else -> {
                     BitmapFactory.decodeFile(item.path, BitmapFactory.Options().apply {
                         inSampleSize = getOptimalScaleForImage(item.path)
                     })
-                }
-                GalleryItem.Type.VIDEO -> {
-                    ThumbnailUtils.createVideoThumbnail(item.path, MediaStore.Images.Thumbnails.MICRO_KIND)
                 }
             }
             cachedThumbnail ?: saveThumbnailToCache(item)
@@ -70,13 +67,13 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Galle
         return Single.just(items)
     }
 
-    private fun getThumbnail(item: GalleryItem): Bitmap? {
+    private fun getThumbnail(item: DeviceItem): Bitmap? {
         val fileName = getFilePathForItem(item)
         return BitmapFactory.decodeFile(fileName)
 
     }
 
-    private fun saveThumbnailToCache(item: GalleryItem) {
+    private fun saveThumbnailToCache(item: DeviceItem) {
         val bmp = item.thumbnail ?: return
         val fileName = getFilePathForItem(item)
         saveBmp(fileName, bmp)
@@ -85,7 +82,7 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Galle
     /**
      * loads photos and videos, sorts them by date descending, filter for non-empty paths
      */
-    private fun preloadMedia(items: ArrayList<GalleryItem>): Single<ArrayList<GalleryItem>> {
+    private fun preloadMedia(items: ArrayList<DeviceItem>): Single<ArrayList<DeviceItem>> {
         if (items.isEmpty()) {
             items.addAll(loadAllPhotos())
             items.addAll(loadAllVideos())
@@ -98,8 +95,8 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Galle
     /**
      * load all videos from gallery
      */
-    private fun loadAllVideos(): ArrayList<GalleryItem> {
-        val videos = arrayListOf<GalleryItem>()
+    private fun loadAllVideos(): ArrayList<DeviceItem> {
+        val videos = arrayListOf<DeviceItem>()
         val projectionVideos = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DATE_MODIFIED, MediaStore.Video.VideoColumns.DURATION)
 
         var cursorVideos: Cursor? = null
@@ -115,7 +112,7 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Galle
                 val path = cursorVideos.getString(cursorVideos.getColumnIndexOrThrow(MediaStore.Video.Media.DATA))
                 val duration = cursorVideos.getLong(cursorVideos.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DURATION))
                 if (path != null) {
-                    videos.add(GalleryItem(date, path, GalleryItem.Type.VIDEO, duration))
+                    videos.add(DeviceItem(date, path, DeviceItem.Type.VIDEO, duration))
                 }
             } while (cursorVideos.moveToNext())
 
@@ -130,8 +127,8 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Galle
     /**
      * loads all photos from gallery
      */
-    private fun loadAllPhotos(): ArrayList<GalleryItem> {
-        val photos = arrayListOf<GalleryItem>()
+    private fun loadAllPhotos(): ArrayList<DeviceItem> {
+        val photos = arrayListOf<DeviceItem>()
         val projectionImages = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DATE_MODIFIED)
 
         var cursorImages: Cursor? = null
@@ -146,7 +143,7 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Galle
                 val date = cursorImages.getLong(cursorImages.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED))
                 val path = cursorImages.getString(cursorImages.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
                 if (path != null) {
-                    photos.add(GalleryItem(date, path, GalleryItem.Type.PHOTO))
+                    photos.add(DeviceItem(date, path, DeviceItem.Type.PHOTO))
                 }
             } while (cursorImages.moveToNext())
 
@@ -174,7 +171,7 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Galle
         return scale
     }
 
-    private fun getFilePathForItem(item: GalleryItem): String {
+    private fun getFilePathForItem(item: DeviceItem): String {
         val cacheDir = File(context.cacheDir, CACHE_DIR)
         return File(cacheDir, md5(item.path) + ".png").absolutePath
     }

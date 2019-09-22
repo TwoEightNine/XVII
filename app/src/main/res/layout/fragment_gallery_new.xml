@@ -13,9 +13,39 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAttachments"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingTop="56dp" />
 
     </com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_shadow_dark"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCamera"
+            style="@style/AccentButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_camera_white"
+            android:text="@string/take_photo" />
+
+        <Button
+            android:id="@+id/btnDoc"
+            style="@style/AccentButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_file"
+            android:text="@string/add_doc" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/rlPermissions"
@@ -37,7 +67,7 @@
             android:text="@string/need_access_to_storage"
             android:textColor="@color/main_text"
             android:textSize="16sp"
-            android:textStyle="bold " />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"

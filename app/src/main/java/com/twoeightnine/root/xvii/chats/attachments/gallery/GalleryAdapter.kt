@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
-import com.twoeightnine.root.xvii.chats.attachments.gallery.model.GalleryItem
+import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.secToTime
 import com.twoeightnine.root.xvii.utils.setVisible
@@ -17,32 +17,32 @@ class GalleryAdapter(
         context: Context,
         private val onCameraClick: () -> Unit,
         loader: (Int) -> Unit
-) : BaseReachAdapter<GalleryItem, GalleryAdapter.GalleryViewHolder>(context, loader) {
+) : BaseReachAdapter<DeviceItem, GalleryAdapter.GalleryViewHolder>(context, loader) {
 
     override fun createHolder(parent: ViewGroup, viewType: Int) =
             GalleryViewHolder(inflater.inflate(R.layout.item_gallery, null))
 
-    override fun bind(holder: GalleryViewHolder, item: GalleryItem) {
+    override fun bind(holder: GalleryViewHolder, item: DeviceItem) {
         holder.bind(item)
     }
 
-    override fun createStubLoadItem() = GalleryItem(0, "", GalleryItem.Type.VIDEO, 23)
+    override fun createStubLoadItem() = DeviceItem(0, "", DeviceItem.Type.VIDEO, 23)
 
     override fun getThreshold() = THRESHOLD
 
     companion object {
         const val THRESHOLD = 20
-        val CAMERA_STUB = GalleryItem(0L, "", GalleryItem.Type.PHOTO)
+        val CAMERA_STUB = DeviceItem(0L, "", DeviceItem.Type.PHOTO)
     }
 
     inner class GalleryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(item: GalleryItem) {
+        fun bind(item: DeviceItem) {
             with(itemView) {
                 val isCamera = item == CAMERA_STUB
                 ivCamera.setVisible(isCamera)
                 ivThumb.setVisible(!isCamera)
-                tvDuration.setVisible(item.type == GalleryItem.Type.VIDEO)
+                tvDuration.setVisible(item.type == DeviceItem.Type.VIDEO)
                 tvDuration.text = secToTime((item.duration / 1000L).toInt())
                 when {
                     isCamera -> ivCamera.stylize(ColorManager.MAIN_TAG)

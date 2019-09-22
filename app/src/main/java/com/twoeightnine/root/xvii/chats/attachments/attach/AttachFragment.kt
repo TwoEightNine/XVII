@@ -9,7 +9,7 @@ import com.twoeightnine.root.xvii.adapters.BasePagerAdapter
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
-import com.twoeightnine.root.xvii.chats.attachments.gallery.model.GalleryItem
+import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.model.attachments.Attachment
@@ -42,7 +42,7 @@ class AttachFragment : BaseFragment() {
         updateTitle(getString(R.string.attach))
     }
 
-    private fun onSelectedFromGallery(paths: List<GalleryItem>) {
+    private fun onSelectedFromGallery(paths: List<DeviceItem>) {
         val intent = Intent().apply {
             putParcelableArrayListExtra(ARG_PATHS, ArrayList(paths))
         }

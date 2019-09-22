@@ -189,6 +189,8 @@
     <string name="left_chat">you left this chat</string>
     <string name="uncaught_exception">something went wrong..</string>
     <string name="send_report">send report</string>
+    <string name="take_photo">take photo</string>
+    <string name="add_doc">add doc</string>
     <string name="report_sent">report was sent</string>
     <string name="describe_actions">describe what happened</string>
     <string name="describe_hint">i opened settings</string>

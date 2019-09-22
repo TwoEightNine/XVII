@@ -5,7 +5,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class GalleryItem(
+data class DeviceItem(
 
         /**
          * modification date
@@ -19,7 +19,7 @@ data class GalleryItem(
         val path: String,
 
         /**
-         * type, photo or video
+         * type, photo, doc or video
          */
         val type: Type,
 
@@ -36,6 +36,7 @@ data class GalleryItem(
 
     enum class Type {
         PHOTO,
-        VIDEO
+        VIDEO,
+        DOC
     }
 }

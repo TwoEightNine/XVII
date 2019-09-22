@@ -11,7 +11,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
-import com.twoeightnine.root.xvii.chats.attachments.gallery.model.GalleryItem
+import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.*
@@ -74,6 +74,15 @@ class GalleryFragment : BaseFragment() {
             }
         }
         progressBar.stylize()
+
+        btnCamera.setOnClickListener {
+            imageUtils.dispatchTakePictureIntent(this)
+        }
+        btnDoc.setOnClickListener {
+            imageUtils.dispatchSelectFile(this)
+        }
+        btnDoc.stylize()
+        btnCamera.stylize()
     }
 
     private fun reloadData() {
@@ -87,7 +96,7 @@ class GalleryFragment : BaseFragment() {
         }
     }
 
-    private fun updateList(data: Wrapper<ArrayList<GalleryItem>>) {
+    private fun updateList(data: Wrapper<ArrayList<DeviceItem>>) {
         swipeRefresh.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
@@ -109,7 +118,7 @@ class GalleryFragment : BaseFragment() {
     }
 
     private fun onCameraClick() {
-        imageUtils.dispatchTakePictureIntent(this)
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -123,7 +132,12 @@ class GalleryFragment : BaseFragment() {
 
         val path = imageUtils.getPath(requestCode, data)
         if (path != null && File(path).length() != 0L) {
-            selectedSubject.onNext(arrayListOf(GalleryItem(time() * 1000L, path, GalleryItem.Type.PHOTO)))
+            val type = if (requestCode == ImageUtils.REQUEST_SELECT_FILE) {
+                DeviceItem.Type.DOC
+            } else {
+                DeviceItem.Type.PHOTO
+            }
+            selectedSubject.onNext(arrayListOf(DeviceItem(time() * 1000L, path, type)))
             adapter.clearMultiSelect()
         } else {
             Lg.wtf("[camera] path is empty but request code is $requestCode and data = $data")
@@ -134,9 +148,9 @@ class GalleryFragment : BaseFragment() {
         const val SPAN_COUNT = 4
 
         private val disposables = CompositeDisposable()
-        private val selectedSubject = PublishSubject.create<List<GalleryItem>>()
+        private val selectedSubject = PublishSubject.create<List<DeviceItem>>()
 
-        fun newInstance(onSelected: (List<GalleryItem>) -> Unit): GalleryFragment {
+        fun newInstance(onSelected: (List<DeviceItem>) -> Unit): GalleryFragment {
             selectedSubject.subscribe(onSelected).let { disposables.add(it) }
             return GalleryFragment()
         }
