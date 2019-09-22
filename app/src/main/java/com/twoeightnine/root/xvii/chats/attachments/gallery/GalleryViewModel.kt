@@ -3,27 +3,45 @@ package com.twoeightnine.root.xvii.chats.attachments.gallery
 import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.ThumbnailUtils
 import android.provider.MediaStore
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.GalleryItem
+import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
+import com.twoeightnine.root.xvii.utils.saveBmp
 import io.reactivex.Single
+import io.reactivex.disposables.Disposable
+import java.io.File
+import kotlin.math.min
 
 class GalleryViewModel(private val context: Context) : BaseAttachViewModel<GalleryItem>() {
 
+    private var disposable: Disposable? = null
     private val preloadedItems = arrayListOf<GalleryItem>()
+
+    init {
+        File(context.cacheDir, CACHE_DIR).mkdir()
+    }
 
     @SuppressLint("CheckResult")
     override fun loadAttach(offset: Int) {
+        disposable?.dispose()
         // full refresh
         if (offset == 0) {
             preloadedItems.clear()
         }
-        Single.just(preloadedItems)
+        disposable = Single.just(preloadedItems)
                 .flatMap(::preloadMedia)
-                .map { it.subList(offset, offset + COUNT) }
+                .map {
+                    if (offset >= it.size) {
+                        arrayListOf()
+                    } else {
+                        it.subList(offset, min(offset + COUNT, it.size))
+                    }
+                }
                 .flatMap(::loadThumbnailsForItems)
                 .compose(applySingleSchedulers())
                 .subscribe({ photos ->
@@ -36,7 +54,8 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Galle
 
     private fun loadThumbnailsForItems(items: MutableList<GalleryItem>): Single<MutableList<GalleryItem>> {
         items.forEach { item ->
-            item.thumbnail = when (item.type) {
+            val cachedThumbnail = getThumbnail(item)
+            item.thumbnail = cachedThumbnail ?: when (item.type) {
                 GalleryItem.Type.PHOTO -> {
                     BitmapFactory.decodeFile(item.path, BitmapFactory.Options().apply {
                         inSampleSize = getOptimalScaleForImage(item.path)
@@ -46,8 +65,21 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Galle
                     ThumbnailUtils.createVideoThumbnail(item.path, MediaStore.Images.Thumbnails.MICRO_KIND)
                 }
             }
+            cachedThumbnail ?: saveThumbnailToCache(item)
         }
         return Single.just(items)
+    }
+
+    private fun getThumbnail(item: GalleryItem): Bitmap? {
+        val fileName = getFilePathForItem(item)
+        return BitmapFactory.decodeFile(fileName)
+
+    }
+
+    private fun saveThumbnailToCache(item: GalleryItem) {
+        val bmp = item.thumbnail ?: return
+        val fileName = getFilePathForItem(item)
+        saveBmp(fileName, bmp)
     }
 
     /**
@@ -142,15 +174,22 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Galle
         return scale
     }
 
+    private fun getFilePathForItem(item: GalleryItem): String {
+        val cacheDir = File(context.cacheDir, CACHE_DIR)
+        return File(cacheDir, md5(item.path) + ".png").absolutePath
+    }
+
     override fun onCleared() {
         super.onCleared()
-        attachLiveData.value?.data?.forEach {  item ->
+        attachLiveData.value?.data?.forEach { item ->
             item.thumbnail?.recycle()
             item.thumbnail = null
         }
     }
 
     companion object {
+        private const val CACHE_DIR = "gallery_cache"
+
         const val COUNT = 30
         const val OPTIMAL_SIZE = 400
     }
