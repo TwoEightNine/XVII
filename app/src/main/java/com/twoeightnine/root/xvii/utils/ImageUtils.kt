@@ -38,7 +38,7 @@ class ImageUtils(private val activity: Activity) {
         }
         REQUEST_SELECT_FILE -> data?.let { dataIntent ->
             val uri = dataIntent.data ?: return@let null
-            return@let getPath(activity, uri)
+            getPath(activity, uri)
         }
         else -> null
     }
