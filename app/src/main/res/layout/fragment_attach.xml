@@ -17,7 +17,7 @@
         android:background="@color/toolbar"
         android:elevation="4dp"
         app:tabIndicatorColor="@color/toolbar_text"
-        app:tabMode="fixed"
+        app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/toolbar_text"
         app:tabTextAppearance="@style/TabTextAppearance"
         app:tabTextColor="@color/toolbar_subtext" />

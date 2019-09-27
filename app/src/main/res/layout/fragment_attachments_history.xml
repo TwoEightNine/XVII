@@ -20,6 +20,7 @@
             android:background="@color/toolbar"
             android:elevation="4dp"
             android:tag="main"
+            app:tabMode="scrollable"
             app:tabIndicatorColor="@color/toolbar_text"
             app:tabSelectedTextColor="@color/toolbar_text"
             app:tabTextAppearance="@style/TabTextAppearance"

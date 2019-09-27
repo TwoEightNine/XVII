@@ -1,6 +1,5 @@
 package com.twoeightnine.root.xvii.chatowner.fragments
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -241,7 +240,6 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
             }
         }
 
-        @SuppressLint("SwitchIntDef")
         override fun onStateChanged(p0: View, state: Int) {
 
         }
