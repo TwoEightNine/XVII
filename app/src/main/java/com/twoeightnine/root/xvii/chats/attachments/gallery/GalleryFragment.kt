@@ -57,7 +57,9 @@ class GalleryFragment : BaseFragment() {
             setOnClickListener {
                 val items = adapter.multiSelect
                 items.forEach { item ->
-                    item.thumbnail?.recycle()
+                    if (item.thumbnail?.isRecycled == false) {
+                        item.thumbnail?.recycle()
+                    }
                     item.thumbnail = null
                 }
                 selectedSubject.onNext(items)

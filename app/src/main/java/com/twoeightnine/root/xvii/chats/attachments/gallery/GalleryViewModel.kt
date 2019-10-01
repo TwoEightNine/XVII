@@ -179,7 +179,9 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
     override fun onCleared() {
         super.onCleared()
         attachLiveData.value?.data?.forEach { item ->
-            item.thumbnail?.recycle()
+            if (item.thumbnail?.isRecycled == false) {
+                item.thumbnail?.recycle()
+            }
             item.thumbnail = null
         }
     }
