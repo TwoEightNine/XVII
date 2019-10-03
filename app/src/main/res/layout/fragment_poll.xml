@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/tvQuestion"
+        style="@style/MainText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:padding="16dp"
+        android:textSize="22sp"
+        tools:text="the main question of the poll is how to make these polls????" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        style="@style/OtherText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvQuestion"
+        android:layout_alignParentEnd="true"
+        android:paddingEnd="16dp"
+        android:textSize="16sp"
+        tools:text="16.56.2635 28:56" />
+
+    <TextView
+        android:id="@+id/tvVotes"
+        style="@style/OtherText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvQuestion"
+        android:paddingStart="16dp"
+        android:textSize="16sp"
+        tools:text="289 votes" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvVotes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvVotes"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingBottom="56dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_shadow_bottom_dark" />
+
+    <Button
+        android:id="@+id/btnVote"
+        style="@style/AccentButton"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="6dp"
+        android:drawableStart="@drawable/ic_check"
+        android:text="@string/vote" />
+
+</RelativeLayout>

@@ -44,6 +44,10 @@ data class Poll(
         @Expose
         val canVote: Boolean,
 
+        @SerializedName("closed")
+        @Expose
+        val closed: Boolean,
+
         @SerializedName("answer_ids")
         @Expose
         val answerIds: List<Int> = arrayListOf()

@@ -262,6 +262,7 @@
     <string name="want_to_scream">you want to scream?</string>
     <string name="really_want_to_scream">really want to scream out loud?</string>
     <string name="scream_now">so be ready for aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</string>
+    <string name="vote">send vote</string>
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap to find out more</string>
@@ -321,6 +322,11 @@
     <plurals name="participants">
         <item quantity="one">%s participant</item>
         <item quantity="other">%s participants</item>
+    </plurals>
+
+    <plurals name="votes">
+        <item quantity="one">%s vote</item>
+        <item quantity="other">%s votes</item>
     </plurals>
 
     <string name="aboutbig">xvii messenger (by twoeightnine)\nver. %s since %s</string>
