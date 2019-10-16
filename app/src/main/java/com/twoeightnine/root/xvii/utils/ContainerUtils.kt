@@ -14,6 +14,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.model.attachments.*
+import com.twoeightnine.root.xvii.poll.PollsActivity
 import com.twoeightnine.root.xvii.web.GifViewerActivity
 
 
@@ -140,6 +141,6 @@ fun getPoll(poll: Poll, context: Context): View {
 
     included.findViewById<TextView>(R.id.tvQuestion).text = poll.question
     included.findViewById<ImageView>(R.id.ivPhoto).stylize()
-    included.setOnClickListener {  }
+    included.setOnClickListener { PollsActivity.launch(context, poll) }
     return included
 }

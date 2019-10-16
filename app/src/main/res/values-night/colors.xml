@@ -20,6 +20,7 @@
     <color name="fab">#92b</color>
     <color name="accent">#666</color>
     <color name="shape">#9268a5</color>
+    <color name="shape_selected">#51447A</color>
     <color name="selected_mess">#7ccc</color>
 
     <color name="toolbar_text">#fff</color>

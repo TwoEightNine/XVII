@@ -14,6 +14,8 @@ class PollAnswersAdapter(
         private val multiple: Boolean
 ) : BaseMultiSelectAdapter<PollAnswer, PollAnswersAdapter.PollAnswerViewHolder>(context) {
 
+    private var ignore: Boolean = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             PollAnswerViewHolder(inflater.inflate(R.layout.item_poll_answer, parent, false))
 
@@ -21,18 +23,31 @@ class PollAnswersAdapter(
         holder.bind(items[position])
     }
 
+    fun invalidateSelected(answerIds: List<Int>) {
+        items.filter { it.id in answerIds }
+                .forEach { item ->
+                    multiSelect(item)
+                    ignore = true
+                }
+        notifyDataSetChanged()
+    }
+
     inner class PollAnswerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(pollAnswer: PollAnswer) {
             with(itemView) {
                 tvAnswer.text = pollAnswer.text
+                isSelected = pollAnswer in multiSelect
                 setOnClickListener {
+                    if (ignore) return@setOnClickListener
+
                     val item = items[adapterPosition]
                     if (!multiple) {
                         clearMultiSelect()
                     }
                     multiSelect(item)
                     isSelected = item in multiSelect
+                    notifyDataSetChanged()
                 }
             }
         }

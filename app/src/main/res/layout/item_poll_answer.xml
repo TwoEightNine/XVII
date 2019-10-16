@@ -15,7 +15,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
-        android:background="@drawable/shape_message"
+        android:background="@drawable/shape_poll_answer"
         android:padding="16dp"
         android:textSize="18sp"
         tools:text="answer 1 long long longloon looong answer lo" />

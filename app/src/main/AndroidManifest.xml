@@ -192,6 +192,7 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+        <activity android:name=".poll.PollsActivity" />
 
     </application>
 

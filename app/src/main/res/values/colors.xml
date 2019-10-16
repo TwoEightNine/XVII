@@ -20,6 +20,7 @@
     <color name="fab">#15121c</color>
     <color name="accent">#fff</color>
     <color name="shape">#1c1826</color>
+    <color name="shape_selected">#51447A</color>
     <color name="selected_mess">#882a2438</color>
     <color name="black_transparent">#a00a090e</color>
 
