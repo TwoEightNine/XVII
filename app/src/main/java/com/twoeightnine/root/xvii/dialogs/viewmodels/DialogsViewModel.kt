@@ -1,6 +1,8 @@
 package com.twoeightnine.root.xvii.dialogs.viewmodels
 
 import android.annotation.SuppressLint
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.App.Companion.context
@@ -16,6 +18,13 @@ import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.ConversationsResponse
 import com.twoeightnine.root.xvii.utils.*
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class DialogsViewModel(
@@ -23,8 +32,16 @@ class DialogsViewModel(
         private val appDb: AppDb
 ) : ViewModel() {
 
+    private var longPollSubscription: Disposable? = null
+    private var typingCompositeDisposable = CompositeDisposable()
+
+    private val typingPeerIds =
+            MutableLiveData<HashSet<Int>>().apply { value = hashSetOf() }
+    private val dialogsLiveData = WrappedMutableLiveData<ArrayList<Dialog>>()
+
     init {
-        EventBus.subscribeLongPollEventReceived { event ->
+        longPollSubscription?.dispose()
+        longPollSubscription = EventBus.subscribeLongPollEventReceived { event ->
             when (event) {
                 is OnlineEvent -> onStatusChanged(event.userId, true)
                 is OfflineEvent -> onStatusChanged(event.userId, false)
@@ -32,11 +49,13 @@ class DialogsViewModel(
                 is ReadIncomingEvent -> onReadStateChanged(event.peerId)
                 is NewMessageEvent -> onNewMessageAdded(event)
                 is DeleteMessagesEvent -> onDialogRemoved(event.peerId)
+                is TypingEvent -> onTyping(event.userId)
+                is TypingChatEvent -> onTyping(event.peerId)
             }
         }
     }
 
-    private val dialogsLiveData = WrappedMutableLiveData<ArrayList<Dialog>>()
+    fun getTypingPeerIds() = typingPeerIds as LiveData<HashSet<Int>>
 
     fun getDialogs() = dialogsLiveData as WrappedLiveData<ArrayList<Dialog>>
 
@@ -222,6 +241,30 @@ class DialogsViewModel(
         removeDialog(dialog)
     }
 
+    private fun onTyping(peerId: Int) {
+        val set = typingPeerIds.value ?: return
+
+        if (peerId !in set) {
+            set.add(peerId)
+        }
+        typingPeerIds.value = set
+
+        Observable.just(peerId)
+                .delay(5, TimeUnit.SECONDS)
+                .onErrorReturnItem(0)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { emittedPeerId ->
+                    val setAfterEmit = typingPeerIds.value ?: return@subscribe
+
+                    if (emittedPeerId in setAfterEmit) {
+                        setAfterEmit.remove(emittedPeerId)
+                    }
+                    typingPeerIds.value = setAfterEmit
+                }
+                .let { typingCompositeDisposable.add(it) }
+    }
+
     private fun notifyDialogsChanged() {
         val dialogs = dialogsLiveData.value?.data ?: return
         dialogsLiveData.value = Wrapper(ArrayList(dialogs.sortedByDescending(DIALOGS_COMPARATOR)))
@@ -265,6 +308,12 @@ class DialogsViewModel(
                     it.printStackTrace()
                     lw("remove from cache err: ${it.message}")
                 })
+    }
+
+    override fun onCleared() {
+        longPollSubscription?.dispose()
+        typingCompositeDisposable.dispose()
+        super.onCleared()
     }
 
     private fun l(s: String) {

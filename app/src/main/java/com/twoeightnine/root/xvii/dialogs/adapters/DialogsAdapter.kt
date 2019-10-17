@@ -20,6 +20,11 @@ class DialogsAdapter(
         private val onLongClick: (Dialog) -> Unit
 ) : BaseReachAdapter<Dialog, DialogsAdapter.DialogViewHolder>(context, loader) {
 
+    var typingPeerIds: Set<Int> = emptySet()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun createStubLoadItem() = Dialog()
 
@@ -47,6 +52,7 @@ class DialogsAdapter(
                 } else {
                     Html.fromHtml(getMessageBody(context, dialog))
                 }
+                tvTyping.setVisible(dialog.peerId in typingPeerIds)
                 tvDate.text = getTime(dialog.timeStamp, shortened = true, withSeconds = Prefs.showSeconds)
 
                 ivMute.setVisible(dialog.isMute)

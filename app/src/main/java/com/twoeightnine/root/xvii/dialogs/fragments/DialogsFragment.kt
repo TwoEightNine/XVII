@@ -38,11 +38,7 @@ open class DialogsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
         toolbar.hide()
-        App.appComponent?.inject(this)
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[DialogsViewModel::class.java]
-        viewModel.getDialogs().observe(this, Observer { updateDialogs(it) })
-        viewModel.loadDialogs()
-        adapter.startLoading()
+
 
         progressBar.show()
         swipeRefresh.setOnRefreshListener {
@@ -51,6 +47,16 @@ open class DialogsFragment : BaseFragment() {
             adapter.startLoading()
         }
         progressBar.stylize()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        App.appComponent?.inject(this)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[DialogsViewModel::class.java]
+        viewModel.getDialogs().observe(viewLifecycleOwner, Observer(::updateDialogs))
+        viewModel.getTypingPeerIds().observe(viewLifecycleOwner, Observer { adapter.typingPeerIds = it })
+        viewModel.loadDialogs()
+        adapter.startLoading()
     }
 
     private fun initRecycler() {
