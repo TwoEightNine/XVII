@@ -52,11 +52,17 @@ class DialogsAdapter(
                 } else {
                     Html.fromHtml(getMessageBody(context, dialog))
                 }
-                tvTyping.setVisible(dialog.peerId in typingPeerIds)
+                typingView.stylize()
+
+                val isTyping = dialog.peerId in typingPeerIds
+                typingView.setVisible(isTyping)
+                tvYou.setVisibleWithInvis(!isTyping)
+                tvBody.setVisibleWithInvis(!isTyping)
+
                 tvDate.text = getTime(dialog.timeStamp, shortened = true, withSeconds = Prefs.showSeconds)
 
                 ivMute.setVisible(dialog.isMute)
-                tvYou.setVisible(dialog.isOut)
+                tvYou.setVisible(dialog.isOut && !isTyping)
                 ivPinned.setVisible(dialog.isPinned)
                 ivOnlineDot.setVisible(dialog.isOnline)
                 ivUnreadDotOut.setVisible(!dialog.isRead && dialog.isOut)

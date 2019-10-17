@@ -71,16 +71,13 @@
                     android:textColor="@color/toolbar_subtext"
                     android:textSize="@dimen/user_info_text_size" />
 
-                <TextView
-                    android:id="@+id/tvTyping"
+                <com.twoeightnine.root.xvii.views.TypingView
+                    android:id="@+id/typingView"
+                    android:layout_alignTop="@+id/tvSubtitle"
+                    android:layout_alignBottom="@+id/tvSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_view_top_margin"
-                    android:fontFamily="sans-serif-light"
-                    android:text="@string/typing"
-                    android:textColor="@color/toolbar_text"
-                    android:textSize="@dimen/user_info_text_size"
-                    android:textStyle="bold"
                     android:visibility="gone" />
 
                 <TextView

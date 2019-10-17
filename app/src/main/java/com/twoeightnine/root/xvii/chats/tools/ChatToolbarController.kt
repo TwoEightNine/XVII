@@ -30,9 +30,9 @@ class ChatToolbarController(private val toolbar: Toolbar) {
 
     fun showTyping() {
         with(toolbar) {
-            tvTyping.show()
+            typingView.show()
             tvRecordingVoice.hide()
-            tvSubtitle.hide()
+            tvSubtitle.setVisibleWithInvis(false)
         }
         startTimer()
     }
@@ -40,7 +40,7 @@ class ChatToolbarController(private val toolbar: Toolbar) {
     fun showRecording() {
         with(toolbar) {
             tvRecordingVoice.show()
-            tvTyping.hide()
+            typingView.hide()
             tvSubtitle.hide()
         }
         startTimer()
@@ -66,7 +66,7 @@ class ChatToolbarController(private val toolbar: Toolbar) {
         with(toolbar) {
             tvSubtitle.show()
             tvRecordingVoice.hide()
-            tvTyping.hide()
+            typingView.hide()
         }
     }
 

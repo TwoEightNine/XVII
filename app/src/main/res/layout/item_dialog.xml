@@ -93,17 +93,12 @@
                     android:textSize="@dimen/user_info_text_size"
                     tools:text="message" />
 
-                <TextView
-                    android:id="@+id/tvTyping"
-                    style="@style/MainText"
-                    android:layout_width="match_parent"
+                <com.twoeightnine.root.xvii.views.TypingView
+                    android:id="@+id/typingView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/ivUnreadDotOut"
-                    android:background="@color/background"
-                    android:text="@string/typing"
-                    android:textSize="@dimen/user_info_text_size"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                    android:layout_alignTop="@+id/tvBody"
+                    android:layout_alignBottom="@+id/tvBody" />
 
                 <TextView
                     android:id="@+id/tvDate"
