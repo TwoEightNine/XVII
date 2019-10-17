@@ -128,7 +128,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     fun sendSticker(sticker: Sticker, replyTo: Int? = null) {
-        api.sendMessage(peerId, getRandomId(), stickerId = sticker.id, replyTo = replyTo)
+        api.sendMessage(peerId, getRandomId(), stickerId = sticker.stickerId, replyTo = replyTo)
                 .subscribeSmart({
                     setOffline()
                 }, { error ->

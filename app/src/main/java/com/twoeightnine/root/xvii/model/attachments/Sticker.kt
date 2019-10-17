@@ -8,28 +8,27 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Sticker(
 
-        @SerializedName("id")
-        @Expose
-        val id: Int = 0,
-
         @SerializedName("sticker_id")
         val stickerId: Int = 0,
 
         @SerializedName("product_id")
         @Expose
-        val productId: Int = 0
+        val productId: Int = 0,
+
+        @SerializedName("is_allowed")
+        val isAllowed: Boolean = true
 ) : Parcelable {
 
-    override fun equals(other: Any?) = (other as? Sticker)?.id == id && id != 0 ||
+    override fun equals(other: Any?) =
             (other as? Sticker)?.stickerId == stickerId && stickerId != 0
 
-    override fun hashCode() = id + stickerId
+    override fun hashCode() = stickerId
 
     val photo256: String
-        get() = String.format(URL_256_FMT, if (id != 0) id else stickerId)
+        get() = String.format(URL_256_FMT, stickerId)
 
     val photo512: String
-        get() = String.format(URL_512_FMT, if (id != 0) id else stickerId)
+        get() = String.format(URL_512_FMT, stickerId)
 
     companion object {
 

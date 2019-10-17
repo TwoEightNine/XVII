@@ -27,9 +27,11 @@ data class StickersResponse(
         val stickers = arrayListOf<Sticker>()
         dictionary?.forEach { mind ->
             mind.userStickers?.forEach {
-                stickers.add(Sticker(it))
+                if (it.isAllowed) {
+                    stickers.add(it)
+                }
             }
         }
-        return ArrayList(stickers.sortedBy { it.id }.distinctBy { it.id })
+        return ArrayList(stickers.sortedBy { it.stickerId }.distinctBy { it.stickerId })
     }
 }

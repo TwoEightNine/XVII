@@ -156,6 +156,7 @@ interface ApiService {
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<BaseResponse<MessagesResponse>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("store.getStickersKeywords")
     fun getStickers(): Flowable<BaseResponse<StickersResponse>>
 

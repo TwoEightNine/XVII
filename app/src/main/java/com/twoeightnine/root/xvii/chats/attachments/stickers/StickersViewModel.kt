@@ -106,10 +106,10 @@ class StickersViewModel(
                     val stickers = arrayListOf<Sticker>()
                     response.dictionary?.forEach { mind ->
                         mind.userStickers?.forEach {
-                            stickers.add(Sticker(it))
+                            stickers.add(it)
                         }
                     }
-                    val result = ArrayList(stickers.sortedBy { it.id }.distinctBy { it.id })
+                    val result = ArrayList(stickers.sortedBy { it.stickerId }.distinctBy { it.stickerId })
                     updateStickers(result)
                     saveStickers(result)
                 }, ::onErrorOccurred)

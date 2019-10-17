@@ -9,7 +9,7 @@ class StickersStorage(
         type: Type
 ) : FileStorage<ArrayList<Sticker>>(context, type.name) {
 
-    override fun serialize(data: ArrayList<Sticker>) = data.map { it.id }.joinToString(separator = ",")
+    override fun serialize(data: ArrayList<Sticker>) = data.map { it.stickerId }.joinToString(separator = ",")
 
     override fun deserialize(s: String) = try {
         ArrayList(s.split(",")
