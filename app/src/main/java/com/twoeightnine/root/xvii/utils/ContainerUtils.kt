@@ -141,6 +141,6 @@ fun getPoll(poll: Poll, context: Context): View {
 
     included.findViewById<TextView>(R.id.tvQuestion).text = poll.question
     included.findViewById<ImageView>(R.id.ivPhoto).stylize()
-    included.setOnClickListener { PollsActivity.launch(context, poll) }
+    included.setOnClickListener { showToast(context, R.string.in_future_versions) }
     return included
 }
