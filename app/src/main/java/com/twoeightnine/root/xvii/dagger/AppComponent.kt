@@ -36,6 +36,7 @@ import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.poll.PollFragment
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
@@ -79,6 +80,7 @@ interface AppComponent {
     fun inject(featuresFragment: FeaturesFragment)
     fun inject(searchFragment: SearchFragment)
     fun inject(analyzeDialogFragment: AnalyzeDialogFragment)
+    fun inject(pollFragment: PollFragment)
 
     //other
     fun inject(notificationService: NotificationService)

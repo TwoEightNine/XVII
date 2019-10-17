@@ -76,7 +76,17 @@ fun <T> Flowable<BaseResponse<T>>.subscribeSmart(response: (T) -> Unit,
 }
 
 fun View.setVisible(visible: Boolean) {
-    visibility = if (visible) View.VISIBLE else View.GONE
+    visibility = when {
+        visible -> View.VISIBLE
+        else -> View.GONE
+    }
+}
+
+fun View.setVisibleWithInvis(visible: Boolean) {
+    visibility = when {
+        visible -> View.VISIBLE
+        else -> View.INVISIBLE
+    }
 }
 
 fun View.getVisible() = visibility == View.VISIBLE

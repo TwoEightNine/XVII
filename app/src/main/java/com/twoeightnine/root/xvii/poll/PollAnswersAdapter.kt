@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseMultiSelectAdapter
 import com.twoeightnine.root.xvii.model.attachments.PollAnswer
+import com.twoeightnine.root.xvii.utils.ColorManager
+import com.twoeightnine.root.xvii.utils.setVisibleWithInvis
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.item_poll_answer.view.*
 
 class PollAnswersAdapter(
@@ -37,7 +40,8 @@ class PollAnswersAdapter(
         fun bind(pollAnswer: PollAnswer) {
             with(itemView) {
                 tvAnswer.text = pollAnswer.text
-                isSelected = pollAnswer in multiSelect
+                ivCheck.stylize(tag = ColorManager.MAIN_TAG, changeStroke = false)
+                ivCheck.setVisibleWithInvis(pollAnswer in multiSelect)
                 setOnClickListener {
                     if (ignore) return@setOnClickListener
 
@@ -46,10 +50,11 @@ class PollAnswersAdapter(
                         clearMultiSelect()
                     }
                     multiSelect(item)
-                    isSelected = item in multiSelect
+                    ivCheck.setVisibleWithInvis(item in multiSelect)
                     notifyDataSetChanged()
                 }
             }
         }
+
     }
 }

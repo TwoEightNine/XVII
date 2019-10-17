@@ -263,6 +263,8 @@
     <string name="really_want_to_scream">really want to scream out loud?</string>
     <string name="scream_now">so be ready for aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</string>
     <string name="vote">send vote</string>
+    <string name="unable_to_vote">unable to add vote</string>
+    <string name="vote_added">vote added</string>
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap to find out more</string>

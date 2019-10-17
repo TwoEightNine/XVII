@@ -247,6 +247,14 @@ interface ApiService {
     @GET("account.setOffline")
     fun setOffline(): Flowable<BaseResponse<Int>>
 
+    // polls
+    @GET("polls.addVote")
+    fun addVote(
+            @Query("owner_id") ownerId: Int,
+            @Query("poll_id") pollId: Int,
+            @Query("answer_ids") answerIds: String
+    ): Flowable<BaseResponse<Int>>
+
     //video
     @GET("video.get")
     fun getVideos(@Query("videos") videos: String,
