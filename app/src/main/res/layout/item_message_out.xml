@@ -37,12 +37,14 @@
             <TextView
                 android:id="@+id/tvDate"
                 style="@style/OtherText"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
                 android:maxLines="1"
+                android:minWidth="60dp"
                 android:textSize="10sp"
-                tools:text="12.34" />
+                tools:text="19:02:31 16 oct. edited" />
 
 
             <TextView
