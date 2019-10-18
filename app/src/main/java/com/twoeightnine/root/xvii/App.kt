@@ -8,6 +8,7 @@ import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
 import com.twoeightnine.root.xvii.utils.ColorManager
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 
 class App : Application() {
 
@@ -20,6 +21,13 @@ class App : Application() {
                 .build()
         ColorManager.init(applicationContext)
         KeyHolder.reinit()
+
+        CalligraphyConfig.initDefault(
+                CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Rubik-Light.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        )
 
 //        try {
 //            StatTool.init(applicationContext)

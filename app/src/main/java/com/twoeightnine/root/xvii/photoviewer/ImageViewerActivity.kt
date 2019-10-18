@@ -23,6 +23,7 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_image_viewer.*
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
@@ -66,6 +67,10 @@ class ImageViewerActivity : AppCompatActivity() {
             rlControls.hide()
         }
         registerReceiver(actionDownloadedReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
     }
 
     private fun initButtons() {

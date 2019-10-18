@@ -85,6 +85,7 @@ dependencies {
     implementation "com.miguelcatalan:materialsearchview:$materialSearchViewVersion"
     testImplementation "junit:junit:$junitVersion"
     implementation "com.github.QuadFlask:colorpicker:$colorpickerVersion"
+    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 

@@ -20,14 +20,14 @@
 
         <TextView
             android:id="@+id/tvTitle"
-            style="@style/MainText"
+            style="@style/MainBoldText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@+id/civPhoto"
             android:singleLine="true"
-            android:text="Medium Text"
+            android:text="name name name"
             android:textSize="18sp" />
 
         <ImageView

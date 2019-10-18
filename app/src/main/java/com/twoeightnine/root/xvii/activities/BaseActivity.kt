@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.activities
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import com.twoeightnine.root.xvii.utils.ExceptionHandler
 import com.twoeightnine.root.xvii.utils.NightModeHelper
 import com.twoeightnine.root.xvii.utils.stylize
 import com.twoeightnine.root.xvii.utils.stylizeAll
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
 /**
  * all its children will support theme applying
@@ -21,6 +23,10 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler(this))
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
     }
 
     override fun setContentView(@LayoutRes layoutResID: Int) {

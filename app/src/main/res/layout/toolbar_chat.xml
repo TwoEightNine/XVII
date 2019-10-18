@@ -46,12 +46,13 @@
 
             <TextView
                 android:id="@+id/tvTitle"
+                fontPath="fonts/Rubik-Regular.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/text_view_top_margin"
-                android:fontFamily="sans-serif-light"
                 android:textColor="@color/toolbar_text"
                 android:textSize="@dimen/user_name_text_size"
+                tools:ignore="MissingPrefix"
                 tools:text="mista sinista" />
 
             <RelativeLayout
@@ -73,10 +74,10 @@
 
                 <com.twoeightnine.root.xvii.views.TypingView
                     android:id="@+id/typingView"
-                    android:layout_alignTop="@+id/tvSubtitle"
-                    android:layout_alignBottom="@+id/tvSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tvSubtitle"
+                    android:layout_alignBottom="@+id/tvSubtitle"
                     android:layout_marginTop="@dimen/text_view_top_margin"
                     android:visibility="gone" />
 

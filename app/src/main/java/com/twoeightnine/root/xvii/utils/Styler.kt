@@ -247,6 +247,8 @@ fun Button.stylize() {
 
 fun AlertDialog.stylize(keepFont: Boolean = false) {
 
+    val typeface = Typeface.createFromAsset(context.resources.assets, "fonts/Rubik-Regular.ttf")
+
     val mainText = ContextCompat.getColor(context, R.color.main_text)
     val otherText = ContextCompat.getColor(context, R.color.other_text)
     val popupColor = ContextCompat.getColor(context, R.color.popup)
@@ -259,13 +261,13 @@ fun AlertDialog.stylize(keepFont: Boolean = false) {
 
     findViewById<TextView>(android.R.id.message)?.apply {
         if (!keepFont) {
-            typeface = SANS_SERIF_LIGHT
+//            typeface = SANS_SERIF_LIGHT
             textSize = 18f
         }
         setTextColor(mainText)
     }
     findViewById<DialogTitle>(R.id.alertTitle)?.apply {
-        typeface = SANS_SERIF_LIGHT
+//        typeface = SANS_SERIF_LIGHT
         textSize = 20f
         setTextColor(mainText)
     }
@@ -275,7 +277,7 @@ fun AlertDialog.stylize(keepFont: Boolean = false) {
             findViewById<Button>(android.R.id.button3)
     )) {
         btn?.apply {
-            typeface = SANS_SERIF_LIGHT
+            this.typeface = typeface
             textSize = 18f
             isAllCaps = false
             setTextColor(otherText)

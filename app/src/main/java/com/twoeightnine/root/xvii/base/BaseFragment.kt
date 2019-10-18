@@ -1,10 +1,13 @@
 package com.twoeightnine.root.xvii.base
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -53,6 +56,13 @@ abstract class BaseFragment : Fragment() {
                 }
             }
             toolbar.stylize()
+            val am = context?.resources?.assets
+            for (i in 0 until toolbar.childCount) {
+                val view = toolbar.getChildAt(i)
+                if (view is TextView) {
+                    view.typeface = Typeface.createFromAsset(am, "fonts/Rubik-Regular.ttf")
+                }
+            }
         }
     }
 

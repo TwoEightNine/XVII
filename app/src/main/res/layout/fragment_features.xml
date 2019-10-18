@@ -72,11 +72,11 @@
 
                     <TextView
                         android:id="@+id/tvName"
-                        style="@style/MainText"
+                        style="@style/MainBoldText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/user_name_text_size"
-                        tools:text="Gucci Mane" />
+                        tools:text="gucci mane" />
 
                     <TextView
                         style="@style/OtherText"

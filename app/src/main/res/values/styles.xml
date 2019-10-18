@@ -72,39 +72,37 @@
     <style name="MainText">
         <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
         <item name="android:textColor">@color/main_text</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="MainBoldText" parent="MainText">
+        <item name="fontPath">fonts/Rubik-Regular.ttf</item>
     </style>
 
     <style name="OtherText">
         <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textColor">@color/other_text</item>
     </style>
 
     <style name="AccentText">
         <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textColor">@color/accent</item>
     </style>
 
     <style name="WhiteText">
         <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="ToolbarTitleTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="fontPath">fonts/Rubik-Regular.ttf</item>
         <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
         <item name="android:textSize">21dp</item>
     </style>
 
     <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
         <item name="android:textSize">14dp</item>
     </style>
@@ -123,11 +121,11 @@
     <style name="Button">
         <item name="android:layout_height">48dp</item>
         <item name="android:drawablePadding">8dp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">17sp</item>
+        <item name="fontPath">fonts/Rubik-Regular.ttf</item>
     </style>
 
     <style name="AccentButton" parent="Button">
