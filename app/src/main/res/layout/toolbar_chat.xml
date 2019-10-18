@@ -50,6 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/text_view_top_margin"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textColor="@color/toolbar_text"
                 android:textSize="@dimen/user_name_text_size"
                 tools:ignore="MissingPrefix"

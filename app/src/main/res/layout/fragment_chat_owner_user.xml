@@ -70,6 +70,8 @@
                     android:layout_marginStart="@dimen/profile_margin_start"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="@dimen/profile_margin_end"
+                    android:ellipsize="end"
+                    android:maxLines="2"
                     android:textSize="32sp"
                     tools:text="volodimer soloviev" />
 
