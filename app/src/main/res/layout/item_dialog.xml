@@ -149,13 +149,14 @@
 
             <TextView
                 android:id="@+id/tvUnreadCount"
+                fontPath="fonts/Rubik-Regular.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="2dp"
                 android:textColor="@color/background"
                 android:textSize="14dp"
-                android:textStyle="bold"
+                tools:ignore="MissingPrefix"
                 tools:text="1" />
 
         </RelativeLayout>
