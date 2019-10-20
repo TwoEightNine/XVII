@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.views
+package com.twoeightnine.root.xvii.views.activityview
 
 import android.animation.*
 import android.content.Context
