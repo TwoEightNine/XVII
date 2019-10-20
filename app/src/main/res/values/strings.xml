@@ -233,6 +233,7 @@
     <string name="you_sender">you:</string>
     <string name="device_photos">device</string>
     <string name="mic_hint">slide to cancel</string>
+    <string name="mic_lock_hint">swipe up\nto lock</string>
     <string name="invalid_user_id">invalid user id</string>
     <string name="details">details</string>
     <string name="report_hint">it will help us to solve the problem faster</string>

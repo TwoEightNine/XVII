@@ -22,6 +22,8 @@ import com.twoeightnine.root.xvii.views.emoji.EmojiKeyboard
 import kotlinx.android.synthetic.main.chat_input_panel.view.*
 import java.io.File
 import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 
 /**
@@ -94,8 +96,8 @@ class ChatInputController(
         if (start < 0) {
             rootView.etInput.append(emoji.code)
         } else {
-            rootView.etInput.text?.replace(Math.min(start, end),
-                    Math.max(start, end), emoji.code, 0,
+            rootView.etInput.text?.replace(min(start, end),
+                    max(start, end), emoji.code, 0,
                     emoji.code.length)
         }
     }
@@ -179,35 +181,69 @@ class ChatInputController(
      */
     private inner class MicTouchListener : View.OnTouchListener {
 
+        /**
+         * threshold to cancel
+         */
         private val cancelThreshold = 200
+
+        /**
+         * threshold to lock
+         */
+        private val lockThreshold = 300
         private val delayTimer = MicClickTimer {
             if (callback.hasMicPermissions()) {
                 voiceRecorder.startRecording()
             }
         }
 
+        /**
+         * to watch if cancelled
+         */
         private var xPress = 0f
+
+        /**
+         * to watch if locked
+         */
+        private var yPress = 0f
         private var alreadyStopped = false
+
+        /**
+         * lock flag
+         */
+        private var locked = false
 
         override fun onTouch(v: View?, event: MotionEvent?) = when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 xPress = event.x
-                delayTimer.start()
-                alreadyStopped = false
-                true
+                yPress = event.y
+                if (locked) {
+                    stop(false)
+                    false
+                } else {
+                    delayTimer.start()
+                    alreadyStopped = false
+                    locked = false
+                    true
+                }
             }
 
             MotionEvent.ACTION_MOVE -> {
-                if (shouldCancel(event)) {
-                    stop(true)
-                    true
-                } else {
-                    false
+                when {
+                    shouldLock(event) -> {
+                        locked = true
+                        callback.onVoiceRecorderLocked()
+                        false
+                    }
+                    shouldCancel(event) -> {
+                        stop(true)
+                        true
+                    }
+                    else -> false
                 }
             }
 
             MotionEvent.ACTION_UP -> {
-                if (!alreadyStopped) {
+                if (!alreadyStopped && !locked) {
                     stop(false)
                 }
                 true
@@ -222,6 +258,9 @@ class ChatInputController(
         }
 
         private fun shouldCancel(event: MotionEvent) = abs(xPress - event.x) > cancelThreshold
+
+        // disable for now. guess how to cancel from lock
+        private fun shouldLock(event: MotionEvent) = false // abs(yPress - event.y) > lockThreshold
     }
 
     /**
@@ -263,6 +302,7 @@ class ChatInputController(
      * for interacting with [ChatFragment]
      */
     interface ChatInputCallback : VoiceRecorder.RecorderCallback {
+        fun onVoiceRecorderLocked()
         fun onStickerClicked(sticker: Sticker)
         fun onSendClick()
         fun hasMicPermissions(): Boolean

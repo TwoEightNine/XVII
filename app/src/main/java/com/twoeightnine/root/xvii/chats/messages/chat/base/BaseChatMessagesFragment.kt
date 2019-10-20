@@ -449,6 +449,20 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     private inner class InputCallback : ChatInputController.ChatInputCallback {
 
+        override fun onVoiceRecorderLocked() {
+            // temporarily. see ChatInputCOntroller
+//            rlLockHint.hide()
+//            rlDoneLocked.show()
+//            ObjectAnimator.ofPropertyValuesHolder(rlDoneLocked,
+//                    PropertyValuesHolder.ofFloat(View.SCALE_X, 0f, 1f),
+//                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 0f, 1f)
+//            ).apply {
+//                duration = 300L
+//                interpolator = BounceInterpolator()
+//                start()
+//            }
+        }
+
         override fun onRichContentAdded(filePath: String) {
             if (filePath.endsWith("gif", ignoreCase = true)) {
                 onDocSelected(filePath)
@@ -507,6 +521,9 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onVoiceRecorded(fileName: String) {
+            // temporarily. see ChatInputCOntroller
+//            rlDoneLocked.hide()
+//            rlLockHint.show()
             inputController.addItemAsBeingLoaded(fileName)
             viewModel.attachVoice(fileName, inputController::removeItemAsLoaded)
         }
