@@ -122,11 +122,17 @@ class LongPollCore(private val context: Context) {
         }
     }
 
+    /**
+     * close notification for peerId if incoming message is read
+     */
     private fun processReadIncoming(event: ReadIncomingEvent) {
         unreadMessages[event.peerId]?.clear()
         notificationManager.cancel(event.peerId)
     }
 
+    /**
+     * cancel all notifications if unreadCount is 0
+     */
     private fun processUnreadCount(event: UnreadCountEvent) {
         if (event.unreadCount == 0) {
             unreadMessages.clear()
@@ -139,6 +145,9 @@ class LongPollCore(private val context: Context) {
         }
     }
 
+    /**
+     * show notification if new message received
+     */
     private fun processNewMessage(event: NewMessageEvent) {
         if (event.isOut()
                 || event.peerId in Prefs.muteList

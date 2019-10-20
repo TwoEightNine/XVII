@@ -62,7 +62,7 @@ class MainActivity : BaseActivity() {
                     "${getTime(LongPollCore.lastRun, withSeconds = true)}. start again")
             Handler().postDelayed({ startNotificationService(this) }, 1000L)
         }
-        removeNotification(this)
+//        removeNotification(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
