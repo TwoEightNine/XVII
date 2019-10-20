@@ -250,7 +250,9 @@ class ChatInputController(
             } else {
                 switchToSend()
             }
-            if (time() - lastTypingInvocation > TYPING_INVOCATION_DELAY) {
+
+            val delayExceed = time() - lastTypingInvocation > TYPING_INVOCATION_DELAY
+            if (delayExceed && text.isNotBlank()) {
                 callback.onTypingInvoke()
                 lastTypingInvocation = time()
             }
