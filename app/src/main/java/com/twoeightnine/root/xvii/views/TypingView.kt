@@ -2,15 +2,17 @@ package com.twoeightnine.root.xvii.views
 
 import android.animation.*
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
-import android.view.animation.BounceInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.stylize
+
 
 class TypingView : LinearLayout {
 
@@ -29,11 +31,11 @@ class TypingView : LinearLayout {
         val animatorSet = AnimatorSet()
         for (i in 0 until DOTS_COUNT) {
             val dot = ImageView(context)
-            dot.setImageResource(R.drawable.shape_typing_dot)
-            val lp = LayoutParams(dotSize, dotSize)
-            lp.setMargins(DOTS_MARGIN, DOTS_MARGIN, DOTS_MARGIN, DOTS_MARGIN)
-            lp.gravity = Gravity.CENTER
-            dot.layoutParams = lp
+            dot.setImageDrawable(createDrawable())
+            dot.layoutParams = LayoutParams(dotSize, dotSize).apply {
+                setMargins(DOTS_MARGIN, DOTS_MARGIN, DOTS_MARGIN, DOTS_MARGIN)
+                gravity = Gravity.CENTER
+            }
             addView(dot)
             ObjectAnimator.ofPropertyValuesHolder(dot,
                     PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, SCALE),
@@ -92,12 +94,17 @@ class TypingView : LinearLayout {
         }
     }
 
+    private fun createDrawable() = GradientDrawable().apply {
+        shape = GradientDrawable.OVAL
+        setColor(Color.WHITE)
+    }
+
     companion object {
 
         private const val DURATION = 200L
         private const val SCALE = 1.3f
 
         private const val DOTS_COUNT = 3
-        private const val DOTS_MARGIN = 4
+        private const val DOTS_MARGIN = 3
     }
 }
