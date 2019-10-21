@@ -13,12 +13,21 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActivity
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.wallpost.WallPostActivity
+import kotlinx.android.synthetic.main.item_message_in_chat.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
+import kotlinx.android.synthetic.main.item_message_wtf.view.civPhoto
+import kotlinx.android.synthetic.main.item_message_wtf.view.llMessage
+import kotlinx.android.synthetic.main.item_message_wtf.view.llMessageContainer
+import kotlinx.android.synthetic.main.item_message_wtf.view.rlBack
+import kotlinx.android.synthetic.main.item_message_wtf.view.tvBody
+import kotlinx.android.synthetic.main.item_message_wtf.view.tvDate
+import kotlinx.android.synthetic.main.item_message_wtf.view.tvName
 
 /**
  * definitely it waits for refactoring
@@ -31,18 +40,28 @@ class MessagesAdapter(context: Context,
 
     private val mediaWidth = pxFromDp(context, MEDIA_WIDTH)
 
-    override fun createHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
-        return when (viewType) {
-            OUT -> MessageViewHolder(inflater.inflate(R.layout.item_message_out, null))
-            IN_CHAT -> MessageViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
-            IN_USER -> MessageViewHolder(inflater.inflate(R.layout.item_message_in_user, null))
-            SYSTEM -> MessageViewHolder(inflater.inflate(R.layout.item_message_system, null))
-            else -> MessageViewHolder(inflater.inflate(R.layout.item_message_in_chat, null))
-        }
-    }
+    override fun createHolder(parent: ViewGroup, viewType: Int) = MessageViewHolder(inflater.inflate(
+            when (viewType) {
+
+                // outgoing. one for all types of chats
+                OUT -> R.layout.item_message_out
+
+                // incoming in conversations: with avatars and names
+                IN_CHAT -> R.layout.item_message_in_chat
+
+                // incoming in personal chats: no avatars and names
+                IN_USER -> R.layout.item_message_in_user
+
+                // system messages. one for all types
+                SYSTEM -> R.layout.item_message_system
+
+                // unreachable branch
+                else -> R.layout.item_message_in_chat
+            }, parent, false))
 
     override fun bind(holder: MessageViewHolder, item: Message) {
-        holder.bind(item)
+        val position = items.indexOf(item)
+        holder.bind(item, items.getOrNull(position - 1))
     }
 
     override fun createStubLoadItem() = Message()
@@ -61,9 +80,12 @@ class MessagesAdapter(context: Context,
 
     inner class MessageViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
-        fun bind(message: Message, level: Int = 0) {
-            putViews(itemView, message, level)
-            if (!message.isSystem()) {
+        fun bind(message: Message, prevMessage: Message?, level: Int = 0) {
+
+            if (message.isSystem()) {
+                bindSystemMessage(itemView, message)
+            } else {
+                putViews(itemView, message, prevMessage, level)
                 with(itemView) {
                     rlBack.setOnClickListener { onClick(items[adapterPosition]) }
                     rlBack.setOnLongClickListener { onLongClick(items[adapterPosition]) }
@@ -102,21 +124,25 @@ class MessagesAdapter(context: Context,
             }
         }
 
-        private fun putViews(view: View, message: Message, level: Int) {
+        private fun bindSystemMessage(view: View, message: Message) {
             with(view) {
-                if (message.isSystem()) {
-                    tvSystem.text = message.action?.getSystemMessage(context)
-                    var userId = message.action?.memberId
-                    if (userId == 0 || userId == null) {
-                        userId = message.fromId
-                    }
-                    tvSystem.setOnClickListener { callback.onUserClicked(userId) }
-                    return
+                tvSystem.text = message.action?.getSystemMessage(context)
+                var userId = message.action?.memberId
+                if (userId == 0 || userId == null) {
+                    userId = message.fromId
                 }
+                tvSystem.setOnClickListener { callback.onUserClicked(userId) }
+            }
+        }
+
+        private fun putViews(view: View, message: Message, prevMessage: Message?, level: Int) {
+            with(view) {
+                //
+                // block of common fields
+                //
                 invalidateBackground(message, this, level)
                 llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
-                tvName?.text = message.name
-                if (Prefs.lowerTexts) tvName?.lower()
+
                 tvBody.setVisible(message.text.isNotEmpty())
                 tvBody.text = when {
                     message.text.isNotEmpty() -> when {
@@ -126,23 +152,32 @@ class MessagesAdapter(context: Context,
                     }
                     else -> ""
                 }
+
                 val date = getTime(message.date, withSeconds = Prefs.showSeconds)
                 val edited = if (message.isEdited()) resources.getString(R.string.edited) else ""
                 tvDate.text = "$date $edited"
-                civPhoto?.apply {
-                    load(message.photo)
-                    setOnClickListener { callback.onUserClicked(message.fromId) }
+
+                //
+                // block of optional fields
+                //
+                val showName = shouldShowName(message, prevMessage)
+                rlName?.setVisible(showName)
+                if (showName) {
+                    tvName?.apply {
+                        text = message.name
+                        if (Prefs.lowerTexts) lower()
+                    }
+                    civPhoto?.apply {
+                        load(message.photo)
+                        setOnClickListener { callback.onUserClicked(message.fromId) }
+                    }
                 }
                 readStateDot?.apply {
                     stylize(ColorManager.MAIN_TAG, changeStroke = false)
-                    visibility = if (!message.read && message.isOut()) {
-                        View.VISIBLE
-                    } else {
-                        View.INVISIBLE
-                    }
+                    setVisibleWithInvis(!message.read && message.isOut())
                 }
+
                 llMessage.stylizeAsMessage(level + message.out, hide = message.isSticker())
-                rlImportant.hide()
                 llMessageContainer.removeAllViews()
 
                 if (!message.attachments.isNullOrEmpty()) {
@@ -247,19 +282,18 @@ class MessagesAdapter(context: Context,
                         mediaWidth
                     }
                     rlBack.setPadding(rlBack.paddingLeft, rlBack.paddingTop, 6, rlBack.paddingBottom)
-                    message.fwdMessages.forEach {
+                    message.fwdMessages.forEachIndexed { index, innerMessage ->
                         val included = inflater.inflate(R.layout.item_message_in_chat, null)
                         included.tag = true
                         with(included.rlBack) {
                             setPadding(paddingLeft, paddingTop, 6, paddingBottom)
                         }
                         if (level < ALLOWED_DEEPNESS || settings.fullDeepness) {
-                            putViews(included, it, level + 1)
+                            putViews(included, innerMessage, message.fwdMessages.getOrNull(index - 1), level + 1)
                         } else {
                             with(included) {
                                 tvBody.text = resources.getString(R.string.too_deep_forwarding)
-                                civPhoto.hide()
-                                tvName.hide()
+                                rlName?.hide()
                                 tvDate.hide()
                                 setOnClickListener { DeepForwardedActivity.launch(context, items[adapterPosition].id) }
                             }
@@ -267,7 +301,7 @@ class MessagesAdapter(context: Context,
                         llMessageContainer.addView(included)
                     }
                 }
-                message.replyMessage?.also {
+                message.replyMessage?.also { message ->
                     llMessage.layoutParams.width = when {
                         message.isReplyingSticker() -> pxFromDp(context, 180)
                         else -> mediaWidth
@@ -277,7 +311,7 @@ class MessagesAdapter(context: Context,
                     with(included.rlBack) {
                         setPadding(paddingLeft, paddingTop, 6, paddingBottom)
                     }
-                    putViews(included, it, level + 1)
+                    putViews(included, message, null, level + 1)
                     llMessageContainer.addView(included)
                 }
             }
@@ -296,6 +330,9 @@ class MessagesAdapter(context: Context,
             val result = "<font color=\"#$color\"><i>$prefix</i></font>${text.substring(prefix.length)}"
             return Html.fromHtml(result)
         }
+
+        private fun shouldShowName(message: Message, prevMessage: Message?) =
+                prevMessage == null || message.fromId != prevMessage.fromId || prevMessage.isSystem()
     }
 
     interface Callback {

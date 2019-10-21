@@ -21,10 +21,11 @@
 
     <TextView
         android:id="@+id/tvQuestion"
-        style="@style/MainText"
+        style="@style/MainBoldText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginStart="6dp"
         android:layout_toEndOf="@+id/ivPhoto"
         android:maxLines="3"
         android:textSize="17sp"

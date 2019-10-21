@@ -1,105 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlBack"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/chat_shape_side_padding"
+    tools:background="@color/background">
 
     <RelativeLayout
-        android:id="@+id/rlBack"
-        android:layout_width="match_parent"
+        android:id="@+id/rlName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/chat_shape_side_padding">
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="2dp">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civPhoto"
+            android:layout_width="@dimen/chat_photo_size"
+            android:layout_height="@dimen/chat_photo_size" />
 
-        <LinearLayout
-            android:id="@+id/llMessage"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/MainBoldText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/chat_shape_margin_horiz"
-            android:layout_marginTop="@dimen/chat_shape_margin_vert"
-            android:layout_marginBottom="@dimen/chat_shape_margin_vert"
-            android:background="@drawable/shape_message"
-            android:elevation="0.5dp"
-            android:minWidth="140dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/civPhoto"
-                    android:layout_width="@dimen/chat_photo_size"
-                    android:layout_height="@dimen/chat_photo_size" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvName"
-                        style="@style/MainText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:maxLines="2"
-                        android:textSize="13sp"
-                        tools:text="Misdsdsdta Sisdsdsdnista" />
-
-                    <TextView
-                        android:id="@+id/tvDate"
-                        style="@style/OtherText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:maxLines="1"
-                        android:textSize="10sp"
-                        tools:text="26.01.2016 12.34" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvBody"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:autoLink="web"
-                android:textColorLink="@color/link_color"
-                android:textSize="@dimen/chat_message_text_size"
-                tools:text="sfsdf dfsfsfsfsffdsfdsg " />
-
-
-            <LinearLayout
-                android:id="@+id/llMessageContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/rlImportant"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignLeft="@+id/llMessage"
-            android:layout_alignTop="@+id/llMessage"
-            android:elevation="4dp"
-            android:visibility="gone">
-            <!--<ImageView-->
-            <!--android:src="@drawable/ic_star"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:layout_width="15dp"-->
-            <!--android:layout_height="15dp" />-->
-        </RelativeLayout>
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/civPhoto"
+            android:maxLines="2"
+            android:paddingEnd="@dimen/chat_shape_side_padding"
+            android:textSize="13sp"
+            tools:text="Misdsdsdta Sisdsdsdnista" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlName"
+        android:layout_marginStart="@dimen/chat_shape_margin_horiz"
+        android:layout_marginTop="@dimen/chat_shape_margin_vert"
+        android:layout_marginBottom="@dimen/chat_shape_margin_vert"
+        android:background="@drawable/shape_message"
+        android:clickable="false"
+        android:elevation="0.5dp"
+        android:minWidth="110dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvDate"
+            style="@style/OtherText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:maxLines="1"
+            android:textSize="10sp"
+            tools:text="26.12.2923 32.19" />
+
+
+        <TextView
+            android:id="@+id/tvBody"
+            style="@style/MainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:autoLink="web"
+            android:textColorLink="@color/link_color"
+            android:textSize="@dimen/chat_message_text_size"
+            tools:text="mgae" />
+
+        <LinearLayout
+            android:id="@+id/llMessageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </LinearLayout>
 
 </RelativeLayout>
