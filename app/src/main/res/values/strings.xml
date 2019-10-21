@@ -19,7 +19,6 @@
     <string name="doenloaded">%s has been downloaded</string>
     <string name="beoffline">be offline (as soon as possible)</string>
     <string name="markasread">mark messages as read</string>
-    <string name="show_seconds">show seconds</string>
     <string name="lower_texts">use lowercase for names and inputs</string>
     <string name="use_apple_emojis">use apple\'s emojis</string>
     <string name="show_stickers">show stickers/emojis icon</string>
@@ -266,6 +265,20 @@
     <string name="vote">send vote</string>
     <string name="unable_to_vote">unable to add vote</string>
     <string name="vote_added">vote added</string>
+
+    <string name="be_offline">be offline</string>
+    <string name="be_offline_hint">set offline status automatically</string>
+    <string name="show_chat_activity">show chat activity</string>
+    <string name="show_chat_activity_hint">people can see if you are typing</string>
+    <string name="mark_messages_as_read">mark messages as read</string>
+    <string name="mark_messages_as_read_hint">people will see that you read messages</string>
+    <string name="show_seconds">show seconds</string>
+    <string name="show_seconds_hint">time stamps will be with seconds</string>
+    <string name="use_lowercase">use lowercase</string>
+    <string name="use_lowercase_hint">names and inputs will be lowercase</string>
+    <string name="use_apples_emojis">use apple\'s emojis</string>
+    <string name="store_custom_keys">store custom keys</string>
+    <string name="store_custom_keys_hint">keys will not be cleared after exit</string>
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap to find out more</string>
