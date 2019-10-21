@@ -106,7 +106,7 @@
 
             <TextView
                 android:id="@+id/tvSelectedCount"
-                style="@style/MainText"
+                style="@style/MainBoldText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
