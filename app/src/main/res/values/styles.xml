@@ -100,6 +100,7 @@
         <item name="fontPath">fonts/Rubik-Regular.ttf</item>
         <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
         <item name="android:textSize">21dp</item>
+        <item name="android:textColor">@color/toolbar_text</item>
     </style>
 
     <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

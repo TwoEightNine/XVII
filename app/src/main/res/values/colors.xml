@@ -24,7 +24,7 @@
     <color name="selected_mess">#882a2438</color>
     <color name="black_transparent">#a00a090e</color>
 
-    <color name="toolbar_text">@color/main_text</color>
+    <color name="toolbar_text">#fff</color>
     <color name="toolbar_subtext">@color/other_text</color>
 
     <color name="splash_color">#0e0c13</color>
