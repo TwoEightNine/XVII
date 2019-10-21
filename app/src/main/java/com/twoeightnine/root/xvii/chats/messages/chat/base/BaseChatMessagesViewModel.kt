@@ -309,6 +309,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         if (pos == -1) return
 
         message.updateTime = time()
+        message.read = messages[pos].read
         messages[pos] = message
         interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.UPDATE, pos, arrayListOf(message)))
     }
