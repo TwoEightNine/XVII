@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActivity
-import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
@@ -332,7 +331,17 @@ class MessagesAdapter(context: Context,
         }
 
         private fun shouldShowName(message: Message, prevMessage: Message?) =
-                prevMessage == null || message.fromId != prevMessage.fromId || prevMessage.isSystem()
+                // this message is first (no previous)
+                prevMessage == null ||
+
+                        // OR from different users
+                        message.fromId != prevMessage.fromId ||
+
+                        // OR previous contains action
+                        prevMessage.isSystem() ||
+
+                        // OR there are 2 hours between messages
+                        message.date - prevMessage.date > MESSAGES_BETWEEN_DELAY
     }
 
     interface Callback {
@@ -353,6 +362,8 @@ class MessagesAdapter(context: Context,
     )
 
     companion object {
+
+        const val MESSAGES_BETWEEN_DELAY = 60 * 60 * 2 // 2 hours
         const val ALLOWED_DEEPNESS = 2
 
         const val OUT = 0

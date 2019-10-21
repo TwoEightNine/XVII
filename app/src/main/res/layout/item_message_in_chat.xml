@@ -11,7 +11,7 @@
         android:id="@+id/rlName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="2dp">
 
@@ -30,7 +30,7 @@
             android:layout_toEndOf="@+id/civPhoto"
             android:maxLines="2"
             android:paddingEnd="@dimen/chat_shape_side_padding"
-            android:textSize="13sp"
+            android:textSize="15sp"
             tools:text="Misdsdsdta Sisdsdsdnista" />
 
     </RelativeLayout>
