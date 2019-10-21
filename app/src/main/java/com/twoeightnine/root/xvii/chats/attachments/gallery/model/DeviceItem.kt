@@ -31,7 +31,7 @@ data class DeviceItem(
         /**
          * path to thumbnail
          */
-        var thumbnail: Bitmap? = null
+        var thumbnail: String? = null
 ) : Parcelable {
 
     enum class Type {

@@ -51,32 +51,29 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
 
     private fun loadThumbnailsForItems(items: MutableList<DeviceItem>): Single<MutableList<DeviceItem>> {
         items.forEach { item ->
-            val cachedThumbnail = getThumbnail(item)
-            item.thumbnail = cachedThumbnail ?: when (item.type) {
-                DeviceItem.Type.VIDEO -> {
-                    ThumbnailUtils.createVideoThumbnail(item.path, MediaStore.Images.Thumbnails.MICRO_KIND)
+
+            val thumbnailFile = getFileForItem(item)
+            val thumbnail = thumbnailFile.absolutePath
+
+            if (!thumbnailFile.exists()) {
+
+                // file does not exist. create it!
+                val bitmap = when (item.type) {
+                    DeviceItem.Type.VIDEO -> {
+                        ThumbnailUtils.createVideoThumbnail(item.path, MediaStore.Images.Thumbnails.MICRO_KIND)
+                    }
+                    else -> {
+                        BitmapFactory.decodeFile(item.path, BitmapFactory.Options().apply {
+                            inSampleSize = getOptimalScaleForImage(item.path)
+                        })
+                    }
                 }
-                else -> {
-                    BitmapFactory.decodeFile(item.path, BitmapFactory.Options().apply {
-                        inSampleSize = getOptimalScaleForImage(item.path)
-                    })
-                }
+                saveBmp(thumbnail, bitmap)
             }
-            cachedThumbnail ?: saveThumbnailToCache(item)
+
+            item.thumbnail = "file://$thumbnail"
         }
         return Single.just(items)
-    }
-
-    private fun getThumbnail(item: DeviceItem): Bitmap? {
-        val fileName = getFilePathForItem(item)
-        return BitmapFactory.decodeFile(fileName)
-
-    }
-
-    private fun saveThumbnailToCache(item: DeviceItem) {
-        val bmp = item.thumbnail ?: return
-        val fileName = getFilePathForItem(item)
-        saveBmp(fileName, bmp)
     }
 
     /**
@@ -171,19 +168,9 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
         return scale
     }
 
-    private fun getFilePathForItem(item: DeviceItem): String {
+    private fun getFileForItem(item: DeviceItem): File {
         val cacheDir = File(context.cacheDir, CACHE_DIR)
-        return File(cacheDir, md5(item.path) + ".png").absolutePath
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        attachLiveData.value?.data?.forEach { item ->
-            if (item.thumbnail?.isRecycled == false) {
-                item.thumbnail?.recycle()
-            }
-            item.thumbnail = null
-        }
+        return File(cacheDir, md5(item.path) + ".png")
     }
 
     companion object {

@@ -7,10 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
-import com.twoeightnine.root.xvii.utils.ColorManager
-import com.twoeightnine.root.xvii.utils.secToTime
-import com.twoeightnine.root.xvii.utils.setVisible
-import com.twoeightnine.root.xvii.utils.stylize
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.item_gallery.view.*
 
 class GalleryAdapter(
@@ -46,7 +43,7 @@ class GalleryAdapter(
                 tvDuration.text = secToTime((item.duration / 1000L).toInt())
                 when {
                     isCamera -> ivCamera.stylize(ColorManager.MAIN_TAG)
-                    item.thumbnail != null -> ivThumb.setImageBitmap(item.thumbnail)
+                    item.thumbnail != null -> ivThumb.load(item.thumbnail)
                 }
                 ivCheck.setVisible(item in multiSelect)
                 ivThumb.setOnClickListener {
