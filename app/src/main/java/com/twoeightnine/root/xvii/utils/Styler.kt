@@ -15,6 +15,7 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.DialogTitle
+import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -221,6 +222,13 @@ fun ImageView.stylize(tag: String? = this.tag as? String, changeStroke: Boolean 
 }
 
 fun Switch.stylize() {
+    if (ColorManager.shouldIgnore) return
+
+    thumbDrawable.setColorFilter(ColorManager.mainColor, PorterDuff.Mode.SRC_ATOP)
+    trackDrawable.setColorFilter(ColorManager.lightColor, PorterDuff.Mode.SRC_ATOP)
+}
+
+fun SwitchCompat.stylize() {
     if (ColorManager.shouldIgnore) return
 
     thumbDrawable.setColorFilter(ColorManager.mainColor, PorterDuff.Mode.SRC_ATOP)
