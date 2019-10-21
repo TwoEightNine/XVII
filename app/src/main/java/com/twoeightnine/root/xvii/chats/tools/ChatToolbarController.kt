@@ -28,20 +28,10 @@ class ChatToolbarController(private val toolbar: Toolbar) {
         toolbar.ivAvatar.load(photo)
     }
 
-    fun showTyping() {
+    fun showActivity() {
         with(toolbar) {
             typingView.show()
-            tvRecordingVoice.hide()
             tvSubtitle.setVisibleWithInvis(false)
-        }
-        startTimer()
-    }
-
-    fun showRecording() {
-        with(toolbar) {
-            tvRecordingVoice.show()
-            typingView.hide()
-            tvSubtitle.hide()
         }
         startTimer()
     }
@@ -65,7 +55,6 @@ class ChatToolbarController(private val toolbar: Toolbar) {
     private fun hide() {
         with(toolbar) {
             tvSubtitle.show()
-            tvRecordingVoice.hide()
             typingView.hide()
         }
     }

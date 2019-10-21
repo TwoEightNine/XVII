@@ -51,6 +51,7 @@ class DialogsViewModel(
                 is DeleteMessagesEvent -> onDialogRemoved(event.peerId)
                 is TypingEvent -> onTyping(event.userId)
                 is TypingChatEvent -> onTyping(event.peerId)
+                is RecordingAudioEvent -> onTyping(event.peerId)
             }
         }
     }

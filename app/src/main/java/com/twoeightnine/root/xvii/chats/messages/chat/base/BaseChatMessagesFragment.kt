@@ -240,9 +240,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
      */
     private fun onActivityChanged(activity: String) {
         when (activity) {
-            BaseChatMessagesViewModel.ACTIVITY_VOICE -> chatToolbarController.showRecording()
-            BaseChatMessagesViewModel.ACTIVITY_TYPING -> chatToolbarController.showTyping()
             BaseChatMessagesViewModel.ACTIVITY_NONE -> chatToolbarController.hideActions()
+            else -> chatToolbarController.showActivity()
         }
     }
 
