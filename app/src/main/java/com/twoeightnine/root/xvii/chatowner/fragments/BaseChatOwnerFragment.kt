@@ -78,6 +78,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
         swNotifications.stylize()
         fabOpenChat.stylize()
+        progressBar?.stylize()
     }
 
     @Suppress("UNCHECKED_CAST")

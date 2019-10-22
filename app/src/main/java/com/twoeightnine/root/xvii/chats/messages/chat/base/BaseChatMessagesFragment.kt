@@ -136,6 +136,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         rlMultiAction.stylizeColor()
         fabHasMore.stylize()
         rlBack.stylizeAll()
+        progressBar?.stylize()
 
         if (Prefs.chatBack.isNotEmpty()) {
             try {

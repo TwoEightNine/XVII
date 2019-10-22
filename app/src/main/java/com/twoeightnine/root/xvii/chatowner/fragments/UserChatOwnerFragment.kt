@@ -34,6 +34,7 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
             viewModel.unblockUser(getChatOwner()?.getPeerId() ?: 0)
         }
         btnSecretChat.stylize()
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
