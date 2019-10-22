@@ -93,8 +93,10 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     fun setActivity(type: String = ACTIVITY_TYPING) {
-        api.setActivity(peerId, type)
-                .subscribeSmart({}, {})
+        if (Prefs.showTyping) {
+            api.setActivity(peerId, type)
+                    .subscribeSmart({}, {})
+        }
     }
 
     private fun markAsRead(messageId: Int) {

@@ -21,8 +21,6 @@
     <string name="markasread">mark messages as read</string>
     <string name="lower_texts">use lowercase for names and inputs</string>
     <string name="use_apple_emojis">use apple\'s emojis</string>
-    <string name="show_stickers">show stickers/emojis icon</string>
-    <string name="show_voice">show voice messaging icon</string>
     <string name="unable_to_write">you can\'t write a message to this user</string>
     <string name="keys_not_set">keys aren\'t set</string>
     <string name="show_typing">show typing</string>
@@ -269,14 +267,19 @@
     <string name="be_offline">be offline</string>
     <string name="be_offline_hint">set offline status automatically</string>
     <string name="show_chat_activity">show chat activity</string>
-    <string name="show_chat_activity_hint">people can see if you are typing</string>
+    <string name="show_chat_activity_hint">people can see if you are typing or recording a voice message</string>
     <string name="mark_messages_as_read">mark messages as read</string>
     <string name="mark_messages_as_read_hint">people will see that you read messages</string>
     <string name="show_seconds">show seconds</string>
     <string name="show_seconds_hint">time stamps will be with seconds</string>
-    <string name="use_lowercase">use lowercase</string>
-    <string name="use_lowercase_hint">names and inputs will be lowercase</string>
+    <string name="use_lowercase">use lower case</string>
+    <string name="use_lowercase_hint">names and inputs will be in lower case</string>
     <string name="use_apples_emojis">use apple\'s emojis</string>
+    <string name="use_apples_emojis_hint">use the most common and recognizable emojis</string>
+    <string name="show_stickers">show stickers/emojis icon</string>
+    <string name="show_stickers_hint">you will be able to send them</string>
+    <string name="show_voice">show voice messaging icon</string>
+    <string name="show_voice_hint">you will be able to send voice messages</string>
     <string name="store_custom_keys">store custom keys</string>
     <string name="store_custom_keys_hint">keys will not be cleared after exit</string>
 

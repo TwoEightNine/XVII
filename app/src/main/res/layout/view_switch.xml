@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:textSize="15sp"
+            android:textSize="16sp"
             tools:text="switch switch switch" />
 
         <TextView
@@ -35,10 +35,16 @@
             style="@style/OtherText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvTitle"
-            android:maxLines="1"
-            tools:text="and why and why and why" />
+            android:maxLines="2"
+            android:textSize="12sp"
+            tools:text="and why and why and why\nfggfg" />
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/divider" />
 
 </merge>

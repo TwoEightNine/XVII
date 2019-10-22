@@ -16,140 +16,82 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/big_margin"
             android:orientation="vertical">
 
-
-            <Switch
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchOffline"
-                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="8dp"
-                android:text="@string/beoffline"
-                android:textSize="16sp" />
+                android:hint="@string/be_offline_hint"
+                android:text="@string/be_offline" />
 
-            <Switch
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchTyping"
-                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="8dp"
-                android:text="@string/show_typing"
-                android:textSize="16sp" />
+                android:hint="@string/show_chat_activity_hint"
+                android:text="@string/show_chat_activity" />
 
-            <Switch
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchRead"
-                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="8dp"
-                android:text="@string/markasread"
-                android:textSize="16sp" />
+                android:hint="@string/mark_messages_as_read_hint"
+                android:text="@string/mark_messages_as_read" />
 
-            <Switch
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchShowSeconds"
-                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="8dp"
-                android:text="@string/show_seconds"
-                android:textSize="16sp" />
+                android:hint="@string/show_seconds_hint"
+                android:text="@string/show_seconds" />
 
-            <Switch
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchLowerTexts"
-                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="8dp"
-                android:text="@string/lower_texts"
-                android:textSize="16sp" />
+                android:hint="@string/use_lowercase_hint"
+                android:text="@string/use_lowercase" />
 
-            <Switch
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchAppleEmojis"
-                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="8dp"
-                android:text="@string/use_apple_emojis"
-                android:textSize="16sp" />
+                android:hint="@string/use_apples_emojis_hint"
+                android:text="@string/use_apples_emojis" />
 
-            <Switch
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchShowStickers"
-                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="8dp"
-                android:text="@string/show_stickers"
-                android:textSize="16sp" />
+                android:hint="@string/show_stickers_hint"
+                android:text="@string/show_stickers" />
 
-            <Switch
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchShowVoice"
-                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="8dp"
-                android:text="@string/show_voice"
-                android:textSize="16sp" />
+                android:hint="@string/show_voice_hint"
+                android:text="@string/show_voice" />
 
-            <!--<Switch-->
-            <!--android:id="@+id/switchManualUpd"-->
-            <!--style="@style/MainText"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="right"-->
-            <!--android:layout_margin="8dp"-->
-            <!--android:text="@string/manual_update"-->
-            <!--android:textSize="16sp" />-->
-
-            <Switch
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchStoreKeys"
-                style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="8dp"
-                android:text="@string/store_keys"
-                android:textSize="16sp" />
+                android:hint="@string/store_custom_keys_hint"
+                android:text="@string/store_custom_keys" />
 
             <Button
                 android:id="@+id/btnClearCache"
                 style="@style/AccentButton"
-                android:layout_marginBottom="6dp"
                 android:layout_width="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginTop="12dp"
+                android:layout_gravity="end"
                 android:layout_marginStart="1dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="6dp"
                 android:drawableStart="@drawable/ic_delete"
                 android:text="@string/clear_cache" />
-
-            <!--<Switch-->
-            <!--android:visibility="gone"-->
-            <!--android:id="@+id/switchAssert"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="right"-->
-            <!--android:layout_margin="@dimen/frame_pad"-->
-            <!--style="@style/MainText"-->
-            <!--android:text="@string/assertion_enable" />-->
-
-            <!--<TextView-->
-            <!--style="@style/MainText"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_marginTop="16dp"-->
-            <!--android:padding="8dp"-->
-            <!--android:text="@string/offline_hint"-->
-            <!--android:textSize="15sp" />-->
 
 
         </LinearLayout>
