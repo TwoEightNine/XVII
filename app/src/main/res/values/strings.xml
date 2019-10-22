@@ -35,7 +35,6 @@
     <string name="site">site</string>
     <string name="facebook" translatable="false">facebook</string>
     <string name="twitter" translatable="false">twitter</string>
-    <string name="vibrate">vibrate on new messages</string>
     <string name="sound">sound notifications</string>
     <string name="logout">log out</string>
     <string name="fwd_message">%d forwarded</string>
@@ -282,6 +281,16 @@
     <string name="show_voice_hint">you will be able to send voice messages</string>
     <string name="store_custom_keys">store custom keys</string>
     <string name="store_custom_keys_hint">keys will not be cleared after exit</string>
+
+    <string name="show_notifications">show notifications</string>
+    <string name="show_notifications_private_hint">from private chats</string>
+    <string name="show_notifications_chats_hint">from public conversations</string>
+    <string name="show_senders_name">show sender\'s name</string>
+    <string name="show_senders_name_hint">sender\'s name will appear in notification</string>
+    <string name="show_message_content">show content</string>
+    <string name="show_message_content_hint">the content of message will appear in notification</string>
+    <string name="vibrate">enable vibration</string>
+    <string name="make_sound">enable sound</string>
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap to find out more</string>
