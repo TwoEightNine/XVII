@@ -25,7 +25,6 @@
 
     <color name="toolbar_text">#fff</color>
     <color name="toolbar_subtext">#e3e3e3</color>
-    <color name="placeholder">#bbb</color>
 
     <color name="splash_color">#111</color>
     <color name="input_panel">#fff</color>
