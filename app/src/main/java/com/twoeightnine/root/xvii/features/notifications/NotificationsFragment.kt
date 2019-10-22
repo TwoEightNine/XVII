@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.features.notifications
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.CompoundButton
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
@@ -41,16 +42,14 @@ class NotificationsFragment : BaseFragment() {
             switchNotifsChats.isChecked = true
             switchVibrateChats.isChecked = Prefs.vibrateChats
             switchSoundChats.isChecked = Prefs.soundChats
-            switchLightsChats.isChecked = Prefs.ledLightsChats
             switchContentChats.isChecked = Prefs.showContentChats
         } else {
             switchNotifsChats.isChecked = false
             switchVibrateChats.isEnabled = false
             switchSoundChats.isEnabled = false
-            switchLightsChats.isEnabled = false
             switchContentChats.isEnabled = false
         }
-        switchShowNotification.setOnCheckedChangeListener { _, b ->
+        switchShowNotification.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, b ->
             switchShowName.isEnabled = b
             switchVibrate.isEnabled = b
             switchSound.isEnabled = b
@@ -62,15 +61,13 @@ class NotificationsFragment : BaseFragment() {
                 switchContent.isChecked = false
             }
         }
-        switchNotifsChats.setOnCheckedChangeListener { _, b ->
+        switchNotifsChats.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, b ->
             switchVibrateChats.isEnabled = b
             switchSoundChats.isEnabled = b
-            switchLightsChats.isEnabled = b
             switchContentChats.isEnabled = b
             if (!b) {
                 switchVibrateChats.isChecked = false
                 switchSoundChats.isChecked = false
-                switchLightsChats.isChecked = false
                 switchContentChats.isChecked = false
             }
         }
@@ -109,7 +106,6 @@ class NotificationsFragment : BaseFragment() {
         Prefs.showNotifsChats = switchNotifsChats.isChecked
         Prefs.vibrateChats = switchVibrateChats.isEnabled && switchVibrateChats.isChecked
         Prefs.soundChats = switchSoundChats.isEnabled && switchSoundChats.isChecked
-        Prefs.ledLightsChats = switchLightsChats.isEnabled && switchLightsChats.isChecked
         Prefs.showContentChats = switchContentChats.isEnabled && switchContentChats.isChecked
     }
 

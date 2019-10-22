@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.hide
@@ -12,6 +13,12 @@ import kotlinx.android.synthetic.main.view_switch.view.*
 
 
 class XviiSwitch(context: Context, attributeSet: AttributeSet) : RelativeLayout(context, attributeSet) {
+
+    var onCheckedListener: CompoundButton.OnCheckedChangeListener? = null
+        set(value) {
+            field = value
+            switchCompat.setOnCheckedChangeListener(value)
+        }
 
     var isChecked: Boolean
         get() = switchCompat.isChecked
