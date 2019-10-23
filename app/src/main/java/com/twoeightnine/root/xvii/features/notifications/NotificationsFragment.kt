@@ -71,24 +71,24 @@ class NotificationsFragment : BaseFragment() {
                 switchContentChats.isChecked = false
             }
         }
-        rlLedColor.setOnClickListener {
+        csLed.setOnClickListener {
             context?.also {
                 ColorAlertDialog(it) { color ->
                     Prefs.ledColor = color
-                    ivLedColor.setBackgroundColor(color)
+                    csLed.color = color
                 }.show()
             }
         }
-        rlLedColorChats.setOnClickListener {
+        csLedChats.setOnClickListener {
             context?.also {
                 ColorAlertDialog(it) { color ->
                     Prefs.ledColorChats = color
-                    ivLedColorChats.setBackgroundColor(color)
+                    csLedChats.color = color
                 }.show()
             }
         }
-        ivLedColor.setBackgroundColor(Prefs.ledColor)
-        ivLedColorChats.setBackgroundColor(Prefs.ledColorChats)
+        csLed.color = Prefs.ledColor
+        csLedChats.color = Prefs.ledColorChats
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

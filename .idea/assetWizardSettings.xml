@@ -29,8 +29,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_sheet" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/icons/1621475-miscellaneous/svg/162-sheet.svg" />
+                            <entry key="outputName" value="ic_file" />
+                            <entry key="sourceFile" value="$USER_HOME$/Documents/icons/miscelanious/107-file.svg" />
                           </map>
                         </option>
                       </PersistentState>
