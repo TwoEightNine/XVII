@@ -292,8 +292,8 @@
     <string name="xvii_longpoll">service en arrière-plan de xvii</string>
     <string name="use_apple_emojis">utiliser des emojis d\'apple</string>
     <string name="summary">totallément</string>
-    <string name="show_voice">montrer l\'icône l\'audio</string>
-    <string name="show_stickers">montrer l\'icône des emojis/autocollants</string>
+    <string name="show_voice">montrer de l\'audio</string>
+    <string name="show_stickers">montrer des emojis/autocollants</string>
     <string name="request">requête</string>
     <string name="outgoing">données\nsortantes</string>
     <string name="lower_texts">utiliser des minuscules pour les noms</string>
@@ -328,7 +328,6 @@
     <string name="block_user_confirmation">vous voulez réellement bloquer l\'utilisateur?</string>
     <string name="unblock_user">débloquer l\'utilisateur</string>
     <string name="add_doc">ajouter un doc</string>
-    <string name="appearance_sample">это пример того, как будут выглядеть чаты. измените оформления в соответствии со своими предпочтениями</string>
     <string name="be_offline">être hors ligne</string>
     <string name="be_online">être en ligne</string>
     <string name="be_offline_hint">mettre statut \'hors ligne\' automatiquement</string>
@@ -356,12 +355,13 @@
     <string name="use_apples_emojis_hint">utiliser les émoticôns les plus reconnaissable</string>
     <string name="unable_to_vote">impossible á ajouter le vote</string>
     <string name="theme_color">le colour du thème</string>
-    <string name="take_photo">prendre une photo</string>
+    <string name="take_photo">une photo</string>
     <string name="store_custom_keys">stocker des clés</string>
     <string name="store_custom_keys_hint">"des clés sera disponible après sortie "</string>
     <string name="show_message_content_hint">le contenu du message sera dans des notifications</string>
     <string name="mark_messages_as_read">marquer comme lu</string>
     <string name="mark_messages_as_read_hint">des gens pourront voir que vous lisez des messages</string>
+    <string name="appearance_sample">"c'est un exemple comment des tchats ressembleront. changez l'apparence selon vos preferences "</string>
 
 </resources>
 
