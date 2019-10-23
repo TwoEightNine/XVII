@@ -1,6 +1,8 @@
 package com.twoeightnine.root.xvii.features.appearance
 
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
@@ -64,9 +66,39 @@ class AppearanceFragment : BaseFragment() {
     }
 
     private fun applyColors() {
-        csThemeColor.color = currentColor
-        val colors = ColorManager.getFromMain(currentColor)
+        if (switchLightTheme.isChecked) {
+            csThemeColor.color = currentColor
+            val colors = ColorManager.getFromMain(currentColor)
+            rlToolbar.setBackgroundColor(colors[1])
+            rlSampleRoot.setBackgroundColor(Color.WHITE)
+            rlInputBack.setBackgroundColor(Color.WHITE)
+            arrayOf(ivMic, ivSend).forEach { iv ->
+                iv.drawable.setColorFilter(colors[1], PorterDuff.Mode.SRC_ATOP)
+            }
 
+            arrayOf(tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xff222222.toInt()) }
+            arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(0xff444444.toInt()) }
+            tvSubtitle.setTextColor(0xffe3e3e3.toInt())
+
+            (readStateDot.drawable as? GradientDrawable)?.setColor(colors[1])
+            (llMessageIn.background as? GradientDrawable)?.setColor(colors[2])
+            (llMessageOut.background as? GradientDrawable)?.setColor(colors[3])
+        } else {
+            rlToolbar.setBackgroundColor(0xff15121c.toInt())
+            rlSampleRoot.setBackgroundColor(0xff0e0c13.toInt())
+            rlInputBack.setBackgroundColor(0xff15121c.toInt())
+            arrayOf(ivMic, ivSend).forEach { iv ->
+                iv.drawable.setColorFilter(0xff7C43B8.toInt(), PorterDuff.Mode.SRC_ATOP)
+            }
+
+            arrayOf(tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xffdddddd.toInt()) }
+            arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(0xffaaaaaa.toInt()) }
+            tvSubtitle.setTextColor(0xffe3e3e3.toInt())
+
+            (readStateDot.drawable as? GradientDrawable)?.setColor(Color.WHITE)
+            (llMessageIn.background as? GradientDrawable)?.setColor(0xff1c1826.toInt())
+            (llMessageOut.background as? GradientDrawable)?.setColor(0xff1c1826.toInt())
+        }
     }
 
     private fun applyTexts() {

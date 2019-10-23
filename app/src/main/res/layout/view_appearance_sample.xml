@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlSampleRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/background"
@@ -94,6 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlToolbar"
+        android:layout_marginTop="50dp"
         android:minHeight="@dimen/chat_shape_min_height"
         android:paddingEnd="@dimen/chat_shape_side_padding">
 

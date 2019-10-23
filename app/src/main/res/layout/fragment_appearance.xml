@@ -27,7 +27,24 @@
                 android:text="@string/appearance_sample"
                 android:textSize="16sp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider" />
+
             <include layout="@layout/view_appearance_sample" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="16dp"
+                android:background="@color/divider" />
+
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchLightTheme"
