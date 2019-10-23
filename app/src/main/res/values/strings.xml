@@ -304,6 +304,7 @@
     <string name="appearance_sample_input" translatable="false">U won\'t believe what happened</string>
 
     <string name="cache_size">cache size: %s</string>
+    <string name="message_size">message text size</string>
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap to find out more</string>

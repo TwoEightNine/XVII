@@ -26,6 +26,7 @@ object Prefs {
     private const val SHOW_STICKERS = "showStickers"
     private const val SHOW_VOICE = "showVoice"
     private const val STORE_CUSTOM_KEYS = "storeCustomKeys"
+    private const val MESSAGE_SIZE = "messageSize"
 
     //notifications
     private const val SHOW_NOTIF = "showNotif"
@@ -109,6 +110,10 @@ object Prefs {
     var storeCustomKeys
         get() = data.getBoolean(STORE_CUSTOM_KEYS, true)
         set(value) = data.edit().putBoolean(STORE_CUSTOM_KEYS, value).apply()
+
+    var messageSize: Int
+        get() = data.getInt(MESSAGE_SIZE, 15)
+        set(value) = data.edit().putInt(MESSAGE_SIZE, value).apply()
 
     // notifications
     // private
