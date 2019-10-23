@@ -228,7 +228,7 @@
     <string name="you_sender">you:</string>
     <string name="device_photos">device</string>
     <string name="mic_hint">slide to cancel</string>
-    <string name="mic_lock_hint">swipe up\nto lock</string>
+    <string name="mic_lock_hint" translatable="false">swipe up\nto lock</string>
     <string name="invalid_user_id">invalid user id</string>
     <string name="details">details</string>
     <string name="report_hint">it will help us to solve the problem faster</string>
@@ -255,9 +255,9 @@
     <string name="need_access_to_mic">xvii needs an access to the mic to provide the feature of voice messaging</string>
     <string name="need_access_to_storage">xvii needs an access to the storage to provide the feature of attaching and saving media files</string>
     <string name="tap_to_provide_permissions">tap here to allow xvii to use your storage</string>
-    <string name="want_to_scream">you want to scream?</string>
-    <string name="really_want_to_scream">really want to scream out loud?</string>
-    <string name="scream_now">so be ready for aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</string>
+    <string name="want_to_scream" translatable="false">you want to scream?</string>
+    <string name="really_want_to_scream" translatable="false">really want to scream out loud?</string>
+    <string name="scream_now" translatable="false">so be ready for aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</string>
     <string name="vote">send vote</string>
     <string name="unable_to_vote">unable to add vote</string>
     <string name="vote_added">vote added</string>
@@ -298,10 +298,10 @@
     <string name="restart_required">restart required to apply changes</string>
     <string name="pick_chat_background">pick chat background</string>
     <string name="appearance_sample">this is the sample of how the chats will look like. change appearance according to your preferences</string>
-    <string name="appearance_sample_in">hey😁, how it is in stockholm?</string>
-    <string name="appearance_sample_out">hi, great, thanks❤️. it\'s rainy so i stay at the hotel😂 how is your being🤔?</string>
-    <string name="appearance_sample_name">Jacques Baudlaire</string>
-    <string name="appearance_sample_input">U won\'t believe what happened</string>
+    <string name="appearance_sample_in" translatable="false">hey😁, how it is in stockholm?</string>
+    <string name="appearance_sample_out" translatable="false">hi, great, thanks❤️. it\'s rainy so i stay at the hotel😂 how is your being🤔?</string>
+    <string name="appearance_sample_name" translatable="false">Jacques Baudlaire</string>
+    <string name="appearance_sample_input" translatable="false">U won\'t believe what happened</string>
 
     <string name="cache_size">cache size: %s</string>
 

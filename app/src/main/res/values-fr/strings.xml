@@ -327,6 +327,41 @@
     <string name="block_user">bloquer l\'utilisateur</string>
     <string name="block_user_confirmation">vous voulez réellement bloquer l\'utilisateur?</string>
     <string name="unblock_user">débloquer l\'utilisateur</string>
+    <string name="add_doc">ajouter un doc</string>
+    <string name="appearance_sample">это пример того, как будут выглядеть чаты. измените оформления в соответствии со своими предпочтениями</string>
+    <string name="be_offline">être hors ligne</string>
+    <string name="be_online">être en ligne</string>
+    <string name="be_offline_hint">mettre statut \'hors ligne\' automatiquement</string>
+    <string name="be_online_hint">être en ligne pendant que l\'app est ouvert</string>
+    <string name="cache_size">taille du cache: %s</string>
+    <string name="make_sound">activer des sons</string>
+    <string name="pick_chat_background">choisir un fond des tchats</string>
+    <string name="restart_required">rédemarage requi pour appliquer des changements</string>
+    <string name="show_chat_activity">montrer l\'activité dans tchats</string>
+    <string name="show_chat_activity_hint">des gens peuvent voir que vous tapez ou enregistrez l\'audio</string>
+    <string name="show_message_content">montrer le contenu</string>
+    <string name="show_notifications">montrer des notifications</string>
+    <string name="show_notifications_chats_hint">de conversations publiques</string>
+    <string name="show_notifications_private_hint">de tchats privates</string>
+    <string name="show_seconds_hint">horodatage sera avec des sécondes</string>
+    <string name="show_senders_name">montrer un nom</string>
+    <string name="show_senders_name_hint">un nom d\'envoyeur sera dans des notificaions</string>
+    <string name="show_stickers_hint">vouz pourrez les envoyer</string>
+    <string name="show_voice_hint">vous pourrez envoyer l\'audio</string>
+    <string name="vote_added">le vote ajouté</string>
+    <string name="vote">envoyer le vote</string>
+    <string name="use_lowercase">utiliser des minuscules</string>
+    <string name="use_lowercase_hint">des noms et des entrées seront minuscules</string>
+    <string name="use_apples_emojis">utiliser des émoticônes d\'apple</string>
+    <string name="use_apples_emojis_hint">utiliser les émoticôns les plus reconnaissable</string>
+    <string name="unable_to_vote">impossible á ajouter le vote</string>
+    <string name="theme_color">le colour du thème</string>
+    <string name="take_photo">prendre une photo</string>
+    <string name="store_custom_keys">stocker des clés</string>
+    <string name="store_custom_keys_hint">"des clés sera disponible après sortie "</string>
+    <string name="show_message_content_hint">le contenu du message sera dans des notifications</string>
+    <string name="mark_messages_as_read">marquer comme lu</string>
+    <string name="mark_messages_as_read_hint">des gens pourront voir que vous lisez des messages</string>
 
 </resources>
 
