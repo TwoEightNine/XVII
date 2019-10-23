@@ -33,6 +33,7 @@ import com.twoeightnine.root.xvii.dagger.modules.PresenterModule
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
+import com.twoeightnine.root.xvii.features.general.GeneralViewModel
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
@@ -91,5 +92,6 @@ interface AppComponent {
     fun inject(stickersWindow: StickersWindow)
 
     fun inject(chatOwnerViewModel: ChatOwnerViewModel)
+    fun inject(generalViewModel: GeneralViewModel)
 
 }

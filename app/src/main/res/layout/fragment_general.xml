@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/llContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,6 +25,13 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/be_offline_hint"
                 android:text="@string/be_offline" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchOnline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/be_online_hint"
+                android:text="@string/be_online" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchTyping"
@@ -81,15 +89,26 @@
                 android:hint="@string/store_custom_keys_hint"
                 android:text="@string/store_custom_keys" />
 
+            <TextView
+                android:id="@+id/tvCacheSize"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="30dp"
+                android:textSize="16sp"
+                tools:text="cache size: 1337 mb" />
+
             <Button
                 android:id="@+id/btnClearCache"
                 style="@style/AccentButton"
                 android:layout_width="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp"
                 android:drawableStart="@drawable/ic_delete"
                 android:text="@string/clear_cache" />
 

@@ -16,6 +16,7 @@ object Prefs {
 
     //general
     private const val BE_OFFLINE = "beOffline"
+    private const val BE_ONLINE = "beOnline"
     private const val MARK = "markAsRead"
     private const val TYPING = "typing"
     private const val MANUAL_UPD = "manualUpd"
@@ -68,6 +69,10 @@ object Prefs {
     var beOffline: Boolean
         get() = data.getBoolean(BE_OFFLINE, false)
         set(beOffline) = data.edit().putBoolean(BE_OFFLINE, beOffline).apply()
+
+    var beOnline: Boolean
+        get() = data.getBoolean(BE_ONLINE, false)
+        set(value) = data.edit().putBoolean(BE_ONLINE, value).apply()
 
     var markAsRead: Boolean
         get() = data.getBoolean(MARK, true)

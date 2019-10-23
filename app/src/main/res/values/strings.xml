@@ -265,6 +265,8 @@
 
     <string name="be_offline">be offline</string>
     <string name="be_offline_hint">set offline status automatically</string>
+    <string name="be_online">be online</string>
+    <string name="be_online_hint">be online while the app is opened</string>
     <string name="show_chat_activity">show chat activity</string>
     <string name="show_chat_activity_hint">people can see if you are typing or recording a voice message</string>
     <string name="mark_messages_as_read">mark messages as read</string>
@@ -291,6 +293,8 @@
     <string name="show_message_content_hint">the content of message will appear in notification</string>
     <string name="vibrate">enable vibration</string>
     <string name="make_sound">enable sound</string>
+
+    <string name="cache_size">cache size: %s</string>
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap to find out more</string>
