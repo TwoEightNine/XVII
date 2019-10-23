@@ -93,7 +93,6 @@
     <string name="recording_voice">recording audio</string>
     <string name="voice_message">voice message</string>
     <string name="choose_dialog">choose dialog</string>
-    <string name="light_theme">light theme</string>
     <string name="theme_changed">theme is changed. app is being restarted..</string>
     <string name="enc_on">encryption is on now</string>
     <string name="enc_off">encryption is off</string>
@@ -293,6 +292,16 @@
     <string name="show_message_content_hint">the content of message will appear in notification</string>
     <string name="vibrate">enable vibration</string>
     <string name="make_sound">enable sound</string>
+
+    <string name="light_theme">light theme</string>
+    <string name="theme_color">theme color</string>
+    <string name="restart_required">restart required to apply changes</string>
+    <string name="pick_chat_background">pick chat background</string>
+    <string name="appearance_sample">this is the sample of how the chats will look like. change appearance according to your preferences</string>
+    <string name="appearance_sample_in">hey😁, how it is in stockholm?</string>
+    <string name="appearance_sample_out">hi, great, thanks❤️. it\'s rainy so i stay at the hotel😂 how is your being🤔?</string>
+    <string name="appearance_sample_name">Jacques Baudlaire</string>
+    <string name="appearance_sample_input">U won\'t believe what happened</string>
 
     <string name="cache_size">cache size: %s</string>
 

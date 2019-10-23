@@ -48,41 +48,6 @@
                 android:text="@string/mark_messages_as_read" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
-                android:id="@+id/switchShowSeconds"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/show_seconds_hint"
-                android:text="@string/show_seconds" />
-
-            <com.twoeightnine.root.xvii.views.XviiSwitch
-                android:id="@+id/switchLowerTexts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/use_lowercase_hint"
-                android:text="@string/use_lowercase" />
-
-            <com.twoeightnine.root.xvii.views.XviiSwitch
-                android:id="@+id/switchAppleEmojis"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/use_apples_emojis_hint"
-                android:text="@string/use_apples_emojis" />
-
-            <com.twoeightnine.root.xvii.views.XviiSwitch
-                android:id="@+id/switchShowStickers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/show_stickers_hint"
-                android:text="@string/show_stickers" />
-
-            <com.twoeightnine.root.xvii.views.XviiSwitch
-                android:id="@+id/switchShowVoice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/show_voice_hint"
-                android:text="@string/show_voice" />
-
-            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchStoreKeys"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,7 +76,6 @@
                 android:layout_marginBottom="12dp"
                 android:drawableStart="@drawable/ic_delete"
                 android:text="@string/clear_cache" />
-
 
         </LinearLayout>
 

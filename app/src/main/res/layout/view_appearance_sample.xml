@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/background"
     android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rlSampleOut"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop" />
 
     <RelativeLayout
         android:id="@+id/rlToolbar"
@@ -81,9 +90,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rlSampleIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
+        android:layout_below="@+id/rlToolbar"
         android:minHeight="@dimen/chat_shape_min_height"
         android:paddingEnd="@dimen/chat_shape_side_padding">
 
@@ -130,9 +140,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rlSampleOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/background"
+        android:layout_below="@+id/rlSampleIn"
         android:paddingStart="@dimen/chat_shape_side_padding">
 
         <RelativeLayout
@@ -197,6 +208,12 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/chat_input_panel" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlSampleOut">
 
-</LinearLayout>
+        <include layout="@layout/chat_input_panel" />
+    </FrameLayout>
+
+</RelativeLayout>

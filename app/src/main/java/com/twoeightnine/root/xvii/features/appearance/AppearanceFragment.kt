@@ -1,22 +1,28 @@
 package com.twoeightnine.root.xvii.features.appearance
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
+import com.flask.colorpicker.ColorPickerView
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoadingDialog
+import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_appearance.*
+import kotlinx.android.synthetic.main.view_appearance_sample.*
 
 class AppearanceFragment : BaseFragment() {
 
     private lateinit var bottomSheetHelper: BottomSheetHelper
     private lateinit var permissionHelper: PermissionHelper
 
-    private var isNightBefore = false
+    private var isLightBefore = false
     private var colorBefore = 0
     private var currentColor = 0
 
@@ -27,14 +33,21 @@ class AppearanceFragment : BaseFragment() {
         colorBefore = Prefs.color
         currentColor = colorBefore
         initViews()
-        applyColors()
-        ivPreview.stylize(ColorManager.MAIN_TAG)
-        switchNight.stylize()
+        invalidateSample()
+//        ivPreview.stylize(ColorManager.MAIN_TAG)
+        switchLightTheme.stylize()
         rlHideBottom.stylizeColor()
+        btnSelectBackground.stylize()
+        pbAttach.hide()
+        rlAttachCount.hide()
+
+        etInput.isClickable = false
+        etInput.isFocusable = false
+
         bottomSheetHelper = BottomSheetHelper(
                 rlBottom,
                 rlHideBottom,
-                tvTitle,
+                tvBottomTitle,
                 R.id.flBottom,
                 childFragmentManager,
                 resources.getDimensionPixelSize(R.dimen.bottomsheet_height)
@@ -44,12 +57,66 @@ class AppearanceFragment : BaseFragment() {
 
     override fun getLayoutId() = R.layout.fragment_appearance
 
+    private fun invalidateSample() {
+        applyColors()
+        applyTexts()
+        applyVisibility()
+    }
+
     private fun applyColors() {
+        csThemeColor.color = currentColor
         val colors = ColorManager.getFromMain(currentColor)
-        rlDark.setBackgroundColor(colors[0])
-        rlMain.setBackgroundColor(colors[1])
-        rlLight.setBackgroundColor(colors[2])
-        rlExtraLight.setBackgroundColor(colors[3])
+
+    }
+
+    private fun applyTexts() {
+        val context = context ?: return
+
+        val useAppleEmojis = switchAppleEmojis.isChecked
+        val showSeconds = switchShowSeconds.isChecked
+        val inLower = switchLowerTexts.isChecked
+
+        val sampleIn = getString(R.string.appearance_sample_in)
+        val sampleOut = getString(R.string.appearance_sample_out)
+        val sampleDateIn = getTime(time() - 3647, withSeconds = showSeconds)
+        val sampleDateOut = getTime(time() - 364, withSeconds = showSeconds)
+        val sampleLastSeen = getLastSeenText(
+                context.resources,
+                isOnline = false,
+                timeStamp = time() - 2147,
+                deviceCode = 0,
+                withSeconds = showSeconds
+        )
+
+
+        tvBodyIn.text = when {
+            useAppleEmojis -> EmojiHelper.getEmojied(context, sampleIn)
+            else -> sampleIn
+        }
+        tvBodyOut.text = when {
+            useAppleEmojis -> EmojiHelper.getEmojied(context, sampleOut)
+            else -> sampleOut
+        }
+
+        tvDateIn.text = sampleDateIn
+        tvDateOut.text = sampleDateOut
+        tvSubtitle.text = sampleLastSeen
+
+        tvTitle.text = getString(R.string.appearance_sample_name)
+        etInput.setText(getString(R.string.appearance_sample_input))
+        if (inLower) {
+            tvTitle.lower()
+            etInput.lower()
+        }
+    }
+
+    private fun applyVisibility() {
+        val showVoice = switchShowVoice.isChecked
+        val showStickers = switchShowStickers.isChecked
+
+        ivKeyboard.setVisible(showStickers)
+        ivMic.setVisible(showVoice)
+        ivSend.setVisible(!showVoice)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -58,25 +125,56 @@ class AppearanceFragment : BaseFragment() {
     }
 
     private fun initViews() {
-        isNightBefore = Prefs.isLightTheme
-        switchNight.setOnCheckedChangeListener { _, b ->
-            Prefs.isLightTheme = b
-            llPicker.setVisible(b)
+        isLightBefore = Prefs.isLightTheme
+        switchLightTheme.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, b ->
+            csThemeColor.setVisible(b)
+            applyColors()
         }
-        llPicker.setVisible(isNightBefore)
-        switchNight.isChecked = isNightBefore
+        csThemeColor.setVisible(isLightBefore)
+        switchLightTheme.isChecked = isLightBefore
         if (Prefs.chatBack.isNotEmpty()) {
             XviiPicasso.get()
                     .load("file://${Prefs.chatBack}")
-                    .resize(100, 100)
-                    .centerCrop()
-                    .into(ivPreview)
+                    .into(ivBackground)
         }
-        rlChatBack.setOnClickListener { showDialog() }
-        picker.addOnColorChangedListener {
-            currentColor = picker.selectedColor
-            applyColors()
+        btnSelectBackground.setOnClickListener { showDialog() }
+        csThemeColor.setOnClickListener {
+            ColorPickerDialogBuilder.with(context)
+                    .initialColor(currentColor)
+                    .lightnessSliderOnly()
+                    .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                    .density(12)
+                    .setPositiveButton(R.string.ok) { _, color, _ ->
+                        currentColor = color
+                        applyColors()
+                    }
+                    .setNegativeButton(R.string.cancel, null)
+                    .build()
+                    .apply { stylize() }
+                    .show()
         }
+
+        switchShowSeconds.isChecked = Prefs.showSeconds
+        switchLowerTexts.isChecked = Prefs.lowerTexts
+        switchAppleEmojis.isChecked = Prefs.appleEmojis
+        switchShowStickers.isChecked = Prefs.showStickers
+        switchShowVoice.isChecked = Prefs.showVoice
+
+        CompoundButton.OnCheckedChangeListener { _, _ ->
+            applyTexts()
+        }.apply {
+            switchAppleEmojis.onCheckedListener = this
+            switchLowerTexts.onCheckedListener = this
+            switchShowSeconds.onCheckedListener = this
+        }
+
+        CompoundButton.OnCheckedChangeListener { _, _ ->
+            applyVisibility()
+        }.apply {
+            switchShowStickers.onCheckedListener = this
+            switchShowVoice.onCheckedListener = this
+        }
+
     }
 
     private fun openGallery() {
@@ -113,7 +211,7 @@ class AppearanceFragment : BaseFragment() {
     }
 
     private fun deletePhoto() {
-        ivPreview.setImageResource(R.drawable.ic_add)
+        ivBackground.setImageBitmap(null)
         Prefs.chatBack = ""
     }
 
@@ -128,21 +226,25 @@ class AppearanceFragment : BaseFragment() {
     private fun hideDialog(newPath: String) {
         XviiPicasso.get()
                 .load("file://$newPath")
-                .resize(100, 100)
-                .centerCrop()
-                .into(ivPreview)
+                .into(ivBackground)
     }
 
     override fun onStop() {
         super.onStop()
         GalleryFragment.clear()
+
+        Prefs.showSeconds = switchShowSeconds.isChecked
+        Prefs.lowerTexts = switchLowerTexts.isChecked
+        Prefs.appleEmojis = switchAppleEmojis.isChecked
+        Prefs.showStickers = switchShowStickers.isChecked
+        Prefs.showVoice = switchShowVoice.isChecked
     }
 
     /**
      * for parent activity
      */
-    fun hasChanges() = isNightBefore != switchNight.isChecked
-            || switchNight.isChecked && currentColor != colorBefore
+    fun hasChanges() = isLightBefore != switchLightTheme.isChecked
+            || switchLightTheme.isChecked && currentColor != colorBefore
 
     /**
      * for parent activity
@@ -151,9 +253,10 @@ class AppearanceFragment : BaseFragment() {
         showConfirm(context, getString(R.string.wanna_change_theme)) { yes ->
             if (yes) {
                 Prefs.color = currentColor
+                Prefs.isLightTheme = switchLightTheme.isChecked
                 restartApp(context, getString(R.string.theme_changed))
             } else {
-                switchNight.isChecked = isNightBefore
+                switchLightTheme.isChecked = isLightBefore
                 currentColor = colorBefore
                 activity?.onBackPressed()
             }

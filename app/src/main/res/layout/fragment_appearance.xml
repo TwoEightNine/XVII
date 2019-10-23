@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/llContainer"
     android:layout_width="match_parent"
@@ -13,411 +12,83 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="?actionBarSize">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:clickable="true"
             android:orientation="vertical">
 
-
-            <RelativeLayout
-                android:id="@+id/rlChatBack"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:layout_marginTop="8dp">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp"
-                    android:background="@color/background"
-                    app:cardCornerRadius="18dp"
-                    app:cardElevation="0dp">
-
-                    <ImageView
-                        android:id="@+id/ivPreview"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_add" />
-
-                </androidx.cardview.widget.CardView>
-
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="24dp"
-                    android:text="@string/chat_back"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <Switch
-                android:id="@+id/switchNight"
+            <TextView
                 style="@style/MainText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/light_theme"
+                android:layout_margin="16dp"
+                android:text="@string/appearance_sample"
                 android:textSize="16sp" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvDarkSample"
-                android:layout_width="@dimen/picker_outside_width"
-                android:layout_height="@dimen/picker_outside_height"
-                android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:background="#15121c"
-                android:visibility="gone"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="0dp">
+            <include layout="@layout/view_appearance_sample" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="#15121c">
-
-                    <LinearLayout
-                        android:layout_width="@dimen/picker_inside_width"
-                        android:layout_height="@dimen/picker_inside_height"
-                        android:layout_centerInParent="true"
-                        android:layout_margin="10dp"
-                        android:orientation="horizontal">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="95dp"
-                            android:layout_height="match_parent"
-                            app:cardCornerRadius="14dp"
-                            app:cardElevation="0dp">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="#1c1826">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    android:fontFamily="sans-serif-light"
-                                    android:text="@string/sample_text"
-                                    android:textColor="#fff"
-                                    android:textSize="36dp" />
-
-                            </RelativeLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-                        <RelativeLayout
-                            android:layout_width="75dp"
-                            android:layout_height="match_parent">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:fontFamily="sans-serif-light"
-                                android:text="@string/sample_text"
-                                android:textColor="#fff"
-                                android:textSize="36dp" />
-
-                        </RelativeLayout>
-
-                        <LinearLayout
-                            android:layout_width="@dimen/picker_small_side_width"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="@dimen/picker_small_side_width"
-                                android:layout_height="@dimen/picker_small_side_height"
-                                app:cardCornerRadius="14dp"
-                                app:cardElevation="0dp">
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="#1c1826">
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerInParent="true"
-                                        android:orientation="horizontal">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginEnd="4dp"
-                                            android:fontFamily="sans-serif-light"
-                                            android:text="@string/sample_text"
-                                            android:textColor="#ddd"
-                                            android:textSize="20dp" />
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="sans-serif-light"
-                                            android:text="@string/sample_text"
-                                            android:textColor="#aaa"
-                                            android:textSize="16dp" />
-
-                                    </LinearLayout>
-
-
-                                </RelativeLayout>
-
-                            </androidx.cardview.widget.CardView>
-
-                            <androidx.legacy.widget.Space
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/picker_space_height" />
-
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="@dimen/picker_small_side_width"
-                                android:layout_height="@dimen/picker_small_side_height"
-                                app:cardCornerRadius="14dp"
-                                app:cardElevation="0dp">
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="#1c1826">
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerInParent="true"
-                                        android:orientation="horizontal">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginEnd="4dp"
-                                            android:fontFamily="sans-serif-light"
-                                            android:text="@string/sample_text"
-                                            android:textColor="#ddd"
-                                            android:textSize="20dp" />
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="sans-serif-light"
-                                            android:text="@string/sample_text"
-                                            android:textColor="#aaa"
-                                            android:textSize="16dp" />
-
-                                    </LinearLayout>
-
-                                </RelativeLayout>
-
-                            </androidx.cardview.widget.CardView>
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <LinearLayout
-                android:id="@+id/llPicker"
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchLightTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:hint="@string/restart_required"
+                android:text="@string/light_theme" />
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cvLightSample"
-                    android:layout_width="@dimen/picker_outside_width"
-                    android:layout_height="@dimen/picker_outside_height"
-                    android:layout_gravity="center"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="0dp">
+            <com.twoeightnine.root.xvii.views.XviiColorSelect
+                android:id="@+id/csThemeColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/restart_required"
+                android:text="@string/theme_color" />
 
-                    <RelativeLayout
-                        android:id="@+id/rlMain"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center">
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchShowSeconds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/show_seconds_hint"
+                android:text="@string/show_seconds" />
 
-                        <LinearLayout
-                            android:layout_width="@dimen/picker_inside_width"
-                            android:layout_height="@dimen/picker_inside_height"
-                            android:layout_centerInParent="true"
-                            android:layout_margin="10dp"
-                            android:orientation="horizontal">
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchLowerTexts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/use_lowercase_hint"
+                android:text="@string/use_lowercase" />
 
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="95dp"
-                                android:layout_height="match_parent"
-                                app:cardCornerRadius="14dp"
-                                app:cardElevation="0dp">
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchAppleEmojis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/use_apples_emojis_hint"
+                android:text="@string/use_apples_emojis" />
 
-                                <RelativeLayout
-                                    android:id="@+id/rlDark"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchShowStickers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/show_stickers_hint"
+                android:text="@string/show_stickers" />
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerInParent="true"
-                                        android:fontFamily="sans-serif-light"
-                                        android:text="@string/sample_text"
-                                        android:textColor="#fff"
-                                        android:textSize="36dp" />
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchShowVoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/show_voice_hint"
+                android:text="@string/show_voice" />
 
-                                </RelativeLayout>
-
-                            </androidx.cardview.widget.CardView>
-
-                            <RelativeLayout
-                                android:layout_width="75dp"
-                                android:layout_height="match_parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    android:fontFamily="sans-serif-light"
-                                    android:text="@string/sample_text"
-                                    android:textColor="#fff"
-                                    android:textSize="36dp" />
-
-                            </RelativeLayout>
-
-                            <LinearLayout
-                                android:layout_width="@dimen/picker_small_side_width"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
-
-                                <androidx.cardview.widget.CardView
-                                    android:layout_width="@dimen/picker_small_side_width"
-                                    android:layout_height="@dimen/picker_small_side_height"
-                                    app:cardCornerRadius="14dp"
-                                    app:cardElevation="0dp">
-
-                                    <RelativeLayout
-                                        android:id="@+id/rlLight"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
-
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_centerInParent="true"
-                                            android:orientation="horizontal">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginEnd="4dp"
-                                                android:fontFamily="sans-serif-light"
-                                                android:text="@string/sample_text"
-                                                android:textColor="#222"
-                                                android:textSize="20dp" />
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:fontFamily="sans-serif-light"
-                                                android:text="@string/sample_text"
-                                                android:textColor="#444"
-                                                android:textSize="16dp" />
-
-                                        </LinearLayout>
-
-
-                                    </RelativeLayout>
-
-                                </androidx.cardview.widget.CardView>
-
-                                <androidx.legacy.widget.Space
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/picker_space_height" />
-
-                                <androidx.cardview.widget.CardView
-                                    android:layout_width="@dimen/picker_small_side_width"
-                                    android:layout_height="@dimen/picker_small_side_height"
-                                    app:cardCornerRadius="14dp"
-                                    app:cardElevation="0dp">
-
-                                    <RelativeLayout
-                                        android:id="@+id/rlExtraLight"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
-
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_centerInParent="true"
-                                            android:orientation="horizontal">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginEnd="4dp"
-                                                android:fontFamily="sans-serif-light"
-                                                android:text="@string/sample_text"
-                                                android:textColor="#222"
-                                                android:textSize="20dp" />
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:fontFamily="sans-serif-light"
-                                                android:text="@string/sample_text"
-                                                android:textColor="#444"
-                                                android:textSize="16dp" />
-
-                                        </LinearLayout>
-
-                                    </RelativeLayout>
-
-                                </androidx.cardview.widget.CardView>
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <com.flask.colorpicker.ColorPickerView
-                    android:id="@+id/picker"
-                    android:layout_width="@dimen/picker"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    app:density="12"
-                    app:lightnessSlider="true"
-                    app:lightnessSliderView="@+id/pickerLight"
-                    app:wheelType="FLOWER" />
-
-                <com.flask.colorpicker.slider.LightnessSlider
-                    android:id="@+id/pickerLight"
-                    android:layout_width="@dimen/picker"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp" />
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnSelectBackground"
+                style="@style/AccentButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:drawableStart="@drawable/ic_image"
+                android:text="@string/pick_chat_background" />
 
         </LinearLayout>
 
@@ -429,7 +100,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/popup"
-        android:elevation="12dp">
+        android:elevation="12dp"
+        tools:visibility="gone">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -446,18 +118,19 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/bottomsheet_thumb_height"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="12dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="12dp"
                 android:src="@drawable/ic_chevron_down" />
 
             <TextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/tvBottomTitle"
+                fontPath="fonts/Rubik-Regular.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:fontFamily="sans-serif-light"
                 android:textColor="@color/toolbar_text"
                 android:textSize="18sp"
+                tools:ignore="MissingPrefix"
                 tools:text="Tut ya viebal ves russkiy IT" />
 
 

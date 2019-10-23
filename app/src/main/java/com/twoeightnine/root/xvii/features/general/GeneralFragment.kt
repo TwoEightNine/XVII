@@ -2,14 +2,15 @@ package com.twoeightnine.root.xvii.features.general
 
 import android.os.Bundle
 import android.view.View
+import android.widget.CompoundButton
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.getSize
+import com.twoeightnine.root.xvii.utils.showToast
+import com.twoeightnine.root.xvii.utils.stylizeAll
 import kotlinx.android.synthetic.main.fragment_general.*
 
 /**
@@ -52,12 +53,14 @@ class GeneralFragment : BaseFragment() {
         switchOnline.isChecked = Prefs.beOnline
         switchRead.isChecked = Prefs.markAsRead
         switchTyping.isChecked = Prefs.showTyping
-        switchShowSeconds.isChecked = Prefs.showSeconds
-        switchLowerTexts.isChecked = Prefs.lowerTexts
-        switchAppleEmojis.isChecked = Prefs.appleEmojis
-        switchShowStickers.isChecked = Prefs.showStickers
-        switchShowVoice.isChecked = Prefs.showVoice
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
+
+        switchOffline.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            if (isChecked) switchOnline.isChecked = false
+        }
+        switchOnline.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            if (isChecked) switchOffline.isChecked = false
+        }
     }
 
     private fun saveSwitches() {
@@ -65,11 +68,6 @@ class GeneralFragment : BaseFragment() {
         Prefs.beOnline = switchOnline.isChecked
         Prefs.markAsRead = switchRead.isChecked
         Prefs.showTyping = switchTyping.isChecked
-        Prefs.showSeconds = switchShowSeconds.isChecked
-        Prefs.lowerTexts = switchLowerTexts.isChecked
-        Prefs.appleEmojis = switchAppleEmojis.isChecked
-        Prefs.showStickers = switchShowStickers.isChecked
-        Prefs.showVoice = switchShowVoice.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
     }
 

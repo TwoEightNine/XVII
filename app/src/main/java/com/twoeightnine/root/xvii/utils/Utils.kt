@@ -118,7 +118,13 @@ fun showAlert(context: Context?, text: String?, onOkPressed: (() -> Unit)? = nul
     dialog.stylize()
 }
 
-fun getLastSeenText(resources: Resources?, isOnline: Boolean, timeStamp: Int, deviceCode: Int): String {
+fun getLastSeenText(
+        resources: Resources?,
+        isOnline: Boolean,
+        timeStamp: Int,
+        deviceCode: Int,
+        withSeconds: Boolean = Prefs.showSeconds
+): String {
     if (resources == null) return ""
 
     val deviceCodeName = OnlineEvent.getDeviceName(resources, deviceCode)
@@ -128,7 +134,7 @@ fun getLastSeenText(resources: Resources?, isOnline: Boolean, timeStamp: Int, de
         timeStamp
     }
     val stringRes = if (isOnline) R.string.online_seen else R.string.last_seen
-    val lastSeen = resources.getString(stringRes, getTime(time, withSeconds = Prefs.showSeconds))
+    val lastSeen = resources.getString(stringRes, getTime(time, withSeconds = withSeconds))
     return "$lastSeen $deviceCodeName"
 }
 
