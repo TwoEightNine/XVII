@@ -122,11 +122,11 @@ class AppearanceFragment : BaseFragment() {
 
 
         tvBodyIn.text = when {
-            useAppleEmojis -> EmojiHelper.getEmojied(context, sampleIn)
+            useAppleEmojis -> EmojiHelper.getEmojied(context, sampleIn, ignorePref = true)
             else -> sampleIn
         }
         tvBodyOut.text = when {
-            useAppleEmojis -> EmojiHelper.getEmojied(context, sampleOut)
+            useAppleEmojis -> EmojiHelper.getEmojied(context, sampleOut, ignorePref = true)
             else -> sampleOut
         }
 
