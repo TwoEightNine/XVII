@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rlToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/toolbar">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_back" />
+
+        <RelativeLayout
+            android:id="@+id/rlCustom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/ivBack">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvAvatar"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_centerVertical="true"
+                app:cardBackgroundColor="@color/placeholder"
+                app:cardCornerRadius="22dp">
+
+                <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/xvii_dark_logo_128" />
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@+id/cvAvatar"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    fontPath="fonts/Rubik-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_view_top_margin"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/toolbar_text"
+                    android:textSize="@dimen/user_name_text_size"
+                    tools:ignore="MissingPrefix"
+                    tools:text="mista sinista" />
+
+                <TextView
+                    android:id="@+id/tvSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_view_top_margin"
+                    android:fontFamily="sans-serif-light"
+                    android:maxLines="1"
+                    android:text="@string/offline"
+                    android:textColor="@color/toolbar_subtext"
+                    android:textSize="@dimen/user_info_text_size" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:minHeight="@dimen/chat_shape_min_height"
+        android:paddingEnd="@dimen/chat_shape_side_padding">
+
+        <LinearLayout
+            android:id="@+id/llMessageIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/chat_shape_margin_horiz"
+            android:layout_marginTop="@dimen/chat_shape_margin_vert"
+            android:layout_marginBottom="@dimen/chat_shape_margin_vert"
+            android:background="@drawable/shape_message"
+            android:clickable="false"
+            android:elevation="0.5dp"
+            android:minWidth="110dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDateIn"
+                style="@style/OtherText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:maxLines="1"
+                android:textSize="10sp"
+                tools:text="26.12.2923 32.19" />
+
+
+            <TextView
+                android:id="@+id/tvBodyIn"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:autoLink="web"
+                android:textColorLink="@color/link_color"
+                android:textSize="@dimen/chat_message_text_size"
+                tools:text="mgae" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:paddingStart="@dimen/chat_shape_side_padding">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true">
+
+            <ImageView
+                android:id="@+id/readStateDot"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignBottom="@+id/llMessageOut"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="@dimen/margin8"
+                android:src="@drawable/unread_dot_shae" />
+
+            <LinearLayout
+                android:id="@+id/llMessageOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/chat_shape_margin_horiz"
+                android:layout_marginTop="@dimen/chat_shape_margin_vert"
+                android:layout_marginEnd="@dimen/chat_shape_margin_horiz"
+                android:layout_marginBottom="@dimen/chat_shape_margin_vert"
+                android:layout_toEndOf="@+id/readStateDot"
+                android:background="@drawable/shape_message"
+                android:elevation="0.5dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tvDateOut"
+                    style="@style/OtherText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:maxLines="1"
+                    android:minWidth="60dp"
+                    android:textSize="10sp"
+                    tools:text="19:02:31 16 oct. edited" />
+
+
+                <TextView
+                    android:id="@+id/tvBodyOut"
+                    style="@style/MainText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:autoLink="web"
+                    android:gravity="start"
+                    android:minWidth="80dp"
+                    android:textColorLink="@color/link_color"
+                    android:textSize="@dimen/chat_message_text_size"
+                    tools:text="ddjhjh" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <include layout="@layout/chat_input_panel" />
+
+</LinearLayout>
