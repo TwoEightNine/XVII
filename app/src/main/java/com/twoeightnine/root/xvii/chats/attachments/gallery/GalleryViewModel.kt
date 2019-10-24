@@ -52,26 +52,29 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
     private fun loadThumbnailsForItems(items: MutableList<DeviceItem>): Single<MutableList<DeviceItem>> {
         items.forEach { item ->
 
-            val thumbnailFile = getFileForItem(item)
-            val thumbnail = thumbnailFile.absolutePath
+            item.thumbnail = when (item.type) {
+                DeviceItem.Type.VIDEO -> {
 
-            if (!thumbnailFile.exists()) {
+                    // get thumbnail's file and path
+                    val thumbnailFile = getFileForItem(item)
+                    val thumbnail = thumbnailFile.absolutePath
 
-                // file does not exist. create it!
-                val bitmap = when (item.type) {
-                    DeviceItem.Type.VIDEO -> {
-                        ThumbnailUtils.createVideoThumbnail(item.path, MediaStore.Images.Thumbnails.MICRO_KIND)
+                    // file does not exist. create it!
+                    if (!thumbnailFile.exists()) {
+
+                        // create bitmap thumbnail and save it to path
+                        val bitmap = ThumbnailUtils.createVideoThumbnail(item.path, MediaStore.Images.Thumbnails.MICRO_KIND)
+                        saveBmp(thumbnail, bitmap)
                     }
-                    else -> {
-                        BitmapFactory.decodeFile(item.path, BitmapFactory.Options().apply {
-                            inSampleSize = getOptimalScaleForImage(item.path)
-                        })
-                    }
+
+                    // set path
+                    "file://$thumbnail"
                 }
-                saveBmp(thumbnail, bitmap)
+                else -> {
+                    // thumb for photos is the same photo. will be cropped before showing
+                    "file://${item.path}"
+                }
             }
-
-            item.thumbnail = "file://$thumbnail"
         }
         return Single.just(items)
     }

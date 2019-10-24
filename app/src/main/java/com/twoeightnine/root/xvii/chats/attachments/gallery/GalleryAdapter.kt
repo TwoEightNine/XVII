@@ -29,6 +29,7 @@ class GalleryAdapter(
 
     companion object {
         const val THRESHOLD = 20
+        const val SIZE_PX = 200
         val CAMERA_STUB = DeviceItem(0L, "", DeviceItem.Type.PHOTO)
     }
 
@@ -43,7 +44,10 @@ class GalleryAdapter(
                 tvDuration.text = secToTime((item.duration / 1000L).toInt())
                 when {
                     isCamera -> ivCamera.stylize(ColorManager.MAIN_TAG)
-                    item.thumbnail != null -> ivThumb.load(item.thumbnail)
+                    item.thumbnail != null -> ivThumb.load(item.thumbnail) {
+                        resize(SIZE_PX, SIZE_PX)
+                        centerCrop()
+                    }
                 }
                 ivCheck.setVisible(item in multiSelect)
                 ivThumb.setOnClickListener {
