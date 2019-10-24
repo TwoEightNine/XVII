@@ -61,15 +61,15 @@
                 android:hint="@string/restart_required"
                 android:text="@string/theme_color" />
 
-            <com.twoeightnine.root.xvii.views.Stepper
-                android:id="@+id/stMessageSize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:max="24"
-                app:min="14"
-                app:step="1"
-                app:text="@string/message_size"
-                app:value="15" />
+            <!--<com.twoeightnine.root.xvii.views.Stepper-->
+                <!--android:id="@+id/stMessageSize"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:max="24"-->
+                <!--app:min="14"-->
+                <!--app:step="1"-->
+                <!--app:text="@string/message_size"-->
+                <!--app:value="15" />-->
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchShowSeconds"
