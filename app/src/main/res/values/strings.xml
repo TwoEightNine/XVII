@@ -184,8 +184,8 @@
     <string name="left_chat">you left this chat</string>
     <string name="uncaught_exception">something went wrong..</string>
     <string name="send_report">send report</string>
-    <string name="take_photo">take photo</string>
-    <string name="add_doc">add doc</string>
+    <string name="take_photo">camera</string>
+    <string name="add_doc">document</string>
     <string name="report_sent">report was sent</string>
     <string name="describe_actions">describe what happened</string>
     <string name="describe_hint">i opened settings</string>
@@ -304,7 +304,7 @@
     <string name="appearance_sample_input" translatable="false">U won\'t believe what happened</string>
 
     <string name="cache_size">cache size: %s</string>
-    <string name="message_size">message text size</string>
+    <string name="message_size" translatable="false">message text size</string>
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap to find out more</string>

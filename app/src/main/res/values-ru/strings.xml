@@ -354,7 +354,7 @@
     <string name="block_user">заблокировать</string>
     <string name="block_user_confirmation">действительно хотите заблокировать пользователя?</string>
     <string name="unblock_user">разблокировать</string>
-    <string name="add_doc">добавить док</string>
+    <string name="add_doc">документ</string>
     <string name="appearance_sample">это пример того, как будут выглядеть чаты. измените оформление в соответствии со своими предпочтениями</string>
     <string name="be_offline">быть не в сети</string>
     <string name="be_offline_hint">выставлять статус \"не в сети\" автоматически</string>
@@ -371,7 +371,7 @@
     <string name="use_lowercase_hint">имена и ввод будут без заглавных</string>
     <string name="unable_to_vote">невозможно проголосовать</string>
     <string name="theme_color">цвет темы</string>
-    <string name="take_photo">фото</string>
+    <string name="take_photo">камера</string>
     <string name="store_custom_keys">хранить ключи</string>
     <string name="store_custom_keys_hint">ключи будут доступны после выхода</string>
     <string name="show_voice_hint">вы сможете записывать голосовые сообщения</string>

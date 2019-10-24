@@ -327,7 +327,7 @@
     <string name="block_user">bloquer l\'utilisateur</string>
     <string name="block_user_confirmation">vous voulez réellement bloquer l\'utilisateur?</string>
     <string name="unblock_user">débloquer l\'utilisateur</string>
-    <string name="add_doc">ajouter un doc</string>
+    <string name="add_doc">document</string>
     <string name="be_offline">être hors ligne</string>
     <string name="be_online">être en ligne</string>
     <string name="be_offline_hint">mettre statut \'hors ligne\' automatiquement</string>
@@ -355,7 +355,7 @@
     <string name="use_apples_emojis_hint">utiliser les émoticôns les plus reconnaissable</string>
     <string name="unable_to_vote">impossible á ajouter le vote</string>
     <string name="theme_color">le colour du thème</string>
-    <string name="take_photo">une photo</string>
+    <string name="take_photo">caméra</string>
     <string name="store_custom_keys">stocker des clés</string>
     <string name="store_custom_keys_hint">"des clés sera disponible après sortie "</string>
     <string name="show_message_content_hint">le contenu du message sera dans des notifications</string>
