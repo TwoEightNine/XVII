@@ -14,11 +14,12 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        registerActivityLifecycleCallbacks(AppLifecycleTracker())
         context = applicationContext
         appComponent = DaggerAppComponent.builder()
                 .contextModule(ContextModule(this))
                 .build()
+
+        registerActivityLifecycleCallbacks(AppLifecycleTracker())
         ColorManager.init(applicationContext)
         KeyHolder.reinit()
 

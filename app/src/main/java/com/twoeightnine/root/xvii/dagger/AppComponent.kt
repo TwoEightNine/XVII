@@ -40,6 +40,7 @@ import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.poll.PollFragment
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.search.SearchFragment
+import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import com.twoeightnine.root.xvii.web.GifViewerActivity
 import dagger.Component
@@ -90,6 +91,7 @@ interface AppComponent {
     fun inject(longPollCore: LongPollCore)
     fun inject(markAsReadBroadcastReceiver: MarkAsReadBroadcastReceiver)
     fun inject(stickersWindow: StickersWindow)
+    fun inject(appLifecycleTracker: AppLifecycleTracker)
 
     fun inject(chatOwnerViewModel: ChatOwnerViewModel)
     fun inject(generalViewModel: GeneralViewModel)

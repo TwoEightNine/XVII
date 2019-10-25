@@ -248,6 +248,9 @@ interface ApiService {
     @GET("account.setOffline")
     fun setOffline(): Flowable<BaseResponse<Int>>
 
+    @GET("account.setOnline")
+    fun setOnline(): Flowable<BaseResponse<Int>>
+
     // polls
     @GET("polls.addVote")
     fun addVote(
