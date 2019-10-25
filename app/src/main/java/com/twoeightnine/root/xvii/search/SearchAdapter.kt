@@ -32,7 +32,7 @@ class SearchAdapter(
                 if (Prefs.lowerTexts) {
                     tvTitle.lower()
                 }
-                ivOnlineDot.setVisible(dialog.isOnline)
+                ivOnlineDot.hide() // due to this list is not autorefreshable
 
                 ivOnlineDot.stylize(ColorManager.MAIN_TAG)
                 rlItemContainer.setOnClickListener { onClick(items[adapterPosition]) }
