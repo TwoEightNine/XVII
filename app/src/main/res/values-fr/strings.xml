@@ -362,6 +362,7 @@
     <string name="mark_messages_as_read">marquer comme lu</string>
     <string name="mark_messages_as_read_hint">des gens pourront voir que vous lisez des messages</string>
     <string name="appearance_sample">"c'est un exemple comment des tchats ressembleront. changez l'apparence selon vos preferences "</string>
+    <string name="donate">donater</string>
 
 </resources>
 

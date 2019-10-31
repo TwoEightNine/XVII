@@ -389,5 +389,6 @@
     <string name="restart_required">потребуется перезапуск приложения</string>
     <string name="mark_messages_as_read">отмечать прочитанным</string>
     <string name="mark_messages_as_read_hint">люди увидят, что вы читаете сообщения</string>
+    <string name="donate">пожертвовать</string>
 
 </resources>
