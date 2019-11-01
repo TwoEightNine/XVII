@@ -10,12 +10,12 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.model.attachments.*
-import com.twoeightnine.root.xvii.poll.PollsActivity
-import com.twoeightnine.root.xvii.web.GifViewerActivity
+import kotlinx.android.synthetic.main.container_video.view.*
 
 
 fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): View {
@@ -50,14 +50,31 @@ fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}
 
 fun getGif(doc: Doc, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
-    val ivVideo = included.findViewById<ImageView>(R.id.ivVideo)
+
     XviiPicasso.get()
             .loadRounded(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
-            .into(ivVideo)
-    included.findViewById<TextView>(R.id.tvDuration).text = "gif"
-    included.setOnClickListener { GifViewerActivity.showGif(context, doc) }
+            .into(included.ivVideo)
+    included.tvDuration.text = "gif"
+    included.setOnClickListener {
+        //        GifViewerActivity.showGif(context, doc)
+        if (!included.ivPlay.isShown) {
+            included.ivPlay.show()
+            included.rlDuration.show()
+            XviiPicasso.get()
+                    .loadRounded(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
+                    .resize(pxFromDp(context, 250), pxFromDp(context, 186))
+                    .centerCrop()
+                    .into(included.ivVideo)
+        } else {
+            included.ivPlay.hide()
+            included.rlDuration.hide()
+            Glide.with(included)
+                    .load(doc.url)
+                    .into(included.ivVideo)
+        }
+    }
     return included
 }
 
