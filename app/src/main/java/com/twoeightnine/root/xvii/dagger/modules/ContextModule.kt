@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.dagger.modules
 
 import android.app.Application
 import android.content.Context
+import com.twoeightnine.root.xvii.chats.tools.ChatStorage
 import com.twoeightnine.root.xvii.db.AppDb
 import dagger.Module
 import dagger.Provides
@@ -17,5 +18,9 @@ class ContextModule(private val app: Application) {
     @Provides
     @Singleton
     fun provideAppDb(context: Context): AppDb = AppDb.buildDatabase(context)
+
+    @Provides
+    @Singleton
+    fun provideChatStorage(context: Context): ChatStorage = ChatStorage(context)
 
 }

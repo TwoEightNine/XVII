@@ -1,6 +1,7 @@
 package com.twoeightnine.root.xvii.chats.messages.chat.usual
 
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
+import com.twoeightnine.root.xvii.chats.tools.ChatStorage
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applySchedulers
@@ -10,7 +11,10 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 
-class ChatMessagesViewModel(api: ApiService) : BaseChatMessagesViewModel(api) {
+class ChatMessagesViewModel(
+        api: ApiService,
+        private val chatStorage: ChatStorage
+) : BaseChatMessagesViewModel(api) {
 
     override fun attachPhoto(path: String, onAttached: (String, Attachment) -> Unit) {
         api.getPhotoUploadServer()
@@ -47,4 +51,10 @@ class ChatMessagesViewModel(api: ApiService) : BaseChatMessagesViewModel(api) {
     override fun prepareTextOut(text: String?) = text ?: ""
 
     override fun prepareTextIn(text: String) = text
+
+    fun getMessageText() = chatStorage.getMessageText(peerId)
+
+    fun invalidateMessageText(text: String) {
+        chatStorage.setMessageText(peerId, text)
+    }
 }

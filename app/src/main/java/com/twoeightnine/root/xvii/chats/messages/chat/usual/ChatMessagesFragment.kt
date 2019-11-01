@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActivity
@@ -11,7 +12,9 @@ import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragm
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.model.attachments.Doc
+import com.twoeightnine.root.xvii.utils.asText
 import com.twoeightnine.root.xvii.utils.matchesUserId
+import kotlinx.android.synthetic.main.chat_input_panel.*
 
 class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
 
@@ -19,6 +22,16 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
 
     override fun inject() {
         App.appComponent?.inject(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getMessageText()?.also { etInput.setText(it) }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.invalidateMessageText(etInput.asText())
     }
 
     override fun onEncryptedDocClicked(doc: Doc) {
