@@ -88,8 +88,10 @@ class AppLifecycleTracker : Application.ActivityLifecycleCallbacks {
     }
 
     private fun stopOnline() {
-        disposable?.dispose()
-        Lg.i("[online] stop")
+        if (disposable?.isDisposed == false) {
+            disposable?.dispose()
+            Lg.i("[online] stop")
+        }
     }
 
     companion object {
