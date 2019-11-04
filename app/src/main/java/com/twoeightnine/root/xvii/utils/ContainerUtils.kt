@@ -61,6 +61,7 @@ fun getGif(doc: Doc, context: Context): View {
         //        GifViewerActivity.showGif(context, doc)
         if (!included.ivPlay.isShown) {
             included.ivPlay.show()
+            included.ivPlayWhite.show()
             included.rlDuration.show()
             XviiPicasso.get()
                     .loadRounded(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
@@ -69,6 +70,7 @@ fun getGif(doc: Doc, context: Context): View {
                     .into(included.ivVideo)
         } else {
             included.ivPlay.hide()
+            included.ivPlayWhite.hide()
             included.rlDuration.hide()
             Glide.with(included)
                     .load(doc.url)

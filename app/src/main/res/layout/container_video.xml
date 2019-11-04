@@ -17,6 +17,7 @@
         android:src="@drawable/shape_circle_video" />
 
     <ImageView
+        android:id="@+id/ivPlayWhite"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
