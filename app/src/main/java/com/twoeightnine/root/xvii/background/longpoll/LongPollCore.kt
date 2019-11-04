@@ -271,27 +271,21 @@ class LongPollCore(private val context: Context) {
                 .setCustomContentView(
                         getNotificationView(
                                 R.layout.view_notification_message, icon,
-                                title, text, (timeStamp / 1000).toInt())
+                                title, text, (timeStamp / 1000).toInt()
+                        )
                 )
                 .setCustomBigContentView(
                         getNotificationView(
                                 R.layout.view_notification_message_extended, icon,
-                                title, textBig, (timeStamp / 1000).toInt())
+                                title, textBig, (timeStamp / 1000).toInt(),
+                                getMarkAsReadIntent(messageId, peerId)
+                        )
                 )
-//                .setLargeIcon(icon)
                 .setSmallIcon(R.drawable.ic_envelope)
-//                .setContentTitle(title)
                 .setAutoCancel(true)
                 .setWhen(timeStamp)
-//                .setContentText(text)
-//                .setStyle(NotificationCompat.BigTextStyle().bigText(textBig))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-//                .addAction(
-//                        R.drawable.ic_eye,
-//                        context.getString(R.string.mark_as_read),
-//                        getMarkAsReadIntent(messageId, peerId)
-//                )
                 .setContentIntent(getOpenAppIntent(peerId, userName, photo))
         if (ledColor != Color.BLACK) {
             builder.setLights(ledColor, 500, 500)
@@ -325,12 +319,16 @@ class LongPollCore(private val context: Context) {
             avatar: Bitmap,
             name: String,
             message: CharSequence,
-            timeStamp: Int
+            timeStamp: Int,
+            onClickPendingIntent: PendingIntent? = null
     ) = RemoteViews(context.packageName, layoutId).apply {
         setTextViewText(R.id.tvName, name)
         setTextViewText(R.id.tvMessages, message)
         setImageViewBitmap(R.id.ivPhoto, avatar)
         setTextViewText(R.id.tvWhen, getTime(timeStamp, shortened = true))
+        onClickPendingIntent?.also {
+            setOnClickPendingIntent(R.id.tvMarkAsRead, it)
+        }
         stylizeAsMessageNotification()
     }
 

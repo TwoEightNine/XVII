@@ -279,7 +279,7 @@
     <string name="need_access_to_storage">xvii необходим доступ к хранилищу для прикрепления и скачивания файлов</string>
     <string name="details">подробнее</string>
     <string name="report_hint">это поможет нам решить проблему быстрее</string>
-    <string name="mark_as_read">прочитано</string>
+    <string name="mark_as_read">отметить прочитанным</string>
     <string name="online_seen">в сети: %s</string>
     <string name="sticker">стикер</string>
     <string name="you_sender">вы:</string>

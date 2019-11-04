@@ -24,7 +24,6 @@
         android:maxLines="1"
         android:textColor="@color/main_text"
         android:textSize="16sp"
-        android:textStyle="bold"
         tools:ignore="MissingPrefix"
         tools:text="name name anme" />
 
@@ -50,10 +49,22 @@
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="12dp"
         android:layout_toEndOf="@+id/ivPhoto"
+        android:fontFamily="sans-serif-light"
         android:maxLines="5"
         android:textColor="@color/other_text"
         android:textSize="14sp"
         tools:text="name name anme" />
+
+    <TextView
+        android:id="@+id/tvMarkAsRead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvMessages"
+        android:layout_alignParentEnd="true"
+        android:padding="12dp"
+        android:text="@string/mark_as_read"
+        android:textColor="@color/main_text"
+        android:textSize="14sp" />
 
 
 </RelativeLayout>

@@ -322,6 +322,7 @@ fun RemoteViews.stylizeAsMessageNotification() {
 
     setTextColor(R.id.tvName, nameTextColor)
     setTextColor(R.id.tvMessages, messageTextColor)
+    setTextColor(R.id.tvMarkAsRead, nameTextColor)
 }
 
 fun ViewGroup.stylizeAll(level: Int = 0) {
