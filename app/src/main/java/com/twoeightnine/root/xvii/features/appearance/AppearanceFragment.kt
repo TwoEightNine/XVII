@@ -160,6 +160,7 @@ class AppearanceFragment : BaseFragment() {
         isLightBefore = Prefs.isLightTheme
         switchLightTheme.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, b ->
             csThemeColor.setVisible(b)
+            switchApplyForNotifications.setVisible(b)
             applyColors()
         }
         csThemeColor.setVisible(isLightBefore)
@@ -186,6 +187,7 @@ class AppearanceFragment : BaseFragment() {
                     .show()
         }
 
+        switchApplyForNotifications.isChecked = Prefs.applyColorForNotifications
         switchShowSeconds.isChecked = Prefs.showSeconds
         switchLowerTexts.isChecked = Prefs.lowerTexts
         switchAppleEmojis.isChecked = Prefs.appleEmojis
@@ -265,6 +267,7 @@ class AppearanceFragment : BaseFragment() {
         super.onStop()
         GalleryFragment.clear()
 
+        Prefs.applyColorForNotifications = switchApplyForNotifications.isChecked
         Prefs.showSeconds = switchShowSeconds.isChecked
         Prefs.lowerTexts = switchLowerTexts.isChecked
         Prefs.appleEmojis = switchAppleEmojis.isChecked

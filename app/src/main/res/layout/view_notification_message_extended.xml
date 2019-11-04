@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlBack"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background">
+
+    <ImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="12dp" />
+
+    <TextView
+        android:id="@+id/tvName"
+        fontPath="fonts/Rubik-Regular.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivPhoto"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/tvWhen"
+        android:layout_toEndOf="@+id/ivPhoto"
+        android:maxLines="1"
+        android:textColor="@color/main_text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="MissingPrefix"
+        tools:text="name name anme" />
+
+    <TextView
+        android:id="@+id/tvWhen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvName"
+        android:layout_alignBottom="@+id/tvName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="12dp"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@color/other_text"
+        android:textSize="12sp"
+        tools:text="12:36" />
+
+    <TextView
+        android:id="@+id/tvMessages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvName"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_toEndOf="@+id/ivPhoto"
+        android:maxLines="5"
+        android:textColor="@color/other_text"
+        android:textSize="14sp"
+        tools:text="name name anme" />
+
+
+</RelativeLayout>

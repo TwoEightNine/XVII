@@ -275,7 +275,7 @@ fun AlertDialog.stylize(keepFont: Boolean = false) {
         setTextColor(mainText)
     }
     findViewById<DialogTitle>(R.id.alertTitle)?.apply {
-//        typeface = SANS_SERIF_LIGHT
+        //        typeface = SANS_SERIF_LIGHT
         textSize = 20f
         setTextColor(mainText)
     }
@@ -300,6 +300,28 @@ fun AlertDialog.stylize(keepFont: Boolean = false) {
             window?.attributes = this
         }
     }
+}
+
+fun RemoteViews.stylizeAsMessageNotification() {
+
+    when {
+        Prefs.isLightTheme -> {
+            val backgroundColor = if (Prefs.applyColorForNotifications) {
+                Prefs.color or 0xff000000.toInt()
+            } else {
+                Color.WHITE
+            }
+            setInt(R.id.rlBack, "setBackgroundColor", backgroundColor)
+        }
+        else -> setInt(R.id.rlBack, "setBackgroundResource", R.color.background)
+    }
+
+    val isTextLight = !Prefs.isLightTheme || Prefs.applyColorForNotifications
+    val nameTextColor = (if (isTextLight) 0xffffffff else 0xff222222).toInt()
+    val messageTextColor = (if (isTextLight) 0xffdddddd else 0xff444444).toInt()
+
+    setTextColor(R.id.tvName, nameTextColor)
+    setTextColor(R.id.tvMessages, messageTextColor)
 }
 
 fun ViewGroup.stylizeAll(level: Int = 0) {

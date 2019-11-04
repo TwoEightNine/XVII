@@ -51,6 +51,7 @@ object Prefs {
     private const val COLOR = "color"
     private const val CHAT_BACK = "chatBack"
     private const val DEFAULT_COLOR = 0xff8833dd
+    private const val APPLY_FOR_NOTIFS = "applyForNotifs"
 
     //other
     private const val RECENT_STICKERS = "recentStickers"
@@ -205,6 +206,10 @@ object Prefs {
     var isLightTheme: Boolean
         get() = data.getBoolean(NIGHT, false)
         set(value) = data.edit().putBoolean(NIGHT, value).apply()
+
+    var applyColorForNotifications: Boolean
+        get() = data.getBoolean(APPLY_FOR_NOTIFS, false)
+        set(value) = data.edit().putBoolean(APPLY_FOR_NOTIFS, value).apply()
 
     var chatBack: String
         get() = data.getString(CHAT_BACK, "")

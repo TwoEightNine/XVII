@@ -12,6 +12,8 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.Html
+import android.widget.RemoteViews
+import androidx.annotation.LayoutRes
 import androidx.core.app.NotificationCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -266,20 +268,30 @@ class LongPollCore(private val context: Context) {
         val textBig = Html.fromHtml(content.joinToString(separator = "<br>"))
 
         val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
-                .setLargeIcon(icon)
+                .setCustomContentView(
+                        getNotificationView(
+                                R.layout.view_notification_message, icon,
+                                title, text, (timeStamp / 1000).toInt())
+                )
+                .setCustomBigContentView(
+                        getNotificationView(
+                                R.layout.view_notification_message_extended, icon,
+                                title, textBig, (timeStamp / 1000).toInt())
+                )
+//                .setLargeIcon(icon)
                 .setSmallIcon(R.drawable.ic_envelope)
-                .setContentTitle(title)
+//                .setContentTitle(title)
                 .setAutoCancel(true)
                 .setWhen(timeStamp)
-                .setContentText(text)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(textBig))
+//                .setContentText(text)
+//                .setStyle(NotificationCompat.BigTextStyle().bigText(textBig))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .addAction(
-                        R.drawable.ic_eye,
-                        context.getString(R.string.mark_as_read),
-                        getMarkAsReadIntent(messageId, peerId)
-                )
+//                .addAction(
+//                        R.drawable.ic_eye,
+//                        context.getString(R.string.mark_as_read),
+//                        getMarkAsReadIntent(messageId, peerId)
+//                )
                 .setContentIntent(getOpenAppIntent(peerId, userName, photo))
         if (ledColor != Color.BLACK) {
             builder.setLights(ledColor, 500, 500)
@@ -306,6 +318,20 @@ class LongPollCore(private val context: Context) {
         if (!unreadMessages[peerId].isNullOrEmpty()) {
             notificationManager.notify(peerId, notification)
         }
+    }
+
+    private fun getNotificationView(
+            @LayoutRes layoutId: Int,
+            avatar: Bitmap,
+            name: String,
+            message: CharSequence,
+            timeStamp: Int
+    ) = RemoteViews(context.packageName, layoutId).apply {
+        setTextViewText(R.id.tvName, name)
+        setTextViewText(R.id.tvMessages, message)
+        setImageViewBitmap(R.id.ivPhoto, avatar)
+        setTextViewText(R.id.tvWhen, getTime(timeStamp, shortened = true))
+        stylizeAsMessageNotification()
     }
 
     private fun createNotificationChannel(shouldRing: Boolean, shouldVibrate: Boolean) {
@@ -431,8 +457,7 @@ class LongPollCore(private val context: Context) {
         }
     }
 
-    private fun getConnectSingle(longPollServer: LongPollServer)
-            = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
+    private fun getConnectSingle(longPollServer: LongPollServer) = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
 
     @SuppressLint("CheckResult")
     private fun waitInBg(delayMs: Long) {

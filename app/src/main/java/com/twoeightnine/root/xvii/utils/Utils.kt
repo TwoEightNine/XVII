@@ -463,7 +463,12 @@ fun loadBitmapIcon(url: String?, callback: (Bitmap) -> Unit) {
     val uiHandler = Handler(Looper.getMainLooper())
     uiHandler.post {
         XviiPicasso.get()
-                .loadRounded(url)
+                .load(if (url.isNullOrEmpty()) {
+                    ColorManager.getPhotoStub()
+                } else {
+                    url
+                })
+                .transform(CircleTransform())
                 .resize(200, 200)
                 .centerCrop()
                 .into(object : Target {

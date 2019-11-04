@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/llContainer"
     android:layout_width="match_parent"
@@ -61,15 +60,22 @@
                 android:hint="@string/restart_required"
                 android:text="@string/theme_color" />
 
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchApplyForNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/apply_color_for_notifications_hint"
+                android:text="@string/apply_color_for_notifications" />
+
             <!--<com.twoeightnine.root.xvii.views.Stepper-->
-                <!--android:id="@+id/stMessageSize"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--app:max="24"-->
-                <!--app:min="14"-->
-                <!--app:step="1"-->
-                <!--app:text="@string/message_size"-->
-                <!--app:value="15" />-->
+            <!--android:id="@+id/stMessageSize"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:max="24"-->
+            <!--app:min="14"-->
+            <!--app:step="1"-->
+            <!--app:text="@string/message_size"-->
+            <!--app:value="15" />-->
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchShowSeconds"
