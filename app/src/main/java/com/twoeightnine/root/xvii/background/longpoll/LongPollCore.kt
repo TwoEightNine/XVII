@@ -322,7 +322,8 @@ class LongPollCore(private val context: Context) {
             timeStamp: Int,
             onClickPendingIntent: PendingIntent? = null
     ) = RemoteViews(context.packageName, layoutId).apply {
-        setTextViewText(R.id.tvName, name)
+        val processedName = if (Prefs.lowerTexts) name.toLowerCase() else name
+        setTextViewText(R.id.tvName, processedName)
         setTextViewText(R.id.tvMessages, message)
         setImageViewBitmap(R.id.ivPhoto, avatar)
         setTextViewText(R.id.tvWhen, getTime(timeStamp, shortened = true))
