@@ -4,6 +4,7 @@ import android.content.Context
 import java.io.File
 
 const val DIR_GALLERY = "gallery_cache"
+const val DIR_NOTIFICATIONS = "notifications_cache"
 const val DIR_PICASSO = "picasso-cache"
 const val FILE_VOICE = "voice.amr"
 
@@ -15,6 +16,7 @@ fun getCacheSize(context: Context?): Long {
     // dirs
     size += getSizeOfDir(File(cacheDir, DIR_GALLERY))
     size += getSizeOfDir(File(cacheDir, DIR_PICASSO))
+    size += getSizeOfDir(File(cacheDir, DIR_NOTIFICATIONS))
     // files
     size += File(cacheDir, FILE_VOICE).length()
 
@@ -26,6 +28,7 @@ fun clearCache(context: Context?) {
 
     emptyDir(File(cacheDir, DIR_GALLERY))
     emptyDir(File(cacheDir, DIR_PICASSO))
+    emptyDir(File(cacheDir, DIR_NOTIFICATIONS))
 
     File(cacheDir, FILE_VOICE).delete()
 }

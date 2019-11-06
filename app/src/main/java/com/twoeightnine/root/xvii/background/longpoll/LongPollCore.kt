@@ -325,12 +325,19 @@ class LongPollCore(private val context: Context) {
         val processedName = if (Prefs.lowerTexts) name.toLowerCase() else name
         setTextViewText(R.id.tvName, processedName)
         setTextViewText(R.id.tvMessages, message)
-        setImageViewBitmap(R.id.ivPhoto, avatar)
         setTextViewText(R.id.tvWhen, getTime(timeStamp, shortened = true))
+
+        val background = getOrCreateNotificationBackground(context, avatar)
+        val textColor = getTextColor(avatar)
+        setImageViewBitmap(R.id.ivBack, background)
+        setTextColor(R.id.tvName, textColor)
+        setTextColor(R.id.tvMessages, textColor)
+        setTextColor(R.id.tvWhen, textColor)
+
         onClickPendingIntent?.also {
             setOnClickPendingIntent(R.id.tvMarkAsRead, it)
         }
-        stylizeAsMessageNotification()
+//        stylizeAsMessageNotification()
     }
 
     private fun createNotificationChannel(shouldRing: Boolean, shouldVibrate: Boolean) {
