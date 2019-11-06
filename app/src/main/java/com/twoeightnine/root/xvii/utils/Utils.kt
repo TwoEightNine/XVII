@@ -468,7 +468,7 @@ fun loadBitmapIcon(url: String?, callback: (Bitmap) -> Unit) {
                 } else {
                     url
                 })
-                .transform(CircleTransform())
+//                .transform(CircleTransform())
                 .resize(200, 200)
                 .centerCrop()
                 .into(object : Target {
