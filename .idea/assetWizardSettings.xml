@@ -29,8 +29,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_file" />
-                            <entry key="sourceFile" value="$USER_HOME$/Documents/icons/miscelanious/107-file.svg" />
+                            <entry key="outputName" value="ic_piggy_bank" />
+                            <entry key="sourceFile" value="$USER_HOME$/Documents/icons/svg/089-piggy-bank.svg" />
                           </map>
                         </option>
                       </PersistentState>

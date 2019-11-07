@@ -26,7 +26,7 @@ fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): Bitmap 
 fun createNotificationBackground(avatar: Bitmap): Bitmap {
 
     val backgroundWidth = 720
-    val backgroundHeight = 128
+    val backgroundHeight = 180
     val background = Bitmap.createBitmap(backgroundWidth, backgroundHeight, Bitmap.Config.RGB_565)
     val canvas = Canvas(background)
 
@@ -38,8 +38,7 @@ fun createNotificationBackground(avatar: Bitmap): Bitmap {
     val avatarHeight = avatar.height
     val avatarRect = Rect(0, 0, avatarWidth, avatarHeight)
 
-    val backgroundStartLeft = backgroundWidth - backgroundHeight
-    val backgroundRect = Rect(backgroundStartLeft, 0, backgroundWidth, backgroundHeight)
+    val backgroundRect = Rect(0, 0, backgroundHeight, backgroundHeight)
     canvas.drawBitmap(avatar, avatarRect, backgroundRect, null)
 
     val paint = Paint().apply { style = Paint.Style.FILL }
@@ -47,7 +46,7 @@ fun createNotificationBackground(avatar: Bitmap): Bitmap {
         for (j in 0 until backgroundHeight) {
             val bias = i.toFloat() / backgroundHeight
 
-            val pixColor = background.getPixel(backgroundStartLeft + i, j)
+            val pixColor = background.getPixel(i, j)
             if (pixColor and 0xff000000.toInt() != 0xff000000.toInt()) continue
 
             val pixR = (pixColor shr 16) and 0xff
@@ -58,19 +57,19 @@ fun createNotificationBackground(avatar: Bitmap): Bitmap {
             val avgG = (averageColor shr 8) and 0xff
             val avgB = (averageColor shr 0) and 0xff
 
-            val newR = (pixR * bias + avgR * (1 - bias)).toInt() and 0xff
-            val newG = (pixG * bias + avgG * (1 - bias)).toInt() and 0xff
-            val newB = (pixB * bias + avgB * (1 - bias)).toInt() and 0xff
+            val newR = (pixR * (1 - bias) + avgR * bias).toInt() and 0xff
+            val newG = (pixG * (1 - bias) + avgG * bias).toInt() and 0xff
+            val newB = (pixB * (1 - bias) + avgB * bias).toInt() and 0xff
 
             val newColor = (0xff shl 24) or (newR shl 16) or (newG shl 8) or newB
             paint.color = newColor
-            canvas.drawPoint((backgroundStartLeft + i).toFloat(), j.toFloat(), paint)
+            canvas.drawPoint(i.toFloat(), j.toFloat(), paint)
         }
     }
     return background
 }
 
-fun getTextColor(avatar: Bitmap): Int {
+fun getColors(avatar: Bitmap): Pair<Int, Int> {
     val avg = getAverageColor(avatar)
     val averageColor = avg.first
     val averageDark = avg.second
@@ -78,24 +77,57 @@ fun getTextColor(avatar: Bitmap): Int {
 
     val contrastWithLight = getContrastRatio(averageColor, averageLight)
     val contrastWithDark = getContrastRatio(averageColor, averageDark)
-    val contrastWithWhite = getContrastRatio(averageColor, Color.WHITE)
 
-    Lg.i("light = 0x${Integer.toHexString(averageLight)}; dark = 0x${Integer.toHexString(averageDark)}")
-    Lg.i("w/light = $contrastWithLight; w/dark = $contrastWithDark; w/white = $contrastWithWhite")
-    return when {
-        contrastWithLight > contrastWithDark -> averageLight
-        contrastWithLight > 3.0 -> averageLight
+//    Lg.i("light = 0x${Integer.toHexString(averageLight)}; dark = 0x${Integer.toHexString(averageDark)}")
+//    Lg.i("w/light = $contrastWithLight; w/dark = $contrastWithDark; w/white = $contrastWithWhite")
 
-        contrastWithWhite > contrastWithDark -> Color.WHITE
-        contrastWithWhite > 3.0 -> Color.WHITE
+    val neededContrast = 4.0
+    val textColor = when {
+        contrastWithLight > contrastWithDark && contrastWithLight >= neededContrast -> averageLight
+        contrastWithDark > contrastWithLight && contrastWithDark >= neededContrast -> averageDark
 
-        else -> averageDark
+        contrastWithLight > contrastWithDark -> getColorOfContrast(
+                averageColor, averageLight, 10, neededContrast, Color.WHITE
+        )
+
+        else -> getColorOfContrast(
+                averageColor, averageDark, -10, neededContrast, Color.BLACK
+        )
     }
+    return Pair(averageColor, textColor)
 }
 
+fun getColorOfContrast(back: Int, colorFrom: Int, step: Int, contrast: Double, default: Int): Int {
+    for (i in 1..10) {
+        var newRed = colorFrom.red() + step * i
+        if (newRed > 255) newRed = 255
+        if (newRed < 0) newRed = 0
+
+        var newGreen = colorFrom.green() + step * i
+        if (newGreen > 255) newGreen = 255
+        if (newGreen < 0) newGreen = 0
+
+        var newBlue = colorFrom.blue() + step * i
+        if (newBlue > 255) newBlue = 255
+        if (newBlue < 0) newBlue = 0
+
+        val newColor = createColor(newRed, newGreen, newBlue)
+        val newContrast = getContrastRatio(back, newColor)
+//        Lg.i("newColor = 0x${Integer.toHexString(newColor)}; w/this = $newContrast")
+
+        if (newContrast >= contrast) {
+            return newColor
+        }
+    }
+    return default
+}
+
+/**
+ * returns average color of the right part of [bitmap]
+ */
 fun getAverageColor(bitmap: Bitmap): Triple<Int, Int, Int> {
 
-    val opWidth = bitmap.width / 4
+    val avgThreshold = bitmap.width * 3 / 4
 
     var avgColorR = 0
     var avgColorG = 0
@@ -112,7 +144,7 @@ fun getAverageColor(bitmap: Bitmap): Triple<Int, Int, Int> {
     var lightAvgB = 0
     var lightColorsCount = 0
 
-    for (i in 0 until opWidth) {
+    for (i in 0 until bitmap.width) {
         for (j in 0 until bitmap.height) {
             val pixel = bitmap.getPixel(i, j)
             if (pixel.hasAlpha()) continue
@@ -121,26 +153,25 @@ fun getAverageColor(bitmap: Bitmap): Triple<Int, Int, Int> {
             val g = pixel.green()
             val b = pixel.blue()
 
-            avgColorR += r
-            avgColorG += g
-            avgColorB += b
-            avgColorsCount++
-
-            val sum = r + g + b
-            when {
-                sum < 160 -> {
-                    darkAvgR += r
-                    darkAvgG += g
-                    darkAvgB += b
-                    darkColorsCount++
-                }
-                sum > 500 -> {
-                    lightAvgR += r
-                    lightAvgG += g
-                    lightAvgB += b
-                    lightColorsCount++
-                }
+            if (i >= avgThreshold) {
+                avgColorR += r
+                avgColorG += g
+                avgColorB += b
+                avgColorsCount++
             }
+
+            if (r + g + b < 370) {
+                darkAvgR += r
+                darkAvgG += g
+                darkAvgB += b
+                darkColorsCount++
+            } else {
+                lightAvgR += r
+                lightAvgG += g
+                lightAvgB += b
+                lightColorsCount++
+            }
+
         }
     }
 

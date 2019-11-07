@@ -6,20 +6,20 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:scaleType="centerCrop"
         android:id="@+id/ivBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tvMarkAsRead"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tvName"
         fontPath="fonts/Rubik-Regular.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_toStartOf="@+id/tvWhen"
         android:maxLines="1"
@@ -36,7 +36,7 @@
         android:layout_alignTop="@+id/tvName"
         android:layout_alignBottom="@+id/tvName"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="12dp"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:textColor="@color/other_text"
@@ -48,10 +48,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvName"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="80dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="12dp"
-        android:maxLines="1"
+        android:maxLines="5"
         android:textColor="@color/other_text"
         android:textSize="14sp"
         tools:text="name name anme" />
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvMessages"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="12dp"
         android:padding="12dp"
         android:text="@string/mark_as_read"
         android:textColor="@color/main_text"
