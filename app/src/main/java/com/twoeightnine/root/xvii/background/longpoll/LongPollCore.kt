@@ -182,7 +182,7 @@ class LongPollCore(private val context: Context) {
         // trying to get dialog from database
         getDialog(event.peerId, { dialog ->
             if (Prefs.showName) {
-                loadBitmapIcon(dialog.photo) { bitmap ->
+                loadBitmapIcon(dialog.photo, useSquare = Prefs.useStyledNotifications) { bitmap ->
                     val name = dialog.alias ?: dialog.title
                     showNotification(
                             content,
@@ -209,7 +209,7 @@ class LongPollCore(private val context: Context) {
 
                 // for groups and users try to resolve them
                 resolveSenderByPeerId(event.peerId, { title, photo ->
-                    loadBitmapIcon(photo) { bitmap ->
+                    loadBitmapIcon(photo, useSquare = Prefs.useStyledNotifications) { bitmap ->
                         showNotification(
                                 content,
                                 timeStamp,

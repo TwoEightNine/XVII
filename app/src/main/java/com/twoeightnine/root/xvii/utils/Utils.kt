@@ -459,33 +459,39 @@ fun getNameFromUrl(url: String): String {
 //    task.execute(url, fileName, type)
 //}
 
-fun loadBitmapIcon(url: String?, callback: (Bitmap) -> Unit) {
+fun loadBitmapIcon(url: String?, useSquare: Boolean = false, callback: (Bitmap) -> Unit) {
     val uiHandler = Handler(Looper.getMainLooper())
     uiHandler.post {
-        XviiPicasso.get()
+        val rc = XviiPicasso.get()
                 .load(if (url.isNullOrEmpty()) {
                     ColorManager.getPhotoStub()
                 } else {
                     url
                 })
-//                .transform(CircleTransform())
-                .resize(200, 200)
+        if (!useSquare) {
+            rc.transform(CircleTransform())
+        }
+        rc.resize(200, 200)
                 .centerCrop()
                 .into(object : Target {
 
                     override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
-                        callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii_dark_logo_128))
+                        val drawableRes = if (useSquare) {
+                            R.drawable.xvii_dark_logo_128_square
+                        } else {
+                            R.drawable.xvii_dark_logo_128
+                        }
+                        callback.invoke(BitmapFactory.decodeResource(App.context.resources, drawableRes))
                     }
 
                     override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                        callback.invoke(BitmapFactory.decodeResource(App.context.resources, R.drawable.xvii_dark_logo_128))
                     }
 
                     override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
                         if (bitmap != null) {
                             callback.invoke(bitmap)
                         } else {
-                            loadBitmapIcon(url, callback)
+                            loadBitmapIcon(url, useSquare, callback)
                         }
                     }
                 })
