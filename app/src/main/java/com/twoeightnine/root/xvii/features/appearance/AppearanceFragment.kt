@@ -187,7 +187,7 @@ class AppearanceFragment : BaseFragment() {
                     .show()
         }
 
-        switchApplyForNotifications.isChecked = Prefs.applyColorForNotifications
+        switchApplyForNotifications.isChecked = Prefs.useStyledNotifications
         switchShowSeconds.isChecked = Prefs.showSeconds
         switchLowerTexts.isChecked = Prefs.lowerTexts
         switchAppleEmojis.isChecked = Prefs.appleEmojis
@@ -267,7 +267,7 @@ class AppearanceFragment : BaseFragment() {
         super.onStop()
         GalleryFragment.clear()
 
-        Prefs.applyColorForNotifications = switchApplyForNotifications.isChecked
+        Prefs.useStyledNotifications = switchApplyForNotifications.isChecked
         Prefs.showSeconds = switchShowSeconds.isChecked
         Prefs.lowerTexts = switchLowerTexts.isChecked
         Prefs.appleEmojis = switchAppleEmojis.isChecked

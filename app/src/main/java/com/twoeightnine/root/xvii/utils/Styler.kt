@@ -302,29 +302,6 @@ fun AlertDialog.stylize(keepFont: Boolean = false) {
     }
 }
 
-fun RemoteViews.stylizeAsMessageNotification() {
-
-    when {
-        Prefs.isLightTheme -> {
-            val backgroundColor = if (Prefs.applyColorForNotifications) {
-                Prefs.color or 0xff000000.toInt()
-            } else {
-                Color.WHITE
-            }
-            setInt(R.id.rlBack, "setBackgroundColor", backgroundColor)
-        }
-        else -> setInt(R.id.rlBack, "setBackgroundResource", R.color.background)
-    }
-
-    val isTextLight = !Prefs.isLightTheme || Prefs.applyColorForNotifications
-    val nameTextColor = (if (isTextLight) 0xffffffff else 0xff222222).toInt()
-    val messageTextColor = (if (isTextLight) 0xffdddddd else 0xff444444).toInt()
-
-    setTextColor(R.id.tvName, nameTextColor)
-    setTextColor(R.id.tvMessages, messageTextColor)
-    setTextColor(R.id.tvMarkAsRead, nameTextColor)
-}
-
 fun ViewGroup.stylizeAll(level: Int = 0) {
     if (ColorManager.shouldIgnore) return
 

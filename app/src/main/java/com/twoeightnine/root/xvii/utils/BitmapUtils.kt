@@ -3,35 +3,63 @@ package com.twoeightnine.root.xvii.utils
 import android.content.Context
 import android.graphics.*
 import com.twoeightnine.root.xvii.lg.Lg
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import java.io.File
 import kotlin.math.pow
 
-fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): Bitmap {
+const val NEEDED_CONTRAST = 4.0
+const val SEARCH_STEP = 10
+
+fun loadNotificationBackgroundAsync(
+        context: Context, avatar: Bitmap,
+        onLoaded: (NotificationBackground) -> Unit
+): Disposable = Single.fromCallable { getOrCreateNotificationBackground(context, avatar) }
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(onLoaded, { error ->
+            Lg.wtf("[bitmap notifs] error while loading bitmap: ${error.message}")
+        })
+
+fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): NotificationBackground {
     val hash = avatar.hash()
     val dir = File(context.cacheDir, DIR_NOTIFICATIONS)
     dir.mkdir()
 
     val file = File(dir, "$hash.png")
     return if (!file.exists()) {
-        Lg.i("creating")
-        val bitmap = createNotificationBackground(avatar)
-        saveBmp(file.absolutePath, bitmap)
-        bitmap
+        Lg.i("[notif bitmap] creating")
+        val start = System.currentTimeMillis()
+        val notificationBackground = createNotificationBackground(avatar)
+        saveBmp(file.absolutePath, notificationBackground.background)
+        Lg.i("[notif bitmap] took ${System.currentTimeMillis() - start} ms")
+        notificationBackground
     } else {
-        Lg.i("opening")
-        BitmapFactory.decodeFile(file.absolutePath)
+        Lg.i("[notif bitmap] opening")
+        val start = System.currentTimeMillis()
+        val imageColors = getImageColors(avatar)
+        val textColor = getTextColor(imageColors)
+        val notificationBackground = NotificationBackground(
+                BitmapFactory.decodeFile(file.absolutePath),
+                textColor,
+                imageColors.averageColor
+        )
+        Lg.i("[notif bitmap] took ${System.currentTimeMillis() - start} ms")
+        notificationBackground
     }
 }
 
-fun createNotificationBackground(avatar: Bitmap): Bitmap {
+fun createNotificationBackground(avatar: Bitmap): NotificationBackground {
 
     val backgroundWidth = 720
     val backgroundHeight = 180
     val background = Bitmap.createBitmap(backgroundWidth, backgroundHeight, Bitmap.Config.RGB_565)
     val canvas = Canvas(background)
 
-    val avg = getAverageColor(avatar)
-    val averageColor = avg.first
+    val imageColors = getImageColors(avatar)
+    val averageColor = imageColors.averageColor
     canvas.drawColor(averageColor)
 
     val avatarWidth = avatar.width
@@ -66,35 +94,30 @@ fun createNotificationBackground(avatar: Bitmap): Bitmap {
             canvas.drawPoint(i.toFloat(), j.toFloat(), paint)
         }
     }
-    return background
+
+    val textColor = getTextColor(imageColors)
+    return NotificationBackground(background, textColor, averageColor)
 }
 
-fun getColors(avatar: Bitmap): Pair<Int, Int> {
-    val avg = getAverageColor(avatar)
-    val averageColor = avg.first
-    val averageDark = avg.second
-    val averageLight = avg.third
+fun getTextColor(imageColors: ImageColors): Int {
 
-    val contrastWithLight = getContrastRatio(averageColor, averageLight)
-    val contrastWithDark = getContrastRatio(averageColor, averageDark)
+    val contrastWithLight = getContrastRatio(imageColors.averageColor, imageColors.averageLight)
+    val contrastWithDark = getContrastRatio(imageColors.averageColor, imageColors.averageDark)
 
-//    Lg.i("light = 0x${Integer.toHexString(averageLight)}; dark = 0x${Integer.toHexString(averageDark)}")
-//    Lg.i("w/light = $contrastWithLight; w/dark = $contrastWithDark; w/white = $contrastWithWhite")
-
-    val neededContrast = 4.0
-    val textColor = when {
-        contrastWithLight > contrastWithDark && contrastWithLight >= neededContrast -> averageLight
-        contrastWithDark > contrastWithLight && contrastWithDark >= neededContrast -> averageDark
+    return when {
+        contrastWithLight > contrastWithDark
+                && contrastWithLight >= NEEDED_CONTRAST -> imageColors.averageLight
+        contrastWithDark > contrastWithLight
+                && contrastWithDark >= NEEDED_CONTRAST -> imageColors.averageDark
 
         contrastWithLight > contrastWithDark -> getColorOfContrast(
-                averageColor, averageLight, 10, neededContrast, Color.WHITE
+                imageColors.averageColor, imageColors.averageLight, SEARCH_STEP, NEEDED_CONTRAST, Color.WHITE
         )
 
         else -> getColorOfContrast(
-                averageColor, averageDark, -10, neededContrast, Color.BLACK
+                imageColors.averageColor, imageColors.averageDark, -SEARCH_STEP, NEEDED_CONTRAST, Color.BLACK
         )
     }
-    return Pair(averageColor, textColor)
 }
 
 fun getColorOfContrast(back: Int, colorFrom: Int, step: Int, contrast: Double, default: Int): Int {
@@ -113,7 +136,6 @@ fun getColorOfContrast(back: Int, colorFrom: Int, step: Int, contrast: Double, d
 
         val newColor = createColor(newRed, newGreen, newBlue)
         val newContrast = getContrastRatio(back, newColor)
-//        Lg.i("newColor = 0x${Integer.toHexString(newColor)}; w/this = $newContrast")
 
         if (newContrast >= contrast) {
             return newColor
@@ -123,9 +145,12 @@ fun getColorOfContrast(back: Int, colorFrom: Int, step: Int, contrast: Double, d
 }
 
 /**
- * returns average color of the right part of [bitmap]
+ * returns:
+ *      - average color of the right part of [bitmap]
+ *      - average dark for the whole image
+ *      - average light for the whole image
  */
-fun getAverageColor(bitmap: Bitmap): Triple<Int, Int, Int> {
+fun getImageColors(bitmap: Bitmap): ImageColors {
 
     val avgThreshold = bitmap.width * 3 / 4
 
@@ -196,7 +221,7 @@ fun getAverageColor(bitmap: Bitmap): Triple<Int, Int, Int> {
         lightAvgG = 255
         lightAvgB = 255
     }
-    return Triple(
+    return ImageColors(
             createColor(avgColorR, avgColorG, avgColorB),
             createColor(darkAvgR, darkAvgG, darkAvgB),
             createColor(lightAvgR, lightAvgG, lightAvgB)
@@ -206,7 +231,7 @@ fun getAverageColor(bitmap: Bitmap): Triple<Int, Int, Int> {
 fun Bitmap.hash(): Int {
     var hash = 31
     (0 until width).step(5).forEach { x ->
-        (0 until height).step(5).forEach { y ->
+        (0 until height).step(6).forEach { y ->
             hash = (hash * 31 + getPixel(x, y)).rem(Int.MAX_VALUE) // it is prime
         }
     }
@@ -257,6 +282,15 @@ private fun getContrastRatio(c1: Int, c2: Int): Double {
         (rl2 + 0.05) / (rl1 + 0.05)
     }
 }
-//fun getBlurredAvatar(avatar: Bitmap): Bitmap {
-//    val blurred = Bitmap.createBitmap(avatar.width, avatar.height)
-//}
+
+data class ImageColors(
+        val averageColor: Int,
+        val averageDark: Int,
+        val averageLight: Int
+)
+
+data class NotificationBackground(
+        val background: Bitmap,
+        val textColor: Int,
+        val backgroundColor: Int
+)

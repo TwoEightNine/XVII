@@ -207,7 +207,7 @@ object Prefs {
         get() = data.getBoolean(NIGHT, false)
         set(value) = data.edit().putBoolean(NIGHT, value).apply()
 
-    var applyColorForNotifications: Boolean
+    var useStyledNotifications: Boolean
         get() = data.getBoolean(APPLY_FOR_NOTIFS, false)
         set(value) = data.edit().putBoolean(APPLY_FOR_NOTIFS, value).apply()
 

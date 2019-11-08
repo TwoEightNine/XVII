@@ -49,6 +49,7 @@ class NotificationsFragment : BaseFragment() {
             switchSoundChats.isEnabled = false
             switchContentChats.isEnabled = false
         }
+        switchStylizeNotifications.isChecked = Prefs.useStyledNotifications
         switchShowNotification.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, b ->
             switchShowName.isEnabled = b
             switchVibrate.isEnabled = b
@@ -107,6 +108,8 @@ class NotificationsFragment : BaseFragment() {
         Prefs.vibrateChats = switchVibrateChats.isEnabled && switchVibrateChats.isChecked
         Prefs.soundChats = switchSoundChats.isEnabled && switchSoundChats.isChecked
         Prefs.showContentChats = switchContentChats.isEnabled && switchContentChats.isChecked
+
+        Prefs.useStyledNotifications = switchStylizeNotifications.isChecked
     }
 
     override fun onStop() {

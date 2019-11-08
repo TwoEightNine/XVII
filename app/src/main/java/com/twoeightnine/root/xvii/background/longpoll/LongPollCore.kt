@@ -267,21 +267,60 @@ class LongPollCore(private val context: Context) {
         val text = Html.fromHtml(content.last())
         val textBig = Html.fromHtml(content.joinToString(separator = "<br>"))
 
-        val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
-                .setCustomContentView(
-                        getNotificationView(
-                                R.layout.view_notification_message, icon,
-                                title, text, (timeStamp / 1000).toInt()
+        if (Prefs.useStyledNotifications) {
+            loadNotificationBackgroundAsync(context, icon) { notificationBackground ->
+                val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
+                        .setCustomContentView(
+                                getNotificationView(
+                                        R.layout.view_notification_message,
+                                        notificationBackground,
+                                        title, text, (timeStamp / 1000).toInt()
+                                )
                         )
-                )
-                .setCustomBigContentView(
-                        getNotificationView(
-                                R.layout.view_notification_message_extended, icon,
-                                title, textBig, (timeStamp / 1000).toInt(),
-                                getMarkAsReadIntent(messageId, peerId)
+                        .setCustomBigContentView(
+                                getNotificationView(
+                                        R.layout.view_notification_message_extended,
+                                        notificationBackground,
+                                        title, textBig, (timeStamp / 1000).toInt(),
+                                        getMarkAsReadIntent(messageId, peerId)
+                                )
                         )
+                endUpShowingNotification(
+                        builder, peerId, timeStamp, userName,
+                        shouldVibrate, shouldRing, ledColor, photo
                 )
-                .setSmallIcon(R.drawable.ic_envelope)
+            }
+        } else {
+            val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
+                    .setLargeIcon(icon)
+                    .setContentTitle(title)
+                    .setAutoCancel(true)
+                    .setWhen(timeStamp)
+                    .setContentText(text)
+                    .setStyle(NotificationCompat.BigTextStyle().bigText(textBig))
+                    .addAction(
+                            R.drawable.ic_eye,
+                            context.getString(R.string.mark_as_read),
+                            getMarkAsReadIntent(messageId, peerId)
+                    )
+            endUpShowingNotification(
+                    builder, peerId, timeStamp, userName,
+                    shouldVibrate, shouldRing, ledColor, photo
+            )
+        }
+    }
+
+    private fun endUpShowingNotification(
+            builder: NotificationCompat.Builder,
+            peerId: Int,
+            timeStamp: Long,
+            userName: String = context.getString(R.string.app_name),
+            shouldVibrate: Boolean,
+            shouldRing: Boolean,
+            ledColor: Int,
+            photo: String? = null
+    ) {
+        builder.setSmallIcon(R.drawable.ic_envelope)
                 .setAutoCancel(true)
                 .setWhen(timeStamp)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -316,30 +355,27 @@ class LongPollCore(private val context: Context) {
 
     private fun getNotificationView(
             @LayoutRes layoutId: Int,
-            avatar: Bitmap,
+            notificationBackground: NotificationBackground,
             name: String,
             message: CharSequence,
             timeStamp: Int,
             onClickPendingIntent: PendingIntent? = null
     ) = RemoteViews(context.packageName, layoutId).apply {
+
         val processedName = if (Prefs.lowerTexts) name.toLowerCase() else name
         setTextViewText(R.id.tvName, processedName)
         setTextViewText(R.id.tvMessages, message)
         setTextViewText(R.id.tvWhen, getTime(timeStamp, shortened = true))
 
-        val background = getOrCreateNotificationBackground(context, avatar)
-        val colors = getColors(avatar)
-        val backgroundColor = colors.first
-        val textColor = colors.second
-        setImageViewBitmap(R.id.ivBack, background)
-        setTextColor(R.id.tvName, textColor)
-        setTextColor(R.id.tvMessages, textColor)
-        setTextColor(R.id.tvWhen, textColor)
-        setInt(R.id.rlBack, "setBackgroundColor", backgroundColor)
+        setImageViewBitmap(R.id.ivBack, notificationBackground.background)
+        setTextColor(R.id.tvName, notificationBackground.textColor)
+        setTextColor(R.id.tvMessages, notificationBackground.textColor)
+        setTextColor(R.id.tvWhen, notificationBackground.textColor)
+        setInt(R.id.rlBack, "setBackgroundColor", notificationBackground.backgroundColor)
 
         onClickPendingIntent?.also {
             setOnClickPendingIntent(R.id.tvMarkAsRead, it)
-            setTextColor(R.id.tvMarkAsRead, textColor)
+            setTextColor(R.id.tvMarkAsRead, notificationBackground.textColor)
         }
     }
 

@@ -143,6 +143,33 @@
                     android:layout_height="wrap_content"
                     android:text="@string/led_lights" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/toolbar"
+                    android:orientation="vertical"
+                    android:tag="extraLight">
+
+                    <TextView
+                        style="@style/OtherText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="28dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/other"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <com.twoeightnine.root.xvii.views.XviiSwitch
+                    android:id="@+id/switchStylizeNotifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/use_styled_notifications_hint"
+                    android:text="@string/use_styled_notifications" />
+
                 <Switch
                     android:id="@+id/switchEgg"
                     android:layout_width="wrap_content"
