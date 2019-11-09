@@ -368,10 +368,14 @@ class LongPollCore(private val context: Context) {
         setTextViewText(R.id.tvWhen, getTime(timeStamp, shortened = true))
 
         setImageViewBitmap(R.id.ivBack, notificationBackground.background)
+        setInt(R.id.rlBack, "setBackgroundColor", notificationBackground.backgroundColor)
+
         setTextColor(R.id.tvName, notificationBackground.textColor)
         setTextColor(R.id.tvMessages, notificationBackground.textColor)
         setTextColor(R.id.tvWhen, notificationBackground.textColor)
-        setInt(R.id.rlBack, "setBackgroundColor", notificationBackground.backgroundColor)
+        setTextColor(R.id.tvAppName, notificationBackground.textColor)
+
+        setInt(R.id.ivMessageIcon, "setColorFilter", notificationBackground.textColor)
 
         onClickPendingIntent?.also {
             setOnClickPendingIntent(R.id.tvMarkAsRead, it)
