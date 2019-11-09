@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rlBack"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/background">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/ivBack"
         android:layout_width="match_parent"
-        android:layout_height="90dp" />
+        android:layout_height="92dp"
+        android:scaleType="fitXY" />
 
     <ImageView
         android:id="@+id/ivMessageIcon"

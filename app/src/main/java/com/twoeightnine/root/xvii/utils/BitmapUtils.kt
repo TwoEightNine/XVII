@@ -8,6 +8,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.pow
 
 const val NEEDED_CONTRAST = 4.0
@@ -103,6 +105,8 @@ fun getTextColor(imageColors: ImageColors): Int {
 
     val contrastWithLight = getContrastRatio(imageColors.averageColor, imageColors.averageLight)
     val contrastWithDark = getContrastRatio(imageColors.averageColor, imageColors.averageDark)
+    val contrastWithBlack = getContrastRatio(imageColors.averageColor, Color.BLACK)
+    val contrastWithWhite = getContrastRatio(imageColors.averageColor, Color.WHITE)
 
     return when {
         contrastWithLight > contrastWithDark
@@ -110,7 +114,7 @@ fun getTextColor(imageColors: ImageColors): Int {
         contrastWithDark > contrastWithLight
                 && contrastWithDark >= NEEDED_CONTRAST -> imageColors.averageDark
 
-        contrastWithLight > contrastWithDark -> getColorOfContrast(
+        contrastWithWhite > contrastWithBlack -> getColorOfContrast(
                 imageColors.averageColor, imageColors.averageLight, SEARCH_STEP, NEEDED_CONTRAST, Color.WHITE
         )
 
@@ -121,7 +125,7 @@ fun getTextColor(imageColors: ImageColors): Int {
 }
 
 fun getColorOfContrast(back: Int, colorFrom: Int, step: Int, contrast: Double, default: Int): Int {
-    for (i in 1..10) {
+    for (i in 1..20) {
         var newRed = colorFrom.red() + step * i
         if (newRed > 255) newRed = 255
         if (newRed < 0) newRed = 0
@@ -174,30 +178,38 @@ fun getImageColors(bitmap: Bitmap): ImageColors {
             val pixel = bitmap.getPixel(i, j)
             if (pixel.hasAlpha()) continue
 
+
             val r = pixel.red()
             val g = pixel.green()
             val b = pixel.blue()
 
             if (i >= avgThreshold) {
-                avgColorR += r
-                avgColorG += g
-                avgColorB += b
-                avgColorsCount++
+                val avgCoeff = bitmap.width - i - avgThreshold
+                avgColorR += r * avgCoeff
+                avgColorG += g * avgCoeff
+                avgColorB += b * avgCoeff
+                avgColorsCount += avgCoeff
             }
 
-            if (r + g + b < 370) {
-                darkAvgR += r
-                darkAvgG += g
-                darkAvgB += b
-                darkColorsCount++
-            } else {
-                lightAvgR += r
-                lightAvgG += g
-                lightAvgB += b
-                lightColorsCount++
-            }
+            val brightness = pixel.brightness()
+            when {
 
+                brightness < 128 -> {
+                    darkAvgR += r
+                    darkAvgG += g
+                    darkAvgB += b
+                    darkColorsCount++
+                }
+                else -> {
+                    lightAvgR += r
+                    lightAvgG += g
+                    lightAvgB += b
+                    lightColorsCount++
+                }
+
+            }
         }
+
     }
 
     if (avgColorsCount != 0) {
@@ -245,6 +257,13 @@ private fun Int.red() = (this shr 16) and 0xff
 private fun Int.green() = (this shr 8) and 0xff
 
 private fun Int.blue() = this and 0xff
+
+private fun Int.brightness(): Int {
+    val r = red()
+    val g = green()
+    val b = blue()
+    return (max(r, max(g, b)) + min(r, min(g, b))) / 2
+}
 
 private fun createColor(r: Int, g: Int, b: Int) =
         0xff000000.toInt() or ((r and 0xff) shl 16) or ((g and 0xff) shl 8) or (b and 0xff)

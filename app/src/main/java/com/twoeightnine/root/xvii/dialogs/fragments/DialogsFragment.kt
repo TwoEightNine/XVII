@@ -69,6 +69,13 @@ open class DialogsFragment : BaseFragment() {
         progressBar.hide()
         if (data.data != null) {
             adapter.update(data.data)
+//            for (dialog in data.data) {
+//                loadBitmapIcon(dialog.photo, useSquare = true) { bitmap ->
+//                    val back = createNotificationBackground(bitmap)
+//                    val file = File(context!!.cacheDir, "back${dialog.peerId}.png").absolutePath
+//                    saveBmp(file, back.background)
+//                }
+//            }
         } else {
             showError(context, data.error ?: getString(R.string.error))
         }
