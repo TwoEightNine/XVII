@@ -60,13 +60,6 @@
                 android:hint="@string/restart_required"
                 android:text="@string/theme_color" />
 
-            <com.twoeightnine.root.xvii.views.XviiSwitch
-                android:id="@+id/switchApplyForNotifications"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/apply_color_for_notifications_hint"
-                android:text="@string/apply_color_for_notifications" />
-
             <!--<com.twoeightnine.root.xvii.views.Stepper-->
             <!--android:id="@+id/stMessageSize"-->
             <!--android:layout_width="match_parent"-->
