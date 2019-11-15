@@ -390,5 +390,9 @@
     <string name="mark_messages_as_read">отмечать прочитанным</string>
     <string name="mark_messages_as_read_hint">люди увидят, что вы читаете сообщения</string>
     <string name="donate">пожертвовать</string>
+    <string name="use_styled_notifications">(beta) использовать стильные уведомления</string>
+    <string name="use_styled_notifications_hint">уведомленя будут окрашены под аватар пользователя</string>
+    <string name="send_by_enter">отправлять по нажатию на \'enter\'</string>
+    <string name="send_by_enter_hint">нажатие на \'enter\' отправит сообщение</string>
 
 </resources>

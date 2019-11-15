@@ -363,6 +363,10 @@
     <string name="mark_messages_as_read_hint">des gens pourront voir que vous lisez des messages</string>
     <string name="appearance_sample">"c'est un exemple comment des tchats ressembleront. changez l'apparence selon vos preferences "</string>
     <string name="donate">donater</string>
+    <string name="send_by_enter">appuyer sur \'enter\' pour envoyer</string>
+    <string name="send_by_enter_hint">après le pressage le message sera envoyé</string>
+    <string name="use_styled_notifications">(beta) utiliser des notifications élégantes</string>
+    <string name="use_styled_notifications_hint">des notifications seront peinte selon des avatars des utilisateurs</string>
 
 </resources>
 

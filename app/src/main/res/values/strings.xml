@@ -299,8 +299,8 @@
     <string name="make_sound">enable sound</string>
 
     <string name="light_theme">light theme</string>
-    <string name="apply_color_for_notifications">apply color for notifications</string>
-    <string name="apply_color_for_notifications_hint">notification\'s background will not be white</string>
+    <string name="apply_color_for_notifications" translatable="false">apply color for notifications</string>
+    <string name="apply_color_for_notifications_hint" translatable="false">notification\'s background will not be white</string>
     <string name="theme_color">theme color</string>
     <string name="restart_required">restart required to apply changes</string>
     <string name="pick_chat_background">pick chat background</string>
