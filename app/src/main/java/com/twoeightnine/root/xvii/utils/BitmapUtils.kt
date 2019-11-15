@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
 import android.graphics.*
+import android.os.Debug
 import androidx.annotation.FloatRange
 import com.flask.colorpicker.Utils
 import com.twoeightnine.root.xvii.lg.Lg
@@ -57,7 +58,7 @@ fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): Notific
     }
 }
 
-fun createNotificationBackground(avatar: Bitmap): NotificationBackground {
+fun createNotificationBackground(avatar: Bitmap, debug: Boolean = false): NotificationBackground {
 
     val backgroundWidth = 720
     val backgroundHeight = 180
@@ -102,8 +103,10 @@ fun createNotificationBackground(avatar: Bitmap): NotificationBackground {
     }
 
     val textColor = getTextColor(imageColors)
-    paint.color = textColor
-    canvas.drawRect(400f, 80f, 600f, 120f, paint)
+    if (debug) {
+        paint.color = textColor
+        canvas.drawRect(400f, 80f, 600f, 120f, paint)
+    }
     return NotificationBackground(background, textColor, averageColor)
 }
 
