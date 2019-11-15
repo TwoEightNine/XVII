@@ -48,6 +48,13 @@
                 android:text="@string/mark_messages_as_read" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchSendByEnter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/send_by_enter_hint"
+                android:text="@string/send_by_enter" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchStoreKeys"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

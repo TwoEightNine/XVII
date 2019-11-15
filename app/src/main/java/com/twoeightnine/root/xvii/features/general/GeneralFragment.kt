@@ -53,6 +53,7 @@ class GeneralFragment : BaseFragment() {
         switchOnline.isChecked = Prefs.beOnline
         switchRead.isChecked = Prefs.markAsRead
         switchTyping.isChecked = Prefs.showTyping
+        switchSendByEnter.isChecked = Prefs.sendByEnter
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
 
         switchOffline.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
@@ -68,6 +69,7 @@ class GeneralFragment : BaseFragment() {
         Prefs.beOnline = switchOnline.isChecked
         Prefs.markAsRead = switchRead.isChecked
         Prefs.showTyping = switchTyping.isChecked
+        Prefs.sendByEnter = switchSendByEnter.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
     }
 

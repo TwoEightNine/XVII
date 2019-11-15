@@ -27,6 +27,7 @@ object Prefs {
     private const val SHOW_VOICE = "showVoice"
     private const val STORE_CUSTOM_KEYS = "storeCustomKeys"
     private const val MESSAGE_SIZE = "messageSize"
+    private const val SEND_BY_ENTER = "sendByEnter"
 
     //notifications
     private const val SHOW_NOTIF = "showNotif"
@@ -115,6 +116,10 @@ object Prefs {
     var messageSize: Int
         get() = data.getInt(MESSAGE_SIZE, 15)
         set(value) = data.edit().putInt(MESSAGE_SIZE, value).apply()
+
+    var sendByEnter
+        get() = data.getBoolean(SEND_BY_ENTER, false)
+        set(value) = data.edit().putBoolean(SEND_BY_ENTER, value).apply()
 
     // notifications
     // private

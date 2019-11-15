@@ -9,6 +9,7 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.webkit.MimeTypeMap
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
@@ -55,6 +56,18 @@ class ChatInputController(
             etInput.onRichContentAdded = ::onRichContentAdded
             if (!Prefs.lowerTexts) {
                 etInput.inputType = etInput.inputType or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+            }
+            if (Prefs.sendByEnter) {
+                etInput.imeOptions = EditorInfo.IME_ACTION_SEND
+                etInput.inputType = EditorInfo.TYPE_CLASS_TEXT
+                etInput.setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_SEND && Prefs.sendByEnter) {
+                        callback.onSendClick()
+                        true
+                    } else {
+                        false
+                    }
+                }
             }
             ivMic.setOnTouchListener(MicTouchListener())
         }
