@@ -217,11 +217,11 @@ class MessagesAdapter(context: Context,
                             }
 
                             Attachment.TYPE_AUDIO_MESSAGE -> attachment.audioMessage?.also { audioMessage ->
-                                val audios = items.mapNotNull { it.attachments?.getAudioMessage() }
-                                        .map { Audio(it, context.getString(R.string.voice_message)) }
+//                                val audios = items.mapNotNull { it.attachments?.getAudioMessage() }
+//                                        .map { Audio(it, context.getString(R.string.voice_message)) }
                                 llMessageContainer.addView(getAudio(
                                         Audio(audioMessage, context.getString(R.string.voice_message)),
-                                        context, audios
+                                        context
                                 ))
                             }
 
