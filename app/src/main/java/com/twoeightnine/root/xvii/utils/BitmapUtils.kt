@@ -2,6 +2,8 @@ package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
 import android.graphics.*
+import androidx.annotation.FloatRange
+import com.flask.colorpicker.Utils
 import com.twoeightnine.root.xvii.lg.Lg
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,9 +13,11 @@ import java.io.File
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
+import kotlin.math.sqrt
 
 const val NEEDED_CONTRAST = 4.0
-const val SEARCH_STEP = 10
+val LIGHT_LIGHTNESSES = listOf(0.6f, 0.7f, 0.8f, 0.9f, 0.95f)
+val DARK_LIGHTNESSES = listOf(0.4f, 0.3f, 0.2f, 0.1f, 0.05f)
 
 fun loadNotificationBackgroundAsync(
         context: Context, avatar: Bitmap,
@@ -77,7 +81,7 @@ fun createNotificationBackground(avatar: Bitmap): NotificationBackground {
             val bias = i.toFloat() / backgroundHeight
 
             val pixColor = background.getPixel(i, j)
-            if (pixColor and 0xff000000.toInt() != 0xff000000.toInt()) continue
+            if (pixColor.hasAlpha()) continue
 
             val pixR = (pixColor shr 16) and 0xff
             val pixG = (pixColor shr 8) and 0xff
@@ -98,6 +102,8 @@ fun createNotificationBackground(avatar: Bitmap): NotificationBackground {
     }
 
     val textColor = getTextColor(imageColors)
+    paint.color = textColor
+    canvas.drawRect(400f, 80f, 600f, 120f, paint)
     return NotificationBackground(background, textColor, averageColor)
 }
 
@@ -115,30 +121,22 @@ fun getTextColor(imageColors: ImageColors): Int {
                 && contrastWithDark >= NEEDED_CONTRAST -> imageColors.averageDark
 
         contrastWithWhite > contrastWithBlack -> getColorOfContrast(
-                imageColors.averageColor, imageColors.averageLight, SEARCH_STEP, NEEDED_CONTRAST, Color.WHITE
+                imageColors.averageColor, imageColors.averageLight, LIGHT_LIGHTNESSES, NEEDED_CONTRAST, Color.WHITE
         )
 
         else -> getColorOfContrast(
-                imageColors.averageColor, imageColors.averageDark, -SEARCH_STEP, NEEDED_CONTRAST, Color.BLACK
+                imageColors.averageColor, imageColors.averageDark, DARK_LIGHTNESSES, NEEDED_CONTRAST, Color.BLACK
         )
     }
 }
 
-fun getColorOfContrast(back: Int, colorFrom: Int, step: Int, contrast: Double, default: Int): Int {
-    for (i in 1..20) {
-        var newRed = colorFrom.red() + step * i
-        if (newRed > 255) newRed = 255
-        if (newRed < 0) newRed = 0
+fun getColorOfContrast(back: Int, colorFrom: Int, lightnessRange: List<Float>, contrast: Double, default: Int): Int {
+    val hsv = FloatArray(3)
+    Color.colorToHSV(colorFrom, hsv)
+    for (lightnessProb in lightnessRange) {
 
-        var newGreen = colorFrom.green() + step * i
-        if (newGreen > 255) newGreen = 255
-        if (newGreen < 0) newGreen = 0
-
-        var newBlue = colorFrom.blue() + step * i
-        if (newBlue > 255) newBlue = 255
-        if (newBlue < 0) newBlue = 0
-
-        val newColor = createColor(newRed, newGreen, newBlue)
+        hsv[2] = lightnessProb
+        val newColor = Color.HSVToColor(hsv)
         val newContrast = getContrastRatio(back, newColor)
 
         if (newContrast >= contrast) {
@@ -156,7 +154,7 @@ fun getColorOfContrast(back: Int, colorFrom: Int, step: Int, contrast: Double, d
  */
 fun getImageColors(bitmap: Bitmap): ImageColors {
 
-    val avgThreshold = bitmap.width * 3 / 4
+    val avgThreshold = bitmap.width * 9 / 10
 
     var avgColorR = 0
     var avgColorG = 0

@@ -19,6 +19,7 @@ import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_dialogs.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.io.File
 import javax.inject.Inject
 
 
