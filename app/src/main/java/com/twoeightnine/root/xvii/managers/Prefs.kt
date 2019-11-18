@@ -52,7 +52,7 @@ object Prefs {
     private const val COLOR = "color"
     private const val CHAT_BACK = "chatBack"
     private const val DEFAULT_COLOR = 0xff8833dd
-    private const val APPLY_FOR_NOTIFS = "applyForNotifs"
+    private const val USE_STYLED_NOTIFICATIONS = "useStyledNotifications"
 
     //other
     private const val RECENT_STICKERS = "recentStickers"
@@ -213,8 +213,8 @@ object Prefs {
         set(value) = data.edit().putBoolean(NIGHT, value).apply()
 
     var useStyledNotifications: Boolean
-        get() = data.getBoolean(APPLY_FOR_NOTIFS, false)
-        set(value) = data.edit().putBoolean(APPLY_FOR_NOTIFS, value).apply()
+        get() = data.getBoolean(USE_STYLED_NOTIFICATIONS, true)
+        set(value) = data.edit().putBoolean(USE_STYLED_NOTIFICATIONS, value).apply()
 
     var chatBack: String
         get() = data.getString(CHAT_BACK, "")

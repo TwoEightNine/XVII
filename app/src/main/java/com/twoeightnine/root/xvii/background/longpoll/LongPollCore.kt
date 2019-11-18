@@ -297,6 +297,7 @@ class LongPollCore(private val context: Context) {
                     .setAutoCancel(true)
                     .setWhen(timeStamp)
                     .setContentText(text)
+                    .setNumber(unreadMessages.keys.size)
                     .setStyle(NotificationCompat.BigTextStyle().bigText(textBig))
                     .addAction(
                             R.drawable.ic_eye,

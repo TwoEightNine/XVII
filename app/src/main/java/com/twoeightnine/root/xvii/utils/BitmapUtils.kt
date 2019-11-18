@@ -243,8 +243,8 @@ fun getImageColors(bitmap: Bitmap): ImageColors {
 
 fun Bitmap.hash(): Int {
     var hash = 31
-    (0 until width).step(5).forEach { x ->
-        (0 until height).step(6).forEach { y ->
+    (0 until width).step(7).forEach { x ->
+        (0 until height).step(4).forEach { y ->
             hash = (hash * 31 + getPixel(x, y)).rem(Int.MAX_VALUE) // it is prime
         }
     }
