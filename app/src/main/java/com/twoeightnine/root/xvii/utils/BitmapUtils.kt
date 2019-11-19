@@ -31,7 +31,7 @@ fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): Notific
     val dir = File(context.cacheDir, DIR_NOTIFICATIONS)
     dir.mkdir()
 
-    val file = File(dir, "$hash.png")
+    val file = File(dir, "${hash + 1}.png")
     return if (!file.exists()) {
         Lg.i("[notif bitmap] creating")
         val start = System.currentTimeMillis()
