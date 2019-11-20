@@ -6,6 +6,7 @@ import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
 import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.content.*
 import android.content.Intent.*
+import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.content.res.Resources
@@ -762,4 +763,14 @@ fun getUriForFile(context: Context?, file: File): Uri? {
     return FileProvider.getUriForFile(context, authority, file)
 }
 
+fun isMiui(): Boolean {
+    val pm = App.context.packageManager
+    val packages = pm.getInstalledApplications(PackageManager.GET_META_DATA)
 
+    for (packageInfo in packages) {
+        if (packageInfo.packageName.startsWith("com.miui.")) {
+            return true
+        }
+    }
+    return false
+}

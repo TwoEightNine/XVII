@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.utils.EmojiHelper
+import com.twoeightnine.root.xvii.utils.isMiui
 import com.twoeightnine.root.xvii.views.emoji.Emoji
 import java.util.*
 
@@ -213,7 +214,7 @@ object Prefs {
         set(value) = data.edit().putBoolean(NIGHT, value).apply()
 
     var useStyledNotifications: Boolean
-        get() = data.getBoolean(USE_STYLED_NOTIFICATIONS, true)
+        get() = data.getBoolean(USE_STYLED_NOTIFICATIONS, !isMiui())
         set(value) = data.edit().putBoolean(USE_STYLED_NOTIFICATIONS, value).apply()
 
     var chatBack: String
