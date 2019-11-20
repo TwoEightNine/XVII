@@ -19,7 +19,6 @@ import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_dialogs.*
 import kotlinx.android.synthetic.main.toolbar.*
-import java.io.File
 import javax.inject.Inject
 
 
@@ -70,13 +69,6 @@ open class DialogsFragment : BaseFragment() {
         progressBar.hide()
         if (data.data != null) {
             adapter.update(data.data)
-//            for (dialog in data.data) {
-//                loadBitmapIcon(dialog.photo, useSquare = true) { bitmap ->
-//                    val back = createNotificationBackground(bitmap)
-//                    val file = File(context!!.cacheDir, "back${dialog.peerId}.png").absolutePath
-//                    saveBmp(file, back.background)
-//                }
-//            }
         } else {
             showError(context, data.error ?: getString(R.string.error))
         }
@@ -115,6 +107,12 @@ open class DialogsFragment : BaseFragment() {
                 },
                 ContextPopupItem(R.drawable.ic_home, R.string.add_shortcut) {
                     createShortcut(context, dialog)
+//                    loadBitmapIcon(dialog.photo, useSquare = true) { bitmap ->
+//                        val back = createNotificationBackground(bitmap, debug = true)
+//                        val file = File(context!!.cacheDir, "back${dialog.peerId}.png").absolutePath
+//                        saveBmp(file, back.background)
+//                        ImageViewerActivity.viewImage(context, "file://$file")
+//                    }
                 }
         )).show()
     }

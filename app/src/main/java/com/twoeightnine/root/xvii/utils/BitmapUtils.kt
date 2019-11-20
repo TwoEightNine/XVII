@@ -2,9 +2,6 @@ package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
 import android.graphics.*
-import android.os.Debug
-import androidx.annotation.FloatRange
-import com.flask.colorpicker.Utils
 import com.twoeightnine.root.xvii.lg.Lg
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -14,7 +11,6 @@ import java.io.File
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
-import kotlin.math.sqrt
 
 const val NEEDED_CONTRAST = 4.0
 val LIGHT_LIGHTNESSES = listOf(0.6f, 0.7f, 0.8f, 0.9f, 0.95f)
@@ -35,7 +31,7 @@ fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): Notific
     val dir = File(context.cacheDir, DIR_NOTIFICATIONS)
     dir.mkdir()
 
-    val file = File(dir, "$hash.png")
+    val file = File(dir, "${hash + 1}.png")
     return if (!file.exists()) {
         Lg.i("[notif bitmap] creating")
         val start = System.currentTimeMillis()
@@ -66,7 +62,16 @@ fun createNotificationBackground(avatar: Bitmap, debug: Boolean = false): Notifi
     val canvas = Canvas(background)
 
     val imageColors = getImageColors(avatar)
-    val averageColor = imageColors.averageColor
+
+    val avgHsv = FloatArray(3)
+    Color.colorToHSV(imageColors.averageColor, avgHsv)
+    var newS = avgHsv[1]
+    newS = when {
+        newS > 0.9f -> 1f
+        else -> newS + 0.1f
+    }
+    avgHsv[1] = newS
+    val averageColor = Color.HSVToColor(avgHsv)
     canvas.drawColor(averageColor)
 
     val avatarWidth = avatar.width
@@ -244,7 +249,7 @@ fun getImageColors(bitmap: Bitmap): ImageColors {
 fun Bitmap.hash(): Int {
     var hash = 31
     (0 until width).step(7).forEach { x ->
-        (0 until height).step(4).forEach { y ->
+        (0 until height).step(6).forEach { y ->
             hash = (hash * 31 + getPixel(x, y)).rem(Int.MAX_VALUE) // it is prime
         }
     }
