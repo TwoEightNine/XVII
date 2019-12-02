@@ -176,7 +176,7 @@ class MessagesAdapter(context: Context,
                     setVisibleWithInvis(!message.read && message.isOut())
                 }
 
-                llMessage.stylizeAsMessage(level + message.out, hide = message.isSticker())
+                llMessage.stylizeAsMessage(level + message.out, hide = message.isSticker() || message.isGift())
                 llMessageContainer.removeAllViews()
 
                 if (!message.attachments.isNullOrEmpty()) {
@@ -200,10 +200,9 @@ class MessagesAdapter(context: Context,
                                 llMessageContainer.addView(included)
                             }
 
-                            Attachment.TYPE_GIFT -> attachment.gift?.thumb256?.also {
-                                val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-                                included.findViewById<ImageView>(R.id.ivInternal).load(it)
-                                llMessageContainer.addView(included)
+                            Attachment.TYPE_GIFT -> attachment.gift?.also {
+                                llMessageContainer.addView(getGift(context, it, message.text))
+                                tvBody.hide()
                             }
 
                             Attachment.TYPE_AUDIO -> attachment.audio?.also {

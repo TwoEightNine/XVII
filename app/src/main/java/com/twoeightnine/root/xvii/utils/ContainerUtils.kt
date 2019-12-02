@@ -159,6 +159,21 @@ fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): Vie
     return included
 }
 
+fun getGift(context: Context, gift: Gift, messageBody: String): View {
+    val included = LayoutInflater.from(context).inflate(R.layout.container_gift, null, false)
+    XviiPicasso.get()
+            .loadRounded(gift.thumb256)
+            .into(included.findViewById<ImageView>(R.id.ivThumb))
+
+    if (messageBody.isNotBlank()) {
+        included.findViewById<TextView>(R.id.tvGiftMessage).text = when {
+            EmojiHelper.hasEmojis(messageBody) -> EmojiHelper.getEmojied(context, messageBody)
+            else -> messageBody
+        }
+    }
+    return included
+}
+
 fun getPoll(poll: Poll, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_poll, null, false)
 

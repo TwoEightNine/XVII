@@ -312,6 +312,7 @@
 
     <string name="cache_size">cache size: %s</string>
     <string name="message_size" translatable="false">message text size</string>
+    <string name="gift_for_you">gift for you</string>
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap to find out more</string>

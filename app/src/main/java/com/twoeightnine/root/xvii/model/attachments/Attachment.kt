@@ -101,6 +101,8 @@ data class Attachment(
 
 fun ArrayList<Attachment>.isSticker() = isNotEmpty() && this[0].sticker != null
 
+fun ArrayList<Attachment>.isGift() = isNotEmpty() && this[0].gift != null
+
 fun ArrayList<Attachment>.getPhotos() = ArrayList(this.mapNotNull { it.photo })
 
 fun ArrayList<Attachment>.photosCount() = getPhotos().size

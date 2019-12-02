@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/image_margin">
+
+    <TextView
+        android:id="@+id/tvGiftTitle"
+        style="@style/OtherText"
+        fontPath="fonts/Rubik-Regular.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ivThumb"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:text="@string/gift_for_you"
+        android:textSize="14sp"
+        tools:ignore="MissingPrefix" />
+
+    <ImageView
+        android:id="@+id/ivThumb"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_below="@+id/tvGiftTitle"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tvGiftMessage"
+        style="@style/MainText"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivThumb"
+        android:layout_marginTop="@dimen/image_margin"
+        android:gravity="center"
+        android:textSize="15sp"
+        tools:text="some description to a gift for you, my dear honey" />
+
+</RelativeLayout>
