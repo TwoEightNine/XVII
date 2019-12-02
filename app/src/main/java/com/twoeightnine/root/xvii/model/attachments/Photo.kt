@@ -73,15 +73,15 @@ data class Photo(
     private fun filteredByType(type: String) = filteredSizes()
             .filter { types.indexOf(it.type) <= types.indexOf(type) }
 
-    fun getOptimalPhoto() = filteredByType(TYPE_Y).first()
+    fun getOptimalPhoto() = filteredByType(TYPE_Y).firstOrNull()
 
-    fun getLargePhoto() = filteredByType(TYPE_Z).first()
+    fun getLargePhoto() = filteredByType(TYPE_Z).firstOrNull()
 
-    fun getMaxPhoto() = filteredByType(TYPE_W).first()
+    fun getMaxPhoto() = filteredByType(TYPE_W).firstOrNull()
 
-    fun getSmallPhoto() = filteredByType(TYPE_M).first()
+    fun getSmallPhoto() = filteredByType(TYPE_M).firstOrNull()
 
-    fun getMediumPhoto() = filteredByType(TYPE_P).first()
+    fun getMediumPhoto() = filteredByType(TYPE_P).firstOrNull()
 
     companion object {
 

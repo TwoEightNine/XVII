@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.squareup.picasso.Picasso
@@ -81,8 +80,8 @@ class ImageViewerActivity : AppCompatActivity() {
                     R.string.no_access_to_storage,
                     R.string.need_access_to_storage
             ) {
-                val photo = currentPhoto()
-                val url = photo.getMaxPhoto().url
+                val url = tryToGetUrl(currentPhoto()) ?: return@doOrRequest
+
                 val fileName = getNameFromUrl(url).toLowerCase()
                 val file = File(SAVE_FILE, fileName)
 
@@ -109,8 +108,7 @@ class ImageViewerActivity : AppCompatActivity() {
         btnShare.setOnClickListener {
             if (photos.isEmpty()) return@setOnClickListener
 
-            val photo = currentPhoto()
-            shareImage(this, photo.getMaxPhoto().url)
+            shareImage(this, tryToGetUrl(currentPhoto()))
         }
     }
 
@@ -130,8 +128,8 @@ class ImageViewerActivity : AppCompatActivity() {
         }
     }
 
-    private fun shareImage(context: Context?, url: String) {
-        if (context == null) return
+    private fun shareImage(context: Context?, url: String?) {
+        if (context == null || url == null) return
 
         XviiPicasso.get().load(url).into(object : Target {
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
@@ -192,7 +190,12 @@ class ImageViewerActivity : AppCompatActivity() {
 
     private fun currentPhoto() = photos[vpImage.currentItem]
 
-    private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.map { it.getMaxPhoto().url })
+    private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.mapNotNull { tryToGetUrl(it) })
+
+    private fun tryToGetUrl(photo: Photo) =
+            photo.getMaxPhoto()?.url
+                    ?: photo.getLargePhoto()?.url
+                    ?: photo.getOptimalPhoto()?.url
 
     override fun onDestroy() {
         super.onDestroy()

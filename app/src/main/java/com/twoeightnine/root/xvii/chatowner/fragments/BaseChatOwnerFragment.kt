@@ -90,7 +90,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
             rlLoader.hide()
             chatOwner = data.data
             chatOwner?.apply {
-                ivAvatar.load(getAvatar())
+                ivAvatar?.load(getAvatar())
                 tvTitle.text = getTitle()
                 context?.also {
                     tvInfo.text = getInfoText(it)
@@ -116,8 +116,8 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
     private fun onPhotosLoaded(photos: List<Photo>) {
         if (photos.isNotEmpty()) {
-            ivAvatar.postDelayed({
-                loadHighResWithAnimation(photos[0].getOptimalPhoto().url)
+            ivAvatar?.postDelayed({
+                loadHighResWithAnimation(photos[0].getOptimalPhoto()?.url)
             }, 1000L)
         }
     }
@@ -167,7 +167,9 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         simpleUrlIntent(context, url)
     }
 
-    private fun loadHighResWithAnimation(url: String) {
+    private fun loadHighResWithAnimation(url: String?) {
+        if (url == null) return
+
         XviiPicasso.get()
                 .load(url)
                 .into(object : Target {
