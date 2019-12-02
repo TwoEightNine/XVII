@@ -54,19 +54,21 @@ class ChatInputController(
             pbAttach.hide()
             etInput.addTextChangedListener(ChatTextWatcher())
             etInput.onRichContentAdded = ::onRichContentAdded
-            if (!Prefs.lowerTexts) {
-                etInput.inputType = etInput.inputType or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-            }
-            if (Prefs.sendByEnter) {
-                etInput.imeOptions = EditorInfo.IME_ACTION_SEND
-                etInput.inputType = EditorInfo.TYPE_CLASS_TEXT
-                etInput.setOnEditorActionListener { _, actionId, _ ->
-                    if (actionId == EditorInfo.IME_ACTION_SEND && Prefs.sendByEnter) {
-                        callback.onSendClick()
-                        true
-                    } else {
-                        false
+            when {
+                Prefs.sendByEnter -> {
+                    etInput.imeOptions = EditorInfo.IME_ACTION_SEND
+                    etInput.inputType = EditorInfo.TYPE_CLASS_TEXT or EditorInfo.TYPE_TEXT_FLAG_CAP_SENTENCES
+                    etInput.setOnEditorActionListener { _, actionId, _ ->
+                        if (actionId == EditorInfo.IME_ACTION_SEND && Prefs.sendByEnter) {
+                            callback.onSendClick()
+                            true
+                        } else {
+                            false
+                        }
                     }
+                }
+                !Prefs.lowerTexts -> {
+                    etInput.inputType = etInput.inputType or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
                 }
             }
             ivMic.setOnTouchListener(MicTouchListener())
