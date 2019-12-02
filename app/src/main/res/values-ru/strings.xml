@@ -394,5 +394,6 @@
     <string name="use_styled_notifications_hint">уведомленя будут окрашены под аватар пользователя</string>
     <string name="send_by_enter">отправлять по нажатию на \'enter\'</string>
     <string name="send_by_enter_hint">нажатие на \'enter\' отправит сообщение</string>
+    <string name="gift_for_you">подарок</string>
 
 </resources>
