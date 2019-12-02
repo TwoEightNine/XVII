@@ -159,7 +159,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="@dimen/profile_margin_start"
-                    android:drawableStart="@drawable/ic_start_secret_chat"
+                    android:drawableStart="@drawable/ic_start_secret_chat_white"
                     android:text="@string/encryption" />
 
                 <Button

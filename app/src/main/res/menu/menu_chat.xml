@@ -7,5 +7,11 @@
         android:icon="@drawable/ic_attachment"
         android:title="@string/attachments"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_secret_chat"
+        android:icon="@drawable/ic_start_secret_chat_white"
+        android:title="@string/encryption"
+        app:showAsAction="never" />
+
 
 </menu>

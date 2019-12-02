@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
@@ -83,8 +84,7 @@ open class DialogsFragment : BaseFragment() {
     }
 
     protected open fun onLongClick(dialog: Dialog) {
-        createContextPopup(context
-                ?: return, arrayListOf(
+        val items = arrayListOf(
                 ContextPopupItem(R.drawable.ic_pinned, if (dialog.isPinned) R.string.unpin else R.string.pin) {
                     viewModel.pinDialog(dialog)
                 },
@@ -114,7 +114,15 @@ open class DialogsFragment : BaseFragment() {
 //                        ImageViewerActivity.viewImage(context, "file://$file")
 //                    }
                 }
-        )).show()
+        )
+
+        if (dialog.peerId.matchesUserId()) {
+            items.add(ContextPopupItem(R.drawable.ic_start_secret_chat, R.string.encryption) {
+                SecretChatActivity.launch(context, dialog)
+            })
+        }
+
+        createContextPopup(context ?: return, items).show()
     }
 
     companion object {
