@@ -11,5 +11,8 @@ data class StickerMind(
 
         @SerializedName("user_stickers")
         @Expose
-        val userStickers: MutableList<Sticker>? = null
+        val userStickers: MutableList<Sticker>? = null,
+
+        @SerializedName("words")
+        val words: List<String>? = null
 ) : Parcelable

@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo
 import android.webkit.MimeTypeMap
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersStorage
 import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -40,6 +41,7 @@ class ChatInputController(
     private val emojiKeyboard = EmojiKeyboard(rootView, context, ::addEmoji, ::onKeyboardClosed)
     private val stickerKeyboard = StickersWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked)
     private val voiceRecorder = VoiceRecorder(context, callback)
+    private val stickers = StickersStorage(context, StickersStorage.Type.AVAILABLE).readFromFile()
 
     private var attachedCount = 0
     private var lastTypingInvocation = 0
@@ -186,6 +188,20 @@ class ChatInputController(
         }
     }
 
+    private fun getMatchedStickers(typed: CharSequence): List<Sticker> {
+        if (typed.isBlank() || typed.length < 2 && !EmojiHelper.hasEmojis(typed.toString())) {
+            return arrayListOf()
+        }
+
+        val suggestedStickers = stickers
+                .filter { sticker ->
+                    sticker.keywords
+                            .map { word -> if (word.startsWith(typed)) 1 else 0 }
+                            .sum() != 0
+                }
+        return suggestedStickers
+    }
+
     companion object {
         const val TYPING_INVOCATION_DELAY = 5 // seconds
     }
@@ -305,6 +321,11 @@ class ChatInputController(
                 switchToSend()
             }
 
+            val suggestedStickers = getMatchedStickers(text)
+            if (suggestedStickers.isNotEmpty()) {
+                callback.onStickersSuggested(suggestedStickers)
+            }
+
             val delayExceed = time() - lastTypingInvocation > TYPING_INVOCATION_DELAY
             if (delayExceed && text.isNotBlank()) {
                 callback.onTypingInvoke()
@@ -324,6 +345,7 @@ class ChatInputController(
         fun onAttachClick()
         fun onTypingInvoke()
         fun onRichContentAdded(filePath: String)
+        fun onStickersSuggested(stickers: List<Sticker>)
     }
 
     private enum class KeyboardState {

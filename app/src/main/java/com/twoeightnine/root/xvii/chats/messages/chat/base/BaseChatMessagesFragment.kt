@@ -24,6 +24,7 @@ import com.twoeightnine.root.xvii.chats.messages.base.MessagesReplyItemCallback
 import com.twoeightnine.root.xvii.chats.tools.ChatInputController
 import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.attachments.*
@@ -510,7 +511,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onVoiceVisibilityChanged(visible: Boolean) {
-            rlRecord.setVisible(visible)
+            rlRecord?.setVisible(visible)
         }
 
         override fun onVoiceTimeUpdated(time: Int) {
@@ -530,6 +531,10 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
         override fun onVoiceError(error: String) {
             showError(context, error)
+        }
+
+        override fun onStickersSuggested(stickers: List<Sticker>) {
+            Lg.i("$stickers")
         }
     }
 }

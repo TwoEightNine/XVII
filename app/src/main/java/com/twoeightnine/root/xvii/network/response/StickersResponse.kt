@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.network.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.StickerMind
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import kotlinx.android.parcel.Parcelize
@@ -27,9 +26,12 @@ data class StickersResponse(
     fun getStickers(): List<Sticker> {
         val stickers = arrayListOf<Sticker>()
         dictionary?.forEach { mind ->
-            mind.userStickers?.forEach {
-                if (it.isAllowed) {
-                    stickers.add(it)
+            mind.userStickers?.forEach { sticker ->
+                if (sticker.isAllowed) {
+                    mind.words?.filter { it.isNotBlank() }?.also { words ->
+                        sticker.keywords.addAll(words)
+                    }
+                    stickers.add(sticker)
                 }
             }
         }

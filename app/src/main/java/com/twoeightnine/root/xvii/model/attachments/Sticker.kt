@@ -16,7 +16,13 @@ data class Sticker(
         val productId: Int = 0,
 
         @SerializedName("is_allowed")
-        val isAllowed: Boolean = true
+        val isAllowed: Boolean = true,
+
+        /**
+         * manually added, not a field of server model
+         */
+        @SerializedName("keywords")
+        val keywords: ArrayList<String> = arrayListOf()
 ) : Parcelable {
 
     override fun equals(other: Any?) =
