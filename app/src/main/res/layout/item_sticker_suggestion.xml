@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/ivSticker"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_margin="3dp" />
 
 </RelativeLayout>
