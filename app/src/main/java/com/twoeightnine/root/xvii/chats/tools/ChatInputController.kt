@@ -193,13 +193,12 @@ class ChatInputController(
             return arrayListOf()
         }
 
-        val suggestedStickers = stickers
+        return stickers
                 .filter { sticker ->
                     sticker.keywords
                             .map { word -> if (word.startsWith(typed)) 1 else 0 }
                             .sum() != 0
                 }
-        return suggestedStickers
     }
 
     companion object {
@@ -320,11 +319,7 @@ class ChatInputController(
             } else {
                 switchToSend()
             }
-
-            val suggestedStickers = getMatchedStickers(text)
-            if (suggestedStickers.isNotEmpty()) {
-                callback.onStickersSuggested(suggestedStickers)
-            }
+            callback.onStickersSuggested(getMatchedStickers(text))
 
             val delayExceed = time() - lastTypingInvocation > TYPING_INVOCATION_DELAY
             if (delayExceed && text.isNotBlank()) {

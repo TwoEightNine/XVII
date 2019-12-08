@@ -21,10 +21,10 @@ import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesReplyItemCallback
+import com.twoeightnine.root.xvii.chats.messages.chat.StickersSuggestionAdapter
 import com.twoeightnine.root.xvii.chats.tools.ChatInputController
 import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
-import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.attachments.*
@@ -58,6 +58,9 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     private val chatToolbarController by lazy {
         ChatToolbarController(toolbar)
     }
+    protected val stickersAdapter by lazy {
+        StickersSuggestionAdapter(contextOrThrow, ::onSuggestedStickerClicked)
+    }
 
     private val handler = Handler()
     private lateinit var inputController: ChatInputController
@@ -82,6 +85,9 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         stylize()
         initContent()
         initMultiSelectMenu()
+
+        rvStickersSuggestion.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rvStickersSuggestion.adapter = stickersAdapter
 
         viewModel.getLastSeen().observe(this, Observer { onOnlineChanged(it) })
         viewModel.getCanWrite().observe(this, Observer { onCanWriteChanged(it) })
@@ -245,6 +251,11 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             BaseChatMessagesViewModel.ACTIVITY_NONE -> chatToolbarController.hideActions()
             else -> chatToolbarController.showActivity()
         }
+    }
+
+    private fun onSuggestedStickerClicked(sticker: Sticker) {
+        viewModel.sendSticker(sticker)
+        etInput.clear()
     }
 
     private fun onCanWriteChanged(canWrite: CanWrite) {
@@ -534,7 +545,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onStickersSuggested(stickers: List<Sticker>) {
-            Lg.i("$stickers")
+            stickersAdapter.update(stickers)
+            rvStickersSuggestion.setVisible(stickers.isNotEmpty())
         }
     }
 }

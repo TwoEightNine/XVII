@@ -168,6 +168,18 @@
             android:visibility="invisible"
             app:backgroundTint="@color/fab" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStickersSuggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="56dp"
+            android:background="@drawable/shape_message_system"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
         <RelativeLayout
             android:id="@+id/rlRecord"
             android:layout_width="match_parent"
