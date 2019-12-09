@@ -285,6 +285,8 @@ class LongPollCore(private val context: Context) {
                                         getMarkAsReadIntent(messageId, peerId)
                                 )
                         )
+                        .setContentText(text)
+                        .setContentTitle(title)
                 endUpShowingNotification(
                         builder, peerId, timeStamp, userName,
                         shouldVibrate, shouldRing, ledColor, photo
