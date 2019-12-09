@@ -546,11 +546,11 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
         override fun onStickersSuggested(stickers: List<Sticker>) {
             stickersAdapter.update(stickers)
-            if (stickers.isEmpty()) {
+            if (stickers.isEmpty() && rvStickersSuggestion.isShown) {
                 rvStickersSuggestion.fadeOut(200L) {
                     rvStickersSuggestion?.hide()
                 }
-            } else {
+            } else if (stickers.isNotEmpty() && !rvStickersSuggestion.isShown) {
                 rvStickersSuggestion.show()
                 rvStickersSuggestion.fadeIn(200L)
             }

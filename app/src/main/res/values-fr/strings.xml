@@ -368,6 +368,8 @@
     <string name="use_styled_notifications">(beta) utiliser des notifications élégantes</string>
     <string name="use_styled_notifications_hint">des notifications seront peinte selon des avatars des utilisateurs</string>
     <string name="gift_for_you">cadeau</string>
+    <string name="sticker_suggestions">montrer des autocollant suggéré</string>
+    <string name="sticker_suggestions_hint">des autocollants suggéré sera visible pendant que vous tapez</string>
 
 </resources>
 

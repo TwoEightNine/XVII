@@ -41,7 +41,9 @@ class ChatInputController(
     private val emojiKeyboard = EmojiKeyboard(rootView, context, ::addEmoji, ::onKeyboardClosed)
     private val stickerKeyboard = StickersWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked)
     private val voiceRecorder = VoiceRecorder(context, callback)
-    private val stickers = StickersStorage(context, StickersStorage.Type.AVAILABLE).readFromFile()
+    private val stickers by lazy {
+        StickersStorage(context, StickersStorage.Type.AVAILABLE).readFromFile()
+    }
 
     private var attachedCount = 0
     private var lastTypingInvocation = 0
@@ -319,7 +321,9 @@ class ChatInputController(
             } else {
                 switchToSend()
             }
-            callback.onStickersSuggested(getMatchedStickers(text))
+            if (Prefs.stickerSuggestions) {
+                callback.onStickersSuggested(getMatchedStickers(text))
+            }
 
             val delayExceed = time() - lastTypingInvocation > TYPING_INVOCATION_DELAY
             if (delayExceed && text.isNotBlank()) {
@@ -348,5 +352,4 @@ class ChatInputController(
         STICKERS,
         EMOJIS
     }
-
 }

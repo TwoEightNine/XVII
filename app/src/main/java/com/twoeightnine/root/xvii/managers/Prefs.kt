@@ -29,6 +29,7 @@ object Prefs {
     private const val STORE_CUSTOM_KEYS = "storeCustomKeys"
     private const val MESSAGE_SIZE = "messageSize"
     private const val SEND_BY_ENTER = "sendByEnter"
+    private const val STICKER_SUGGESTIONS = "stickerSuggestions"
 
     //notifications
     private const val SHOW_NOTIF = "showNotif"
@@ -121,6 +122,10 @@ object Prefs {
     var sendByEnter
         get() = data.getBoolean(SEND_BY_ENTER, false)
         set(value) = data.edit().putBoolean(SEND_BY_ENTER, value).apply()
+
+    var stickerSuggestions
+        get() = data.getBoolean(STICKER_SUGGESTIONS, true)
+        set(value) = data.edit().putBoolean(STICKER_SUGGESTIONS, value).apply()
 
     // notifications
     // private

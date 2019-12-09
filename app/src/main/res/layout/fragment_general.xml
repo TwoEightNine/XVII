@@ -55,6 +55,13 @@
                 android:text="@string/send_by_enter" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchStickerSuggestions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sticker_suggestions_hint"
+                android:text="@string/sticker_suggestions" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchStoreKeys"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

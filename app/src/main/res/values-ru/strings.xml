@@ -395,5 +395,7 @@
     <string name="send_by_enter">отправлять по нажатию на \'enter\'</string>
     <string name="send_by_enter_hint">нажатие на \'enter\' отправит сообщение</string>
     <string name="gift_for_you">подарок</string>
+    <string name="sticker_suggestions">показывать стикеры</string>
+    <string name="sticker_suggestions_hint">рекомендованные стикеры появятся во время печатания</string>
 
 </resources>

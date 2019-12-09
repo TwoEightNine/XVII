@@ -273,6 +273,8 @@
     <string name="mark_messages_as_read_hint">people will see that you read messages</string>
     <string name="send_by_enter">press \'enter\' to send</string>
     <string name="send_by_enter_hint">pressing \'enter\' will cause sending a message</string>
+    <string name="sticker_suggestions">show suggested stickers</string>
+    <string name="sticker_suggestions_hint">suggested stickers will pop up while you are typing</string>
     <string name="show_seconds">show seconds</string>
     <string name="show_seconds_hint">time stamps will be with seconds</string>
     <string name="use_lowercase">use lower case</string>
