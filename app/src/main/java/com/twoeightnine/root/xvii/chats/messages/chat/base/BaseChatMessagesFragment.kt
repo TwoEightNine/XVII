@@ -373,6 +373,12 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                     }
             )
 
+            if (!Prefs.markAsRead) {
+                items.add(ContextPopupItem(R.drawable.ic_eye, R.string.mark_as_read) {
+                    viewModel.markAsRead(listOf(message.id))
+                })
+            }
+
             items.add(if (message.important) {
                 ContextPopupItem(R.drawable.ic_star_crossed, R.string.unmark) {
                     viewModel.unmarkAsImportant(message.id.toString())

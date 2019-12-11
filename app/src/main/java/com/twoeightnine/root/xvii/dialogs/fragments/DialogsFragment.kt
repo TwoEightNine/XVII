@@ -88,7 +88,7 @@ open class DialogsFragment : BaseFragment() {
                 ContextPopupItem(R.drawable.ic_pinned, if (dialog.isPinned) R.string.unpin else R.string.pin) {
                     viewModel.pinDialog(dialog)
                 },
-                ContextPopupItem(R.drawable.ic_eye, R.string.read) {
+                ContextPopupItem(R.drawable.ic_eye, R.string.mark_as_read) {
                     viewModel.readDialog(dialog)
                 },
                 ContextPopupItem(R.drawable.ic_delete_popup, R.string.delete) {
