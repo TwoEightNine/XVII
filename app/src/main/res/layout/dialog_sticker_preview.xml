@@ -19,8 +19,8 @@
         android:layout_alignStart="@+id/ivSticker"
         android:layout_alignEnd="@+id/ivSticker"
         android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:text="stickers' keywords" />
+        android:text="stickers' keywords"
+        android:textSize="16sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSuggestions"
@@ -29,5 +29,32 @@
         android:layout_below="@+id/tvHint"
         android:layout_alignStart="@+id/ivSticker"
         android:layout_alignEnd="@+id/ivSticker" />
+
+    <RelativeLayout
+        android:id="@+id/rlAddKeyword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rvSuggestions"
+        android:layout_alignStart="@+id/ivSticker"
+        android:layout_alignEnd="@+id/ivSticker"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            style="@style/OtherText"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:gravity="center_vertical"
+            android:text="add.."
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_add_popup" />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

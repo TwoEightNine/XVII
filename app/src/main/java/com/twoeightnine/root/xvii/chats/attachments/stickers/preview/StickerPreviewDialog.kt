@@ -9,6 +9,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.stylize
+import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.dialog_sticker_preview.view.*
 
 class StickerPreviewDialog(
@@ -29,6 +30,10 @@ class StickerPreviewDialog(
             rvSuggestions.layoutManager = LinearLayoutManager(context)
             rvSuggestions.adapter = adapter
             adapter.addAll(sticker.keywords)
+
+            rlAddKeyword.setOnClickListener {
+                TextInputAlertDialog(context, "new keyword") { adapter.add(it) }.show()
+            }
         }
 
         setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.ok)) { _, _ ->
