@@ -12,11 +12,12 @@ import kotlinx.android.synthetic.main.item_sticker.view.*
 
 class StickersAdapter(
         context: Context,
-        private val onClick: (Sticker) -> Unit
+        private val onClick: (Sticker) -> Unit,
+        private val onLongClick: (Sticker) -> Unit
 ) : BaseAdapter<Sticker, StickersAdapter.StickerViewHolder>(context) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-            = StickerViewHolder(inflater.inflate(R.layout.item_sticker, null))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            StickerViewHolder(inflater.inflate(R.layout.item_sticker, null))
 
     override fun onBindViewHolder(holder: StickerViewHolder, position: Int) {
         holder.bind(items[position])
@@ -28,6 +29,7 @@ class StickersAdapter(
             with(itemView) {
                 ivSticker.load(item.photo256, placeholder = false)
                 setOnClickListener { onClick(items[adapterPosition]) }
+                setOnLongClickListener { onLongClick(items[adapterPosition]); true }
             }
         }
     }

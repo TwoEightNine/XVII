@@ -27,7 +27,7 @@ class StickersFragment : BaseFragment() {
     private lateinit var viewModel: StickersViewModel
 
     private val adapter by lazy {
-        StickersAdapter(contextOrThrow, ::onClick)
+        StickersAdapter(contextOrThrow, ::onClick) {}
     }
 
     override fun getLayoutId() = R.layout.fragment_attachments
