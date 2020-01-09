@@ -7,13 +7,17 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.OpenableColumns
+import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.BuildConfig
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -87,7 +91,8 @@ class ImageUtils(private val activity: Activity) {
 
     fun dispatchSelectFile(frag: Fragment? = null) {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "file/*"
+            type = "*/*"
+            addCategory(Intent.CATEGORY_OPENABLE)
         }
 
         if (frag != null) {
@@ -113,23 +118,21 @@ class ImageUtils(private val activity: Activity) {
                 // TODO handle non-primary volumes
             } else if (isDownloadsDocument(uri)) {
 
-                val id = DocumentsContract.getDocumentId(uri)
-                val contentUri = uri //ContentUris.withAppendedId(
-//                        Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id))
-
-                return getDataColumn(context, contentUri, null, null)
+                return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    getFilePathForN(uri, context)
+                } else {
+                    getDataColumn(context, uri, null, null)
+                }
             } else if (isMediaDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 val type = split[0]
 
-                var contentUri: Uri? = null
-                if ("image" == type) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                } else if ("video" == type) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                } else if ("audio" == type) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                val contentUri: Uri? = when (type) {
+                    "image" -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    "video" -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                    "audio" -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                    else -> null
                 }
 
                 val selection = "_id=?"
@@ -162,7 +165,7 @@ class ImageUtils(private val activity: Activity) {
      * @return The value of the _data column, which is typically a file path.
      */
     private fun getDataColumn(context: Context, uri: Uri?, selection: String?,
-                      selectionArgs: Array<String>?): String? {
+                              selectionArgs: Array<String>?): String? {
 
         var cursor: Cursor? = null
         val column = "_data"
@@ -211,6 +214,48 @@ class ImageUtils(private val activity: Activity) {
      */
     private fun isGooglePhotosUri(uri: Uri): Boolean {
         return "com.google.android.apps.photos.content" == uri.authority
+    }
+
+    private fun getFilePathForN(uri: Uri, context: Context): String {
+        val returnCursor = context.contentResolver.query(uri, null, null, null, null)
+        /*
+     * Get the column indexes of the data in the Cursor,
+     *     * move to the first row in the Cursor, get the data,
+     *     * and display it.
+     * */
+        val nameIndex = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+        val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
+        returnCursor.moveToFirst()
+        val name = returnCursor.getString(nameIndex)
+        val size = java.lang.Long.toString(returnCursor.getLong(sizeIndex))
+        val file = File(context.filesDir, name)
+        try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val outputStream = FileOutputStream(file)
+            var read = 0
+            val maxBufferSize = 1 * 1024 * 1024
+            val bytesAvailable = inputStream!!.available()
+
+            //int bufferSize = 1024;
+            val bufferSize = Math.min(bytesAvailable, maxBufferSize)
+
+            val buffers = ByteArray(bufferSize)
+
+            read = inputStream.read(buffers)
+            while (read != -1) {
+                outputStream.write(buffers, 0, read)
+                read = inputStream.read(buffers)
+            }
+            Log.e("File Size", "Size " + file.length())
+            inputStream.close()
+            outputStream.close()
+            Log.e("File Path", "Path " + file.path)
+            Log.e("File Size", "Size " + file.length())
+        } catch (e: Exception) {
+            Log.e("Exception", e.message)
+        }
+
+        return file.path
     }
 
     companion object {
