@@ -99,7 +99,7 @@ object ColorManager {
     }
 
     fun getPhotoStub(): String {
-        val color = if (Prefs.isLightTheme) lightColor else defaultColor
+        val color = if (Prefs.isLightTheme) lightColor else darkColor
         val colorHex = String.format("%X", color).substring(2)
         return String.format(PHOTO_STUB_URL, colorHex, colorHex)
     }
