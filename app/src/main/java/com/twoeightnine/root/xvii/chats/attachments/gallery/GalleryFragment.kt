@@ -136,6 +136,7 @@ class GalleryFragment : BaseFragment() {
             adapter.clearMultiSelect()
         } else {
             Lg.wtf("[camera] path is empty but request code is $requestCode and data = $data")
+            showError(context, R.string.unable_to_pick_file)
         }
     }
 

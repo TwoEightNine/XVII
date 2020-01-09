@@ -315,6 +315,7 @@
     <string name="cache_size">cache size: %s</string>
     <string name="message_size" translatable="false">message text size</string>
     <string name="gift_for_you">gift</string>
+    <string name="unable_to_pick_file">unable to pick this file. try to select other one or write in support</string>
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap to find out more</string>

@@ -397,5 +397,6 @@
     <string name="gift_for_you">подарок</string>
     <string name="sticker_suggestions">показывать стикеры</string>
     <string name="sticker_suggestions_hint">рекомендованные стикеры появятся во время печатания</string>
+    <string name="unable_to_pick_file">невозможно выбрать этот файл. попробуйте выбрать другой или связаться с поддержкой</string>
 
 </resources>

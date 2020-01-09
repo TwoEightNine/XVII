@@ -370,6 +370,7 @@
     <string name="gift_for_you">cadeau</string>
     <string name="sticker_suggestions">montrer des autocollant suggéré</string>
     <string name="sticker_suggestions_hint">des autocollants suggéré sera visible pendant que vous tapez</string>
+    <string name="unable_to_pick_file">incapable de choisir le fichier. essayez de choisir l\'autre ou ecrire dans support</string>
 
 </resources>
 
