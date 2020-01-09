@@ -36,7 +36,6 @@ class AppearanceFragment : BaseFragment() {
         currentColor = colorBefore
         initViews()
         invalidateSample()
-//        ivPreview.stylize(ColorManager.MAIN_TAG)
         switchLightTheme.stylize()
         rlHideBottom.stylizeColor()
         btnSelectBackground.stylize()
@@ -66,15 +65,18 @@ class AppearanceFragment : BaseFragment() {
     }
 
     private fun applyColors() {
+        val colors = ColorManager.getFromMain(currentColor)
+        csThemeColor.color = currentColor
+
+        arrayOf(ivMic, ivSend).forEach { iv ->
+            iv.drawable.setColorFilter(colors[1], PorterDuff.Mode.SRC_ATOP)
+        }
+
         if (switchLightTheme.isChecked) {
-            csThemeColor.color = currentColor
-            val colors = ColorManager.getFromMain(currentColor)
+
             rlToolbar.setBackgroundColor(colors[1])
             rlSampleRoot.setBackgroundColor(Color.WHITE)
             rlInputBack.setBackgroundColor(Color.WHITE)
-            arrayOf(ivMic, ivSend).forEach { iv ->
-                iv.drawable.setColorFilter(colors[1], PorterDuff.Mode.SRC_ATOP)
-            }
 
             arrayOf(tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xff222222.toInt()) }
             arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(0xff444444.toInt()) }
@@ -84,12 +86,10 @@ class AppearanceFragment : BaseFragment() {
             (llMessageIn.background as? GradientDrawable)?.setColor(colors[2])
             (llMessageOut.background as? GradientDrawable)?.setColor(colors[3])
         } else {
+
             rlToolbar.setBackgroundColor(0xff15121c.toInt())
             rlSampleRoot.setBackgroundColor(0xff0e0c13.toInt())
             rlInputBack.setBackgroundColor(0xff15121c.toInt())
-            arrayOf(ivMic, ivSend).forEach { iv ->
-                iv.drawable.setColorFilter(0xff7C43B8.toInt(), PorterDuff.Mode.SRC_ATOP)
-            }
 
             arrayOf(tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xffdddddd.toInt()) }
             arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(0xffaaaaaa.toInt()) }
@@ -159,10 +159,10 @@ class AppearanceFragment : BaseFragment() {
     private fun initViews() {
         isLightBefore = Prefs.isLightTheme
         switchLightTheme.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, b ->
-            csThemeColor.setVisible(b)
+//            csThemeColor.setVisible(b)
             applyColors()
         }
-        csThemeColor.setVisible(isLightBefore)
+//        csThemeColor.setVisible(isLightBefore)
         switchLightTheme.isChecked = isLightBefore
         if (Prefs.chatBack.isNotEmpty()) {
             XviiPicasso.get()
@@ -276,7 +276,7 @@ class AppearanceFragment : BaseFragment() {
      * for parent activity
      */
     fun hasChanges() = isLightBefore != switchLightTheme.isChecked
-            || switchLightTheme.isChecked && currentColor != colorBefore
+            ||  currentColor != colorBefore
 
     /**
      * for parent activity

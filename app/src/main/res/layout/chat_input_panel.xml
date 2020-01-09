@@ -103,7 +103,6 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:src="@drawable/ic_send"
-                android:tag="main"
                 android:visibility="gone" />
 
             <ImageView
@@ -111,8 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="6dp"
-                android:src="@drawable/ic_mic_small"
-                android:tag="main" />
+                android:src="@drawable/ic_mic_small" />
 
         </FrameLayout>
 

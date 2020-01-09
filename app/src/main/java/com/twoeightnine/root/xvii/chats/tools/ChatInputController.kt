@@ -76,6 +76,9 @@ class ChatInputController(
                 }
             }
             ivMic.setOnTouchListener(MicTouchListener())
+
+            ivSend.stylizeAnyway(ColorManager.MAIN_TAG)
+            ivMic.stylizeAnyway(ColorManager.MAIN_TAG)
         }
         emojiKeyboard.setSizeForSoftKeyboard()
         stickerKeyboard.setSizeForSoftKeyboard()
@@ -95,7 +98,7 @@ class ChatInputController(
     fun setAttachedCount(count: Int) {
         attachedCount = count
         if (count == 0) {
-            rootView.rlAttachCount.visibility = View.GONE
+            rootView.rlAttachCount.hide()
             if (rootView.etInput.asText().isBlank() && Prefs.showVoice) {
                 switchToMic()
             } else {
@@ -147,7 +150,6 @@ class ChatInputController(
             KeyboardState.EMOJIS -> R.drawable.ic_keyboard
         }
         val d = ContextCompat.getDrawable(context, iconRes)
-//        d?.stylize(ColorManager.DARK_TAG)
         rootView.ivKeyboard.setImageDrawable(d)
     }
 

@@ -189,13 +189,14 @@ fun CardView.stylize(tag: String = ColorManager.DARK_TAG) {
 }
 
 fun BottomNavigationView.stylize() {
-    if (ColorManager.shouldIgnore) return
 
     val states = arrayOf(
             intArrayOf(android.R.attr.state_selected, android.R.attr.state_checked),
             intArrayOf()
     )
-    val colors = intArrayOf(ColorManager.mainColor, Color.LTGRAY)
+
+    val gray = if (ColorManager.shouldIgnore) Color.DKGRAY else Color.LTGRAY
+    val colors = intArrayOf(ColorManager.mainColor, gray)
     itemIconTintList = ColorStateList(states, colors)
 }
 
@@ -219,6 +220,20 @@ fun TabLayout.stylize(tag: String = ColorManager.MAIN_TAG) {
 fun ImageView.stylize(tag: String? = this.tag as? String, changeStroke: Boolean = true) {
     if (ColorManager.shouldIgnore) return
     tag?.let { drawable?.stylize(it, changeStroke) }
+}
+
+fun ImageView.stylizeAnyway(tag: String) {
+    val color = ColorManager.getColorByTag(tag)
+    with(drawable) {
+        when (this) {
+            is ShapeDrawable -> paint.color = color
+            is GradientDrawable -> {
+                setColor(color)
+            }
+            is ColorDrawable -> this.color = color
+            is VectorDrawable -> setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        }
+    }
 }
 
 fun Switch.stylize() {
