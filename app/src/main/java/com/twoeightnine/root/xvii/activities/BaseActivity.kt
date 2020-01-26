@@ -32,9 +32,9 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun setContentView(@LayoutRes layoutResID: Int) {
         NightModeHelper.updateConfig(
                 if (Prefs.isLightTheme) {
-                    Configuration.UI_MODE_NIGHT_YES
-                } else {
                     Configuration.UI_MODE_NIGHT_NO
+                } else {
+                    Configuration.UI_MODE_NIGHT_YES
                 },
                 this, R.style.AppTheme
         )
@@ -44,9 +44,9 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onResume() {
         NightModeHelper.updateConfig(
                 if (Prefs.isLightTheme) {
-                    Configuration.UI_MODE_NIGHT_YES
-                } else {
                     Configuration.UI_MODE_NIGHT_NO
+                } else {
+                    Configuration.UI_MODE_NIGHT_YES
                 },
                 this, R.style.AppTheme
         )

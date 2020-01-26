@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#1c1826</color>
-    <color name="primary_dark">@color/primary</color>
+
+
+    <color name="primary">#fff</color>
+    <color name="primary_dark">#fff</color>
     <color name="secondary_text">#656565</color>
-    <color name="link_color">#79f</color>
+    <color name="link_color">#55f</color>
     <color name="status_bar">#0e0c13</color>
 
-    <color name="background">#0e0c13</color>
-    <color name="background_accented">#1c1826</color>
-    <color name="popup">#1c1826</color>
-    <color name="popup_error">#7A2737</color>
+    <color name="splash_background">#0e0c13</color>
+    <color name="background">#fff</color>
+    <color name="background_accented">#f7f7f7</color>
+    <color name="popup">#fff</color>
+    <color name="popup_error">#B93952</color>
     <color name="toolbar">#15121c</color>
-    <color name="divider">#2B2B2E</color>
+    <color name="divider">#ddd</color>
     <color name="icons">#fff</color>
-    <color name="online">#fff</color>
-    <color name="main_text">#ddd</color>
-    <color name="other_text">#aaa</color>
-    <color name="minor_text">#555</color>
-    <color name="fab">#15121c</color>
-    <color name="accent">#fff</color>
-    <color name="shape">#1c1826</color>
+    <color name="online">#8e30d8</color>
+    <color name="main_text">#222</color>
+    <color name="other_text">#444</color>
+    <color name="minor_text">#888</color>
+    <color name="fab">#92b</color>
+    <color name="accent">#666</color>
+    <color name="shape">#9268a5</color>
     <color name="shape_selected">#51447A</color>
-    <color name="selected_mess">#882a2438</color>
+    <color name="selected_mess">#7ccc</color>
     <color name="black_transparent">#a00a090e</color>
 
     <color name="toolbar_text">#fff</color>
-    <color name="toolbar_subtext">@color/other_text</color>
+    <color name="toolbar_subtext">#e3e3e3</color>
 
-    <color name="splash_color">#0e0c13</color>
-    <color name="placeholder">#4777</color>
-
+    <color name="splash_color">#111</color>
     <color name="error">#85252B</color>
-    <color name="input_panel">@color/toolbar</color>
+    <color name="placeholder">#4777</color>
+    <color name="input_panel">#fff</color>
     <color name="avatar">#341B4B</color>
-    <color name="bottom_nav_view">@color/toolbar</color>
+    <color name="bottom_nav_view">#fff</color>
 
     <color name="bottom_icon_enabled">#7C43B8</color>
-    <color name="bottom_icon_disabled">#474552</color>
+    <color name="bottom_icon_disabled">#bbb</color>
+
 </resources>
