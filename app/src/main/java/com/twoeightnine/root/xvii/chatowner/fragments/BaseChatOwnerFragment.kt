@@ -58,7 +58,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                 ChatActivity.launch(context, it)
             }
         }
-        ivAvatar.setOnClickListener(::onAvatarClicked)
+        ivAvatar?.setOnClickListener(::onAvatarClicked)
         ivAvatarHighRes?.setOnClickListener(::onAvatarClicked)
         context?.let { RateAlertDialog(it).show() }
     }
@@ -231,9 +231,9 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                 }
                 else -> {
                     val margin = imageHeight * -offset * PARALLAX_COEFF
-                    (ivAvatar.layoutParams as? CoordinatorLayout.LayoutParams)?.apply {
+                    (ivAvatar?.layoutParams as? CoordinatorLayout.LayoutParams)?.apply {
                         topMargin = margin.toInt()
-                        ivAvatar.layoutParams = this
+                        ivAvatar?.layoutParams = this
                     }
                     (ivAvatarHighRes?.layoutParams as? CoordinatorLayout.LayoutParams)?.apply {
                         topMargin = margin.toInt()
