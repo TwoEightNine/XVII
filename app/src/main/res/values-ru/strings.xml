@@ -65,7 +65,7 @@
     <string name="incorrect_pin">неверный</string>
     <string name="invite_chat">в чате</string>
     <string name="invite_chat_full">%s в чате</string>
-    <string name="join_us">подписывайтесь, чтобы получать свежие новости о приложении</string>
+    <string name="join_us">подписывайтесь на официальную группу xvii вконтакте, чтобы получать свежие новости о приложении</string>
     <string name="key_exchanged">обмен ключами завершён</string>
     <string name="key_reset">ключи сброшены до стандартных</string>
     <string name="key_set">ключи установлены успешно</string>
@@ -398,5 +398,6 @@
     <string name="sticker_suggestions">показывать стикеры</string>
     <string name="sticker_suggestions_hint">рекомендованные стикеры появятся во время печатания</string>
     <string name="unable_to_pick_file">невозможно выбрать этот файл. попробуйте выбрать другой или связаться с поддержкой</string>
+    <string name="join">подписаться</string>
 
 </resources>

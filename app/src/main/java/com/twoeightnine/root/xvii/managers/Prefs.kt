@@ -30,6 +30,7 @@ object Prefs {
     private const val MESSAGE_SIZE = "messageSize"
     private const val SEND_BY_ENTER = "sendByEnter"
     private const val STICKER_SUGGESTIONS = "stickerSuggestions"
+    private const val JOIN_SHOWN_LAST = "joinShownLast"
 
     //notifications
     private const val SHOW_NOTIF = "showNotif"
@@ -126,6 +127,10 @@ object Prefs {
     var stickerSuggestions
         get() = data.getBoolean(STICKER_SUGGESTIONS, true)
         set(value) = data.edit().putBoolean(STICKER_SUGGESTIONS, value).apply()
+
+    var joinShownLast
+        get() = data.getInt(JOIN_SHOWN_LAST, 0)
+        set(value) = data.edit().putInt(JOIN_SHOWN_LAST, value).apply()
 
     // notifications
     // private

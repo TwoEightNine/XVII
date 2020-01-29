@@ -69,7 +69,7 @@
     <string name="alias">alias</string>
     <string name="unmark">unmark</string>
     <string name="read">read</string>
-    <string name="join_us">follow us for getting the freshest news about app</string>
+    <string name="join_us">follow xvii official group in vk for getting the freshest news about app</string>
     <string name="stickers">stickers</string>
     <string name="download">download</string>
     <string name="downloading">downloading</string>
@@ -238,6 +238,7 @@
     <string name="sample_text" translatable="false">xvii</string>
     <string name="search_hint">search</string>
     <string name="ok" translatable="false">ok</string>
+    <string name="join">follow</string>
     <string name="cancel">cancel</string>
     <string name="too_deep_forwarding">tap to see fully</string>
     <string name="request">request</string>

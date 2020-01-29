@@ -35,8 +35,6 @@ class FeaturesFragment : BaseFragment() {
     lateinit var viewModelFactory: FeaturesViewModel.Factory
     private lateinit var viewModel: FeaturesViewModel
 
-    private var joinGroupShown = false
-
     override fun getLayoutId() = R.layout.fragment_features
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -134,21 +132,27 @@ class FeaturesFragment : BaseFragment() {
     }
 
     private fun suggestJoin() {
-        if (!joinGroupShown && !equalsDevUids(Session.uid)) {
+        if (time() - Prefs.joinShownLast <= SHOW_JOIN_DELAY) return // one week
+
+        Prefs.joinShownLast = time()
+        if (!equalsDevUids(Session.uid) || true) {
             viewModel.checkMembership { inGroup ->
-                if (!inGroup) {
-                    showConfirm(context, getString(R.string.join_us)) { yes ->
-                        if (yes) {
-                            viewModel.joinGroup()
-                        }
-                    }
+                if (!inGroup || true) {
+                    val dialog = AlertDialog.Builder(context ?: return@checkMembership)
+                            .setMessage(R.string.join_us)
+                            .setPositiveButton(R.string.join) { _, _ -> viewModel.joinGroup() }
+                            .setNegativeButton(R.string.cancel, null)
+                            .create()
+                    dialog.show()
+                    dialog.stylize()
                 }
-                joinGroupShown = true
             }
         }
     }
 
     companion object {
+
+        const val SHOW_JOIN_DELAY = 3600 * 7 // one week
 
         fun newInstance() = FeaturesFragment()
     }
