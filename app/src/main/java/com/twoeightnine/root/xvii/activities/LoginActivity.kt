@@ -157,6 +157,8 @@ class LoginActivity : BaseActivity() {
         finish()
     }
 
+    override fun getThemeId() = R.style.SplashTheme
+
     companion object {
 
         private const val LOGIN_URL = "https://oauth.vk.com/authorize?" +

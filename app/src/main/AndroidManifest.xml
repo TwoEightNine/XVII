@@ -88,6 +88,7 @@
 
         <activity
             android:name=".photoviewer.ImageViewerActivity"
+            android:theme="@style/AppTheme.Main"
             android:screenOrientation="portrait" />
 
         <activity
@@ -149,11 +150,12 @@
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".main.MainActivity"
+            android:theme="@style/AppTheme.Main"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".dialogs.activities.DialogsForwardActivity"
-            android:screenOrientation="portrait">
+            android:theme="@style/AppTheme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -173,7 +175,7 @@
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".features.datausage.DataUsageActivity"
-            android:screenOrientation="portrait" />
+            android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".chats.messages.deepforwarded.DeepForwardedActivity"
             android:theme="@style/AppTheme.Transparent" />
