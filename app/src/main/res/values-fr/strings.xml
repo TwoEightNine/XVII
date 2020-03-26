@@ -365,7 +365,7 @@
     <string name="donate">donater</string>
     <string name="send_by_enter">appuyer sur \'enter\' pour envoyer</string>
     <string name="send_by_enter_hint">après le pressage le message sera envoyé</string>
-    <string name="use_styled_notifications">(beta) utiliser des notifications élégantes</string>
+    <string name="use_styled_notifications">utiliser des notifications élégantes</string>
     <string name="use_styled_notifications_hint">des notifications seront peinte selon des avatars des utilisateurs</string>
     <string name="gift_for_you">cadeau</string>
     <string name="sticker_suggestions">montrer des autocollant suggéré</string>

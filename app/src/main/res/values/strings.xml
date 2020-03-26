@@ -296,7 +296,7 @@
     <string name="show_senders_name_hint">sender\'s name will appear in notification</string>
     <string name="show_message_content">show content</string>
     <string name="show_message_content_hint">the content of message will appear in notification</string>
-    <string name="use_styled_notifications">(beta) use stylish notifications</string>
+    <string name="use_styled_notifications">use stylish notifications</string>
     <string name="use_styled_notifications_hint">notifications will be painted according to users\' avatars</string>
     <string name="vibrate">enable vibration</string>
     <string name="make_sound">enable sound</string>
