@@ -191,7 +191,7 @@ fun View.fadeIn(duration: Long, onEnd: () -> Unit = {}) {
     }
 }
 
-private open class StubAnimatorListener : Animator.AnimatorListener {
+open class StubAnimatorListener : Animator.AnimatorListener {
     override fun onAnimationRepeat(animation: Animator?) {
 
     }

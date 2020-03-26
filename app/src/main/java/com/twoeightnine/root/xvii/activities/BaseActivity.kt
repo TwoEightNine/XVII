@@ -36,7 +36,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 } else {
                     Configuration.UI_MODE_NIGHT_YES
                 },
-                this, R.style.AppTheme
+                this, getThemeId()
         )
         super.setContentView(layoutResID)
     }
@@ -48,7 +48,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 } else {
                     Configuration.UI_MODE_NIGHT_YES
                 },
-                this, R.style.AppTheme
+                this, getThemeId()
         )
         super.onResume()
     }
@@ -60,6 +60,8 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         else -> super.onOptionsItemSelected(item)
     }
+
+    protected open fun getThemeId() = R.style.AppTheme
 
     protected fun styleScreen(container: ViewGroup) {
         container.stylizeAll()
