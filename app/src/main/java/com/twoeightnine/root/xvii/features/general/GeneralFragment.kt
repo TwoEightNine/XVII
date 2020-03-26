@@ -9,7 +9,6 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.getSize
-import com.twoeightnine.root.xvii.utils.showToast
 import com.twoeightnine.root.xvii.utils.stylizeAll
 import kotlinx.android.synthetic.main.fragment_general.*
 
@@ -36,11 +35,6 @@ class GeneralFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this)[GeneralViewModel::class.java]
         viewModel.calculateCacheSize()
 
-        viewModel.cacheCleared.observe(viewLifecycleOwner, Observer { success ->
-            if (success) {
-                showToast(context, R.string.cache_cleared)
-            }
-        })
         viewModel.cacheSize.observe(viewLifecycleOwner, Observer { size ->
             context?.resources?.also {
                 tvCacheSize.text = getString(R.string.cache_size, getSize(it, size.toInt()))
