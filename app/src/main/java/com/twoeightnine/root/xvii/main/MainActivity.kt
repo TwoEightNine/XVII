@@ -44,6 +44,7 @@ class MainActivity : BaseActivity() {
         apiUtils.trackVisitor()
         stylize(isWhite = true)
         bottomNavView.stylize()
+        StatTool.get()?.incLaunch()
     }
 
     private fun initViewPager() {

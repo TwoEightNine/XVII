@@ -21,6 +21,7 @@ import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
 import com.twoeightnine.root.xvii.features.datausage.DataUsageActivity
 import com.twoeightnine.root.xvii.features.general.GeneralActivity
 import com.twoeightnine.root.xvii.features.notifications.NotificationsActivity
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
@@ -122,6 +123,7 @@ class FeaturesFragment : BaseFragment() {
     }
 
     private fun showLogDialog() {
+        StatTool.get()?.getReport()?.also(Lg::i)
         LgAlertDialog(context ?: return).show()
     }
 

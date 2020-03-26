@@ -132,6 +132,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         }
                 .subscribeSmart({
                     setOffline()
+                    text?.also { StatTool.get()?.messageSent(it) }
                 }, { error ->
                     lw("send message: $error")
                 })
@@ -142,6 +143,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         api.sendMessage(peerId, getRandomId(), stickerId = sticker.stickerId, replyTo = replyTo)
                 .subscribeSmart({
                     setOffline()
+                    StatTool.get()?.stickerSent()
                 }, { error ->
                     lw("send sticker: $error")
                 })
