@@ -399,5 +399,8 @@
     <string name="sticker_suggestions_hint">рекомендованные стикеры появятся во время печатания</string>
     <string name="unable_to_pick_file">невозможно выбрать этот файл. попробуйте выбрать другой или связаться с поддержкой</string>
     <string name="join">подписаться</string>
+    <string name="leave_conversation">выйти</string>
+    <string name="wanna_leave_conversation">вы действительно хотите выйти?</string>
+    <string name="wanna_kick_user">исключить %s из беседы?</string>
 
 </resources>

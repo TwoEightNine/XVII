@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chatowner.MembersAdapter
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.utils.ColorManager
@@ -32,6 +33,7 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
         fabOpenChat.setVisible(conversation.canWrite?.allowed != false)
         addValue(R.drawable.ic_pinned, conversation.chatSettings?.pinnedMessage?.text)
         viewModel.loadChatMembers(conversation.getPeerId())
+        btnLeave.setOnClickListener { onLeaveGroupClick() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,9 +60,22 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
 
     private fun onUserLongClick(user: User) {
         val peerId = getChatOwner()?.getPeerId() ?: 0
-        showConfirm(context, "") { confirmed ->
+        var name = user.fullName
+        if (Prefs.lowerTexts) {
+            name = name.toLowerCase()
+        }
+        showConfirm(context, getString(R.string.wanna_kick_user, name)) { confirmed ->
             if (confirmed) {
                 viewModel.kickUser(peerId, user.id)
+            }
+        }
+    }
+
+    private fun onLeaveGroupClick() {
+        val peerId = getChatOwner()?.getPeerId() ?: 0
+        showConfirm(context, getString(R.string.wanna_leave_conversation)) { confirmed ->
+            if (confirmed) {
+                viewModel.leaveConversation(peerId)
             }
         }
     }

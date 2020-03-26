@@ -372,6 +372,9 @@
     <string name="sticker_suggestions_hint">des autocollants suggéré sera visible pendant que vous tapez</string>
     <string name="unable_to_pick_file">incapable de choisir le fichier. essayez de choisir l\'autre ou ecrire dans support</string>
     <string name="join">suivre</string>
+    <string name="leave_conversation">quitter</string>
+    <string name="wanna_leave_conversation">voulez-vous réellement quitter?</string>
+    <string name="wanna_kick_user">voulez-vous frapper %s?</string>
 
 </resources>
 

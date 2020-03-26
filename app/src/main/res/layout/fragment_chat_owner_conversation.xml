@@ -153,11 +153,22 @@
                     android:layout_below="@+id/tvNotifications"
                     android:background="@color/divider" />
 
+                <Button
+                    android:id="@+id/btnLeave"
+                    style="@style/RedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@+id/vNotificationsBottom"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="@dimen/profile_margin_start"
+                    android:drawableStart="@drawable/ic_logout"
+                    android:text="@string/leave_conversation" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvUsers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/vNotificationsBottom"
+                    android:layout_below="@+id/btnLeave"
                     android:layout_marginTop="12dp" />
 
                 <View

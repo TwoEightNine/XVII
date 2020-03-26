@@ -7,6 +7,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.network.ApiService
@@ -89,6 +90,10 @@ class ChatOwnerViewModel : ViewModel() {
                         conversationMembersLiveData.value = members.filter { it.id != userId }
                     }
                 }, {})
+    }
+
+    fun leaveConversation(peerId: Int) {
+        kickUser(peerId, Session.uid)
     }
 
     fun blockUser(userId: Int) {
