@@ -6,7 +6,6 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.attachments.stickers.preview.StickerPreviewDialog
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.network.ApiService
@@ -91,9 +90,9 @@ class StickersWindow(
     }
 
     private fun onStickerLongClicked(sticker: Sticker) {
-        StickerPreviewDialog(context, sticker) { stickerId, keywords ->
-
-        }.show()
+//        StickerPreviewDialog(context, sticker) { stickerId, keywords ->
+//
+//        }.show()
     }
 
     private fun onErrorOccurred(error: String) {

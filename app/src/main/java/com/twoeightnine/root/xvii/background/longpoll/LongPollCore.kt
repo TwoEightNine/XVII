@@ -406,7 +406,9 @@ class LongPollCore(private val context: Context) {
     fun showForeground(service: Service) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.xvii_longpoll)
-            val channel = NotificationChannel(SERVICE_CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(SERVICE_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
+            channel.enableVibration(false)
+            channel.setSound(null, null)
             notificationManager.createNotificationChannel(channel)
             val explainIntent = Intent(context, LongPollExplanationActivity::class.java)
             val explainPendingIntent = PendingIntent.getActivity(context, 0, explainIntent, 0)
@@ -414,6 +416,8 @@ class LongPollCore(private val context: Context) {
                     .setContentIntent(explainPendingIntent)
                     .setShowWhen(false)
                     .setOngoing(true)
+                    .setVibrate(null)
+                    .setSound(null)
                     .setSmallIcon(R.drawable.shape_transparent)
                     .setContentTitle(context.getString(R.string.xvii_longpoll))
                     .setContentText(context.getString(R.string.longpoll_hint))
