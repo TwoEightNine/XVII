@@ -164,6 +164,10 @@ fun View.fadeOut(duration: Long, onEnd: () -> Unit = {}) {
             override fun onAnimationEnd(animation: Animator?) {
                 onEnd()
             }
+
+            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+                onEnd()
+            }
         })
         start()
     }
@@ -176,6 +180,10 @@ fun View.fadeIn(duration: Long, onEnd: () -> Unit = {}) {
         this.duration = duration
         addListener(object : StubAnimatorListener() {
             override fun onAnimationEnd(animation: Animator?) {
+                onEnd()
+            }
+
+            override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
                 onEnd()
             }
         })
