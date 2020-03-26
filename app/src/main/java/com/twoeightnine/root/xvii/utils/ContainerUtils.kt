@@ -19,12 +19,26 @@ import kotlinx.android.synthetic.main.container_video.view.*
 
 
 fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): View {
-    val view = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
+    val view = ImageView(context) // LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
+    val width = pxFromDp(context, 266)
+    val photoSize = photo.getOptimalPhoto()
+            ?: photo.getMediumPhoto()
+            ?: photo.getSmallPhoto()
+            ?: return view
+
+    val scale = width * 1.0f / photoSize.width
+    val ivHeight = (photoSize.height * scale).toInt()
+    val params = LinearLayout.LayoutParams(width, ivHeight)
+    params.topMargin = 4
+    params.bottomMargin = 4
+    params.marginStart = 4
+    params.marginEnd = 4
+    view.layoutParams = params
     XviiPicasso.get()
-            .loadRounded(photo.getOptimalPhoto()?.url ?: photo.getMediumPhoto()?.url)
-            .resize(pxFromDp(context, 250), pxFromDp(context, 300))
+            .loadRounded(photoSize.url)
+            .resize(width, ivHeight)
             .centerCrop()
-            .into(view.findViewById<ImageView>(R.id.ivInternal))
+            .into(view)
     view.setOnClickListener { onClick.invoke(photo) }
     return view
 }
