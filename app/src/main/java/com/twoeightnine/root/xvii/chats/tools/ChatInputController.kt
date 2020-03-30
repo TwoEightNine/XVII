@@ -1,14 +1,18 @@
 package com.twoeightnine.root.xvii.chats.tools
 
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.content.ClipDescription
 import android.content.Context
 import android.net.Uri
 import android.os.CountDownTimer
+import android.os.Vibrator
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.LinearInterpolator
 import android.view.inputmethod.EditorInfo
 import android.webkit.MimeTypeMap
 import androidx.core.content.ContextCompat
@@ -40,7 +44,7 @@ class ChatInputController(
     private val loadingQueue = arrayListOf<Any>()
     private val emojiKeyboard = EmojiKeyboard(rootView, context, ::addEmoji, ::onKeyboardClosed)
     private val stickerKeyboard = StickersWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked)
-    private val voiceRecorder = VoiceRecorder(context, callback)
+    private val voiceRecorder = VoiceRecorder(context, InputRecorderCallback())
     private val stickers by lazy {
         StickersStorage(context, StickersStorage.Type.AVAILABLE).readFromFile()
     }
@@ -75,10 +79,14 @@ class ChatInputController(
                     etInput.inputType = etInput.inputType or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
                 }
             }
-            ivMic.setOnTouchListener(MicTouchListener())
+            val micListener = MicTouchListener()
+            ivMic.setOnTouchListener(micListener)
+            ivSendVoice.setOnClickListener { micListener.sendWhenLocked() }
+            ivCancelVoice.setOnClickListener { micListener.cancelWhenLocked() }
 
             ivSend.stylizeAnyway(ColorManager.MAIN_TAG)
             ivMic.stylizeAnyway(ColorManager.MAIN_TAG)
+            ivSendVoice.stylizeAnyway(ColorManager.MAIN_TAG)
         }
         emojiKeyboard.setSizeForSoftKeyboard()
         stickerKeyboard.setSizeForSoftKeyboard()
@@ -205,6 +213,18 @@ class ChatInputController(
                 }
     }
 
+    private fun onVoiceRecordingLocked() {
+        vibrate()
+        rootView.tvMicHint.setVisible(false)
+        rootView.ivLocked.setVisible(true)
+        rootView.rlLockedButtons.setVisible(true)
+    }
+
+    private fun vibrate() {
+        val vibrate = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibrate.vibrate(20L)
+    }
+
     companion object {
         const val TYPING_INVOCATION_DELAY = 5 // seconds
     }
@@ -250,26 +270,22 @@ class ChatInputController(
             MotionEvent.ACTION_DOWN -> {
                 xPress = event.x
                 yPress = event.y
-                if (locked) {
-                    stop(false)
-                    false
-                } else {
-                    delayTimer.start()
-                    alreadyStopped = false
-                    locked = false
-                    true
-                }
+
+                delayTimer.start()
+                alreadyStopped = false
+                locked = false
+                true
             }
 
             MotionEvent.ACTION_MOVE -> {
                 when {
-                    shouldLock(event) -> {
+                    !locked && shouldLock(event) -> {
                         locked = true
-                        callback.onVoiceRecorderLocked()
+                        onVoiceRecordingLocked()
                         false
                     }
                     shouldCancel(event) -> {
-                        stop(true)
+                        stop(cancel = true)
                         true
                     }
                     else -> false
@@ -278,11 +294,23 @@ class ChatInputController(
 
             MotionEvent.ACTION_UP -> {
                 if (!alreadyStopped && !locked) {
-                    stop(false)
+                    stop(cancel = false)
                 }
                 true
             }
             else -> true
+        }
+
+        fun cancelWhenLocked() {
+            if (locked && !alreadyStopped) {
+                stop(cancel = true)
+            }
+        }
+
+        fun sendWhenLocked() {
+            if (locked && !alreadyStopped) {
+                stop(cancel = false)
+            }
         }
 
         private fun stop(cancel: Boolean) {
@@ -293,8 +321,7 @@ class ChatInputController(
 
         private fun shouldCancel(event: MotionEvent) = abs(xPress - event.x) > cancelThreshold
 
-        // disable for now. guess how to cancel from lock
-        private fun shouldLock(event: MotionEvent) = false // abs(yPress - event.y) > lockThreshold
+        private fun shouldLock(event: MotionEvent) = abs(yPress - event.y) > lockThreshold
     }
 
     /**
@@ -338,8 +365,7 @@ class ChatInputController(
     /**
      * for interacting with [ChatFragment]
      */
-    interface ChatInputCallback : VoiceRecorder.RecorderCallback {
-        fun onVoiceRecorderLocked()
+    interface ChatInputCallback {
         fun onStickerClicked(sticker: Sticker)
         fun onSendClick()
         fun hasMicPermissions(): Boolean
@@ -347,6 +373,46 @@ class ChatInputController(
         fun onTypingInvoke()
         fun onRichContentAdded(filePath: String)
         fun onStickersSuggested(stickers: List<Sticker>)
+        fun onVoiceRecorded(fileName: String)
+    }
+
+    private inner class InputRecorderCallback : VoiceRecorder.RecorderCallback {
+
+        override fun onVoiceVisibilityChanged(visible: Boolean) {
+            rootView.rlVoice.setVisible(visible)
+            if (!visible) {
+                rootView.tvMicHint.setVisible(true)
+                rootView.ivLocked.setVisible(false)
+                rootView.rlLockedButtons.setVisible(false)
+            }
+        }
+
+        override fun onVoiceTimeUpdated(time: Int) {
+            rootView.tvRecordTime.text = secToTime(time)
+        }
+
+        override fun onVoiceRecorded(fileName: String) {
+            callback.onVoiceRecorded(fileName)
+        }
+
+        override fun onVoiceError(error: String) {
+            onVoiceVisibilityChanged(false)
+        }
+
+        override fun onAmplitudeChanged(amplitude: Float) {
+            val newScale = 1 + amplitude * .7f
+            val currentScale = rootView.vRecordIndicator.scaleX
+
+            ObjectAnimator.ofPropertyValuesHolder(
+                    rootView.vRecordIndicator,
+                    PropertyValuesHolder.ofFloat(View.SCALE_X, currentScale, newScale),
+                    PropertyValuesHolder.ofFloat(View.SCALE_Y, currentScale, newScale)
+            ).apply {
+                interpolator = LinearInterpolator()
+                duration = VoiceRecorder.AMPLITUDE_UPDATE_DELAY
+                start()
+            }
+        }
     }
 
     private enum class KeyboardState {

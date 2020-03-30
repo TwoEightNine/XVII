@@ -6,14 +6,15 @@ import android.os.CountDownTimer
 import android.os.Vibrator
 import com.twoeightnine.root.xvii.lg.Lg
 import java.io.File
+import kotlin.math.sqrt
 
 /**
  * Created by twoeightnine on 1/18/18.
  */
 
 class VoiceRecorder(
-    private val context: Context,
-    private val recorderCallback: RecorderCallback
+        private val context: Context,
+        private val recorderCallback: RecorderCallback
 ) {
 
     private var recorder: MediaRecorder? = null
@@ -65,21 +66,26 @@ class VoiceRecorder(
     }
 
     companion object {
+
+        const val AMPLITUDE_UPDATE_DELAY = 50L
+
         private const val RECORD_NAME = "voice.amr"
         private const val RECORD_MIN_DURATION = 1
         private const val IMPLICIT_DURATION = 60 * 15 * 1000L // 15 minutes
+        private const val MAX_AMPLITUDE = 16384
     }
 
     interface RecorderCallback {
+        fun onAmplitudeChanged(amplitude: Float)
         fun onVoiceVisibilityChanged(visible: Boolean)
         fun onVoiceTimeUpdated(time: Int)
         fun onVoiceRecorded(fileName: String)
         fun onVoiceError(error: String)
     }
 
-    private inner class RecordTimer : CountDownTimer(IMPLICIT_DURATION, 1000L) {
+    private inner class RecordTimer : CountDownTimer(IMPLICIT_DURATION, AMPLITUDE_UPDATE_DELAY) {
 
-        var lastDuration = 0
+        var lastDuration = -1
             private set
 
         override fun onFinish() {
@@ -88,8 +94,14 @@ class VoiceRecorder(
 
         override fun onTick(millisUntilFinished: Long) {
             val spent = ((IMPLICIT_DURATION - millisUntilFinished) / 1000).toInt()
-            lastDuration = spent
-            recorderCallback.onVoiceTimeUpdated(spent)
+            if (lastDuration != spent) {
+                lastDuration = spent
+                recorderCallback.onVoiceTimeUpdated(spent)
+            }
+
+            var amplitude = (recorder?.maxAmplitude ?: 0).toFloat() / MAX_AMPLITUDE
+            if (amplitude > 1) amplitude = 1f
+            recorderCallback.onAmplitudeChanged(sqrt(amplitude)) // amplify weak
         }
     }
 }

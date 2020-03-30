@@ -36,6 +36,7 @@
     <color name="input_panel">#fff</color>
     <color name="avatar">#341B4B</color>
     <color name="bottom_nav_view">#fff</color>
+    <color name="mic_record_indicator">#E43D3D</color>
 
     <color name="bottom_icon_enabled">#7C43B8</color>
     <color name="bottom_icon_disabled">#bbb</color>

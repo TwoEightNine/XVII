@@ -467,20 +467,6 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     private inner class InputCallback : ChatInputController.ChatInputCallback {
 
-        override fun onVoiceRecorderLocked() {
-            // temporarily. see ChatInputCOntroller
-//            rlLockHint.hide()
-//            rlDoneLocked.show()
-//            ObjectAnimator.ofPropertyValuesHolder(rlDoneLocked,
-//                    PropertyValuesHolder.ofFloat(View.SCALE_X, 0f, 1f),
-//                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 0f, 1f)
-//            ).apply {
-//                duration = 300L
-//                interpolator = BounceInterpolator()
-//                start()
-//            }
-        }
-
         override fun onRichContentAdded(filePath: String) {
             if (filePath.endsWith("gif", ignoreCase = true)) {
                 onDocSelected(filePath)
@@ -527,24 +513,9 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             viewModel.setActivity(type = BaseChatMessagesViewModel.ACTIVITY_TYPING)
         }
 
-        override fun onVoiceVisibilityChanged(visible: Boolean) {
-            rlRecord?.setVisible(visible)
-        }
-
-        override fun onVoiceTimeUpdated(time: Int) {
-            tvRecord?.text = secToTime(time)
-            if (time % 5 == 1) {
-                viewModel.setActivity(type = BaseChatMessagesViewModel.ACTIVITY_VOICE)
-            }
-        }
-
         override fun onVoiceRecorded(fileName: String) {
             inputController.addItemAsBeingLoaded(fileName)
             viewModel.attachVoice(fileName, inputController::removeItemAsLoaded)
-        }
-
-        override fun onVoiceError(error: String) {
-            showError(context, error)
         }
 
         override fun onStickersSuggested(stickers: List<Sticker>) {
