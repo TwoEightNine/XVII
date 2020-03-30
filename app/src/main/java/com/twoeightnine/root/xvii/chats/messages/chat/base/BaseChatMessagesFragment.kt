@@ -539,9 +539,6 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onVoiceRecorded(fileName: String) {
-            // temporarily. see ChatInputCOntroller
-//            rlDoneLocked.hide()
-//            rlLockHint.show()
             inputController.addItemAsBeingLoaded(fileName)
             viewModel.attachVoice(fileName, inputController::removeItemAsLoaded)
         }

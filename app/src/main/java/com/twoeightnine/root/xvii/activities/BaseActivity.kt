@@ -30,26 +30,12 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun setContentView(@LayoutRes layoutResID: Int) {
-        NightModeHelper.updateConfig(
-                if (Prefs.isLightTheme) {
-                    Configuration.UI_MODE_NIGHT_NO
-                } else {
-                    Configuration.UI_MODE_NIGHT_YES
-                },
-                this, getThemeId()
-        )
+        updateConfig()
         super.setContentView(layoutResID)
     }
 
     override fun onResume() {
-        NightModeHelper.updateConfig(
-                if (Prefs.isLightTheme) {
-                    Configuration.UI_MODE_NIGHT_NO
-                } else {
-                    Configuration.UI_MODE_NIGHT_YES
-                },
-                this, getThemeId()
-        )
+        updateConfig()
         super.onResume()
     }
 
@@ -66,6 +52,17 @@ abstract class BaseActivity : AppCompatActivity() {
     protected fun styleScreen(container: ViewGroup) {
         container.stylizeAll()
         stylize()
+    }
+
+    private fun updateConfig() {
+        NightModeHelper.updateConfig(
+                if (Prefs.isLightTheme) {
+                    Configuration.UI_MODE_NIGHT_NO
+                } else {
+                    Configuration.UI_MODE_NIGHT_YES
+                },
+                this, getThemeId()
+        )
     }
 
 }

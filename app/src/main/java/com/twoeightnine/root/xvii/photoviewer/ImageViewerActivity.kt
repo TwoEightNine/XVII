@@ -202,6 +202,11 @@ class ImageViewerActivity : AppCompatActivity() {
         unregisterReceiver(actionDownloadedReceiver)
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.open_activity, R.anim.close_activity)
+    }
+
     companion object {
 
         private const val SAVE_DIR = "vk"

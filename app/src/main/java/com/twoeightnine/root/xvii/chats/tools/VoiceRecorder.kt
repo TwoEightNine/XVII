@@ -6,7 +6,6 @@ import android.os.CountDownTimer
 import android.os.Vibrator
 import com.twoeightnine.root.xvii.lg.Lg
 import java.io.File
-import java.io.IOException
 
 /**
  * Created by twoeightnine on 1/18/18.
@@ -34,7 +33,7 @@ class VoiceRecorder(
                 prepare()
                 start()
                 vibrate()
-            } catch (e: IOException) {
+            } catch (e: Exception) {
                 recorderCallback.onVoiceError(e.message ?: "null")
             }
         }
@@ -46,7 +45,6 @@ class VoiceRecorder(
         val successfully = try {
             recorder?.apply {
                 stop()
-                reset()
                 release()
             }
             true
