@@ -102,7 +102,7 @@ class MainActivity : BaseActivity() {
                         R.id.menu_search -> 0
                         R.id.menu_friends -> 2
                         R.id.menu_features -> 3
-                            else -> 1 // default menu_dialogs
+                        else -> 1 // default menu_dialogs
                     },
                     false
             )

@@ -30,6 +30,10 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="AppTheme.Transparent.Photo">
+        <item name="android:statusBarColor">@android:color/black</item>
+    </style>
+
     <style name="WindowAnimationStyle">
         <item name="android:windowEnterAnimation">@anim/open_activity</item>
         <item name="android:windowExitAnimation">@anim/close_activity</item>
