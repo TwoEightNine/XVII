@@ -88,7 +88,7 @@
 
         <activity
             android:name=".photoviewer.ImageViewerActivity"
-            android:theme="@style/AppTheme.Transparent" />
+            android:theme="@style/AppTheme.Transparent.Photo" />
 
         <activity
             android:name=".web.GifViewerActivity"

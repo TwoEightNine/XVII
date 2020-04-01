@@ -170,7 +170,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     private fun loadHighResWithAnimation(url: String?) {
         if (url == null) return
 
-        XviiPicasso.get()
+        Picasso.get()
                 .load(url)
                 .into(object : Target {
                     override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}

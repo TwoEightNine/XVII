@@ -463,7 +463,7 @@ fun getNameFromUrl(url: String): String {
 fun loadBitmapIcon(url: String?, useSquare: Boolean = false, callback: (Bitmap) -> Unit) {
     val uiHandler = Handler(Looper.getMainLooper())
     uiHandler.post {
-        val rc = XviiPicasso.get()
+        val rc = Picasso.get()
                 .load(if (url.isNullOrEmpty()) {
                     ColorManager.getPhotoStub()
                 } else {
@@ -700,7 +700,7 @@ fun createShortcut(context: Context?, dialog: Dialog) {
         flags = flags or FLAG_ACTIVITY_CLEAR_TOP
     }
     val name = dialog.alias ?: dialog.title
-    XviiPicasso.get()
+    Picasso.get()
             .load(dialog.photo)
             .transform(CircleTransform())
             .into(object : Target {

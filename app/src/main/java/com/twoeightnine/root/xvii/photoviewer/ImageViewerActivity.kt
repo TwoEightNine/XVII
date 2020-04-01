@@ -131,7 +131,7 @@ class ImageViewerActivity : AppCompatActivity() {
     private fun shareImage(context: Context?, url: String?) {
         if (context == null || url == null) return
 
-        XviiPicasso.get().load(url).into(object : Target {
+        Picasso.get().load(url).into(object : Target {
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
                 val i = Intent(Intent.ACTION_SEND).apply {
                     type = "image/png"

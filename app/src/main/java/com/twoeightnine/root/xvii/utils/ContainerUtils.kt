@@ -11,6 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
@@ -34,7 +35,7 @@ fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): Vie
     params.marginStart = 4
     params.marginEnd = 4
     view.layoutParams = params
-    XviiPicasso.get()
+    Picasso.get()
             .loadRounded(photoSize.url)
             .resize(width, ivHeight)
             .centerCrop()
@@ -57,7 +58,7 @@ fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}
     params.topMargin = 12
     params.bottomMargin = 12
     iv.layoutParams = params
-    XviiPicasso.get()
+    Picasso.get()
             .loadRounded(photoSize.url)
             .resize(width, ivHeight)
             .centerCrop()
@@ -69,7 +70,7 @@ fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}
 fun getGif(doc: Doc, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
 
-    XviiPicasso.get()
+    Picasso.get()
             .loadRounded(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
@@ -81,7 +82,7 @@ fun getGif(doc: Doc, context: Context): View {
             included.ivPlay.show()
             included.ivPlayWhite.show()
             included.rlDuration.show()
-            XviiPicasso.get()
+            Picasso.get()
                     .loadRounded(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
                     .resize(pxFromDp(context, 250), pxFromDp(context, 186))
                     .centerCrop()
@@ -163,7 +164,7 @@ fun getLink(link: Link, context: Context): View {
 
 fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
-    XviiPicasso.get()
+    Picasso.get()
             .loadRounded(video.maxPhoto)
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
@@ -175,7 +176,7 @@ fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): Vie
 
 fun getGift(context: Context, gift: Gift, messageBody: String): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_gift, null, false)
-    XviiPicasso.get()
+    Picasso.get()
             .loadRounded(gift.thumb256)
             .into(included.findViewById<ImageView>(R.id.ivThumb))
 

@@ -9,6 +9,7 @@ import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
+import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
@@ -165,7 +166,7 @@ class AppearanceFragment : BaseFragment() {
 //        csThemeColor.setVisible(isLightBefore)
         switchLightTheme.isChecked = isLightBefore
         if (Prefs.chatBack.isNotEmpty()) {
-            XviiPicasso.get()
+            Picasso.get()
                     .load("file://${Prefs.chatBack}")
                     .into(ivBackground)
         }
@@ -256,7 +257,7 @@ class AppearanceFragment : BaseFragment() {
     }
 
     private fun hideDialog(newPath: String) {
-        XviiPicasso.get()
+        Picasso.get()
                 .load("file://$newPath")
                 .into(ivBackground)
     }

@@ -101,7 +101,7 @@ fun View.hide() = setVisible(false)
 
 fun ImageView.load(url: String?, placeholder: Boolean = true,
                    block: RequestCreator.() -> RequestCreator = { this }) {
-    val rc = XviiPicasso.get().load(if (url.isNullOrEmpty()) {
+    val rc = Picasso.get().load(if (url.isNullOrEmpty()) {
         ColorManager.getPhotoStub()
     } else {
         url
@@ -115,7 +115,7 @@ fun ImageView.load(url: String?, placeholder: Boolean = true,
 
 fun ImageView.loadRounded(url: String?) {
     if (url == null) return
-    XviiPicasso.get()
+    Picasso.get()
             .loadRounded(url)
             .into(this)
 }
