@@ -53,12 +53,6 @@ class SearchFragment : BaseFragment() {
 
     private fun onClick(dialog: Dialog) {
         ChatOwnerActivity.launch(context, dialog.peerId)
-//        loadBitmapIcon(dialog.photo, useSquare = true) { bitmap ->
-//            val back = createNotificationBackground(bitmap, debug = true)
-//            val file = File(context!!.cacheDir, "back${dialog.peerId}.png").absolutePath
-//            saveBmp(file, back.background)
-//            ImageViewerActivity.viewImage(context, "file://$file")
-//        }
     }
 
     private fun initRecycler() {

@@ -6,7 +6,8 @@
     <color name="primary_dark">#fff</color>
     <color name="secondary_text">#656565</color>
     <color name="link_color">#55f</color>
-    <color name="status_bar">#0e0c13</color>
+    <color name="status_bar">#fff</color>
+    <color name="navigation_bar">#fff</color>
 
     <color name="splash_background">#0e0c13</color>
     <color name="background">#fff</color>

@@ -7,6 +7,10 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
         <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="android:navigationBarColor">@color/navigation_bar</item>
+        <item name="windowNoTitle">true</item>
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
 
         <item name="android:windowAnimationStyle">@style/WindowAnimationStyle</item>
     </style>
@@ -26,7 +30,6 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 

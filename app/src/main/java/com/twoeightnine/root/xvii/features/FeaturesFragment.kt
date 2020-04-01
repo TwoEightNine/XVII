@@ -64,7 +64,6 @@ class FeaturesFragment : BaseFragment() {
         }
         rlPin.setOnClickListener {
             onPinClicked()
-            suggestJoin()
         }
 
         rlFeedback.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }
@@ -106,6 +105,7 @@ class FeaturesFragment : BaseFragment() {
         val pin = Prefs.pin
         if (TextUtils.isEmpty(pin)) {
             PinActivity.launch(context, PinActivity.ACTION_SET)
+            suggestJoin()
         } else {
             val dialog = AlertDialog.Builder(context)
                     .setMessage(R.string.have_pin)

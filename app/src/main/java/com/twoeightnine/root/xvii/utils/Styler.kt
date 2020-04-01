@@ -130,6 +130,11 @@ fun Activity.stylize(color: Int = ColorManager.mainColor, isWhite: Boolean = fal
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.statusBarColor = color
     }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        window.navigationBarColor = Color.WHITE
+        window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
+                View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+    }
 }
 
 private fun l(s: String) {
