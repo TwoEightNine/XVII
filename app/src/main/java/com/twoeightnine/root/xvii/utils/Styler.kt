@@ -124,14 +124,14 @@ fun Activity.stylize(color: Int = ColorManager.mainColor, isWhite: Boolean = fal
     if (isWhite && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         window.decorView.systemUiVisibility =
                 window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        window.statusBarColor = Color.WHITE
+//        window.statusBarColor = Color.WHITE
     } else {
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.statusBarColor = color
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+//        window.statusBarColor = color
     }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        window.navigationBarColor = Color.WHITE
+//        window.navigationBarColor = Color.WHITE
         window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                 View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
     }

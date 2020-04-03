@@ -34,9 +34,9 @@
     <color name="splash_color">#111</color>
     <color name="error">#85252B</color>
     <color name="placeholder">#4777</color>
-    <color name="input_panel">#fff</color>
+    <color name="input_panel">#cfff</color>
     <color name="avatar">#341B4B</color>
-    <color name="bottom_nav_view">#fff</color>
+    <color name="bottom_nav_view">#cfff</color>
     <color name="mic_record_indicator">#E43D3D</color>
 
     <color name="bottom_icon_enabled">#7C43B8</color>

@@ -5,8 +5,10 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -106,6 +108,25 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         toolbar?.setOnClickListener {
             activity?.let { hideKeyboard(it) }
             ChatOwnerActivity.launch(context, peerId)
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(rlInputBack) { view, insets ->
+            view.setPadding(0, 0, 0, insets.systemWindowInsetBottom)
+            insets
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(fabHasMore) { view, insets ->
+            (view.layoutParams as? FrameLayout.LayoutParams)?.apply {
+                val margin = context?.resources?.getDimensionPixelSize(R.dimen.chat_fab_more_bottom_margin) ?: 0
+                bottomMargin = margin + insets.systemWindowInsetBottom
+            }
+            insets
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(rvStickersSuggestion) { view, insets ->
+            (view.layoutParams as? FrameLayout.LayoutParams)?.apply {
+                val margin = context?.resources?.getDimensionPixelSize(R.dimen.chat_sticker_suggestions_bottom_margin) ?: 0
+                bottomMargin = margin + insets.systemWindowInsetBottom
+            }
+            insets
         }
     }
 

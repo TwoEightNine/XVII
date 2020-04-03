@@ -4,7 +4,7 @@
     android:id="@+id/toolbar"
     fontPath="fonts/Rubik-Regular.ttf"
     android:layout_width="match_parent"
-    android:layout_height="?actionBarSize"
+    android:layout_height="@dimen/toolbar_height"
     android:background="@color/toolbar"
     android:elevation="4dp"
     app:contentInsetStartWithNavigation="0dp"

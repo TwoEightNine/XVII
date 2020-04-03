@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,15 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler(this))
+
+        window.decorView.systemUiVisibility =
+                // Tells the system that the window wishes the content to
+                // be laid out at the most extreme scenario. See the docs for
+                // more information on the specifics
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                        // Tells the system that the window wishes the content to
+                        // be laid out as if the navigation bar was hidden
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
     }
 
     override fun attachBaseContext(newBase: Context?) {
@@ -39,7 +49,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onResume()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?) = when(item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
         android.R.id.home -> {
             onBackPressed()
             true

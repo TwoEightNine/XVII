@@ -4,12 +4,12 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
@@ -62,6 +62,15 @@ abstract class BaseFragment : Fragment() {
                 if (view is TextView) {
                     view.typeface = Typeface.createFromAsset(am, "fonts/Rubik-Regular.ttf")
                 }
+            }
+            ViewCompat.setOnApplyWindowInsetsListener(toolbar) { view, insets ->
+                view.setPadding(0, insets.systemWindowInsetTop, 0, 0)
+                view.layoutParams.apply {
+                    val toolbarHeight = context?.resources?.getDimensionPixelSize(R.dimen.toolbar_height) ?: 0
+                    height = toolbarHeight + insets.systemWindowInsetTop
+                    view.layoutParams = this
+                }
+                insets
             }
         }
     }

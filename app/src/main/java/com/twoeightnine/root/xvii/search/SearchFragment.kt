@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -63,6 +64,12 @@ class SearchFragment : BaseFragment() {
             false
         }
         adapter.emptyView = llEmptyView
+
+        ViewCompat.setOnApplyWindowInsetsListener(rvSearch) { view, insets ->
+            val bottomNavBarHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
+            view.setPadding(0, 0, 0, insets.systemWindowInsetBottom + bottomNavBarHeight)
+            insets
+        }
     }
 
     companion object {

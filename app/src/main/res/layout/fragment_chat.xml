@@ -163,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="@dimen/margin16"
-            android:layout_marginBottom="72dp"
+            android:layout_marginBottom="@dimen/chat_fab_more_bottom_margin"
             android:src="@drawable/ic_chevron_down"
             android:visibility="invisible"
             app:backgroundTint="@color/fab" />
@@ -175,7 +175,7 @@
             android:layout_gravity="bottom"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:layout_marginBottom="44dp"
+            android:layout_marginBottom="@dimen/chat_sticker_suggestions_bottom_margin"
             android:background="@drawable/shape_stickers_suggestion"
             android:elevation="2dp"
             android:visibility="gone"

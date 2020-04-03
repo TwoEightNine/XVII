@@ -30,6 +30,7 @@ class MainActivity : BaseActivity() {
         bottomNavView.setOnNavigationItemSelectedListener(BottomViewListener())
         initViewPager()
         bottomNavView.selectedItemId = R.id.menu_dialogs
+        bottomNavView.setBottomInsetPadding(resources.getDimensionPixelSize(R.dimen.bottom_navigation_height))
 
         intent?.extras?.apply {
             val userId = getInt(USER_ID)
