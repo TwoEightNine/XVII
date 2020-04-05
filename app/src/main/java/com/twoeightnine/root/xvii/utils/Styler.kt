@@ -251,7 +251,6 @@ fun FloatingActionButton.stylize() {
 }
 
 fun ProgressBar.stylize() {
-    if (ColorManager.shouldIgnore) return
     indeterminateDrawable.setColorFilter(ColorManager.mainColor, PorterDuff.Mode.MULTIPLY)
 }
 

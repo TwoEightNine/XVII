@@ -18,10 +18,8 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesActivity
 import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
-import com.twoeightnine.root.xvii.features.datausage.DataUsageActivity
 import com.twoeightnine.root.xvii.features.general.GeneralActivity
 import com.twoeightnine.root.xvii.features.notifications.NotificationsActivity
-import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -85,10 +83,6 @@ class FeaturesFragment : BaseFragment() {
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
-        tvAbout.setOnLongClickListener {
-            DataUsageActivity.launch(context)
-            true
-        }
 
         rlRoot.stylizeAll()
     }
@@ -139,7 +133,6 @@ class FeaturesFragment : BaseFragment() {
     }
 
     private fun showLogDialog() {
-        StatTool.get()?.getReport()?.also(Lg::i)
         LgAlertDialog(context ?: return).show()
     }
 
@@ -153,9 +146,9 @@ class FeaturesFragment : BaseFragment() {
         if (time() - Prefs.joinShownLast <= SHOW_JOIN_DELAY) return // one week
 
         Prefs.joinShownLast = time()
-        if (!equalsDevUids(Session.uid) || true) {
+        if (!equalsDevUids(Session.uid)) {
             viewModel.checkMembership { inGroup ->
-                if (!inGroup || true) {
+                if (!inGroup) {
                     val dialog = AlertDialog.Builder(context ?: return@checkMembership)
                             .setMessage(R.string.join_us)
                             .setPositiveButton(R.string.join) { _, _ -> viewModel.joinGroup() }
