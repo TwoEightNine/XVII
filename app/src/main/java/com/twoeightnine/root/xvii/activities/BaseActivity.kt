@@ -59,7 +59,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected open fun getThemeId() = R.style.AppTheme
 
-    protected fun styleScreen(container: ViewGroup) {
+    protected open fun styleScreen(container: ViewGroup) {
         container.stylizeAll()
         stylize()
     }

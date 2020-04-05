@@ -30,8 +30,8 @@
 
     <color name="splash_color">#0e0c13</color>
 
-    <color name="input_panel">@color/toolbar</color>
-    <color name="bottom_nav_view">@color/toolbar</color>
+    <color name="input_panel">#dd15121c</color>
+    <color name="bottom_nav_view">#dd15121c</color>
 
     <color name="bottom_icon_enabled">#7C43B8</color>
     <color name="bottom_icon_disabled">#474552</color>

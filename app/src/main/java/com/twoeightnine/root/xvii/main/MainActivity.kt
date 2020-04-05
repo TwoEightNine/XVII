@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -23,6 +24,10 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var apiUtils: ApiUtils
 
+    private val insetViewModel by lazy {
+        ViewModelProviders.of(this)[MainSharedViewModel::class.java]
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,6 +36,10 @@ class MainActivity : BaseActivity() {
         initViewPager()
         bottomNavView.selectedItemId = R.id.menu_dialogs
         bottomNavView.setBottomInsetPadding(resources.getDimensionPixelSize(R.dimen.bottom_navigation_height))
+        vStubConsumer.consumeInsets { top, bottom ->
+            insetViewModel.updateTopInset(top)
+            insetViewModel.updateBottomInset(bottom)
+        }
 
         intent?.extras?.apply {
             val userId = getInt(USER_ID)

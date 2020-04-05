@@ -49,6 +49,8 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
     abstract fun bindChatOwner(chatOwner: T?)
 
+    abstract fun getBottomPaddableView(): View
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val behavior = BottomSheetBehavior.from(nsvContent)
@@ -79,6 +81,9 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         swNotifications.stylize()
         fabOpenChat.stylize()
         progressBar?.stylize()
+
+        vShadow.setTopInsetMargin(context?.resources?.getDimensionPixelSize(R.dimen.toolbar_height) ?: 0)
+        getBottomPaddableView().setBottomInsetMargin()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -247,6 +252,6 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
         }
 
-        private fun shouldColorToolbar() = (screenHeight - toolbar.height - 48) <= cvInfo.height
+        private fun shouldColorToolbar() = (screenHeight - toolbar.height + 92) <= cvInfo.height
     }
 }

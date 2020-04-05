@@ -14,7 +14,7 @@
         android:layout_height="4dp"
         android:layout_marginTop="?actionBarSize"
         android:background="@drawable/shape_shadow"
-        android:elevation="14dp"
+        android:elevation="5dp"
         android:visibility="gone" />
 
     <ImageView
@@ -186,6 +186,7 @@
                     android:visibility="gone" />
 
                 <View
+                    android:id="@+id/vBottom"
                     android:layout_width="match_parent"
                     android:layout_height="22dp"
                     android:layout_below="@+id/btnSecretChat"

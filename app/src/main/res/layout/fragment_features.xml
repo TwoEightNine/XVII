@@ -1,45 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/llRoot"
+    android:id="@+id/rlRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:clickable="true"
-    android:focusable="true"
-    android:orientation="vertical">
+    android:focusable="true">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/svContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/toolbar"-->
-            <!--android:orientation="vertical"-->
-            <!--android:tag="extraLight">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:paddingStart="56dp"-->
-            <!--android:paddingTop="8dp"-->
-            <!--android:paddingEnd="28dp"-->
-            <!--android:paddingBottom="8dp"-->
-            <!--android:text="@string/accounts"-->
-            <!--style="@style/OtherText"-->
-            <!--android:textSize="15sp" />-->
-
-            <!--</LinearLayout>-->
 
             <RelativeLayout
                 android:id="@+id/rlAccounts"
@@ -491,6 +470,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</RelativeLayout>

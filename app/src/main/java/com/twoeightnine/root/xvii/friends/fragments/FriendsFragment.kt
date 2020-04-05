@@ -14,13 +14,11 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.friends.adapters.FriendsAdapter
 import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
+import com.twoeightnine.root.xvii.main.MainSharedViewModel
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.search.SearchActivity
-import com.twoeightnine.root.xvii.utils.hide
-import com.twoeightnine.root.xvii.utils.show
-import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.stylize
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_friends.*
 import javax.inject.Inject
 
@@ -32,6 +30,10 @@ class FriendsFragment : BaseFragment() {
 
     private val adapter by lazy {
         FriendsAdapter(contextOrThrow, ::onClick, ::loadMore)
+    }
+
+    private val insetViewModel by lazy {
+        ViewModelProviders.of(activity ?: return@lazy null)[MainSharedViewModel::class.java]
     }
 
     override fun getLayoutId() = R.layout.fragment_friends
@@ -54,6 +56,17 @@ class FriendsFragment : BaseFragment() {
             adapter.reset()
             adapter.startLoading()
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        insetViewModel?.topInset?.observe(viewLifecycleOwner, Observer { top ->
+            adapter.firstItemPadding = top
+        })
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+            val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
+            rvFriends.setBottomPadding(bottom + bottomNavHeight)
+        })
     }
 
     private fun updateFriends(data: Wrapper<ArrayList<User>>) {

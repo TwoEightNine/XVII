@@ -152,6 +152,7 @@
                     android:background="@color/divider" />
 
                 <View
+                    android:id="@+id/vBottom"
                     android:layout_width="match_parent"
                     android:layout_height="16dp"
                     android:layout_below="@+id/vNotificationsBottom" />

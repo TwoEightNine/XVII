@@ -55,6 +55,8 @@ class AppearanceFragment : BaseFragment() {
                 resources.getDimensionPixelSize(R.dimen.bottomsheet_height)
         )
         permissionHelper = PermissionHelper(this)
+
+        svContent.setBottomInsetPadding()
     }
 
     override fun getLayoutId() = R.layout.fragment_appearance

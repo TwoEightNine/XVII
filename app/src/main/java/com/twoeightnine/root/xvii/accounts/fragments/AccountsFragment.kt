@@ -49,6 +49,7 @@ class AccountsFragment : BaseFragment() {
             restartApp(context, getString(R.string.restart_app))
         }
         fabAdd.stylize()
+        fabAdd.setBottomInsetMargin(context?.resources?.getDimensionPixelSize(R.dimen.accounts_fab_add_margin) ?: 0)
     }
 
     private fun updateAccounts(accounts: ArrayList<Account>) {

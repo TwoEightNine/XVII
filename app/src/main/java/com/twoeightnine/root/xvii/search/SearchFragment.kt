@@ -11,11 +11,9 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import com.twoeightnine.root.xvii.main.MainSharedViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.hideKeyboard
-import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.stylizeAll
-import com.twoeightnine.root.xvii.utils.subscribeSearch
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.view_search.*
 import javax.inject.Inject
@@ -30,6 +28,10 @@ class SearchFragment : BaseFragment() {
         SearchAdapter(contextOrThrow, ::onClick)
     }
 
+    private val insetViewModel by lazy {
+        ViewModelProviders.of(activity ?: return@lazy null)[MainSharedViewModel::class.java]
+    }
+
     override fun getLayoutId() = R.layout.fragment_search
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,6 +44,17 @@ class SearchFragment : BaseFragment() {
         etSearch.subscribeSearch(true, viewModel::search)
         ivDelete.setOnClickListener { etSearch.setText("") }
         llEmptyView.stylizeAll()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        insetViewModel?.topInset?.observe(viewLifecycleOwner, Observer { top ->
+            rlSearch.setTopPadding(top, context?.resources?.getDimensionPixelSize(R.dimen.toolbar_height) ?: 0)
+        })
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+            val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
+            rvSearch.setBottomPadding(bottom + bottomNavHeight)
+        })
     }
 
     private fun updateResults(data: Wrapper<ArrayList<Dialog>>) {

@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
+import com.twoeightnine.root.xvii.main.MainSharedViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
@@ -31,6 +32,10 @@ open class DialogsFragment : BaseFragment() {
 
     private val adapter by lazy {
         DialogsAdapter(contextOrThrow, ::loadMore, ::onClick, ::onLongClick)
+    }
+
+    private val insetViewModel by lazy {
+        ViewModelProviders.of(activity ?: return@lazy null)[MainSharedViewModel::class.java]
     }
 
     override fun getLayoutId() = R.layout.fragment_dialogs
@@ -58,6 +63,14 @@ open class DialogsFragment : BaseFragment() {
         viewModel.getTypingPeerIds().observe(viewLifecycleOwner, Observer { adapter.typingPeerIds = it })
         viewModel.loadDialogs()
         adapter.startLoading()
+
+        insetViewModel?.topInset?.observe(viewLifecycleOwner, Observer { top ->
+            adapter.firstItemPadding = top
+        })
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+            val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
+            rvDialogs.setBottomPadding(bottom + bottomNavHeight)
+        })
     }
 
     private fun initRecycler() {

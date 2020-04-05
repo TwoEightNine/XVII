@@ -45,6 +45,8 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
         ivEdit.stylize(ColorManager.LIGHT_TAG)
     }
 
+    override fun getBottomPaddableView(): View = vBottom
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.conversationMembers.observe(viewLifecycleOwner, Observer(::onMembersLoaded))

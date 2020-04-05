@@ -37,6 +37,8 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
 
     }
 
+    override fun getBottomPaddableView(): View = vBottom
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.blocked.observe(viewLifecycleOwner, Observer(::onBlockedChanged))

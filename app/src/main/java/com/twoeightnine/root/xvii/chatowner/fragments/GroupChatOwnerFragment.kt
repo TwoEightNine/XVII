@@ -1,8 +1,10 @@
 package com.twoeightnine.root.xvii.chatowner.fragments
 
 import android.os.Bundle
+import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.model.Group
+import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
 
 class GroupChatOwnerFragment : BaseChatOwnerFragment<Group>() {
 
@@ -17,6 +19,8 @@ class GroupChatOwnerFragment : BaseChatOwnerFragment<Group>() {
         addValue(R.drawable.ic_sheet, group.description)
         addValue(R.drawable.ic_vk, group.screenName)
     }
+
+    override fun getBottomPaddableView(): View = vBottom
 
     companion object {
         fun newInstance(peerId: Int): GroupChatOwnerFragment {

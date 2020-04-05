@@ -11,6 +11,7 @@ import com.twoeightnine.root.xvii.egg.EggActivity
 import com.twoeightnine.root.xvii.egg.EggFragment
 import com.twoeightnine.root.xvii.features.notifications.color.ColorAlertDialog
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
 import com.twoeightnine.root.xvii.utils.stylizeAll
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
@@ -95,6 +96,7 @@ class NotificationsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.notifications))
+        svContent.setBottomInsetPadding()
     }
 
     private fun saveSwitches() {

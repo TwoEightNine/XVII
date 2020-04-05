@@ -7,13 +7,14 @@
     android:orientation="vertical">
 
     <ScrollView
+        android:id="@+id/svContent"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?actionBarSize">
+        android:layout_below="@+id/toolbar">
 
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

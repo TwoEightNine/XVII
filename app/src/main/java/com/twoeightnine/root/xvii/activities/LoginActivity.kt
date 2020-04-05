@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
 import android.webkit.WebView
@@ -39,6 +40,10 @@ class LoginActivity : BaseActivity() {
 
         checkToken()
         progressBar.stylize()
+        webView.setTopInsetMargin()
+    }
+
+    override fun styleScreen(container: ViewGroup) {
     }
 
     private fun checkToken() {

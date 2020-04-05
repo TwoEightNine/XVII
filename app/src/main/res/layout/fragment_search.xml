@@ -13,7 +13,8 @@
         android:id="@+id/rvSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize" />
+        android:layout_below="@+id/rlSearch"
+        android:clipToPadding="false" />
 
     <LinearLayout
         android:id="@+id/llEmptyView"

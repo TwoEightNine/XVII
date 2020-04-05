@@ -23,6 +23,7 @@ import com.twoeightnine.root.xvii.features.general.GeneralActivity
 import com.twoeightnine.root.xvii.features.notifications.NotificationsActivity
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
+import com.twoeightnine.root.xvii.main.MainSharedViewModel
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*
@@ -35,6 +36,10 @@ class FeaturesFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: FeaturesViewModel.Factory
     private lateinit var viewModel: FeaturesViewModel
+
+    private val insetViewModel by lazy {
+        ViewModelProviders.of(activity ?: return@lazy null)[MainSharedViewModel::class.java]
+    }
 
     override fun getLayoutId() = R.layout.fragment_features
 
@@ -85,7 +90,18 @@ class FeaturesFragment : BaseFragment() {
             true
         }
 
-        llRoot.stylizeAll()
+        rlRoot.stylizeAll()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        insetViewModel?.topInset?.observe(viewLifecycleOwner, Observer { top ->
+            rlAccounts.setTopMargin(top)
+        })
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+            val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
+            svContent.setBottomPadding(bottom + bottomNavHeight)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

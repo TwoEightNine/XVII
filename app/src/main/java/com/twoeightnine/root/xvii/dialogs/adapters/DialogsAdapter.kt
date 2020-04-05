@@ -26,19 +26,24 @@ class DialogsAdapter(
             notifyDataSetChanged()
         }
 
+    var firstItemPadding = 0
+
     override fun createStubLoadItem() = Dialog()
 
     override fun createHolder(parent: ViewGroup, viewType: Int)
             = DialogViewHolder(inflater.inflate(R.layout.item_dialog, null))
 
     override fun bind(holder: DialogViewHolder, item: Dialog) {
-        holder.bind(item)
+        holder.bind(item, items[0] == item)
     }
 
     inner class DialogViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(dialog: Dialog) {
+        fun bind(dialog: Dialog, isFirst: Boolean) {
             with(itemView) {
+                val topPadding = if (isFirst) firstItemPadding else 0
+                setPadding(0, topPadding, 0, 0)
+
                 civPhoto.load(dialog.photo)
 
                 tvTitle.text = dialog.alias ?: dialog.title
