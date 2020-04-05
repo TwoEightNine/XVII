@@ -84,8 +84,6 @@ class DialogsAdapter(
 
                 ivOnlineDot.stylize(ColorManager.MAIN_TAG)
                 ivUnreadDotOut.stylize(ColorManager.MAIN_TAG, changeStroke = false)
-//                ivMute.stylize(ColorManager.LIGHT_TAG)
-//                ivPinned.stylize(ColorManager.LIGHT_TAG)
                 rlUnreadCount.stylize()
                 rlItemContainer.setOnClickListener {
                     items.getOrNull(adapterPosition)?.also(onClick)

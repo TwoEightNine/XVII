@@ -7,6 +7,7 @@ import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.models.Account
@@ -42,6 +43,10 @@ class LoginActivity : BaseActivity() {
         progressBar.stylize()
         webView.setTopInsetMargin()
     }
+
+    override fun getStatusBarColor() = ContextCompat.getColor(this, R.color.splash_background)
+
+    override fun getNavigationBarColor() = ContextCompat.getColor(this, R.color.splash_background)
 
     override fun styleScreen(container: ViewGroup) {
     }

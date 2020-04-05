@@ -100,7 +100,6 @@ class FriendsFragment : BaseFragment() {
     }
 
     private fun onClick(user: User) {
-//        ProfileActivity.launch(context, user.id)
         ChatOwnerActivity.launch(context, user.id)
     }
 

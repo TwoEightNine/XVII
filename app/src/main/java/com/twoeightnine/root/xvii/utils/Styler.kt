@@ -124,9 +124,6 @@ fun Activity.stylize(color: Int = ColorManager.mainColor, isWhite: Boolean = fal
     if (isWhite && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         window.decorView.systemUiVisibility =
                 window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-//        window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar)
-    } else if (!isWhite) {
-//        window.navigationBarColor = ContextCompat.getColor(this, R.color.navigation_bar)
     }
 }
 

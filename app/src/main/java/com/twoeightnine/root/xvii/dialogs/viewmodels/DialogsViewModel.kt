@@ -19,7 +19,6 @@ import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.ConversationsResponse
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -335,7 +334,7 @@ class DialogsViewModel(
         }
 
         const val COUNT_NEW_CONVERSATION = 3
-        const val COUNT_CONVERSATIONS = 50
+        const val COUNT_CONVERSATIONS = 60
         const val COUNT_DELETE = 10000
     }
 

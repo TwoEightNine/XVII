@@ -45,7 +45,6 @@ open class DialogsFragment : BaseFragment() {
         initRecycler()
         toolbar.hide()
 
-
         progressBar.show()
         swipeRefresh.setOnRefreshListener {
             viewModel.loadDialogs()
@@ -120,12 +119,6 @@ open class DialogsFragment : BaseFragment() {
                 },
                 ContextPopupItem(R.drawable.ic_home, R.string.add_shortcut) {
                     createShortcut(context, dialog)
-//                    loadBitmapIcon(dialog.photo, useSquare = true) { bitmap ->
-//                        val back = createNotificationBackground(bitmap, debug = true)
-//                        val file = File(context!!.cacheDir, "back${dialog.peerId}.png").absolutePath
-//                        saveBmp(file, back.background)
-//                        ImageViewerActivity.viewImage(context, "file://$file")
-//                    }
                 }
         )
 
