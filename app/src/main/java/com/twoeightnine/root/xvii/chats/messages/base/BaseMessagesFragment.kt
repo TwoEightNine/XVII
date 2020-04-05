@@ -16,6 +16,7 @@ import com.twoeightnine.root.xvii.utils.setVisible
 import com.twoeightnine.root.xvii.utils.show
 import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.view_chat_multiselect.*
 import javax.inject.Inject
 
 abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment() {

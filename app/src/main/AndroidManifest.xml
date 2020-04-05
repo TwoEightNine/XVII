@@ -96,6 +96,7 @@
 
         <activity
             android:name=".web.VideoViewerActivity"
+            android:theme="@style/AppTheme.Transparent.Photo"
             android:screenOrientation="landscape" />
 
         <activity

@@ -22,6 +22,7 @@ import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.toolbar_chat.*
+import kotlinx.android.synthetic.main.view_chat_multiselect.*
 
 class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>() {
 
@@ -45,6 +46,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.important))
+        rvChatList.setBottomInsetPadding()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

@@ -1,193 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    <com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout
-        android:id="@+id/flContainer"
+    <ImageView
+        android:id="@+id/ivKeyPattern"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background">
+        android:scaleType="centerCrop"
+        android:src="@drawable/key_pattern"
+        android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/ivKeyPattern"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/key_pattern"
-            android:visibility="gone" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="?actionBarSize"
-            android:orientation="vertical">
-
-
-            <com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout
-                android:id="@+id/swipeContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/rvAttached"
-                app:srl_direction="bottom">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvChatList"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvAttached"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/rlInput"
-                android:background="@color/background"
-                android:elevation="6dp" />
-
-            <RelativeLayout
-                android:id="@+id/rlInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@color/background"
-                android:elevation="10dp">
-
-                <include layout="@layout/chat_input_panel" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/shape_message_system"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/tvDatePopup"
-                    style="@style/WhiteText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:textSize="13sp"
-                    tools:text="28 sep" />
-
-            </RelativeLayout>
-
-        </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include layout="@layout/toolbar_chat" />
 
-        <RelativeLayout
-            android:id="@+id/rlMultiAction"
+        <include layout="@layout/view_chat_multiselect" />
+
+        <com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout
+            android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/popup"
-            android:clickable="true"
-            android:elevation="4.1dp"
-            android:focusable="true"
-            android:tag="extraLight"
-            android:visibility="gone">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/rvAttached"
+            android:layout_below="@+id/toolbar"
+            app:srl_direction="bottom">
 
-            <ImageView
-                android:id="@+id/ivCancelMulti"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:src="@drawable/ic_clear"
-                android:tag="dark" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChatList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false" />
 
-            <TextView
-                android:id="@+id/tvSelectedCount"
-                style="@style/MainBoldText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_toEndOf="@+id/ivCancelMulti"
-                android:textSize="18sp"
-                tools:text="289 messages" />
+        </com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout>
 
-            <ImageView
-                android:id="@+id/ivMarkMulti"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_star_white"
-                android:tag="dark" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAttached"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/rlInput"
+            android:background="@color/background"
+            android:elevation="6dp" />
 
-            <ImageView
-                android:id="@+id/ivDeleteMulti"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:layout_toLeftOf="@+id/ivMarkMulti"
-                android:src="@drawable/ic_delete"
-                android:tag="dark" />
+        <RelativeLayout
+            android:id="@+id/rlInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/background"
+            android:elevation="10dp">
 
-            <ImageView
-                android:id="@+id/ivForwardMulti"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:layout_toLeftOf="@+id/ivDeleteMulti"
-                android:src="@drawable/ic_transfer"
-                android:tag="dark" />
-
-            <ImageView
-                android:id="@+id/ivReplyMulti"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:layout_toLeftOf="@+id/ivForwardMulti"
-                android:src="@drawable/ic_reply"
-                android:tag="dark" />
+            <include layout="@layout/chat_input_panel" />
 
         </RelativeLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabHasMore"
+        <RelativeLayout
+            android:id="@+id/rlDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="@dimen/margin16"
-            android:layout_marginBottom="@dimen/chat_fab_more_bottom_margin"
-            android:src="@drawable/ic_chevron_down"
-            android:visibility="invisible"
-            app:backgroundTint="@color/fab" />
+            android:layout_below="@+id/toolbar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/shape_message_system"
+            android:visibility="gone">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvStickersSuggestion"
-            android:layout_width="wrap_content"
-            android:layout_height="65dp"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="@dimen/chat_sticker_suggestions_bottom_margin"
-            android:background="@drawable/shape_stickers_suggestion"
-            android:elevation="2dp"
-            android:visibility="gone"
-            tools:visibility="visible" />
+            <TextView
+                android:id="@+id/tvDatePopup"
+                style="@style/WhiteText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:textSize="13sp"
+                tools:text="28 sep" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
+        </RelativeLayout>
 
-    </com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout>
+    </RelativeLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabHasMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/margin16"
+        android:layout_marginBottom="@dimen/chat_fab_more_bottom_margin"
+        android:src="@drawable/ic_chevron_down"
+        android:visibility="invisible"
+        app:backgroundTint="@color/fab" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvStickersSuggestion"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="@dimen/chat_sticker_suggestions_bottom_margin"
+        android:background="@drawable/shape_stickers_suggestion"
+        android:elevation="2dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</com.twoeightnine.root.xvii.views.SizeNotifierFrameLayout>
+

@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.chats.messages.chat.secret
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
@@ -23,6 +24,8 @@ class SecretChatActivity : ContentActivity() {
         val dialog = args?.getParcelable(DIALOG) ?: Dialog()
         return SecretChatMessagesFragment.newInstance(dialog)
     }
+
+    override fun getNavigationBarColor() = Color.TRANSPARENT
 
     companion object {
         const val DIALOG = "dialog"

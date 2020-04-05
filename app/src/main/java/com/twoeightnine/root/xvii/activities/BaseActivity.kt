@@ -37,7 +37,7 @@ abstract class BaseActivity : AppCompatActivity() {
                         // be laid out as if the navigation bar was hidden
                         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Prefs.isLightTheme) {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                     View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         }

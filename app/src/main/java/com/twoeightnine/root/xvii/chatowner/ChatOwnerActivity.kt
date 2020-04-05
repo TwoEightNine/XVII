@@ -2,11 +2,9 @@ package com.twoeightnine.root.xvii.chatowner
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.os.Bundle
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.ContentActivity
 import com.twoeightnine.root.xvii.chatowner.fragments.BaseChatOwnerFragment
 import com.twoeightnine.root.xvii.chatowner.fragments.ConversationChatOwnerFragment
@@ -27,6 +25,8 @@ class ChatOwnerActivity : ContentActivity() {
             else -> UserChatOwnerFragment.newInstance(peerId)
         }
     }
+
+    override fun getNavigationBarColor() = ContextCompat.getColor(this, R.color.navigation_bar_chat_owner)
 
     private fun resolvePeerId(): Int {
         if (intent.action == Intent.ACTION_VIEW) {
