@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class MainSharedViewModel : ViewModel() {
+class InsetViewModel : ViewModel() {
 
     private val bottomInsetLiveData = MutableLiveData<Int>()
     private val topInsetLiveData = MutableLiveData<Int>()

@@ -23,7 +23,7 @@ import com.twoeightnine.root.xvii.features.general.GeneralActivity
 import com.twoeightnine.root.xvii.features.notifications.NotificationsActivity
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
-import com.twoeightnine.root.xvii.main.MainSharedViewModel
+import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*
@@ -38,7 +38,7 @@ class FeaturesFragment : BaseFragment() {
     private lateinit var viewModel: FeaturesViewModel
 
     private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[MainSharedViewModel::class.java]
+        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
     }
 
     override fun getLayoutId() = R.layout.fragment_features

@@ -2,9 +2,11 @@ package com.twoeightnine.root.xvii.main
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,7 +27,7 @@ class MainActivity : BaseActivity() {
     lateinit var apiUtils: ApiUtils
 
     private val insetViewModel by lazy {
-        ViewModelProviders.of(this)[MainSharedViewModel::class.java]
+        ViewModelProviders.of(this)[InsetViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +66,10 @@ class MainActivity : BaseActivity() {
             offscreenPageLimit = 3
         }
     }
+
+    override fun getStatusBarColor() = ContextCompat.getColor(this, R.color.status_bar)
+
+    override fun getNavigationBarColor() = Color.TRANSPARENT
 
     override fun onResume() {
         super.onResume()

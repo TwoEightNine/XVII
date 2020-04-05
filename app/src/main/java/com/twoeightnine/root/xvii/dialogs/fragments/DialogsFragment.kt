@@ -13,7 +13,7 @@ import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
-import com.twoeightnine.root.xvii.main.MainSharedViewModel
+import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
@@ -35,7 +35,7 @@ open class DialogsFragment : BaseFragment() {
     }
 
     private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[MainSharedViewModel::class.java]
+        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
     }
 
     override fun getLayoutId() = R.layout.fragment_dialogs

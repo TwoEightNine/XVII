@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.*
 import io.reactivex.disposables.CompositeDisposable
@@ -26,6 +27,10 @@ class GalleryFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: BaseAttachViewModel.Factory
     private lateinit var viewModel: GalleryViewModel
+
+    private val insetViewModel by lazy {
+        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
+    }
 
     private val imageUtils by lazy {
         ImageUtils(activity ?: throw IllegalStateException("Where is activity?"))
@@ -78,6 +83,15 @@ class GalleryFragment : BaseFragment() {
         }
         btnDoc.stylize()
         btnCamera.stylize()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+            rvAttachments.setPadding(0, rvAttachments.paddingTop, 0, bottom)
+            val fabMargin = context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin) ?: 0
+            fabDone.setBottomMargin(bottom + fabMargin)
+        })
     }
 
     private fun reloadData() {

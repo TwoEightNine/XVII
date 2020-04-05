@@ -7,11 +7,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.hide
-import com.twoeightnine.root.xvii.utils.show
-import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.stylize
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_attachments.*
 import javax.inject.Inject
 
@@ -20,6 +18,10 @@ abstract class BaseAttachmentsFragment<T : Any> : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: BaseAttachmentsViewModel.Factory
     protected lateinit var viewModel: BaseAttachmentsViewModel<T>
+
+    private val insetViewModel by lazy {
+        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
+    }
 
     private val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
 
@@ -52,6 +54,13 @@ abstract class BaseAttachmentsFragment<T : Any> : BaseFragment() {
             adapter.startLoading()
         }
         progressBar.stylize()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+            rvAttachments.setBottomPadding(bottom)
+        })
     }
 
     private fun updateList(data: Wrapper<ArrayList<T>>) {

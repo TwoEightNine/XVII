@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.chats.messages.chat.usual
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.ContentActivity
@@ -25,6 +26,8 @@ class ChatActivity : ContentActivity() {
         )
         return ChatMessagesFragment.newInstance(dialog, forwarded, shareText, shareImage)
     }
+
+    override fun getNavigationBarColor() = Color.TRANSPARENT
 
     companion object {
         const val DIALOG = "dialog"

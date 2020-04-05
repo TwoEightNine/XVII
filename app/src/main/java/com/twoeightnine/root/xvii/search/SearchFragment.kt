@@ -11,7 +11,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.main.MainSharedViewModel
+import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -29,7 +29,7 @@ class SearchFragment : BaseFragment() {
     }
 
     private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[MainSharedViewModel::class.java]
+        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
     }
 
     override fun getLayoutId() = R.layout.fragment_search

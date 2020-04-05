@@ -13,7 +13,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAttachments"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:clipToPadding="false" />
 
     </com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout>
 
@@ -23,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="12dp"
+        android:layout_margin="@dimen/attach_fab_done_margin"
         android:src="@drawable/ic_check"
         android:visibility="gone"
         app:backgroundTint="@color/fab" />

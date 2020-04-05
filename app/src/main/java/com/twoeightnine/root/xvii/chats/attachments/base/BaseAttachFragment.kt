@@ -7,11 +7,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.hide
-import com.twoeightnine.root.xvii.utils.show
-import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.stylize
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_attachments.*
 import javax.inject.Inject
 
@@ -20,6 +18,10 @@ abstract class BaseAttachFragment<T : Any> : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: BaseAttachViewModel.Factory
     protected lateinit var viewModel: BaseAttachViewModel<T>
+
+    private val insetViewModel by lazy {
+        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
+    }
 
     abstract val adapter: BaseAttachmentsAdapter<T, out BaseAttachmentsAdapter.BaseAttachmentViewHolder<T>>
 
@@ -48,6 +50,15 @@ abstract class BaseAttachFragment<T : Any> : BaseFragment() {
             adapter.startLoading()
         }
         progressBar.stylize()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+            rvAttachments.setBottomPadding(bottom)
+            val fabMargin = context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin) ?: 0
+            fabDone.setBottomMargin(bottom + fabMargin)
+        })
     }
 
     private fun updateList(data: Wrapper<ArrayList<T>>) {
