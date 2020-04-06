@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
@@ -50,8 +51,9 @@ class ExceptionActivity : AppCompatActivity() {
         }
         btnReport.setOnClickListener {
             showDialog(error)
-
         }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.background)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
     }
 
     private fun showDialog(error: String) {
