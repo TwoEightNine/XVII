@@ -6,10 +6,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.models.events.BaseMessageEvent
-import com.twoeightnine.root.xvii.model.attachments.Attachment
-import com.twoeightnine.root.xvii.model.attachments.isGift
-import com.twoeightnine.root.xvii.model.attachments.isSticker
-import com.twoeightnine.root.xvii.model.attachments.photosCount
+import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.utils.matchesChatId
 import com.twoeightnine.root.xvii.utils.time
 import kotlinx.android.parcel.Parcelize
@@ -102,6 +99,8 @@ data class Message(
     fun isSystem() = action != null
 
     fun isSticker() = attachments != null && attachments.isSticker() && replyMessage == null
+
+    fun isGraffiti() = attachments != null && attachments.isGraffiti()
 
     fun isGift() = attachments != null && attachments.isGift() && replyMessage == null
 

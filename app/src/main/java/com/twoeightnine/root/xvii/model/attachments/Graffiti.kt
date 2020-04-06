@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class GraffitiNew(
+data class Graffiti(
 
         @SerializedName("id")
         @Expose

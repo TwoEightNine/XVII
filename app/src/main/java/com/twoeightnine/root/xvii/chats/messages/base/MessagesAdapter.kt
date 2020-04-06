@@ -176,12 +176,16 @@ class MessagesAdapter(context: Context,
                     setVisibleWithInvis(!message.read && message.isOut())
                 }
 
-                llMessage.stylizeAsMessage(level + message.out, hide = message.isSticker() || message.isGift())
+                llMessage.stylizeAsMessage(
+                        level + message.out,
+                        hide = message.run { isSticker() || isGraffiti() || isGift() }
+                )
                 llMessageContainer.removeAllViews()
 
                 if (!message.attachments.isNullOrEmpty()) {
                     llMessage.layoutParams.width = when {
                         message.isSticker() -> pxFromDp(context, 180)
+                        message.isGraffiti() -> pxFromDp(context, 220)
                         else -> mediaWidth
                     }
                     message.attachments.forEach { attachment ->
@@ -240,11 +244,6 @@ class MessagesAdapter(context: Context,
                                     doc.isGif -> {
                                         llMessageContainer.addView(getGif(doc, context))
                                     }
-                                    doc.isGraffiti -> doc.preview?.graffiti?.src?.also {
-                                        val included = LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-                                        included.findViewById<ImageView>(R.id.ivInternal).load(it, placeholder = false)
-                                        llMessageContainer.addView(included)
-                                    }
                                     doc.isEncrypted -> {
                                         llMessageContainer.addView(getEncrypted(doc, context, callback::onEncryptedFileClicked))
                                     }
@@ -253,6 +252,12 @@ class MessagesAdapter(context: Context,
                                     }
                                 }
 
+                            }
+
+                            Attachment.TYPE_GRAFFITI -> attachment.graffiti?.url?.also { graffiti ->
+                                val included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null, false)
+                                included.findViewById<ImageView>(R.id.ivInternal).load(graffiti, placeholder = false)
+                                llMessageContainer.addView(included)
                             }
 
                             Attachment.TYPE_POLL -> attachment.poll?.also {

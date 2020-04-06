@@ -56,12 +56,6 @@ data class Doc(
         get() = type == 3 &&
                 ext == "gif"
 
-    val isGraffiti: Boolean
-        get() = type == 4 &&
-                ext == "png" &&
-                preview != null &&
-                preview.graffiti != null
-
     val isVoiceMessage: Boolean
         get() = type == 5 &&
                 preview != null &&
@@ -82,11 +76,7 @@ data class Preview(
 
         @SerializedName("photo")
         @Expose
-        val photo: PhotoPreview? = null,
-
-        @SerializedName("graffiti")
-        @Expose
-        val graffiti: Graffiti? = null
+        val photo: PhotoPreview? = null
 ) : Parcelable
 
 @Parcelize
@@ -114,14 +104,6 @@ data class PhotoPreview(
 
 @Parcelize
 data class PreviewSize(
-
-        @SerializedName("src")
-        @Expose
-        val src: String? = null
-) : Parcelable
-
-@Parcelize
-data class Graffiti(
 
         @SerializedName("src")
         @Expose

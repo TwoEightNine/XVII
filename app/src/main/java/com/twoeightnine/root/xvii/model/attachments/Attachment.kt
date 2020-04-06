@@ -52,7 +52,11 @@ data class Attachment(
 
         @SerializedName("poll")
         @Expose
-        val poll: Poll? = null
+        val poll: Poll? = null,
+
+        @SerializedName("graffiti")
+        @Expose
+        val graffiti: Graffiti? = null
 ) : Parcelable {
 
     constructor(photo: Photo) : this(
@@ -96,6 +100,7 @@ data class Attachment(
         const val TYPE_GIFT = "gift"
         const val TYPE_AUDIO_MESSAGE = "audio_message"
         const val TYPE_POLL = "poll"
+        const val TYPE_GRAFFITI = "graffiti"
     }
 }
 
@@ -110,3 +115,5 @@ fun ArrayList<Attachment>.photosCount() = getPhotos().size
 fun ArrayList<Attachment>.getAudios() = filter { it.type == Attachment.TYPE_AUDIO }.map { it.audio }
 
 fun ArrayList<Attachment>.getAudioMessage() = find { it.type == Attachment.TYPE_AUDIO_MESSAGE }?.audioMessage
+
+fun ArrayList<Attachment>.isGraffiti() = isNotEmpty() && this[0].graffiti != null
