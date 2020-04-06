@@ -320,7 +320,13 @@
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap to find out more</string>
-    <string name="longpoll_explanation">since android 8 (oreo) the os doesn\'t allow to run background services and the only exception is firebase services. btw vk didn\'t publish api for its own firebase cloud messaging but the only longpoll. vk\'s longpoll requires a custom service and xvii needs to show this notification all the time to keep the background service running. but you can hide the notification by making a long tap on it\n\nmake sure you hide a notifications from background service, not vk events. see applications -> xvii -> notifications -> check if \'xvii background service\' is turned off. that\'s all</string>
+    <string name="longpoll_explanation">since android 8 (oreo) the os doesn\'t allow to run background services and the only exception is firebase services. but vk administration didn\'t publish api for its own firebase cloud messaging. vk\'s longpoll requires a custom service and xvii needs to show this notification all the time to keep the background service running</string>
+
+    <string name="longpoll_guide_title">how to remove this notification</string>
+    <string name="longpoll_guide_step1">open notifications panel and press and hold on \'xvii background service\' notification</string>
+    <string name="longpoll_guide_step2">in the context menu press on (i) icon in the top right corner</string>
+    <string name="longpoll_guide_step3">here you will see \'xvii\' system settings. tap on notifications</string>
+    <string name="longpoll_guide_step4">remove check from \'xvii background service\' property (do not touch other ones!). that\'s all! </string>
 
     <string name="wanna_kick_user">do you really want to kick %s?</string>
     <string name="leave_conversation">leave</string>
