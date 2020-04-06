@@ -31,6 +31,12 @@ class GalleryAdapter(
         const val THRESHOLD = 20
         const val SIZE_PX = 200
         val CAMERA_STUB = DeviceItem(0L, "", DeviceItem.Type.PHOTO)
+
+        const val ANIM_DURATION = 100L
+        const val SCALE_THUMB_SELECTED = .95f
+        const val SCALE_THUMB_DEFAULT = 1f
+        const val SCALE_CHECK_SELECTED = 1f
+        const val SCALE_CHECK_DEFAULT = 0f
     }
 
     inner class GalleryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -49,15 +55,34 @@ class GalleryAdapter(
                         centerCrop()
                     }
                 }
-                ivCheck.setVisible(item in multiSelect)
-                ivThumb.setOnClickListener {
+                invalidateCheck(item, animate = false)
+                setOnClickListener {
                     if (multiSelectMode) {
                         val i = items[adapterPosition]
                         multiSelect(i)
-                        ivCheck.setVisible(i in multiSelect)
+                        invalidateCheck(i)
                     }
                 }
                 ivCamera.setOnClickListener { onCameraClick() }
+            }
+        }
+
+        private fun invalidateCheck(item: DeviceItem, animate: Boolean = true) {
+            with(itemView) {
+                val selected = item in multiSelect
+                val scaleThumb = if (selected) SCALE_THUMB_SELECTED else SCALE_THUMB_DEFAULT
+                val scaleCheck = if (selected) SCALE_CHECK_SELECTED else SCALE_CHECK_DEFAULT
+                val duration = if (animate) ANIM_DURATION else 0L
+                ivThumb.animate()
+                        .scaleX(scaleThumb)
+                        .scaleY(scaleThumb)
+                        .setDuration(duration)
+                        .start()
+                ivCheck.animate()
+                        .scaleX(scaleCheck)
+                        .scaleY(scaleCheck)
+                        .setDuration(duration)
+                        .start()
             }
         }
     }
