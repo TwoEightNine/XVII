@@ -82,6 +82,7 @@ open class DialogsFragment : BaseFragment() {
         progressBar.hide()
         if (data.data != null) {
             adapter.update(data.data)
+//            adapter.update(FakeData.dialogs)
         } else {
             showError(context, data.error ?: getString(R.string.error))
         }

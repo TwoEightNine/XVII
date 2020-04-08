@@ -57,6 +57,7 @@ class AppearanceFragment : BaseFragment() {
         permissionHelper = PermissionHelper(this)
 
         svContent.setBottomInsetPadding()
+        rlBottom.setBottomInsetPadding(resources.getDimensionPixelSize(R.dimen.bottomsheet_height))
     }
 
     override fun getLayoutId() = R.layout.fragment_appearance
@@ -162,10 +163,8 @@ class AppearanceFragment : BaseFragment() {
     private fun initViews() {
         isLightBefore = Prefs.isLightTheme
         switchLightTheme.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, b ->
-//            csThemeColor.setVisible(b)
             applyColors()
         }
-//        csThemeColor.setVisible(isLightBefore)
         switchLightTheme.isChecked = isLightBefore
         if (Prefs.chatBack.isNotEmpty()) {
             Picasso.get()

@@ -54,6 +54,7 @@ class AccountsFragment : BaseFragment() {
 
     private fun updateAccounts(accounts: ArrayList<Account>) {
         adapter.update(accounts)
+//        adapter.update(FakeData.accounts)
     }
 
     private fun initRecyclerView() {

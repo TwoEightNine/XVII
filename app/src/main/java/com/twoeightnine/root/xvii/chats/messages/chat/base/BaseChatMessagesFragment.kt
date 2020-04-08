@@ -100,8 +100,10 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         chatToolbarController.setTitle(title)
+//        chatToolbarController.setTitle(FakeData.name)
         if (peerId != -App.GROUP) {
             chatToolbarController.setAvatar(photo)
+//            chatToolbarController.setAvatar(FakeData.avatar)
         }
         if (!peerId.matchesUserId()) {
             onOnlineChanged(Triple(false, 0, 0))

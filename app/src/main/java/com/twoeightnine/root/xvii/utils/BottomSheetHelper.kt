@@ -2,9 +2,9 @@ package com.twoeightnine.root.xvii.utils
 
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.Transformation
-import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 
@@ -43,9 +43,9 @@ class BottomSheetHelper(private var bottomSheet: RelativeLayout,
 
     fun openBottomSheet(frag: androidx.fragment.app.Fragment, title: String = "") {
         if (!isBottomOpen()) {
-            val bottomParams = bottomSheet.layoutParams as FrameLayout.LayoutParams
+            val bottomParams = bottomSheet.layoutParams as ViewGroup.MarginLayoutParams
             bottomParams.bottomMargin = -(bottomSheetHeightPx)
-            bottomSheet.visibility = View.VISIBLE
+            bottomSheet.show()
             val animator = object : Animation() {
                 override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
                     super.applyTransformation(interpolatedTime, t)
@@ -91,7 +91,7 @@ class BottomSheetHelper(private var bottomSheet: RelativeLayout,
 
     fun closeBottomSheet() {
         if (isBottomOpen()) {
-            val bottomParams = bottomSheet.layoutParams as FrameLayout.LayoutParams
+            val bottomParams = bottomSheet.layoutParams as ViewGroup.MarginLayoutParams
             val actualHeight = bottomSheetHeightPx + bottomParams.bottomMargin
             val animator = object : Animation() {
                 override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
@@ -106,7 +106,7 @@ class BottomSheetHelper(private var bottomSheet: RelativeLayout,
                 override fun onAnimationRepeat(p0: Animation?) {}
 
                 override fun onAnimationEnd(p0: Animation?) {
-                    bottomSheet.visibility = View.GONE
+                    bottomSheet.hide()
                     removeFragment()
                 }
 
