@@ -27,6 +27,7 @@ import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.web.WebActivity
 import kotlinx.android.synthetic.main.fragment_features.*
+import java.util.*
 import javax.inject.Inject
 
 class FeaturesFragment : BaseFragment() {
@@ -73,13 +74,7 @@ class FeaturesFragment : BaseFragment() {
         rlRate.setOnClickListener { context?.also { rate(it) } }
         rlShare.setOnClickListener { share() }
         rlDonate.setOnClickListener { simpleUrlIntent(context, App.DONATE_LINK) }
-        rlPrivacy.setOnClickListener {
-            WebActivity.launch(
-                    context,
-                    "file:///android_asset/privacy.html",
-                    getString(R.string.privacy_policy)
-            )
-        }
+        rlPrivacy.setOnClickListener { resolvePrivacyPolicy() }
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
@@ -161,7 +156,19 @@ class FeaturesFragment : BaseFragment() {
         }
     }
 
+    private fun resolvePrivacyPolicy() {
+        val url = if (Locale.getDefault() == Locale("ru", "RU")) {
+            PRIVACY_RU
+        } else {
+            PRIVACY_WORLD
+        }
+        WebActivity.launch(context, url, getString(R.string.privacy_policy))
+    }
+
     companion object {
+
+        const val PRIVACY_WORLD = "https://github.com/TwoEightNine/XVII/blob/master/privacy.md"
+        const val PRIVACY_RU = "https://github.com/TwoEightNine/XVII/blob/master/privacy_ru.md"
 
         const val SHOW_JOIN_DELAY = 3600 * 7 // one week
 
