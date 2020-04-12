@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.web
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebView
@@ -31,6 +32,7 @@ class VideoViewerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_video_viewer)
         val url = intent?.extras?.getString(URL) ?: return
 
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         window.decorView.systemUiVisibility =
                 // Tells the system that the window wishes the content to
                 // be laid out at the most extreme scenario. See the docs for
