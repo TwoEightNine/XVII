@@ -41,9 +41,6 @@ abstract class BaseActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                     View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         }
-
-        window.statusBarColor = getStatusBarColor()
-        window.navigationBarColor = getNavigationBarColor()
     }
 
     override fun attachBaseContext(newBase: Context?) {
@@ -58,6 +55,8 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onResume() {
         updateConfig()
         super.onResume()
+        window.statusBarColor = getStatusBarColor()
+        window.navigationBarColor = getNavigationBarColor()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
