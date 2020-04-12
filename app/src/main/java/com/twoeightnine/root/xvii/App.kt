@@ -48,7 +48,7 @@ class App : Application() {
         const val SCOPE_ALL = 471062
         const val REDIRECT_URL = "https://oauth.vk.com/blank.html"
         const val API_URL = "https://api.vk.com/method/"
-        const val SHARE_POST = "wall-137238289_183"
+        const val SHARE_POST = "wall-137238289_316"
         const val DONATE_LINK = "https://vk.com/app6795545_-137238289"
 
         val ID_HASHES = arrayListOf("260ca2827e258c06153e86d121de1094", "44b8e44538545051a8bd710e5e10e5ce", "7c3785059f7ffd4a21d38bd203d13721")
