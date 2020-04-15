@@ -363,34 +363,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rlDonate"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivDonate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_piggy_bank"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivDonate"
-                    android:text="@string/donate"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/rlShare"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"

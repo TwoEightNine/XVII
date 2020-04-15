@@ -73,7 +73,6 @@ class FeaturesFragment : BaseFragment() {
         rlFeedback.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }
         rlRate.setOnClickListener { context?.also { rate(it) } }
         rlShare.setOnClickListener { share() }
-        rlDonate.setOnClickListener { simpleUrlIntent(context, App.DONATE_LINK) }
         rlPrivacy.setOnClickListener { resolvePrivacyPolicy() }
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
