@@ -161,7 +161,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
                 .setCustomContentView(bindRemoteViews(R.layout.view_music_notification, audio))
 //                .setCustomBigContentView(bindRemoteViews(R.layout.view_music_notification_extended, audio))
                 .setOngoing(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setSmallIcon(R.drawable.ic_play_music)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -172,12 +172,13 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
     private fun initChannel(notificationManager: NotificationManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = applicationContext.getString(R.string.app_name)
-            val descriptionText = applicationContext.getString(R.string.app_name)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val name = applicationContext.getString(R.string.app_name_music)
+            val descriptionText = applicationContext.getString(R.string.app_name_music)
+            val importance = NotificationManager.IMPORTANCE_LOW
             val channel = NotificationChannel(CHANNEL_ID, name, importance)
             channel.description = descriptionText
             channel.setSound(null, null)
+            channel.enableVibration(false)
 
             notificationManager.createNotificationChannel(channel)
         }
