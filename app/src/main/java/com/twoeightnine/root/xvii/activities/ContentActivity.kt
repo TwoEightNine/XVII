@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.DragTouchListener
@@ -28,6 +29,8 @@ abstract class ContentActivity : BaseActivity() {
         stylize()
 
         if (shouldEnableSwipeToBack()) {
+            (vDraggable.layoutParams as? ViewGroup.MarginLayoutParams)
+                    ?.bottomMargin = getDraggableBottomMargin()
             vDraggable.setOnTouchListener(DragTouchListener(this, flContainer, vShadow))
         }
 
@@ -53,7 +56,9 @@ abstract class ContentActivity : BaseActivity() {
 
     protected fun getFragment() = supportFragmentManager.findFragmentById(R.id.flContainer)
 
-    protected fun shouldEnableSwipeToBack() = true
+    protected open fun shouldEnableSwipeToBack() = true
+
+    protected open fun getDraggableBottomMargin() = 0
 
     override fun finish() {
         super.finish()

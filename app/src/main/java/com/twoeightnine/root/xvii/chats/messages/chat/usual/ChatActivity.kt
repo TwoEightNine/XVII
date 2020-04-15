@@ -27,6 +27,8 @@ class ChatActivity : ContentActivity() {
         return ChatMessagesFragment.newInstance(dialog, forwarded, shareText, shareImage)
     }
 
+    override fun getDraggableBottomMargin(): Int = 200
+
     override fun getNavigationBarColor() = Color.TRANSPARENT
 
     companion object {

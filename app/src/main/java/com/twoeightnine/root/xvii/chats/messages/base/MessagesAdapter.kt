@@ -168,8 +168,8 @@ class MessagesAdapter(context: Context,
                     }
                     civPhoto?.apply {
                         load(message.photo)
-                        setOnClickListener { callback.onUserClicked(message.fromId) }
                     }
+                    rlName?.setOnClickListener { callback.onUserClicked(message.fromId) }
                 }
                 readStateDot?.apply {
                     stylize(ColorManager.MAIN_TAG, changeStroke = false)
