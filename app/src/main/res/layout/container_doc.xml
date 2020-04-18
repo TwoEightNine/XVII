@@ -27,7 +27,7 @@
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
                 android:textColor="@color/icons"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 tools:text="mp3" />
         </RelativeLayout>
 

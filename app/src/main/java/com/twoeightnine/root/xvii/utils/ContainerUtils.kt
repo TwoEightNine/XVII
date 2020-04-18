@@ -103,7 +103,7 @@ fun getGif(doc: Doc, context: Context): View {
 fun getDoc(doc: Doc, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_doc, null, false)
     included.findViewById<RelativeLayout>(R.id.relativeLayout).stylize(changeStroke = false)
-    included.findViewById<TextView>(R.id.tvExt).text = doc.ext?.toUpperCase()
+    included.findViewById<TextView>(R.id.tvExt).text = doc.ext
     included.findViewById<TextView>(R.id.tvTitle).text = doc.title
     included.findViewById<TextView>(R.id.tvSize).text = getSize(context.resources, doc.size)
     included.setOnClickListener {
