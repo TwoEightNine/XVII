@@ -6,6 +6,7 @@ import com.twoeightnine.root.xvii.chatowner.model.api.MembersResponse
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Photo
+import com.twoeightnine.root.xvii.model.attachments.Poll
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.network.response.*
 import io.reactivex.Flowable
@@ -252,11 +253,26 @@ interface ApiService {
     fun setOnline(): Flowable<BaseResponse<Int>>
 
     // polls
+    @Headers(NEW_VERSION_HEADER)
     @GET("polls.addVote")
     fun addVote(
             @Query("owner_id") ownerId: Int,
             @Query("poll_id") pollId: Int,
             @Query("answer_ids") answerIds: String
+    ): Flowable<BaseResponse<Int>>
+
+    @Headers(NEW_VERSION_HEADER)
+    @GET("polls.getById")
+    fun getPoll(
+            @Query("owner_id") ownerId: Int,
+            @Query("poll_id") pollId: Int
+    ): Flowable<BaseResponse<Poll>>
+
+    @Headers(NEW_VERSION_HEADER)
+    @GET("polls.deleteVote")
+    fun clearVote(
+            @Query("owner_id") ownerId: Int,
+            @Query("poll_id") pollId: Int
     ): Flowable<BaseResponse<Int>>
 
     //video

@@ -149,8 +149,8 @@
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".main.MainActivity"
-            android:theme="@style/AppTheme.Main"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Main"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".dialogs.activities.DialogsForwardActivity"
@@ -193,7 +193,9 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".poll.PollsActivity" />
+        <activity
+            android:name=".poll.PollsActivity"
+            android:theme="@style/AppTheme.Transparent" />
 
     </application>
 

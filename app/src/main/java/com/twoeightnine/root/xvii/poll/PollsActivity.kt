@@ -9,11 +9,13 @@ class PollsActivity : ContentActivity() {
 
     override fun createFragment(intent: Intent?) = PollFragment.newInstance(intent?.extras)
 
+//    override fun getNavigationBarColor() = Color.TRANSPARENT
+
     companion object {
 
         fun launch(context: Context?, poll: Poll) {
             context?.startActivity(Intent(context, PollsActivity::class.java).apply {
-                putExtras(PollFragment.getArgs(poll))
+                putExtras(PollFragment.getArgsLighter(poll))
             })
         }
     }

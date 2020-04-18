@@ -15,6 +15,7 @@
     <color name="background_accented">#f7f7f7</color>
     <color name="popup">#fff</color>
     <color name="popup_error">#B93952</color>
+    <color name="poll_background">#afff</color>
     <color name="toolbar">#15121c</color>
     <color name="divider">#ddd</color>
     <color name="icons">#fff</color>

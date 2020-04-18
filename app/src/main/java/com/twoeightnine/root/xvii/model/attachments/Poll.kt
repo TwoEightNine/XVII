@@ -50,7 +50,13 @@ data class Poll(
 
         @SerializedName("answer_ids")
         @Expose
-        val answerIds: List<Int> = arrayListOf()
+        val answerIds: List<Int> = arrayListOf(),
+
+        @SerializedName("photo")
+        val photo: PollPhoto?,
+
+        @SerializedName("background")
+        val background: PollBackground?
 ) : Parcelable, IdTypeable {
 
     override fun getId() = "poll${ownerId}_$id"
@@ -75,3 +81,51 @@ data class PollAnswer(
         @Expose
         val rate: Double
 ) : Parcelable
+
+@Parcelize
+data class PollPhoto(
+
+        @SerializedName("color")
+        val color: String,
+
+        @SerializedName("images")
+        val images: List<PollPhotoSize>
+
+) : Parcelable {
+
+    fun getOptimalPhotoUrl(): String? = images.maxBy { it.width }?.url
+
+    fun getColor(): Int = color.asColorInt()
+}
+
+@Parcelize
+data class PollPhotoSize(
+
+        @SerializedName("url")
+        val url: String,
+
+        @SerializedName("width")
+        val width: Int,
+
+        @SerializedName("height")
+        val height: Int
+) : Parcelable
+
+@Parcelize
+data class PollBackground(
+
+        @SerializedName("points")
+        val points: List<PollBackgroundPoint>
+) : Parcelable {
+
+    fun getColors(): Pair<Int, Int> = Pair(points[0].color.asColorInt(), points[1].color.asColorInt())
+}
+
+@Parcelize
+data class PollBackgroundPoint(
+
+        @SerializedName("color")
+        val color: String
+) : Parcelable
+
+private fun String.asColorInt(): Int = toInt(16) or 0xff000000.toInt()

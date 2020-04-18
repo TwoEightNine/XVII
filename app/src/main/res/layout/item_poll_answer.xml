@@ -1,48 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background"
-    android:orientation="vertical">
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    app:cardBackgroundColor="@color/popup"
+    app:cardCornerRadius="@dimen/chat_shape_radius">
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/shape_poll_answer"
-        app:cardBackgroundColor="@color/popup"
-        app:cardCornerRadius="@dimen/chat_shape_radius">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <ProgressBar
+            android:id="@+id/pbRating"
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="4dp"
+            android:layout_alignBottom="@+id/tvAnswer"
+            android:indeterminate="false"
+            android:max="100"
+            android:padding="0dp"
+            android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/ivCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/ic_check"
-                android:visibility="invisible" />
+        <ImageView
+            android:id="@+id/ivCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_check"
+            android:visibility="invisible" />
 
-            <TextView
-                android:id="@+id/tvAnswer"
-                style="@style/MainText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/ivCheck"
-                android:padding="16dp"
-                android:textSize="18sp"
-                tools:text="answer 1 long long longloon looong answer lo" />
+        <TextView
+            android:id="@+id/tvPercentage"
+            style="@style/OtherText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvAnswer"
+            android:layout_alignBottom="@+id/tvAnswer"
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:textSize="16sp"
+            android:visibility="gone"
+            tools:text="66.6%" />
 
-        </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tvAnswer"
+            style="@style/MainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/tvPercentage"
+            android:layout_toEndOf="@+id/ivCheck"
+            android:padding="16dp"
+            android:textSize="16sp"
+            tools:text="answer 1 long long longloon looong answer lo" />
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

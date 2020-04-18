@@ -331,6 +331,7 @@
     <string name="wanna_kick_user">do you really want to kick %s?</string>
     <string name="leave_conversation">leave</string>
     <string name="wanna_leave_conversation">do you really want to leave this conversation?</string>
+    <string name="clear_vote">clear vote</string>
 
     <string-array name="relations">
         <item>single</item>

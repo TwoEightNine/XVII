@@ -27,7 +27,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="6dp"
         android:layout_toEndOf="@+id/ivPhoto"
-        android:maxLines="3"
+        android:maxLines="2"
         android:textSize="17sp"
         tools:text="werwerewr\nrtytyrtyrt\njhjfhdjfdhf" />
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlBack"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -8,14 +9,24 @@
 
     <include layout="@layout/toolbar" />
 
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:scaleType="fitStart"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
     <TextView
         android:id="@+id/tvQuestion"
         style="@style/MainText"
+        fontPath="fonts/Rubik-Regular.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:padding="16dp"
         android:textSize="22sp"
+        tools:ignore="MissingPrefix"
         tools:text="the main question of the poll is how to make these polls????" />
 
     <TextView
@@ -46,13 +57,8 @@
         android:layout_below="@+id/tvVotes"
         android:layout_marginTop="16dp"
         android:clipToPadding="false"
+        android:overScrollMode="never"
         android:paddingBottom="56dp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/shape_shadow_bottom_dark" />
 
     <Button
         android:id="@+id/btnVote"
@@ -61,17 +67,17 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="6dp"
-        android:drawableStart="@drawable/ic_check"
-        android:text="@string/vote" />
+        android:text="@string/vote"
+        android:visibility="invisible" />
 
     <RelativeLayout
         android:id="@+id/rlLoader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:visibility="gone">
+        android:clickable="true">
 
         <ProgressBar
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />

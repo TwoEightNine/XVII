@@ -16,6 +16,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.model.attachments.*
+import com.twoeightnine.root.xvii.poll.PollsActivity
 import kotlinx.android.synthetic.main.container_video.view.*
 
 
@@ -194,6 +195,9 @@ fun getPoll(poll: Poll, context: Context): View {
 
     included.findViewById<TextView>(R.id.tvQuestion).text = poll.question
     included.findViewById<ImageView>(R.id.ivPhoto).stylize()
-    included.setOnClickListener { showToast(context, R.string.in_future_versions) }
+    included.setOnClickListener {
+//        showToast(context, R.string.in_future_versions)
+        PollsActivity.launch(context, poll)
+    }
     return included
 }
