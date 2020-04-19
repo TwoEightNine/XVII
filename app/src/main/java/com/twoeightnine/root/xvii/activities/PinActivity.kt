@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.activities
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.AndroidRuntimeException
 import android.view.View
@@ -63,6 +64,8 @@ class PinActivity : BaseActivity() {
             }
         }
     }
+
+    override fun getNavigationBarColor() = Color.TRANSPARENT
 
     private fun onOkPressed() {
         when (currentStage) {
