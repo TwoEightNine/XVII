@@ -38,6 +38,26 @@ abstract class ContentActivity : BaseActivity() {
         if (Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
+
+        // https://medium.com/androiddevelopers/windows-insets-fragment-transitions-9024b239a436
+        flContainer.setOnApplyWindowInsetsListener { view, insets ->
+            var consumed = false
+
+            val vg = view as ViewGroup
+            val childCount = vg.childCount
+            for (i in 0 until childCount) {
+
+                // Dispatch the insets to the child
+                val childResult = vg.getChildAt(i).dispatchApplyWindowInsets(insets)
+                // If the child consumed the insets, record it
+                if (childResult.isConsumed) {
+                    consumed = true
+                }
+            }
+            // If any of the children consumed the insets, return
+            // an appropriate value
+            if (consumed) insets.consumeSystemWindowInsets() else insets
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {

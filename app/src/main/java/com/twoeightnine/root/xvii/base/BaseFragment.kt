@@ -32,9 +32,16 @@ abstract class BaseFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?) = View.inflate(activity, getLayoutId(), null)
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View = View.inflate(activity, getLayoutId(), null)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ViewCompat.requestApplyInsets(view)
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -66,7 +73,8 @@ abstract class BaseFragment : Fragment() {
             ViewCompat.setOnApplyWindowInsetsListener(toolbar) { view, insets ->
                 view.setPadding(0, insets.systemWindowInsetTop, 0, 0)
                 view.layoutParams.apply {
-                    val toolbarHeight = context?.resources?.getDimensionPixelSize(R.dimen.toolbar_height) ?: 0
+                    val toolbarHeight = context?.resources?.getDimensionPixelSize(R.dimen.toolbar_height)
+                            ?: 0
                     height = toolbarHeight + insets.systemWindowInsetTop
                     view.layoutParams = this
                 }

@@ -146,8 +146,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                 adapter.multiSelectMode = false
             }
             val edgeDate = time() - 3600 * 24
-            val isOut = selectedMessages.filter { !it.isOut() }.isEmpty()
-            val isRecent = selectedMessages.filter { it.date < edgeDate }.isEmpty()
+            val isOut = selectedMessages.none { !it.isOut() }
+            val isRecent = selectedMessages.none { it.date < edgeDate }
             if (isOut && isRecent) {
                 showDeleteMessagesDialog(callback)
             } else {
