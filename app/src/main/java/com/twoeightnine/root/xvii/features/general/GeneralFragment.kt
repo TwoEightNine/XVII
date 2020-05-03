@@ -49,6 +49,7 @@ class GeneralFragment : BaseFragment() {
         switchTyping.isChecked = Prefs.showTyping
         switchSendByEnter.isChecked = Prefs.sendByEnter
         switchStickerSuggestions.isChecked = Prefs.stickerSuggestions
+        switchSwipeToBack.isChecked = Prefs.enableSwipeToBack
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
 
         switchOffline.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
@@ -66,6 +67,7 @@ class GeneralFragment : BaseFragment() {
         Prefs.showTyping = switchTyping.isChecked
         Prefs.sendByEnter = switchSendByEnter.isChecked
         Prefs.stickerSuggestions = switchStickerSuggestions.isChecked
+        Prefs.enableSwipeToBack = switchSwipeToBack.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
     }
 

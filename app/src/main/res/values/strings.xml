@@ -288,6 +288,8 @@
     <string name="show_voice_hint">you will be able to send voice messages</string>
     <string name="store_custom_keys">store custom keys</string>
     <string name="store_custom_keys_hint">keys will not be cleared after exit</string>
+    <string name="swipe_to_back">enable swipe-to-finish gesture</string>
+    <string name="swipe_to_back_hint">finishing screens using swipe from the left edge</string>
 
     <string name="show_notifications">show notifications</string>
     <string name="show_notifications_private_hint">from private chats</string>
@@ -331,7 +333,7 @@
     <string name="wanna_kick_user">do you really want to kick %s?</string>
     <string name="leave_conversation">leave</string>
     <string name="wanna_leave_conversation">do you really want to leave this conversation?</string>
-    <string name="clear_vote">clear vote</string>
+    <string name="clear_vote">clear my vote</string>
 
     <string-array name="relations">
         <item>single</item>

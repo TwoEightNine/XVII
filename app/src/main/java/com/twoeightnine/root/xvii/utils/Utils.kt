@@ -774,3 +774,5 @@ fun isMiui(): Boolean {
     }
     return false
 }
+
+fun isAndroid10OrHigher() = Build.VERSION.SDK_INT >= 29

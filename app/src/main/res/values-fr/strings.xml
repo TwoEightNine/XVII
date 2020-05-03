@@ -381,6 +381,9 @@
     <string name="leave_conversation">quitter</string>
     <string name="wanna_leave_conversation">voulez-vous réellement quitter?</string>
     <string name="wanna_kick_user">voulez-vous frapper %s?</string>
+    <string name="swipe_to_back_hint">fermeture des écrans avec glissement de gauche bord</string>
+    <string name="swipe_to_back">"active geste swipe-to-finish "</string>
+    <string name="clear_vote">supprimer ma voix</string>
 
 </resources>
 

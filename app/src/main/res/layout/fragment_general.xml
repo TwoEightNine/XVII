@@ -62,6 +62,13 @@
                 android:text="@string/sticker_suggestions" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchSwipeToBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/swipe_to_back_hint"
+                android:text="@string/swipe_to_back" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchStoreKeys"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

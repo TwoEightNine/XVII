@@ -407,5 +407,8 @@
     <string name="leave_conversation">выйти</string>
     <string name="wanna_leave_conversation">вы действительно хотите выйти?</string>
     <string name="wanna_kick_user">исключить %s из беседы?</string>
+    <string name="clear_vote">удалить голос</string>
+    <string name="swipe_to_back">включить жест swipe-to-finish</string>
+    <string name="swipe_to_back_hint">закрытие экранов свайпом с левого края</string>
 
 </resources>

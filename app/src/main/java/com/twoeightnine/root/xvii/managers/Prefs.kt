@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.utils.EmojiHelper
+import com.twoeightnine.root.xvii.utils.isAndroid10OrHigher
 import com.twoeightnine.root.xvii.utils.isMiui
 import com.twoeightnine.root.xvii.views.emoji.Emoji
 import java.util.*
@@ -31,6 +32,7 @@ object Prefs {
     private const val SEND_BY_ENTER = "sendByEnter"
     private const val STICKER_SUGGESTIONS = "stickerSuggestions"
     private const val JOIN_SHOWN_LAST = "joinShownLast"
+    private const val ENABLE_SWIPE_TO_BACK = "enableSwipeToBack"
 
     //notifications
     private const val SHOW_NOTIF = "showNotif"
@@ -131,6 +133,10 @@ object Prefs {
     var joinShownLast
         get() = data.getInt(JOIN_SHOWN_LAST, 0)
         set(value) = data.edit().putInt(JOIN_SHOWN_LAST, value).apply()
+
+    var enableSwipeToBack
+        get() = data.getBoolean(ENABLE_SWIPE_TO_BACK, !isAndroid10OrHigher())
+        set(value) = data.edit().putBoolean(ENABLE_SWIPE_TO_BACK, value).apply()
 
     // notifications
     // private
