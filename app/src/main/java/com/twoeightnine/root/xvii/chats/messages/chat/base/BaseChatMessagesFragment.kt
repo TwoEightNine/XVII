@@ -326,7 +326,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         inputController.addItemAsBeingLoaded(path)
     }
 
-    private fun onDocSelected(path: String) {
+    protected fun onDocSelected(path: String) {
         viewModel.attachDoc(path) { pathAttached, attachment ->
             inputController.removeItemAsLoaded(pathAttached)
             attachedAdapter.add(attachment)

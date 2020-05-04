@@ -166,6 +166,7 @@
     <string name="messages">messages</string>
     <string name="no_exchg_in_chats">key exchange is not available in this chat</string>
     <string name="encryption">secret chat</string>
+    <string name="attach_logs">attach logs</string>
     <string name="block_user">block user</string>
     <string name="unblock_user">unblock user</string>
     <string name="block_user_confirmation">do you really want to block this user?</string>

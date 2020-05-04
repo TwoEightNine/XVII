@@ -6,15 +6,22 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActivity
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.utils.asText
+import com.twoeightnine.root.xvii.utils.getTime
 import com.twoeightnine.root.xvii.utils.matchesUserId
+import com.twoeightnine.root.xvii.utils.time
 import kotlinx.android.synthetic.main.chat_input_panel.*
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
 
 class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
 
@@ -43,6 +50,7 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
         menu?.clear()
         inflater?.inflate(R.menu.menu_chat, menu)
         menu?.findItem(R.id.menu_secret_chat)?.isVisible = peerId.matchesUserId()
+        menu?.findItem(R.id.menu_attach_logs)?.isVisible = peerId == -App.GROUP
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -53,6 +61,14 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
             }
             R.id.menu_secret_chat -> {
                 SecretChatActivity.launch(context, peerId, title, photo)
+                true
+            }
+            R.id.menu_attach_logs -> {
+                val file = File(context?.cacheDir, "log_${BuildConfig.VERSION_NAME}_${getTime(time())}.txt")
+                val writer = BufferedWriter(FileWriter(file))
+                writer.write(Lg.getEvents())
+                writer.close()
+                onDocSelected(file.absolutePath)
                 true
             }
             else -> super.onOptionsItemSelected(item)

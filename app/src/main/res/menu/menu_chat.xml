@@ -12,6 +12,10 @@
         android:icon="@drawable/ic_start_secret_chat_white"
         android:title="@string/encryption"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_attach_logs"
+        android:title="@string/attach_logs"
+        app:showAsAction="never" />
 
 
 </menu>
