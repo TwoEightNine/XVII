@@ -73,6 +73,7 @@ fun createNotificationBackground(avatar: Bitmap, debug: Boolean = false): Notifi
     avgHsv[1] = newS
     val averageColor = Color.HSVToColor(avgHsv)
     canvas.drawColor(averageColor)
+    imageColors.averageColor = averageColor
 
     val avatarWidth = avatar.width
     val avatarHeight = avatar.height
@@ -309,7 +310,7 @@ private fun getContrastRatio(c1: Int, c2: Int): Double {
 }
 
 data class ImageColors(
-        val averageColor: Int,
+        var averageColor: Int,
         val averageDark: Int,
         val averageLight: Int
 )
