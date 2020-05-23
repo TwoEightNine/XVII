@@ -292,6 +292,8 @@
     <string name="store_custom_keys_hint">keys will not be cleared after exit</string>
     <string name="swipe_to_back">enable swipe-to-finish gesture</string>
     <string name="swipe_to_back_hint">finishing screens using swipe from the left edge</string>
+    <string name="lift_keyboards">lift the sticekrs keyboard</string>
+    <string name="lift_keyboards_hint">turn on if there are a gap between keyboard and input</string>
 
     <string name="show_notifications">show notifications</string>
     <string name="show_notifications_private_hint">from private chats</string>

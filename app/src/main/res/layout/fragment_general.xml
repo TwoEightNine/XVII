@@ -11,6 +11,7 @@
     <include layout="@layout/toolbar" />
 
     <ScrollView
+        android:id="@+id/svContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -74,6 +75,13 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/store_custom_keys_hint"
                 android:text="@string/store_custom_keys" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchLiftKeyboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/lift_keyboards_hint"
+                android:text="@string/lift_keyboards" />
 
             <TextView
                 android:id="@+id/tvCacheSize"

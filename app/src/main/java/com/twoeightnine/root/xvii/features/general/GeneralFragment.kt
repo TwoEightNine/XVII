@@ -9,6 +9,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.getSize
+import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
 import com.twoeightnine.root.xvii.utils.stylizeAll
 import kotlinx.android.synthetic.main.fragment_general.*
 
@@ -27,6 +28,7 @@ class GeneralFragment : BaseFragment() {
             viewModel.clearCache()
         }
         llContainer.stylizeAll()
+        svContent.setBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -51,6 +53,7 @@ class GeneralFragment : BaseFragment() {
         switchStickerSuggestions.isChecked = Prefs.stickerSuggestions
         switchSwipeToBack.isChecked = Prefs.enableSwipeToBack
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
+        switchLiftKeyboard.isChecked = Prefs.liftKeyboard
 
         switchOffline.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             if (isChecked) switchOnline.isChecked = false
@@ -69,6 +72,7 @@ class GeneralFragment : BaseFragment() {
         Prefs.stickerSuggestions = switchStickerSuggestions.isChecked
         Prefs.enableSwipeToBack = switchSwipeToBack.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
+        Prefs.liftKeyboard = switchLiftKeyboard.isChecked
     }
 
     override fun onStop() {

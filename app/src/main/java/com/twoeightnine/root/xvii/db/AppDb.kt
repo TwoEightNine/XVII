@@ -44,6 +44,13 @@ abstract class AppDb : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_5_6 = object : Migration(5, 6) {
+
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database
+            }
+        }
+
         fun buildDatabase(context: Context) =
                 Room.databaseBuilder(context.applicationContext,
                         AppDb::class.java, "xvii_room.db")

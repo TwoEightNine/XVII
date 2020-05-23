@@ -34,6 +34,7 @@ object Prefs {
     private const val JOIN_SHOWN_LAST = "joinShownLast"
     private const val ENABLE_SWIPE_TO_BACK = "enableSwipeToBack"
     private const val LAST_ASSISTANCE = "lastAssistance"
+    private const val LIFT_KEYBOARD_WINDOW = "liftKeyboardWindow"
 
     //notifications
     private const val SHOW_NOTIF = "showNotif"
@@ -142,6 +143,10 @@ object Prefs {
     var lastAssistance
         get() = data.getInt(LAST_ASSISTANCE, 0)
         set(value) = data.edit().putInt(LAST_ASSISTANCE, value).apply()
+
+    var liftKeyboard
+        get() = data.getBoolean(LIFT_KEYBOARD_WINDOW, false)
+        set(value) = data.edit().putBoolean(LIFT_KEYBOARD_WINDOW, value).apply()
 
     // notifications
     // private
