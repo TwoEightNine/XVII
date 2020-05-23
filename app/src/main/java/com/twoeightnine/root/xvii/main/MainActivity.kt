@@ -9,6 +9,7 @@ import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -57,6 +58,7 @@ class MainActivity : BaseActivity() {
         stylize(isWhite = true)
         bottomNavView.stylize()
         StatTool.get()?.incLaunch()
+        MobileAds.initialize(this) {}
     }
 
     private fun initViewPager() {

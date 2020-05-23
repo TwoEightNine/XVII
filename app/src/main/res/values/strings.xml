@@ -62,6 +62,7 @@
     <string name="accounts">accounts</string>
     <string name="new_acc">add an account..</string>
     <string name="rate">rate</string>
+    <string name="contribute">contribute</string>
     <string name="gallery">gallery</string>
     <string name="delete">delete</string>
     <string name="pin">pin</string>
@@ -335,6 +336,12 @@
     <string name="leave_conversation">leave</string>
     <string name="wanna_leave_conversation">do you really want to leave this conversation?</string>
     <string name="clear_vote">clear my vote</string>
+
+    <string name="assist_prompt">you are about to watch a fullscreen advertising. it is absolutely free to you but watching this is your opportunity to thank the developer for this app. do you want to continue and watch?</string>
+    <string name="assist_yes">yes, i\'m in</string>
+    <string name="assist_no">no, get back</string>
+    <string name="assist_hint">ad is being loaded\nand will be shown soon..</string>
+    <string name="assist_thank_you">thank you for contributing!</string>
 
     <string-array name="relations">
         <item>single</item>

@@ -18,6 +18,7 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesActivity
 import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
+import com.twoeightnine.root.xvii.features.assist.AssistActivity
 import com.twoeightnine.root.xvii.features.general.GeneralActivity
 import com.twoeightnine.root.xvii.features.notifications.NotificationsActivity
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
@@ -72,6 +73,7 @@ class FeaturesFragment : BaseFragment() {
 
         rlFeedback.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }
         rlRate.setOnClickListener { context?.also { rate(it) } }
+        rlContribute.setOnClickListener { AssistActivity.launch(context) }
         rlShare.setOnClickListener { share() }
         rlPrivacy.setOnClickListener { resolvePrivacyPolicy() }
 
@@ -90,6 +92,11 @@ class FeaturesFragment : BaseFragment() {
             val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
             svContent.setBottomPadding(bottom + bottomNavHeight)
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        rlContribute.setVisible(time() - Prefs.lastAssistance > ASSISTANCE_DELAY)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -169,7 +176,9 @@ class FeaturesFragment : BaseFragment() {
         const val PRIVACY_WORLD = "https://github.com/TwoEightNine/XVII/blob/master/privacy.md"
         const val PRIVACY_RU = "https://github.com/TwoEightNine/XVII/blob/master/privacy_ru.md"
 
-        const val SHOW_JOIN_DELAY = 3600 * 7 // one week
+        const val SHOW_JOIN_DELAY = 3600 * 24 * 7 // one week
+
+        const val ASSISTANCE_DELAY = 3600 * 2 // two hours
 
         fun newInstance() = FeaturesFragment()
     }

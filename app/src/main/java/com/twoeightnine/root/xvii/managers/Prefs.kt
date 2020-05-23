@@ -33,6 +33,7 @@ object Prefs {
     private const val STICKER_SUGGESTIONS = "stickerSuggestions"
     private const val JOIN_SHOWN_LAST = "joinShownLast"
     private const val ENABLE_SWIPE_TO_BACK = "enableSwipeToBack"
+    private const val LAST_ASSISTANCE = "lastAssistance"
 
     //notifications
     private const val SHOW_NOTIF = "showNotif"
@@ -137,6 +138,10 @@ object Prefs {
     var enableSwipeToBack
         get() = data.getBoolean(ENABLE_SWIPE_TO_BACK, !isAndroid10OrHigher())
         set(value) = data.edit().putBoolean(ENABLE_SWIPE_TO_BACK, value).apply()
+
+    var lastAssistance
+        get() = data.getInt(LAST_ASSISTANCE, 0)
+        set(value) = data.edit().putInt(LAST_ASSISTANCE, value).apply()
 
     // notifications
     // private
