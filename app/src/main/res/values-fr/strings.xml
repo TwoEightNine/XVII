@@ -393,6 +393,7 @@
     <string name="assist_prompt">vous allez regardez l\'annonce en mode plein écran. c\'est gratuit pour vous mais très important pour le développement de l\'application. voulez-vous continuer?</string>
     <string name="lift_keyboards">lever le clavier des autocollants</string>
     <string name="lift_keyboards_hint">allumez s\'il y a un espace enter le clavier et l\'entrée</string>
+    <string name="open_in_browser">ouvrir le navigateur</string>
 
 </resources>
 

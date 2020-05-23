@@ -419,5 +419,6 @@
     <string name="assist_prompt">вы собираетесь посмотреть полноэкранную рекламу. для вас это абсолютно беспланто, но очень сильно поможет в развитии проекта. продолжить?</string>
     <string name="lift_keyboards">приподнять окно стикеров</string>
     <string name="lift_keyboards_hint">влючите, если есть отступ между ним и полем ввода</string>
+    <string name="open_in_browser">открыть в браузере</string>
 
 </resources>

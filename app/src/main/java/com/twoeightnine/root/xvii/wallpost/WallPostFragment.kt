@@ -1,10 +1,7 @@
 package com.twoeightnine.root.xvii.wallpost
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -48,7 +45,15 @@ class WallPostFragment : BaseFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
+        inflater?.inflate(R.menu.menu_wall_post, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        R.id.menu_open_url -> {
+            simpleUrlIntent(context, "$WALL_POST_URL$postId")
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun getWallPostRequest() {
@@ -188,6 +193,9 @@ class WallPostFragment : BaseFragment() {
     }
 
     companion object {
+
+        const val WALL_POST_URL = "https://vk.com/wall"
+
         const val ARG_POST_ID = "postId"
 
         fun newInstance(postId: String): WallPostFragment {
