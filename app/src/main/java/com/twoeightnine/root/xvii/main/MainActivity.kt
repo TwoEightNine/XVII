@@ -97,9 +97,13 @@ class MainActivity : BaseActivity() {
     override fun getThemeId() = R.style.AppTheme_Main
 
     override fun onBackPressed() {
-        val intent = Intent(Intent.ACTION_MAIN)
-        intent.addCategory(Intent.CATEGORY_HOME)
-        startActivity(intent)
+        if (viewPager.currentItem == 1) {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            startActivity(intent)
+        } else {
+            bottomNavView.selectedItemId = R.id.menu_dialogs
+        }
     }
 
     companion object {
