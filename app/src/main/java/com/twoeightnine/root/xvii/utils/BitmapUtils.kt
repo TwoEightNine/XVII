@@ -285,12 +285,12 @@ private fun Int.relativeLuminance(): Float {
     } else {
         ((rs + 0.055) / 1.055).pow(2.4)
     }
-    val g = if (rs <= 0.03928) {
+    val g = if (gs <= 0.03928) {
         gs / 12.92
     } else {
         ((gs + 0.055) / 1.055).pow(2.4)
     }
-    val b = if (rs <= 0.03928) {
+    val b = if (bs <= 0.03928) {
         bs / 12.92
     } else {
         ((bs + 0.055) / 1.055).pow(2.4)
