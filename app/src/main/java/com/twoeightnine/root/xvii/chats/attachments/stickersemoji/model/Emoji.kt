@@ -18,4 +18,13 @@ data class Emoji(
 
         @ColumnInfo(name = "pack_name")
         val packName: String
-) : Parcelable
+) : Parcelable {
+
+    val fullPath: String
+        get() = "$PATH_FMT$fileName"
+
+    companion object {
+
+        const val PATH_FMT = "file:///android_asset/emoji/"
+    }
+}

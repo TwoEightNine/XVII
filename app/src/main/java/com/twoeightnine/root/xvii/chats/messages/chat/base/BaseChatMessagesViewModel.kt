@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.chats.messages.chat.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
+import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
 import com.twoeightnine.root.xvii.lg.Lg
@@ -42,6 +43,10 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
      * id of last message that was marked as read. to prevent too many requests
      */
     private var lastMarkedAsReadId: Int = 0
+
+    private val repo by lazy {
+        StickersEmojiRepository()
+    }
 
     var peerId: Int = 0
         set(value) {
@@ -144,6 +149,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 .subscribeSmart({
                     setOffline()
                     StatTool.get()?.stickerSent()
+                    repo.setStickerUsed(sticker.stickerId)
                 }, { error ->
                     lw("send sticker: $error")
                 })
@@ -424,6 +430,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     override fun onCleared() {
         super.onCleared()
         eventsDisposable?.dispose()
+        repo.destroy()
     }
 
     protected fun getRandomId() = Random.nextInt()

@@ -118,7 +118,8 @@ abstract class AppDb : RoomDatabase() {
                 cursor?.close()
             }
 
-            if (count == 0) {
+            if (count == 0 || true) {
+                db.execSQL("DELETE FROM emojis")
                 var br: BufferedReader? = null
                 try {
                     val inputStream: InputStream = context.assets.open("emojis.sql")

@@ -15,7 +15,7 @@ interface EmojisDao {
     @Query("SELECT * FROM emojis")
     fun getAllEmojis(): Single<List<Emoji>>
 
-    @Query("SELECT emoji_code FROM emoji_usages WHERE last_used != 0 ORDER BY last_used DESC")
+    @Query("SELECT emoji_code FROM emoji_usages WHERE last_used != 0 ORDER BY last_used DESC LIMIT 40")
     fun getRecentEmojis(): Single<List<String>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

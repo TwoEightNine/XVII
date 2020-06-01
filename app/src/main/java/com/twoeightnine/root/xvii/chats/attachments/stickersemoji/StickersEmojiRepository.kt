@@ -1,9 +1,7 @@
 package com.twoeightnine.root.xvii.chats.attachments.stickersemoji
 
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.StickerPack
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.StickerUsage
+import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.*
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.network.ApiService
@@ -30,16 +28,16 @@ class StickersEmojiRepository {
         App.appComponent?.inject(this)
     }
 
-    fun setStickerUsed(sticker: Sticker) {
+    fun setStickerUsed(stickerId: Int) {
         appDb.stickersDao()
-                .updateStickerUsed(StickerUsage(sticker.id, time()))
+                .updateStickerUsed(StickerUsage(stickerId, time()))
                 .compose(applyCompletableSchedulers())
                 .subscribe()
                 .add()
     }
 
     /**
-     * loads stickers
+     * loads stickers as sticker packs
      * @param forceLoad true if load from net anyway
      */
     fun loadStickers(forceLoad: Boolean = false, onLoaded: (List<StickerPack>) -> Unit) {
@@ -64,12 +62,44 @@ class StickersEmojiRepository {
                 .add()
     }
 
+    /**
+     * load list of stickers directly from db
+     */
     fun loadRawStickersFromDb(onLoaded: (List<Sticker>) -> Unit) {
         loadStickersFromDb()
                 .compose(applySingleSchedulers())
                 .subscribe(onLoaded) { error ->
                     error.printStackTrace()
                     Lg.wtf("error loading raw stickers: ${error.message}")
+                }.add()
+    }
+
+    fun setEmojiUsed(emojiCode: String) {
+        appDb.emojisDao()
+                .updateStickerUsed(EmojiUsage(emojiCode, time()))
+                .compose(applyCompletableSchedulers())
+                .subscribe()
+                .add()
+    }
+
+    fun loadEmojis(onLoaded: (List<EmojiPack>) -> Unit) {
+        loadEmojisFromDb()
+                .flatMap(this::createEmojiPacks)
+                .compose(applySingleSchedulers())
+                .subscribe(onLoaded) { error ->
+                    error.printStackTrace()
+                    Lg.wtf("error loading emoji packs: ${error.message}")
+                }
+                .add()
+    }
+
+    fun loadRawEmojis(onLoaded: (List<Emoji>) -> Unit) {
+        loadEmojisFromDb()
+                .compose(applySingleSchedulers())
+                .subscribe(onLoaded) { error ->
+                    error.printStackTrace()
+                    Lg.wtf("error loading raw emojis: ${error.message}")
+
                 }.add()
     }
 
@@ -191,6 +221,72 @@ class StickersEmojiRepository {
                 packs.sortBy { it.stickers.getOrNull(0)?.id ?: 0 }
                 packs.toList()
             }.compose(applySingleSchedulers())
+
+    private fun loadEmojisFromDb(): Single<List<Emoji>> =
+            appDb.emojisDao()
+                    .getAllEmojis()
+                    // dirty hack
+                    .map { emojis -> emojis.map { it.copy(code = it.code.toUnicodeEmoji()) } }
+                    .onErrorReturn { error ->
+                        error.printStackTrace()
+                        Lg.wtf("error loading emojis: ${error.message}")
+                        listOf()
+                    }
+                    .compose(applySingleSchedulers())
+
+    private fun loadRecentEmojis(emojis: List<Emoji>): Single<List<Emoji>> =
+            appDb.emojisDao()
+                    .getRecentEmojis()
+                    .map { recentCodes ->
+                        val recentEmojis = arrayListOf<Emoji>()
+                        for (emoji in emojis) {
+
+                            if (emoji.code in recentCodes) {
+                                recentEmojis.add(emoji)
+                            }
+                        }
+                        recentEmojis.sortBy { recentCodes.indexOf(it.code) }
+                        recentEmojis
+                    }
+
+    private fun convertEmojisToPacks(
+            emojis: List<Emoji>,
+            recent: List<Emoji>
+    ): Single<List<EmojiPack>> =
+            Single.fromCallable {
+                val packs = arrayListOf<EmojiPack>()
+                val packsMap = hashMapOf<String, ArrayList<Emoji>>()
+                for (emoji in emojis) {
+                    if (emoji.packName !in packsMap) {
+                        packsMap[emoji.packName] = arrayListOf()
+                    }
+                    packsMap[emoji.packName]?.add(emoji)
+                }
+                packsMap.forEach { entry ->
+                    packs.add(EmojiPack(entry.key, entry.value))
+                }
+                packs.add(EmojiPack(null, recent))
+                packs.toList()
+            }.compose(applySingleSchedulers())
+
+    private fun createEmojiPacks(emojis: List<Emoji>): Single<List<EmojiPack>> =
+            loadRecentEmojis(emojis)
+                    .flatMap { recent ->
+                        convertEmojisToPacks(emojis, recent)
+                    }
+                    .compose(applySingleSchedulers())
+
+    private fun String.toUnicodeEmoji(): String {
+        val clean = replace("\\u", "")
+        var result = ""
+        var cnt = 0
+        while (cnt < clean.length) {
+            val num = Integer.parseInt(clean.substring(cnt, cnt + 4), 16)
+            result += num.toChar()
+            cnt += 4
+        }
+        return result
+    }
 
     fun destroy() {
         compositeDisposable.dispose()

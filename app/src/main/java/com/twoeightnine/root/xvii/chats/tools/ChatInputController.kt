@@ -43,7 +43,7 @@ class ChatInputController(
 
     private val loadingQueue = arrayListOf<Any>()
     private val emojiKeyboard = EmojiKeyboard(rootView, context, ::addEmoji, ::onKeyboardClosed)
-    private val stickerKeyboard = StickersEmojiWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked)
+    private val stickerKeyboard = StickersEmojiWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked, ::addEmoji)
     private val voiceRecorder = VoiceRecorder(context, InputRecorderCallback())
     private val repo by lazy { StickersEmojiRepository() }
     private val stickers = arrayListOf<com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker>()
