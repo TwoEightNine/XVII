@@ -18,14 +18,13 @@ import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
 import com.twoeightnine.root.xvii.chats.attachments.links.LinkAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachmentsFragment
-import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersFragment
 import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
+import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
-import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedViewModel
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.dagger.modules.NetworkModule
@@ -74,7 +73,6 @@ interface AppComponent {
     fun inject(galleryFragment: GalleryFragment)
     fun inject(docAttachFragment: DocAttachFragment)
     fun inject(videoAttachFragment: VideoAttachFragment)
-    fun inject(stickersFragment: StickersFragment)
     fun inject(starredMessagesFragment: StarredMessagesFragment)
     fun inject(chatMessagesFragment: ChatMessagesFragment)
     fun inject(secretChatMessagesFragment: SecretChatMessagesFragment)
@@ -92,6 +90,7 @@ interface AppComponent {
     fun inject(markAsReadBroadcastReceiver: MarkAsReadBroadcastReceiver)
     fun inject(stickersWindow: StickersWindow)
     fun inject(appLifecycleTracker: AppLifecycleTracker)
+    fun inject(stickersEmojiRepository: StickersEmojiRepository)
 
     fun inject(chatOwnerViewModel: ChatOwnerViewModel)
     fun inject(generalViewModel: GeneralViewModel)

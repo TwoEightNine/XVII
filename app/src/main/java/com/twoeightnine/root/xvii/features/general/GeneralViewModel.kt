@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.getCacheSize
 import io.reactivex.Single
@@ -17,6 +18,9 @@ class GeneralViewModel : ViewModel() {
 
     @Inject
     lateinit var applicationContext: Context
+
+    @Inject
+    lateinit var appDb: AppDb
 
     private var disposable: Disposable? = null
 
@@ -52,8 +56,12 @@ class GeneralViewModel : ViewModel() {
             com.twoeightnine.root.xvii.utils.clearCache(applicationContext)
             true
         }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap { result ->
+                    appDb.stickersDao()
+                            .clearStickers()
+                            .toSingleDefault(result)
+                }
+                .compose(applySingleSchedulers())
                 .onErrorReturn { false }
                 .subscribe { success ->
                     cacheClearedLiveData.value = success

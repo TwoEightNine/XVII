@@ -23,6 +23,18 @@ data class StickersResponse(
         val dictionary: MutableList<StickerMind>? = null
 ) : Parcelable {
 
+    fun getStickerIdToWordsMap(): Map<Int, List<String>> {
+        val result = hashMapOf<Int, List<String>>()
+        dictionary?.forEach { mind ->
+            mind.userStickers?.forEach { sticker ->
+                if (sticker.isAllowed && mind.words != null) {
+                    result[sticker.stickerId] = mind.words
+                }
+            }
+        }
+        return result
+    }
+
     fun getStickers(): List<Sticker> {
         val stickers = arrayListOf<Sticker>()
         dictionary?.forEach { mind ->

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/stickers_tab_item_size"
+    android:layout_height="wrap_content"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <ImageView
+        android:id="@+id/ivStickerTab"
+        android:layout_width="@dimen/stickers_tab_item_size"
+        android:layout_height="@dimen/stickers_tab_item_size"
+        android:layout_gravity="center"
+        tools:src="@tools:sample/avatars" />
+
+</FrameLayout>

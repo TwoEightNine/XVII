@@ -17,8 +17,8 @@ import android.view.inputmethod.EditorInfo
 import android.webkit.MimeTypeMap
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersStorage
-import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
+import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
+import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiWindow
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Sticker
@@ -43,11 +43,10 @@ class ChatInputController(
 
     private val loadingQueue = arrayListOf<Any>()
     private val emojiKeyboard = EmojiKeyboard(rootView, context, ::addEmoji, ::onKeyboardClosed)
-    private val stickerKeyboard = StickersWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked)
+    private val stickerKeyboard = StickersEmojiWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked)
     private val voiceRecorder = VoiceRecorder(context, InputRecorderCallback())
-    private val stickers by lazy {
-        StickersStorage(context, StickersStorage.Type.AVAILABLE).readFromFile()
-    }
+    private val repo by lazy { StickersEmojiRepository() }
+    private val stickers = arrayListOf<com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker>()
 
     private var attachedCount = 0
     private var lastTypingInvocation = 0
@@ -91,6 +90,11 @@ class ChatInputController(
         emojiKeyboard.setSizeForSoftKeyboard()
         stickerKeyboard.setSizeForSoftKeyboard()
         setAttachedCount(0)
+
+        repo.loadRawStickersFromDb {
+            stickers.clear()
+            stickers.addAll(it)
+        }
     }
 
     fun addItemAsBeingLoaded(item: Any) {
@@ -205,12 +209,14 @@ class ChatInputController(
             return arrayListOf()
         }
 
+        val typedLower = typed.toString().toLowerCase()
         return stickers
                 .filter { sticker ->
-                    sticker.keywords
-                            .map { word -> if (word.startsWith(typed)) 1 else 0 }
+                    sticker.keyWordsList
+                            .map { word -> if (word.startsWith(typedLower)) 1 else 0 }
                             .sum() != 0
                 }
+                .map { Sticker(it.id) }
     }
 
     private fun onVoiceRecordingLocked() {

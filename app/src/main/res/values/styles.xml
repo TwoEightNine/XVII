@@ -96,6 +96,11 @@
         <item name="android:textColor">@color/main_text</item>
     </style>
 
+    <style name="MainText.Strip">
+        <item name="android:textSize">14sp</item>
+        <item name="fontPath">fonts/Rubik-Regular.ttf</item>
+    </style>
+
     <style name="MainBoldText" parent="MainText">
         <item name="fontPath">fonts/Rubik-Regular.ttf</item>
     </style>

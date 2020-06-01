@@ -19,8 +19,7 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:textAllCaps="false"
-            android:textAppearance="@style/MainText"
-            android:textSize="17sp" />
+            android:textAppearance="@style/MainText.Strip" />
     </androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>

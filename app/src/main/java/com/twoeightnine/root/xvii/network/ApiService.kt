@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.network
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.chatowner.model.api.MembersResponse
+import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.network.Pack
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Photo
@@ -159,7 +160,11 @@ interface ApiService {
 
     @Headers(NEW_VERSION_HEADER)
     @GET("store.getStickersKeywords")
-    fun getStickers(): Flowable<BaseResponse<StickersResponse>>
+    fun getStickersKeywords(): Flowable<BaseResponse<StickersResponse>>
+
+    @Headers(NEW_VERSION_HEADER)
+    @GET("store.getProducts?extended=1&filters=active&type=stickers")
+    fun getStickers(): Flowable<BaseResponse<ListResponse<Pack>>>
 
     @GET("messages.setActivity")
     fun setActivity(
