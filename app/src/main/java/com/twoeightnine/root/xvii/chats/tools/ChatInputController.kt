@@ -19,12 +19,11 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiWindow
+import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.emoji.Emoji
-import com.twoeightnine.root.xvii.views.emoji.EmojiKeyboard
 import kotlinx.android.synthetic.main.chat_input_panel.view.*
 import java.io.File
 import kotlin.math.abs
@@ -42,7 +41,6 @@ class ChatInputController(
 ) {
 
     private val loadingQueue = arrayListOf<Any>()
-    private val emojiKeyboard = EmojiKeyboard(rootView, context, ::addEmoji, ::onKeyboardClosed)
     private val stickerKeyboard = StickersEmojiWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked, ::addEmoji)
     private val voiceRecorder = VoiceRecorder(context, InputRecorderCallback())
     private val repo by lazy { StickersEmojiRepository() }
@@ -87,7 +85,6 @@ class ChatInputController(
             ivMic.stylizeAnyway(ColorManager.MAIN_TAG)
             ivSendVoice.stylizeAnyway(ColorManager.MAIN_TAG)
         }
-        emojiKeyboard.setSizeForSoftKeyboard()
         stickerKeyboard.setSizeForSoftKeyboard()
         setAttachedCount(0)
 
@@ -143,13 +140,8 @@ class ChatInputController(
                 stickerKeyboard.showWithRequest(rootView.etInput)
             }
             KeyboardState.STICKERS -> {
-                keyboardState = KeyboardState.EMOJIS
-                stickerKeyboard.dismiss()
-                emojiKeyboard.showWithRequest(rootView.etInput)
-            }
-            KeyboardState.EMOJIS -> {
                 keyboardState = KeyboardState.TEXT
-                emojiKeyboard.dismiss()
+                stickerKeyboard.dismiss()
             }
         }
         updateKeyboardIcon()
@@ -157,9 +149,8 @@ class ChatInputController(
 
     private fun updateKeyboardIcon() {
         val iconRes = when (keyboardState) {
-            KeyboardState.TEXT -> R.drawable.ic_sticker
-            KeyboardState.STICKERS -> R.drawable.ic_emoji
-            KeyboardState.EMOJIS -> R.drawable.ic_keyboard
+            KeyboardState.TEXT -> R.drawable.ic_emoji
+            KeyboardState.STICKERS -> R.drawable.ic_keyboard
         }
         val d = ContextCompat.getDrawable(context, iconRes)
         rootView.ivKeyboard.setImageDrawable(d)
@@ -180,9 +171,6 @@ class ChatInputController(
     }
 
     private fun onKeyboardClosed() {
-        if (emojiKeyboard.isShowing) {
-            emojiKeyboard.dismiss()
-        }
         if (stickerKeyboard.isShowing) {
             stickerKeyboard.dismiss()
         }
@@ -423,7 +411,6 @@ class ChatInputController(
 
     private enum class KeyboardState {
         TEXT,
-        STICKERS,
-        EMOJIS
+        STICKERS
     }
 }

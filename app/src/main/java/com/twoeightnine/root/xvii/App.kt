@@ -9,6 +9,7 @@ import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
 import com.twoeightnine.root.xvii.utils.ColorManager
+import com.twoeightnine.root.xvii.utils.EmojiHelper
 import com.twoeightnine.root.xvii.utils.StatTool
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 
@@ -24,6 +25,7 @@ class App : Application() {
         registerActivityLifecycleCallbacks(AppLifecycleTracker())
         ColorManager.init(applicationContext)
         KeyHolder.reinit()
+        EmojiHelper.init()
 
         CalligraphyConfig.initDefault(
                 CalligraphyConfig.Builder()

@@ -3,11 +3,11 @@ package com.twoeightnine.root.xvii.chats.attachments.stickersemoji
 import android.content.Context
 import android.view.View
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.stylize
 import com.twoeightnine.root.xvii.views.KeyboardWindow
-import com.twoeightnine.root.xvii.views.emoji.Emoji
 import kotlinx.android.synthetic.main.window_stickers.view.*
 
 
@@ -60,6 +60,10 @@ class StickersEmojiWindow(
                         val tab = tabs.getTabAt(i)
                         tab?.customView = pagerAdapter.getTabView(i)
                     }
+                    tabs.isSmoothScrollingEnabled = true
+                    tabs.postDelayed({
+                        tabs.getTabAt(viewPager.currentItem)?.select()
+                    }, 100L)
                 }
             }
         }
@@ -71,10 +75,8 @@ class StickersEmojiWindow(
             this@StickersEmojiWindow.onStickerClicked(Sticker(stickerId = sticker.id))
         }
 
-        override fun onEmojiClicked(emoji: com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji) {
-            this@StickersEmojiWindow.onEmojiClicked(Emoji(
-                    emoji.code, emoji.fileName
-            ))
+        override fun onEmojiClicked(emoji: Emoji) {
+            this@StickersEmojiWindow.onEmojiClicked(emoji)
             repo.setEmojiUsed(emoji.code)
         }
     }

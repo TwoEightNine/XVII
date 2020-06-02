@@ -4,10 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.utils.EmojiHelper
 import com.twoeightnine.root.xvii.utils.isAndroid10OrHigher
 import com.twoeightnine.root.xvii.utils.isMiui
-import com.twoeightnine.root.xvii.views.emoji.Emoji
 import java.util.*
 
 object Prefs {
@@ -21,14 +19,12 @@ object Prefs {
     private const val BE_ONLINE = "beOnline"
     private const val MARK = "markAsRead"
     private const val TYPING = "typing"
-    private const val MANUAL_UPD = "manualUpd"
     private const val SHOW_SECONDS = "showSeconds"
     private const val LOWER_TEXTS = "lowerTexts"
     private const val APPLE_EMOJIS = "appleEmojis"
     private const val SHOW_STICKERS = "showStickers"
     private const val SHOW_VOICE = "showVoice"
     private const val STORE_CUSTOM_KEYS = "storeCustomKeys"
-    private const val MESSAGE_SIZE = "messageSize"
     private const val SEND_BY_ENTER = "sendByEnter"
     private const val STICKER_SUGGESTIONS = "stickerSuggestions"
     private const val JOIN_SHOWN_LAST = "joinShownLast"
@@ -42,14 +38,12 @@ object Prefs {
     private const val SOUND = "sound"
     private const val SHOW_NAME = "showName"
     private const val SHOW_CONTENT = "showContent"
-    private const val LED_LIGHTS = "ledLights"
     private const val LED_COLOR = "ledColor"
     private const val SHOW_NOTIF_CHATS = "showNotifChats"
 
     private const val VIBRATE_CHATS = "vibrateChats"
     private const val SOUND_CHATS = "soundChats"
     private const val SHOW_CONTENT_CHATS = "showContentChats"
-    private const val LED_LIGHTS_CHATS = "ledLightsCHats"
     private const val LED_COLOR_CHATS = "ledColorChats"
 
     private const val MUTE_LIST = "muteList"
@@ -62,8 +56,6 @@ object Prefs {
     private const val USE_STYLED_NOTIFICATIONS = "useStyledNotifications"
 
     //other
-    private const val RECENT_STICKERS = "recentStickers"
-    private const val RECENT_EMOJIS = "recentEmojis"
     private const val SHOW_RATE = "showRate"
 
     private val data: SharedPreferences by lazy {
@@ -92,10 +84,6 @@ object Prefs {
         get() = data.getBoolean(TYPING, true)
         set(showTyping) = data.edit().putBoolean(TYPING, showTyping).apply()
 
-    var manualUpdating: Boolean
-        get() = data.getBoolean(MANUAL_UPD, false)
-        set(value) = data.edit().putBoolean(MANUAL_UPD, value).apply()
-
     var showSeconds: Boolean
         get() = data.getBoolean(SHOW_SECONDS, false)
         set(value) = data.edit().putBoolean(SHOW_SECONDS, value).apply()
@@ -119,10 +107,6 @@ object Prefs {
     var storeCustomKeys
         get() = data.getBoolean(STORE_CUSTOM_KEYS, true)
         set(value) = data.edit().putBoolean(STORE_CUSTOM_KEYS, value).apply()
-
-    var messageSize: Int
-        get() = data.getInt(MESSAGE_SIZE, 15)
-        set(value) = data.edit().putInt(MESSAGE_SIZE, value).apply()
 
     var sendByEnter
         get() = data.getBoolean(SEND_BY_ENTER, false)
@@ -166,10 +150,6 @@ object Prefs {
         get() = data.getBoolean(SHOW_NAME, false)
         set(showName) = data.edit().putBoolean(SHOW_NAME, showName).apply()
 
-    var ledLights: Boolean
-        get() = data.getBoolean(LED_LIGHTS, false)
-        set(ledLights) = data.edit().putBoolean(LED_LIGHTS, ledLights).apply()
-
     var ledColor: Int
         get() = data.getInt(LED_COLOR, Color.MAGENTA)
         set(value) = data.edit().putInt(LED_COLOR, value).apply()
@@ -191,10 +171,6 @@ object Prefs {
     var soundChats: Boolean
         get() = data.getBoolean(SOUND_CHATS, false)
         set(sound) = data.edit().putBoolean(SOUND_CHATS, sound).apply()
-
-    var ledLightsChats: Boolean
-        get() = data.getBoolean(LED_LIGHTS_CHATS, false)
-        set(ledLights) = data.edit().putBoolean(LED_LIGHTS_CHATS, ledLights).apply()
 
     var ledColorChats: Int
         get() = data.getInt(LED_COLOR_CHATS, Color.BLACK)
@@ -248,37 +224,8 @@ object Prefs {
         set(value) = data.edit().putString(CHAT_BACK, value).apply()
 
     //other
-    var recentStickers: MutableList<Int>
-        get() = data.getString(RECENT_STICKERS, "")
-                .split(",")
-                .filter { it.isNotEmpty() }
-                .map { it.toInt() }
-                .toMutableList()
-        set(value) = data.edit().putString(RECENT_STICKERS, value.joinToString(separator = ",")).apply()
-
     var showRate: Boolean
         get() = data.getBoolean(SHOW_RATE, true)
         set(value) = data.edit().putBoolean(SHOW_RATE, false).apply()
-
-    var recentEmojis: MutableList<Emoji>
-        get() = data.getString(RECENT_EMOJIS, "")
-                .split(",")
-                .filter { it.isNotEmpty() }
-                .map { it.toInt() }
-                .map { EmojiHelper.emojis[it] }
-                .toMutableList()
-        set(value) = data.edit().putString(RECENT_EMOJIS,
-                value.map { getPosByEmoji(it) }
-                        .joinToString(separator = ",")
-        ).apply()
-
-    private fun getPosByEmoji(emoji: Emoji): Int {
-        for (pos in EmojiHelper.emojis.indices) {
-            if (emoji == EmojiHelper.emojis[pos]) {
-                return pos
-            }
-        }
-        return 0
-    }
 
 }
