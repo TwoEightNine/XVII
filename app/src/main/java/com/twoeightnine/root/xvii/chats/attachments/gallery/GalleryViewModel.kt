@@ -22,6 +22,11 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
     private var disposable: Disposable? = null
     private val preloadedItems = arrayListOf<DeviceItem>()
 
+    /**
+     * to change behavior
+     */
+    var onlyPhotos = false
+
     init {
         File(context.cacheDir, CACHE_DIR).mkdir()
     }
@@ -49,52 +54,58 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
                 }, { onErrorOccurred(it.message ?: "") })
     }
 
-    private fun loadThumbnailsForItems(items: MutableList<DeviceItem>): Single<MutableList<DeviceItem>> {
-        items.forEach { item ->
+    private fun loadThumbnailsForItems(
+            items: MutableList<DeviceItem>
+    ): Single<MutableList<DeviceItem>> =
+            Single.fromCallable {
+                items.forEach { item ->
 
-            item.thumbnail = when (item.type) {
-                DeviceItem.Type.VIDEO -> {
+                    item.thumbnail = when (item.type) {
+                        DeviceItem.Type.VIDEO -> {
 
-                    // get thumbnail's file and path
-                    val thumbnailFile = getFileForItem(item)
-                    val thumbnail = thumbnailFile.absolutePath
+                            // get thumbnail's file and path
+                            val thumbnailFile = getFileForItem(item)
+                            val thumbnail = thumbnailFile.absolutePath
 
-                    // file does not exist. create it!
-                    if (!thumbnailFile.exists()) {
+                            // file does not exist. create it!
+                            if (!thumbnailFile.exists()) {
 
-                        // create bitmap thumbnail and save it to path
-                        val bitmap = ThumbnailUtils.createVideoThumbnail(item.path, MediaStore.Images.Thumbnails.MICRO_KIND)
-                        if (bitmap != null) {
-                            saveBmp(thumbnail, bitmap)
-                        } else {
-                            Lg.wtf("[gallery] video thumbnail is null")
+                                // create bitmap thumbnail and save it to path
+                                val bitmap = ThumbnailUtils.createVideoThumbnail(item.path, MediaStore.Images.Thumbnails.MICRO_KIND)
+                                if (bitmap != null) {
+                                    saveBmp(thumbnail, bitmap)
+                                } else {
+                                    Lg.wtf("[gallery] video thumbnail is null")
+                                }
+                            }
+
+                            // set path
+                            "file://$thumbnail"
+                        }
+                        else -> {
+                            // thumb for photos is the same photo. will be cropped before showing
+                            "file://${item.path}"
                         }
                     }
-
-                    // set path
-                    "file://$thumbnail"
                 }
-                else -> {
-                    // thumb for photos is the same photo. will be cropped before showing
-                    "file://${item.path}"
-                }
+                items
             }
-        }
-        return Single.just(items)
-    }
 
     /**
      * loads photos and videos, sorts them by date descending, filter for non-empty paths
      */
-    private fun preloadMedia(items: ArrayList<DeviceItem>): Single<ArrayList<DeviceItem>> {
-        if (items.isEmpty()) {
-            items.addAll(loadAllPhotos())
-            items.addAll(loadAllVideos())
-            items.sortByDescending { it.date }
-            items.filter { it.path.isNotEmpty() }
-        }
-        return Single.just(items)
-    }
+    private fun preloadMedia(items: ArrayList<DeviceItem>): Single<ArrayList<DeviceItem>> =
+            Single.fromCallable {
+                if (items.isEmpty()) {
+                    items.addAll(loadAllPhotos())
+                    if (!onlyPhotos) {
+                        items.addAll(loadAllVideos())
+                    }
+                    items.sortByDescending { it.date }
+                    items.filter { it.path.isNotEmpty() }
+                }
+                items
+            }
 
     /**
      * load all videos from gallery
@@ -133,7 +144,12 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
      */
     private fun loadAllPhotos(): ArrayList<DeviceItem> {
         val photos = arrayListOf<DeviceItem>()
-        val projectionImages = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DATE_MODIFIED)
+        val projectionImages = arrayOf(
+                MediaStore.MediaColumns.DATA,
+                MediaStore.MediaColumns.DATE_MODIFIED,
+                MediaStore.MediaColumns.WIDTH,
+                MediaStore.MediaColumns.HEIGHT
+        )
 
         var cursorImages: Cursor? = null
         try {
@@ -148,6 +164,11 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
                 val path = cursorImages.getString(cursorImages.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
                 if (path != null) {
                     photos.add(DeviceItem(date, path, DeviceItem.Type.PHOTO))
+                    if (path.endsWith(".png")) {
+                        val width = cursorImages.getInt(cursorImages.getColumnIndexOrThrow(MediaStore.MediaColumns.WIDTH))
+                        val height = cursorImages.getInt(cursorImages.getColumnIndexOrThrow(MediaStore.MediaColumns.HEIGHT))
+                        Lg.i("${width}x$height: $path")
+                    }
                 }
             } while (cursorImages.moveToNext())
 

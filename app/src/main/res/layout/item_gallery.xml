@@ -10,13 +10,6 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/ivCamera"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="12dp"
-            android:src="@drawable/ic_camera" />
-
-        <ImageView
             android:id="@+id/ivThumb"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

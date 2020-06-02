@@ -31,13 +31,16 @@ class GalleryFragment : BaseFragment() {
     private val insetViewModel by lazy {
         ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
     }
+    private val onlyPhotos by lazy {
+        arguments?.getBoolean(ARG_ONLY_PHOTOS) == true
+    }
 
     private val imageUtils by lazy {
         ImageUtils(activity ?: throw IllegalStateException("Where is activity?"))
     }
 
     private val adapter by lazy {
-        GalleryAdapter(contextOrThrow, ::onCameraClick, ::loadMore)
+        GalleryAdapter(contextOrThrow, ::loadMore)
     }
 
     private val permissionHelper by lazy {
@@ -50,6 +53,7 @@ class GalleryFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[GalleryViewModel::class.java]
+        viewModel.onlyPhotos = onlyPhotos
         initRecycler()
         viewModel.getAttach().observe(this, Observer { updateList(it) })
         reloadData()
@@ -75,21 +79,26 @@ class GalleryFragment : BaseFragment() {
         }
         progressBar.stylize()
 
-        btnCamera.setOnClickListener {
-            imageUtils.dispatchTakePictureIntent(this)
+        if (!onlyPhotos) {
+            llButtons.show()
+            btnCamera.setOnClickListener {
+                imageUtils.dispatchTakePictureIntent(this)
+            }
+            btnDoc.setOnClickListener {
+                imageUtils.dispatchSelectFile(this)
+            }
+            btnDoc.stylize()
+            btnCamera.stylize()
+            rvAttachments.setPadding(0, resources.getDimensionPixelOffset(R.dimen.toolbar_height), 0, 0)
         }
-        btnDoc.setOnClickListener {
-            imageUtils.dispatchSelectFile(this)
-        }
-        btnDoc.stylize()
-        btnCamera.stylize()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
             rvAttachments.setPadding(0, rvAttachments.paddingTop, 0, bottom)
-            val fabMargin = context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin) ?: 0
+            val fabMargin = context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin)
+                    ?: 0
             fabDone.setBottomMargin(bottom + fabMargin)
         })
     }
@@ -126,10 +135,6 @@ class GalleryFragment : BaseFragment() {
         adapter.multiListener = fabDone::setVisible
     }
 
-    private fun onCameraClick() {
-
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -155,14 +160,21 @@ class GalleryFragment : BaseFragment() {
     }
 
     companion object {
+
+        private const val ARG_ONLY_PHOTOS = "onlyPhotos"
+
         const val SPAN_COUNT = 4
 
         private val disposables = CompositeDisposable()
         private val selectedSubject = PublishSubject.create<List<DeviceItem>>()
 
-        fun newInstance(onSelected: (List<DeviceItem>) -> Unit): GalleryFragment {
+        fun newInstance(onlyPhotos: Boolean = false, onSelected: (List<DeviceItem>) -> Unit): GalleryFragment {
             selectedSubject.subscribe(onSelected).let { disposables.add(it) }
-            return GalleryFragment()
+            return GalleryFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(ARG_ONLY_PHOTOS, onlyPhotos)
+                }
+            }
         }
 
         fun clear() {

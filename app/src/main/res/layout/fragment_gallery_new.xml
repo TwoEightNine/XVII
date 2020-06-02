@@ -14,15 +14,16 @@
             android:id="@+id/rvAttachments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingTop="56dp" />
+            android:clipToPadding="false" />
 
     </com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout>
 
     <LinearLayout
+        android:id="@+id/llButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_shadow_dark"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <Button

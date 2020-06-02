@@ -217,7 +217,7 @@ class AppearanceFragment : BaseFragment() {
                 R.string.no_access_to_storage,
                 R.string.need_access_to_storage
         ) {
-            bottomSheetHelper.openBottomSheet(GalleryFragment.newInstance {
+            bottomSheetHelper.openBottomSheet(GalleryFragment.newInstance(onlyPhotos = true) {
                 bottomSheetHelper.closeBottomSheet()
                 if (it.isNotEmpty()) {
                     convertPhoto(it[0].path)
@@ -278,7 +278,7 @@ class AppearanceFragment : BaseFragment() {
      * for parent activity
      */
     fun hasChanges() = isLightBefore != switchLightTheme.isChecked
-            ||  currentColor != colorBefore
+            || currentColor != colorBefore
 
     /**
      * for parent activity

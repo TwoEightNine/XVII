@@ -27,7 +27,7 @@ class AttachFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(adapter) {
-            add(GalleryFragment.newInstance(::onSelectedFromGallery), getString(R.string.device_photos))
+            add(GalleryFragment.newInstance(onSelected = ::onSelectedFromGallery), getString(R.string.device_photos))
             add(PhotoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.photos))
             add(VideoAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.videos))
             add(DocAttachFragment.newInstance(::onAttachmentsSelected), getString(R.string.docs))
