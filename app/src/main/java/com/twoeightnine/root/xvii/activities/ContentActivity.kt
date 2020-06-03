@@ -81,8 +81,4 @@ abstract class ContentActivity : BaseActivity() {
 
     protected open fun getDraggableBottomMargin() = 0
 
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.open_activity, R.anim.close_activity)
-    }
 }
