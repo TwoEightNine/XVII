@@ -91,6 +91,8 @@
         android:layout_marginEnd="@dimen/margin16"
         android:layout_marginBottom="@dimen/chat_fab_more_bottom_margin"
         android:src="@drawable/ic_chevron_down"
+        android:elevation="2dp"
+        app:elevation="2dp"
         android:visibility="invisible"
         app:backgroundTint="@color/fab" />
 
