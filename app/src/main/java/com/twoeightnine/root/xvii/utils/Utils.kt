@@ -307,13 +307,17 @@ fun simpleUrlIntent(context: Context?, urlArg: String?) {
     context ?: return
 
     var url = urlArg ?: return
-    if (!url.startsWith("http://") && !url.startsWith("https://")) {
-        url = "http://$url"
+    try {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "http://$url"
+        }
+        val intent = Intent(ACTION_VIEW).apply {
+            data = Uri.parse(url)
+        }
+        context.startActivity(intent)
+    } catch (e: Exception) {
+        Lg.wtf("unable to open link: ${e.message}")
     }
-    val intent = Intent(ACTION_VIEW).apply {
-        data = Uri.parse(url)
-    }
-    context.startActivity(intent)
 }
 
 fun <T> applySchedulers(): (t: Flowable<T>) -> Flowable<T> {

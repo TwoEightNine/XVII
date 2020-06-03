@@ -98,9 +98,14 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         if (viewPager.currentItem == 1) {
-            val intent = Intent(Intent.ACTION_MAIN)
-            intent.addCategory(Intent.CATEGORY_HOME)
-            startActivity(intent)
+            try {
+                val intent = Intent(Intent.ACTION_MAIN)
+                intent.addCategory(Intent.CATEGORY_HOME)
+                startActivity(intent)
+            } catch (e: IllegalStateException) {
+                Lg.wtf("[home] unable to go home: ${e.message}")
+                super.onBackPressed()
+            }
         } else {
             bottomNavView.selectedItemId = R.id.menu_dialogs
         }
