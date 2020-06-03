@@ -449,7 +449,7 @@ class LongPollCore(private val context: Context) {
         }
         return PendingIntent.getBroadcast(
                 context,
-                0,
+                messageId,
                 markAsReadIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         )
