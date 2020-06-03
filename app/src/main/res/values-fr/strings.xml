@@ -394,6 +394,7 @@
     <string name="lift_keyboards">lever le clavier des autocollants</string>
     <string name="lift_keyboards_hint">allumez s\'il y a un espace enter le clavier et l\'entrée</string>
     <string name="open_in_browser">ouvrir le navigateur</string>
+    <string name="unable_to_crop">incapable de cropper l\'image pour un arrière-plan du tchat. essayez choisir une autre</string>
 
 </resources>
 

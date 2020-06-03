@@ -420,5 +420,6 @@
     <string name="lift_keyboards">приподнять окно стикеров</string>
     <string name="lift_keyboards_hint">влючите, если есть отступ между ним и полем ввода</string>
     <string name="open_in_browser">открыть в браузере</string>
+    <string name="unable_to_crop">невозможно обрезать изображение для фона. попробуйте выбрать другое</string>
 
 </resources>

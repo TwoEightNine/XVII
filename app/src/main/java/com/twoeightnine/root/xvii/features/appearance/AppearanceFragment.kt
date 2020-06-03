@@ -253,8 +253,12 @@ class AppearanceFragment : BaseFragment() {
         val activity = activity ?: return
 
         val newPath = getCroppedImagePath(activity, path)
-        Prefs.chatBack = newPath
-        hideDialog(newPath)
+        if (newPath != null) {
+            Prefs.chatBack = newPath
+            hideDialog(newPath)
+        } else {
+            showAlert(context, getString(R.string.unable_to_crop))
+        }
     }
 
     private fun hideDialog(newPath: String) {

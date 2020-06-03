@@ -530,31 +530,36 @@ fun saveBmp(fileName: String, bmp: Bitmap) {
     }
 }
 
-fun getCroppedImagePath(activity: Activity, original: String): String {
-    val options = BitmapFactory.Options()
-    options.inJustDecodeBounds = true
-    BitmapFactory.decodeFile(original, options)
-    val ih = options.outHeight
-    val iw = options.outWidth
-    val sh = screenHeight(activity)
-    val sw = screenWidth(activity)
-    val sr = sw.toFloat() / sh
-    val ir = iw.toFloat() / ih
+fun getCroppedImagePath(activity: Activity, original: String): String? {
+    try {
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(original, options)
+        val ih = options.outHeight
+        val iw = options.outWidth
+        val sh = screenHeight(activity)
+        val sw = screenWidth(activity)
+        val sr = sw.toFloat() / sh
+        val ir = iw.toFloat() / ih
 
-    var bmp = BitmapFactory.decodeFile(original, BitmapFactory.Options())
-    var newW = iw
-    var newH = ih
-    if (sr < ir) {
-        newW = (sr * newH).toInt()
-        bmp = Bitmap.createBitmap(bmp, (iw - newW) / 2, 0, newW, newH)
-    } else {
-        newH = (newW / sr).toInt()
-        bmp = Bitmap.createBitmap(bmp, 0, (ih - newH) / 2, newW, newH)
+        var bmp = BitmapFactory.decodeFile(original, BitmapFactory.Options())
+        var newW = iw
+        var newH = ih
+        if (sr < ir) {
+            newW = (sr * newH).toInt()
+            bmp = Bitmap.createBitmap(bmp, (iw - newW) / 2, 0, newW, newH)
+        } else {
+            newH = (newW / sr).toInt()
+            bmp = Bitmap.createBitmap(bmp, 0, (ih - newH) / 2, newW, newH)
+        }
+        bmp = Bitmap.createScaledBitmap(bmp, sw, sh, true)
+        val fileName = File(activity.filesDir, "chatBack${time() % 10}.png").absolutePath
+        saveBmp(fileName, bmp)
+        return fileName
+    } catch (e: Exception) {
+        Lg.wtf("[chat back] error cropping: ${e.message}")
+        return null
     }
-    bmp = Bitmap.createScaledBitmap(bmp, sw, sh, true)
-    val fileName = File(activity.filesDir, "chatBack${time() % 10}.png").absolutePath
-    saveBmp(fileName, bmp)
-    return fileName
 }
 
 fun showDeleteDialog(context: Context?,
