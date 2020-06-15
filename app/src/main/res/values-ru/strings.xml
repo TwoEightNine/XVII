@@ -263,7 +263,7 @@
     <string name="edit_message">редактирование</string>
     <string name="unable_to_edit_message">невозможно отредактировать это сообщение</string>
     <string name="device_photos">устройство</string>
-    <string name="mic_hint">потяните влево, чтобы отменить\\nпотяните вверх, чтобы закрепить</string>
+    <string name="mic_hint">потяните влево, чтобы отменить\nпотяните вверх, чтобы закрепить</string>
     <string name="invalid_user_id">неадекватный аккаунт o_o</string>
     <string name="faces">лица</string>
     <string name="animals">животные</string>
@@ -410,7 +410,7 @@
     <string name="clear_vote">удалить голос</string>
     <string name="swipe_to_back">включить жест swipe-to-finish</string>
     <string name="swipe_to_back_hint">закрытие экранов свайпом с левого края</string>
-    <string name="assist_hint">реклама загружается\\nи скоро включится..</string>
+    <string name="assist_hint">реклама загружается\nи скоро включится..</string>
     <string name="assist_no">нет, назад</string>
     <string name="assist_thank_you">спасибо за содействие!</string>
     <string name="assist_yes">да, я в деле</string>
