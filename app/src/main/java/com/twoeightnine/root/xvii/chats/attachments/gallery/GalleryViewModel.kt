@@ -164,11 +164,12 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
                 val path = cursorImages.getString(cursorImages.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
                 if (path != null) {
                     photos.add(DeviceItem(date, path, DeviceItem.Type.PHOTO))
-                    if (path.endsWith(".png")) {
-                        val width = cursorImages.getInt(cursorImages.getColumnIndexOrThrow(MediaStore.MediaColumns.WIDTH))
-                        val height = cursorImages.getInt(cursorImages.getColumnIndexOrThrow(MediaStore.MediaColumns.HEIGHT))
-                        Lg.i("${width}x$height: $path")
-                    }
+                    // png logging: tests
+//                    if (path.endsWith(".png")) {
+//                        val width = cursorImages.getInt(cursorImages.getColumnIndexOrThrow(MediaStore.MediaColumns.WIDTH))
+//                        val height = cursorImages.getInt(cursorImages.getColumnIndexOrThrow(MediaStore.MediaColumns.HEIGHT))
+//                        Lg.i("${width}x$height: $path")
+//                    }
                 }
             } while (cursorImages.moveToNext())
 

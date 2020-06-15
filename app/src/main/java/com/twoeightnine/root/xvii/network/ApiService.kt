@@ -82,11 +82,13 @@ interface ApiService {
 
     @Headers(NEW_VERSION_HEADER)
     @FormUrlEncoded
-    @POST("messages.edit?keep_snippets=1&keep_forward_messages=1")
+    @POST("messages.edit")
     fun editMessage(
             @Field("peer_id") peerId: Int,
             @Field("message") message: String,
-            @Field("message_id") messageId: Int
+            @Field("message_id") messageId: Int,
+            @Field("keep_snippets") keepSnippets: Int = 1,
+            @Field("keep_forward_messages") keepForwardedMessages: Int = 1
     ): Flowable<BaseResponse<Int>>
 
     @Headers(NEW_VERSION_HEADER)

@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.poll.PollsActivity
 import kotlinx.android.synthetic.main.container_audio.view.*
@@ -141,6 +142,9 @@ fun getAudio(audio: Audio, context: Context, audios: List<Audio> = arrayListOf(a
         included.ivSubtitles.show()
         included.ivSubtitles.stylize()
         included.tvText.text = text
+        if (Prefs.lowerTexts) {
+            included.tvText.lower()
+        }
         included.ivSubtitles.setOnClickListener {
             included.tvText.show()
             included.ivSubtitles.hide()
