@@ -299,7 +299,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                         val message = it.getOrNull(0) ?: return@subscribeSmart
                         when (event) {
                             is NewMessageEvent -> addNewMessage(message)
-                            is EditMessageEvent -> updateMessage(message)
+                            is EditMessageEvent -> updateMessage(message, overrideUpdateTime = false)
                         }
                     }, { error ->
                         lw("new message error: $error")
@@ -323,11 +323,13 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         markAsRead(message.id)
     }
 
-    private fun updateMessage(message: Message) {
+    private fun updateMessage(message: Message, overrideUpdateTime: Boolean = true) {
         val pos = messages.indexOfFirst { it.id == message.id }
         if (pos == -1) return
 
-        message.updateTime = time()
+        if (overrideUpdateTime) {
+            message.updateTime = time()
+        }
         message.read = messages[pos].read
         messages[pos] = message
         interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.UPDATE, pos, arrayListOf(message)))

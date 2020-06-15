@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.poll.PollsActivity
+import kotlinx.android.synthetic.main.container_audio.view.*
 import kotlinx.android.synthetic.main.container_video.view.*
 
 
@@ -123,7 +124,7 @@ fun getEncrypted(doc: Doc, context: Context, decryptCallback: (Doc) -> Unit = {}
     return included
 }
 
-fun getAudio(audio: Audio, context: Context, audios: List<Audio> = arrayListOf(audio)): View {
+fun getAudio(audio: Audio, context: Context, audios: List<Audio> = arrayListOf(audio), text: String? = null): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_audio, null, false)
     val dPlay = ContextCompat.getDrawable(context, R.drawable.ic_play)
     val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
@@ -135,6 +136,15 @@ fun getAudio(audio: Audio, context: Context, audios: List<Audio> = arrayListOf(a
     included.findViewById<TextView>(R.id.tvArtist).text = audio.artist
     if (MusicService.getPlayedTrack()?.audio == audio && MusicService.isPlaying()) {
         ivButton.setImageDrawable(dPause)
+    }
+    if (!text.isNullOrBlank()) {
+        included.ivSubtitles.show()
+        included.ivSubtitles.stylize()
+        included.tvText.text = text
+        included.ivSubtitles.setOnClickListener {
+            included.tvText.show()
+            included.ivSubtitles.hide()
+        }
     }
     ivButton.setOnClickListener {
         ivButton.setImageDrawable(dPause)

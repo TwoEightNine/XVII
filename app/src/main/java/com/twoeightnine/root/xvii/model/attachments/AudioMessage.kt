@@ -26,5 +26,8 @@ data class AudioMessage(
 
         @SerializedName("access_key")
         @Expose
-        val accessKey: String
+        val accessKey: String,
+
+        @SerializedName("transcript")
+        val transcript: String? = null
 ): Parcelable
