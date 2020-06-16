@@ -286,7 +286,7 @@ class ChatInputController(
                 }
             }
 
-            MotionEvent.ACTION_UP -> {
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 if (!alreadyStopped && !locked) {
                     stop(cancel = false)
                 }

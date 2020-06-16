@@ -263,7 +263,7 @@
     <string name="edit_message">редактирование</string>
     <string name="unable_to_edit_message">невозможно отредактировать это сообщение</string>
     <string name="device_photos">устройство</string>
-    <string name="mic_hint">потяните влево, чтобы отменить\nпотяните вверх, чтобы закрепить</string>
+    <string name="mic_hint">влево, чтобы отменить\nвверх, чтобы закрепить</string>
     <string name="invalid_user_id">неадекватный аккаунт o_o</string>
     <string name="faces">лица</string>
     <string name="animals">животные</string>

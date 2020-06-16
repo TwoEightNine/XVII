@@ -237,7 +237,7 @@
     <string name="edit_message">modifier</string>
     <string name="unable_to_edit_message">disponible de modifier</string>
     <string name="device_photos">appareil</string>
-    <string name="mic_hint">glisser de gauche pour annuler\nglisser de haut pour verrouiller</string>
+    <string name="mic_hint">gauche pour annuler\nhaut pour verrouiller</string>
     <string name="invalid_user_id">mauvais compte</string>
     <string name="faces">faces</string>
     <string name="animals">animaux</string>

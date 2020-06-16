@@ -18,10 +18,15 @@ class VoiceRecorder(
 ) {
 
     private var recorder: MediaRecorder? = null
-    private val fileName = File(context.cacheDir, RECORD_NAME).absolutePath
+    private val file = File(context.cacheDir, RECORD_NAME)
     private val timer = RecordTimer()
 
     fun startRecording() {
+
+        if (file.exists()) {
+            file.delete()
+        }
+
         recorderCallback.onVoiceVisibilityChanged(true)
         timer.start()
         recorder = MediaRecorder()
@@ -29,7 +34,7 @@ class VoiceRecorder(
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
-            setOutputFile(fileName)
+            setOutputFile(file.absolutePath)
             try {
                 prepare()
                 start()
@@ -56,7 +61,7 @@ class VoiceRecorder(
         }
         recorder = null
         if (timer.lastDuration >= RECORD_MIN_DURATION && !cancelled && successfully) {
-            recorderCallback.onVoiceRecorded(fileName)
+            recorderCallback.onVoiceRecorded(file.absolutePath)
         }
     }
 
