@@ -14,6 +14,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
+import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
 import androidx.core.app.NotificationCompat
@@ -32,6 +33,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     private val tracks = arrayListOf<Track>()
 
     private var playedPosition: Int = 0
+
+    private var playbackSpeed = 1f
 
     private fun updateAudios(tracks: ArrayList<Track>, position: Int = 0) {
         val nowPlayed = getPlayedTrack()
@@ -76,10 +79,31 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         try {
             player.reset()
             player.setDataSource(path)
+            updateSpeed(showNotification = false)
             player.prepareAsync()
         } catch (e: Exception) {
             e.printStackTrace()
             lw("preparing error: ${e.message}")
+        }
+    }
+
+    private fun toggleSpeed() {
+        playbackSpeed = when(playbackSpeed) {
+            1f -> 1.25f
+            1.25f -> 1.5f
+            1.5f -> 2f
+            2f -> 0.5f
+            else -> 1f
+        }
+        updateSpeed()
+    }
+
+    private fun updateSpeed(showNotification: Boolean = true) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            player.playbackParams = player.playbackParams.setSpeed(playbackSpeed)
+        }
+        if (showNotification) {
+            showNotification()
         }
     }
 
@@ -159,7 +183,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
                 .setCustomContentView(bindRemoteViews(R.layout.view_music_notification, audio))
-//                .setCustomBigContentView(bindRemoteViews(R.layout.view_music_notification_extended, audio))
+                .setCustomBigContentView(bindRemoteViews(R.layout.view_music_notification_extended, audio, true))
                 .setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
@@ -184,7 +208,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         }
     }
 
-    private fun bindRemoteViews(@LayoutRes viewId: Int, audio: Audio): RemoteViews {
+    private fun bindRemoteViews(@LayoutRes viewId: Int, audio: Audio, isExtended: Boolean = false): RemoteViews {
         val remoteViews = RemoteViews(packageName, viewId)
         with(remoteViews) {
             setTextViewText(R.id.tvTitle, audio.title)
@@ -194,7 +218,18 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             setOnClickPendingIntent(R.id.ivNext, getActionPendingIntent(MusicBroadcastReceiver.ACTION_NEXT))
             setOnClickPendingIntent(R.id.ivPrevious, getActionPendingIntent(MusicBroadcastReceiver.ACTION_PREVIOUS))
             setOnClickPendingIntent(R.id.ivPlayPause, getActionPendingIntent(MusicBroadcastReceiver.ACTION_PLAY_PAUSE))
-            setOnClickPendingIntent(R.id.ivClose, getActionPendingIntent(MusicBroadcastReceiver.ACTION_CLOSE))
+
+            if (isExtended) {
+                setOnClickPendingIntent(R.id.tvClose, getActionPendingIntent(MusicBroadcastReceiver.ACTION_CLOSE))
+                setOnClickPendingIntent(R.id.tvPlaybackSpeed, getActionPendingIntent(MusicBroadcastReceiver.ACTION_SPEED))
+
+                setTextViewText(R.id.tvPlaybackSpeed, getString(R.string.playback_speed, playbackSpeed.toString()))
+                setViewVisibility(R.id.tvPlaybackSpeed, if (Build.VERSION.SDK_INT >= 23) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                })
+            }
         }
         return remoteViews
     }
@@ -287,6 +322,10 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
         fun playPause() {
             service?.playOrPause()
+        }
+
+        fun toggleSpeed() {
+            service?.toggleSpeed()
         }
 
         fun subscribeOnAudioPlaying(consumer: (Track) -> Unit) = playingAudioSubject.subscribe(consumer)

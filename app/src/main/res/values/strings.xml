@@ -340,6 +340,8 @@
     <string name="clear_vote">clear my vote</string>
     <string name="open_in_browser">open in browser</string>
     <string name="unable_to_crop">unable to crop this image as a background. try to select other one</string>
+    <string name="close">close</string>
+    <string name="playback_speed">speed %sx</string>
 
     <string name="assist_prompt">you are about to watch a fullscreen advertising. it is absolutely free to you but watching this is your opportunity to thank the developer for this app. do you want to continue and watch?</string>
     <string name="assist_yes">yes, i\'m in</string>

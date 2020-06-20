@@ -1,98 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <include layout="@layout/view_music_notification" />
+
+    <TextView
+        android:id="@+id/tvPlaybackSpeed"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_below="@+id/rlTrack"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="12dp"
+        android:padding="12dp"
+        android:textColor="#111"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="speed 1.25x" />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_weight="15"
-            android:src="@drawable/xvii_dark_logo_128" />
+    <TextView
+        android:id="@+id/tvClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlTrack"
+        android:layout_marginStart="12dp"
+        android:padding="12dp"
+        android:text="@string/close"
+        android:textColor="#555"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_weight="75"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name_music"
-                android:textColor="#888"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textColor="#111"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:text="Title" />
-
-            <TextView
-                android:id="@+id/tvArtist"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="#444"
-                android:textSize="13sp"
-                tools:text="Artist" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/ivClose"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="10"
-            android:src="@drawable/ic_close" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:paddingTop="8dp">
-
-        <ImageView
-            android:id="@+id/ivPrevious"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_skip_previous" />
-
-        <ImageView
-            android:id="@+id/ivPlayPause"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_pause_music" />
-
-        <ImageView
-            android:id="@+id/ivNext"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_skip_next" />
-
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

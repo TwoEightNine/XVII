@@ -86,7 +86,6 @@ dependencies {
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation "de.hdodenhof:circleimageview:$circleImageViewVersion"
     implementation "com.github.orangegangsters:swipy:$swipyVersion"
-    implementation "com.miguelcatalan:materialsearchview:$materialSearchViewVersion"
     testImplementation "junit:junit:$junitVersion"
     implementation "com.github.QuadFlask:colorpicker:$colorpickerVersion"
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'

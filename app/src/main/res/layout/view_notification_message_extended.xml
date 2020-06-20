@@ -84,6 +84,7 @@
         android:layout_marginEnd="12dp"
         android:padding="12dp"
         android:text="@string/mark_as_read"
+        android:textStyle="bold"
         android:textColor="@color/main_text"
         android:textSize="14sp" />
 

@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlTrack"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="70dp"
     android:orientation="vertical"
     android:padding="8dp">
-
-    <ImageView
-        android:id="@+id/ivClose"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:src="@drawable/ic_close" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/ivPrevious"
-        android:layout_toEndOf="@+id/ivClose"
         android:orientation="vertical"
-        android:paddingStart="6dp">
+        android:paddingStart="12dp">
 
         <TextView
             android:id="@+id/tvTitle"
@@ -48,11 +39,10 @@
             tools:text="artist" />
     </LinearLayout>
 
-
     <ImageView
         android:id="@+id/ivNext"
-        android:layout_width="42dp"
-        android:layout_height="30dp"
+        android:layout_width="36dp"
+        android:layout_height="26dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:paddingStart="6dp"
@@ -61,8 +51,8 @@
 
     <ImageView
         android:id="@+id/ivPlayPause"
-        android:layout_width="42dp"
-        android:layout_height="30dp"
+        android:layout_width="36dp"
+        android:layout_height="26dp"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/ivNext"
         android:paddingStart="6dp"
@@ -71,8 +61,8 @@
 
     <ImageView
         android:id="@+id/ivPrevious"
-        android:layout_width="42dp"
-        android:layout_height="30dp"
+        android:layout_width="36dp"
+        android:layout_height="26dp"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/ivPlayPause"
         android:paddingStart="6dp"
