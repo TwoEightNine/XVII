@@ -82,6 +82,7 @@
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="chat_fab_more_bottom_margin">72dp</dimen>
     <dimen name="chat_sticker_suggestions_bottom_margin">44dp</dimen>
+    <dimen name="chat_mentioned_members_bottom_margin">56dp</dimen>
     <dimen name="accounts_fab_add_margin">16dp</dimen>
     <dimen name="attach_fab_done_margin">16dp</dimen>
 

@@ -10,6 +10,7 @@ import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.LastSeen
+import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Sticker
@@ -47,6 +48,13 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     private val repo by lazy {
         StickersEmojiRepository()
     }
+
+    private val members = arrayListOf<User>()
+
+    private val mentionedMembersLiveData = MutableLiveData<List<User>>()
+
+    val mentionedMembers: LiveData<List<User>>
+        get() = mentionedMembersLiveData
 
     var peerId: Int = 0
         set(value) {
@@ -95,6 +103,31 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
             api.setOffline()
                     .subscribeSmart({}, {})
         }
+    }
+
+    fun loadMembers() {
+        api.getConversationMembers(peerId)
+                .subscribeSmart({ membersResponse ->
+                    members.clear()
+                    members.addAll(membersResponse.profiles)
+                }, { error ->
+                    Lg.i("unable to get conv members: $error")
+                })
+    }
+
+    fun getMatchingMembers(query: String) {
+        if (query.isBlank()) return
+
+        val lowerQuery = query.toLowerCase()
+        val mentioned = arrayListOf<User>()
+        members.forEach { member ->
+            if (member.domain?.toLowerCase()?.startsWith(lowerQuery) == true
+                    || member.firstName?.toLowerCase()?.startsWith(lowerQuery) == true
+                    || member.lastName?.toLowerCase()?.startsWith(lowerQuery) == true) {
+                mentioned.add(member)
+            }
+        }
+        mentionedMembersLiveData.value = mentioned
     }
 
     fun setActivity(type: String = ACTIVITY_TYPING) {

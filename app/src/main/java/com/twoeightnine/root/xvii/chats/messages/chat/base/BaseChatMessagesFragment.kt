@@ -23,12 +23,14 @@ import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesReplyItemCallback
+import com.twoeightnine.root.xvii.chats.messages.chat.MentionedMembersAdapter
 import com.twoeightnine.root.xvii.chats.messages.chat.StickersSuggestionAdapter
 import com.twoeightnine.root.xvii.chats.tools.ChatInputController
 import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
+import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
@@ -58,6 +60,9 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     private val attachedAdapter by lazy {
         AttachedAdapter(contextOrThrow, ::onAttachClicked, inputController::setAttachedCount)
     }
+    private val membersAdapter by lazy {
+        MentionedMembersAdapter(contextOrThrow, inputController::mentionUser)
+    }
     private val chatToolbarController by lazy {
         ChatToolbarController(toolbar)
     }
@@ -83,6 +88,10 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         rvChatList.addOnScrollListener(RecyclerDateScroller())
         rvAttached.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
         rvAttached.adapter = attachedAdapter
+
+        rvMentionedMembers.layoutManager = LinearLayoutManager(context)
+        rvMentionedMembers.adapter = membersAdapter
+
         val swipeToReply = ItemTouchHelper(MessagesReplyItemCallback(context, ::onSwipedToReply))
         swipeToReply.attachToRecyclerView(rvChatList)
         stylize()
@@ -92,9 +101,11 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         rvStickersSuggestion.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvStickersSuggestion.adapter = stickersAdapter
 
+        // TODO move to onActivityCreated with viewLifeCycleOwner
         viewModel.getLastSeen().observe(this, Observer { onOnlineChanged(it) })
         viewModel.getCanWrite().observe(this, Observer { onCanWriteChanged(it) })
         viewModel.getActivity().observe(this, Observer { onActivityChanged(it) })
+        viewModel.mentionedMembers.observe(this, Observer(::showMentionedMembers))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -107,6 +118,9 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
         if (!peerId.matchesUserId()) {
             onOnlineChanged(Triple(false, 0, 0))
+        }
+        if (peerId.matchesChatId()) {
+            viewModel.loadMembers()
         }
         toolbar?.setOnClickListener {
             activity?.let { hideKeyboard(it) }
@@ -127,6 +141,13 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         ViewCompat.setOnApplyWindowInsetsListener(rvStickersSuggestion) { view, insets ->
             (view.layoutParams as? FrameLayout.LayoutParams)?.apply {
                 val margin = context?.resources?.getDimensionPixelSize(R.dimen.chat_sticker_suggestions_bottom_margin) ?: 0
+                bottomMargin = margin + insets.systemWindowInsetBottom
+            }
+            insets
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(rvMentionedMembers) { view, insets ->
+            (view.layoutParams as? FrameLayout.LayoutParams)?.apply {
+                val margin = context?.resources?.getDimensionPixelSize(R.dimen.chat_mentioned_members_bottom_margin) ?: 0
                 bottomMargin = margin + insets.systemWindowInsetBottom
             }
             insets
@@ -326,6 +347,22 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         inputController.addItemAsBeingLoaded(path)
     }
 
+    private fun showMentionedMembers(members: List<User>) {
+        if (members.isEmpty() && rvMentionedMembers.isShown) {
+            rvMentionedMembers.fadeOut(200L) {
+                rvMentionedMembers?.hide()
+            }
+        } else if (members.isNotEmpty() && !rvMentionedMembers.isShown) {
+            rvMentionedMembers.show()
+            rvMentionedMembers.fadeIn(200L)
+        }
+        if (members.size > MEMBERS_MAX) {
+            membersAdapter.update(members.take(MEMBERS_MAX))
+        } else {
+            membersAdapter.update(members)
+        }
+    }
+
     protected fun onDocSelected(path: String) {
         viewModel.attachDoc(path) { pathAttached, attachment ->
             inputController.removeItemAsLoaded(pathAttached)
@@ -360,6 +397,9 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     override fun getAdapterCallback() = AdapterCallback()
 
     companion object {
+
+        const val MEMBERS_MAX = 5
+
         const val ARG_PEER_ID = "peerId"
         const val ARG_TITLE = "title"
         const val ARG_FORWARDED = "forwarded"
@@ -551,6 +591,14 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             } else if (stickers.isNotEmpty() && !rvStickersSuggestion.isShown) {
                 rvStickersSuggestion.show()
                 rvStickersSuggestion.fadeIn(200L)
+            }
+        }
+
+        override fun onMention(query: String) {
+            if (peerId.matchesChatId() && query.isNotBlank()) {
+                viewModel.getMatchingMembers(query)
+            } else {
+                this@BaseChatMessagesFragment.showMentionedMembers(listOf())
             }
         }
     }

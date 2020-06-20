@@ -55,7 +55,6 @@ class ChatActivity : ContentActivity() {
                     title = title,
                     photo = avatar
             ), forwarded)
-
         }
 
         fun launch(context: Context?, dialog: Dialog,

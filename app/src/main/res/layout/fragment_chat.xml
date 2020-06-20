@@ -109,6 +109,19 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMentionedMembers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="@dimen/chat_mentioned_members_bottom_margin"
+        android:background="@drawable/shape_stickers_suggestion"
+        android:elevation="2dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

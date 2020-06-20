@@ -22,6 +22,7 @@ import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiW
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.chat_input_panel.view.*
@@ -118,6 +119,28 @@ class ChatInputController(
             val text = if (count == 10) "+" else count.toString()
             rootView.tvAttachCount.text = text
             switchToSend()
+        }
+    }
+
+    fun mentionUser(user: User) {
+        rootView.etInput.apply {
+            val input = text.toString()
+            val mentionEnd = selectionStart
+            var mentionStart = mentionEnd
+            do {
+                mentionStart--
+            } while (mentionStart != 0 && input[mentionStart] != '@')
+
+            val replacement = "@${user.getPageName()} (${user.firstName})"
+            val newInput = StringBuilder()
+                    .append(input.substring(0, mentionStart))
+                    .append(replacement)
+                    .append(input.substring(mentionEnd))
+                    .toString()
+
+            setText(newInput)
+            setSelection(mentionStart + replacement.length)
+            callback.onMention("") // hide mentioning
         }
     }
 
@@ -348,6 +371,16 @@ class ChatInputController(
                 callback.onStickersSuggested(getMatchedStickers(text))
             }
 
+            if ('@' in text) {
+                val words = text.split(" ")
+                if (words.isNotEmpty()) {
+                    val lastWord = words.last()
+                    if (lastWord.startsWith('@')) {
+                        callback.onMention(lastWord.substring(1))
+                    }
+                }
+            }
+
             val delayExceed = time() - lastTypingInvocation > TYPING_INVOCATION_DELAY
             if (delayExceed && text.isNotBlank()) {
                 callback.onTypingInvoke()
@@ -368,6 +401,7 @@ class ChatInputController(
         fun onRichContentAdded(filePath: String)
         fun onStickersSuggested(stickers: List<Sticker>)
         fun onVoiceRecorded(fileName: String)
+        fun onMention(query: String)
     }
 
     private inner class InputRecorderCallback : VoiceRecorder.RecorderCallback {

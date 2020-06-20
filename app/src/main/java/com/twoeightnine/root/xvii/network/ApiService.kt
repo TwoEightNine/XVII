@@ -147,7 +147,7 @@ interface ApiService {
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<BaseResponse<SearchConversationsResponse>>
 
-    @GET("messages.getConversationMembers?fields=last_seen,photo_100,online")
+    @GET("messages.getConversationMembers?fields=last_seen,photo_100,online,domain")
     fun getConversationMembers(
             @Query("peer_id") peerId: Int
     ): Flowable<BaseResponse<MembersResponse>>
