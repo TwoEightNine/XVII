@@ -21,6 +21,9 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ClickableSpan
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +43,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
@@ -55,6 +59,8 @@ import okhttp3.ResponseBody
 import java.io.*
 import java.text.DecimalFormat
 import java.util.regex.Pattern
+
+private const val REGEX_MENTION = "(\\[id\\d{1,9}\\|[^\\]]+\\])"
 
 fun pxFromDp(context: Context, dp: Int): Int {
     return (dp * context.resources.displayMetrics.density).toInt()
@@ -318,6 +324,38 @@ fun simpleUrlIntent(context: Context?, urlArg: String?) {
     } catch (e: Exception) {
         Lg.wtf("unable to open link: ${e.message}")
     }
+}
+
+fun wrapMentions(context: Context, text: CharSequence, addClickable: Boolean = false): SpannableStringBuilder {
+    val ssb = SpannableStringBuilder()
+    val pattern = Pattern.compile(REGEX_MENTION)
+    val matcher = pattern.matcher(text)
+
+    var globalStart = 0
+    while (matcher.find()) {
+        val mention = matcher.group()
+        val start = matcher.start()
+        val end =  matcher.end()
+
+        val divider = mention.indexOf('|')
+        val mentionUi = mention.substring(divider + 1, mention.length - 1)
+        val userId = mention.substring(3, divider).toIntOrNull()
+
+        ssb.append(text.substring(globalStart, start))
+                .append(mentionUi)
+        val tmp = ssb.toString()
+        if (userId != null && addClickable) {
+            ssb.setSpan(object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    ChatOwnerActivity.launch(context, userId)
+                }
+            }, tmp.length - mentionUi.length, tmp.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        globalStart = end
+    }
+    ssb.append(text.substring(globalStart))
+
+    return ssb
 }
 
 fun <T> applySchedulers(): (t: Flowable<T>) -> Flowable<T> {

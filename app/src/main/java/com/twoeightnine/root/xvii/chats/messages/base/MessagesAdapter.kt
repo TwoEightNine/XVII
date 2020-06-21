@@ -3,11 +3,8 @@ package com.twoeightnine.root.xvii.chats.messages.base
 import android.content.Context
 import android.graphics.Color
 import android.text.Html
-import android.text.Spannable
-import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +13,6 @@ import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
-import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.*
@@ -32,7 +28,6 @@ import kotlinx.android.synthetic.main.item_message_wtf.view.rlBack
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvBody
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDate
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvName
-import java.util.regex.Pattern
 
 
 /**
@@ -149,13 +144,14 @@ class MessagesAdapter(context: Context,
                 invalidateBackground(message, this, level)
                 llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
 
+                val preparedText = wrapMentions(context, message.text, addClickable = true)
                 tvBody.setVisible(message.text.isNotEmpty())
                 tvBody.text = when {
-                    message.text.isNotEmpty() -> wrapMentions(when {
-                        EmojiHelper.hasEmojis(message.text) -> EmojiHelper.getEmojied(context, message.text)
+                    message.text.isNotEmpty() -> when {
+                        EmojiHelper.hasEmojis(message.text) -> EmojiHelper.getEmojied(context, message.text, preparedText)
                         isDecrypted(message.text) -> getWrapped(message.text)
-                        else -> message.text
-                    })
+                        else -> preparedText
+                    }
                     else -> ""
                 }
                 tvBody.movementMethod = LinkMovementMethod.getInstance()
@@ -344,38 +340,6 @@ class MessagesAdapter(context: Context,
             val color = String.format("%X", ContextCompat.getColor(context, R.color.minor_text)).substring(2)
             val result = "<font color=\"#$color\"><i>$prefix</i></font>${text.substring(prefix.length)}"
             return Html.fromHtml(result)
-        }
-
-        private fun wrapMentions(text: CharSequence): CharSequence {
-            val ssb = SpannableStringBuilder()
-            val pattern = Pattern.compile("(\\[id\\d{1,9}\\|.+\\])")
-            val matcher = pattern.matcher(text)
-
-            var globalStart = 0
-            while (matcher.find()) {
-                val mention = matcher.group()
-                val start = matcher.start()
-                val end =  matcher.end()
-
-                val divider = mention.indexOf('|')
-                val mentionUi = mention.substring(divider + 1, mention.length - 1)
-                val userId = mention.substring(3, divider).toIntOrNull()
-
-                ssb.append(text.substring(globalStart, start))
-                        .append(mentionUi)
-
-                if (userId != null) {
-                    ssb.setSpan(object : ClickableSpan() {
-                        override fun onClick(widget: View) {
-                            ChatOwnerActivity.launch(context, userId)
-                        }
-                    }, start, start + mentionUi.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
-                globalStart = end
-            }
-            ssb.append(text.substring(globalStart))
-
-            return ssb
         }
 
         private fun shouldShowName(message: Message, prevMessage: Message?) =

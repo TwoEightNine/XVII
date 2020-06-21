@@ -97,7 +97,7 @@ class DialogsAdapter(
 
         private fun getMessageBody(context: Context, dialog: Dialog): String {
             if (dialog.text.isNotEmpty()) {
-                return dialog.text
+                return wrapMentions(context, dialog.text).toString()
             }
             return context.getString(R.string.error_message)
         }
