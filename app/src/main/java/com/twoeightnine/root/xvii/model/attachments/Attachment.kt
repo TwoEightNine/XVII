@@ -112,8 +112,26 @@ fun ArrayList<Attachment>.getPhotos() = ArrayList(this.mapNotNull { it.photo })
 
 fun ArrayList<Attachment>.photosCount() = getPhotos().size
 
+fun ArrayList<Attachment>.getVideos() = ArrayList(this.mapNotNull { it.video })
+
+fun ArrayList<Attachment>.videosCount() = getVideos().size
+
 fun ArrayList<Attachment>.getAudios() = filter { it.type == Attachment.TYPE_AUDIO }.map { it.audio }
+
+fun ArrayList<Attachment>.audiosCount() = getAudios().size
+
+fun ArrayList<Attachment>.getDocs() = ArrayList(this.mapNotNull { it.doc })
+
+fun ArrayList<Attachment>.docsCount() = getDocs().size
 
 fun ArrayList<Attachment>.getAudioMessage() = find { it.type == Attachment.TYPE_AUDIO_MESSAGE }?.audioMessage
 
+fun ArrayList<Attachment>.isAudioMessage() = getAudioMessage() != null
+
 fun ArrayList<Attachment>.isGraffiti() = isNotEmpty() && this[0].graffiti != null
+
+fun ArrayList<Attachment>.isPoll() = isNotEmpty() && this[0].poll != null
+
+fun ArrayList<Attachment>.isLink() = isNotEmpty() && this[0].link != null
+
+fun ArrayList<Attachment>.isWallPost() = isNotEmpty() && this[0].wall != null

@@ -189,6 +189,26 @@
         <item quantity="other">%d attachements</item>
     </plurals>
 
+    <plurals name="attachments_photos">
+        <item quantity="one">%d photo</item>
+        <item quantity="other">%d photos</item>
+    </plurals>
+
+    <plurals name="attachments_audios">
+        <item quantity="one">%d audio</item>
+        <item quantity="other">%d audios</item>
+    </plurals>
+
+    <plurals name="attachments_videos">
+        <item quantity="one">%d vidéo</item>
+        <item quantity="other">%d vidéos</item>
+    </plurals>
+
+    <plurals name="attachments_docs">
+        <item quantity="one">%d document</item>
+        <item quantity="other">%d documents</item>
+    </plurals>
+
     <plurals name="messages">
         <item quantity="one">%d message</item>
         <item quantity="other">%d messages</item>
@@ -395,6 +415,11 @@
     <string name="lift_keyboards_hint">allumez s\'il y a un espace enter le clavier et l\'entrée</string>
     <string name="open_in_browser">ouvrir le navigateur</string>
     <string name="unable_to_crop">incapable de cropper l\'image pour un arrière-plan du tchat. essayez choisir une autre</string>
+    <string name="poll">sondage</string>
+    <string name="graffiti">graffiti</string>
+    <string name="forwarded_messages">messages transferé</string>
+    <string name="close">fermer</string>
+    <string name="playback_speed">velocité %sx</string>
 
 </resources>
 

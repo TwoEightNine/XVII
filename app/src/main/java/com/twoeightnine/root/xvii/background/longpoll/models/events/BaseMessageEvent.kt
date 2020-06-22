@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.background.longpoll.models.events
 import android.content.Context
 import com.google.gson.internal.LinkedTreeMap
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.utils.matchesUserId
 
 /**
@@ -31,20 +32,41 @@ abstract class BaseMessageEvent(
 
     fun isOut() = (flags and FLAG_OUT) > 0
 
-    fun hasMedia() = info.attachmentsCount > 0 || info.getForwardedCount() > 0
+    fun hasMedia() = info.attachments != null || info.getForwardedCount() > 0
 
     fun isUser() = peerId.matchesUserId()
 
     fun hasEmoji() = info.emoji
 
-    fun getResolvedMessage(context: Context?, hideContent: Boolean = false) = when {
+    fun getResolvedMessage(context: Context?, hideContent: Boolean = false): String = when {
         context == null -> text
         text.isNotBlank() && hideContent -> context.getString(R.string.hidden_message)
         text.isNotBlank() -> text
-        info.isSticker -> context.getString(R.string.sticker)
-        info.attachmentsCount != 0 -> {
-            val count = info.attachmentsCount
-            context.resources.getQuantityString(R.plurals.attachments, count, count)
+        info.attachments != null -> {
+            val count = info.attachments.count
+            when {
+                info.attachments.isSticker -> context.getString(R.string.sticker)
+                info.attachments.isGraffiti -> context.getString(R.string.graffiti)
+                info.attachments.isGift -> context.getString(R.string.gift_for_you)
+                info.attachments.isAudioMessage -> context.getString(R.string.voice_message)
+                info.attachments.isPoll -> context.getString(R.string.poll)
+                info.attachments.isLink -> context.getString(R.string.link)
+                info.attachments.isWallPost -> context.getString(R.string.wall_post)
+
+                info.attachments.photosCount != 0 ->
+                    context.resources.getQuantityString(R.plurals.attachments_photos, count, count)
+
+                info.attachments.videosCount != 0 ->
+                    context.resources.getQuantityString(R.plurals.attachments_videos, count, count)
+
+                info.attachments.audiosCount != 0 ->
+                    context.resources.getQuantityString(R.plurals.attachments_audios, count, count)
+
+                info.attachments.docsCount != 0 ->
+                    context.resources.getQuantityString(R.plurals.attachments_docs, count, count)
+
+                else -> context.resources.getQuantityString(R.plurals.attachments, count, count)
+            }
         }
         info.getForwardedCount() > 0 -> {
             val count = info.getForwardedCount()
@@ -58,8 +80,7 @@ abstract class BaseMessageEvent(
             val from: Int = 0,
             val emoji: Boolean = false,
             val forwarded: String = "",
-            val attachmentsCount: Int = 0,
-            val isSticker: Boolean = false
+            val attachments: AttachmentsInfo? = null
     ) {
         companion object {
 
@@ -67,28 +88,73 @@ abstract class BaseMessageEvent(
             private const val FROM = "from"
             private const val EMOJI = "emoji"
             private const val FWD = "fwd"
-            private const val ATTACH1_TYPE = "attach1_type"
-            private const val TYPE_STICKER = "sticker"
 
             fun fromLinkedTreeMap(data: LinkedTreeMap<String, Any>): MessageInfo {
-                var attachmentsCount = 0
-                for (i in 10 downTo 1) {
-                    if ("attach$i" in data) {
-                        attachmentsCount = i
-                        break
-                    }
-                }
                 return MessageInfo(
                         title = (data[TITLE] as? String) ?: "",
                         from = (data[FROM] as? String)?.toInt() ?: 0,
                         emoji = (data[EMOJI] as? String) == "1",
                         forwarded = (data[FWD] as? String) ?: "",
-                        attachmentsCount = attachmentsCount,
-                        isSticker = (ATTACH1_TYPE in data && data[ATTACH1_TYPE] == TYPE_STICKER)
+                        attachments = AttachmentsInfo.fromLinkedTreeMap(data)
                 )
             }
         }
 
         fun getForwardedCount() = if (forwarded.isEmpty()) 0 else forwarded.split(",").size
+    }
+
+    data class AttachmentsInfo(
+            val isSticker: Boolean = false,
+            val isAudioMessage: Boolean = false,
+            val isGraffiti: Boolean = false,
+            val isLink: Boolean = false,
+            val isPoll: Boolean = false,
+            val isGift: Boolean = false,
+            val isWallPost: Boolean = false,
+
+            val photosCount: Int = 0,
+            val videosCount: Int = 0,
+            val audiosCount: Int = 0,
+            val docsCount: Int = 0
+    ) {
+
+        val count: Int
+            get() = photosCount + videosCount + audiosCount + docsCount
+
+        companion object {
+
+            fun fromLinkedTreeMap(data: LinkedTreeMap<String, Any>): AttachmentsInfo? {
+                var photosCount = 0
+                var videosCount = 0
+                var docsCount = 0
+                var audiosCount = 0
+                for (i in 1..10) {
+                    val key = "attach${i}_type"
+                    if (key in data) {
+                        when(data[key]) {
+                            Attachment.TYPE_STICKER -> return AttachmentsInfo(isSticker = true)
+                            Attachment.TYPE_AUDIO_MESSAGE -> return AttachmentsInfo(isAudioMessage = true)
+                            Attachment.TYPE_POLL -> return AttachmentsInfo(isPoll = true)
+                            Attachment.TYPE_GIFT -> return AttachmentsInfo(isGift = true)
+                            Attachment.TYPE_LINK -> return AttachmentsInfo(isLink = true)
+                            Attachment.TYPE_GRAFFITI -> return AttachmentsInfo(isGraffiti = true)
+                            Attachment.TYPE_WALL -> return AttachmentsInfo(isWallPost = true)
+
+                            Attachment.TYPE_PHOTO -> photosCount++
+                            Attachment.TYPE_VIDEO -> videosCount++
+                            Attachment.TYPE_AUDIO -> audiosCount++
+                            Attachment.TYPE_DOC -> docsCount++
+                        }
+                    }
+                }
+                val info = AttachmentsInfo(
+                        photosCount = photosCount,
+                        videosCount = videosCount,
+                        audiosCount = audiosCount,
+                        docsCount = docsCount
+                )
+                return if (info.count == 0) null else info
+            }
+        }
     }
 }

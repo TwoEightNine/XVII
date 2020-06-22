@@ -52,6 +52,7 @@
     <string name="wall_post">wall post</string>
     <string name="poll_public">public poll</string>
     <string name="poll_anon">anonymous poll</string>
+    <string name="poll">poll</string>
     <string name="copy">copy</string>
     <string name="reply">reply</string>
     <string name="decrypt">decrypt</string>
@@ -228,6 +229,7 @@
     <string name="quote" translatable="false">you are <b>not</b> your job. you\'re <b>not</b> how much money you have in the bank. you\'re <b>not</b> the car you drive. you\'re <b>not</b> the contents of your wallet..</string>
 
     <string name="sticker">sticker</string>
+    <string name="graffiti">graffiti</string>
     <string name="you_sender">you:</string>
     <string name="device_photos">device</string>
     <string name="mic_hint">slide left to cancel\nslide up to lock</string>
@@ -248,6 +250,7 @@
     <string name="outgoing">outgoing\ndata</string>
     <string name="incoming">incoming\ndata</string>
     <string name="forwarded_message">message</string>
+    <string name="forwarded_messages">forwarded messages</string>
     <string name="edited">edited</string>
     <string name="profile_deactivated">this profile is deactivated</string>
     <string name="profile_closed">this profile is closed</string>
@@ -378,6 +381,26 @@
     <plurals name="attachments">
         <item quantity="one">%d attachment</item>
         <item quantity="other">%d attachments</item>
+    </plurals>
+
+    <plurals name="attachments_photos">
+        <item quantity="one">%d photo</item>
+        <item quantity="other">%d photos</item>
+    </plurals>
+
+    <plurals name="attachments_audios">
+        <item quantity="one">%d audio</item>
+        <item quantity="other">%d audios</item>
+    </plurals>
+
+    <plurals name="attachments_videos">
+        <item quantity="one">%d video</item>
+        <item quantity="other">%d videos</item>
+    </plurals>
+
+    <plurals name="attachments_docs">
+        <item quantity="one">%d document</item>
+        <item quantity="other">%d documents</item>
     </plurals>
 
     <plurals name="messages">

@@ -196,6 +196,34 @@
         <item quantity="other">%d прикреплений</item>
     </plurals>
 
+    <plurals name="attachments_photos">
+        <item quantity="one">%d фото</item>
+        <item quantity="few">%d фото</item>
+        <item quantity="many">%d фото</item>
+        <item quantity="other">%d фото</item>
+    </plurals>
+
+    <plurals name="attachments_audios">
+        <item quantity="one">%d аудио</item>
+        <item quantity="few">%d аудио</item>
+        <item quantity="many">%d аудио</item>
+        <item quantity="other">%d аудио</item>
+    </plurals>
+
+    <plurals name="attachments_videos">
+        <item quantity="one">%d видео</item>
+        <item quantity="few">%d видео</item>
+        <item quantity="many">%d видео</item>
+        <item quantity="other">%d видео</item>
+    </plurals>
+
+    <plurals name="attachments_docs">
+        <item quantity="one">%d документ</item>
+        <item quantity="few">%d документа</item>
+        <item quantity="many">%d документов</item>
+        <item quantity="other">%d документов</item>
+    </plurals>
+
     <plurals name="messages">
         <item quantity="one">%d сообщение</item>
         <item quantity="few">%d сообщения</item>
@@ -421,5 +449,10 @@
     <string name="lift_keyboards_hint">влючите, если есть отступ между ним и полем ввода</string>
     <string name="open_in_browser">открыть в браузере</string>
     <string name="unable_to_crop">невозможно обрезать изображение для фона. попробуйте выбрать другое</string>
+    <string name="poll">опрос</string>
+    <string name="graffiti">граффити</string>
+    <string name="forwarded_messages">пересланные сообщения</string>
+    <string name="close">закрыть</string>
+    <string name="playback_speed">скорость %sx</string>
 
 </resources>

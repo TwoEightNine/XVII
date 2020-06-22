@@ -116,17 +116,35 @@ data class Message(
 
     fun isDeletableForAll() = isOut() && isFresh()
 
-    fun getResolvedMessage(context: Context?) = when {
+    fun getResolvedMessage(context: Context?): String = when {
         context == null || text.isNotBlank() -> text
-        attachments != null && attachments.isSticker() -> context.getString(R.string.sticker)
-        attachments != null && attachments.isNotEmpty() -> {
+        !attachments.isNullOrEmpty() -> {
             val count = attachments.size
-            context.resources.getQuantityString(R.plurals.attachments, count, count)
+            when {
+                attachments.isSticker() -> context.getString(R.string.sticker)
+                attachments.isGraffiti() -> context.getString(R.string.graffiti)
+                attachments.isGift() -> context.getString(R.string.gift_for_you)
+                attachments.isAudioMessage() -> context.getString(R.string.voice_message)
+                attachments.isPoll() -> context.getString(R.string.poll)
+                attachments.isLink() -> context.getString(R.string.link)
+                attachments.isWallPost() -> context.getString(R.string.wall_post)
+
+                attachments.photosCount() != 0 ->
+                    context.resources.getQuantityString(R.plurals.attachments_photos, count, count)
+
+                attachments.videosCount() != 0 ->
+                    context.resources.getQuantityString(R.plurals.attachments_videos, count, count)
+
+                attachments.audiosCount() != 0 ->
+                    context.resources.getQuantityString(R.plurals.attachments_audios, count, count)
+
+                attachments.docsCount() != 0 ->
+                    context.resources.getQuantityString(R.plurals.attachments_docs, count, count)
+
+                else -> context.resources.getQuantityString(R.plurals.attachments, count, count)
+            }
         }
-        fwdMessages != null && fwdMessages.isNotEmpty() -> {
-            val count = fwdMessages.size
-            context.resources.getQuantityString(R.plurals.messages, count, count)
-        }
+        !fwdMessages.isNullOrEmpty() -> context.getString(R.string.forwarded_messages)
         else -> text
     }
 
