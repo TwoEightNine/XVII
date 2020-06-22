@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.background.music.services
 
+import android.annotation.TargetApi
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -8,12 +9,11 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.os.Binder
-import android.os.Build
-import android.os.IBinder
-import android.os.PowerManager
+import android.os.*
 import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
@@ -26,11 +26,17 @@ import io.reactivex.subjects.PublishSubject
 
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener,
-        MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
+        MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, AudioManager.OnAudioFocusChangeListener {
 
     private val binder by lazy { MusicBinder() }
     private val player by lazy { MediaPlayer() }
     private val tracks = arrayListOf<Track>()
+
+    private val audioManager by lazy { getSystemService(Context.AUDIO_SERVICE) as AudioManager }
+    private val handler = Handler()
+    private val focusLock = Any()
+    private var isPlaybackDelayed = false
+    private var focusRequest: AudioFocusRequest? = null
 
     private var playedPosition: Int = 0
 
@@ -44,7 +50,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         if (nowPlayed == getPlayedTrack()) {
             playOrPause()
         } else {
-            startPlaying()
+//            startPlaying()
+            requestFocus()
         }
     }
 
@@ -87,8 +94,36 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         }
     }
 
+    private fun requestFocus() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            val focusRequest = createFocusRequest()
+            this.focusRequest = focusRequest
+
+            val result = audioManager.requestAudioFocus(focusRequest)
+            synchronized(focusLock) {
+                when (result) {
+                    AudioManager.AUDIOFOCUS_REQUEST_GRANTED -> {
+                        startPlaying()
+                    }
+                    AudioManager.AUDIOFOCUS_REQUEST_DELAYED -> {
+                        isPlaybackDelayed = true
+                    }
+                }
+            }
+        } else {
+            val result: Int = audioManager.requestAudioFocus(
+                    this,
+                    AudioManager.STREAM_MUSIC,
+                    AudioManager.AUDIOFOCUS_GAIN
+            )
+            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                startPlaying()
+            }
+        }
+    }
+
     private fun toggleSpeed() {
-        playbackSpeed = when(playbackSpeed) {
+        playbackSpeed = when (playbackSpeed) {
             1f -> 1.25f
             1.25f -> 1.5f
             1.5f -> 2f
@@ -143,10 +178,42 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             player.stop()
             tracks.clear()
             pausingAudioSubject.onNext(Unit)
+            if (Build.VERSION.SDK_INT >= 26) {
+                focusRequest?.let(audioManager::abandonAudioFocusRequest)
+            } else {
+                audioManager.abandonAudioFocus(this)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             lw("error stopping: ${e.message}")
             stopForeground(true)
+        }
+    }
+
+    override fun onAudioFocusChange(focusChange: Int) {
+        when (focusChange) {
+            AudioManager.AUDIOFOCUS_GAIN ->
+                if (isPlaybackDelayed) {
+                    synchronized(focusLock) {
+                        isPlaybackDelayed = false
+                    }
+                    startPlaying()
+                }
+            AudioManager.AUDIOFOCUS_LOSS -> {
+                synchronized(focusLock) {
+                    isPlaybackDelayed = false
+                }
+                playOrPause()
+            }
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                synchronized(focusLock) {
+                    isPlaybackDelayed = false
+                }
+                playOrPause()
+            }
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                playOrPause()
+            }
         }
     }
 
@@ -241,6 +308,21 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             },
             PendingIntent.FLAG_UPDATE_CURRENT
     )
+
+    @TargetApi(26)
+    private fun createFocusRequest() =
+            AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
+                    .run {
+                        setAudioAttributes(AudioAttributes.Builder().run {
+                            setUsage(AudioAttributes.USAGE_MEDIA)
+                            setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                            build()
+                        })
+                        setAcceptsDelayedFocusGain(true)
+                        setWillPauseWhenDucked(true)
+                        setOnAudioFocusChangeListener(this@MusicService, handler)
+                        build()
+                    }
 
     override fun onBind(intent: Intent?) = binder
 
