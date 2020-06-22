@@ -356,7 +356,7 @@
     <string name="show_stickers">показывать иконку смайликов/стикеров</string>
     <string name="request">запрос</string>
     <string name="outgoing">исходящие\nданные</string>
-    <string name="lower_texts">использовать строчные буквы для имен</string>
+    <string name="lower_texts">использовать строчные буквы для имён</string>
     <string name="incoming">входящие\nданные</string>
     <string name="chat_photo_updated">%s изменил фото беседы</string>
     <string name="user_kicked_user">%s исключил %s</string>
@@ -393,7 +393,7 @@
     <string name="be_offline_hint">выставлять статус \"не в сети\" автоматически</string>
     <string name="be_online">быть в сети</string>
     <string name="be_online_hint">быть в сети, пока приложение открыто</string>
-    <string name="cache_size">размер кеша: %s</string>
+    <string name="cache_size">размер кэша: %s</string>
     <string name="make_sound">включить звук</string>
     <string name="pick_chat_background">выбрать фон чатов</string>
     <string name="vote_added">голос добавлен</string>
@@ -446,7 +446,7 @@
     <string name="contribute">содействовать</string>
     <string name="assist_prompt">вы собираетесь посмотреть полноэкранную рекламу. для вас это абсолютно беспланто, но очень сильно поможет в развитии проекта. продолжить?</string>
     <string name="lift_keyboards">приподнять окно стикеров</string>
-    <string name="lift_keyboards_hint">влючите, если есть отступ между ним и полем ввода</string>
+    <string name="lift_keyboards_hint">включите, если есть отступ между ним и полем ввода</string>
     <string name="open_in_browser">открыть в браузере</string>
     <string name="unable_to_crop">невозможно обрезать изображение для фона. попробуйте выбрать другое</string>
     <string name="poll">опрос</string>
