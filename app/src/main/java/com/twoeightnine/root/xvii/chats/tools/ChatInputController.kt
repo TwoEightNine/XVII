@@ -398,6 +398,7 @@ class ChatInputController(
         fun hasMicPermissions(): Boolean
         fun onAttachClick()
         fun onTypingInvoke()
+        fun onVoiceRecordingInvoke()
         fun onRichContentAdded(filePath: String)
         fun onStickersSuggested(stickers: List<Sticker>)
         fun onVoiceRecorded(fileName: String)
@@ -405,6 +406,8 @@ class ChatInputController(
     }
 
     private inner class InputRecorderCallback : VoiceRecorder.RecorderCallback {
+
+        private var lastVoiceInvoke = -5
 
         override fun onVoiceVisibilityChanged(visible: Boolean) {
             rootView.rlVoice.setVisible(visible)
@@ -417,6 +420,10 @@ class ChatInputController(
 
         override fun onVoiceTimeUpdated(time: Int) {
             rootView.tvRecordTime.text = secToTime(time)
+            if (time - lastVoiceInvoke >= 5) {
+                callback.onVoiceRecordingInvoke()
+                lastVoiceInvoke = time
+            }
         }
 
         override fun onVoiceRecorded(fileName: String) {

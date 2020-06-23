@@ -573,6 +573,10 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             AttachActivity.launch(this@BaseChatMessagesFragment, REQUEST_ATTACH)
         }
 
+        override fun onVoiceRecordingInvoke() {
+            viewModel.setActivity(type = BaseChatMessagesViewModel.ACTIVITY_VOICE)
+        }
+
         override fun onTypingInvoke() {
             viewModel.setActivity(type = BaseChatMessagesViewModel.ACTIVITY_TYPING)
         }
