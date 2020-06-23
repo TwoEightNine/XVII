@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="256dp"
-    android:layout_height="40dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="276dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="@dimen/chat_wall_post_image_width"
+        android:layout_height="@dimen/chat_wall_post_image_height"
+        android:layout_below="@+id/tvText"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <TextView
-        style="@style/MainText"
+        android:id="@+id/tvName"
+        style="@style/MainBoldText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignTop="@+id/civPhoto"
+        android:layout_alignBottom="@+id/civPhoto"
+        android:layout_marginEnd="8dp"
+        android:layout_toEndOf="@+id/civPhoto"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textSize="15sp"
+        tools:text="super duper grouuuup 61736" />
+
+    <TextView
+        android:id="@+id/tvText"
+        style="@style/OtherText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/civPhoto"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:ellipsize="end"
+        android:maxLines="4"
+        android:textSize="13sp"
+        tools:text="today we are going to talk about father's and daughter's relationship" />
+
+    <TextView
+        android:id="@+id/tvPlaceHolder"
+        style="@style/MainText"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
         android:text="@string/wall_post"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        tools:visibility="gone" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civPhoto"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </RelativeLayout>

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
+import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActivity
@@ -19,6 +20,7 @@ import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.wallpost.WallPostActivity
+import kotlinx.android.synthetic.main.container_wall.view.*
 import kotlinx.android.synthetic.main.item_message_in_chat.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.civPhoto
@@ -203,7 +205,7 @@ class MessagesAdapter(context: Context,
                             }
 
                             Attachment.TYPE_STICKER -> attachment.sticker?.photo512?.also {
-                                val included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null, false)
+                                val included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null)
                                 included.findViewById<ImageView>(R.id.ivInternal).load(it, placeholder = false)
                                 llMessageContainer.addView(included)
                             }
@@ -265,7 +267,7 @@ class MessagesAdapter(context: Context,
                             }
 
                             Attachment.TYPE_GRAFFITI -> attachment.graffiti?.url?.also { graffiti ->
-                                val included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null, false)
+                                val included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null)
                                 included.findViewById<ImageView>(R.id.ivInternal).load(graffiti, placeholder = false)
                                 llMessageContainer.addView(included)
                             }
@@ -274,11 +276,40 @@ class MessagesAdapter(context: Context,
                                 llMessageContainer.addView(getPoll(it, context))
                             }
 
-                            Attachment.TYPE_WALL -> attachment.wall?.stringId?.also { postId ->
-                                val included = LayoutInflater.from(context).inflate(R.layout.container_wall, null, false)
+                            Attachment.TYPE_WALL -> attachment.wall?.also { wallPost ->
+                                val postId = wallPost.stringId
+                                val included = LayoutInflater.from(context).inflate(R.layout.container_wall, null)
                                 included.setOnClickListener {
                                     WallPostActivity.launch(context
                                             ?: return@setOnClickListener, postId)
+                                }
+                                wallPost.group?.also { group ->
+                                    with(included) {
+                                        tvName.show()
+                                        tvText.show()
+                                        civPhoto.show()
+                                        tvPlaceHolder.hide()
+
+                                        civPhoto.load(group.photo100)
+                                        tvName.text = group.name.toLowerCase()
+                                        if (!wallPost.text.isNullOrBlank()) {
+                                            tvText.show()
+                                            tvText.text = wallPost.text
+                                        }
+                                        wallPost.attachments?.getPhotos()?.also { photos ->
+                                            if (photos.isNotEmpty()) {
+                                                ivPhoto.show()
+                                                Picasso.get()
+                                                        .loadRounded(photos[0].getOptimalPhoto()?.url)
+                                                        .resize(
+                                                                resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_width),
+                                                                resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_height)
+                                                        )
+                                                        .centerCrop()
+                                                        .into(ivPhoto)
+                                            }
+                                        }
+                                    }
                                 }
                                 llMessageContainer.addView(included)
                             }

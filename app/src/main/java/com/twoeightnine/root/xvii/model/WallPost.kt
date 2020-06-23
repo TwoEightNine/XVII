@@ -65,9 +65,8 @@ data class WallPost(
         @SerializedName("copy_history")
         val copyHistory: ArrayList<WallPost>? = null,
 
-        var group: Group? = null,
-
-        var profile: User? = null
+        // manually added for better ui representativity
+        var group: Group? = null
 ) : Parcelable {
 
     val stringId: String

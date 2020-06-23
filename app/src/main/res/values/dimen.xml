@@ -86,6 +86,9 @@
     <dimen name="accounts_fab_add_margin">16dp</dimen>
     <dimen name="attach_fab_done_margin">16dp</dimen>
 
+    <dimen name="chat_wall_post_image_height">180dp</dimen>
+    <dimen name="chat_wall_post_image_width">268dp</dimen>
+
     <dimen name="stickers_tab_item_size">24dp</dimen>
 
 </resources>

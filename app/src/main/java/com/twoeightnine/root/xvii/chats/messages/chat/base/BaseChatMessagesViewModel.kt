@@ -15,6 +15,7 @@ import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.model.attachments.Video
+import com.twoeightnine.root.xvii.model.attachments.isWallPost
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
@@ -385,8 +386,10 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
             message.action?.apply {
                 subject = response.getProfileById(message.fromId)
                 memberId?.also { objekt = response.getProfileById(it) }
-
-
+            }
+            if (it.attachments?.isWallPost() == true) {
+                val wallPost = it.attachments.getOrNull(0)?.wall
+                wallPost?.group = response.getGroupById(-(wallPost?.fromId ?: 0))
             }
             val isEmptyMessage = message.text.isEmpty()
                     && message.fwdMessages.isNullOrEmpty()
