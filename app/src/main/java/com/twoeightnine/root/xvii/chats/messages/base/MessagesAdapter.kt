@@ -286,7 +286,6 @@ class MessagesAdapter(context: Context,
                                 wallPost.group?.also { group ->
                                     with(included) {
                                         tvName.show()
-                                        tvText.show()
                                         civPhoto.show()
                                         tvPlaceHolder.hide()
 
