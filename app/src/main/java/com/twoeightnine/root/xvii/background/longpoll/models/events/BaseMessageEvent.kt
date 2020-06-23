@@ -143,7 +143,17 @@ abstract class BaseMessageEvent(
                             Attachment.TYPE_PHOTO -> photosCount++
                             Attachment.TYPE_VIDEO -> videosCount++
                             Attachment.TYPE_AUDIO -> audiosCount++
-                            Attachment.TYPE_DOC -> docsCount++
+                            Attachment.TYPE_DOC -> {
+                                val kind = "attach${i}_kind"
+                                if (kind in data) {
+                                    when(data[kind]) {
+                                        Attachment.TYPE_AUDIO_MSG -> return AttachmentsInfo(isAudioMessage = true)
+                                        else -> docsCount++
+                                    }
+                                } else {
+                                    docsCount++
+                                }
+                            }
                         }
                     }
                 }

@@ -99,6 +99,7 @@ data class Attachment(
         const val TYPE_WALL = "wall"
         const val TYPE_GIFT = "gift"
         const val TYPE_AUDIO_MESSAGE = "audio_message"
+        const val TYPE_AUDIO_MSG = "audiomsg"
         const val TYPE_POLL = "poll"
         const val TYPE_GRAFFITI = "graffiti"
     }
