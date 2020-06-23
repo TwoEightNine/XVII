@@ -5,10 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
+import android.content.*
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
@@ -32,6 +29,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     private val player by lazy { MediaPlayer() }
     private val tracks = arrayListOf<Track>()
 
+    private val noisyReceiver = NoisyReceiver()
+
     private val audioManager by lazy { getSystemService(Context.AUDIO_SERVICE) as AudioManager }
     private val handler = Handler()
     private val focusLock = Any()
@@ -42,6 +41,17 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
     private var playbackSpeed = 1f
 
+    override fun onCreate() {
+        super.onCreate()
+        player.apply {
+            setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
+            setAudioStreamType(AudioManager.STREAM_MUSIC)
+            setOnPreparedListener(this@MusicService)
+            setOnCompletionListener(this@MusicService)
+            setOnErrorListener(this@MusicService)
+        }
+    }
+
     private fun updateAudios(tracks: ArrayList<Track>, position: Int = 0) {
         val nowPlayed = getPlayedTrack()
         this.tracks.clear()
@@ -50,24 +60,15 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         if (nowPlayed == getPlayedTrack()) {
             playOrPause()
         } else {
-//            startPlaying()
             requestFocus()
         }
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        player.setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
-        player.setAudioStreamType(AudioManager.STREAM_MUSIC)
-        player.setOnPreparedListener(this)
-        player.setOnCompletionListener(this)
-        player.setOnErrorListener(this)
     }
 
     override fun onDestroy() {
         try {
             pausingAudioSubject.onNext(Unit)
             player.release()
+            unregisterReceiver(noisyReceiver)
         } catch (e: Exception) {
             lw("destroying: ${e.message}")
         }
@@ -88,6 +89,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             player.setDataSource(path)
             updateSpeed(showNotification = false)
             player.prepareAsync()
+            registerReceiver(noisyReceiver, IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY))
         } catch (e: Exception) {
             e.printStackTrace()
             lw("preparing error: ${e.message}")
@@ -183,6 +185,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             } else {
                 audioManager.abandonAudioFocus(this)
             }
+            unregisterReceiver(noisyReceiver)
         } catch (e: Exception) {
             e.printStackTrace()
             lw("error stopping: ${e.message}")
@@ -426,5 +429,14 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     inner class MusicBinder : Binder() {
 
         fun getService() = this@MusicService
+    }
+
+    private inner class NoisyReceiver : BroadcastReceiver() {
+
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == AudioManager.ACTION_AUDIO_BECOMING_NOISY) {
+                playOrPause()
+            }
+        }
     }
 }
