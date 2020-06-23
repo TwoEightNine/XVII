@@ -178,7 +178,7 @@ class FeaturesFragment : BaseFragment() {
 
         const val SHOW_JOIN_DELAY = 3600 * 24 * 7 // one week
 
-        const val ASSISTANCE_DELAY = 3600 * 2 // two hours
+        const val ASSISTANCE_DELAY = 60 * 2 // two minutes
 
         fun newInstance() = FeaturesFragment()
     }
