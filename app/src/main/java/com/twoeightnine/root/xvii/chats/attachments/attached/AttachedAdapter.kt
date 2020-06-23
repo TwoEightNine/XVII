@@ -52,7 +52,8 @@ class AttachedAdapter(
             null
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AttachmentViewHolder(inflater.inflate(R.layout.item_attached, null))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            AttachmentViewHolder(inflater.inflate(R.layout.item_attached, parent, false))
 
     override fun onBindViewHolder(holder: AttachmentViewHolder, position: Int) {
         holder.bind(items[position])
@@ -113,7 +114,7 @@ class AttachedAdapter(
                 val attachPhoto = attachment.photo?.getSmallPhoto()?.url?.let { it }
                         ?: attachment.video?.photo130?.let { it }
 
-                rlFwdMessages.setVisible(isForwarded)
+                llFwdMessages.setVisible(isForwarded)
                 fwdMessages.apply {
                     if (isForwarded) {
                         tvFwdCount.text = "${split(",").size}"
@@ -127,14 +128,13 @@ class AttachedAdapter(
                 ivAttach.load(attachPhoto)
 
                 setOnClickListener { onClick(items[adapterPosition]) }
-                setOnLongClickListener {
+                ivClear.setOnClickListener {
                     if (isForwarded) {
                         fwdMessages = ""
                     } else {
                         remove(attachment)
                     }
                     updateCounter()
-                    true
                 }
             }
         }
