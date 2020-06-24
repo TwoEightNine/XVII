@@ -13,7 +13,6 @@ import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.activities.AccountsActivity
 import com.twoeightnine.root.xvii.accounts.models.Account
-import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesActivity
@@ -25,6 +24,7 @@ import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.pin.PinActivity
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.web.WebActivity
 import kotlinx.android.synthetic.main.fragment_features.*
@@ -115,16 +115,16 @@ class FeaturesFragment : BaseFragment() {
 
         val pin = Prefs.pin
         if (TextUtils.isEmpty(pin)) {
-            PinActivity.launch(context, PinActivity.ACTION_SET)
+            PinActivity.launch(context, PinActivity.Action.SET)
             suggestJoin()
         } else {
             val dialog = AlertDialog.Builder(context)
                     .setMessage(R.string.have_pin)
                     .setPositiveButton(R.string.edit) { _, _ ->
-                        PinActivity.launch(context, PinActivity.ACTION_EDIT)
+                        PinActivity.launch(context, PinActivity.Action.EDIT)
                     }
                     .setNegativeButton(R.string.reset) { _, _ ->
-                        PinActivity.launch(context, PinActivity.ACTION_RESET)
+                        PinActivity.launch(context, PinActivity.Action.RESET)
                     }
                     .create()
 

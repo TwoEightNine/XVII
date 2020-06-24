@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.main
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -99,9 +98,7 @@ class MainActivity : BaseActivity() {
     override fun onBackPressed() {
         if (viewPager.currentItem == 1) {
             try {
-                val intent = Intent(Intent.ACTION_MAIN)
-                intent.addCategory(Intent.CATEGORY_HOME)
-                startActivity(intent)
+                goHome(this)
             } catch (e: IllegalStateException) {
                 Lg.wtf("[home] unable to go home: ${e.message}")
                 super.onBackPressed()

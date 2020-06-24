@@ -352,6 +352,9 @@
     <string name="assist_hint">ad is being loaded\nand will be shown soon..</string>
     <string name="assist_thank_you">thank you for contributing!</string>
 
+    <string name="alarm_title">alarms</string>
+    <string name="alarm_every_day">every day</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>

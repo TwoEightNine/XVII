@@ -1,14 +1,14 @@
-package com.twoeightnine.root.xvii.activities
+package com.twoeightnine.root.xvii.pin
 
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.AndroidRuntimeException
-import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.crypto.sha256
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.Lg
@@ -28,8 +28,10 @@ class PinActivity : BaseActivity() {
     @Inject
     lateinit var appDb: AppDb
 
-    private val action by lazy { intent?.extras?.getString(ACTION) }
-    private var currentStage: String? = null
+    private val action by lazy {
+        intent?.extras?.getSerializable(ACTION) as? Action
+    }
+    private var currentStage: Action? = null
 
     private var pin = ""
     private var confirmedPin = ""
@@ -45,6 +47,8 @@ class PinActivity : BaseActivity() {
         action ?: finish()
         init()
         styleScreen(rlContainer)
+
+//        AlarmActivity.launch(this)
     }
 
     private fun onPin(key: Int) {
@@ -69,25 +73,25 @@ class PinActivity : BaseActivity() {
 
     private fun onOkPressed() {
         when (currentStage) {
-            ACTION_ENTER -> if (isPinCorrect()) {
+            Action.ENTER -> if (isPinCorrect()) {
                 onCorrect()
             } else {
                 onIncorrect()
             }
 
-            ACTION_SET -> {
+            Action.SET -> {
                 tvTitle.setText(R.string.confirm_pin)
-                currentStage = ACTION_CONFIRM
+                currentStage = Action.CONFIRM
                 confirmedPin = pin
             }
 
-            ACTION_CONFIRM -> if (pin == confirmedPin) {
+            Action.CONFIRM -> if (pin == confirmedPin) {
                 showToast(this, R.string.updated_succ)
                 Prefs.pin = sha256("$pin$SALT")
                 Session.pinLastPromptResult = time()
                 finish()
             } else {
-                currentStage = ACTION_SET
+                currentStage = Action.SET
                 tvTitle.setText(R.string.enter_new_pin)
                 showError(this, R.string.dont_match)
             }
@@ -97,8 +101,8 @@ class PinActivity : BaseActivity() {
 
     private fun onIncorrect() {
         failedPrompts++
-        if (failedPrompts >= PROMPTS && action == ACTION_ENTER) {
-            tvForgot.visibility = View.VISIBLE
+        if (failedPrompts >= PROMPTS && action == Action.ENTER) {
+            tvForgot.show()
         }
         showError(this, R.string.incorrect_pin)
     }
@@ -108,20 +112,20 @@ class PinActivity : BaseActivity() {
     private fun onCorrect() {
         when (action) {
 
-            ACTION_ENTER -> {
+            Action.ENTER -> {
                 Session.pinLastPromptResult = time()
                 finish()
             }
 
-            ACTION_RESET -> {
+            Action.RESET -> {
                 Prefs.pin = ""
                 showToast(this, R.string.reset_succ)
                 finish()
             }
 
-            ACTION_EDIT -> {
+            Action.EDIT -> {
                 tvTitle.setText(R.string.enter_new_pin)
-                currentStage = ACTION_SET
+                currentStage = Action.SET
             }
         }
     }
@@ -152,32 +156,43 @@ class PinActivity : BaseActivity() {
 
     private fun init() {
         pinPad.listener = { onPin(it) }
-        tvForgot.visibility = View.INVISIBLE
+        tvForgot.setVisibleWithInvis(false)
 
         when (action) {
-            ACTION_SET -> {
+            Action.SET -> {
                 tvTitle.setText(R.string.enter_new_pin)
-                currentStage = ACTION_SET
+                currentStage = Action.SET
             }
 
-            ACTION_EDIT, ACTION_ENTER, ACTION_RESET -> {
+            Action.EDIT, Action.ENTER, Action.RESET -> {
                 tvTitle.setText(R.string.enter_pin)
                 correctPin = Prefs.pin
-                currentStage = ACTION_ENTER
+                currentStage = Action.ENTER
                 tvForgot.setOnClickListener { showResetDialog() }
             }
         }
     }
 
     override fun onBackPressed() {
-        if (action != ACTION_ENTER) {
+        if (action != Action.ENTER) {
             super.onBackPressed()
         }
     }
 
+    /**
+     * type of action pin is launched for
+     */
+    enum class Action {
+        SET,
+        ENTER,
+        EDIT,
+        RESET,
+        CONFIRM
+    }
+
     companion object {
 
-        fun launch(context: Context?, action: String) {
+        fun launch(context: Context?, action: Action) {
             context ?: return
 
             try {
@@ -193,11 +208,6 @@ class PinActivity : BaseActivity() {
         private const val PROMPTS = 2
 
         const val ACTION = "action"
-        const val ACTION_SET = "actionSet"
-        const val ACTION_ENTER = "actionEnter"
-        const val ACTION_EDIT = "actionEdit"
-        const val ACTION_RESET = "actionReset"
-        const val ACTION_CONFIRM = "actionConfirm"
 
         private const val LENGTH = 8
         private const val SALT = "oi|6yw4-c5g846-d5c53s9mx"

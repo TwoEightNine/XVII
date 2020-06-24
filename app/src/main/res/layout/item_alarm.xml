@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    app:cardBackgroundColor="@color/popup"
+    app:cardCornerRadius="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <CheckBox
+            android:id="@+id/cbEveryDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/swEnabled"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true"
+            android:text="@string/alarm_every_day"
+            android:textColor="@color/other_text"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            fontPath="fonts/Rubik-Regular.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_text"
+            android:textSize="52sp"
+            tools:ignore="MissingPrefix"
+            tools:text="09:03" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/swEnabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

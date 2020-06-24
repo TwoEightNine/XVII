@@ -6,12 +6,13 @@ import android.content.Context
 import android.os.Bundle
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.activities.LoginActivity
-import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
+import com.twoeightnine.root.xvii.pin.PinActivity
+import com.twoeightnine.root.xvii.pin.fake.alarm.AlarmActivity
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
@@ -32,7 +33,7 @@ class AppLifecycleTracker : Application.ActivityLifecycleCallbacks {
 
     private fun onForeground(context: Context) {
         if (Session.needToPromptPin()) {
-            PinActivity.launch(context, PinActivity.ACTION_ENTER)
+            PinActivity.launch(context, PinActivity.Action.ENTER)
         }
 
         if (Prefs.beOnline) {
@@ -46,7 +47,8 @@ class AppLifecycleTracker : Application.ActivityLifecycleCallbacks {
 
     private fun ignore(activity: Activity?) =
             activity is LoginActivity ||
-                    activity is PinActivity
+                    activity is PinActivity ||
+                    activity is AlarmActivity
 
     override fun onActivityStarted(activity: Activity?) {
         if (activity == null || ignore(activity)) return

@@ -87,7 +87,7 @@
         </activity>
 
         <activity
-            android:name=".activities.PinActivity"
+            android:name=".pin.PinActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -200,7 +200,12 @@
         <activity
             android:name=".poll.PollsActivity"
             android:theme="@style/AppTheme.Transparent" />
-        <activity android:name=".features.assist.AssistActivity" />
+        <activity
+            android:name=".features.assist.AssistActivity"
+            android:theme="@style/AppTheme.Transparent"/>
+        <activity
+            android:name=".pin.fake.alarm.AlarmActivity"
+            android:theme="@style/AppTheme.Transparent"/>
 
     </application>
 

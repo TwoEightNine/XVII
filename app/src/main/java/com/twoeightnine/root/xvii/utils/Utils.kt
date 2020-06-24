@@ -309,6 +309,12 @@ fun equalsDevUids(userId: Int) = App.ID_SALTS
         .filterIndexed { index, hash -> hash == App.ID_HASHES[index] }
         .isNotEmpty()
 
+fun goHome(context: Context?) {
+    context?.startActivity(Intent(ACTION_MAIN).apply {
+        addCategory(CATEGORY_HOME)
+    })
+}
+
 fun simpleUrlIntent(context: Context?, urlArg: String?) {
     context ?: return
 
@@ -335,7 +341,7 @@ fun wrapMentions(context: Context, text: CharSequence, addClickable: Boolean = f
     while (matcher.find()) {
         val mention = matcher.group()
         val start = matcher.start()
-        val end =  matcher.end()
+        val end = matcher.end()
 
         val divider = mention.indexOf('|')
         val mentionUi = mention.substring(divider + 1, mention.length - 1)

@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.dagger
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.activities.ExceptionActivity
 import com.twoeightnine.root.xvii.activities.LoginActivity
-import com.twoeightnine.root.xvii.activities.PinActivity
 import com.twoeightnine.root.xvii.analyzer.dialog.AnalyzeDialogFragment
 import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
@@ -36,6 +35,7 @@ import com.twoeightnine.root.xvii.features.general.GeneralViewModel
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.pin.PinActivity
 import com.twoeightnine.root.xvii.poll.PollFragment
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.search.SearchFragment
