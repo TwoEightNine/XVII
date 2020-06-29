@@ -387,9 +387,14 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 subject = response.getProfileById(message.fromId)
                 memberId?.also { objekt = response.getProfileById(it) }
             }
-            if (it.attachments?.isWallPost() == true) {
-                val wallPost = it.attachments.getOrNull(0)?.wall
-                wallPost?.group = response.getGroupById(-(wallPost?.fromId ?: 0))
+            try {
+                if (it.attachments?.isWallPost() == true) {
+                    val wallPost = it.attachments.getOrNull(0)?.wall
+                    wallPost?.group = response.getGroupById(-(wallPost?.fromId ?: 0))
+                    wallPost?.user = response.getProfileById(wallPost?.fromId ?: 0)
+                }
+            } catch (e: Exception) {
+                Lg.wtf("[messages] error getting group for wall post: ${e.message}")
             }
             val isEmptyMessage = message.text.isEmpty()
                     && message.fwdMessages.isNullOrEmpty()

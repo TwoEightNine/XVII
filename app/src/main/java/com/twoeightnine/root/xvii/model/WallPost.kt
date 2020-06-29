@@ -66,7 +66,9 @@ data class WallPost(
         val copyHistory: ArrayList<WallPost>? = null,
 
         // manually added for better ui representativity
-        var group: Group? = null
+        var group: Group? = null,
+
+        var user: User? = null
 ) : Parcelable {
 
     val stringId: String

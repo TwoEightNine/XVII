@@ -15,7 +15,9 @@ import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActivity
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.*
@@ -283,33 +285,7 @@ class MessagesAdapter(context: Context,
                                     WallPostActivity.launch(context
                                             ?: return@setOnClickListener, postId)
                                 }
-                                wallPost.group?.also { group ->
-                                    with(included) {
-                                        tvName.show()
-                                        civPhoto.show()
-                                        tvPlaceHolder.hide()
-
-                                        civPhoto.load(group.photo100)
-                                        tvName.text = group.name.toLowerCase()
-                                        if (!wallPost.text.isNullOrBlank()) {
-                                            tvText.show()
-                                            tvText.text = wallPost.text
-                                        }
-                                        wallPost.attachments?.getPhotos()?.also { photos ->
-                                            if (photos.isNotEmpty()) {
-                                                ivPhoto.show()
-                                                Picasso.get()
-                                                        .loadRounded(photos[0].getOptimalPhoto()?.url)
-                                                        .resize(
-                                                                resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_width),
-                                                                resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_height)
-                                                        )
-                                                        .centerCrop()
-                                                        .into(ivPhoto)
-                                            }
-                                        }
-                                    }
-                                }
+                                bindWallPost(wallPost, included)
                                 llMessageContainer.addView(included)
                             }
                         }
@@ -384,6 +360,43 @@ class MessagesAdapter(context: Context,
 
                         // OR there are 2 hours between messages
                         message.date - prevMessage.date > MESSAGES_BETWEEN_DELAY
+
+        private fun bindWallPost(wallPost: WallPost, included: View) {
+            val title = wallPost.group?.name ?: wallPost.user?.fullName
+            val photo = wallPost.group?.photo100 ?: wallPost.user?.photo100
+            if (title == null && photo == null) return
+
+            with(included) {
+                tvName.show()
+                civPhoto.show()
+                tvPlaceHolder.hide()
+
+                civPhoto.load(photo)
+                tvName.text = title?.toLowerCase()
+                if (!wallPost.text.isNullOrBlank()) {
+                    tvText.show()
+                    tvText.text = wallPost.text
+                }
+                try {
+                    wallPost.attachments?.getPhotos()?.also { photos ->
+                        if (photos.isNotEmpty()) {
+                            ivPhoto.show()
+                            Picasso.get()
+                                    .loadRounded(photos[0].getOptimalPhoto()?.url)
+                                    .resize(
+                                            resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_width),
+                                            resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_height)
+                                    )
+                                    .centerCrop()
+                                    .into(ivPhoto)
+                        }
+                    }
+                } catch (e: Exception) {
+                    ivPhoto.hide()
+                    Lg.wtf("[messages] error binding: ${e.message}")
+                }
+            }
+        }
     }
 
     interface Callback {
