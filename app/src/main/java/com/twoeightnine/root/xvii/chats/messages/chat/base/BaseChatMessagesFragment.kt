@@ -598,8 +598,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             }
         }
 
-        override fun onMention(query: String) {
-            if (peerId.matchesChatId() && query.isNotBlank()) {
+        override fun onMention(query: String?) {
+            if (peerId.matchesChatId() && query != null) {
                 viewModel.getMatchingMembers(query)
             } else {
                 this@BaseChatMessagesFragment.showMentionedMembers(listOf())

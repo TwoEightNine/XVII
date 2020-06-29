@@ -140,7 +140,7 @@ class ChatInputController(
 
             setText(newInput)
             setSelection(mentionStart + replacement.length)
-            callback.onMention("") // hide mentioning
+            callback.onMention(null) // hide mentioning
         }
     }
 
@@ -379,6 +379,8 @@ class ChatInputController(
                         callback.onMention(lastWord.substring(1))
                     }
                 }
+            } else {
+                callback.onMention(null)
             }
 
             val delayExceed = time() - lastTypingInvocation > TYPING_INVOCATION_DELAY
@@ -402,7 +404,7 @@ class ChatInputController(
         fun onRichContentAdded(filePath: String)
         fun onStickersSuggested(stickers: List<Sticker>)
         fun onVoiceRecorded(fileName: String)
-        fun onMention(query: String)
+        fun onMention(query: String?)
     }
 
     private inner class InputRecorderCallback : VoiceRecorder.RecorderCallback {

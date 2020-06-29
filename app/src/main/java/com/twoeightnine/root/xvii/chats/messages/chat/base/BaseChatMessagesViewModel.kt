@@ -116,8 +116,8 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 })
     }
 
-    fun getMatchingMembers(query: String) {
-        if (query.isBlank()) return
+    fun getMatchingMembers(query: String?) {
+        if (query == null) return
 
         val lowerQuery = query.toLowerCase()
         val mentioned = arrayListOf<User>()
