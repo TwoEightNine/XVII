@@ -128,6 +128,12 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 mentioned.add(member)
             }
         }
+        if (USER_ONLINE.domain?.startsWith(lowerQuery) == true) {
+            mentioned.add(0, USER_ONLINE)
+        }
+        if (USER_ALL.domain?.startsWith(lowerQuery) == true) {
+            mentioned.add(0, USER_ALL)
+        }
         mentionedMembersLiveData.value = mentioned
     }
 
@@ -483,6 +489,18 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     companion object {
+
+        val USER_ALL = User(
+                domain = "all",
+                firstName = "all",
+                lastName = ""
+        )
+        val USER_ONLINE = User(
+                domain = "online",
+                firstName = "online",
+                lastName = ""
+        )
+
         const val COUNT = 50
 
         const val ACTIVITY_TYPING = "typing"

@@ -20,6 +20,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiWindow
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
+import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
@@ -131,7 +132,12 @@ class ChatInputController(
                 mentionStart--
             } while (mentionStart != 0 && input[mentionStart] != '@')
 
-            val replacement = "@${user.getPageName()} (${user.firstName})"
+            var replacement = "@${user.getPageName()}"
+            if (user != BaseChatMessagesViewModel.USER_ONLINE
+                    && user != BaseChatMessagesViewModel.USER_ALL) {
+
+                replacement += " (${user.firstName})"
+            }
             val newInput = StringBuilder()
                     .append(input.substring(0, mentionStart))
                     .append(replacement)
