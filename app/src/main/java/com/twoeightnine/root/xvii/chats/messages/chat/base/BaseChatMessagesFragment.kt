@@ -58,10 +58,14 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     private val permissionHelper by lazy { PermissionHelper(this) }
     private val attachedAdapter by lazy {
-        AttachedAdapter(contextOrThrow, ::onAttachClicked, inputController::setAttachedCount)
+        AttachedAdapter(contextOrThrow, ::onAttachClicked) {
+            inputController?.setAttachedCount(it)
+        }
     }
     private val membersAdapter by lazy {
-        MentionedMembersAdapter(contextOrThrow, inputController::mentionUser)
+        MentionedMembersAdapter(contextOrThrow) {
+            inputController?.mentionUser(it)
+        }
     }
     private val chatToolbarController by lazy {
         ChatToolbarController(toolbar)
@@ -71,7 +75,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     }
 
     private val handler = Handler()
-    private lateinit var inputController: ChatInputController
+    private var inputController: ChatInputController? = null
 
     abstract fun onEncryptedDocClicked(doc: Doc)
 
@@ -321,18 +325,18 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     private fun onSelectedFromGallery(paths: List<DeviceItem>) {
         paths.forEach {
 
-            inputController.addItemAsBeingLoaded(it.path)
+            inputController?.addItemAsBeingLoaded(it.path)
             when (it.type) {
                 DeviceItem.Type.PHOTO -> viewModel.attachPhoto(it.path) { path, attachment ->
-                    inputController.removeItemAsLoaded(path)
+                    inputController?.removeItemAsLoaded(path)
                     attachedAdapter.add(attachment)
                 }
                 DeviceItem.Type.VIDEO -> viewModel.attachVideo(it.path) { path, attachment ->
-                    inputController.removeItemAsLoaded(path)
+                    inputController?.removeItemAsLoaded(path)
                     attachedAdapter.add(attachment)
                 }
                 DeviceItem.Type.DOC -> viewModel.attachDoc(it.path) { path, attachment ->
-                    inputController.removeItemAsLoaded(path)
+                    inputController?.removeItemAsLoaded(path)
                     attachedAdapter.add(attachment)
                 }
             }
@@ -341,10 +345,10 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     private fun onImageSelected(path: String) {
         viewModel.attachPhoto(path) { pathAttached, attachment ->
-            inputController.removeItemAsLoaded(pathAttached)
+            inputController?.removeItemAsLoaded(pathAttached)
             attachedAdapter.add(attachment)
         }
-        inputController.addItemAsBeingLoaded(path)
+        inputController?.addItemAsBeingLoaded(path)
     }
 
     private fun showMentionedMembers(members: List<User>) {
@@ -365,10 +369,10 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     protected fun onDocSelected(path: String) {
         viewModel.attachDoc(path) { pathAttached, attachment ->
-            inputController.removeItemAsLoaded(pathAttached)
+            inputController?.removeItemAsLoaded(pathAttached)
             attachedAdapter.add(attachment)
         }
-        inputController.addItemAsBeingLoaded(path)
+        inputController?.addItemAsBeingLoaded(path)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -582,8 +586,12 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onVoiceRecorded(fileName: String) {
-            inputController.addItemAsBeingLoaded(fileName)
-            viewModel.attachVoice(fileName, inputController::removeItemAsLoaded)
+            inputController
+
+                    ?.addItemAsBeingLoaded(fileName)
+            viewModel.attachVoice(fileName) {
+                inputController?.removeItemAsLoaded(it)
+            }
         }
 
         override fun onStickersSuggested(stickers: List<Sticker>) {
