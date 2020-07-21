@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chatowner.MembersAdapter
+import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.User
@@ -31,7 +32,11 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
         val conversation = chatOwner ?: return
 
         fabOpenChat.setVisible(conversation.canWrite?.allowed != false)
-        addValue(R.drawable.ic_pinned, conversation.chatSettings?.pinnedMessage?.text)
+        addValue(R.drawable.ic_pinned, conversation.chatSettings?.pinnedMessage?.text, {
+            conversation.chatSettings?.pinnedMessage?.id?.also { id ->
+                DeepForwardedActivity.launch(context, id)
+            }
+        })
         viewModel.loadChatMembers(conversation.getPeerId())
         btnLeave.setOnClickListener { onLeaveGroupClick() }
     }
