@@ -52,6 +52,11 @@ class AttachedAdapter(
             null
         }
 
+    val maxOrder: Int
+        get() = attachmentsOrder.max() ?: 0
+
+    private val attachmentsOrder = arrayListOf<Int>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             AttachmentViewHolder(inflater.inflate(R.layout.item_attached, parent, false))
 
@@ -59,13 +64,20 @@ class AttachedAdapter(
         holder.bind(items[position])
     }
 
-    override fun add(item: Attachment) {
+    fun addWithOrder(item: Attachment, order: Int) {
         if (count < 10) {
-            super.add(item)
+            val orderPos = attachmentsOrder.filter { it <= order }.count()
+            val delta = if (fwdMessages.isNotBlank()) 1 else 0
+            attachmentsOrder.add(orderPos, order)
+            super.add(item, orderPos + delta)
             updateCounter()
         } else {
             showAlert(context, context.getString(R.string.ten_attachments))
         }
+    }
+
+    override fun add(item: Attachment) {
+        throw IllegalStateException("do not use this")
     }
 
     override fun addAll(items: MutableList<Attachment>, pos: Int) {
@@ -132,7 +144,9 @@ class AttachedAdapter(
                     if (isForwarded) {
                         fwdMessages = ""
                     } else {
-                        remove(attachment)
+                        val index = remove(attachment)
+                        val delta = if (fwdMessages.isNotBlank()) -1 else 0
+                        attachmentsOrder.removeAt(index + delta)
                     }
                     updateCounter()
                 }

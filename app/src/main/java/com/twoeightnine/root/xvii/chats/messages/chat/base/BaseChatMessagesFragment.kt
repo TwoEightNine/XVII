@@ -323,21 +323,22 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     }
 
     private fun onSelectedFromGallery(paths: List<DeviceItem>) {
-        paths.forEach {
+        val maxOrder = attachedAdapter.maxOrder
+        paths.forEachIndexed { index, deviceItem ->
 
-            inputController?.addItemAsBeingLoaded(it.path)
-            when (it.type) {
-                DeviceItem.Type.PHOTO -> viewModel.attachPhoto(it.path) { path, attachment ->
+            inputController?.addItemAsBeingLoaded(deviceItem.path)
+            when (deviceItem.type) {
+                DeviceItem.Type.PHOTO -> viewModel.attachPhoto(deviceItem.path) { path, attachment ->
                     inputController?.removeItemAsLoaded(path)
-                    attachedAdapter.add(attachment)
+                    attachedAdapter.addWithOrder(attachment, index + maxOrder)
                 }
-                DeviceItem.Type.VIDEO -> viewModel.attachVideo(it.path) { path, attachment ->
+                DeviceItem.Type.VIDEO -> viewModel.attachVideo(deviceItem.path) { path, attachment ->
                     inputController?.removeItemAsLoaded(path)
-                    attachedAdapter.add(attachment)
+                    attachedAdapter.addWithOrder(attachment, index + maxOrder)
                 }
-                DeviceItem.Type.DOC -> viewModel.attachDoc(it.path) { path, attachment ->
+                DeviceItem.Type.DOC -> viewModel.attachDoc(deviceItem.path) { path, attachment ->
                     inputController?.removeItemAsLoaded(path)
-                    attachedAdapter.add(attachment)
+                    attachedAdapter.addWithOrder(attachment, index + maxOrder)
                 }
             }
         }
@@ -346,7 +347,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     private fun onImageSelected(path: String) {
         viewModel.attachPhoto(path) { pathAttached, attachment ->
             inputController?.removeItemAsLoaded(pathAttached)
-            attachedAdapter.add(attachment)
+            attachedAdapter.addWithOrder(attachment, attachedAdapter.maxOrder)
         }
         inputController?.addItemAsBeingLoaded(path)
     }
@@ -370,7 +371,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     protected fun onDocSelected(path: String) {
         viewModel.attachDoc(path) { pathAttached, attachment ->
             inputController?.removeItemAsLoaded(pathAttached)
-            attachedAdapter.add(attachment)
+            attachedAdapter.addWithOrder(attachment, attachedAdapter.maxOrder)
         }
         inputController?.addItemAsBeingLoaded(path)
     }

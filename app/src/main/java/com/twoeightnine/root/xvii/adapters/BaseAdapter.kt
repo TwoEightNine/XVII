@@ -46,13 +46,14 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
         return removed
     }
 
-    fun remove(obj: T) {
+    fun remove(obj: T): Int {
         for (i in items.indices) {
             if (obj == items[i]) {
                 removeAt(i)
-                break
+                return i
             }
         }
+        return -1
     }
 
     fun update(pos: Int, item: T): T {
