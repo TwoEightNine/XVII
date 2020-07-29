@@ -20,6 +20,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/toolbar"
+                android:orientation="vertical"
+                android:tag="extraLight">
+
+                <TextView
+                    style="@style/OtherText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="28dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/general_stealth"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchOffline"
                 android:layout_width="match_parent"
@@ -35,6 +55,14 @@
                 android:text="@string/be_online" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchHideStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:hint="@string/hide_status_hint"
+                android:text="@string/hide_status" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchTyping"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,6 +75,27 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/mark_messages_as_read_hint"
                 android:text="@string/mark_messages_as_read" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/toolbar"
+                android:orientation="vertical"
+                android:tag="extraLight">
+
+                <TextView
+                    style="@style/OtherText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="28dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/general_chatting"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchSendByEnter"
@@ -63,18 +112,38 @@
                 android:text="@string/sticker_suggestions" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
-                android:id="@+id/switchSwipeToBack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/swipe_to_back_hint"
-                android:text="@string/swipe_to_back" />
-
-            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchStoreKeys"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/store_custom_keys_hint"
                 android:text="@string/store_custom_keys" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/toolbar"
+                android:orientation="vertical"
+                android:tag="extraLight">
+
+                <TextView
+                    style="@style/OtherText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="28dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/general_other"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchSwipeToBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/swipe_to_back_hint"
+                android:text="@string/swipe_to_back" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchLiftKeyboard"

@@ -273,6 +273,8 @@
     <string name="be_offline_hint">set offline status automatically</string>
     <string name="be_online">be online</string>
     <string name="be_online_hint">be online while the app is opened</string>
+    <string name="hide_status">hide my status</string>
+    <string name="hide_status_hint">people will only see that you were online recently</string>
     <string name="show_chat_activity">show chat activity</string>
     <string name="show_chat_activity_hint">people can see if you are typing or recording a voice message</string>
     <string name="mark_messages_as_read">mark messages as read</string>
@@ -352,8 +354,12 @@
     <string name="assist_hint">ad is being loaded\nand will be shown soon..</string>
     <string name="assist_thank_you">thank you for contributing!</string>
 
-    <string name="alarm_title">alarms</string>
-    <string name="alarm_every_day">every day</string>
+    <string name="general_stealth">stealth</string>
+    <string name="general_chatting">chatting</string>
+    <string name="general_other">other</string>
+
+    <string name="alarm_title" translatable="false">alarms</string>
+    <string name="alarm_every_day" translatable="false">every day</string>
 
     <string-array name="relations">
         <item>single</item>

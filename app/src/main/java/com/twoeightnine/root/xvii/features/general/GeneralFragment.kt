@@ -47,6 +47,7 @@ class GeneralFragment : BaseFragment() {
     private fun initSwitches() {
         switchOffline.isChecked = Prefs.beOffline
         switchOnline.isChecked = Prefs.beOnline
+        switchHideStatus.isChecked = Prefs.hideStatus
         switchRead.isChecked = Prefs.markAsRead
         switchTyping.isChecked = Prefs.showTyping
         switchSendByEnter.isChecked = Prefs.sendByEnter
@@ -61,11 +62,15 @@ class GeneralFragment : BaseFragment() {
         switchOnline.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             if (isChecked) switchOffline.isChecked = false
         }
+        switchHideStatus.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            viewModel.setHideMyStatus(isChecked)
+        }
     }
 
     private fun saveSwitches() {
         Prefs.beOffline = switchOffline.isChecked
         Prefs.beOnline = switchOnline.isChecked
+        Prefs.hideStatus = switchHideStatus.isChecked
         Prefs.markAsRead = switchRead.isChecked
         Prefs.showTyping = switchTyping.isChecked
         Prefs.sendByEnter = switchSendByEnter.isChecked

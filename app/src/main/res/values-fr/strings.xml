@@ -358,6 +358,8 @@
     <string name="be_online">être en ligne</string>
     <string name="be_offline_hint">mettre statut \'hors ligne\' automatiquement</string>
     <string name="be_online_hint">être en ligne pendant que l\'app est ouvert</string>
+    <string name="hide_status">cacher mon status</string>
+    <string name="hide_status_hint">des gens verront que vous étiez en ligne récemment</string>
     <string name="cache_size">taille du cache: %s</string>
     <string name="make_sound">activer des sons</string>
     <string name="pick_chat_background">choisir un fond des tchats</string>
@@ -420,6 +422,9 @@
     <string name="forwarded_messages">messages transferé</string>
     <string name="close">fermer</string>
     <string name="playback_speed">velocité %sx</string>
+    <string name="general_stealth">furtivité</string>
+    <string name="general_chatting">conversation</string>
+    <string name="general_other">autres</string>
 
 </resources>
 

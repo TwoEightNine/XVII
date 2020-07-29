@@ -6,8 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.db.AppDb
+import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.getCacheSize
+import com.twoeightnine.root.xvii.utils.subscribeSmart
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -22,19 +25,32 @@ class GeneralViewModel : ViewModel() {
     @Inject
     lateinit var appDb: AppDb
 
+    @Inject
+    lateinit var api: ApiService
+
     private var disposable: Disposable? = null
 
     private val cacheSizeLiveData = MutableLiveData<Long>()
     private val cacheClearedLiveData = MutableLiveData<Boolean>()
+    private val hideStatusLiveData = MutableLiveData<Wrapper<Boolean>>()
 
     val cacheSize: LiveData<Long>
         get() = cacheSizeLiveData
 
-    val cacheCleared: LiveData<Boolean>
-        get() = cacheClearedLiveData
+    val hideStatus: LiveData<Wrapper<Boolean>>
+        get() = hideStatusLiveData
 
     init {
         App.appComponent?.inject(this)
+    }
+
+    fun setHideMyStatus(hide: Boolean) {
+        api.setPrivacy(KEY, if (hide) VALUE_ENABLED else VALUE_DISABLED)
+                .subscribeSmart({
+                    hideStatusLiveData.value = Wrapper(hide)
+                }, {
+                    hideStatusLiveData.value = Wrapper(error = it)
+                })
     }
 
     fun calculateCacheSize() {
@@ -69,6 +85,12 @@ class GeneralViewModel : ViewModel() {
                         calculateCacheSize()
                     }
                 }
+    }
+
+    companion object {
+        const val KEY = "online"
+        const val VALUE_ENABLED = "only_me"
+        const val VALUE_DISABLED = "all"
     }
 
 }

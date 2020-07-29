@@ -393,6 +393,8 @@
     <string name="be_offline_hint">выставлять статус \"не в сети\" автоматически</string>
     <string name="be_online">быть в сети</string>
     <string name="be_online_hint">быть в сети, пока приложение открыто</string>
+    <string name="hide_status">скрывать мой статус</string>
+    <string name="hide_status_hint">будет видно, что вы были в сети недавно</string>
     <string name="cache_size">размер кэша: %s</string>
     <string name="make_sound">включить звук</string>
     <string name="pick_chat_background">выбрать фон чатов</string>
@@ -454,5 +456,8 @@
     <string name="forwarded_messages">пересланные сообщения</string>
     <string name="close">закрыть</string>
     <string name="playback_speed">скорость %sx</string>
+    <string name="general_stealth">скрытность</string>
+    <string name="general_chatting">общение</string>
+    <string name="general_other">другое</string>
 
 </resources>

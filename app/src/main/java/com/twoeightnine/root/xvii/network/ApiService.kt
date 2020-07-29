@@ -196,6 +196,13 @@ interface ApiService {
             @Query("owner_id") ownerId: Int
     ): Flowable<BaseResponse<Int>>
 
+    @Headers(NEW_VERSION_HEADER)
+    @GET("account.setPrivacy")
+    fun setPrivacy(
+            @Query("key") key: String,
+            @Query("value") value: String
+    ): Flowable<BaseResponse<Any>>
+
     //friends
     @GET("friends.get?order=hints")
     fun getFriends(
