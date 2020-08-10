@@ -95,13 +95,13 @@ class AttachedAdapter(
     override fun clear() {
         fwdMessages = ""
         super.clear()
+        attachmentsOrder.clear()
         updateCounter()
     }
 
     fun asString() = items
             .filterNot { it === STUB_FWD_MESSAGES }
-            .map { it.toString() }
-            .joinToString(separator = ",")
+            .joinToString(separator = ",") { it.toString() }
 
     private fun updateCounter() {
         onCounterUpdated(count)
@@ -123,8 +123,8 @@ class AttachedAdapter(
                     attachment.doc != null && !isEncrypted -> attachment.doc?.ext
                     else -> attachment.type
                 }
-                val attachPhoto = attachment.photo?.getSmallPhoto()?.url?.let { it }
-                        ?: attachment.video?.photo130?.let { it }
+                val attachPhoto = attachment.photo?.getSmallPhoto()?.url
+                        ?: attachment.video?.photo130
 
                 llFwdMessages.setVisible(isForwarded)
                 fwdMessages.apply {
