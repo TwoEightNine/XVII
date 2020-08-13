@@ -7,9 +7,9 @@ class StatTool(context: Context) {
 
     private val prefs = context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
 
-    private var launches: Int
+    var launches: Int
         get() = prefs.getInt(LAUNCHES, 0)
-        set(value) = prefs.edit().putInt(LAUNCHES, value).apply()
+        private set(value) = prefs.edit().putInt(LAUNCHES, value).apply()
 
     private var messagesSent: Int
         get() = prefs.getInt(MESSAGES_SENT, 0)

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.utils.StatTool
 import com.twoeightnine.root.xvii.utils.rate
 import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.dialog_rate.view.*
@@ -31,7 +32,8 @@ class RateAlertDialog(context: Context) : AlertDialog(context) {
     }
 
     override fun show() {
-        if (Prefs.showRate) {
+        val launches = StatTool.get()?.launches ?: 0
+        if (Prefs.showRate && launches > 2) {
             super.show()
             stylize()
         }
