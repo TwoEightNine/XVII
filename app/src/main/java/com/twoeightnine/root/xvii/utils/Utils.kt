@@ -12,6 +12,7 @@ import android.content.pm.ShortcutManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.net.ConnectivityManager
@@ -606,6 +607,23 @@ fun getCroppedImagePath(activity: Activity, original: String): String? {
         return fileName
     } catch (e: Exception) {
         Lg.wtf("[chat back] error cropping: ${e.message}")
+        return null
+    }
+}
+
+fun createColoredBitmap(activity: Activity, color: Int): String? {
+    try {
+        val sh = screenHeight(activity) / 4
+        val sw = screenWidth(activity) / 4
+        val bitmap = Bitmap.createBitmap(sw, sh, Bitmap.Config.ARGB_8888)
+        Canvas(bitmap).apply {
+            drawColor(color)
+        }
+        val fileName = File(activity.filesDir, "chatBack${time() % 10}.png").absolutePath
+        saveBmp(fileName, bitmap)
+        return fileName
+    } catch (e: Exception) {
+        Lg.wtf("[chat back] error creating colored bitmap: ${e.message}")
         return null
     }
 }

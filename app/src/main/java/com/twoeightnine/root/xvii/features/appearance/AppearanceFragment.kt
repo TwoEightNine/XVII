@@ -6,7 +6,6 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
-import androidx.appcompat.app.AlertDialog
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.squareup.picasso.Picasso
@@ -39,9 +38,12 @@ class AppearanceFragment : BaseFragment() {
         invalidateSample()
         switchLightTheme.stylize()
         rlHideBottom.stylizeColor()
-        btnSelectBackground.stylize()
+        btnGallery.stylize()
+        btnColor.stylize()
         pbAttach.hide()
         rlAttachCount.hide()
+        llVisualLabel.stylizeAll()
+        llFunctionalLabel.stylizeAll()
 
         etInput.isClickable = false
         etInput.isFocusable = false
@@ -171,21 +173,24 @@ class AppearanceFragment : BaseFragment() {
                     .load("file://${Prefs.chatBack}")
                     .into(ivBackground)
         }
-        btnSelectBackground.setOnClickListener { showDialog() }
+        btnGallery.setOnClickListener { openGallery() }
         csThemeColor.setOnClickListener {
-            ColorPickerDialogBuilder.with(context)
-                    .initialColor(currentColor)
-                    .lightnessSliderOnly()
-                    .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                    .density(12)
-                    .setPositiveButton(R.string.ok) { _, color, _ ->
-                        currentColor = color
-                        applyColors()
-                    }
-                    .setNegativeButton(R.string.cancel, null)
-                    .build()
-                    .apply { stylize() }
-                    .show()
+            showColorPicker(currentColor) { color ->
+                currentColor = color
+                applyColors()
+            }
+        }
+
+        switchChatBack.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            llCustomBack.setVisible(isChecked)
+            if (!isChecked) {
+                deletePhoto()
+            }
+        }
+        switchChatBack.isChecked = Prefs.chatBack.isNotBlank()
+        llCustomBack.setVisible(switchChatBack.isChecked)
+        btnColor.setOnClickListener {
+            showColorPicker(currentColor, ::convertColor)
         }
 
         switchShowSeconds.isChecked = Prefs.showSeconds
@@ -228,22 +233,6 @@ class AppearanceFragment : BaseFragment() {
         }
     }
 
-    private fun showDialog() {
-        val context = context ?: return
-
-        if (Prefs.chatBack.isNotEmpty()) {
-            val dialog = AlertDialog.Builder(context)
-                    .setMessage(R.string.chat_back_exists)
-                    .setPositiveButton(R.string.change) { _, _ -> openGallery() }
-                    .setNegativeButton(R.string.delete) { _, _ -> deletePhoto() }
-                    .create()
-            dialog.show()
-            dialog.stylize()
-        } else {
-            openGallery()
-        }
-    }
-
     private fun deletePhoto() {
         ivBackground.setImageBitmap(null)
         Prefs.chatBack = ""
@@ -258,6 +247,18 @@ class AppearanceFragment : BaseFragment() {
             hideDialog(newPath)
         } else {
             showAlert(context, getString(R.string.unable_to_crop))
+        }
+    }
+
+    private fun convertColor(color: Int) {
+        val activity = activity ?: return
+
+        val newPath = createColoredBitmap(activity, color)
+        if (newPath != null) {
+            Prefs.chatBack = newPath
+            hideDialog(newPath)
+        } else {
+            showAlert(context, getString(R.string.unable_to_pick_color))
         }
     }
 
@@ -299,6 +300,21 @@ class AppearanceFragment : BaseFragment() {
                 activity?.onBackPressed()
             }
         }
+    }
+
+    private inline fun showColorPicker(initColor: Int, crossinline onPicked: (Int) -> Unit) {
+        ColorPickerDialogBuilder.with(context)
+                .initialColor(initColor)
+                .lightnessSliderOnly()
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(12)
+                .setPositiveButton(R.string.ok) { _, color, _ ->
+                    onPicked(color)
+                }
+                .setNegativeButton(R.string.cancel, null)
+                .build()
+                .apply { stylize() }
+                .show()
     }
 
     companion object {

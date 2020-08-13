@@ -41,12 +41,32 @@
                 android:layout_height="1px"
                 android:background="@color/divider" />
 
+            <LinearLayout
+                android:id="@+id/llVisualLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/toolbar"
+                android:orientation="vertical"
+                android:tag="extraLight">
+
+                <TextView
+                    style="@style/OtherText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="28dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/appearance_visual"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_marginTop="16dp"
                 android:background="@color/divider" />
-
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchLightTheme"
@@ -62,6 +82,52 @@
                 android:hint="@string/restart_required"
                 android:text="@string/theme_color" />
 
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchAppleEmojis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/use_apples_emojis_hint"
+                android:text="@string/use_apples_emojis" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchChatBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/appearance_chat_back_hint"
+                android:text="@string/appearance_chat_back_title" />
+
+            <LinearLayout
+                android:id="@+id/llCustomBack"
+                android:layout_width="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_height="?actionBarSize"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnGallery"
+                    style="@style/AccentButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:drawableStart="@drawable/ic_image"
+                    android:text="@string/appearance_pick_from_gallery" />
+
+                <Button
+                    android:id="@+id/btnColor"
+                    style="@style/AccentButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:drawableStart="@drawable/ic_palette"
+                    android:text="@string/appearance_pick_from_color_picker"/>
+
+            </LinearLayout>
+
             <!--<com.twoeightnine.root.xvii.views.Stepper-->
             <!--android:id="@+id/stMessageSize"-->
             <!--android:layout_width="match_parent"-->
@@ -71,6 +137,27 @@
             <!--app:step="1"-->
             <!--app:text="@string/message_size"-->
             <!--app:value="15" />-->
+
+            <LinearLayout
+                android:id="@+id/llFunctionalLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/toolbar"
+                android:orientation="vertical"
+                android:tag="extraLight">
+
+                <TextView
+                    style="@style/OtherText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="28dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/appearance_functional"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchShowSeconds"
@@ -87,13 +174,6 @@
                 android:text="@string/use_lowercase" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
-                android:id="@+id/switchAppleEmojis"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/use_apples_emojis_hint"
-                android:text="@string/use_apples_emojis" />
-
-            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchShowStickers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,20 +184,9 @@
                 android:id="@+id/switchShowVoice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
                 android:hint="@string/show_voice_hint"
                 android:text="@string/show_voice" />
-
-            <Button
-                android:id="@+id/btnSelectBackground"
-                style="@style/AccentButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="24dp"
-                android:drawableStart="@drawable/ic_image"
-                android:text="@string/pick_chat_background" />
 
         </LinearLayout>
 

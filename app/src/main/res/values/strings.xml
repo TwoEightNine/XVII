@@ -345,6 +345,7 @@
     <string name="clear_vote">clear my vote</string>
     <string name="open_in_browser">open in browser</string>
     <string name="unable_to_crop">unable to crop this image as a background. try to select other one</string>
+    <string name="unable_to_pick_color">unable to pick this color. try to pick other one or do it later</string>
     <string name="close">close</string>
     <string name="playback_speed">speed %sx</string>
 
@@ -357,6 +358,13 @@
     <string name="general_stealth">stealth</string>
     <string name="general_chatting">chatting</string>
     <string name="general_other">other</string>
+
+    <string name="appearance_visual">visual</string>
+    <string name="appearance_functional">functional</string>
+    <string name="appearance_chat_back_title">custom chat background</string>
+    <string name="appearance_chat_back_hint">color or photo instead of blank screen</string>
+    <string name="appearance_pick_from_gallery">pick photo</string>
+    <string name="appearance_pick_from_color_picker">pick color</string>
 
     <string name="alarm_title" translatable="false">alarms</string>
     <string name="alarm_every_day" translatable="false">every day</string>

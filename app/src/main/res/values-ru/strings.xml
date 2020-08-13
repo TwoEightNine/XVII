@@ -459,5 +459,12 @@
     <string name="general_stealth">скрытность</string>
     <string name="general_chatting">общение</string>
     <string name="general_other">другое</string>
+    <string name="unable_to_pick_color">невозможно выбрать этот цвет. попробуйте выбрать другой или сделать это позже</string>
+    <string name="appearance_visual">визуальные</string>
+    <string name="appearance_functional">функциональные</string>
+    <string name="appearance_chat_back_title">кастомный фон чатов</string>
+    <string name="appearance_chat_back_hint">цвет или фото вместо пустого экрана</string>
+    <string name="appearance_pick_from_gallery">фото</string>
+    <string name="appearance_pick_from_color_picker">цвет</string>
 
 </resources>

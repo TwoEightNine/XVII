@@ -425,6 +425,13 @@
     <string name="general_stealth">furtivité</string>
     <string name="general_chatting">conversation</string>
     <string name="general_other">autres</string>
+    <string name="appearance_visual">visuelle</string>
+    <string name="appearance_functional">functionelle</string>
+    <string name="appearance_pick_from_gallery">choisir une photo</string>
+    <string name="appearance_pick_from_color_picker">choisir un couleur</string>
+    <string name="appearance_chat_back_hint">couleur or photo au lieu d\'écran vide</string>
+    <string name="appearance_chat_back_title">fond des tchats personnalisé</string>
+    <string name="unable_to_pick_color">impossible á choisir ce couleur</string>
 
 </resources>
 
