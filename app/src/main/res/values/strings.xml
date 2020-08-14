@@ -365,6 +365,8 @@
     <string name="appearance_chat_back_hint">color or photo instead of blank screen</string>
     <string name="appearance_pick_from_gallery">pick photo</string>
     <string name="appearance_pick_from_color_picker">pick color</string>
+    <string name="appearance_message_text_size">size of message text</string>
+    <string name="appearance_message_text_size_hint">adjust size of message and input text</string>
 
     <string name="alarm_title" translatable="false">alarms</string>
     <string name="alarm_every_day" translatable="false">every day</string>

@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="?attr/selectableItemBackground"
             android:src="@drawable/ic_plus" />
 
         <TextView
@@ -40,19 +39,35 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/tvValue"
-            android:background="?attr/selectableItemBackground"
             android:src="@drawable/ic_minus" />
 
-        <TextView
-            android:id="@+id/tvName"
-            style="@style/MainBoldText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="16dp"
             android:layout_toStartOf="@+id/ivMinus"
-            android:textSize="18sp"
-            tools:text="columns funky town" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/MainBoldText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textSize="16sp"
+                tools:text="switch switch switch" />
+
+            <TextView
+                android:id="@+id/tvHint"
+                style="@style/OtherText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:textSize="12sp"
+                tools:text="and why and why and why\nfggfg" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

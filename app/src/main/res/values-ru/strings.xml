@@ -466,5 +466,7 @@
     <string name="appearance_chat_back_hint">цвет или фото вместо пустого экрана</string>
     <string name="appearance_pick_from_gallery">фото</string>
     <string name="appearance_pick_from_color_picker">цвет</string>
+    <string name="appearance_message_text_size">размер текста сообщений</string>
+    <string name="appearance_message_text_size_hint">изменить размер текста сообщений и ввода</string>
 
 </resources>

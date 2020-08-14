@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.widget.CompoundButton
 import com.flask.colorpicker.ColorPickerView
@@ -126,7 +127,6 @@ class AppearanceFragment : BaseFragment() {
                 withSeconds = showSeconds
         )
 
-
         tvBodyIn.text = when {
             useAppleEmojis -> EmojiHelper.getEmojied(context, sampleIn, ignorePref = true)
             else -> sampleIn
@@ -135,6 +135,10 @@ class AppearanceFragment : BaseFragment() {
             useAppleEmojis -> EmojiHelper.getEmojied(context, sampleOut, ignorePref = true)
             else -> sampleOut
         }
+
+        tvBodyIn.setTextSize(TypedValue.COMPLEX_UNIT_SP, stMessageSize.value.toFloat())
+        tvBodyOut.setTextSize(TypedValue.COMPLEX_UNIT_SP, stMessageSize.value.toFloat())
+        etInput.setTextSize(TypedValue.COMPLEX_UNIT_SP, stMessageSize.value.toFloat() + 2)
 
         tvDateIn.text = sampleDateIn
         tvDateOut.text = sampleDateOut
@@ -214,6 +218,8 @@ class AppearanceFragment : BaseFragment() {
             switchShowVoice.onCheckedListener = this
         }
 
+        stMessageSize.value = Prefs.messageTextSize
+        stMessageSize.onValueChangedListener = { applyTexts() }
     }
 
     private fun openGallery() {
@@ -277,6 +283,7 @@ class AppearanceFragment : BaseFragment() {
         Prefs.appleEmojis = switchAppleEmojis.isChecked
         Prefs.showStickers = switchShowStickers.isChecked
         Prefs.showVoice = switchShowVoice.isChecked
+        Prefs.messageTextSize = stMessageSize.value
     }
 
     /**

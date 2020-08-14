@@ -10,6 +10,7 @@ import android.os.Vibrator
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -61,6 +62,7 @@ class ChatInputController(
             pbAttach.hide()
             etInput.addTextChangedListener(ChatTextWatcher())
             etInput.onRichContentAdded = ::onRichContentAdded
+            etInput.setTextSize(TypedValue.COMPLEX_UNIT_SP, Prefs.messageTextSize.toFloat() + 2)
             when {
                 Prefs.sendByEnter -> {
                     etInput.imeOptions = EditorInfo.IME_ACTION_SEND

@@ -432,6 +432,8 @@
     <string name="appearance_chat_back_hint">couleur or photo au lieu d\'écran vide</string>
     <string name="appearance_chat_back_title">fond des tchats personnalisé</string>
     <string name="unable_to_pick_color">impossible á choisir ce couleur</string>
+    <string name="appearance_message_text_size">taille de texte des messages</string>
+    <string name="appearance_message_text_size_hint">ajuster la taille de texte des messages et entrée</string>
 
 </resources>
 

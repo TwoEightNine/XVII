@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.text.Html
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,10 @@ class MessagesAdapter(context: Context,
 ) : BaseReachAdapter<Message, MessagesAdapter.MessageViewHolder>(context, loader) {
 
     private val mediaWidth = pxFromDp(context, MEDIA_WIDTH)
+
+    private val messageTextSize by lazy {
+        Prefs.messageTextSize.toFloat()
+    }
 
     override fun createHolder(parent: ViewGroup, viewType: Int) = MessageViewHolder(inflater.inflate(
             when (viewType) {
@@ -159,6 +164,7 @@ class MessagesAdapter(context: Context,
                     else -> ""
                 }
                 tvBody.movementMethod = LinkMovementMethod.getInstance()
+                tvBody.setTextSize(TypedValue.COMPLEX_UNIT_SP, messageTextSize)
 
                 val date = getTime(message.date, withSeconds = Prefs.showSeconds)
                 val edited = if (message.isEdited()) resources.getString(R.string.edited) else ""

@@ -6,12 +6,15 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.utils.ColorManager
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.view_stepper.view.*
 
 class Stepper(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
 
     private val tvValue: TextView
     private val tvName: TextView
+    private val tvHint: TextView
 
     /**
      * inclusive end
@@ -78,16 +81,20 @@ class Stepper(context: Context, attributeSet: AttributeSet) : FrameLayout(contex
             }
             this@Stepper.tvValue = tvValue
             this@Stepper.tvName = tvName
+            this@Stepper.tvHint = tvHint
         }
         initAttributes(attributeSet)
         invalidateValue()
+        ivMinus.stylize(ColorManager.MAIN_TAG)
+        ivPlus.stylize(ColorManager.MAIN_TAG)
     }
 
     private fun initAttributes(attributeSet: AttributeSet) {
         val attrs = context.theme.obtainStyledAttributes(attributeSet, R.styleable.Stepper, 0, 0)
         tvName.text = attrs.getString(R.styleable.Stepper_text)
-        min = attrs.getInt(R.styleable.Stepper_min, MIN_DEFAULT)
+        tvHint.text = attrs.getString(R.styleable.Stepper_hint)
         max = attrs.getInt(R.styleable.Stepper_max, MAX_DEFAULT)
+        min = attrs.getInt(R.styleable.Stepper_min, MIN_DEFAULT)
         step = attrs.getInt(R.styleable.Stepper_step, STEP_DEFAULT)
         value = attrs.getInt(R.styleable.Stepper_value, min)
         attrs.recycle()

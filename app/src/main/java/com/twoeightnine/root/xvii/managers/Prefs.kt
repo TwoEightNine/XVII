@@ -53,6 +53,7 @@ object Prefs {
     private const val NIGHT = "night"
     private const val COLOR = "color"
     private const val CHAT_BACK = "chatBack"
+    private const val MESSAGE_TEXT_SIZE = "messageTextSize"
     private const val DEFAULT_COLOR = 0xff8833dd
     private const val USE_STYLED_NOTIFICATIONS = "useStyledNotifications"
 
@@ -227,6 +228,10 @@ object Prefs {
     var chatBack: String
         get() = data.getString(CHAT_BACK, "")
         set(value) = data.edit().putString(CHAT_BACK, value).apply()
+
+    var messageTextSize: Int
+        get() = data.getInt(MESSAGE_TEXT_SIZE, 15)
+        set(value) = data.edit().putInt(MESSAGE_TEXT_SIZE, value).apply()
 
     //other
     var showRate: Boolean
