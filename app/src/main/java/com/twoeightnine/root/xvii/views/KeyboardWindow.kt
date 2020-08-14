@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.PopupWindow
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.managers.Prefs
 
 abstract class KeyboardWindow(
         private val rootView: View,
@@ -22,6 +21,8 @@ abstract class KeyboardWindow(
 
     private var keyBoardHeight = 0
     private var pendingOpen = false
+
+    private var maxBottom = 0
 
     private val usableScreenHeight: Int
         get() {
@@ -60,8 +61,7 @@ abstract class KeyboardWindow(
 
      */
     private fun showAtBottom() {
-        val y = if (Prefs.liftKeyboard) 90 else 0
-        showAtLocation(rootView, Gravity.BOTTOM, 0, y)
+        showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
     }
 
     /**
@@ -96,19 +96,11 @@ abstract class KeyboardWindow(
         rootView.viewTreeObserver.addOnGlobalLayoutListener {
             val r = Rect()
             rootView.getWindowVisibleDisplayFrame(r)
-
-            val screenHeight = usableScreenHeight
-            var heightDifference = screenHeight - (r.bottom - r.top)
-            val resourceId = context.resources
-                    .getIdentifier(
-                            "status_bar_height",
-                            "dimen", "android"
-                    )
-            if (resourceId > 0) {
-                heightDifference -= context.resources
-                        .getDimensionPixelSize(resourceId)
+            if (r.bottom > maxBottom) {
+                maxBottom = r.bottom
             }
-            if (heightDifference > 100) {
+            val heightDifference = maxBottom - r.bottom
+            if (heightDifference > 0) {
                 keyBoardHeight = heightDifference
                 setSize(WindowManager.LayoutParams.MATCH_PARENT,
                         keyBoardHeight + getAdditionalHeight())
