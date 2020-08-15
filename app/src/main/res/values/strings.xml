@@ -371,6 +371,11 @@
     <string name="alarm_title" translatable="false">alarms</string>
     <string name="alarm_every_day" translatable="false">every day</string>
 
+    <string name="destructor_name">xvii message destructor</string>
+    <string name="destructor_title">message will be deleted in %d seconds</string>
+    <string name="destructor_process_title">deleting..</string>
+    <string name="destructor_hint">keep the internet and the application turned on</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>

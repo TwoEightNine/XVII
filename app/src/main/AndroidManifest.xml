@@ -73,6 +73,7 @@
             android:name=".background.music.services.MusicService"
             android:permission="android.permission.WAKE_LOCK" />
         <service android:name=".background.DownloadFileService" />
+        <service android:name=".background.messaging.MessageDestructionService" />
 
         <activity
             android:name=".activities.LoginActivity"
