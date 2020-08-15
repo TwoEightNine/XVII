@@ -146,22 +146,23 @@ class DialogsViewModel(
             val pinnedIds = storedDialogs.filter { it.isPinned }.map { it.peerId }
 
             response?.items?.forEach { dm ->
-                val message = dm.lastMessage
-                dialogs.add(Dialog(
-                        message.peerId,
-                        message.id,
-                        response.getTitleFor(dm) ?: "???",
-                        response.getPhotoFor(dm),
-                        message.getResolvedMessage(context),
-                        message.date,
-                        message.isOut(),
-                        dm.conversation.isRead(),
-                        dm.conversation.unreadCount,
-                        response.isOnline(dm),
-                        message.peerId in muteList,
-                        message.peerId in pinnedIds,
-                        storedDialogs.find { it.peerId == message.peerId }?.alias
-                ))
+                dm.lastMessage?.also { message ->
+                    dialogs.add(Dialog(
+                            message.peerId,
+                            message.id,
+                            response.getTitleFor(dm) ?: "???",
+                            response.getPhotoFor(dm),
+                            message.getResolvedMessage(context),
+                            message.date,
+                            message.isOut(),
+                            dm.conversation.isRead(),
+                            dm.conversation.unreadCount,
+                            response.isOnline(dm),
+                            message.peerId in muteList,
+                            message.peerId in pinnedIds,
+                            storedDialogs.find { it.peerId == message.peerId }?.alias
+                    ))
+                }
             }
         }
         return BaseResponse(dialogs, resp.error)

@@ -34,18 +34,18 @@ data class ConversationsResponse(
 
     fun getTitleFor(dm: DialogMessage) = when {
         dm.isChat() -> dm.conversation.chatSettings?.title
-        dm.isGroup() -> getGroup(-dm.lastMessage.peerId)?.name
-        else -> getUser(dm.lastMessage.peerId)?.fullName
+        dm.isGroup() -> getGroup(-(dm.lastMessage?.peerId ?: 0))?.name
+        else -> getUser(dm.lastMessage?.peerId ?: 0)?.fullName
     }
 
     fun getPhotoFor(dm: DialogMessage) = when {
         dm.isChat() -> dm.conversation.chatSettings?.photo?.photo100
-        dm.isGroup() -> getGroup(-dm.lastMessage.peerId)?.photo100
-        else -> getUser(dm.lastMessage.peerId)?.photo100
+        dm.isGroup() -> getGroup(-(dm.lastMessage?.peerId ?: 0))?.photo100
+        else -> getUser(dm.lastMessage?.peerId ?: 0)?.photo100
     }
 
     fun isOnline(dm: DialogMessage) = when {
         dm.isChat() || dm.isGroup() -> false
-        else -> getUser(dm.lastMessage.peerId)?.isOnline ?: false
+        else -> getUser(dm.lastMessage?.peerId ?: 0)?.isOnline ?: false
     }
 }
