@@ -400,7 +400,7 @@
     <string name="pick_chat_background">выбрать фон чатов</string>
     <string name="vote_added">голос добавлен</string>
     <string name="vote">проголосовать</string>
-    <string name="use_apples_emojis">использвоать смайлы apple</string>
+    <string name="use_apples_emojis">использовать смайлы apple</string>
     <string name="use_apples_emojis_hint">использовать самые узнаваемые смайлы</string>
     <string name="use_lowercase">использовать строчные буквы</string>
     <string name="use_lowercase_hint">имена и ввод будут без заглавных</string>
@@ -446,7 +446,7 @@
     <string name="assist_yes">да, я в деле</string>
     <string name="attach_logs">прикрепить логи</string>
     <string name="contribute">содействовать</string>
-    <string name="assist_prompt">вы собираетесь посмотреть полноэкранную рекламу. для вас это абсолютно беспланто, но очень сильно поможет в развитии проекта. продолжить?</string>
+    <string name="assist_prompt">вы собираетесь посмотреть полноэкранную рекламу. для вас это абсолютно бесплатно, но очень сильно поможет в развитии проекта. продолжить?</string>
     <string name="lift_keyboards">приподнять окно стикеров</string>
     <string name="lift_keyboards_hint">включите, если есть отступ между ним и полем ввода</string>
     <string name="open_in_browser">открыть в браузере</string>
