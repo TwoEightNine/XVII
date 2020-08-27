@@ -61,7 +61,7 @@ abstract class KeyboardWindow(
 
      */
     private fun showAtBottom() {
-        showAtLocation(rootView, Gravity.BOTTOM, 0, 0)
+        showAtLocation(rootView, Gravity.BOTTOM, 0, BOTTOM_MARGIN)
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class KeyboardWindow(
             }
             val heightDifference = maxBottom - r.bottom
             if (heightDifference > 0) {
-                keyBoardHeight = heightDifference
+                keyBoardHeight = heightDifference - BOTTOM_MARGIN / 2
                 setSize(WindowManager.LayoutParams.MATCH_PARENT,
                         keyBoardHeight + getAdditionalHeight())
                 isKeyBoardOpen = true
@@ -131,4 +131,7 @@ abstract class KeyboardWindow(
         Lg.i("[keyboard] $s")
     }
 
+    companion object {
+        const val BOTTOM_MARGIN = 90
+    }
 }
