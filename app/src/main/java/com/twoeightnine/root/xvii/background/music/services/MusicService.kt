@@ -155,13 +155,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
     private fun playOrPause() {
         if (player.isPlayingSafe()) {
-            try {
-                player.pause()
-                pausingAudioSubject.onNext(Unit)
-            } catch (e: Exception) {
-                lw("error stopping: ${e.message}")
-                stop()
-            }
+            pause()
         } else {
             try {
                 player.start()
@@ -173,6 +167,16 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             }
         }
         showNotification()
+    }
+
+    private fun pause() {
+        try {
+            player.pause()
+            pausingAudioSubject.onNext(Unit)
+        } catch (e: Exception) {
+            lw("error stopping: ${e.message}")
+            stop()
+        }
     }
 
     private fun stop() {
@@ -206,16 +210,16 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
                 synchronized(focusLock) {
                     isPlaybackDelayed = false
                 }
-                playOrPause()
+                pause()
             }
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
                 synchronized(focusLock) {
                     isPlaybackDelayed = false
                 }
-                playOrPause()
+                pause()
             }
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                playOrPause()
+                pause()
             }
         }
     }
