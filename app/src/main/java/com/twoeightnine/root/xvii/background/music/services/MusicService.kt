@@ -137,7 +137,11 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
     private fun updateSpeed(showNotification: Boolean = true) {
         if (Build.VERSION.SDK_INT >= 23) {
-            player.playbackParams = player.playbackParams.setSpeed(playbackSpeed)
+            try {
+                player.playbackParams = player.playbackParams.setSpeed(playbackSpeed)
+            } catch (e: Exception) {
+                lw("unable to update speed: ${e.message}")
+            }
         }
         if (showNotification) {
             showNotification()
