@@ -298,7 +298,7 @@
     <string name="magenta">bonbon</string>
     <string name="white">blanc</string>
     <string name="cyan">azur</string>
-    <string name="accounts_hint">tapez pour gérer</string>
+    <string name="accounts_hint">changer de compte</string>
     <string name="pin">épingler</string>
     <string name="alias">pseudonyme</string>
     <string name="addons">ajouts</string>

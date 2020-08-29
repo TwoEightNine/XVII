@@ -262,6 +262,14 @@ fun Button.stylize() {
     background = b
 }
 
+fun TextView.stylize() {
+    setTextColor(if (ColorManager.shouldIgnore) {
+        ColorManager.lightColor
+    } else {
+        ColorManager.mainColor
+    })
+}
+
 fun AlertDialog.stylize(keepFont: Boolean = false) {
 
     val typeface = Typeface.createFromAsset(context.resources.assets, "fonts/Rubik-Regular.ttf")

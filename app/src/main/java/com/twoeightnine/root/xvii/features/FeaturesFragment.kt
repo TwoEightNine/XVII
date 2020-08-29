@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.features
 
+import android.graphics.Paint
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
@@ -14,6 +15,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.activities.AccountsActivity
 import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesActivity
 import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
@@ -51,10 +53,14 @@ class FeaturesFragment : BaseFragment() {
         viewModel.getAccount().observe(this, Observer { updateAccount(it) })
         viewModel.loadAccount()
 
+        tvSwitchAccount.paintFlags = tvSwitchAccount.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        tvSwitchAccount.stylize()
+
         rlAnalyse.setOnClickListener { showToast(context, R.string.in_future_versions) }
         rlStarred.setOnClickListener { StarredMessagesActivity.launch(context) }
 
-        rlAccounts.setOnClickListener { AccountsActivity.launch(context) }
+        rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, Session.uid) }
+        tvSwitchAccount.setOnClickListener { AccountsActivity.launch(context) }
         rlGeneral.setOnClickListener {
             GeneralActivity.launch(context)
             suggestJoin()

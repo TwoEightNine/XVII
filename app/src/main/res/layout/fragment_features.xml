@@ -52,16 +52,19 @@
                     <TextView
                         android:id="@+id/tvName"
                         style="@style/MainBoldText"
+                        android:paddingTop="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/user_name_text_size"
                         tools:text="gucci mane" />
 
                     <TextView
+                        android:id="@+id/tvSwitchAccount"
                         style="@style/OtherText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/user_margin_between"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
                         android:text="@string/accounts_hint"
                         android:textSize="@dimen/user_info_text_size" />
 

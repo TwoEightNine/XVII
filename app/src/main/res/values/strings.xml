@@ -238,7 +238,7 @@
     <string name="details">details</string>
     <string name="report_hint">it will help us to solve the problem faster</string>
     <string name="app_will_be_restarted">app will be restarted. continue?</string>
-    <string name="accounts_hint">tap to manage</string>
+    <string name="accounts_hint">switch account</string>
     <string name="sample_text" translatable="false">xvii</string>
     <string name="search_hint">search</string>
     <string name="ok" translatable="false">ok</string>
