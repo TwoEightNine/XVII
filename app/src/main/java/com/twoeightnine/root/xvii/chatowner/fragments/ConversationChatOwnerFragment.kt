@@ -11,10 +11,7 @@ import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActi
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.utils.ColorManager
-import com.twoeightnine.root.xvii.utils.setVisible
-import com.twoeightnine.root.xvii.utils.showConfirm
-import com.twoeightnine.root.xvii.utils.stylize
+import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
 
@@ -71,7 +68,7 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
         if (Prefs.lowerTexts) {
             name = name.toLowerCase()
         }
-        showConfirm(context, getString(R.string.wanna_kick_user, name)) { confirmed ->
+        showWarnConfirm(context, getString(R.string.wanna_kick_user, name), getString(R.string.kick_user)) { confirmed ->
             if (confirmed) {
                 viewModel.kickUser(peerId, user.id)
             }
@@ -80,7 +77,7 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
 
     private fun onLeaveGroupClick() {
         val peerId = getChatOwner()?.getPeerId() ?: 0
-        showConfirm(context, getString(R.string.wanna_leave_conversation)) { confirmed ->
+        showWarnConfirm(context, getString(R.string.wanna_leave_conversation), getString(R.string.leave_conversation)) { confirmed ->
             if (confirmed) {
                 viewModel.leaveConversation(peerId)
             }

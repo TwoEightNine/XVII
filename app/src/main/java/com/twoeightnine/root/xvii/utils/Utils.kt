@@ -158,6 +158,18 @@ fun showConfirm(context: Context?, text: String, callback: (Boolean) -> Unit) {
     dialog.stylize()
 }
 
+fun showWarnConfirm(context: Context?, text: String, positiveButton: String, callback: (Boolean) -> Unit) {
+    if (context == null) return
+
+    val dialog = AlertDialog.Builder(context)
+            .setMessage(text)
+            .setPositiveButton(positiveButton) { _, _ -> callback.invoke(true) }
+            .setNegativeButton(R.string.cancel) { _, _ -> callback.invoke(false) }
+            .create()
+    dialog.show()
+    dialog.stylize(warnPositive = true)
+}
+
 fun startNotificationService(context: Context) {
     try {
 //        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
@@ -629,18 +641,18 @@ fun createColoredBitmap(activity: Activity, color: Int): String? {
 }
 
 fun showDeleteDialog(context: Context?,
-                     message: String? = null,
+                     deleteWhat: String,
                      onDelete: () -> Unit = {}
 ) {
     context ?: return
 
     val dialog = AlertDialog.Builder(context)
-            .setMessage(message ?: context.getString(R.string.want_delete))
+            .setMessage(context.getString(R.string.want_delete, deleteWhat))
             .setNegativeButton(R.string.cancel, null)
-            .setPositiveButton(R.string.ok) { _, _ -> onDelete.invoke() }
+            .setPositiveButton(R.string.delete) { _, _ -> onDelete.invoke() }
             .create()
     dialog.show()
-    dialog.stylize()
+    dialog.stylize(warnPositive = true)
 }
 
 

@@ -135,7 +135,7 @@
     <string name="videos">видео</string>
     <string name="voice_message">голосовое сообщение</string>
     <string name="wall_post">запись со стены</string>
-    <string name="want_delete">действительно хотите удалить?</string>
+    <string name="want_delete">действительно хотите удалить %s?</string>
     <string name="write_message">сообщение..</string>
     <string name="open_chat">открыть чат</string>
     <string name="generating_keys">генерация ключей\nможеть занять несколько минут\n для вашей безопасности</string>
@@ -468,5 +468,11 @@
     <string name="appearance_pick_from_color_picker">цвет</string>
     <string name="appearance_message_text_size">размер текста сообщений</string>
     <string name="appearance_message_text_size_hint">изменить размер текста сообщений и ввода</string>
+    <string name="kick_user">исключить</string>
+    <string name="these_messages">эти сообщения</string>
+    <string name="this_account">этот аккаунт</string>
+    <string name="this_dialog">этот диалог</string>
+    <string name="this_message">это сообщение</string>
+    <string name="block">заблокировать</string>
 
 </resources>

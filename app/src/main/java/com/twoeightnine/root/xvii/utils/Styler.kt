@@ -270,7 +270,7 @@ fun TextView.stylize() {
     })
 }
 
-fun AlertDialog.stylize(keepFont: Boolean = false) {
+fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false) {
 
     val typeface = Typeface.createFromAsset(context.resources.assets, "fonts/Rubik-Regular.ttf")
 
@@ -308,6 +308,11 @@ fun AlertDialog.stylize(keepFont: Boolean = false) {
             setTextColor(otherText)
         }
 
+    }
+
+    if (warnPositive) {
+        findViewById<Button>(android.R.id.button1)
+                ?.setTextColor(ContextCompat.getColor(context, R.color.warn_text))
     }
 
     if (!keepFont) {

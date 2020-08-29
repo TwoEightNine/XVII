@@ -46,7 +46,7 @@ class AudioAttachmentsFragment : BaseAttachmentsFragment<Track>() {
     private fun onLongClick(track: Track) {
         if (!track.isCached()) return
 
-        showDeleteDialog(context) {
+        showDeleteDialog(context, "") { // not in production
             audioViewModel.removeFromCache(track)
         }
     }

@@ -24,7 +24,7 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
             }
         }
         btnBlockUser.setOnClickListener {
-            showConfirm(context, getString(R.string.block_user_confirmation)) { confirmed ->
+            showWarnConfirm(context, getString(R.string.block_user_confirmation), getString(R.string.block_user)) { confirmed ->
                 if (confirmed) {
                     viewModel.blockUser(getChatOwner()?.getPeerId() ?: 0)
                 }

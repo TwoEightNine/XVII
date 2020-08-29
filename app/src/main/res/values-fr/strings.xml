@@ -133,7 +133,7 @@
     <string name="conversation">conversation</string>
     <string name="community">communauté</string>
     <string name="open_chat">ouvrir tchat</string>
-    <string name="want_delete">vous voulez réellement supprimer?</string>
+    <string name="want_delete">vous voulez réellement supprimer %s?</string>
     <string name="rename">changer un nom</string>
     <string name="left_chat">vous avez quitté ce tchat</string>
     <string name="uncaught_exception">quelque chose était faux..</string>
@@ -434,6 +434,12 @@
     <string name="unable_to_pick_color">impossible á choisir ce couleur</string>
     <string name="appearance_message_text_size">taille de texte des messages</string>
     <string name="appearance_message_text_size_hint">ajuster la taille de texte des messages et entrée</string>
+    <string name="block">bloquer</string>
+    <string name="these_messages">ces messages</string>
+    <string name="this_account">ce compte</string>
+    <string name="this_dialog">cette conversation</string>
+    <string name="this_message">ce message</string>
+    <string name="kick_user">frapper</string>
 
 </resources>
 

@@ -177,7 +177,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                 showDeleteMessagesDialog(callback)
             } else {
                 context?.let {
-                    showDeleteDialog(it) { callback.invoke(false) }
+                    showDeleteDialog(it, getString(R.string.these_messages)) { callback.invoke(false) }
                 }
             }
         }
@@ -247,7 +247,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                 .setNegativeButton(R.string.cancel, null)
                 .create()
         dialog.show()
-        dialog.stylize()
+        dialog.stylize(warnPositive = true)
     }
 
     private fun showEditMessageDialog(message: Message) {
@@ -436,7 +436,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                             showDeleteMessagesDialog(callback)
                         } else {
                             context?.let {
-                                showDeleteDialog(it) { callback.invoke(false) }
+                                showDeleteDialog(it, getString(R.string.this_message)) { callback.invoke(false) }
                             }
                         }
                     }

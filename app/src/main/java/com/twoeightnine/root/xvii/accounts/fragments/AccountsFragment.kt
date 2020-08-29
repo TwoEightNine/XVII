@@ -75,7 +75,7 @@ class AccountsFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
         R.id.menu_log_out -> {
-            showConfirm(context, getString(R.string.wanna_logout)) { logout ->
+            showWarnConfirm(context, getString(R.string.wanna_logout), getString(R.string.logout)) { logout ->
                 if (logout) {
                     NotificationService.stop(context)
                     viewModel.logOut()
@@ -101,7 +101,7 @@ class AccountsFragment : BaseFragment() {
         if (account.isRunning) {
             showError(activity, R.string.cannot_delete_acc)
         } else {
-            showDeleteDialog(context) { viewModel.deleteAccount(account) }
+            showDeleteDialog(context, getString(R.string.this_account)) { viewModel.deleteAccount(account) }
         }
     }
 

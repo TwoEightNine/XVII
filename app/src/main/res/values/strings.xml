@@ -169,6 +169,7 @@
     <string name="no_exchg_in_chats">key exchange is not available in this chat</string>
     <string name="encryption">secret chat</string>
     <string name="attach_logs">attach logs</string>
+    <string name="block">block</string>
     <string name="block_user">block user</string>
     <string name="unblock_user">unblock user</string>
     <string name="block_user_confirmation">do you really want to block this user?</string>
@@ -183,7 +184,7 @@
     <string name="conversation">conversation</string>
     <string name="community">community</string>
     <string name="open_chat">open chat</string>
-    <string name="want_delete">really want to delete?</string>
+    <string name="want_delete">really want to delete %s?</string>
     <string name="rename">rename</string>
     <string name="left_chat">you left this chat</string>
     <string name="uncaught_exception">something went wrong..</string>
@@ -339,6 +340,7 @@
     <string name="longpoll_guide_step3">here you will see \'xvii\' system settings. tap on notifications</string>
     <string name="longpoll_guide_step4">remove check from \'xvii background service\' property (do not touch other ones!). that\'s all! </string>
 
+    <string name="kick_user">kick</string>
     <string name="wanna_kick_user">do you really want to kick %s?</string>
     <string name="leave_conversation">leave</string>
     <string name="wanna_leave_conversation">do you really want to leave this conversation?</string>
@@ -367,6 +369,11 @@
     <string name="appearance_pick_from_color_picker">pick color</string>
     <string name="appearance_message_text_size">size of message text</string>
     <string name="appearance_message_text_size_hint">adjust size of message and input text</string>
+
+    <string name="this_account">this account</string>
+    <string name="this_dialog">this conversation</string>
+    <string name="this_message">this message</string>
+    <string name="these_messages">these messages</string>
 
     <string name="alarm_title" translatable="false">alarms</string>
     <string name="alarm_every_day" translatable="false">every day</string>

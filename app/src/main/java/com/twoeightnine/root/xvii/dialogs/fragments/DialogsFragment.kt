@@ -105,7 +105,7 @@ open class DialogsFragment : BaseFragment() {
                     viewModel.readDialog(dialog)
                 },
                 ContextPopupItem(R.drawable.ic_delete_popup, R.string.delete) {
-                    showDeleteDialog(context) {
+                    showDeleteDialog(context, getString(R.string.this_dialog)) {
                         viewModel.deleteDialog(dialog)
                     }
                 },

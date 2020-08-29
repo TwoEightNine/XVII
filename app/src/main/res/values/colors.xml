@@ -23,6 +23,7 @@
     <color name="main_text">#222</color>
     <color name="other_text">#444</color>
     <color name="minor_text">#888</color>
+    <color name="warn_text">#D62929</color>
     <color name="fab">#92b</color>
     <color name="accent">#666</color>
     <color name="shape">#1c1826</color>

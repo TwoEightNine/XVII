@@ -21,6 +21,7 @@
     <color name="main_text">#ddd</color>
     <color name="other_text">#aaa</color>
     <color name="minor_text">#555</color>
+    <color name="warn_text">#D35A5A</color>
     <color name="fab">#15121c</color>
     <color name="accent">#fff</color>
     <color name="shape">#1c1826</color>
