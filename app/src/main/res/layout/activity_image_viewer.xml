@@ -22,6 +22,15 @@
             android:layout_height="@dimen/toolbar_height"
             android:background="@color/black_transparent">
 
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/ic_back" />
+
             <TextView
                 android:id="@+id/tvPosition"
                 android:layout_width="wrap_content"
@@ -30,6 +39,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="sans-serif-light"
+                android:layout_toEndOf="@+id/ivBack"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 tools:text="12/24" />

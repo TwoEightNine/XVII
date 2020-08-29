@@ -73,6 +73,7 @@ class ImageViewerActivity : AppCompatActivity() {
         }
         registerReceiver(actionDownloadedReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
+        ivBack.setOnClickListener { onBackPressed() }
         rlTop.setTopInsetPadding(resources.getDimensionPixelSize(R.dimen.toolbar_height))
         rlBottom.setBottomInsetPadding()
     }
