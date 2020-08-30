@@ -90,7 +90,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         swipeContainer.setOnRefreshListener { viewModel.loadMessages() }
 
         rvChatList.addOnScrollListener(RecyclerDateScroller())
-        rvAttached.layoutManager = LinearLayoutManager(context, LinearLayout.HORIZONTAL, false)
+        rvAttached.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         rvAttached.adapter = attachedAdapter
 
         rvMentionedMembers.layoutManager = LinearLayoutManager(context)
