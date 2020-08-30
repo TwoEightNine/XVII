@@ -21,31 +21,31 @@ object Session {
         App.context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
     }
 
-    var token
-        get() = pref.getString(TOKEN, "")
+    var token: String
+        get() = pref.getString(TOKEN, "") ?: ""
         set(value) {
             pref.edit().putString(TOKEN, value).apply()
         }
 
-    var uid
+    var uid: Int
         get() = pref.getInt(UID, 0)
         set(value) {
             pref.edit().putInt(UID, value).apply()
         }
 
-    var fullName
-        get() = pref.getString(FULL_NAME, "")
+    var fullName: String
+        get() = pref.getString(FULL_NAME, "") ?: ""
         set(value) {
             pref.edit().putString(FULL_NAME, value).apply()
         }
 
-    var photo
-        get() = pref.getString(PHOTO, "err")
+    var photo: String
+        get() = pref.getString(PHOTO, "") ?: ""
         set(value) {
             pref.edit().putString(PHOTO, value).apply()
         }
 
-    var pinLastPromptResult
+    var pinLastPromptResult: Int
         get() = pref.getInt(PIN_LAST_PROMPT, 0)
         set(value) = pref.edit().putInt(PIN_LAST_PROMPT, value).apply()
 

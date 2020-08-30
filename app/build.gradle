@@ -7,12 +7,12 @@ apply plugin: 'kotlin-kapt'
 def appCompat = '1.0.0-beta01'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     buildToolsVersion appCompat
     defaultConfig {
         applicationId "com.twoeightnine.root.xvii"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 162
         versionName "5.18.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -88,7 +88,8 @@ dependencies {
     implementation "com.github.orangegangsters:swipy:$swipyVersion"
     testImplementation "junit:junit:$junitVersion"
     implementation "com.github.QuadFlask:colorpicker:$colorpickerVersion"
-    implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+    implementation 'io.github.inflationx:calligraphy3:3.1.1'
+    implementation 'io.github.inflationx:viewpump:2.0.3'
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 

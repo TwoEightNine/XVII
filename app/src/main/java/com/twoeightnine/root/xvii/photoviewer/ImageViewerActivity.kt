@@ -20,8 +20,8 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.utils.*
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.activity_image_viewer.*
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
@@ -78,8 +78,8 @@ class ImageViewerActivity : AppCompatActivity() {
         rlBottom.setBottomInsetPadding()
     }
 
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
     private fun initButtons() {

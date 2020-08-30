@@ -114,27 +114,25 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
         val videos = arrayListOf<DeviceItem>()
         val projectionVideos = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DATE_MODIFIED, MediaStore.Video.VideoColumns.DURATION)
 
-        var cursorVideos: Cursor? = null
         try {
-            cursorVideos = context.contentResolver.query(
+            context.contentResolver.query(
                     MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                     projectionVideos, null, null,
                     "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
-            )
-            cursorVideos?.moveToFirst()
-            do {
-                val date = cursorVideos.getLong(cursorVideos.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_MODIFIED))
-                val path = cursorVideos.getString(cursorVideos.getColumnIndexOrThrow(MediaStore.Video.Media.DATA))
-                val duration = cursorVideos.getLong(cursorVideos.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DURATION))
-                if (path != null) {
-                    videos.add(DeviceItem(date, path, DeviceItem.Type.VIDEO, duration))
-                }
-            } while (cursorVideos.moveToNext())
+            )?.use { cursor ->
+                cursor.moveToFirst()
+                do {
+                    val date = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_MODIFIED))
+                    val path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA))
+                    val duration = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DURATION))
+                    if (path != null) {
+                        videos.add(DeviceItem(date, path, DeviceItem.Type.VIDEO, duration))
+                    }
+                } while (cursor.moveToNext())
+            }
 
         } catch (e: Exception) {
             e.printStackTrace()
-        } finally {
-            cursorVideos?.close()
         }
         return videos
     }
@@ -151,32 +149,25 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
                 MediaStore.MediaColumns.HEIGHT
         )
 
-        var cursorImages: Cursor? = null
         try {
-            cursorImages = context.contentResolver.query(
+            context.contentResolver.query(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     projectionImages, null, null,
                     "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
-            )
-            cursorImages?.moveToFirst()
-            do {
-                val date = cursorImages.getLong(cursorImages.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED))
-                val path = cursorImages.getString(cursorImages.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
-                if (path != null) {
-                    photos.add(DeviceItem(date, path, DeviceItem.Type.PHOTO))
-                    // png logging: tests
-//                    if (path.endsWith(".png")) {
-//                        val width = cursorImages.getInt(cursorImages.getColumnIndexOrThrow(MediaStore.MediaColumns.WIDTH))
-//                        val height = cursorImages.getInt(cursorImages.getColumnIndexOrThrow(MediaStore.MediaColumns.HEIGHT))
-//                        Lg.i("${width}x$height: $path")
-//                    }
-                }
-            } while (cursorImages.moveToNext())
+            )?.use { cursor ->
+
+                cursor.moveToFirst()
+                do {
+                    val date = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED))
+                    val path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
+                    if (path != null) {
+                        photos.add(DeviceItem(date, path, DeviceItem.Type.PHOTO))
+                    }
+                } while (cursor.moveToNext())
+            }
 
         } catch (e: Exception) {
             e.printStackTrace()
-        } finally {
-            cursorImages?.close()
         }
         return photos
     }

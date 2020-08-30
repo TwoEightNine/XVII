@@ -50,29 +50,29 @@ class AppLifecycleTracker : Application.ActivityLifecycleCallbacks {
                     activity is PinActivity ||
                     activity is AlarmActivity
 
-    override fun onActivityStarted(activity: Activity?) {
-        if (activity == null || ignore(activity)) return
+    override fun onActivityStarted(activity: Activity) {
+        if (ignore(activity)) return
 
         if (numStarted == 0) onForeground(activity)
         numStarted++
     }
 
-    override fun onActivityStopped(activity: Activity?) {
+    override fun onActivityStopped(activity: Activity) {
         if (ignore(activity)) return
 
         numStarted--
         if (numStarted == 0) onBackground()
     }
 
-    override fun onActivityPaused(activity: Activity?) {}
+    override fun onActivityPaused(activity: Activity) {}
 
-    override fun onActivityResumed(activity: Activity?) {}
+    override fun onActivityResumed(activity: Activity) {}
 
-    override fun onActivityDestroyed(activity: Activity?) {}
+    override fun onActivityDestroyed(activity: Activity) {}
 
-    override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {}
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 
-    override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {}
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
 
     private fun startOnline() {
         Lg.i("[online] start")

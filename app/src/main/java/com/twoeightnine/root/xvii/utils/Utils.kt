@@ -80,7 +80,7 @@ fun showToast(context: Context?, message: String, duration: Int = Toast.LENGTH_S
     if (context == null) return
 
     val toast = Toast.makeText(context, message, duration)
-    toast.view.findViewById<TextView>(android.R.id.message)?.apply {
+    toast.view?.findViewById<TextView>(android.R.id.message)?.apply {
         typeface = SANS_SERIF_LIGHT
     }
     toast.show()

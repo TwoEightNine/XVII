@@ -41,10 +41,10 @@ class AccountsViewModel(
 
     fun switchTo(account: Account) {
         with(account) {
-            Session.token = token
+            Session.token = token ?: ""
             Session.uid = uid
-            Session.fullName = name
-            Session.photo = photo
+            Session.fullName = name ?: ""
+            Session.photo = photo ?: ""
             longPollStorage.clear()
         }
         updateRunningAccount()

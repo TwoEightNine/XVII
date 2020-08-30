@@ -17,7 +17,7 @@ import com.twoeightnine.root.xvii.utils.ExceptionHandler
 import com.twoeightnine.root.xvii.utils.NightModeHelper
 import com.twoeightnine.root.xvii.utils.stylize
 import com.twoeightnine.root.xvii.utils.stylizeAll
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 /**
  * all its children will support theme applying
@@ -43,8 +43,8 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
     override fun setContentView(@LayoutRes layoutResID: Int) {
@@ -59,7 +59,7 @@ abstract class BaseActivity : AppCompatActivity() {
         window.navigationBarColor = getNavigationBarColor()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {
             onBackPressed()
             true

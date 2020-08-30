@@ -83,14 +83,12 @@ class MainActivity : BaseActivity() {
 //        removeNotification(this)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            android.R.id.home -> {
-                dlRoot.openDrawer(GravityCompat.START)
-                true
-            }
-            else -> false
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> {
+            dlRoot.openDrawer(GravityCompat.START)
+            true
         }
+        else -> false
     }
 
     override fun getThemeId() = R.style.AppTheme_Main

@@ -11,7 +11,9 @@ import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
 import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.EmojiHelper
 import com.twoeightnine.root.xvii.utils.StatTool
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig
+import io.github.inflationx.calligraphy3.CalligraphyConfig
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor
+import io.github.inflationx.viewpump.ViewPump
 
 class App : Application() {
 
@@ -27,12 +29,14 @@ class App : Application() {
         KeyHolder.reinit()
         EmojiHelper.init()
 
-        CalligraphyConfig.initDefault(
-                CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Rubik-Light.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        )
+        ViewPump.init(ViewPump.builder()
+                .addInterceptor(CalligraphyInterceptor(
+                        CalligraphyConfig.Builder()
+                                .setDefaultFontPath("fonts/Rubik-Light.ttf")
+                                .setFontAttrId(R.attr.fontPath)
+                                .build()
+                ))
+                .build())
 
         try {
             StatTool.init(applicationContext)

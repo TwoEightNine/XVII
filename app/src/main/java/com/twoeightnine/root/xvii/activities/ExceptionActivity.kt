@@ -45,8 +45,8 @@ class ExceptionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_exception)
         App.appComponent?.inject(this)
         var error = ""
-        if (intent.extras != null) {
-            error = intent.extras.getString(ERROR)
+        intent.extras?.also { extras ->
+            error = extras.getString(ERROR) ?: ""
             tvStack.text = error
         }
         btnReport.setOnClickListener {

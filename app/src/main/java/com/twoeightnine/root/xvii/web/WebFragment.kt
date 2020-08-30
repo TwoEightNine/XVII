@@ -28,7 +28,7 @@ class WebFragment : BaseFragment() {
                 return false // then it is not handled by default action
             }
         }
-        webView.loadUrl(url)
+        url?.also(webView::loadUrl)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

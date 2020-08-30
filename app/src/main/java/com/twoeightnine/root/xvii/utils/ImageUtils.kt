@@ -166,7 +166,7 @@ class ImageUtils(private val activity: Activity) {
      */
     private fun getDataColumn(context: Context, uri: Uri?, selection: String?,
                               selectionArgs: Array<String>?): String? {
-
+        uri ?: return null
         var cursor: Cursor? = null
         val column = "_data"
         val projection = arrayOf(column)
@@ -252,7 +252,7 @@ class ImageUtils(private val activity: Activity) {
             Log.e("File Path", "Path " + file.path)
             Log.e("File Size", "Size " + file.length())
         } catch (e: Exception) {
-            Log.e("Exception", e.message)
+            Log.e("Exception", e.message ?: "message is null")
         }
 
         return file.path
