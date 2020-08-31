@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    fontPath="fonts/Rubik-Regular.ttf"
+                    fontPath="fonts/medium.ttf"
                     android:textColor="@color/toolbar_text"
                     android:layout_marginEnd="5dp"
                     android:textSize="19sp"

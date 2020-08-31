@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/tvGiftTitle"
         style="@style/OtherText"
-        fontPath="fonts/Rubik-Regular.ttf"
+        fontPath="fonts/medium.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/ivThumb"

@@ -272,7 +272,7 @@ fun TextView.stylize() {
 
 fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false) {
 
-    val typeface = Typeface.createFromAsset(context.resources.assets, "fonts/Rubik-Regular.ttf")
+    val typeface = Typeface.createFromAsset(context.resources.assets, "fonts/medium.ttf")
 
     val mainText = ContextCompat.getColor(context, R.color.main_text)
     val otherText = ContextCompat.getColor(context, R.color.other_text)

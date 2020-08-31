@@ -33,7 +33,7 @@
         android:textColor="@color/toolbar_text"
         android:elevation="5dp"
         android:layout_centerHorizontal="true"
-        fontPath="fonts/Rubik-Regular.ttf"
+        fontPath="fonts/medium.ttf"
         android:layout_alignBottom="@+id/toolbar"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/toolbar_height"

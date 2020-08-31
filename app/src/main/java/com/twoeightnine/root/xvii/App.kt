@@ -32,7 +32,7 @@ class App : Application() {
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(CalligraphyInterceptor(
                         CalligraphyConfig.Builder()
-                                .setDefaultFontPath("fonts/Rubik-Light.ttf")
+                                .setDefaultFontPath("fonts/usual.ttf")
                                 .setFontAttrId(R.attr.fontPath)
                                 .build()
                 ))

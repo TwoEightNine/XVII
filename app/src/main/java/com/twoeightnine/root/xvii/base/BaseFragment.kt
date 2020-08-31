@@ -67,7 +67,7 @@ abstract class BaseFragment : Fragment() {
             for (i in 0 until toolbar.childCount) {
                 val view = toolbar.getChildAt(i)
                 if (view is TextView) {
-                    view.typeface = Typeface.createFromAsset(am, "fonts/Rubik-Regular.ttf")
+                    view.typeface = Typeface.createFromAsset(am, "fonts/medium.ttf")
                 }
             }
             ViewCompat.setOnApplyWindowInsetsListener(toolbar) { view, insets ->

@@ -96,11 +96,11 @@
 
     <style name="MainText.Strip">
         <item name="android:textSize">14sp</item>
-        <item name="fontPath">fonts/Rubik-Regular.ttf</item>
+        <item name="fontPath">fonts/medium.ttf</item>
     </style>
 
     <style name="MainBoldText" parent="MainText">
-        <item name="fontPath">fonts/Rubik-Regular.ttf</item>
+        <item name="fontPath">fonts/medium.ttf</item>
     </style>
 
     <style name="OtherText">
@@ -121,7 +121,7 @@
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light"></style>
 
     <style name="ToolbarTitleTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="fontPath">fonts/Rubik-Regular.ttf</item>
+        <item name="fontPath">fonts/medium.ttf</item>
         <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
         <item name="android:textSize">21dp</item>
         <item name="android:textColor">@color/toolbar_text</item>
@@ -150,7 +150,7 @@
         <item name="android:paddingRight">12dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">17sp</item>
-        <item name="fontPath">fonts/Rubik-Regular.ttf</item>
+        <item name="fontPath">fonts/medium.ttf</item>
     </style>
 
     <style name="AccentButton" parent="Button">
