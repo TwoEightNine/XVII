@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.stylize
+import com.twoeightnine.root.xvii.utils.stylizeAnyway
 import kotlinx.android.synthetic.main.view_stepper.view.*
 
 class Stepper(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
@@ -85,8 +86,8 @@ class Stepper(context: Context, attributeSet: AttributeSet) : FrameLayout(contex
         }
         initAttributes(attributeSet)
         invalidateValue()
-        ivMinus.stylize(ColorManager.MAIN_TAG)
-        ivPlus.stylize(ColorManager.MAIN_TAG)
+        ivMinus.stylizeAnyway(ColorManager.MAIN_TAG)
+        ivPlus.stylizeAnyway(ColorManager.MAIN_TAG)
     }
 
     private fun initAttributes(attributeSet: AttributeSet) {
