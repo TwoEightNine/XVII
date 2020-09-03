@@ -432,45 +432,11 @@ fun restartApp(context: Context?, title: String) {
 fun restartApp(context: Context?) {
     context ?: return
 
-    val mStartActivity = getRestartIntent(context)
-    val mPendingIntentId = 123456
-    val mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT)
-    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent)
-
-    val notificationManager = context.getSystemService(
-            Context.NOTIFICATION_SERVICE) as NotificationManager
-    notificationManager.cancelAll()
-    System.exit(0)
-}
-
-fun removeNotification(context: Context) {
-    try {
-        (context.getSystemService(Context.NOTIFICATION_SERVICE)
-                as NotificationManager).cancelAll()
-    } catch (e: Exception) {
-        Lg.i("remove notif: ${e.message}")
+    context.packageManager.getLaunchIntentForPackage(context.packageName)?.also { intent ->
+        val mainIntent = Intent.makeRestartActivityTask(intent.component)
+        context.startActivity(mainIntent)
+        Runtime.getRuntime().exit(0)
     }
-}
-
-fun getRestartIntent(context: Context): Intent {
-    val defaultIntent = Intent(ACTION_MAIN, null)
-    defaultIntent.addFlags(FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK)
-    defaultIntent.addCategory(CATEGORY_LAUNCHER)
-
-    val packageName = context.packageName
-    val packageManager = context.packageManager
-    for (resolveInfo in packageManager.queryIntentActivities(defaultIntent, 0)) {
-        val activityInfo = resolveInfo.activityInfo
-        if (activityInfo.packageName == packageName) {
-            defaultIntent.component = ComponentName(packageName, activityInfo.name)
-            return defaultIntent
-        }
-    }
-
-    throw IllegalStateException("Unable to determine default activity for "
-            + packageName
-            + ". Does an activity specify the DEFAULT category in its intent filter?")
 }
 
 fun getRelation(context: Context?, relation: Int?): String {
