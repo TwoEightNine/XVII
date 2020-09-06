@@ -22,6 +22,7 @@ import com.twoeightnine.root.xvii.chats.attachments.stickers.StickersWindow
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
+import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
@@ -98,5 +99,6 @@ interface AppComponent {
 
     fun inject(chatOwnerViewModel: ChatOwnerViewModel)
     fun inject(generalViewModel: GeneralViewModel)
+    fun inject(baseChatMessagesViewModel: BaseChatMessagesViewModel)
 
 }

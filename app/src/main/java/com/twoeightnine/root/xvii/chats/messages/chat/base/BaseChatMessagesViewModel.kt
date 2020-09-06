@@ -1,11 +1,15 @@
 package com.twoeightnine.root.xvii.chats.messages.chat.base
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
+import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
@@ -20,11 +24,14 @@ import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.MessagesHistoryResponse
+import com.twoeightnine.root.xvii.scheduled.ScheduledMessage
+import com.twoeightnine.root.xvii.scheduled.SendMessageWorker
 import com.twoeightnine.root.xvii.utils.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import javax.inject.Inject
 import kotlin.random.Random
 
 abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewModel(api) {
@@ -54,6 +61,9 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     private val mentionedMembersLiveData = MutableLiveData<List<User>>()
 
+    @Inject
+    lateinit var appDb: AppDb
+
     val mentionedMembers: LiveData<List<User>>
         get() = mentionedMembersLiveData
 
@@ -77,6 +87,10 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 }
             }
         }
+
+    init {
+        App.appComponent?.inject(this)
+    }
 
     /**
      * prepares outgoing message text before sending or editing
@@ -180,6 +194,36 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                     text?.also { StatTool.get()?.messageSent(it) }
                 }, { error ->
                     lw("send message: $error")
+                })
+    }
+
+    @SuppressLint("CheckResult")
+    fun scheduleMessage(context: Context, text: String,
+                        attachments: String? = null, forwardedMessages: String? = null) {
+        val scheduledMessage = ScheduledMessage(
+                peerId = peerId,
+                whenMs = System.currentTimeMillis() + 10000L,
+                text = text,
+                attachments = attachments,
+                forwardedMessages = forwardedMessages
+        )
+        appDb.scheduledMessagesDao()
+                .addScheduledMessage(scheduledMessage)
+                .compose(applyCompletableSchedulers())
+                .subscribe({
+                    appDb.scheduledMessagesDao()
+                            .getLastScheduledMessage()
+                            .compose(applySingleSchedulers())
+                            .subscribe({ messages ->
+                                messages.getOrNull(0)?.also { lastScheduledMessage ->
+                                    SendMessageWorker.enqueueWorker(context, lastScheduledMessage)
+                                }
+
+                            }, { error ->
+                                lw("get last scheduled message: $error")
+                            })
+                }, { error ->
+                    lw("add scheduled message: $error")
                 })
 
     }

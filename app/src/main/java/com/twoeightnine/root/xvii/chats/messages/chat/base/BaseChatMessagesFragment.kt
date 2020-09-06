@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
@@ -561,6 +560,17 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                     attachments = attachedAdapter.asString(),
                     forwardedMessages = forwarded,
                     replyTo = replyTo
+            )
+            etInput.clear()
+            attachedAdapter.clear()
+        }
+
+        override fun onScheduleClick(whenMs: Long) {
+            viewModel.scheduleMessage(
+                    context = requireContext(),
+                    text = etInput.asText(),
+                    attachments = attachedAdapter.asString(),
+                    forwardedMessages = attachedAdapter.fwdMessages
             )
             etInput.clear()
             attachedAdapter.clear()

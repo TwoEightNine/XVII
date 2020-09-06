@@ -405,6 +405,7 @@ class ChatInputController(
     interface ChatInputCallback {
         fun onStickerClicked(sticker: Sticker)
         fun onSendClick()
+        fun onScheduleClick(whenMs: Long)
         fun hasMicPermissions(): Boolean
         fun onAttachClick()
         fun onTypingInvoke()
