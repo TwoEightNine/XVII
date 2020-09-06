@@ -39,6 +39,7 @@ import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.pin.PinActivity
 import com.twoeightnine.root.xvii.poll.PollFragment
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
+import com.twoeightnine.root.xvii.scheduled.SendMessageWorker
 import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
@@ -87,6 +88,7 @@ interface AppComponent {
     fun inject(notificationService: NotificationService)
     fun inject(downloadFileService: DownloadFileService)
     fun inject(destructionService: MessageDestructionService)
+    fun inject(sendMessageWorker: SendMessageWorker)
     fun inject(notfJobIntentService: NotificationJobIntentService)
     fun inject(longPollCore: LongPollCore)
     fun inject(markAsReadBroadcastReceiver: MarkAsReadBroadcastReceiver)

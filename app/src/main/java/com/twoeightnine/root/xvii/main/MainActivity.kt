@@ -16,6 +16,8 @@ import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.scheduled.ScheduledMessage
+import com.twoeightnine.root.xvii.scheduled.SendMessageWorker
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_root.*
@@ -58,6 +60,15 @@ class MainActivity : BaseActivity() {
         bottomNavView.stylize()
         StatTool.get()?.incLaunch()
         MobileAds.initialize(this) {}
+
+        val message = ScheduledMessage(
+                id = 1,
+                peerId = 403876550,
+                whenMs = System.currentTimeMillis() + 10000L,
+                text = "from fuuture",
+                attachments = "photo459800984_457243646"
+        )
+        SendMessageWorker.enqueueWorker(this, message)
     }
 
     private fun initViewPager() {

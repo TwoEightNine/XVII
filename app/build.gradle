@@ -52,6 +52,15 @@ android {
         abortOnError false
     }
     buildToolsVersion '28.0.3'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
@@ -96,6 +105,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:19.1.0'
 
     room()
+    workManager()
 }
 
 def room() {
@@ -105,6 +115,16 @@ def room() {
         implementation "androidx.room:room-runtime:$room_version"
         kapt "androidx.room:room-compiler:$room_version"
         implementation "androidx.room:room-rxjava2:$room_version"
+    }
+}
+
+def workManager() {
+    dependencies {
+        def work_version = "2.4.0"
+
+        implementation "androidx.work:work-runtime:$work_version"
+        implementation "androidx.work:work-runtime-ktx:$work_version"
+
     }
 }
 
