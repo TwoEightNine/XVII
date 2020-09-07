@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.scheduled
+package com.twoeightnine.root.xvii.scheduled.core
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "scheduled_messages")
 data class ScheduledMessage(
 
-        @PrimaryKey
+        @PrimaryKey(autoGenerate = true)
         val id: Int = 0,
 
         @ColumnInfo(name = "peer_id")

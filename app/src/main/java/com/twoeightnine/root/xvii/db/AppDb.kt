@@ -19,8 +19,8 @@ import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.StickerU
 import com.twoeightnine.root.xvii.dialogs.db.DialogsDao
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.scheduled.ScheduledMessage
-import com.twoeightnine.root.xvii.scheduled.ScheduledMessageDao
+import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
+import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessageDao
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import io.reactivex.Completable
 import java.io.BufferedReader
@@ -33,7 +33,7 @@ import java.nio.charset.StandardCharsets
     Dialog::class, Account::class,
     Sticker::class, Emoji::class,
     StickerUsage::class, EmojiUsage::class,
-    ScheduledMessage::class], version = 7)
+    ScheduledMessage::class], version = 8)
 abstract class AppDb : RoomDatabase() {
 
     abstract fun dialogsDao(): DialogsDao
@@ -112,10 +112,26 @@ abstract class AppDb : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_7_8 = object : Migration(7, 8) {
+
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE scheduled_messages_tmp (" +
+                        "id INTEGER PRIMARY KEY NOT NULL," +
+                        "peer_id INTEGER NOT NULL," +
+                        "when_ms INTEGER NOT NULL," +
+                        "text TEXT NOT NULL," +
+                        "attachments TEXT," +
+                        "fwd_messages TEXT" +
+                        ")")
+                database.execSQL("DROP TABLE scheduled_messages")
+                database.execSQL("ALTER TABLE scheduled_messages_tmp RENAME TO scheduled_messages")
+            }
+        }
+
         fun buildDatabase(context: Context) =
                 Room.databaseBuilder(context.applicationContext,
                         AppDb::class.java, "xvii_room.db")
-                        .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+                        .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
 //                        .fallbackToDestructiveMigration()
                         .addCallback(object : Callback() {
                             override fun onOpen(db: SupportSQLiteDatabase) {

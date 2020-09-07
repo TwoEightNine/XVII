@@ -14,6 +14,9 @@ interface DialogsDao {
     @Query("SELECT * FROM dialogs WHERE :peerId = peerId")
     fun getDialogs(peerId: Int): Single<Dialog>
 
+    @Query("SELECT * FROM dialogs WHERE peerId IN (:peerIds)")
+    fun getDialogsByPeerIds(peerIds: List<Int>): Single<List<Dialog>>
+
     @Query("SELECT peerId FROM dialogs WHERE isPinned = 1")
     fun getPinned(): Single<List<Int>>
 

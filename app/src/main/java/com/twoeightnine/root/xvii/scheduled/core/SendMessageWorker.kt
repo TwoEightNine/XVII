@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.scheduled
+package com.twoeightnine.root.xvii.scheduled.core
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel

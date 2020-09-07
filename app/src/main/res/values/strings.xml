@@ -383,10 +383,13 @@
     <string name="destructor_process_title">deleting..</string>
     <string name="destructor_hint">keep the internet and the application turned on</string>
 
+    <string name="scheduled_messages_title">scheduled messages</string>
     <string name="scheduled_messages_name">xvii scheduled messages</string>
     <string name="scheduled_hint_internet">keep the internet turned on</string>
     <string name="scheduled_hint_success">scheduled message was sent</string>
     <string name="scheduled_hint_failure">scheduled message wasn\'t send</string>
+    <string name="scheduled_messages_cancel_prompt">do you really want to cancel sending this message?</string>
+    <string name="scheduled_messages_has_fwd_messages">has forwarded messages</string>
 
     <string-array name="relations">
         <item>single</item>

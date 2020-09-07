@@ -40,7 +40,8 @@ import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.pin.PinActivity
 import com.twoeightnine.root.xvii.poll.PollFragment
 import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
-import com.twoeightnine.root.xvii.scheduled.SendMessageWorker
+import com.twoeightnine.root.xvii.scheduled.core.SendMessageWorker
+import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesViewModel
 import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
@@ -100,5 +101,6 @@ interface AppComponent {
     fun inject(chatOwnerViewModel: ChatOwnerViewModel)
     fun inject(generalViewModel: GeneralViewModel)
     fun inject(baseChatMessagesViewModel: BaseChatMessagesViewModel)
+    fun inject(scheduledMessagesViewModel: ScheduledMessagesViewModel)
 
 }

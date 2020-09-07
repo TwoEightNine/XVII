@@ -27,6 +27,7 @@ import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.PinActivity
+import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesActivity
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.web.WebActivity
 import kotlinx.android.synthetic.main.fragment_features.*
@@ -58,6 +59,7 @@ class FeaturesFragment : BaseFragment() {
 
         rlAnalyse.setOnClickListener { showToast(context, R.string.in_future_versions) }
         rlStarred.setOnClickListener { StarredMessagesActivity.launch(context) }
+        rlScheduledMessages.setOnClickListener { ScheduledMessagesActivity.launch(context) }
 
         rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, Session.uid) }
         tvSwitchAccount.setOnClickListener { AccountsActivity.launch(context) }

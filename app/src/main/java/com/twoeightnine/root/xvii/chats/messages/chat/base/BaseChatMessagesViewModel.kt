@@ -24,8 +24,8 @@ import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.MessagesHistoryResponse
-import com.twoeightnine.root.xvii.scheduled.ScheduledMessage
-import com.twoeightnine.root.xvii.scheduled.SendMessageWorker
+import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
+import com.twoeightnine.root.xvii.scheduled.core.SendMessageWorker
 import com.twoeightnine.root.xvii.utils.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -202,7 +202,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                         attachments: String? = null, forwardedMessages: String? = null) {
         val scheduledMessage = ScheduledMessage(
                 peerId = peerId,
-                whenMs = System.currentTimeMillis() + 10000L,
+                whenMs = System.currentTimeMillis() + 100000L,
                 text = text,
                 attachments = attachments,
                 forwardedMessages = forwardedMessages
