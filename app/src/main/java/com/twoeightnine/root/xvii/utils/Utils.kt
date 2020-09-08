@@ -1,9 +1,13 @@
 package com.twoeightnine.root.xvii.utils
 
+import android.animation.Animator
 import android.annotation.TargetApi
-import android.app.*
+import android.app.Activity
+import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
 import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.*
 import android.content.Intent.*
 import android.content.pm.PackageManager
@@ -825,3 +829,28 @@ fun isMiui(): Boolean {
 }
 
 fun isAndroid10OrHigher() = Build.VERSION.SDK_INT >= 29
+
+class EndListener(private val onEnd: () -> Unit) : Animator.AnimatorListener {
+
+    override fun onAnimationRepeat(p0: Animator?) {
+    }
+
+    override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
+        super.onAnimationEnd(animation, isReverse)
+        onEnd()
+    }
+
+    override fun onAnimationEnd(p0: Animator?) {
+        onEnd()
+    }
+
+    override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
+        super.onAnimationStart(animation, isReverse)
+    }
+
+    override fun onAnimationStart(p0: Animator?) {
+    }
+
+    override fun onAnimationCancel(p0: Animator?) {
+    }
+}

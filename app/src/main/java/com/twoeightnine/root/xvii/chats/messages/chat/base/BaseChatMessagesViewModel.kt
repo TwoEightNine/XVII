@@ -198,11 +198,11 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     @SuppressLint("CheckResult")
-    fun scheduleMessage(context: Context, text: String,
+    fun scheduleMessage(context: Context, whenMs: Long, text: String,
                         attachments: String? = null, forwardedMessages: String? = null) {
         val scheduledMessage = ScheduledMessage(
                 peerId = peerId,
-                whenMs = System.currentTimeMillis() + 100000L,
+                whenMs = whenMs,
                 text = text,
                 attachments = attachments,
                 forwardedMessages = forwardedMessages

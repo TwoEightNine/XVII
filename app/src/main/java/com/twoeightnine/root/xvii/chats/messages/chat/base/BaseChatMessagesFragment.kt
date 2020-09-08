@@ -568,6 +568,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         override fun onScheduleClick(whenMs: Long) {
             viewModel.scheduleMessage(
                     context = requireContext(),
+                    whenMs = whenMs,
                     text = etInput.asText(),
                     attachments = attachedAdapter.asString(),
                     forwardedMessages = attachedAdapter.fwdMessages

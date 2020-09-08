@@ -5,9 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
 import com.twoeightnine.root.xvii.scheduled.core.SendMessageWorker
+import com.twoeightnine.root.xvii.utils.EventBus
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -20,6 +22,8 @@ class ScheduledMessagesViewModel : ViewModel() {
     private val scheduledMessagesLiveData = MutableLiveData<List<ScheduledMessage>>()
     private val peersMapLiveData = MutableLiveData<Map<Int, String>>()
 
+    private var closestWhenMs = 0L
+
     val scheduledMessages: LiveData<List<ScheduledMessage>>
         get() = scheduledMessagesLiveData
 
@@ -31,6 +35,11 @@ class ScheduledMessagesViewModel : ViewModel() {
 
     init {
         App.appComponent?.inject(this)
+        EventBus.subscribeLongPollEventReceived { event ->
+            if (event is NewMessageEvent && closestWhenMs <= System.currentTimeMillis()) {
+                loadScheduledMessages()
+            }
+        }
     }
 
     fun loadScheduledMessages() {
@@ -42,6 +51,9 @@ class ScheduledMessagesViewModel : ViewModel() {
                     loadPeers(peerIds) { peersMap ->
                         peersMapLiveData.value = peersMap
                         scheduledMessagesLiveData.value = scheduledMessages
+                        if (scheduledMessages.isNotEmpty()) {
+                            closestWhenMs = scheduledMessages[0].whenMs
+                        }
                     }
                 }, { throwable ->
                     throwable.printStackTrace()

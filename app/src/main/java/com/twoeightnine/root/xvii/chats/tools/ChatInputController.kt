@@ -2,6 +2,8 @@ package com.twoeightnine.root.xvii.chats.tools
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.ClipDescription
 import android.content.Context
 import android.net.Uri
@@ -16,6 +18,8 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import android.view.inputmethod.EditorInfo
 import android.webkit.MimeTypeMap
+import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
@@ -27,8 +31,11 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
+import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import kotlinx.android.synthetic.main.chat_input_panel.view.*
 import java.io.File
+import java.util.*
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -56,6 +63,7 @@ class ChatInputController(
     init {
         with(rootView) {
             ivSend.setOnClickListener { callback.onSendClick() }
+            ivSend.setOnLongClickListener { onSendLongClicked(); true }
             ivKeyboard.setOnClickListener { switchKeyboardState() }
             ivKeyboard.setVisible(Prefs.showStickers)
             ivAttach.setOnClickListener { callback.onAttachClick() }
@@ -243,6 +251,56 @@ class ChatInputController(
         rootView.tvMicHint.setVisible(false)
         rootView.ivLocked.setVisible(true)
         rootView.rlLockedButtons.setVisible(true)
+    }
+
+    private fun onSendLongClicked() {
+        val items = listOf(
+                ContextPopupItem(
+                        iconRes = R.drawable.ic_clock,
+                        textRes = R.string.scheduled_messages_send,
+                        onClick = ::showDatePicker
+                )
+        )
+        createContextPopup(context, items).show()
+    }
+
+    private fun showDatePicker() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        DatePickerDialog(context, ::onDatePicked, year, month, day)
+                .show()
+    }
+
+    private fun onDatePicked(dp: DatePicker, year: Int, month: Int, day: Int) {
+        showTimePicker(year, month, day)
+    }
+
+    private fun showTimePicker(year: Int, month: Int, day: Int) {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+        val onPicked = { tp: TimePicker, h: Int, m: Int ->
+            onTimePicked(year, month, day, h, m)
+        }
+        TimePickerDialog(context, onPicked, hour, minute, true)
+                .show()
+    }
+
+    private fun onTimePicked(year: Int, month: Int, day: Int, hour: Int, minute: Int) {
+        val whenMs = Calendar.getInstance().run {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, month)
+            set(Calendar.DAY_OF_MONTH, day)
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+
+            timeInMillis
+        }
+        callback.onScheduleClick(whenMs)
     }
 
     private fun vibrate() {
