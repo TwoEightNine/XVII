@@ -440,6 +440,16 @@
     <string name="this_dialog">cette conversation</string>
     <string name="this_message">ce message</string>
     <string name="kick_user">frapper</string>
+    <string name="scheduled_messages_title">messages planifiés</string>
+    <string name="scheduled_messages_name">xvii messages plinifiés</string>
+    <string name="scheduled_hint_success">le message planifié était envoyé</string>
+    <string name="scheduled_hint_failure">le message plinifié n\'était pas envoyé</string>
+    <string name="scheduled_messages_cancel_prompt">voulez-vous réellement annuler l\'envoyage du message?</string>
+    <string name="scheduled_messages_has_fwd_messages">a messages transferés</string>
+    <string name="scheduled_messages_send">planifier le message</string>
+    <string name="scheduled_messages_not_here">dans un tchat, pas ici</string>
+    <string name="scheduled_hint_list">pour créer un message planifié, pressez et tenir l\'icône d\'envoyage</string>
+    <string name="scheduled_hint_internet">laissez allumé l\'internet</string>
 
 </resources>
 

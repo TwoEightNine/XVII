@@ -474,5 +474,15 @@
     <string name="this_dialog">этот диалог</string>
     <string name="this_message">это сообщение</string>
     <string name="block">заблокировать</string>
+    <string name="scheduled_messages_title">отложенные сообщения</string>
+    <string name="scheduled_messages_name">xvii отложенные сообщения</string>
+    <string name="scheduled_hint_list">чтобы создать отложенное сообщение, нажмите и удерживайте кнопку отправки</string>
+    <string name="scheduled_hint_internet">не выключайте интернет</string>
+    <string name="scheduled_hint_success">отложенное сообщение отправлено</string>
+    <string name="scheduled_hint_failure">отложенное сообщение не отправлено</string>
+    <string name="scheduled_messages_cancel_prompt">вы действительно хотите отменить отложенную отправку сообщения?</string>
+    <string name="scheduled_messages_has_fwd_messages">есть пересланные сообщения</string>
+    <string name="scheduled_messages_send">отложить сообщение</string>
+    <string name="scheduled_messages_not_here">в чате, не здесь</string>
 
 </resources>
