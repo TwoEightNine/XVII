@@ -11,6 +11,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.messaging.MessageDestructionService
 import com.twoeightnine.root.xvii.db.AppDb
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
 import java.util.concurrent.TimeUnit
@@ -40,6 +41,7 @@ class SendMessageWorker(
         val fwdMessages = inputData.getString(ARG_MESSAGE_FWD_MESSAGES)
         if (peerId == 0 || text == null) {
             showNotificationForPeer(success = false)
+            lw("received peerId = $peerId, text = $text")
             return Result.failure()
         }
 
@@ -53,6 +55,7 @@ class SendMessageWorker(
         ).blockingFirst()
         createChannel()
 
+        l("message sent: $response")
         return if (response.response != null) {
             showNotificationForPeer(peerId = peerId, success = true)
             Result.success()
@@ -75,7 +78,8 @@ class SendMessageWorker(
                             peer = peer.toLowerCase()
                         }
                         showNotification(success, peerId, peer)
-                    }, {
+                    }, { throwable ->
+                        lw("error fetching peer id: ${throwable.message}")
                         showNotification(success, peerId, "id$peerId")
                     })
         }
@@ -113,7 +117,6 @@ class SendMessageWorker(
 
         const val NOTIFICATION_ID = Int.MAX_VALUE
         const val CHANNEL_ID = "xvii.scheduled_messages"
-        const val TAG = "[send worker]"
 
         const val ARG_MESSAGE_ID = "scheduledMessage_id"
         const val ARG_MESSAGE_PEER_ID = "scheduledMessage_peerId"
@@ -136,11 +139,13 @@ class SendMessageWorker(
 
             WorkManager.getInstance(context)
                     .enqueue(request)
+            l("message added: ${scheduledMessage.id}")
         }
 
         fun cancelWorker(context: Context, scheduledMessageId: Int) {
             WorkManager.getInstance(context)
                     .cancelAllWorkByTag(getWorkerTag(scheduledMessageId))
+            l("message cancelled: $scheduledMessageId")
         }
 
         private fun getWorkerTag(scheduledMessageId: Int) =
@@ -154,5 +159,14 @@ class SendMessageWorker(
                 ARG_MESSAGE_ATTACHMENTS to scheduledMessage.attachments,
                 ARG_MESSAGE_FWD_MESSAGES to scheduledMessage.forwardedMessages
         )
+
+        private fun l(s: String) {
+            Lg.i("[scheduler] $s")
+        }
+
+        private fun lw(s: String) {
+            Lg.wtf("[scheduler] $s")
+        }
+
     }
 }

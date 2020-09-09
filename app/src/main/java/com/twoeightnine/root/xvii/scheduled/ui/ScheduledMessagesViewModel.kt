@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.db.AppDb
+import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
 import com.twoeightnine.root.xvii.scheduled.core.SendMessageWorker
 import com.twoeightnine.root.xvii.utils.EventBus
@@ -57,6 +58,7 @@ class ScheduledMessagesViewModel : ViewModel() {
                     }
                 }, { throwable ->
                     throwable.printStackTrace()
+                    lw("error loading messages: ${throwable.message}")
                 })
                 .addToDisposables()
     }
@@ -70,6 +72,7 @@ class ScheduledMessagesViewModel : ViewModel() {
                     loadScheduledMessages()
                 }, { throwable ->
                     throwable.printStackTrace()
+                    lw("error deleting a message: ${throwable.message}")
                 })
                 .addToDisposables()
     }
@@ -87,11 +90,16 @@ class ScheduledMessagesViewModel : ViewModel() {
                 .compose(applySingleSchedulers())
                 .subscribe(onSuccess, { throwable ->
                     throwable.printStackTrace()
+                    lw("error fetching peers: ${throwable.message}")
                 })
                 .addToDisposables()
     }
 
     private fun Disposable.addToDisposables() {
         compositeDisposable.add(this)
+    }
+
+    private fun lw(s: String) {
+        Lg.wtf("[scheduled] $s")
     }
 }
