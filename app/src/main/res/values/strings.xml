@@ -393,6 +393,7 @@
     <string name="scheduled_messages_has_fwd_messages">has forwarded messages</string>
     <string name="scheduled_messages_send">schedule the message</string>
     <string name="scheduled_messages_not_here">in a chat, not here</string>
+    <string name="scheduled_messages_disclaimer">delays are possible due to system background restrictions. be careful!</string>
 
     <string-array name="relations">
         <item>single</item>

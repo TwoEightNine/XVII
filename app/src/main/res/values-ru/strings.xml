@@ -484,5 +484,6 @@
     <string name="scheduled_messages_has_fwd_messages">есть пересланные сообщения</string>
     <string name="scheduled_messages_send">отложить сообщение</string>
     <string name="scheduled_messages_not_here">в чате, не здесь</string>
+    <string name="scheduled_messages_disclaimer">возможны задержки в связи с системными ограничениями на работу в фоне. будьте внимательны!</string>
 
 </resources>

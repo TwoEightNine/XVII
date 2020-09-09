@@ -450,6 +450,7 @@
     <string name="scheduled_messages_not_here">dans un tchat, pas ici</string>
     <string name="scheduled_hint_list">pour créer un message planifié, pressez et tenir l\'icône d\'envoyage</string>
     <string name="scheduled_hint_internet">laissez allumé l\'internet</string>
+    <string name="scheduled_messages_disclaimer">les delais sont possible en raison des restrictions systèmes</string>
 
 </resources>
 

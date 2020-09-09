@@ -91,7 +91,7 @@ class ScheduledMessagesFragment : BaseFragment() {
 
     companion object {
 
-        private const val SCALE_PRESSED = 0.7f
+        private const val SCALE_PRESSED = 0.75f
         private const val DURATION = 800L
         private const val DELAY = 500L
 

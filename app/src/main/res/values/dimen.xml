@@ -91,7 +91,7 @@
 
     <dimen name="stickers_tab_item_size">24dp</dimen>
 
-    <dimen name="scheduled_messages_finger_translation_horizontal">48dp</dimen>
+    <dimen name="scheduled_messages_finger_translation_horizontal">36dp</dimen>
     <dimen name="scheduled_messages_finger_translation_vertical">8dp</dimen>
 
 </resources>
