@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.dagger
 
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.activities.ExceptionActivity
-import com.twoeightnine.root.xvii.activities.LoginActivity
 import com.twoeightnine.root.xvii.analyzer.dialog.AnalyzeDialogFragment
 import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
@@ -35,6 +34,8 @@ import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.features.general.GeneralViewModel
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
+import com.twoeightnine.root.xvii.login.LoginActivity
+import com.twoeightnine.root.xvii.login.LoginViewModel
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.pin.PinActivity
@@ -102,5 +103,6 @@ interface AppComponent {
     fun inject(generalViewModel: GeneralViewModel)
     fun inject(baseChatMessagesViewModel: BaseChatMessagesViewModel)
     fun inject(scheduledMessagesViewModel: ScheduledMessagesViewModel)
+    fun inject(loginViewModel: LoginViewModel)
 
 }

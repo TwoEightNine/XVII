@@ -5,8 +5,8 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.activities.LoginActivity
 import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.login.LoginActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.network.ApiService

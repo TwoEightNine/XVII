@@ -76,7 +76,7 @@
         <service android:name=".background.messaging.MessageDestructionService" />
 
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
 

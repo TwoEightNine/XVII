@@ -77,7 +77,9 @@ fun dpFromPx(context: Context, px: Int): Int {
 
 fun isOnline(): Boolean {
     val cm = App.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    return cm.activeNetworkInfo?.isConnectedOrConnecting ?: false
+    val isOnline = cm.activeNetworkInfo?.isConnectedOrConnecting ?: false
+    Lg.i("[is online] $isOnline")
+    return isOnline
 }
 
 fun showToast(context: Context?, message: String, duration: Int = Toast.LENGTH_SHORT) {

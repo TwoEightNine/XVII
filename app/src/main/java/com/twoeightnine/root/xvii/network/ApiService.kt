@@ -180,6 +180,15 @@ interface ApiService {
     fun getUsers(@Query("user_ids") userIds: String,
                  @Query("fields") fields: String = User.FIELDS): Flowable<BaseResponse<MutableList<User>>>
 
+    @Headers(NO_TOKEN_HEADER)
+    @GET("users.get")
+    fun checkUser(
+            @Query("user_ids") userIds: String,
+            @Query("access_token") token: String,
+            @Query("v") version: String = "5.92",
+            @Query("fields") fields: String = User.FIELDS
+    ): Flowable<BaseResponse<List<User>>>
+
     @GET("users.search")
     fun searchUsers(@Query("q") q: String,
                     @Query("fields") fields: String,

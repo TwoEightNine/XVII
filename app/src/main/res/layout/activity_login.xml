@@ -14,8 +14,7 @@
     <RelativeLayout
         android:id="@+id/rlLoader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="24dp">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/ivLogo"
