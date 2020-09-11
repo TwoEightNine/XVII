@@ -13,10 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.ExceptionHandler
-import com.twoeightnine.root.xvii.utils.NightModeHelper
-import com.twoeightnine.root.xvii.utils.stylize
-import com.twoeightnine.root.xvii.utils.stylizeAll
+import com.twoeightnine.root.xvii.utils.*
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 /**
@@ -29,16 +26,12 @@ abstract class BaseActivity : AppCompatActivity() {
         Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler(this))
 
         window.decorView.systemUiVisibility =
-                // Tells the system that the window wishes the content to
-                // be laid out at the most extreme scenario. See the docs for
-                // more information on the specifics
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        // Tells the system that the window wishes the content to
-                        // be laid out as if the navigation bar was hidden
                         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Prefs.isLightTheme) {
-            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
+            window.decorView.systemUiVisibility =
+                    window.decorView.systemUiVisibility or
                     View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         }
     }
@@ -55,8 +48,16 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onResume() {
         updateConfig()
         super.onResume()
-        window.statusBarColor = getStatusBarColor()
-        window.navigationBarColor = getNavigationBarColor()
+        window.statusBarColor = if (isAndroid10OrHigher()) {
+            Color.TRANSPARENT
+        } else {
+            getStatusBarColor()
+        }
+        window.navigationBarColor = if (isAndroid10OrHigher()) {
+            Color.TRANSPARENT
+        } else {
+            getNavigationBarColor()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
