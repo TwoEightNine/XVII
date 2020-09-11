@@ -485,5 +485,7 @@
     <string name="scheduled_messages_send">отложить сообщение</string>
     <string name="scheduled_messages_not_here">в чате, не здесь</string>
     <string name="scheduled_messages_disclaimer">возможны задержки в связи с системными ограничениями на работу в фоне. будьте внимательны!</string>
+    <string name="login_no_internet">вы должны быть подключены к интернеты для того, чтобы войти</string>
+    <string name="login_unable_to_log_in">не получается войти. проверьте, валиден ли ваш аккаунт и попробуйте снова позже</string>
 
 </resources>

@@ -395,6 +395,9 @@
     <string name="scheduled_messages_not_here">in a chat, not here</string>
     <string name="scheduled_messages_disclaimer">delays are possible due to system background restrictions. be careful!</string>
 
+    <string name="login_no_internet">you have to be connected to the internet to perform logging in</string>
+    <string name="login_unable_to_log_in">unable to log in. check if your account is valid and try again later</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>

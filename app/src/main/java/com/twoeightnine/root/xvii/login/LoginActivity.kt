@@ -3,6 +3,7 @@ package com.twoeightnine.root.xvii.login
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
 import android.webkit.CookieManager
@@ -27,21 +28,17 @@ import javax.inject.Inject
 class LoginActivity : BaseActivity() {
 
     @Inject
-    lateinit var apiUtils: ApiUtils
-
-    @Inject
     lateinit var longPollStorage: LongPollStorage
-
-    @Inject
-    lateinit var appDb: AppDb
 
     private val viewModel by lazy {
         ViewModelProviders.of(this)[LoginViewModel::class.java]
     }
 
-    private val isNewAccount by lazy {
+    private val addNewAccount by lazy {
         intent?.extras?.getBoolean(ARG_NEW_ACCOUNT) == true
     }
+
+    private var isWebViewShown = false
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,23 +48,30 @@ class LoginActivity : BaseActivity() {
         viewModel.accountCheckResult.observe(this, Observer(::onAccountChecked))
         viewModel.accountUpdated.observe(this, Observer(::onAccountUpdated))
 
-        if (!isNewAccount) {
+        if (!addNewAccount) {
             startPrimeGenerator(this)
         }
-
-        if (hasToken()) {
-            checkTokenAndStart()
-        } else {
+        if (addNewAccount || !hasToken()) {
             logIn()
+        } else {
+            checkTokenAndStart()
         }
 
         progressBar.stylize()
         webView.setTopInsetMargin()
     }
 
-    override fun getStatusBarColor() = ContextCompat.getColor(this, R.color.splash_background)
+    override fun getStatusBarColor() = if (isWebViewShown) {
+        Color.WHITE
+    } else {
+        ContextCompat.getColor(this, R.color.splash_background)
+    }
 
-    override fun getNavigationBarColor() = ContextCompat.getColor(this, R.color.splash_background)
+    override fun getNavigationBarColor() = if (isWebViewShown) {
+        Color.WHITE
+    } else{
+        ContextCompat.getColor(this, R.color.splash_background)
+    }
 
     override fun styleScreen(container: ViewGroup) {}
 
@@ -75,7 +79,7 @@ class LoginActivity : BaseActivity() {
 
     private fun checkTokenAndStart() {
         if (isOnline()) {
-            viewModel.checkAccount(Session.token, Session.uid, updateSession = !isNewAccount)
+            viewModel.checkAccount(Session.token, Session.uid, updateSession = !addNewAccount)
         } else {
             startApp()
         }
@@ -85,7 +89,7 @@ class LoginActivity : BaseActivity() {
         if (isOnline()) {
             showWebView()
         } else {
-            finishWithAlert("no internet")
+            finishWithAlert(getString(R.string.login_no_internet))
         }
     }
 
@@ -99,11 +103,12 @@ class LoginActivity : BaseActivity() {
             settings.javaScriptEnabled = true
             settings.javaScriptCanOpenWindowsAutomatically = true
             webViewClient = ParsingWebClient { token, userId ->
-                viewModel.checkAccount(token, userId, updateSession = !isNewAccount)
+                viewModel.checkAccount(token, userId, updateSession = !addNewAccount)
             }
 
             loadUrl(LOGIN_URL)
             show()
+            isWebViewShown = true
         }
     }
 
@@ -121,122 +126,30 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun onAccountChecked(accountCheckResult: LoginViewModel.AccountCheckResult) {
+        val user = accountCheckResult.user
+        val token = accountCheckResult.token
         when {
-            accountCheckResult.success -> viewModel.updateAccount(isRunning = !isNewAccount)
+            accountCheckResult.success && user != null && token != null -> {
+                if (!addNewAccount) {
+                    Session.token = token
+                    Session.uid = user.id
+                    Session.fullName = user.fullName
+                    Session.photo = user.photo100 ?: ""
+                }
+                viewModel.updateAccount(user, token, isRunning = !addNewAccount)
+            }
             hasToken() -> showWebView()
-            else -> finishWithAlert("unable to log in")
+            else -> finishWithAlert(getString(R.string.login_unable_to_log_in))
         }
     }
 
     private fun onAccountUpdated(unit: Unit) {
-        if (isNewAccount) {
+        if (addNewAccount) {
             finish()
         } else {
             startApp()
         }
     }
-
-//    private fun checkToken() {
-//        val token = Session.token
-//        val uid = Session.uid
-//        if (token.isEmpty()) {
-//            toLogIn()
-//        } else {
-//            apiUtils.checkAccount(token, uid, { toPin() }, { toLogIn() }, { toPin() })
-//        }
-//    }
-
-//    @SuppressLint("SetJavaScriptEnabled")
-//    private fun toLogIn() {
-//        webView.hide()
-//        webView.settings.javaScriptEnabled = true
-//        CookieSyncManager.createInstance(this).sync()
-//        val man = CookieManager.getInstance()
-//        man.removeAllCookie()
-//        webView.settings.javaScriptCanOpenWindowsAutomatically = true
-////        webView.webViewClient = ParsingWebClient()
-//
-//        webView.loadUrl(LOGIN_URL)
-//        if (!isOnline()) {
-//            showToast(this, R.string.no_internet)
-//            finish()
-//            return
-//        }
-//        webView.show()
-//    }
-
-//    private fun toPin() {
-//        updateAccount()
-//        toDialogs()
-//    }
-
-//    private fun toDialogs() {
-//        MainActivity.launch(this)
-//        startNotificationService(this)
-//        this.finish()
-//    }
-
-//    fun doneWithThis(token: String, userId: Int) {
-//        if (token.isBlank() || userId == 0) {
-//            onFailed(getString(R.string.invalid_user_id))
-//            return
-//        }
-//        Lg.i("[login] token obtained ...${token.substring(token.length - 6)}")
-//
-//        rlLoader.show()
-//        webView.hide()
-//
-//        Session.token = token
-//        Session.uid = userId
-//
-//        apiUtils.checkAccount(
-//                Session.token,
-//                Session.uid,
-//                ::onChecked,
-//                ::onFailed,
-//                ::onLater
-//        )
-//    }
-
-//    private fun onLater(error: String) {
-//        goNext()
-//    }
-
-//    private fun onFailed(error: String) {
-//        showError(this, error)
-//        Session.token = ""
-//    }
-
-//    private fun onChecked() {
-//        updateAccount()
-//        goNext()
-//    }
-
-//    @SuppressLint("CheckResult")
-//    private fun updateAccount() {
-//        val account = Account(
-//                Session.uid,
-//                Session.token,
-//                Session.fullName,
-//                Session.photo,
-//                true
-//        )
-//        appDb.accountsDao()
-//                .insertAccount(account)
-//                .compose(applyCompletableSchedulers())
-//                .subscribe({
-//                    Lg.i("[login] account updated")
-//                }, {
-//                    it.printStackTrace()
-//                    Lg.wtf("[login] error updating account: ${it.message}")
-//                })
-//    }
-
-//    private fun goNext() {
-//        longPollStorage.clear()
-//        MainActivity.launch(this)
-//        finish()
-//    }
 
     override fun getThemeId() = R.style.SplashTheme
 
@@ -258,7 +171,6 @@ class LoginActivity : BaseActivity() {
                 putExtra(ARG_NEW_ACCOUNT, true)
             })
         }
-
     }
 
     /**
@@ -273,6 +185,7 @@ class LoginActivity : BaseActivity() {
             super.onPageFinished(view, url)
             rlLoader.hide()
             if (url.startsWith(App.REDIRECT_URL)) {
+                view.hide()
                 val token = extract(url, "access_token=(.*?)&")
                 val uid = extract(url, "user_id=(\\d*)").toIntOrNull() ?: 0
                 onLoggedIn(token, uid)

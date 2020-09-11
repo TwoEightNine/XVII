@@ -8,6 +8,7 @@ import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import com.twoeightnine.root.xvii.utils.subscribeSmart
@@ -42,31 +43,29 @@ class LoginViewModel : ViewModel() {
         api.checkUser(userId.toString(), token)
                 .subscribeSmart({ response ->
                     val user = response.getOrNull(0)
-                    if (user == null) {
-                        accountCheckResultLiveData.value = AccountCheckResult(success = false)
+                    accountCheckResultLiveData.value = if (user == null) {
+                        AccountCheckResult(success = false)
                     } else {
-                        if (updateSession) {
-                            Session.token = token
-                            Session.uid = userId
-                            Session.fullName = user.fullName
-                            Session.photo = user.photo100 ?: "errrr"
-                        }
-                        accountCheckResultLiveData.value = AccountCheckResult(success = true)
+                        AccountCheckResult(
+                                success = true,
+                                user = user,
+                                token = token
+                        )
                     }
                 }, { error ->
-                    Lg.wtf("check acc error: $error")
+                    Lg.wtf("[login] check account error: $error")
                     accountCheckResultLiveData.value = AccountCheckResult(success = false)
                 })
                 .addToDisposables()
 
     }
 
-    fun updateAccount(isRunning: Boolean) {
+    fun updateAccount(user: User, token: String, isRunning: Boolean) {
         val account = Account(
-                Session.uid,
-                Session.token,
-                Session.fullName,
-                Session.photo,
+                user.id,
+                token,
+                user.fullName,
+                user.photo100 ?: "",
                 isRunning
         )
         appDb.accountsDao()
@@ -92,6 +91,8 @@ class LoginViewModel : ViewModel() {
     }
 
     data class AccountCheckResult(
-            val success: Boolean
+            val success: Boolean,
+            val token: String? = null,
+            val user: User? = null
     )
 }

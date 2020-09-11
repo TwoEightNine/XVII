@@ -1,7 +1,6 @@
 <resources>
     <string name="about_app">à propos</string>
     <string name="settings">paramètres</string>
-    <string name="share_on_wall">partager xvii sur mon mur</string>
 
     <string name="last_seen">était en ligne: %s</string>
     <string name="status">statut</string>
@@ -451,6 +450,8 @@
     <string name="scheduled_hint_list">pour créer un message planifié, pressez et tenir l\'icône d\'envoyage</string>
     <string name="scheduled_hint_internet">laissez allumé l\'internet</string>
     <string name="scheduled_messages_disclaimer">les delais sont possible en raison des restrictions systèmes</string>
+    <string name="login_unable_to_log_in">impossible de se connecter. verifiez votre compte et essayez plus tot</string>
+    <string name="login_no_internet">vous devrez etre connecte sur internet pour se connecter</string>
 
 </resources>
 

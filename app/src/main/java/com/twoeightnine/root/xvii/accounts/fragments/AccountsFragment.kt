@@ -15,6 +15,7 @@ import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.accounts.viewmodel.AccountsViewModel
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.login.LoginActivity
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_accounts.*
@@ -40,13 +41,9 @@ class AccountsFragment : BaseFragment() {
         initRecyclerView()
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[AccountsViewModel::class.java]
-        viewModel.getAccounts().observe(this, Observer { updateAccounts(it) })
-        viewModel.loadAccounts()
 
         fabAdd.setOnClickListener {
-            viewModel.updateRunningAccount()
-            Session.token = ""
-            restartApp(context, getString(R.string.restart_app))
+            LoginActivity.launchForNewAccount(context)
         }
         fabAdd.stylize()
         fabAdd.setBottomInsetMargin(context?.resources?.getDimensionPixelSize(R.dimen.accounts_fab_add_margin) ?: 0)
@@ -65,6 +62,12 @@ class AccountsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.accounts))
+        viewModel.getAccounts().observe(viewLifecycleOwner, Observer { updateAccounts(it) })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadAccounts()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
