@@ -332,7 +332,7 @@
     <string name="yellow">желтый</string>
     <string name="magenta">пурпурный</string>
     <string name="white">белый</string>
-    <string name="accounts_hint">переключить аккаунт</string>
+    <string name="accounts_hint">управление аккаунтами</string>
     <string name="pin">закрепить</string>
     <string name="alias">псевдоним</string>
     <string name="addons">дополнительно</string>
