@@ -39,7 +39,7 @@ class LoginViewModel : ViewModel() {
         App.appComponent?.inject(this)
     }
 
-    fun checkAccount(token: String, userId: Int, updateSession: Boolean) {
+    fun checkAccount(token: String, userId: Int) {
         api.checkUser(userId.toString(), token)
                 .subscribeSmart({ response ->
                     val user = response.getOrNull(0)

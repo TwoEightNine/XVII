@@ -79,7 +79,7 @@ class LoginActivity : BaseActivity() {
 
     private fun checkTokenAndStart() {
         if (isOnline()) {
-            viewModel.checkAccount(Session.token, Session.uid, updateSession = !addNewAccount)
+            viewModel.checkAccount(Session.token, Session.uid)
         } else {
             startApp()
         }
@@ -103,7 +103,7 @@ class LoginActivity : BaseActivity() {
             settings.javaScriptEnabled = true
             settings.javaScriptCanOpenWindowsAutomatically = true
             webViewClient = ParsingWebClient { token, userId ->
-                viewModel.checkAccount(token, userId, updateSession = !addNewAccount)
+                viewModel.checkAccount(token, userId)
             }
 
             loadUrl(LOGIN_URL)
