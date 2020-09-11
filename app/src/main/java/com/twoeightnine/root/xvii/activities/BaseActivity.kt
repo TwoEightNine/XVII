@@ -48,11 +48,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onResume() {
         updateConfig()
         super.onResume()
-        window.statusBarColor = if (isAndroid10OrHigher()) {
-            Color.TRANSPARENT
-        } else {
-            getStatusBarColor()
-        }
+        window.statusBarColor = getStatusBarColor()
         window.navigationBarColor = if (isAndroid10OrHigher()) {
             Color.TRANSPARENT
         } else {
