@@ -47,6 +47,9 @@ class PinActivity : BaseActivity() {
         action ?: finish()
         init()
         styleScreen(rlContainer)
+        ivBack.setVisible(action != Action.ENTER)
+        ivBack.setOnClickListener { onBackPressed() }
+        ivBack.setTopInsetMargin()
 
 //        AlarmActivity.launch(this)
     }
