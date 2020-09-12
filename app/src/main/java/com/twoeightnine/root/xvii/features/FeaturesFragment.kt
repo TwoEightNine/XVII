@@ -84,6 +84,7 @@ class FeaturesFragment : BaseFragment() {
         rlContribute.setOnClickListener { AssistActivity.launch(context) }
         rlShare.setOnClickListener { share() }
         rlPrivacy.setOnClickListener { resolvePrivacyPolicy() }
+        rlSourceCode.setOnClickListener { simpleUrlIntent(context, GITHUB_URL) }
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
@@ -183,6 +184,8 @@ class FeaturesFragment : BaseFragment() {
 
         const val PRIVACY_WORLD = "https://github.com/TwoEightNine/XVII/blob/master/privacy.md"
         const val PRIVACY_RU = "https://github.com/TwoEightNine/XVII/blob/master/privacy_ru.md"
+
+        const val GITHUB_URL = "https://github.com/twoeightnine/xvii"
 
         const val SHOW_JOIN_DELAY = 3600 * 24 * 7 // one week
 
