@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.chats.tools
 
 import androidx.appcompat.widget.Toolbar
-import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.toolbar_chat.view.*
