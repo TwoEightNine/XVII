@@ -13,8 +13,8 @@ android {
         applicationId "com.twoeightnine.root.xvii"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 163
-        versionName "5.19"
+        versionCode 164
+        versionName "5.20"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.ext.set("archivesBaseName", "xvii" + defaultConfig.versionName)
 
