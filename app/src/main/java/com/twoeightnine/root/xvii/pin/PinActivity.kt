@@ -5,7 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.AndroidRuntimeException
-import androidx.appcompat.app.AlertDialog
+import androidx.annotation.StringRes
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
@@ -47,9 +47,14 @@ class PinActivity : BaseActivity() {
         action ?: finish()
         init()
         styleScreen(rlContainer)
+
         ivBack.setVisible(action != Action.ENTER)
         ivBack.setOnClickListener { onBackPressed() }
         ivBack.setTopInsetMargin()
+
+        if (Session.needToWaitAfterFailedPin()) {
+            showBruteForced()
+        }
 
 //        AlarmActivity.launch(this)
     }
@@ -64,7 +69,8 @@ class PinActivity : BaseActivity() {
             PinPadView.OK -> onOkPressed()
 
             else -> {
-                if (pin.length < LENGTH) {
+                tvError.text = ""
+                if (pin.length < MAX_LENGTH) {
                     pin += key
                     tvPinDots.text = "${tvPinDots.text}●"
                 }
@@ -76,10 +82,12 @@ class PinActivity : BaseActivity() {
 
     private fun onOkPressed() {
         when (currentStage) {
-            Action.ENTER -> if (isPinCorrect()) {
-                onCorrect()
-            } else {
-                onIncorrect()
+            Action.ENTER -> {
+                if (isPinCorrect()) {
+                    onCorrect()
+                } else {
+                    onIncorrect()
+                }
             }
 
             Action.SET -> {
@@ -88,15 +96,17 @@ class PinActivity : BaseActivity() {
                 confirmedPin = pin
             }
 
-            Action.CONFIRM -> if (pin == confirmedPin) {
-                showToast(this, R.string.updated_succ)
-                Prefs.pin = sha256("$pin$SALT")
-                Session.pinLastPromptResult = time()
-                finish()
-            } else {
-                currentStage = Action.SET
-                tvTitle.setText(R.string.enter_new_pin)
-                showError(this, R.string.dont_match)
+            Action.CONFIRM -> {
+                if (pin == confirmedPin) {
+                    showToast(this, R.string.updated_succ)
+                    Prefs.pin = sha256("$pin$SALT")
+                    Session.pinLastPromptResult = time()
+                    finish()
+                } else {
+                    currentStage = Action.SET
+                    tvTitle.setText(R.string.enter_new_pin)
+                    showError(R.string.dont_match)
+                }
             }
         }
         resetInput()
@@ -104,10 +114,15 @@ class PinActivity : BaseActivity() {
 
     private fun onIncorrect() {
         failedPrompts++
-        if (failedPrompts >= PROMPTS && action == Action.ENTER) {
-            tvForgot.show()
+        Session.pinLastFailedPrompt = time()
+
+        val denyEntrance = Session.pinBruteForced
+                || failedPrompts >= ALLOWED_PROMPTS
+        if (action == Action.ENTER && denyEntrance) {
+            Session.pinBruteForced = true
+            showBruteForced()
         }
-        showError(this, R.string.incorrect_pin)
+        showError(R.string.incorrect_pin)
     }
 
     private fun isPinCorrect() = correctPin == sha256("$pin$SALT")
@@ -116,6 +131,7 @@ class PinActivity : BaseActivity() {
         when (action) {
 
             Action.ENTER -> {
+                Session.pinBruteForced = false
                 Session.pinLastPromptResult = time()
                 finish()
             }
@@ -133,23 +149,12 @@ class PinActivity : BaseActivity() {
         }
     }
 
-    private fun showResetDialog() {
-        val dialog = AlertDialog.Builder(this)
-                .setTitle(R.string.reset_pin)
-                .setMessage(R.string.reset_pin_desc)
-                .setPositiveButton(R.string.ok) { _, _ -> resetPin() }
-                .setNegativeButton(R.string.cancel, null)
-                .create()
-
-        dialog.show()
-        dialog.stylize()
+    private fun showBruteForced() {
+        rlBruteForce.show()
     }
 
-    private fun resetPin() {
-        appDb.clearAsync()
-        Session.token = ""
-        Prefs.pin = ""
-        restartApp(this, getString(R.string.restart_app))
+    private fun showError(@StringRes textRes: Int) {
+        tvError.setText(textRes)
     }
 
     private fun resetInput() {
@@ -159,7 +164,6 @@ class PinActivity : BaseActivity() {
 
     private fun init() {
         pinPad.listener = { onPin(it) }
-        tvForgot.setVisibleWithInvis(false)
 
         when (action) {
             Action.SET -> {
@@ -171,7 +175,6 @@ class PinActivity : BaseActivity() {
                 tvTitle.setText(R.string.enter_pin)
                 correctPin = Prefs.pin
                 currentStage = Action.ENTER
-                tvForgot.setOnClickListener { showResetDialog() }
             }
         }
     }
@@ -210,11 +213,11 @@ class PinActivity : BaseActivity() {
             }
         }
 
-        private const val PROMPTS = 2
+        private const val ALLOWED_PROMPTS = 5
 
         const val ACTION = "action"
 
-        private const val LENGTH = 8
+        private const val MAX_LENGTH = 8
         private const val SALT = "oi|6yw4-c5g846-d5c53s9mx"
     }
 }

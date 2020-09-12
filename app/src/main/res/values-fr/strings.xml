@@ -452,6 +452,8 @@
     <string name="scheduled_messages_disclaimer">les delais sont possible en raison des restrictions systèmes</string>
     <string name="login_unable_to_log_in">impossible de se connecter. verifiez votre compte et essayez plus tot</string>
     <string name="login_no_internet">vous devrez etre connecte sur internet pour se connecter</string>
+    <string name="pin_brute_force">force brute detectée\naccès refusé</string>
+    <string name="pin_incident_report">l\'incident sera rapporté</string>
 
 </resources>
 

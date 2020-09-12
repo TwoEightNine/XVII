@@ -398,6 +398,9 @@
     <string name="login_no_internet">you have to be connected to the internet to perform logging in</string>
     <string name="login_unable_to_log_in">unable to log in. check if your account is valid and try again later</string>
 
+    <string name="pin_brute_force">brute-force detected\naccess denied</string>
+    <string name="pin_incident_report">this incident will be reported</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>
