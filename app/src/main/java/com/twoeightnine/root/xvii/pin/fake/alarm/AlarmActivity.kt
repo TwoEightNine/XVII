@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.goHome
 import com.twoeightnine.root.xvii.utils.setBottomInsetMargin
 import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
@@ -49,7 +49,9 @@ class AlarmActivity : BaseActivity() {
         try {
             goHome(this)
         } catch (e: Exception) {
-            Lg.wtf("[alarm] unable to go home: ${e.message}")
+            L.tag("alarm")
+                    .throwable(e)
+                    .log("unable to go home")
         }
     }
 

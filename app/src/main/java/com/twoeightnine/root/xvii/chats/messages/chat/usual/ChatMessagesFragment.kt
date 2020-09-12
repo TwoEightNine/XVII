@@ -12,7 +12,8 @@ import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActiv
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
+import com.twoeightnine.root.xvii.lg.TextEventTransformer
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.utils.asText
 import com.twoeightnine.root.xvii.utils.getTime
@@ -66,7 +67,7 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
             R.id.menu_attach_logs -> {
                 val file = File(context?.cacheDir, "log_${BuildConfig.VERSION_NAME}_${getTime(time())}.txt")
                 val writer = BufferedWriter(FileWriter(file))
-                writer.write(Lg.getEvents())
+                writer.write(L.events(TextEventTransformer()).joinToString(separator = "\n"))
                 writer.close()
                 onDocSelected(file.absolutePath)
                 true

@@ -9,7 +9,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.writeResponseBodyToDisk
 import io.reactivex.Single
@@ -31,6 +31,8 @@ class DownloadFileService : IntentService(NAME) {
     private lateinit var file: File
 
     companion object {
+
+        const val TAG = "download"
 
         const val NAME = "DownloadFileService"
         const val KEY_FILE_URL = "fileUrl"
@@ -77,7 +79,7 @@ class DownloadFileService : IntentService(NAME) {
     }
 
     override fun onHandleIntent(intent: Intent?) {
-        l("starting")
+        L.tag(TAG).log("starting")
         App.appComponent?.inject(this)
         showNotification()
         url = intent?.extras?.getString(KEY_FILE_URL) ?: return
@@ -92,7 +94,7 @@ class DownloadFileService : IntentService(NAME) {
                 .map { writeResponseBodyToDisk(it, file.absolutePath) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(::deliverResult) {
-                    lw("error during downloading: ${it.message}")
+                    L.tag(TAG).throwable(it).log("error during downloading")
                     it.printStackTrace()
                     deliverResult(false)
                 }
@@ -127,15 +129,7 @@ class DownloadFileService : IntentService(NAME) {
     }
 
     private fun deliverResult(success: Boolean) {
-        l("success = $success for ${file.absolutePath}")
+        L.tag(TAG).log("success = $success for ${file.absolutePath}")
         bus.onNext(Pair(file.absolutePath, success))
-    }
-
-    private fun l(s: String) {
-        Lg.i("[download] $s")
-    }
-
-    private fun lw(s: String) {
-        Lg.wtf("[download] $s")
     }
 }

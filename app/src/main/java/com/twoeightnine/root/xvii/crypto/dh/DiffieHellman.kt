@@ -1,6 +1,6 @@
 package com.twoeightnine.root.xvii.crypto.dh
 
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import java.math.BigInteger
 import java.util.*
 
@@ -63,7 +63,7 @@ class DiffieHellman {
         generator = x
         publicOwn = generator.modPow(privateOwn, modulo)
 
-        Lg.dbg("DHE-$BITS: p: $modulo\n\t\t\t g: $generator\n\t\t\t a: $privateOwn\n\t\t\t A: $publicOwn")
+        L.tag(TAG).debug().log("DHE-$BITS: p: $modulo\n\t\t\t g: $generator\n\t\t\t a: $privateOwn\n\t\t\t A: $publicOwn")
     }
 
     /**
@@ -79,7 +79,7 @@ class DiffieHellman {
         publicOwn = generator.modPow(privateOwn, modulo)
         key = publicOther.modPow(privateOwn, modulo)
 
-        Lg.dbg("DHE-$BITS: p: $modulo\n\t\t\t g: $generator\n\t\t\t a: $privateOwn\n\t\t\t A: $publicOwn")
+        L.tag(TAG).debug().log("DHE-$BITS: p: $modulo\n\t\t\t g: $generator\n\t\t\t a: $privateOwn\n\t\t\t A: $publicOwn")
     }
 
     fun getDhData() = DhData(generator, modulo, publicOwn)
@@ -92,6 +92,7 @@ class DiffieHellman {
     }
 
     companion object {
+        private const val TAG = "diffie-hellman"
         private const val BITS = 2048
     }
 

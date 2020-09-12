@@ -6,7 +6,7 @@ import com.twoeightnine.root.xvii.crypto.KeyHolder
 import com.twoeightnine.root.xvii.dagger.AppComponent
 import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
 import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.EmojiHelper
@@ -41,7 +41,9 @@ class App : Application() {
         try {
             StatTool.init(applicationContext)
         } catch (e: Exception) {
-            Lg.wtf("[stat] init failed")
+            L.tag("stat").warn()
+                    .throwable(e)
+                    .log("init failed")
         }
     }
 

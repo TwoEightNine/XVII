@@ -10,7 +10,7 @@ import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiR
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
 import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.LastSeen
@@ -126,7 +126,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                     members.clear()
                     members.addAll(membersResponse.profiles)
                 }, { error ->
-                    Lg.i("unable to get conv members: $error")
+                    lw("unable to get conv members: $error")
                 })
     }
 
@@ -275,7 +275,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                                             onErrorOccurred(error)
                                         })
                             }, {
-                                lw("uploading error: $it")
+                                lw("uploading error", it)
                                 onErrorOccurred(it.message ?: "")
                             })
                 }, { error ->
@@ -297,7 +297,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                                 val video = Video(response.videoId, response.ownerId)
                                 onAttached(path, Attachment(video))
                             }, {
-                                lw("uploading error: $it")
+                                lw("uploading error", it)
                                 onErrorOccurred(it.message ?: "")
                             })
                 }, { error ->
@@ -326,7 +326,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                                             onErrorOccurred(error)
                                         })
                             }, {
-                                lw("uploading error: $it")
+                                lw("uploading error", it)
                                 onErrorOccurred(it.message ?: "")
                             })
                 }, { error ->
@@ -444,7 +444,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                     wallPost?.user = response.getProfileById(wallPost?.fromId ?: 0)
                 }
             } catch (e: Exception) {
-                Lg.wtf("[messages] error getting group for wall post: ${e.message}")
+                lw("error getting group for wall post", e)
             }
             val isEmptyMessage = message.text.isEmpty()
                     && message.fwdMessages.isNullOrEmpty()
@@ -528,8 +528,10 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     protected fun getRandomId() = Random.nextInt()
 
-    protected fun lw(s: String) {
-        Lg.wtf("[chat] $s")
+    protected open fun lw(s: String, throwable: Throwable? = null) {
+        L.tag("chat")
+                .throwable(throwable)
+                .log(s)
     }
 
     companion object {

@@ -4,7 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.twoeightnine.root.xvii.activities.ExceptionActivity
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
+import com.twoeightnine.root.xvii.lg.TextEventTransformer
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -18,19 +19,17 @@ class ExceptionHandler(private var context: Context): Thread.UncaughtExceptionHa
                 .append(stackTrace.toString())
                 .append("\nLOGS:\n")
 
-        errorReport.append(Lg.getEvents(COUNT))
+        errorReport.append(L.events(TextEventTransformer()).takeLast(COUNT).joinToString(separator = "\n"))
                 .append("\n\nDEVICE INFORMATION:\n")
                 .append("${Build.MANUFACTURER} ${Build.MODEL} ")
                 .append("(SDK ${Build.VERSION.SDK_INT}, ${getTotalRAM()} RAM)")
-
-        Lg.wtf(errorReport.toString())
 
         try {
             val intent = Intent(context, ExceptionActivity::class.java)
             intent.putExtra(ExceptionActivity.ERROR, errorReport.toString())
             context.startActivity(intent)
         } catch (e: Exception) {
-            Lg.i("error handling exception: ${e.message}")
+            e.printStackTrace()
         }
 
         android.os.Process.killProcess(android.os.Process.myPid())

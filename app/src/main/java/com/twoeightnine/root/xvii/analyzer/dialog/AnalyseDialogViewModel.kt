@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.analyzer.dialog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
@@ -45,7 +44,6 @@ class AnalyseDialogViewModel(private val api: ApiService) : ViewModel() {
                     isFullyLoaded()
                 }
                 .subscribeSmart({}, {
-                    Lg.wtf(it)
                 })
     }
 

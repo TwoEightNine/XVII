@@ -11,7 +11,6 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.PopupWindow
-import com.twoeightnine.root.xvii.lg.Lg
 
 abstract class KeyboardWindow(
         private val rootView: View,
@@ -125,10 +124,6 @@ abstract class KeyboardWindow(
     fun setSize(width: Int, height: Int) {
         setWidth(width)
         setHeight(height)
-    }
-
-    private fun l(s: String) {
-        Lg.i("[keyboard] $s")
     }
 
     companion object {

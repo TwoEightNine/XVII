@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.chats.attachments.stickersemoji
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.*
 import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import com.twoeightnine.root.xvii.utils.applySchedulers
@@ -56,8 +56,9 @@ class StickersEmojiRepository {
                 .flatMap(this::createPacks)
                 .compose(applySingleSchedulers())
                 .subscribe(onLoaded, { error ->
-                    error.printStackTrace()
-                    Lg.wtf("error loading packs: ${error.message}")
+                    L.tag(TAG)
+                            .throwable(error)
+                            .log("error loading packs")
                 })
                 .add()
     }
@@ -69,8 +70,9 @@ class StickersEmojiRepository {
         loadStickersFromDb()
                 .compose(applySingleSchedulers())
                 .subscribe(onLoaded) { error ->
-                    error.printStackTrace()
-                    Lg.wtf("error loading raw stickers: ${error.message}")
+                    L.tag(TAG)
+                            .throwable(error)
+                            .log("error loading raw stickers")
                 }.add()
     }
 
@@ -87,8 +89,9 @@ class StickersEmojiRepository {
                 .flatMap(this::createEmojiPacks)
                 .compose(applySingleSchedulers())
                 .subscribe(onLoaded) { error ->
-                    error.printStackTrace()
-                    Lg.wtf("error loading emoji packs: ${error.message}")
+                    L.tag(TAG)
+                            .throwable(error)
+                            .log("error loading emoji packs")
                 }
                 .add()
     }
@@ -97,9 +100,9 @@ class StickersEmojiRepository {
         loadEmojisFromDb()
                 .compose(applySingleSchedulers())
                 .subscribe(onLoaded) { error ->
-                    error.printStackTrace()
-                    Lg.wtf("error loading raw emojis: ${error.message}")
-
+                    L.tag(TAG)
+                            .throwable(error)
+                            .log("error loading raw emojis")
                 }.add()
     }
 
@@ -150,8 +153,9 @@ class StickersEmojiRepository {
                         stickers
                     }
                     .onErrorReturn {
-                        it.printStackTrace()
-                        Lg.wtf("error loading stickers from net: ${it.message}")
+                        L.tag(TAG)
+                                .throwable(it)
+                                .log("error loading stickers from net")
                         arrayListOf()
                     }
                     .compose(applySchedulers())
@@ -167,8 +171,9 @@ class StickersEmojiRepository {
                         }
                     }
                     .onErrorReturn {
-                        it.printStackTrace()
-                        Lg.wtf("error loading sticker keywords from net: ${it.message}")
+                        L.tag(TAG)
+                                .throwable(it)
+                                .log("error loading sticker keywords from net")
                         hashMapOf()
                     }
                     .compose(applySchedulers())
@@ -228,8 +233,9 @@ class StickersEmojiRepository {
                     // dirty hack
                     .map { emojis -> emojis.map { it.copy(code = it.code.toUnicodeEmoji()) } }
                     .onErrorReturn { error ->
-                        error.printStackTrace()
-                        Lg.wtf("error loading emojis: ${error.message}")
+                        L.tag(TAG)
+                                .throwable(error)
+                                .log("error loading emojis")
                         listOf()
                     }
                     .compose(applySingleSchedulers())
@@ -294,6 +300,10 @@ class StickersEmojiRepository {
 
     private fun Disposable.add() {
         compositeDisposable.add(this)
+    }
+
+    companion object {
+        const val TAG = "stickers and emojis"
     }
 
 }

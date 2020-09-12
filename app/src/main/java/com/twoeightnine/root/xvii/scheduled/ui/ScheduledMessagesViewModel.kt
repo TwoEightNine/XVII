@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
 import com.twoeightnine.root.xvii.scheduled.core.SendMessageWorker
 import com.twoeightnine.root.xvii.utils.EventBus
@@ -57,8 +57,7 @@ class ScheduledMessagesViewModel : ViewModel() {
                         }
                     }
                 }, { throwable ->
-                    throwable.printStackTrace()
-                    lw("error loading messages: ${throwable.message}")
+                    lw("error loading messages", throwable)
                 })
                 .addToDisposables()
     }
@@ -71,8 +70,7 @@ class ScheduledMessagesViewModel : ViewModel() {
                 .subscribe({
                     loadScheduledMessages()
                 }, { throwable ->
-                    throwable.printStackTrace()
-                    lw("error deleting a message: ${throwable.message}")
+                    lw("error deleting a message", throwable)
                 })
                 .addToDisposables()
     }
@@ -89,8 +87,7 @@ class ScheduledMessagesViewModel : ViewModel() {
                 .map { pairList -> pairList.toMap() }
                 .compose(applySingleSchedulers())
                 .subscribe(onSuccess, { throwable ->
-                    throwable.printStackTrace()
-                    lw("error fetching peers: ${throwable.message}")
+                    lw("error fetching peers", throwable)
                 })
                 .addToDisposables()
     }
@@ -99,7 +96,9 @@ class ScheduledMessagesViewModel : ViewModel() {
         compositeDisposable.add(this)
     }
 
-    private fun lw(s: String) {
-        Lg.wtf("[scheduled] $s")
+    private fun lw(s: String, throwable: Throwable? = null) {
+        L.tag("scheduled messages")
+                .throwable(throwable)
+                .log(s)
     }
 }

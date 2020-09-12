@@ -11,7 +11,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.messaging.MessageDestructionService
 import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
 import java.util.concurrent.TimeUnit
@@ -79,7 +79,7 @@ class SendMessageWorker(
                         }
                         showNotification(success, peerId, peer)
                     }, { throwable ->
-                        lw("error fetching peer id: ${throwable.message}")
+                        lw("error fetching peer id", throwable)
                         showNotification(success, peerId, "id$peerId")
                     })
         }
@@ -114,6 +114,8 @@ class SendMessageWorker(
     }
 
     companion object {
+
+        private const val TAG = "message scheduler"
 
         const val NOTIFICATION_ID = Int.MAX_VALUE
         const val CHANNEL_ID = "xvii.scheduled_messages"
@@ -161,11 +163,13 @@ class SendMessageWorker(
         )
 
         private fun l(s: String) {
-            Lg.i("[scheduler] $s")
+            L.tag(TAG).log(s)
         }
 
-        private fun lw(s: String) {
-            Lg.wtf("[scheduler] $s")
+        private fun lw(s: String, throwable: Throwable? = null) {
+            L.tag(TAG)
+                    .throwable(throwable)
+                    .log(s)
         }
 
     }

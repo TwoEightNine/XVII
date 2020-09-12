@@ -2,9 +2,8 @@ package com.twoeightnine.root.xvii.background.longpoll.models.events
 
 import android.text.Html
 import com.google.gson.internal.LinkedTreeMap
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.asChatPeerId
-import java.lang.Exception
 
 object LongPollEventFactory {
 
@@ -45,7 +44,9 @@ object LongPollEventFactory {
                 else -> null
             }
         } catch (e: Exception) {
-            Lg.wtf("error creating longpoll event: ${e.message}")
+            L.def().warn()
+                    .throwable(e)
+                    .log("unable to create longpoll event")
             null
         }
     }

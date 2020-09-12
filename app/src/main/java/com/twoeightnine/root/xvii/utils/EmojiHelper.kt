@@ -10,10 +10,12 @@ import androidx.collection.LruCache
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 
 object EmojiHelper {
+
+    private const val TAG = "emoji"
 
     private val emojis = arrayListOf<Emoji>()
     private val beginnings = mutableSetOf<Char>()
@@ -23,11 +25,11 @@ object EmojiHelper {
      * we need to call this in [App] achieve earlier initialization
      */
     fun init() {
-        Lg.i("[emoji] init started")
+        L.tag(TAG).log("init started")
         StickersEmojiRepository().loadRawEmojis { emojis ->
             this.emojis.addAll(emojis)
             emojis.forEach { beginnings.add(it.code[0]) }
-            Lg.i("[emoji] successfully initialized")
+            L.tag(TAG).log("successfully initialized")
         }
     }
 
@@ -84,8 +86,7 @@ object EmojiHelper {
                 }
             }
         } catch (ex: Throwable) {
-            ex.printStackTrace()
-            Lg.wtf("error in emoji: $ex")
+            L.tag(TAG).throwable(ex).log("getEmojied error")
         }
         return builder
     }

@@ -54,7 +54,7 @@ import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -78,7 +78,7 @@ fun dpFromPx(context: Context, px: Int): Int {
 fun isOnline(): Boolean {
     val cm = App.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val isOnline = cm.activeNetworkInfo?.isConnectedOrConnecting ?: false
-    Lg.i("[is online] $isOnline")
+    L.tag("is online").log("$isOnline")
     return isOnline
 }
 
@@ -178,14 +178,11 @@ fun showWarnConfirm(context: Context?, text: String, positiveButton: String, cal
 
 fun startNotificationService(context: Context) {
     try {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
         NotificationService.launch(context)
-//        } else {
-//            NotificationJobIntentService.enqueue(context)
-//        }
     } catch (e: Exception) {
-        e.printStackTrace()
-        Lg.wtf("start service error: ${e.message}")
+        L.tag("longpoll")
+                .throwable(e)
+                .log("unable to start service")
     }
 }
 
@@ -198,8 +195,9 @@ fun startPrimeGenerator(context: Context) {
             PrimeGeneratorJobIntentService.launch(context)
         }
     } catch (e: Exception) {
-        e.printStackTrace()
-        Lg.wtf("start prime generator error: ${e.message}")
+        L.tag("prime generator")
+                .throwable(e)
+                .log("unable to start service")
     }
 }
 
@@ -215,7 +213,7 @@ fun startNotificationAlarm(context: Context) {
             System.currentTimeMillis() + tenMinutes,
             tenMinutes, pendingIntent
     )
-    Lg.i("notification alarm started")
+    L.tag("longpoll").log("alarm started")
 }
 
 inline fun launchActivity(context: Context?,
@@ -260,7 +258,7 @@ fun streamToBytes(input: InputStream): ByteArray {
 
         return byteBuffer.toByteArray()
     } catch (e: IOException) {
-        Lg.wtf("stream to bytes error: ${e.message}")
+        L.def().throwable(e).log("stream to bytes error")
         e.printStackTrace()
         return "".toByteArray()
     }
@@ -315,10 +313,8 @@ fun writeToFileFromContentUri(context: Context?, file: File, uri: Uri): Boolean 
         output.close()
         stream.close()
         return true
-    } catch (e: FileNotFoundException) {
-        Lg.i("Couldn't open stream: " + e.message)
-    } catch (e: IOException) {
-        Lg.i("IOException on stream: " + e.message)
+    } catch (e: java.lang.Exception) {
+        L.def().throwable(e).log("unable to write to file fro uri")
     }
     return false
 }
@@ -347,7 +343,8 @@ fun simpleUrlIntent(context: Context?, urlArg: String?) {
         }
         context.startActivity(intent)
     } catch (e: Exception) {
-        Lg.wtf("unable to open link: ${e.message}")
+        L.def().throwable(e)
+                .log("unable to open link")
     }
 }
 
@@ -473,6 +470,7 @@ fun addToGallery(context: Context, path: String) {
         context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv)
         context.contentResolver.notifyChange(Uri.parse("file://$path"), null)
     } catch (e: SecurityException) {
+        L.tag("gallery").throwable(e).log("unable to add to gallery")
         showError(context, R.string.unable_to_add_to_gallery)
     }
 }
@@ -590,7 +588,9 @@ fun getCroppedImagePath(activity: Activity, original: String): String? {
         saveBmp(fileName, bmp)
         return fileName
     } catch (e: Exception) {
-        Lg.wtf("[chat back] error cropping: ${e.message}")
+        L.tag("chat back")
+                .throwable(e)
+                .log("cropping error")
         return null
     }
 }
@@ -607,7 +607,9 @@ fun createColoredBitmap(activity: Activity, color: Int): String? {
         saveBmp(fileName, bitmap)
         return fileName
     } catch (e: Exception) {
-        Lg.wtf("[chat back] error creating colored bitmap: ${e.message}")
+        L.tag("chat back")
+                .throwable(e)
+                .log("creating colored bitmap error")
         return null
     }
 }
@@ -678,6 +680,9 @@ fun getTotalRAM(): String {
 
     } catch (ex: IOException) {
         ex.printStackTrace()
+        L.tag("ram")
+                .throwable(ex)
+                .log("error getting ram")
     } finally {
         // Streams.close(reader);
     }
@@ -726,8 +731,7 @@ fun writeResponseBodyToDisk(body: ResponseBody, fileName: String): Boolean {
             return true
 
         } catch (e: IOException) {
-            Lg.wtf("write response to disk error: ${e.message}")
-            e.printStackTrace()
+            L.def().throwable(e).log("write response to disk error")
             return false
 
         } finally {
@@ -735,8 +739,7 @@ fun writeResponseBodyToDisk(body: ResponseBody, fileName: String): Boolean {
             outputStream?.close()
         }
     } catch (e: IOException) {
-        Lg.wtf("write response to disk error: ${e.message}")
-        e.printStackTrace()
+        L.def().throwable(e).log("write response to disk error")
         return false
     }
 }

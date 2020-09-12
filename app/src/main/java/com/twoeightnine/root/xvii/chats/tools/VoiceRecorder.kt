@@ -4,7 +4,7 @@ import android.content.Context
 import android.media.MediaRecorder
 import android.os.CountDownTimer
 import android.os.Vibrator
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import java.io.File
 import kotlin.math.sqrt
 
@@ -55,8 +55,9 @@ class VoiceRecorder(
             }
             true
         } catch (e: Exception) {
-            e.printStackTrace()
-            Lg.i("stop recording: ${e.message}")
+            L.tag("voice recorder")
+                    .throwable(e)
+                    .log("stopping error")
             false
         }
         recorder = null

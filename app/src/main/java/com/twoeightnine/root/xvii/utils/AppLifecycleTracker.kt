@@ -5,7 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.login.LoginActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
@@ -75,29 +75,29 @@ class AppLifecycleTracker : Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
 
     private fun startOnline() {
-        Lg.i("[online] start")
+        L.tag(TAG_ONLINE).log("start")
         disposable = Flowable.interval(0L, ONLINE_INTERVAL, TimeUnit.SECONDS)
                 .flatMap {
                     api.setOnline()
                 }
                 .onErrorReturn {
-                    Lg.wtf("[online] error: ${it.message}")
+                    L.tag(TAG_ONLINE).throwable(it).log("set online error")
                     BaseResponse(response = 0)
                 }
                 .subscribe { response ->
-                    Lg.i("[online] set status: ${response.response}")
+                    L.tag(TAG_ONLINE).log("set online: ${response.response}")
                 }
     }
 
     private fun stopOnline() {
         if (disposable?.isDisposed == false) {
             disposable?.dispose()
-            Lg.i("[online] stop")
+            L.tag(TAG_ONLINE).log("stop")
         }
     }
 
     companion object {
-
+        private const val TAG_ONLINE = "online"
         private const val ONLINE_INTERVAL = 60L
     }
 }

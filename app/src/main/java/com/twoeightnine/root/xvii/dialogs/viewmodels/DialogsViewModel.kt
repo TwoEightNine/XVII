@@ -9,7 +9,7 @@ import com.twoeightnine.root.xvii.App.Companion.context
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
@@ -318,14 +318,18 @@ class DialogsViewModel(
     }
 
     private fun l(s: String) {
-        Lg.i("[dialogs] $s")
+        L.tag(TAG).log(s)
     }
 
-    private fun lw(s: String) {
-        Lg.wtf("[dialogs] $s")
+    private fun lw(s: String, throwable: Throwable? = null) {
+        L.tag(TAG)
+                .throwable(throwable)
+                .log(s)
     }
 
     companion object {
+
+        private const val TAG = "dialogs"
 
         /**
          * sorts respecting [Dialog.isPinned] parameter to be first

@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.crypto
 
 import android.os.Build
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import java.math.BigInteger
 import kotlin.experimental.inv
 import kotlin.experimental.xor
@@ -45,6 +45,6 @@ object KeyHolder {
     }
 
     private fun l(s: String) {
-        Lg.i("[key holder] $s")
+        L.tag("key holder").log(s)
     }
 }

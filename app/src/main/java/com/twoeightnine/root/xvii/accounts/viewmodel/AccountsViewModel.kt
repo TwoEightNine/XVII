@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
@@ -29,13 +29,15 @@ class AccountsViewModel(
                 .compose(applySingleSchedulers())
                 .subscribe({ accounts ->
                     accountsLiveData.value = ArrayList(accounts)
-                    l("loaded")
+                    L.tag(TAG).log("loaded")
                     if (accounts.isEmpty()) {
                         restoreFromSession()
                     }
                 }, {
-                    it.printStackTrace()
-                    lw("loading error: ${it.message}")
+                    L.tag(TAG)
+                            .warn()
+                            .throwable(it)
+                            .log("loading accounts error")
                 })
     }
 
@@ -58,13 +60,15 @@ class AccountsViewModel(
         appDb.accountsDao().deleteAccount(account)
                 .compose(applySingleSchedulers())
                 .subscribe({
-                    l("removed")
+                    L.tag(TAG).log("removed")
                     val accounts = accountsLiveData.value ?: return@subscribe
                     accounts.remove(account)
                     accountsLiveData.value = accounts
                 }, {
-                    it.printStackTrace()
-                    lw("deleting error: ${it.message}")
+                    L.tag(TAG)
+                            .warn()
+                            .throwable(it)
+                            .log("deleting error")
                 })
     }
 
@@ -89,14 +93,17 @@ class AccountsViewModel(
         appDb.accountsDao().insertAccount(account)
                 .compose(applyCompletableSchedulers())
                 .subscribe({
-                    l("restored from session")
+                    L.tag(TAG).log("restored from session")
                     accountsLiveData.value = arrayListOf(account)
                 }, {
-                    it.printStackTrace()
-                    lw("restoring error: ${it.message}")
+                    L.tag(TAG)
+                            .warn()
+                            .throwable(it)
+                            .log("restoring error")
                 })
     }
 
+    // TODO replace with one update query
     @SuppressLint("CheckResult")
     fun updateRunningAccount() {
         appDb.accountsDao().getRunningAccount()
@@ -107,17 +114,15 @@ class AccountsViewModel(
                             .compose(applyCompletableSchedulers())
                             .subscribe()
                 }, {
-                    it.printStackTrace()
-                    lw("error getting running: ${it.message}")
+                    L.tag(TAG)
+                            .warn()
+                            .throwable(it)
+                            .log("error getting running")
                 })
     }
 
-    private fun l(s: String) {
-        Lg.i("[accounts] $s")
-    }
-
-    private fun lw(s: String) {
-        Lg.wtf("[accounts] $s")
+    companion object {
+        private const val TAG = "accounts"
     }
 
     class Factory @Inject constructor(

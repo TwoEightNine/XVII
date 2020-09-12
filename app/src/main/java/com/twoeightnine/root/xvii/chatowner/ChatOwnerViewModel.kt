@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.*
@@ -58,7 +58,7 @@ class ChatOwnerViewModel : ViewModel() {
                 .subscribeSmart({
                     photosLiveData.value = it.items
                 }, { error ->
-                    Lg.wtf("cant load photos for $peerId: $error")
+                    L.tag(TAG).warn().log("cant load photos for $peerId: $error")
                 })
     }
 
@@ -67,7 +67,7 @@ class ChatOwnerViewModel : ViewModel() {
                 .subscribeSmart({
                     conversationMembersLiveData.value = it.profiles
                 }, { error ->
-                    Lg.wtf("cant load members for $peerId: $error")
+                    L.tag(TAG).warn().log("cant load members for $peerId: $error")
                 })
     }
 
@@ -161,6 +161,7 @@ class ChatOwnerViewModel : ViewModel() {
     }
 
     companion object {
+        private const val TAG = "chat owner"
         const val PHOTOS_ALBUM = "profile"
         const val PHOTOS_COUNT = 100
     }

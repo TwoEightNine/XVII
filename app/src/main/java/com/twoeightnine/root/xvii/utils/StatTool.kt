@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 
 class StatTool(context: Context) {
 
@@ -35,7 +35,7 @@ class StatTool(context: Context) {
         try {
             launches++
         } catch (e: Exception) {
-            lw("incLaunch ${e.message}")
+            lw("incLaunch", e)
         }
     }
 
@@ -47,7 +47,7 @@ class StatTool(context: Context) {
                 emojisCnt++
             }
         } catch (e: Exception) {
-            lw("messageSent ${e.message}")
+            lw("messageSent", e)
         }
     }
 
@@ -55,7 +55,7 @@ class StatTool(context: Context) {
         try {
             stickersSent++
         } catch (e: Exception) {
-            lw("stickersSent ${e.message}")
+            lw("stickersSent", e)
         }
     }
 
@@ -85,14 +85,14 @@ class StatTool(context: Context) {
                 startTime = time()
             }
         } catch (e: Exception) {
-            lw("init startTime ${e.message}")
+            lw("init startTime", e)
         }
     }
 
     private fun StringBuilder.line(s: String) = append(s).append('\n')
 
-    private fun lw(s: String) {
-        Lg.wtf("[stat] $s")
+    private fun lw(s: String, throwable: Throwable? = null) {
+        L.tag("stat").throwable(throwable).log(s)
     }
 
     companion object {

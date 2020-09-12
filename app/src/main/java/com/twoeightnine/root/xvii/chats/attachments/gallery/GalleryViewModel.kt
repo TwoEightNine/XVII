@@ -2,14 +2,13 @@ package com.twoeightnine.root.xvii.chats.attachments.gallery
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.media.ThumbnailUtils
 import android.provider.MediaStore
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.crypto.md5
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.saveBmp
 import io.reactivex.Single
@@ -75,7 +74,9 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
                                 if (bitmap != null) {
                                     saveBmp(thumbnail, bitmap)
                                 } else {
-                                    Lg.wtf("[gallery] video thumbnail is null")
+                                    L.tag("gallery")
+                                            .warn()
+                                            .log("video thumbnail is null")
                                 }
                             }
 

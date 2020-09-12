@@ -12,7 +12,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.*
@@ -154,7 +154,9 @@ class GalleryFragment : BaseFragment() {
             selectedSubject.onNext(arrayListOf(DeviceItem(time() * 1000L, path, type)))
             adapter.clearMultiSelect()
         } else {
-            Lg.wtf("[camera] path is empty but request code is $requestCode and data = $data")
+            L.tag("camera")
+                    .warn()
+                    .log("path is empty but request code is $requestCode and data = $data")
             showError(context, R.string.unable_to_pick_file)
         }
     }

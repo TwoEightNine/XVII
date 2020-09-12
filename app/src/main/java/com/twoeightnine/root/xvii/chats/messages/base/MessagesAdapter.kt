@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActivity
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.model.attachments.*
@@ -399,7 +399,9 @@ class MessagesAdapter(context: Context,
                     }
                 } catch (e: Exception) {
                     ivPhoto.hide()
-                    Lg.wtf("[messages] error binding: ${e.message}")
+                    L.tag("messages")
+                            .throwable(e)
+                            .log("binding wall post error")
                 }
             }
         }

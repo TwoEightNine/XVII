@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.annotation.SuppressLint
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -62,8 +62,9 @@ fun formatDate(date: String): String = try {
     val outPattern = if (isTruncated) DD_MMM else DD_MMM_YYYY
     SimpleDateFormat(outPattern).format(SimpleDateFormat(inPattern).parse(date))
 } catch (e: Exception) {
-    Lg.wtf("format date: ${e.message}")
-    e.printStackTrace()
+    L.def().warn()
+            .throwable(e)
+            .log("unable to format date")
     date
 }
 

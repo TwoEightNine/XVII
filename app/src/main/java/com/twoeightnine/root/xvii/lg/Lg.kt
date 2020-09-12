@@ -5,6 +5,7 @@ import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.utils.getTime
 import java.util.concurrent.locks.ReentrantLock
 
+@Deprecated("Use L instead")
 object Lg {
 
     private const val TAG = "vktag"
@@ -34,7 +35,7 @@ object Lg {
         lock.lock()
         try {
             Log.wtf(TAG, s)
-            logs.add(LgEvent(s, LgEvent.Type.ERROR))
+            logs.add(LgEvent(s, warn = true))
             truncate()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -50,7 +51,7 @@ object Lg {
             val list = if (logs.size > count) logs.drop(logs.size - count) else logs
             result = list.joinToString(separator = "\n") { event ->
                 val time = getTime(event.ts, withSeconds = true)
-                val wrap = if (event.type == LgEvent.Type.ERROR) " !! " else ""
+                val wrap = if (event.warn) " !! " else ""
                 "$wrap$time: ${event.text}$wrap"
             }
         } catch (e: java.lang.Exception) {

@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.lg.Lg
-import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
@@ -53,7 +52,7 @@ class LoginViewModel : ViewModel() {
                         )
                     }
                 }, { error ->
-                    Lg.wtf("[login] check account error: $error")
+                    L.tag(TAG).warn().log("check account error: $error")
                     accountCheckResultLiveData.value = AccountCheckResult(success = false)
                 })
                 .addToDisposables()
@@ -72,11 +71,10 @@ class LoginViewModel : ViewModel() {
                 .insertAccount(account)
                 .compose(applyCompletableSchedulers())
                 .subscribe({
-                    Lg.i("[login] account updated")
+                    L.tag(TAG).log("account updated")
                     accountUpdatedLiveData.value = Unit
                 }, {
-                    it.printStackTrace()
-                    Lg.wtf("[login] error updating account: ${it.message}")
+                    L.tag(TAG).throwable(it).log("updating account error")
                 })
                 .addToDisposables()
     }
@@ -88,6 +86,10 @@ class LoginViewModel : ViewModel() {
 
     private fun Disposable.addToDisposables() {
         compositeDisposable.add(this)
+    }
+
+    companion object {
+        private const val TAG = "login"
     }
 
     data class AccountCheckResult(

@@ -11,7 +11,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.crypto.sha256
 import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*
@@ -204,7 +204,9 @@ class PinActivity : BaseActivity() {
                 })
             } catch (e: AndroidRuntimeException) {
                 e.printStackTrace()
-                Lg.wtf("error launching pin with $action: ${e.message}")
+                L.tag("pin")
+                        .throwable(e)
+                        .log("error launching pin with $action")
             }
         }
 

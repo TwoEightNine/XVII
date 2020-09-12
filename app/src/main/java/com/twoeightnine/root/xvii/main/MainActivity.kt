@@ -15,7 +15,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_root.*
@@ -49,7 +49,7 @@ class MainActivity : BaseActivity() {
                 val title = getString(TITLE) ?: ""
                 val photo = getString(PHOTO)
                 ChatActivity.launch(this@MainActivity, userId, title, photo)
-                Lg.i("open chat $userId")
+                L.def().log("open chat $userId")
             }
         }
         startNotificationAlarm(this)
@@ -76,7 +76,7 @@ class MainActivity : BaseActivity() {
         super.onResume()
         stylize(isWhite = true)
         if (!LongPollCore.isRunning()) {
-            Lg.i("service wasn't active since " +
+            L.def().log("service wasn't active since " +
                     "${getTime(LongPollCore.lastRun, withSeconds = true)}. start again")
             Handler().postDelayed({ startNotificationService(this) }, 1000L)
         }
@@ -97,7 +97,7 @@ class MainActivity : BaseActivity() {
             try {
                 goHome(this)
             } catch (e: IllegalStateException) {
-                Lg.wtf("[home] unable to go home: ${e.message}")
+                L.def().throwable(e).log("unable to go home")
                 super.onBackPressed()
             }
         } else {

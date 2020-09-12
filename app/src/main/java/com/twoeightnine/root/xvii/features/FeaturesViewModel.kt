@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
@@ -31,8 +31,9 @@ class FeaturesViewModel(
                 .subscribe({ account ->
                     accountLiveData.value = account
                 }, {
-                    it.printStackTrace()
-                    Lg.wtf("[features] error loading account: ${it.message}")
+                    L.tag(TAG)
+                            .throwable(it)
+                            .log("error loading account")
                 })
     }
 
@@ -47,15 +48,20 @@ class FeaturesViewModel(
         api.isGroupMember(App.GROUP, Session.uid)
                 .subscribeSmart({
                     callback.invoke(it == 1)
-                }, {
-                    error ->
-                    Lg.wtf("check membership error: $error")
+                }, { error ->
+                    L.tag(TAG)
+                            .warn()
+                            .log("check membership error: $error")
                 })
     }
 
     fun joinGroup() {
         api.joinGroup(App.GROUP)
                 .subscribeSmart({}, {})
+    }
+
+    companion object {
+        private const val TAG = "features"
     }
 
     class Factory @Inject constructor(

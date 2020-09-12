@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.background.longpoll.models.events.OfflineEvent
 import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
-import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
@@ -67,7 +66,6 @@ class ProfileViewModel(private val api: ApiService) : ViewModel() {
                 .subscribe({ response ->
                     foafLiveData.value = Wrapper(getFoafDate(response.string()))
                 }, {
-                    Lg.i("error in foaf: ${it.message}")
                     // no error in ui
                 })
     }
@@ -83,7 +81,6 @@ class ProfileViewModel(private val api: ApiService) : ViewModel() {
                     photos.addAll(response.items)
                     onLoaded(photos)
                 }, { error ->
-                    Lg.i("error loading photos: $error")
                 })
     }
 

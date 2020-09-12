@@ -26,7 +26,7 @@ import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiR
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiWindow
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.attachments.Sticker
@@ -224,7 +224,7 @@ class ChatInputController(
 
             val richContentFile = File(context.cacheDir, "richContent.$fileExtension")
             if (!writeToFileFromContentUri(context, richContentFile, uri)) {
-                Lg.wtf("error adding rich content")
+                L.tag("rich content").warn().log("error adding rich content")
             } else {
                 callback.onRichContentAdded(richContentFile.absolutePath)
             }

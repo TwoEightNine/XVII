@@ -2,7 +2,7 @@ package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
 import android.graphics.*
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -12,6 +12,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
 
+private const val TAG = "bitmap notification"
 const val NEEDED_CONTRAST = 4.0
 val LIGHT_LIGHTNESSES = listOf(0.6f, 0.7f, 0.8f, 0.9f, 0.95f)
 val DARK_LIGHTNESSES = listOf(0.4f, 0.3f, 0.2f, 0.1f, 0.05f)
@@ -23,7 +24,8 @@ fun loadNotificationBackgroundAsync(
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(onLoaded, { error ->
-            Lg.wtf("[bitmap notifs] error while loading bitmap: ${error.message}")
+            L.tag(TAG).throwable(error)
+                    .log("error while loading bitmap")
         })
 
 fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): NotificationBackground {
@@ -33,14 +35,14 @@ fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): Notific
 
     val file = File(dir, "${hash + 1}.png")
     return if (!file.exists()) {
-        Lg.i("[notif bitmap] creating")
+        L.tag(TAG).log("creating")
         val start = System.currentTimeMillis()
         val notificationBackground = createNotificationBackground(avatar)
         saveBmp(file.absolutePath, notificationBackground.background)
-        Lg.i("[notif bitmap] took ${System.currentTimeMillis() - start} ms")
+        L.tag(TAG).log("took ${System.currentTimeMillis() - start} ms")
         notificationBackground
     } else {
-        Lg.i("[notif bitmap] opening")
+        L.tag(TAG).log("opening")
         val start = System.currentTimeMillis()
         val imageColors = getImageColors(avatar)
         val textColor = getTextColor(imageColors)
@@ -49,7 +51,7 @@ fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): Notific
                 textColor,
                 imageColors.averageColor
         )
-        Lg.i("[notif bitmap] took ${System.currentTimeMillis() - start} ms")
+        L.tag(TAG).log("took ${System.currentTimeMillis() - start} ms")
         notificationBackground
     }
 }

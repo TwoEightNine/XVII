@@ -26,7 +26,7 @@ import com.twoeightnine.root.xvii.background.longpoll.models.events.UnreadCountE
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
@@ -78,7 +78,7 @@ class LongPollCore(private val context: Context) {
                 .subscribe({ longPollUpdate: LongPollUpdate ->
                     onUpdateReceived(longPollUpdate)
                 }, {
-                    lw("error ${it.message} during getting updates")
+                    lw("error during getting updates", it)
                     waitInBg(NO_NETWORK_DELAY)
                 }).let { disposables.add(it) }
     }
@@ -141,8 +141,7 @@ class LongPollCore(private val context: Context) {
             try {
                 notificationManager.cancelAll()
             } catch (e: SecurityException) {
-                e.printStackTrace()
-                lw("error cancelling all: ${e.message}")
+                lw("error cancelling all", e)
             }
         }
     }
@@ -499,8 +498,7 @@ class LongPollCore(private val context: Context) {
         appDb.dialogsDao().getDialogs(peerId)
                 .compose(applySingleSchedulers())
                 .subscribe(onSuccess) {
-                    it.printStackTrace()
-                    lw("loading from db error: ${it.message}")
+                    lw("loading from db error", it)
                     onFail()
                 }
     }
@@ -525,14 +523,16 @@ class LongPollCore(private val context: Context) {
     }
 
     private fun l(s: String) {
-        Lg.i("[longpoll] $s")
+        L.tag(TAG).log(s)
     }
 
-    private fun lw(s: String) {
-        Lg.wtf("[longpoll] $s")
+    private fun lw(s: String, throwable: Throwable? = null) {
+        L.tag(TAG).throwable(throwable).log(s)
     }
 
     companion object {
+
+        private const val TAG = "longpoll"
 
         private const val NOTIFICATIONS_CHANNEL_ID = "xvii.notifications"
         private const val SERVICE_CHANNEL_ID = "xvii.service"

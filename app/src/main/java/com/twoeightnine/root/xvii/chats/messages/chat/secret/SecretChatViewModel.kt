@@ -8,7 +8,7 @@ import com.twoeightnine.root.xvii.background.longpoll.models.events.BaseMessageE
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Doc
@@ -47,10 +47,11 @@ class SecretChatViewModel(
         crypto.setKey(key)
     }
 
+    @Suppress("UnstableApiUsage")
     fun startExchange() {
         crypto.startExchange {
             l("start exchange")
-            Lg.dbg(it)
+            ld(it)
             sendData(it)
             isExchangeStarted = true
             Completable.timer(10L, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
@@ -74,13 +75,13 @@ class SecretChatViewModel(
             if (!event.isOut()) {
                 if (isExchangeStarted) {
                     l("receive support")
-                    Lg.dbg(event.text)
+                    ld(event.text)
                     crypto.finishExchange(event.text)
                     isExchangeStarted = false
                     keysSetLiveData.value = true
                 } else {
                     l("receive exchange")
-                    Lg.dbg(event.text)
+                    ld(event.text)
                     val ownKeys = crypto.supportExchange(event.text)
                     sendData(ownKeys)
                 }
@@ -109,15 +110,15 @@ class SecretChatViewModel(
                                                 lw("save uploaded photo error: $error")
                                             })
                                 }, { error ->
+                                    lw("uploading photo error", error)
                                     val message = error.message ?: "null"
-                                    lw("uploading photo error: $message")
                                     onErrorOccurred(message)
                                 })
                     }
 
                 }, { error ->
                     onErrorOccurred(error)
-                    lw("getting ploading server error: $error")
+                    lw("getting uploading server error: $error")
                 })
     }
 
@@ -154,12 +155,10 @@ class SecretChatViewModel(
                     if (written) {
                         callback(fileName)
                     } else {
-                        lw("Error downloading $fileName: not written")
+                        lw("error downloading $fileName: not written")
                     }
                 }, {
-                    it.printStackTrace()
-                    val errorMsg = it.message ?: "download file error: null error"
-                    lw(errorMsg)
+                    lw("download file error", it)
                 })
     }
 
@@ -177,7 +176,21 @@ class SecretChatViewModel(
         }
     }
 
+    private fun ld(s: String) {
+        L.tag(TAG).debug().log(s)
+    }
+
     private fun l(s: String) {
-        Lg.i("[secret] $s")
+        L.tag(TAG).log(s)
+    }
+
+    override fun lw(s: String, throwable: Throwable?) {
+        L.tag(TAG)
+                .throwable(throwable)
+                .log(s)
+    }
+
+    companion object {
+        private const val TAG = "secret chat"
     }
 }

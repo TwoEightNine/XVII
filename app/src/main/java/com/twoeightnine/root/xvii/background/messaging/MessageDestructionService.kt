@@ -11,7 +11,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import io.reactivex.Observable
@@ -96,10 +96,12 @@ class MessageDestructionService : Service() {
     }
 
     private fun l(s: String) {
-        Lg.i("[message destructor] $s")
+        L.tag(TAG).log(s)
     }
 
     companion object {
+
+        private const val TAG = "message destructor"
 
         const val CHANNEL_ID = "xvii.message_destructor"
 

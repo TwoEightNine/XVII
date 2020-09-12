@@ -14,12 +14,13 @@ import com.twoeightnine.root.xvii.utils.stylize
 class LgAlertDialog(context: Context) : AlertDialog(context) {
 
     init {
-        setMessage(Lg.getEvents())
+        val events = L.events(TextEventTransformer()).joinToString(separator = "\n")
+        setMessage(events)
         setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.ok)) { _, _ ->
             dismiss()
         }
         setButton(DialogInterface.BUTTON_NEUTRAL, context.getString(R.string.copy)) { _, _ ->
-            copyToClip(Lg.getEvents())
+            copyToClip(events)
         }
     }
 

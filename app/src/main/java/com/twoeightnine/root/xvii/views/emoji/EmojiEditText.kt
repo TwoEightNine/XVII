@@ -13,7 +13,7 @@ import android.view.inputmethod.InputConnection
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.inputmethod.EditorInfoCompat
 import androidx.core.view.inputmethod.InputConnectionCompat
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.EmojiHelper
 
 
@@ -88,8 +88,9 @@ class EmojiEditText : AppCompatEditText {
                                 inputContentInfo.releasePermission()
                             }
                         } catch (e: Exception) {
-                            Lg.wtf("Error accepting rich content: " + e.message)
-                            e.printStackTrace()
+                            L.tag("rich content")
+                                    .throwable(e)
+                                    .log("error accepting content")
                             return@OnCommitContentListener false
                         }
                     }

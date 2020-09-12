@@ -18,7 +18,7 @@ import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.StickerUsage
 import com.twoeightnine.root.xvii.dialogs.db.DialogsDao
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
 import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessageDao
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
@@ -53,12 +53,15 @@ abstract class AppDb : RoomDatabase() {
         }
                 .compose(applyCompletableSchedulers())
                 .subscribe({}) {
-                    it.printStackTrace()
-                    Lg.wtf("[app db] error clearing: ${it.message}")
+                    L.tag(TAG)
+                            .throwable(it)
+                            .log("error clearing all tables")
                 }
     }
 
     companion object {
+
+        private const val TAG = "app db"
 
         private val MIGRATION_4_5 = object : Migration(4, 5) {
 
@@ -148,8 +151,9 @@ abstract class AppDb : RoomDatabase() {
                 cursor = db.query("SELECT * FROM emojis")
                 count = cursor.count
             } catch (e: Exception) {
-                e.printStackTrace()
-                Lg.wtf("error getting emojis count: ${e.message}")
+                L.tag(TAG)
+                        .throwable(e)
+                        .log("error getting emojis count")
             } finally {
                 cursor?.close()
             }
@@ -166,8 +170,9 @@ abstract class AppDb : RoomDatabase() {
                         str = br.readLine()
                     }
                 } catch (e: Exception) {
-                    e.printStackTrace()
-                    Lg.wtf("error inserting emojis: ${e.message}")
+                    L.tag(TAG)
+                            .throwable(e)
+                            .log("error inserting emojis")
                 } finally {
                     br?.close()
                 }

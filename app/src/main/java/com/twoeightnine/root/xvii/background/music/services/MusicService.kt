@@ -17,7 +17,7 @@ import androidx.annotation.LayoutRes
 import androidx.core.app.NotificationCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.attachments.Audio
 import io.reactivex.subjects.PublishSubject
 
@@ -70,7 +70,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             player.release()
             unregisterReceiver(noisyReceiver)
         } catch (e: Exception) {
-            lw("destroying: ${e.message}")
+            lw("destroying", e)
         }
         super.onDestroy()
     }
@@ -91,8 +91,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             player.prepareAsync()
             registerReceiver(noisyReceiver, IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY))
         } catch (e: Exception) {
-            e.printStackTrace()
-            lw("preparing error: ${e.message}")
+            lw("preparing error", e)
         }
     }
 
@@ -140,7 +139,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             try {
                 player.playbackParams = player.playbackParams.setSpeed(playbackSpeed)
             } catch (e: Exception) {
-                lw("unable to update speed: ${e.message}")
+                lw("unable to update speed", e)
             }
         }
         if (showNotification) {
@@ -165,8 +164,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
                 player.start()
                 playingAudioSubject.onNext(getPlayedTrack() ?: return)
             } catch (e: Exception) {
-                e.printStackTrace()
-                lw("playing error: ${e.message}")
+                lw("playing error", e)
                 startPlaying()
             }
         }
@@ -178,7 +176,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             player.pause()
             pausingAudioSubject.onNext(Unit)
         } catch (e: Exception) {
-            lw("error stopping: ${e.message}")
+            lw("error pausing", e)
             stop()
         }
     }
@@ -195,8 +193,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             }
             unregisterReceiver(noisyReceiver)
         } catch (e: Exception) {
-            e.printStackTrace()
-            lw("error stopping: ${e.message}")
+            lw("error stopping", e)
             stopForeground(true)
         }
     }
@@ -345,16 +342,16 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     private fun MediaPlayer.isPlayingSafe() = try {
         isPlaying
     } catch (e: Exception) {
-        lw("isPlaying: ${e.message}")
+        lw("isPlaying", e)
         false
     }
 
     private fun l(s: String) {
-        Lg.i("[music] $s")
+        L.tag(TAG).log(s)
     }
 
-    private fun lw(s: String) {
-        Lg.wtf("[music] $s")
+    private fun lw(s: String, throwable: Throwable? = null) {
+        L.tag(TAG).throwable(throwable).log(s)
     }
 
     /**
@@ -362,6 +359,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
      */
     companion object {
 
+        private const val TAG = "music"
         private const val FOREGROUND_ID = 3676
         private const val CHANNEL_ID = "xvii.music"
 

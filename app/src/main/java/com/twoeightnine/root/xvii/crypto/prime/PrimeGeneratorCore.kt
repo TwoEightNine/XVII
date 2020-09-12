@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.crypto.prime
 import android.content.Context
 import com.twoeightnine.root.xvii.crypto.CryptoStorage
 import com.twoeightnine.root.xvii.crypto.isPrime
-import com.twoeightnine.root.xvii.lg.Lg
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.getTime
 import io.reactivex.Flowable
@@ -70,11 +70,20 @@ class PrimeGeneratorCore(private val context: Context) {
         }
     }
 
-    private fun l(s: String, i: Int = 0) = Lg.i("[prime${if (i != 0) " $i" else ""}] $s")
+    private fun l(s: String, i: Int = 0) {
+        val threadPrefix = if (i != 0) "thread $i: " else ""
+        L.tag(TAG)
+                .log("$threadPrefix$s")
+    }
 
-    private fun lw(s: String) = Lg.wtf("[prime] $s")
+    private fun lw(s: String, throwable: Throwable? = null) {
+        L.tag(TAG)
+                .throwable(throwable)
+                .log(s)
+    }
 
     companion object {
+        private const val TAG = "prime generator"
         private const val BITS = 2048
     }
 }

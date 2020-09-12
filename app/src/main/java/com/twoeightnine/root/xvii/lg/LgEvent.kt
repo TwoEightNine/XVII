@@ -7,12 +7,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class LgEvent(
         val text: String,
-        val type: Type = Type.INFO,
+        val tag: String? = null,
+        val throwable: Throwable? = null,
+        val warn: Boolean = false,
         val ts: Int = time()
-) : Parcelable {
-
-    enum class Type {
-        INFO,
-        ERROR
-    }
-}
+) : Parcelable

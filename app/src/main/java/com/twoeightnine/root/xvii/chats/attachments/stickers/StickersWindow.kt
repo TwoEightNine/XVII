@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickers.preview.StickerPreviewDialog
-import com.twoeightnine.root.xvii.lg.Lg
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
@@ -86,7 +85,6 @@ class StickersWindow(
                 .compose(applyCompletableSchedulers())
                 .subscribe({}) {
                     it.printStackTrace()
-                    Lg.wtf("[stickers] selecting: ${it.message}")
                 }
     }
 
@@ -151,7 +149,6 @@ class StickersWindow(
                 .flatMap(::extendAvailableWithRecent)
                 .subscribe(::updateList) {
                     it.printStackTrace()
-                    Lg.wtf("[stickers] updating: ${it.message}")
                     onErrorOccurred(it.message ?: "No stickers")
                     updateList(arrayListOf())
                 }
