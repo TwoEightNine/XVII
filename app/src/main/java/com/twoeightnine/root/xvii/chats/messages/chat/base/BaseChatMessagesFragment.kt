@@ -318,7 +318,10 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     }
 
     private fun onAttachmentsSelected(attachments: List<Attachment>) {
-        attachedAdapter.addAll(attachments.toMutableList())
+        val maxOrder = attachedAdapter.maxOrder
+        attachments.forEachIndexed { index, attachment ->
+            attachedAdapter.addWithOrder(attachment, index + maxOrder)
+        }
     }
 
     private fun onSelectedFromGallery(paths: List<DeviceItem>) {

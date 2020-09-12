@@ -76,22 +76,6 @@ class AttachedAdapter(
         }
     }
 
-    override fun add(item: Attachment) {
-        throw IllegalStateException("do not use this")
-    }
-
-    override fun addAll(items: MutableList<Attachment>, pos: Int) {
-        when {
-            count >= 10 -> showAlert(context, context.getString(R.string.ten_attachments))
-            count + items.size > 10 -> {
-                showAlert(context, context.getString(R.string.ten_attachments))
-                super.addAll(items.subList(0, 10 - count), pos)
-            }
-            else -> super.addAll(items, pos)
-        }
-        updateCounter()
-    }
-
     override fun clear() {
         fwdMessages = ""
         super.clear()
