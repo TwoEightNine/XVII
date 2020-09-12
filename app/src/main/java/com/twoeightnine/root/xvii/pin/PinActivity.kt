@@ -18,6 +18,7 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import kotlinx.android.synthetic.main.activity_pin.*
 import javax.inject.Inject
+import kotlin.math.abs
 
 /**
  * Created by root on 3/17/17.
@@ -47,6 +48,7 @@ class PinActivity : BaseActivity() {
         action ?: finish()
         init()
         styleScreen(rlContainer)
+        rlContainer.setBottomInsetPadding()
 
         ivBack.setVisible(action != Action.ENTER)
         ivBack.setOnClickListener { onBackPressed() }
@@ -91,9 +93,13 @@ class PinActivity : BaseActivity() {
             }
 
             Action.SET -> {
-                tvTitle.setText(R.string.confirm_pin)
-                currentStage = Action.CONFIRM
-                confirmedPin = pin
+                if (isPinSecure(pin)) {
+                    tvTitle.setText(R.string.confirm_pin)
+                    currentStage = Action.CONFIRM
+                    confirmedPin = pin
+                } else {
+                    showError(R.string.pin_not_secure)
+                }
             }
 
             Action.CONFIRM -> {
@@ -183,6 +189,31 @@ class PinActivity : BaseActivity() {
         if (action != Action.ENTER) {
             super.onBackPressed()
         }
+    }
+
+    private fun getPinDiff(pin: List<Int>): List<Int> {
+        val diffs = arrayListOf<Int>()
+        for (i in 1 until pin.size) {
+            val variants = arrayListOf<Int>()
+            variants.add(abs(pin[i] - pin[i - 1]))
+            if (pin[i] == 0) {
+                variants.add(abs(10 - pin[i - 1]))
+            }
+            if (pin[i - 1] == 0) {
+                variants.add(abs(10 - pin[i]))
+            }
+            diffs.add(variants.min() ?: 0)
+        }
+        return diffs
+    }
+
+    private fun isPinSecure(rawPin: String): Boolean {
+        val pin = rawPin.map { it.toString().toInt() }
+        val pinDiff = getPinDiff(pin)
+        val pinDiff2 = getPinDiff(pinDiff)
+        val zerosCount = pinDiff.count { it == 0 }
+
+        return (pinDiff2.sum().toFloat() / pinDiff2.size) >= 1f && zerosCount == 0
     }
 
     /**

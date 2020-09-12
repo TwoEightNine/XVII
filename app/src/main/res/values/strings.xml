@@ -400,6 +400,7 @@
 
     <string name="pin_brute_force">brute-force detected\naccess denied</string>
     <string name="pin_incident_report">this incident will be reported</string>
+    <string name="pin_not_secure">entered pin is too weak\ntry to set pin without any recognizable patterns and consisted of 4 digits at least</string>
 
     <string-array name="relations">
         <item>single</item>
