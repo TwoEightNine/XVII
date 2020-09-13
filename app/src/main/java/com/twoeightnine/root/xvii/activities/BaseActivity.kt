@@ -5,6 +5,8 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,8 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.*
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
@@ -48,6 +52,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onResume() {
         updateConfig()
         super.onResume()
+        runServiceIfDown()
         window.statusBarColor = getStatusBarColor()
         window.navigationBarColor = if (isAndroid10OrHigher()) {
             Color.TRANSPARENT
@@ -84,6 +89,15 @@ abstract class BaseActivity : AppCompatActivity() {
                 },
                 this, getThemeId()
         )
+    }
+
+    private fun runServiceIfDown() {
+        if (!LongPollCore.isProbablyRunning()) {
+            L.tag("longpoll")
+                    .log("inactive since ${getTime(LongPollCore.lastRun, withSeconds = true)}")
+            Handler(Looper.getMainLooper())
+                    .postDelayed({ startNotificationService(this) }, 500L)
+        }
     }
 
 }

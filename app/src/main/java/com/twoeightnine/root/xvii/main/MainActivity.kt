@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.main
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -13,7 +12,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.activities.BaseActivity
-import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.*
@@ -75,11 +73,6 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         stylize(isWhite = true)
-        if (!LongPollCore.isRunning()) {
-            L.def().log("service wasn't active since " +
-                    "${getTime(LongPollCore.lastRun, withSeconds = true)}. start again")
-            Handler().postDelayed({ startNotificationService(this) }, 1000L)
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

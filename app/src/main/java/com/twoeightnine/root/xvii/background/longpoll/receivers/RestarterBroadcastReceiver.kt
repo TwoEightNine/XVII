@@ -17,7 +17,7 @@ class RestarterBroadcastReceiver : BroadcastReceiver() {
         val action = intent?.action
         if ((action == RESTART_ACTION || action == Intent.ACTION_BOOT_COMPLETED)
                 && context != null
-                && !LongPollCore.isRunning()) {
+                && !LongPollCore.isProbablyRunning()) {
             L.tag(TAG).log("starting service")
             startNotificationService(context)
         }

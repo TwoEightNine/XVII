@@ -60,6 +60,8 @@ class LongPollCore(private val context: Context) {
 
     fun run(intent: Intent?) {
         App.appComponent?.inject(this)
+        if (isProbablyRunning()) return
+
         isRunning = false
         l("launched")
         while (true) {
@@ -233,6 +235,8 @@ class LongPollCore(private val context: Context) {
 
     fun onDestroy() {
         disposables.dispose()
+        isRunning = false
+        l("service destroyed")
     }
 
     private fun updateTs(longPollServer: LongPollServer, ts: Int) {
@@ -513,10 +517,12 @@ class LongPollCore(private val context: Context) {
         }
     }
 
-    private fun getConnectSingle(longPollServer: LongPollServer) = api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
+    private fun getConnectSingle(longPollServer: LongPollServer) =
+            api.connectLongPoll("https://${longPollServer.server}", longPollServer.key, longPollServer.ts)
 
     @SuppressLint("CheckResult")
     private fun waitInBg(delayMs: Long) {
+        l("waiting in background")
         Observable.timer(delayMs, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .subscribe {
@@ -547,7 +553,7 @@ class LongPollCore(private val context: Context) {
          * if the core didn't call [getUpdates] for [LAST_RUN_ALLOWED_DELAY] seconds
          * it is probably down =(
          */
-        private const val LAST_RUN_ALLOWED_DELAY = 60
+        private const val LAST_RUN_ALLOWED_DELAY = 45
 
         private val RING_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         private val VIBRATE_PATTERN = longArrayOf(0L, 200L)
@@ -558,6 +564,6 @@ class LongPollCore(private val context: Context) {
         var lastRun = 0
             private set
 
-        fun isRunning() = time() - lastRun < LAST_RUN_ALLOWED_DELAY
+        fun isProbablyRunning() = time() - lastRun < LAST_RUN_ALLOWED_DELAY
     }
 }
