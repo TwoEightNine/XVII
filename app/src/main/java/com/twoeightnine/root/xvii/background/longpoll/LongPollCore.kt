@@ -60,6 +60,8 @@ class LongPollCore(private val context: Context) {
 
     fun run(intent: Intent?) {
         App.appComponent?.inject(this)
+        isRunning = false
+        l("launched")
         while (true) {
             while (isRunning) {
                 Thread.sleep(WAIT_DELAY)
