@@ -351,7 +351,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_feedback"
+                    android:src="@drawable/ic_support"
                     android:tag="main" />
 
                 <TextView
