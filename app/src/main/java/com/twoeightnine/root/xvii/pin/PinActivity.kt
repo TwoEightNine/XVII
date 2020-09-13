@@ -3,7 +3,10 @@ package com.twoeightnine.root.xvii.pin
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.hardware.camera2.CameraManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.util.AndroidRuntimeException
 import androidx.annotation.StringRes
 import com.twoeightnine.root.xvii.App
@@ -17,8 +20,10 @@ import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import kotlinx.android.synthetic.main.activity_pin.*
+import java.io.File
 import javax.inject.Inject
 import kotlin.math.abs
+
 
 /**
  * Created by root on 3/17/17.
@@ -153,6 +158,21 @@ class PinActivity : BaseActivity() {
 
     private fun showBruteForced() {
         rlBruteForce.show()
+        captureInvader()
+    }
+
+    private fun captureInvader() {
+        val backgroundThread = HandlerThread("CameraBackground").also { it.start() }
+        val backgroundHandler = Handler(backgroundThread.looper)
+
+        val manager = getSystemService(Context.CAMERA_SERVICE)
+                as CameraManager
+        manager.openFrontCamera(backgroundHandler) { camera ->
+            val file = File(filesDir, "invader.jpg")
+            manager.takePicture(camera, file, backgroundHandler) {
+                camera.close()
+            }
+        }
     }
 
     private fun showError(@StringRes textRes: Int) {
