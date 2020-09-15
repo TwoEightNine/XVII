@@ -14,7 +14,7 @@ import com.twoeightnine.root.xvii.utils.stylize
 class LgAlertDialog(context: Context) : AlertDialog(context) {
 
     init {
-        val events = L.events(TextEventTransformer()).joinToString(separator = "\n")
+        val events = L.events(TextEventTransformer(), count = COUNT).joinToString(separator = "\n")
         setMessage(events)
         setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.ok)) { _, _ ->
             dismiss()
@@ -38,6 +38,7 @@ class LgAlertDialog(context: Context) : AlertDialog(context) {
     }
 
     companion object {
+        const val COUNT = 200
         const val FONT_SIZE = 10f
     }
 

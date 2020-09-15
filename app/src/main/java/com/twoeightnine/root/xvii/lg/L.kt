@@ -58,10 +58,10 @@ class L private constructor() {
         private val lock = ReentrantLock()
         private val events = arrayListOf<LgEvent>()
 
-        fun events(): List<LgEvent> {
+        fun events(count: Int? = null): List<LgEvent> {
             lock.lock()
             return try {
-                ArrayList(events)
+                ArrayList(events.takeLast(count ?: events.size))
             } catch (e: Exception) {
                 e.printStackTrace()
                 emptyList()
@@ -70,8 +70,8 @@ class L private constructor() {
             }
         }
 
-        fun events(transformer: EventTransformer): List<String> =
-                events().map(transformer::transform)
+        fun events(transformer: EventTransformer, count: Int? = null): List<String> =
+                events(count).map(transformer::transform)
 
         fun def() = L()
 
