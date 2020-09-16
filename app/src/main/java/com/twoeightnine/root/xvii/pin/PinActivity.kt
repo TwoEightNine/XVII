@@ -67,15 +67,11 @@ class PinActivity : BaseActivity() {
                 pin = ""
                 tvPinDots.text = ""
             }
-
             PinPadView.OK -> onOkPressed()
-
             else -> {
                 tvError.text = ""
-                if (pin.length < MAX_LENGTH) {
-                    pin += key
-                    tvPinDots.text = "${tvPinDots.text}●"
-                }
+                pin += key
+                tvPinDots.text = "${tvPinDots.text}●"
             }
         }
     }
@@ -248,7 +244,6 @@ class PinActivity : BaseActivity() {
 
         const val ACTION = "action"
 
-        private const val MAX_LENGTH = 8
         private const val SALT = "oi|6yw4-c5g846-d5c53s9mx"
     }
 }
