@@ -158,7 +158,6 @@
     <string name="decrypting_image">la photo est été décrypté</string>
     <string name="invalid_file">disponible de décrypter ce fichier</string>
     <string name="fingerprint_hint">cette photo et ce texte étaient généré de les clés de chiffrement. s\'ils sont les mêmes dans un appareil de votre interlocuteur et les clés étaient mises, soyez sûr que personne ne va pas casser votre confidentialité. sinon, votre conversation n\'est pas securicée!</string>
-    <string name="longpoll_explanation">depuis android 8 (oreo) le système d\'exploitation ne permet pas lancer des services en arrière-plan et l\'exception seule c\'est des services firebase. mais vk n\'a pas publié l\'api pout sa firebase cloud messaging, seulement pour longpoll. longpoll du vk necessite une service en arrière-plan et xvii doit montrer la notification pour le temps pour continuer un travail de la service</string>
 
     <string name="longpoll_guide_title">comment cacher cette notification</string>
     <string name="longpoll_guide_step1">ouvrez le panel des notifications et appuyez longuement sur \'service en arrière-plan de xvii\'</string>
@@ -454,6 +453,23 @@
     <string name="login_no_internet">vous devrez etre connecte sur internet pour se connecter</string>
     <string name="pin_brute_force">force brute detectée\naccès refusé</string>
     <string name="pin_incident_report">l\'incident sera rapporté</string>
+    <string name="share_on_wall">partager xvii sur mon mur</string>
+    <string name="source_code">le code source</string>
+    <string name="destructor_name">xvii destructeur des messages</string>
+    <string name="destructor_title">message sera supprimé en %d secondes</string>
+    <string name="destructor_process_title">supprime..</string>
+    <string name="destructor_send">envoyer comme d\'autodestructant</string>
+    <string name="destructor_ttl_1">1 seconde</string>
+    <string name="destructor_ttl_2">2 secondes</string>
+    <string name="destructor_ttl_3">3 secondes</string>
+    <string name="destructor_ttl_5">5 secondes</string>
+    <string name="destructor_ttl_10">10 secondes</string>
+    <string name="destructor_ttl_15">15 secondes</string>
+    <string name="destructor_ttl_20">20 secondes</string>
+    <string name="destructor_ttl_30">30 secondes</string>
+    <string name="destructor_ttl_60">1 minute</string>
+    <string name="destructor_ttl_120">2 minutes</string>
+    <string name="destructor_hint">laissez allumé l\'internet et l\'app</string>
 
 </resources>
 
