@@ -383,6 +383,17 @@
     <string name="destructor_title">message will be deleted in %d seconds</string>
     <string name="destructor_process_title">deleting..</string>
     <string name="destructor_hint">keep the internet and the application turned on</string>
+    <string name="destructor_send">send as self-deleting</string>
+    <string name="destructor_ttl_1">1 second</string>
+    <string name="destructor_ttl_2">2 seconds</string>
+    <string name="destructor_ttl_3">3 seconds</string>
+    <string name="destructor_ttl_5">5 seconds</string>
+    <string name="destructor_ttl_10">10 seconds</string>
+    <string name="destructor_ttl_15">15 seconds</string>
+    <string name="destructor_ttl_20">20 seconds</string>
+    <string name="destructor_ttl_30">30 seconds</string>
+    <string name="destructor_ttl_60">1 minute</string>
+    <string name="destructor_ttl_120">2 minutes</string>
 
     <string name="scheduled_messages_title">scheduled messages</string>
     <string name="scheduled_messages_name">xvii scheduled messages</string>

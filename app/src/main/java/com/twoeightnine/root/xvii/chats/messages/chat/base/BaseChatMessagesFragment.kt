@@ -552,20 +552,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onSendClick() {
-            val replyTo = attachedAdapter.replyTo
-            val forwarded = if (replyTo == null) {
-                attachedAdapter.fwdMessages
-            } else {
-                null
-            }
-            viewModel.sendMessage(
-                    text = etInput.asText(),
-                    attachments = attachedAdapter.asString(),
-                    forwardedMessages = forwarded,
-                    replyTo = replyTo
-            )
-            etInput.clear()
-            attachedAdapter.clear()
+            sendMessage()
         }
 
         override fun onScheduleClick(whenMs: Long) {
@@ -578,6 +565,10 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             )
             etInput.clear()
             attachedAdapter.clear()
+        }
+
+        override fun onSelfDeletingClick(timeToLive: Int) {
+            sendMessage(timeToLive)
         }
 
         override fun hasMicPermissions(): Boolean {
@@ -627,6 +618,24 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             } else {
                 this@BaseChatMessagesFragment.showMentionedMembers(listOf())
             }
+        }
+
+        private fun sendMessage(timeToLive: Int? = null) {
+            val replyTo = attachedAdapter.replyTo
+            val forwarded = if (replyTo == null) {
+                attachedAdapter.fwdMessages
+            } else {
+                null
+            }
+            viewModel.sendMessage(
+                    text = etInput.asText(),
+                    attachments = attachedAdapter.asString(),
+                    forwardedMessages = forwarded,
+                    replyTo = replyTo,
+                    timeToLive = timeToLive
+            )
+            etInput.clear()
+            attachedAdapter.clear()
         }
     }
 }

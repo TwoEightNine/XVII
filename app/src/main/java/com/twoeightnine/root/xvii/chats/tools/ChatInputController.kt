@@ -256,9 +256,14 @@ class ChatInputController(
     private fun onSendLongClicked() {
         val items = listOf(
                 ContextPopupItem(
-                        iconRes = R.drawable.ic_clock,
+                        iconRes = R.drawable.ic_calendar_popup,
                         textRes = R.string.scheduled_messages_send,
                         onClick = ::showDatePicker
+                ),
+                ContextPopupItem(
+                        iconRes = R.drawable.ic_clock,
+                        textRes = R.string.destructor_send,
+                        onClick = ::showDestructorDelay
                 )
         )
         createContextPopup(context, items).show()
@@ -301,6 +306,31 @@ class ChatInputController(
             timeInMillis
         }
         callback.onScheduleClick(whenMs)
+    }
+
+    private fun showDestructorDelay() {
+        val ttls = listOf(1, 2, 3, 5, 10, 15, 20, 30, 60, 120)
+        val resources = listOf(
+                R.string.destructor_ttl_1,
+                R.string.destructor_ttl_2,
+                R.string.destructor_ttl_3,
+                R.string.destructor_ttl_5,
+                R.string.destructor_ttl_10,
+                R.string.destructor_ttl_15,
+                R.string.destructor_ttl_20,
+                R.string.destructor_ttl_30,
+                R.string.destructor_ttl_60,
+                R.string.destructor_ttl_120
+        )
+        val items = ttls.zip(resources)
+                .map { (ttl, stringRes) ->
+                    ContextPopupItem(
+                            iconRes = R.drawable.ic_clock,
+                            textRes = stringRes,
+                            onClick = { callback.onSelfDeletingClick(ttl) }
+                    )
+                }
+        createContextPopup(context, items).show()
     }
 
     private fun vibrate() {
@@ -464,6 +494,7 @@ class ChatInputController(
         fun onStickerClicked(sticker: Sticker)
         fun onSendClick()
         fun onScheduleClick(whenMs: Long)
+        fun onSelfDeletingClick(timeToLive: Int)
         fun hasMicPermissions(): Boolean
         fun onAttachClick()
         fun onTypingInvoke()

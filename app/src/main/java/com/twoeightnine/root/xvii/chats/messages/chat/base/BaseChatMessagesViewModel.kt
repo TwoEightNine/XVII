@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
+import com.twoeightnine.root.xvii.background.messaging.MessageDestructionService
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
@@ -182,16 +183,21 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     fun sendMessage(text: String? = null, attachments: String? = null,
-                    replyTo: Int? = null, forwardedMessages: String? = null) {
+                    replyTo: Int? = null, forwardedMessages: String? = null,
+                    timeToLive: Int? = null
+    ) {
         // reply with empty message is prohibited. send it as forwarded
         if (text.isNullOrEmpty() && replyTo != null) {
             api.sendMessage(peerId, getRandomId(), prepareTextOut(text), "$replyTo", attachments)
         } else {
             api.sendMessage(peerId, getRandomId(), prepareTextOut(text), forwardedMessages, attachments, replyTo)
         }
-                .subscribeSmart({
+                .subscribeSmart({ messageId ->
                     setOffline()
                     text?.also { StatTool.get()?.messageSent(it) }
+                    timeToLive?.also {
+                        MessageDestructionService.start(App.context, messageId, timeToLive)
+                    }
                 }, { error ->
                     lw("send message: $error")
                 })
