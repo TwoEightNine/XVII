@@ -6,7 +6,6 @@ import android.hardware.camera2.*
 import android.media.Image
 import android.media.ImageReader
 import android.os.Handler
-import android.os.Looper
 import com.twoeightnine.root.xvii.lg.L
 import java.io.File
 import java.io.FileOutputStream
@@ -45,7 +44,7 @@ fun CameraManager.openFrontCamera(backgroundHandler: Handler, onOpened: (CameraD
                 super.onClosed(camera)
                 L.tag(TAG).log("closed")
             }
-        }, Handler(Looper.getMainLooper()))
+        }, backgroundHandler)
     }
 }
 
@@ -60,8 +59,8 @@ fun CameraManager.takePicture(
         val jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
                 ?.getOutputSizes(ImageFormat.JPEG)
 
-        val width = jpegSizes?.getOrNull(0)?.width ?: 640
-        val height = jpegSizes?.getOrNull(0)?.height ?: 480
+        val width = (jpegSizes?.getOrNull(0)?.width ?: 2560) / 2
+        val height = (jpegSizes?.getOrNull(0)?.height ?: 1920) / 2
         L.tag(TAG).log("size $width*$height")
 
         val reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1)
@@ -72,7 +71,7 @@ fun CameraManager.takePicture(
                     set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO)
                 }
 
-        val readerListener: ImageReader.OnImageAvailableListener = object : ImageReader.OnImageAvailableListener {
+        val readerListener = object : ImageReader.OnImageAvailableListener {
             override fun onImageAvailable(reader: ImageReader) {
                 var image: Image? = null
                 try {
@@ -94,22 +93,20 @@ fun CameraManager.takePicture(
                 try {
                     output = FileOutputStream(file)
                     output.write(bytes)
+                    L.tag(TAG).log("written to file ${file.absolutePath}")
+                    onCaptured()
+                } catch (e: Exception) {
+                    L.tag(TAG).throwable(e).log("error saving image")
                 } finally {
                     output?.close()
                 }
             }
         }
         reader.setOnImageAvailableListener(readerListener, backgroundHandler)
-        val captureListener: CameraCaptureSession.CaptureCallback = object : CameraCaptureSession.CaptureCallback() {
-            override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
-                super.onCaptureCompleted(session, request, result)
-                onCaptured()
-            }
-        }
         cameraDevice.createCaptureSession(outputSurfaces, object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
                 try {
-                    session.capture(captureBuilder.build(), captureListener, backgroundHandler)
+                    session.capture(captureBuilder.build(), null, backgroundHandler)
                 } catch (e: CameraAccessException) {
                     L.tag(TAG).throwable(e).log("unable to capture")
                 }

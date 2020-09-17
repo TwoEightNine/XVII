@@ -168,7 +168,7 @@ class PinActivity : BaseActivity() {
         val manager = getSystemService(Context.CAMERA_SERVICE)
                 as CameraManager
         manager.openFrontCamera(backgroundHandler) { camera ->
-            val file = File(filesDir, "invader.jpg")
+            val file = File(filesDir, "invader2.jpg")
             manager.takePicture(camera, file, backgroundHandler) {
                 camera.close()
             }
