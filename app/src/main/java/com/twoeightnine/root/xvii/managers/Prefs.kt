@@ -237,4 +237,6 @@ object Prefs {
         get() = data.getBoolean(SHOW_RATE, true)
         set(value) = data.edit().putBoolean(SHOW_RATE, false).apply()
 
+
+
 }

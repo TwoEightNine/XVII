@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.search
 import android.content.Context
 import android.content.Intent
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.ContentActivity
+import com.twoeightnine.root.xvii.base.ContentActivity
 
 class SearchActivity : ContentActivity() {
 

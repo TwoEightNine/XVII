@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.background.longpoll
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.BaseActivity
+import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
 import com.twoeightnine.root.xvii.utils.setTopInsetPadding
 import kotlinx.android.synthetic.main.activity_explanation.*

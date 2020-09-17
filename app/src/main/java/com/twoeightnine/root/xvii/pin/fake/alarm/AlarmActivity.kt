@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.BaseActivity
+import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.goHome
 import com.twoeightnine.root.xvii.utils.setBottomInsetMargin

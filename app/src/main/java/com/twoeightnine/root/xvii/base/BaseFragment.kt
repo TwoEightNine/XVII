@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.toolbar.*
 

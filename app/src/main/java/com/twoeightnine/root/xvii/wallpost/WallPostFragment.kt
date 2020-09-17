@@ -199,11 +199,13 @@ class WallPostFragment : BaseFragment() {
         const val ARG_POST_ID = "postId"
 
         fun newInstance(postId: String): WallPostFragment {
-            val frag = WallPostFragment()
-            frag.arguments = Bundle().apply {
-                putString(ARG_POST_ID, postId)
+            return WallPostFragment().apply {
+                arguments = createArgs(postId)
             }
-            return frag
+        }
+
+        fun createArgs(postId: String) = Bundle().apply {
+            putString(ARG_POST_ID, postId)
         }
     }
 

@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.scheduled.ui
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
-import com.twoeightnine.root.xvii.activities.ContentActivity
+import com.twoeightnine.root.xvii.base.ContentActivity
 
 class ScheduledMessagesActivity : ContentActivity() {
 

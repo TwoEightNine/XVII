@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActivity
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -22,7 +23,7 @@ import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.wallpost.WallPostActivity
+import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import kotlinx.android.synthetic.main.container_wall.view.*
 import kotlinx.android.synthetic.main.item_message_in_chat.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
@@ -288,8 +289,9 @@ class MessagesAdapter(context: Context,
                                 val postId = wallPost.stringId
                                 val included = LayoutInflater.from(context).inflate(R.layout.container_wall, null)
                                 included.setOnClickListener {
-                                    WallPostActivity.launch(context
-                                            ?: return@setOnClickListener, postId)
+                                    context?.startFragment<WallPostFragment>(
+                                            WallPostFragment.createArgs(postId)
+                                    )
                                 }
                                 bindWallPost(wallPost, included)
                                 llMessageContainer.addView(included)

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
-import com.twoeightnine.root.xvii.activities.ContentActivity
+import com.twoeightnine.root.xvii.base.ContentActivity
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.utils.writeToFileFromContentUri
 import java.io.File

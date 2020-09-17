@@ -12,24 +12,25 @@ import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.accounts.activities.AccountsActivity
+import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
-import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesActivity
+import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
 import com.twoeightnine.root.xvii.features.assist.AssistActivity
-import com.twoeightnine.root.xvii.features.general.GeneralActivity
-import com.twoeightnine.root.xvii.features.notifications.NotificationsActivity
+import com.twoeightnine.root.xvii.features.general.GeneralFragment
+import com.twoeightnine.root.xvii.features.notifications.NotificationsFragment
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.PinActivity
-import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesActivity
+import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.web.WebActivity
+import com.twoeightnine.root.xvii.web.WebFragment
 import kotlinx.android.synthetic.main.fragment_features.*
 import java.util.*
 import javax.inject.Inject
@@ -58,17 +59,17 @@ class FeaturesFragment : BaseFragment() {
         tvSwitchAccount.stylize()
 
         rlAnalyse.setOnClickListener { showToast(context, R.string.in_future_versions) }
-        rlStarred.setOnClickListener { StarredMessagesActivity.launch(context) }
-        rlScheduledMessages.setOnClickListener { ScheduledMessagesActivity.launch(context) }
+        rlStarred.setOnClickListener { startFragment<StarredMessagesFragment>() }
+        rlScheduledMessages.setOnClickListener { startFragment<ScheduledMessagesFragment>() }
 
         rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, Session.uid) }
-        tvSwitchAccount.setOnClickListener { AccountsActivity.launch(context) }
+        tvSwitchAccount.setOnClickListener { startFragment<AccountsFragment>() }
         rlGeneral.setOnClickListener {
-            GeneralActivity.launch(context)
+            startFragment<GeneralFragment>()
             suggestJoin()
         }
         rlNotifications.setOnClickListener {
-            NotificationsActivity.launch(context)
+            startFragment<NotificationsFragment>()
             suggestJoin()
         }
         rlAppearance.setOnClickListener {
@@ -177,7 +178,9 @@ class FeaturesFragment : BaseFragment() {
         } else {
             PRIVACY_WORLD
         }
-        WebActivity.launch(context, url, getString(R.string.privacy_policy))
+        startFragment<WebFragment>(
+                WebFragment.createArgs(url, getString(R.string.privacy_policy))
+        )
     }
 
     companion object {

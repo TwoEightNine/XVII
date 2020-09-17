@@ -2,7 +2,7 @@ package com.twoeightnine.root.xvii.features.general
 
 import android.content.Context
 import android.content.Intent
-import com.twoeightnine.root.xvii.activities.ContentActivity
+import com.twoeightnine.root.xvii.base.ContentActivity
 import com.twoeightnine.root.xvii.utils.launchActivity
 
 class GeneralActivity : ContentActivity() {

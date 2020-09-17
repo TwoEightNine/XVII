@@ -48,11 +48,13 @@ class WebFragment : BaseFragment() {
 
         fun newInstance(url: String, title: String = ""): WebFragment {
             val frag = WebFragment()
-            frag.arguments = Bundle().apply {
-                putString(ARG_URL, url)
-                putString(ARG_TITLE, if (title.isNotEmpty()) title else url)
-            }
+            frag.arguments = createArgs(url, title)
             return frag
+        }
+
+        fun createArgs(url: String, title: String = "") = Bundle().apply {
+            putString(ARG_URL, url)
+            putString(ARG_TITLE, if (title.isNotEmpty()) title else url)
         }
     }
 

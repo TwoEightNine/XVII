@@ -1,9 +1,6 @@
 package com.twoeightnine.root.xvii.friends.fragments
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,7 +14,6 @@ import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
 import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.search.SearchActivity
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_friends.*
 import javax.inject.Inject
@@ -81,22 +77,6 @@ class FriendsFragment : BaseFragment() {
 
     private fun loadMore(offset: Int) {
         viewModel.loadFriends(offset)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
-        inflater?.inflate(R.menu.user_list_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            R.id.menu_search -> {
-                SearchActivity.launch(context)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     private fun onClick(user: User) {

@@ -146,10 +146,6 @@ class PollFragment : BaseFragment() {
         }
 
         fun getArgs(poll: Poll) = Bundle().apply {
-            putParcelable(ARG_POLL, poll)
-        }
-
-        fun getArgsLighter(poll: Poll) = Bundle().apply {
             putInt(ARG_POLL_ID, poll.id)
             putInt(ARG_OWNER_ID, poll.ownerId)
         }

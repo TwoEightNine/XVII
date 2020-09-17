@@ -58,10 +58,12 @@ class EggFragment : BaseFragment() {
 
         fun newInstance(mode: Int = MODE_FIGHT_CLUB): EggFragment {
             val fragment = EggFragment()
-            fragment.arguments = Bundle().apply {
-                putInt(ARG_MODE, mode)
-            }
+            fragment.arguments = createArgs(mode)
             return fragment
+        }
+
+        fun createArgs(mode: Int) = Bundle().apply {
+            putInt(ARG_MODE, mode)
         }
     }
 }

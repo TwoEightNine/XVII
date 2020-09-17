@@ -15,9 +15,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.BaseActivity
 import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
-import com.twoeightnine.root.xvii.db.AppDb
+import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*

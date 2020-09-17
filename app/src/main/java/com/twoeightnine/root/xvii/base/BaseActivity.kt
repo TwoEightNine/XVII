@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.activities
+package com.twoeightnine.root.xvii.base
 
 import android.content.Context
 import android.content.res.Configuration

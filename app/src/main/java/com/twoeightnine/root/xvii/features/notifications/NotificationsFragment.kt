@@ -7,7 +7,7 @@ import android.widget.CompoundButton
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.egg.EggActivity
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.egg.EggFragment
 import com.twoeightnine.root.xvii.features.notifications.color.ColorAlertDialog
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -133,7 +133,7 @@ class NotificationsFragment : BaseFragment() {
                             eggState = -2
                             handler.postDelayed({ switchEgg.isChecked = false }, 500L)
                             handler.postDelayed({
-                                EggActivity.launch(context, EggFragment.MODE_LETOV_AGAINST)
+                                startFragment<EggFragment>(EggFragment.createArgs(EggFragment.MODE_LETOV_AGAINST))
                             }, 1000L)
                         }
                         else -> {

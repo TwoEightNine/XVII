@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.ContentActivity
+import com.twoeightnine.root.xvii.base.ContentActivity
 
 class EggActivity : ContentActivity() {
 

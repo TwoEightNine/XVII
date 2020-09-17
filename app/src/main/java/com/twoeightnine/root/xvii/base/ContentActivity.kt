@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.activities
+package com.twoeightnine.root.xvii.base
 
 import android.content.Intent
 import android.content.pm.ActivityInfo

@@ -8,7 +8,7 @@ import android.util.AndroidRuntimeException
 import androidx.annotation.StringRes
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.activities.BaseActivity
+import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.crypto.sha256
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
