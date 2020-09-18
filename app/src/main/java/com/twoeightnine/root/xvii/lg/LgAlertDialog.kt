@@ -8,13 +8,19 @@ import android.util.TypedValue
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.utils.ReportTool
 import com.twoeightnine.root.xvii.utils.copyToClip
 import com.twoeightnine.root.xvii.utils.stylize
 
 class LgAlertDialog(context: Context) : AlertDialog(context) {
 
     init {
-        val events = L.events(TextEventTransformer(), count = COUNT).joinToString(separator = "\n")
+        val events = ReportTool()
+                .addDeviceInfo()
+                .addLogs(L.events(TextEventTransformer(), COUNT))
+                .addPrefs(Prefs.getSettings())
+                .toString()
         setMessage(events)
         setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.ok)) { _, _ ->
             dismiss()

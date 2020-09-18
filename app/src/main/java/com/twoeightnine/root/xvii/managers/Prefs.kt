@@ -238,5 +238,23 @@ object Prefs {
         set(value) = data.edit().putBoolean(SHOW_RATE, false).apply()
 
 
+    fun getSettings() = mapOf<String, Any>(
+            BE_OFFLINE to beOffline,
+            BE_ONLINE to beOnline,
 
+            SHOW_NOTIF to showNotifs,
+            VIBRATE to vibrate,
+            SOUND to sound,
+            SHOW_NAME to showName,
+            SHOW_CONTENT to showContent,
+
+            SHOW_NOTIF_CHATS to showNotifsChats,
+            VIBRATE_CHATS to vibrateChats,
+            SOUND_CHATS to soundChats,
+            SHOW_CONTENT_CHATS to showContentChats,
+
+            "isLightTheme" to isLightTheme,
+            COLOR to Integer.toHexString(color),
+            USE_STYLED_NOTIFICATIONS to useStyledNotifications
+    )
 }

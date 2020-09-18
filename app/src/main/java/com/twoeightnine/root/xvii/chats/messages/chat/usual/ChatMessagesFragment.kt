@@ -14,15 +14,11 @@ import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.lg.TextEventTransformer
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Doc
-import com.twoeightnine.root.xvii.utils.asText
-import com.twoeightnine.root.xvii.utils.getTime
-import com.twoeightnine.root.xvii.utils.matchesUserId
-import com.twoeightnine.root.xvii.utils.time
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.chat_input_panel.*
-import java.io.BufferedWriter
 import java.io.File
-import java.io.FileWriter
 
 class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
 
@@ -66,10 +62,13 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
             }
             R.id.menu_attach_logs -> {
                 val file = File(context?.cacheDir, "log_${BuildConfig.VERSION_NAME}_${getTime(time())}.txt")
-                val writer = BufferedWriter(FileWriter(file))
-                writer.write(L.events(TextEventTransformer()).joinToString(separator = "\n"))
-                writer.close()
-                onDocSelected(file.absolutePath)
+                ReportTool()
+                        .addDeviceInfo()
+                        .addLogs(L.events(TextEventTransformer()))
+                        .addPrefs(Prefs.getSettings())
+                        .toFile(file) {
+                            onDocSelected(file.absolutePath)
+                        }
                 true
             }
             else -> super.onOptionsItemSelected(item)
