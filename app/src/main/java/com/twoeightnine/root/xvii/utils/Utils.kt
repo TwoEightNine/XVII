@@ -259,7 +259,6 @@ fun streamToBytes(input: InputStream): ByteArray {
         return byteBuffer.toByteArray()
     } catch (e: IOException) {
         L.def().throwable(e).log("stream to bytes error")
-        e.printStackTrace()
         return "".toByteArray()
     }
 
@@ -314,7 +313,7 @@ fun writeToFileFromContentUri(context: Context?, file: File, uri: Uri): Boolean 
         stream.close()
         return true
     } catch (e: java.lang.Exception) {
-        L.def().throwable(e).log("unable to write to file fro uri")
+        L.def().throwable(e).log("unable to write to file from uri")
     }
     return false
 }
@@ -544,24 +543,30 @@ fun screenHeight(activity: Activity): Int {
 }
 
 fun saveBmp(fileName: String, bmp: Bitmap) {
+    val tag = "save bmp"
     var out: FileOutputStream? = null
     try {
         out = FileOutputStream(fileName)
         bmp.compress(Bitmap.CompressFormat.PNG, 100, out) // bmp is your Bitmap instance
         // PNG is a lossless format, the compression factor (100) is ignored
     } catch (e: Exception) {
-        e.printStackTrace()
+        L.tag(tag)
+                .throwable(e)
+                .log("unable to save bitmap")
     } finally {
         try {
             out?.close()
         } catch (e: IOException) {
-            e.printStackTrace()
+            L.tag(tag)
+                    .throwable(e)
+                    .log("unable to close stream")
         }
 
     }
 }
 
 fun getCroppedImagePath(activity: Activity, original: String): String? {
+    val tag = "chat back"
     try {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
@@ -572,6 +577,7 @@ fun getCroppedImagePath(activity: Activity, original: String): String? {
         val sw = screenWidth(activity)
         val sr = sw.toFloat() / sh
         val ir = iw.toFloat() / ih
+        L.tag(tag).log("ih*iw: $ih*$iw; sh*sw: $sh*$sw")
 
         var bmp = BitmapFactory.decodeFile(original, BitmapFactory.Options())
         var newW = iw
@@ -588,7 +594,7 @@ fun getCroppedImagePath(activity: Activity, original: String): String? {
         saveBmp(fileName, bmp)
         return fileName
     } catch (e: Exception) {
-        L.tag("chat back")
+        L.tag(tag)
                 .throwable(e)
                 .log("cropping error")
         return null
@@ -596,9 +602,12 @@ fun getCroppedImagePath(activity: Activity, original: String): String? {
 }
 
 fun createColoredBitmap(activity: Activity, color: Int): String? {
+    val tag = "chat back"
     try {
         val sh = screenHeight(activity) / 4
         val sw = screenWidth(activity) / 4
+        L.tag(tag).log("sh*sw: $sh*$sw")
+
         val bitmap = Bitmap.createBitmap(sw, sh, Bitmap.Config.ARGB_8888)
         Canvas(bitmap).apply {
             drawColor(color)
@@ -607,7 +616,7 @@ fun createColoredBitmap(activity: Activity, color: Int): String? {
         saveBmp(fileName, bitmap)
         return fileName
     } catch (e: Exception) {
-        L.tag("chat back")
+        L.tag(tag)
                 .throwable(e)
                 .log("creating colored bitmap error")
         return null
@@ -679,7 +688,6 @@ fun getTotalRAM(): String {
 
 
     } catch (ex: IOException) {
-        ex.printStackTrace()
         L.tag("ram")
                 .throwable(ex)
                 .log("error getting ram")

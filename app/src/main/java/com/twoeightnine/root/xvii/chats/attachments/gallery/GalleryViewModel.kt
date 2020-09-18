@@ -50,7 +50,11 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
                 .compose(applySingleSchedulers())
                 .subscribe({ photos ->
                     onAttachmentsLoaded(offset, ArrayList(photos))
-                }, { onErrorOccurred(it.message ?: "") })
+                }, { throwable ->
+                    L.tag(TAG).throwable(throwable)
+                            .log("error loading items")
+                    onErrorOccurred(throwable.message ?: "")
+                })
     }
 
     private fun loadThumbnailsForItems(
@@ -74,8 +78,7 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
                                 if (bitmap != null) {
                                     saveBmp(thumbnail, bitmap)
                                 } else {
-                                    L.tag("gallery")
-                                            .warn()
+                                    L.tag(TAG).warn()
                                             .log("video thumbnail is null")
                                 }
                             }
@@ -133,7 +136,9 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
             }
 
         } catch (e: Exception) {
-            e.printStackTrace()
+            L.tag(TAG)
+                    .throwable(e)
+                    .log("error loading videos")
         }
         return videos
     }
@@ -168,7 +173,9 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
             }
 
         } catch (e: Exception) {
-            e.printStackTrace()
+            L.tag(TAG)
+                    .throwable(e)
+                    .log("error loading photos")
         }
         return photos
     }
@@ -195,6 +202,7 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
     }
 
     companion object {
+        private const val TAG = "gallery"
         private const val CACHE_DIR = "gallery_cache"
 
         const val COUNT = 30
