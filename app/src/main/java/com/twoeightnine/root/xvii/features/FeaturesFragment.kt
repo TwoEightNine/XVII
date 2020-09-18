@@ -28,6 +28,7 @@ import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.PinActivity
+import com.twoeightnine.root.xvii.pin.PinSettingsFragment
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.web.WebFragment
@@ -77,7 +78,8 @@ class FeaturesFragment : BaseFragment() {
             suggestJoin()
         }
         rlPin.setOnClickListener {
-            onPinClicked()
+//            onPinClicked()
+            startFragment<PinSettingsFragment>()
         }
 
         rlFeedback.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }

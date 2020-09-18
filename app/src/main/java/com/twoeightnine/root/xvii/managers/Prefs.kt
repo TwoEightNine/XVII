@@ -13,6 +13,7 @@ object Prefs {
     private const val NAME = "prefPref"
 
     private const val PIN = "pin"
+    private const val NOTIFY_ABOUT_INVADERS = "notifyAboutInvadres"
 
     //general
     private const val BE_OFFLINE = "beOffline"
@@ -237,6 +238,9 @@ object Prefs {
         get() = data.getBoolean(SHOW_RATE, true)
         set(value) = data.edit().putBoolean(SHOW_RATE, false).apply()
 
+    var notifyAboutInvaders: Boolean
+        get() = data.getBoolean(NOTIFY_ABOUT_INVADERS, false)
+        set(value) = data.edit().putBoolean(NOTIFY_ABOUT_INVADERS, value).apply()
 
     fun getSettings() = mapOf<String, Any>(
             BE_OFFLINE to beOffline,

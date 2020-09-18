@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.pin
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -10,15 +11,16 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.crypto.sha256
-import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import kotlinx.android.synthetic.main.activity_pin.*
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlin.random.Random
 
 /**
  * Created by root on 3/17/17.
@@ -27,7 +29,7 @@ import kotlin.math.abs
 class PinActivity : BaseActivity() {
 
     @Inject
-    lateinit var appDb: AppDb
+    lateinit var api: ApiService
 
     private val action by lazy {
         intent?.extras?.getSerializable(ACTION) as? Action
@@ -48,7 +50,7 @@ class PinActivity : BaseActivity() {
         action ?: finish()
         init()
         styleScreen(rlContainer)
-        rlContainer.setBottomInsetPadding()
+        rlPinControls.setBottomInsetPadding()
 
         ivBack.setVisible(action != Action.ENTER)
         ivBack.setOnClickListener { onBackPressed() }
@@ -122,9 +124,10 @@ class PinActivity : BaseActivity() {
                 || failedPrompts >= ALLOWED_PROMPTS
         if (action == Action.ENTER && denyEntrance) {
             Session.pinBruteForced = true
-            showBruteForced()
+            showBruteForced(justNow = true)
         }
         showError(R.string.incorrect_pin)
+        l("pin is incorrect")
     }
 
     private fun isPinCorrect() = correctPin == sha256("$pin$SALT")
@@ -141,6 +144,7 @@ class PinActivity : BaseActivity() {
             Action.RESET -> {
                 Prefs.pin = ""
                 showToast(this, R.string.reset_succ)
+                l("pin reset")
                 finish()
             }
 
@@ -151,8 +155,24 @@ class PinActivity : BaseActivity() {
         }
     }
 
-    private fun showBruteForced() {
+    @SuppressLint("CheckResult")
+    private fun showBruteForced(justNow: Boolean = false) {
         rlBruteForce.show()
+        if (justNow && Prefs.notifyAboutInvaders) {
+            api.sendMessage(
+                    peerId = Session.uid,
+                    randomId = Random.nextInt(),
+                    text = getString(R.string.pin_invader_notification)
+            )
+                    .compose(applySchedulers())
+                    .subscribe({
+                        l("invader notification sent")
+                    }, { throwable ->
+                        L.tag(TAG)
+                                .throwable(throwable)
+                                .log("unable to send invader notification")
+                    })
+        }
     }
 
     private fun showError(@StringRes textRes: Int) {
@@ -212,6 +232,10 @@ class PinActivity : BaseActivity() {
         return (pinDiff2.sum().toFloat() / pinDiff2.size) >= 1f && zerosCount == 0
     }
 
+    private fun l(s: String) {
+        L.tag(TAG).log(s)
+    }
+
     /**
      * type of action pin is launched for
      */
@@ -233,12 +257,13 @@ class PinActivity : BaseActivity() {
                     putExtra(ACTION, action)
                 })
             } catch (e: AndroidRuntimeException) {
-                e.printStackTrace()
-                L.tag("pin")
+                L.tag(TAG)
                         .throwable(e)
                         .log("error launching pin with $action")
             }
         }
+
+        private const val TAG = "pin"
 
         private const val ALLOWED_PROMPTS = 5
 

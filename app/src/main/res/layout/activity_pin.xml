@@ -8,64 +8,70 @@
     android:orientation="vertical"
     android:tag="dark">
 
-
-    <ImageView
-        android:id="@+id/ivBack"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_height="?actionBarSize"
-        android:src="@drawable/ic_back" />
-
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_above="@+id/tvPinDots"
-        android:textColor="@color/toolbar_text"
-        android:textSize="26sp"
-        tools:text="enter pin blyat" />
-
-    <TextView
-        android:id="@+id/tvPinDots"
+    <RelativeLayout
+        android:id="@+id/rlPinControls"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/pinPad"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/shape_pinpad"
-        android:gravity="center"
-        android:textColor="@color/toolbar_text"
-        android:textSize="35sp"
-        tools:text="●●●" />
+        android:layout_height="match_parent">
 
-    <com.twoeightnine.root.xvii.views.PinPadView
-        android:id="@+id/pinPad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="96dp"/>
+        <ImageView
+            android:id="@+id/ivBack"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_height="?actionBarSize"
+            android:src="@drawable/ic_back" />
 
-    <TextView
-        android:id="@+id/tvError"
-        android:layout_margin="24dp"
-        android:textSize="16sp"
-        android:gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:textColor="@color/warn_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="error error error"/>
 
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_above="@+id/tvPinDots"
+            android:textColor="@color/toolbar_text"
+            android:textSize="26sp"
+            tools:text="enter pin blyat" />
+
+        <TextView
+            android:id="@+id/tvPinDots"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/pinPad"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/shape_pinpad"
+            android:gravity="center"
+            android:textColor="@color/toolbar_text"
+            android:textSize="35sp"
+            tools:text="●●●" />
+
+        <com.twoeightnine.root.xvii.views.PinPadView
+            android:id="@+id/pinPad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="96dp"/>
+
+        <TextView
+            android:id="@+id/tvError"
+            android:layout_margin="24dp"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/warn_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="error error error"/>
+
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rlBruteForce"
