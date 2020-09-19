@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,6 +16,7 @@
 
         <LinearLayout
             android:id="@+id/llContainer"
+            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -49,6 +51,92 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/pin_settings_notify_about_invader_hint"
                     android:text="@string/pin_settings_notify_about_invader" />
+
+                <com.twoeightnine.root.xvii.views.XviiSwitch
+                    android:id="@+id/switchMixture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/pin_settings_mixture_hint"
+                    android:text="@string/pin_settings_mixture" />
+
+                <LinearLayout
+                    android:id="@+id/llMixtures"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvMixtureHint"
+                        style="@style/OtherText"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="16dp"
+                        android:textSize="15sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="current battery percentage is"/>
+
+                    <TextView
+                        android:id="@+id/tvMixtureEnterHint"
+                        style="@style/MainText"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="16dp"
+                        android:textSize="16sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="to enter:"/>
+
+                    <RadioGroup
+                        android:id="@+id/rgMixture"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rbMinutesStart"
+                            android:layout_marginBottom="4dp"
+                            style="@style/MainText"
+                            android:textSize="15sp"
+                            tools:text="string/pin_settings_mixture_minutes_start"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rbMinutesEnd"
+                            style="@style/MainText"
+                            android:textSize="15sp"
+                            tools:text="string/pin_settings_mixture_minutes_end"
+                            android:layout_marginBottom="4dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rbBatteryStart"
+                            android:layout_marginBottom="4dp"
+                            style="@style/MainText"
+                            android:textSize="15sp"
+                            tools:text="string/pin_settings_mixture_battery_start"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rbBatteryEnd"
+                            android:layout_marginBottom="4dp"
+                            style="@style/MainText"
+                            android:textSize="15sp"
+                            tools:text="string/pin_settings_mixture_battery_end"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
 
             </LinearLayout>
 

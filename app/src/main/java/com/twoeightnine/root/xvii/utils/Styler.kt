@@ -254,6 +254,20 @@ fun ProgressBar.stylize() {
     indeterminateDrawable.setColorFilter(ColorManager.mainColor, PorterDuff.Mode.MULTIPLY)
 }
 
+fun RadioButton.stylize() {
+    val colorStateList = ColorStateList(
+            arrayOf(
+                    intArrayOf(-android.R.attr.state_enabled),
+                    intArrayOf(android.R.attr.state_enabled)
+            ),
+            intArrayOf(
+                    0xff888888.toInt(),
+                    ColorManager.mainColor
+            )
+    )
+    buttonTintList = colorStateList
+}
+
 fun Button.stylize() {
     if (ColorManager.shouldIgnore) return
 
@@ -336,6 +350,7 @@ fun ViewGroup.stylizeAll(level: Int = 0) {
             r += "--"
         }
         when (v) {
+            is RadioButton -> v.stylize()
             is Switch -> v.stylize()
             is Button -> v.stylize()
             is FloatingActionButton -> v.stylize()

@@ -10,7 +10,6 @@ import androidx.annotation.StringRes
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
-import com.twoeightnine.root.xvii.crypto.sha256
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
@@ -19,7 +18,6 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import kotlinx.android.synthetic.main.activity_pin.*
 import javax.inject.Inject
-import kotlin.math.abs
 import kotlin.random.Random
 
 /**
@@ -91,7 +89,7 @@ class PinActivity : BaseActivity() {
             }
 
             Action.SET -> {
-                if (isPinSecure(pin)) {
+                if (PinUtils.isPinSecure(pin)) {
                     tvTitle.setText(R.string.confirm_pin)
                     currentStage = Action.CONFIRM
                     confirmedPin = pin
@@ -103,8 +101,9 @@ class PinActivity : BaseActivity() {
             Action.CONFIRM -> {
                 if (pin == confirmedPin) {
                     showToast(this, R.string.updated_succ)
-                    Prefs.pin = sha256("$pin$SALT")
+                    Prefs.pin = PinUtils.getPinHash(pin)
                     Session.pinLastPromptResult = time()
+                    l("pin set")
                     finish()
                 } else {
                     currentStage = Action.SET
@@ -130,7 +129,14 @@ class PinActivity : BaseActivity() {
         l("pin is incorrect")
     }
 
-    private fun isPinCorrect() = correctPin == sha256("$pin$SALT")
+    private fun isPinCorrect(): Boolean =
+            PinUtils.isPinCorrect(
+                    pin = pin,
+                    correctPinHash = correctPin ?: "",
+                    mixtureType = Prefs.pinMixtureType,
+                    minutes = getMinutes(),
+                    battery = getBatteryLevel(this)
+            )
 
     private fun onCorrect() {
         when (action) {
@@ -207,31 +213,6 @@ class PinActivity : BaseActivity() {
         }
     }
 
-    private fun getPinDiff(pin: List<Int>): List<Int> {
-        val diffs = arrayListOf<Int>()
-        for (i in 1 until pin.size) {
-            val variants = arrayListOf<Int>()
-            variants.add(abs(pin[i] - pin[i - 1]))
-            if (pin[i] == 0) {
-                variants.add(abs(10 - pin[i - 1]))
-            }
-            if (pin[i - 1] == 0) {
-                variants.add(abs(10 - pin[i]))
-            }
-            diffs.add(variants.min() ?: 0)
-        }
-        return diffs
-    }
-
-    private fun isPinSecure(rawPin: String): Boolean {
-        val pin = rawPin.map { it.toString().toInt() }
-        val pinDiff = getPinDiff(pin)
-        val pinDiff2 = getPinDiff(pinDiff)
-        val zerosCount = pinDiff.count { it == 0 }
-
-        return (pinDiff2.sum().toFloat() / pinDiff2.size) >= 1f && zerosCount == 0
-    }
-
     private fun l(s: String) {
         L.tag(TAG).log(s)
     }
@@ -268,7 +249,5 @@ class PinActivity : BaseActivity() {
         private const val ALLOWED_PROMPTS = 5
 
         const val ACTION = "action"
-
-        private const val SALT = "oi|6yw4-c5g846-d5c53s9mx"
     }
 }

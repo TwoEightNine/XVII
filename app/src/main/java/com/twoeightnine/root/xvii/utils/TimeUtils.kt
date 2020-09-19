@@ -78,4 +78,12 @@ fun formatBdate(bdate: String?) = bdate
         }
         ?.joinToString(".") ?: ""
 
+fun getMinutes(): String {
+    val minutes = Calendar.getInstance().get(Calendar.MINUTE)
+    return when {
+        minutes < 10 -> "0$minutes"
+        else -> minutes.toString()
+    }
+}
+
 fun time() = (System.currentTimeMillis() / 1000L).toInt()

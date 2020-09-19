@@ -422,6 +422,16 @@
     <string name="pin_settings_notify_about_invader_hint">you will receive a message about incidents</string>
     <string name="pin_settings_reset_pin">reset pin</string>
     <string name="pin_settings_change_pin">change pin</string>
+    <string name="pin_settings_mixture">enable pin mixtures</string>
+    <string name="pin_settings_mixture_hint">append dynamic values to pin for better security</string>
+
+    <string name="pin_settings_mixture_explanation_current">current value of minutes is %s\ncurrent battery percentage is %s</string>
+    <string name="pin_settings_mixture_explanation_enter">to enter:\n\t\tfirst, type %s,\n\t\tthen, type %s</string>
+    <string name="pin_settings_mixture_your_pin">your pin</string>
+    <string name="pin_settings_mixture_minutes">value of minutes</string>
+    <string name="pin_settings_mixture_battery">battery percentage</string>
+    <string name="pin_settings_mixture_start">before pin</string>
+    <string name="pin_settings_mixture_end">after pin</string>
 
     <string-array name="relations">
         <item>single</item>

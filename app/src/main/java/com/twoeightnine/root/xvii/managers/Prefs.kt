@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.pin.PinSettingsFragment
 import com.twoeightnine.root.xvii.utils.isAndroid10OrHigher
 import com.twoeightnine.root.xvii.utils.isMiui
 import java.util.*
@@ -13,6 +14,7 @@ object Prefs {
     private const val NAME = "prefPref"
 
     private const val PIN = "pin"
+    private const val PIN_MIXTURE_TYPE = "pinMixtureType"
     private const val NOTIFY_ABOUT_INVADERS = "notifyAboutInvadres"
 
     //general
@@ -241,6 +243,13 @@ object Prefs {
     var notifyAboutInvaders: Boolean
         get() = data.getBoolean(NOTIFY_ABOUT_INVADERS, false)
         set(value) = data.edit().putBoolean(NOTIFY_ABOUT_INVADERS, value).apply()
+
+    var pinMixtureType: PinSettingsFragment.MixtureType
+        get() = data.getString(PIN_MIXTURE_TYPE, null)
+                ?.takeIf { it.isNotBlank() }
+                ?.let { PinSettingsFragment.MixtureType.valueOf(it) }
+                ?: PinSettingsFragment.MixtureType.NONE
+        set(value) = data.edit().putString(PIN_MIXTURE_TYPE, value.name).apply()
 
     fun getSettings() = mapOf<String, Any>(
             BE_OFFLINE to beOffline,

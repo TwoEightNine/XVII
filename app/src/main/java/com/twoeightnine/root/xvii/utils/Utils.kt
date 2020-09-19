@@ -21,10 +21,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.net.ConnectivityManager
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -113,6 +110,15 @@ fun rate(context: Context) {
                 Uri.parse("https://play.google.com/store/apps/details?id=" + context.packageName)))
     }
 
+}
+
+fun getBatteryLevel(context: Context): String {
+    val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+    val batLevel: Int = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+    return when {
+        batLevel < 10 -> "0$batLevel"
+        else -> batLevel.toString()
+    }
 }
 
 fun showError(context: Context?, @StringRes text: Int) {
