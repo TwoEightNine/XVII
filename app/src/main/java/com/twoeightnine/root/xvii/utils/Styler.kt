@@ -335,7 +335,6 @@ fun ViewGroup.stylizeAll(level: Int = 0) {
         for (j in 0 until level) {
             r += "--"
         }
-        l(r + v)
         when (v) {
             is Switch -> v.stylize()
             is Button -> v.stylize()

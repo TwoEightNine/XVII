@@ -15,7 +15,7 @@
             android:layout_width="@dimen/dialogs_search_photo_size"
             android:layout_height="@dimen/dialogs_search_photo_size"
             android:layout_margin="@dimen/item_margin"
-            android:src="@drawable/placeholder"
+            android:src="@color/placeholder"
             app:civ_border_color="@color/icons" />
 
         <TextView

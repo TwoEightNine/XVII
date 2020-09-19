@@ -3,11 +3,13 @@ package com.twoeightnine.root.xvii.utils
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.graphics.drawable.ColorDrawable
 import android.os.SystemClock
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
@@ -107,7 +109,7 @@ fun ImageView.load(url: String?, placeholder: Boolean = true,
         url
     })
     if (placeholder) {
-        rc.placeholder(R.drawable.placeholder)
+        rc.placeholder(ColorDrawable(ContextCompat.getColor(context, R.color.placeholder)))
                 .error(R.drawable.placeholder)
     }
     rc.block().into(this)
