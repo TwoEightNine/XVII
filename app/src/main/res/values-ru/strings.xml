@@ -489,7 +489,6 @@
     <string name="login_unable_to_log_in">не получается войти. проверьте, валиден ли ваш аккаунт и попробуйте снова позже</string>
     <string name="pin_brute_force">обнаружен перебор\nдоступ запрещён</string>
     <string name="pin_incident_report">об этом инциденте будет сообщено</string>
-    <string name="pin_not_secure">введённый пин слишком слабый\nпопробуйте задать пин без каких-либо распознаваемых шаблонов и длиной не менее 4 цифр</string>
     <string name="source_code">исходный код</string>
     <string name="destructor_name">xvii деструктор сообщений</string>
     <string name="destructor_title">сообщение будет удалено через %d секунд</string>

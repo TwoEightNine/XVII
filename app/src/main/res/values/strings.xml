@@ -412,7 +412,11 @@
 
     <string name="pin_brute_force">brute-force detected\naccess denied</string>
     <string name="pin_incident_report">this incident will be reported</string>
-    <string name="pin_not_secure">entered pin is too weak\ntry to set pin without any recognizable patterns and consisted of 4 digits at least</string>
+    <string name="pin_not_secure_general">entered pin is too weak</string>
+    <string name="pin_not_secure_length">pin must consist of 4 digits at least</string>
+    <string name="pin_not_secure_pattern">pin mustn\'t have any recognizable patterns</string>
+    <string name="pin_not_secure_year">pin mustn\'t represent a year in nearest past</string>
+    <string name="pin_not_secure_date">pin mustn\'t represent a date</string>
     <string name="pin_invader_notification">⚠️⚠️⚠️⚠️⚠️\nsomeone tried to guess your pin!</string>
 
     <string name="pin_settings_title">pin settings</string>

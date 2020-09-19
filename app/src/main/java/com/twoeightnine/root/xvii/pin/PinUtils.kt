@@ -7,33 +7,20 @@ object PinUtils {
 
     private const val SALT = "oi|6yw4-c5g846-d5c53s9mx"
 
-    private fun getPinDiff(pin: List<Int>): List<Int> {
-        val diffs = arrayListOf<Int>()
-        for (i in 1 until pin.size) {
-            val variants = arrayListOf<Int>()
-            variants.add(abs(pin[i] - pin[i - 1]))
-            if (pin[i] == 0) {
-                variants.add(abs(10 - pin[i - 1]))
-            }
-            if (pin[i - 1] == 0) {
-                variants.add(abs(10 - pin[i]))
-            }
-            diffs.add(variants.min() ?: 0)
-        }
-        return diffs
+    enum class PinWeakness {
+        NONE,
+        LENGTH,
+        PATTERN,
+        YEAR,
+        DATE
     }
 
-    private fun hasPattern(rawPin: String): Boolean {
-        val pin = rawPin.map { it.toString().toInt() }
-        val pinDiff = getPinDiff(pin)
-        val pinDiff2 = getPinDiff(pinDiff)
-        val zerosCount = pinDiff.count { it == 0 }
-
-        return (pinDiff2.sum().toFloat() / pinDiff2.size) >= 1f && zerosCount == 0
-    }
-
-    fun isPinSecure(rawPin: String): Boolean {
-        return hasPattern(rawPin)
+    fun getPinWeakness(rawPin: String): PinWeakness = when {
+        rawPin.length < 4 -> PinWeakness.LENGTH
+        hasPattern(rawPin) -> PinWeakness.PATTERN
+        isPopularYear(rawPin) -> PinWeakness.YEAR
+        isValidDate(rawPin) -> PinWeakness.DATE
+        else -> PinWeakness.NONE
     }
 
     fun isPinCorrect(
@@ -85,4 +72,50 @@ object PinUtils {
     }
 
     fun getPinHash(pin: String): String = sha256("$pin$SALT")
+
+    private fun getPinDiff(pin: List<Int>): List<Int> {
+        val diffs = arrayListOf<Int>()
+        for (i in 1 until pin.size) {
+            val variants = arrayListOf<Int>()
+            variants.add(abs(pin[i] - pin[i - 1]))
+            if (pin[i] == 0) {
+                variants.add(abs(10 - pin[i - 1]))
+            }
+            if (pin[i - 1] == 0) {
+                variants.add(abs(10 - pin[i]))
+            }
+            diffs.add(variants.min() ?: 0)
+        }
+        return diffs
+    }
+
+    private fun hasPattern(rawPin: String): Boolean {
+        val pin = rawPin.map { it.toString().toInt() }
+        val pinDiff = getPinDiff(pin)
+        val pinDiff2 = getPinDiff(pinDiff)
+        val zerosCount = pinDiff.count { it == 0 }
+
+        return (pinDiff2.sum().toFloat() / pinDiff2.size) < 1f && zerosCount != 0
+    }
+
+    private fun isPopularYear(rawPin: String): Boolean =
+            rawPin.toInt() in 1900..2020
+
+    private fun isValidDate(rawPin: String): Boolean {
+        if (rawPin.length > 4) return false
+
+        val firstPair = rawPin.substring(0, 2).toInt()
+        val secondPair = rawPin.substring(2).toInt()
+
+        return isMonth(firstPair) && isDayOfMonth(secondPair, firstPair)
+                || isMonth(secondPair) && isDayOfMonth(firstPair, secondPair)
+    }
+
+    private fun isDayOfMonth(num: Int, month: Int): Boolean {
+        return (num in 1..29
+                || num == 30 && month != 2
+                ||num == 31 && month in listOf(1, 3, 5, 7, 8, 10, 12))
+    }
+
+    private fun isMonth(num: Int) = num in 1..12
 }

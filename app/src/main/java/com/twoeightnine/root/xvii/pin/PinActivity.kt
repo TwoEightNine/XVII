@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.AndroidRuntimeException
-import androidx.annotation.StringRes
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
@@ -89,12 +88,25 @@ class PinActivity : BaseActivity() {
             }
 
             Action.SET -> {
-                if (PinUtils.isPinSecure(pin)) {
-                    tvTitle.setText(R.string.confirm_pin)
-                    currentStage = Action.CONFIRM
-                    confirmedPin = pin
-                } else {
-                    showError(R.string.pin_not_secure)
+                val errorStringRes = when (PinUtils.getPinWeakness(pin)) {
+                    PinUtils.PinWeakness.NONE -> {
+                        tvTitle.setText(R.string.confirm_pin)
+                        currentStage = Action.CONFIRM
+                        confirmedPin = pin
+                        0
+                    }
+                    PinUtils.PinWeakness.LENGTH -> R.string.pin_not_secure_length
+                    PinUtils.PinWeakness.PATTERN -> R.string.pin_not_secure_pattern
+                    PinUtils.PinWeakness.YEAR -> R.string.pin_not_secure_year
+                    PinUtils.PinWeakness.DATE -> R.string.pin_not_secure_date
+                }
+                if (errorStringRes != 0) {
+                    val error = StringBuilder()
+                            .append(getString(R.string.pin_not_secure_general))
+                            .append("\n")
+                            .append(getString(errorStringRes))
+                            .toString()
+                    showError(error)
                 }
             }
 
@@ -108,7 +120,7 @@ class PinActivity : BaseActivity() {
                 } else {
                     currentStage = Action.SET
                     tvTitle.setText(R.string.enter_new_pin)
-                    showError(R.string.dont_match)
+                    showError(getString(R.string.dont_match))
                 }
             }
         }
@@ -125,7 +137,7 @@ class PinActivity : BaseActivity() {
             Session.pinBruteForced = true
             showBruteForced(justNow = true)
         }
-        showError(R.string.incorrect_pin)
+        showError(getString(R.string.incorrect_pin))
         l("pin is incorrect")
     }
 
@@ -181,8 +193,8 @@ class PinActivity : BaseActivity() {
         }
     }
 
-    private fun showError(@StringRes textRes: Int) {
-        tvError.setText(textRes)
+    private fun showError(text: String) {
+        tvError.text = text
     }
 
     private fun resetInput() {
