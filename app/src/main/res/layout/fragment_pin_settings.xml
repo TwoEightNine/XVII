@@ -21,6 +21,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/toolbar"
+                android:orientation="vertical"
+                android:tag="extraLight">
+
+                <TextView
+                    style="@style/OtherText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="28dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/pin_settings_pin_title"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchPin"
                 android:layout_width="match_parent"
@@ -45,12 +65,52 @@
                     android:layout_marginEnd="16dp"
                     android:text="@string/pin_settings_change_pin"/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/toolbar"
+                    android:orientation="vertical"
+                    android:tag="extraLight">
+
+                    <TextView
+                        style="@style/OtherText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="28dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/pin_settings_invaders_title"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
                 <com.twoeightnine.root.xvii.views.XviiSwitch
                     android:id="@+id/switchNotifyAboutInvader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/pin_settings_notify_about_invader_hint"
                     android:text="@string/pin_settings_notify_about_invader" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/toolbar"
+                    android:orientation="vertical"
+                    android:tag="extraLight">
+
+                    <TextView
+                        style="@style/OtherText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="28dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/pin_settings_mixture_title"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
 
                 <com.twoeightnine.root.xvii.views.XviiSwitch
                     android:id="@+id/switchMixture"

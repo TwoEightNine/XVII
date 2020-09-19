@@ -489,6 +489,9 @@
     <string name="pin_invader_notification">⚠️⚠️⚠️⚠️⚠️\nquelqu\'un a essayé de deviner votre code d\'accès</string>
     <string name="pin_without_mixture">sans mélange</string>
     <string name="pin_not_secure_general">le code saisi est trop faible</string>
+    <string name="pin_settings_invaders_title">invasion</string>
+    <string name="pin_settings_mixture_title">mélange</string>
+    <string name="pin_settings_pin_title">code d\'accès</string>
 
 </resources>
 

@@ -528,5 +528,8 @@
     <string name="pin_settings_mixture_start">перед пином</string>
     <string name="pin_settings_mixture_end">после пина</string>
     <string name="pin_invader_notification">⚠️⚠️⚠️⚠️⚠️\nкто-то пытался угадать ваш пин!</string>
+    <string name="pin_settings_pin_title">пин</string>
+    <string name="pin_settings_invaders_title">вторжение</string>
+    <string name="pin_settings_mixture_title">примесь</string>
 
 </resources>
