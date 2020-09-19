@@ -470,6 +470,25 @@
     <string name="destructor_ttl_60">1 minute</string>
     <string name="destructor_ttl_120">2 minutes</string>
     <string name="destructor_hint">laissez allumé l\'internet et l\'app</string>
+    <string name="pin_settings_title">paramètres de code d\'accès</string>
+    <string name="pin_settings_enable">activer code d\'accès</string>
+    <string name="pin_settings_enable_hint">saisir code d\'accès quand vous ouvrez l\'app après inactivité</string>
+    <string name="pin_settings_notify_about_invader">notifier à propos des envahisseurs</string>
+    <string name="pin_settings_notify_about_invader_hint">vous recevrez un message</string>
+    <string name="pin_settings_reset_pin">rémettre</string>
+    <string name="pin_settings_change_pin">changer code d\'accès</string>
+    <string name="pin_settings_mixture">activer le mélange de code d\'accès</string>
+    <string name="pin_settings_mixture_hint">ajouter des valeurs dynamiques à code d\'accès pour meilleur sécurité</string>
+    <string name="pin_settings_mixture_explanation_current">la valeur actuélle des minutes est %s\nle pourcentage actuélle de la batterie est %s</string>
+    <string name="pin_settings_mixture_your_pin">votre code d\'accès</string>
+    <string name="pin_settings_mixture_minutes">la valeur des minutes</string>
+    <string name="pin_settings_mixture_battery">pourcentage de la batterie</string>
+    <string name="pin_settings_mixture_start">avant code d\'accès</string>
+    <string name="pin_settings_mixture_end">après code d\'accès</string>
+    <string name="pin_settings_mixture_explanation_enter">pour entrer:\n\t\tavant saisez %s,\n\t\tpuis saisez %s</string>
+    <string name="pin_invader_notification">⚠️⚠️⚠️⚠️⚠️\nquelqu\'un a essayé de deviner votre code d\'accès</string>
+    <string name="pin_without_mixture">sans mélange</string>
+    <string name="pin_not_secure_general">le code saisi est trop faible</string>
 
 </resources>
 

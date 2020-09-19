@@ -7,6 +7,8 @@ object PinUtils {
 
     private const val SALT = "oi|6yw4-c5g846-d5c53s9mx"
 
+    private val monthsWith31Days = listOf(1, 3, 5, 7, 8, 10, 12)
+
     enum class PinWeakness {
         NONE,
         LENGTH,
@@ -94,8 +96,11 @@ object PinUtils {
         val pinDiff = getPinDiff(pin)
         val pinDiff2 = getPinDiff(pinDiff)
         val zerosCount = pinDiff.count { it == 0 }
+        val zerosCount2 = pinDiff2.count { it == 0 }
+        val diffSame2 = pinDiff2.all { it == pinDiff2[0] }
 
-        return (pinDiff2.sum().toFloat() / pinDiff2.size) < 1f && zerosCount != 0
+        return zerosCount2 == pinDiff2.size
+                || zerosCount != 0 && (zerosCount2 != 0 || diffSame2)
     }
 
     private fun isPopularYear(rawPin: String): Boolean =
@@ -107,14 +112,13 @@ object PinUtils {
         val firstPair = rawPin.substring(0, 2).toInt()
         val secondPair = rawPin.substring(2).toInt()
 
-        return isMonth(firstPair) && isDayOfMonth(secondPair, firstPair)
-                || isMonth(secondPair) && isDayOfMonth(firstPair, secondPair)
+        return isMonth(secondPair) && isDayOfMonth(firstPair, secondPair)
     }
 
     private fun isDayOfMonth(num: Int, month: Int): Boolean {
         return (num in 1..29
                 || num == 30 && month != 2
-                ||num == 31 && month in listOf(1, 3, 5, 7, 8, 10, 12))
+                ||num == 31 && month in monthsWith31Days)
     }
 
     private fun isMonth(num: Int) = num in 1..12

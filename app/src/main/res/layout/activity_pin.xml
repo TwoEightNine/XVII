@@ -31,8 +31,20 @@
             android:gravity="center"
             android:layout_above="@+id/tvPinDots"
             android:textColor="@color/toolbar_text"
-            android:textSize="26sp"
+            android:textSize="28sp"
             tools:text="enter pin blyat" />
+
+        <TextView
+            android:id="@+id/tvMixtureHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_below="@+id/tvTitle"
+            android:textColor="@color/toolbar_subtext"
+            android:textSize="18sp"
+            android:visibility="gone"
+            android:text="@string/pin_without_mixture" />
 
         <TextView
             android:id="@+id/tvPinDots"
@@ -41,7 +53,7 @@
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/pinPad"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="40dp"
             android:layout_marginRight="30dp"
             android:background="@drawable/shape_pinpad"
             android:gravity="center"

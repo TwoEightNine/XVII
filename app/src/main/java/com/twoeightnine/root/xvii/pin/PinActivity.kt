@@ -168,6 +168,9 @@ class PinActivity : BaseActivity() {
 
             Action.EDIT -> {
                 tvTitle.setText(R.string.enter_new_pin)
+                if (Prefs.pinMixtureType != PinSettingsFragment.MixtureType.NONE) {
+                    tvMixtureHint.show()
+                }
                 currentStage = Action.SET
             }
         }

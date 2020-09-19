@@ -505,5 +505,28 @@
     <string name="destructor_ttl_30">30 секунд</string>
     <string name="destructor_ttl_60">1 минута</string>
     <string name="destructor_ttl_120">2 минуты</string>
+    <string name="pin_without_mixture">без примеси</string>
+    <string name="pin_not_secure_general">введённый пин слишком слабый</string>
+    <string name="pin_not_secure_length">пин должен состоять минимум из 4 цифр</string>
+    <string name="pin_not_secure_pattern">пин не должен содержать распознаваемые шаблоны</string>
+    <string name="pin_not_secure_year">пин не должен представлять год в ближайшем прошлом</string>
+    <string name="pin_not_secure_date">пин не должен представлять дату</string>
+    <string name="pin_settings_title">настройки пина</string>
+    <string name="pin_settings_enable">включить пин</string>
+    <string name="pin_settings_enable_hint">вводить пин перед возвратом в приложение</string>
+    <string name="pin_settings_notify_about_invader">уведомлять о взломщиках</string>
+    <string name="pin_settings_notify_about_invader_hint">вы получите сообщение</string>
+    <string name="pin_settings_reset_pin">сбросить</string>
+    <string name="pin_settings_change_pin">изменить пин</string>
+    <string name="pin_settings_mixture">включить примеси в пин</string>
+    <string name="pin_settings_mixture_hint">добавлять динамические значения к пину для большей безопасности</string>
+    <string name="pin_settings_mixture_explanation_current">текущее значение минут %s\nтекущий процент заряда %s</string>
+    <string name="pin_settings_mixture_explanation_enter">чтобы войти:\n\t\tсначала введите %s,\n\t\tзатем введите %s</string>
+    <string name="pin_settings_mixture_your_pin">ваш пин</string>
+    <string name="pin_settings_mixture_minutes">значение минут</string>
+    <string name="pin_settings_mixture_battery">процент заряда</string>
+    <string name="pin_settings_mixture_start">перед пином</string>
+    <string name="pin_settings_mixture_end">после пина</string>
+    <string name="pin_invader_notification">⚠️⚠️⚠️⚠️⚠️\nкто-то пытался угадать ваш пин!</string>
 
 </resources>
