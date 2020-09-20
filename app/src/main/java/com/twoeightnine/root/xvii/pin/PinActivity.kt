@@ -162,15 +162,20 @@ class PinActivity : BaseActivity() {
     }
 
     private fun captureInvader() {
-        val backgroundThread = HandlerThread("CameraBackground").also { it.start() }
-        val backgroundHandler = Handler(backgroundThread.looper)
+        val readerThread = HandlerThread("ReaderBackground").apply { start() }
+        val readerHandler = Handler(readerThread.looper)
+
+        val cameraThread = HandlerThread("CameraBackground").apply { start() }
+        val cameraHandler = Handler(cameraThread.looper)
 
         val manager = getSystemService(Context.CAMERA_SERVICE)
                 as CameraManager
-        manager.openFrontCamera(backgroundHandler) { camera ->
-            val file = File(filesDir, "invader2.jpg")
-            manager.takePicture(camera, file, backgroundHandler) {
-                camera.close()
+        manager.openFrontCamera(cameraHandler) { camera ->
+            val file = File(filesDir, "invader2.jpg").apply {
+                if (exists()) delete()
+            }
+            manager.takePicture(camera, file, readerHandler, cameraHandler) {
+//                camera.close()
             }
         }
     }

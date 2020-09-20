@@ -3,14 +3,11 @@ package com.twoeightnine.root.xvii.utils
 import android.annotation.SuppressLint
 import android.graphics.ImageFormat
 import android.hardware.camera2.*
-import android.media.Image
 import android.media.ImageReader
 import android.os.Handler
 import com.twoeightnine.root.xvii.lg.L
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
 import java.nio.ByteBuffer
 
 private const val TAG = "camera"
@@ -51,7 +48,8 @@ fun CameraManager.openFrontCamera(backgroundHandler: Handler, onOpened: (CameraD
 fun CameraManager.takePicture(
         cameraDevice: CameraDevice,
         file: File,
-        backgroundHandler: Handler,
+        readerHandler: Handler,
+        cameraHandler: Handler,
         onCaptured: () -> Unit
 ) {
     try {
@@ -63,50 +61,40 @@ fun CameraManager.takePicture(
         val height = (jpegSizes?.getOrNull(0)?.height ?: 1920) / 2
         L.tag(TAG).log("size $width*$height")
 
-        val reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1)
-        val outputSurfaces = arrayListOf(reader.surface)
+        val imageReader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1)
+        val outputSurfaces = arrayListOf(imageReader.surface)
         val captureBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
                 .apply {
-                    addTarget(reader.surface)
-                    set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO)
+                    addTarget(imageReader.surface)
+//                    set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO)
                 }
 
-        val readerListener = object : ImageReader.OnImageAvailableListener {
-            override fun onImageAvailable(reader: ImageReader) {
-                var image: Image? = null
-                try {
-                    image = reader.acquireLatestImage()
+        @Suppress("ControlFlowWithEmptyBody")
+        while (imageReader.acquireNextImage() != null) {}
+
+        val readerListener = ImageReader.OnImageAvailableListener { reader ->
+            try {
+                reader.acquireLatestImage().use { image ->
                     val buffer: ByteBuffer = image.planes[0].buffer
                     val bytes = ByteArray(buffer.capacity())
                     buffer.get(bytes)
-                    save(bytes)
-                } catch (e: Exception) {
-                    L.tag(TAG).throwable(e).log("unable to save image")
-                } finally {
-                    image?.close()
-                }
-            }
 
-            @Throws(IOException::class)
-            private fun save(bytes: ByteArray) {
-                var output: OutputStream? = null
-                try {
-                    output = FileOutputStream(file)
-                    output.write(bytes)
-                    L.tag(TAG).log("written to file ${file.absolutePath}")
+                    FileOutputStream(file).use { output ->
+                        output.write(bytes)
+                        L.tag(TAG).log("written to file ${file.absolutePath}")
+                    }
+
                     onCaptured()
-                } catch (e: Exception) {
-                    L.tag(TAG).throwable(e).log("error saving image")
-                } finally {
-                    output?.close()
                 }
+            } catch (e: Exception) {
+                L.tag(TAG).throwable(e).log("unable to save image")
             }
         }
-        reader.setOnImageAvailableListener(readerListener, backgroundHandler)
+        imageReader.setOnImageAvailableListener(readerListener, readerHandler)
         cameraDevice.createCaptureSession(outputSurfaces, object : CameraCaptureSession.StateCallback() {
             override fun onConfigured(session: CameraCaptureSession) {
                 try {
-                    session.capture(captureBuilder.build(), null, backgroundHandler)
+                    session.capture(captureBuilder.build(), null, cameraHandler)
                 } catch (e: CameraAccessException) {
                     L.tag(TAG).throwable(e).log("unable to capture")
                 }
@@ -115,7 +103,7 @@ fun CameraManager.takePicture(
             override fun onConfigureFailed(session: CameraCaptureSession) {
                 L.tag(TAG).warn().log("configure failed")
             }
-        }, backgroundHandler)
+        }, cameraHandler)
     } catch (e: CameraAccessException) {
         L.tag(TAG).throwable(e).log("error occurred during capturing")
     }
