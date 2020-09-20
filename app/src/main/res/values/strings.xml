@@ -429,10 +429,13 @@
     <string name="pin_settings_change_pin">change pin</string>
     <string name="pin_settings_mixture">enable pin mixtures</string>
     <string name="pin_settings_mixture_hint">append dynamic values to pin for better security</string>
+    <string name="pin_settings_fake_app">start with fake app</string>
+    <string name="pin_settings_fake_app_hint">at start fake app will be opened instead of messenger</string>
 
     <string name="pin_settings_pin_title">pin</string>
     <string name="pin_settings_invaders_title">invasion</string>
     <string name="pin_settings_mixture_title">mixture</string>
+    <string name="pin_settings_fake_app_title">fake app</string>
 
     <string name="pin_settings_mixture_explanation_current">current value of minutes is %s\ncurrent battery percentage is %s</string>
     <string name="pin_settings_mixture_explanation_enter">to enter:\n\t\tfirst, type %s,\n\t\tthen, type %s</string>

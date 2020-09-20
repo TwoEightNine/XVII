@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
@@ -17,8 +19,11 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.base.BaseActivity
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.main.MainActivity
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.pin.fake.alarm.AlarmActivity
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
@@ -32,9 +37,12 @@ class LoginActivity : BaseActivity() {
     private val viewModel by lazy {
         ViewModelProviders.of(this)[LoginViewModel::class.java]
     }
-
     private val addNewAccount by lazy {
         intent?.extras?.getBoolean(ARG_NEW_ACCOUNT) == true
+    }
+
+    private val fakeAppTouchListener by lazy {
+        FakeAppTouchListener()
     }
 
     private var isWebViewShown = false
@@ -42,6 +50,7 @@ class LoginActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        rlLoader.setOnTouchListener(fakeAppTouchListener)
         App.appComponent?.inject(this)
 
         viewModel.accountCheckResult.observe(this, Observer(::onAccountChecked))
@@ -113,8 +122,12 @@ class LoginActivity : BaseActivity() {
 
     private fun startApp() {
         longPollStorage.clear()
-        MainActivity.launch(this)
         startNotificationService(this)
+        if (Prefs.fakeApp) {
+            AlarmActivity.launch(this)
+        } else {
+            MainActivity.launch(this)
+        }
         this.finish()
     }
 
@@ -198,6 +211,21 @@ class LoginActivity : BaseActivity() {
                 return ""
             }
             return matcher.toMatchResult().group(1)
+        }
+    }
+
+    private inner class FakeAppTouchListener : View.OnTouchListener {
+
+        var passed = false
+            private set
+
+        @SuppressLint("ClickableViewAccessibility")
+        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+            if (event?.action == MotionEvent.ACTION_DOWN) {
+                passed = true
+                L.tag("fake app").log("passed")
+            }
+            return true
         }
     }
 }

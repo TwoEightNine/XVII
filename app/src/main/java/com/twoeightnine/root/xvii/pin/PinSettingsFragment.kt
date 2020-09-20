@@ -50,6 +50,8 @@ class PinSettingsFragment : BaseFragment() {
         switchNotifyAboutInvader.isChecked = Prefs.notifyAboutInvaders
 
         switchPin.onCheckedListener = pinCheckedListener
+
+        switchFakeApp.isChecked = Prefs.fakeApp
     }
 
     private fun initListeners() {
@@ -59,6 +61,9 @@ class PinSettingsFragment : BaseFragment() {
         }
         switchNotifyAboutInvader.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             Prefs.notifyAboutInvaders = isChecked
+        }
+        switchFakeApp.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            Prefs.fakeApp = isChecked
         }
         switchMixture.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             llMixtures.setVisible(isChecked)

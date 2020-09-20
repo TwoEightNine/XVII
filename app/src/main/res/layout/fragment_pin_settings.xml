@@ -198,6 +198,33 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/toolbar"
+                    android:orientation="vertical"
+                    android:tag="extraLight">
+
+                    <TextView
+                        style="@style/OtherText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="28dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/pin_settings_fake_app_title"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <com.twoeightnine.root.xvii.views.XviiSwitch
+                    android:id="@+id/switchFakeApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/pin_settings_fake_app_hint"
+                    android:text="@string/pin_settings_fake_app" />
+
             </LinearLayout>
 
         </LinearLayout>

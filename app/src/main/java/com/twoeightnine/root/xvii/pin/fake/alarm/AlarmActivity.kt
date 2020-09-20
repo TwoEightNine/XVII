@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.lg.L
-import com.twoeightnine.root.xvii.utils.goHome
-import com.twoeightnine.root.xvii.utils.setBottomInsetMargin
-import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
-import com.twoeightnine.root.xvii.utils.setTopInsetPadding
+import com.twoeightnine.root.xvii.main.MainActivity
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_alarms.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -21,7 +19,10 @@ class AlarmActivity : BaseActivity() {
     private val alarms = createDefaultAlarms()
 
     private val adapter by lazy {
-        AlarmAdapter(this) { finish() }
+        AlarmAdapter(this) {
+            MainActivity.launch(this)
+            finish()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +40,9 @@ class AlarmActivity : BaseActivity() {
                 adapter.update(alarms)
             }, 9, 17, true).show()
         }
+
+        toolbar.stylize()
+        fabAdd.stylize()
 
         toolbar.setTopInsetPadding(resources.getDimensionPixelSize(R.dimen.toolbar_height))
         rvAlarms.setBottomInsetPadding()
@@ -83,10 +87,6 @@ class AlarmActivity : BaseActivity() {
             } else {
                 fabAdd.hide()
             }
-        }
-
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-            super.onScrollStateChanged(recyclerView, newState)
         }
     }
 }
