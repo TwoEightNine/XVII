@@ -23,6 +23,7 @@ import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.pin.PinSettingsFragment
 import com.twoeightnine.root.xvii.pin.fake.alarm.AlarmActivity
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_login.*
@@ -123,10 +124,14 @@ class LoginActivity : BaseActivity() {
     private fun startApp() {
         longPollStorage.clear()
         startNotificationService(this)
-        if (Prefs.fakeApp) {
-            AlarmActivity.launch(this)
-        } else {
-            MainActivity.launch(this)
+        when (Prefs.fakeAppType) {
+            PinSettingsFragment.FakeAppType.ALARMS ->
+                AlarmActivity.launch(this)
+
+            PinSettingsFragment.FakeAppType.DIAGNOSTICS -> {}
+
+            PinSettingsFragment.FakeAppType.NONE ->
+                MainActivity.launch(this)
         }
         this.finish()
     }

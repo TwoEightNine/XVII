@@ -7,10 +7,7 @@ import android.widget.CompoundButton
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.getBatteryLevel
-import com.twoeightnine.root.xvii.utils.getMinutes
-import com.twoeightnine.root.xvii.utils.setVisible
-import com.twoeightnine.root.xvii.utils.stylizeAll
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_pin_settings.*
 
 class PinSettingsFragment : BaseFragment() {
@@ -21,6 +18,7 @@ class PinSettingsFragment : BaseFragment() {
     private val battery by lazy { getString(R.string.pin_settings_mixture_battery) }
 
     private var mixtureType = MixtureType.NONE
+    private var fakeAppType = FakeAppType.NONE
 
     override fun getLayoutId(): Int = R.layout.fragment_pin_settings
 
@@ -29,6 +27,7 @@ class PinSettingsFragment : BaseFragment() {
         initListeners()
         initViews()
         llContainer.stylizeAll()
+        svContent.setBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -50,8 +49,6 @@ class PinSettingsFragment : BaseFragment() {
         switchNotifyAboutInvader.isChecked = Prefs.notifyAboutInvaders
 
         switchPin.onCheckedListener = pinCheckedListener
-
-        switchFakeApp.isChecked = Prefs.fakeApp
     }
 
     private fun initListeners() {
@@ -63,7 +60,15 @@ class PinSettingsFragment : BaseFragment() {
             Prefs.notifyAboutInvaders = isChecked
         }
         switchFakeApp.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
-            Prefs.fakeApp = isChecked
+            llFakeApp.setVisible(isChecked)
+            if (fakeAppType == FakeAppType.NONE) {
+                fakeAppType = FakeAppType.ALARMS
+                rgFakeApp.check(R.id.rbAlarms)
+            }
+            Prefs.fakeAppType = when {
+                isChecked -> fakeAppType
+                else -> FakeAppType.NONE
+            }
         }
         switchMixture.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             llMixtures.setVisible(isChecked)
@@ -88,6 +93,14 @@ class PinSettingsFragment : BaseFragment() {
             Prefs.pinMixtureType = mixtureType
             updateMixtureHints()
         }
+        rgFakeApp.setOnCheckedChangeListener { _, checkedId ->
+            fakeAppType = when(checkedId) {
+                R.id.rbAlarms -> FakeAppType.ALARMS
+                R.id.rbDiagnostics -> FakeAppType.DIAGNOSTICS
+                else -> FakeAppType.NONE
+            }
+            Prefs.fakeAppType = fakeAppType
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -100,18 +113,28 @@ class PinSettingsFragment : BaseFragment() {
         rbBatteryStart.text = "$battery $start"
         rbBatteryEnd.text = "$battery $end"
 
-        val radioButtonId = when(Prefs.pinMixtureType) {
+        val mixtureButtonId = when(Prefs.pinMixtureType) {
             MixtureType.MINUTES_START -> R.id.rbMinutesStart
             MixtureType.MINUTES_END -> R.id.rbMinutesEnd
             MixtureType.BATTERY_START -> R.id.rbBatteryStart
             MixtureType.BATTERY_END -> R.id.rbBatteryEnd
             MixtureType.NONE -> 0
         }
-        if (radioButtonId != 0) {
-            rgMixture.check(radioButtonId)
+        if (mixtureButtonId != 0) {
+            rgMixture.check(mixtureButtonId)
         }
-        switchMixture.isChecked = radioButtonId != 0
+        switchMixture.isChecked = mixtureButtonId != 0
         updateMixtureHints()
+
+        val fakeAppButtonId = when(Prefs.fakeAppType) {
+            FakeAppType.ALARMS -> R.id.rbAlarms
+            FakeAppType.DIAGNOSTICS -> R.id.rbDiagnostics
+            FakeAppType.NONE -> 0
+        }
+        if (fakeAppButtonId != 0) {
+            rgFakeApp.check(fakeAppButtonId)
+        }
+        switchFakeApp.isChecked = fakeAppButtonId != 0
     }
 
     private fun updateMixtureHints() {
@@ -149,6 +172,12 @@ class PinSettingsFragment : BaseFragment() {
         MINUTES_END,
         BATTERY_START,
         BATTERY_END
+    }
+
+    enum class FakeAppType {
+        NONE,
+        ALARMS,
+        DIAGNOSTICS
     }
 
     companion object {

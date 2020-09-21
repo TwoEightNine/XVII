@@ -16,7 +16,7 @@ object Prefs {
     private const val PIN = "pin"
     private const val PIN_MIXTURE_TYPE = "pinMixtureType"
     private const val NOTIFY_ABOUT_INVADERS = "notifyAboutInvadres"
-    private const val FAKE_APP = "fakeApp"
+    private const val FAKE_APP_TYPE = "fakeAppType"
 
     //general
     private const val BE_OFFLINE = "beOffline"
@@ -252,9 +252,12 @@ object Prefs {
                 ?: PinSettingsFragment.MixtureType.NONE
         set(value) = data.edit().putString(PIN_MIXTURE_TYPE, value.name).apply()
 
-    var fakeApp: Boolean
-        get() = data.getBoolean(FAKE_APP, false)
-        set(value) = data.edit().putBoolean(FAKE_APP, value).apply()
+    var fakeAppType: PinSettingsFragment.FakeAppType
+        get() = data.getString(FAKE_APP_TYPE, null)
+                ?.takeIf { it.isNotBlank() }
+                ?.let { PinSettingsFragment.FakeAppType.valueOf(it) }
+                ?: PinSettingsFragment.FakeAppType.NONE
+        set(value) = data.edit().putString(FAKE_APP_TYPE, value.name).apply()
 
     fun getSettings() = mapOf<String, Any>(
             BE_OFFLINE to beOffline,

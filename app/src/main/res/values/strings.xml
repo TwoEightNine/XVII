@@ -445,6 +445,11 @@
     <string name="pin_settings_mixture_start">before pin</string>
     <string name="pin_settings_mixture_end">after pin</string>
 
+    <string name="pin_settings_fake_alarms">alarms</string>
+    <string name="pin_settings_fake_alarms_hint">enable all alarms to enter</string>
+    <string name="pin_settings_fake_diagnostics">diagnostics tool</string>
+    <string name="pin_settings_fake_diagnostics_hint">press and hold on \'battery usage analysis\' to enter</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>

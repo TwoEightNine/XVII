@@ -208,6 +208,9 @@
             android:name=".pin.fake.alarm.AlarmActivity"
             android:theme="@style/AppTheme.Transparent"/>
         <activity
+            android:name=".pin.fake.diagnostics.DiagnosticsActivity"
+            android:theme="@style/AppTheme.Transparent"/>
+        <activity
             android:name=".scheduled.ui.ScheduledMessagesActivity"
             android:theme="@style/AppTheme.Transparent"/>
         <activity
