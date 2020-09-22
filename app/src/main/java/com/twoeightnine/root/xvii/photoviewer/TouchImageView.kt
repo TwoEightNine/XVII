@@ -1,42 +1,38 @@
 package com.twoeightnine.root.xvii.photoviewer
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Matrix
 import android.graphics.PointF
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
-import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
+import kotlin.math.abs
+import kotlin.math.min
 
 class TouchImageView : AppCompatImageView {
 
-    lateinit var mMatrix: Matrix
-    internal var mode = NONE
+    private lateinit var mMatrix: Matrix
+    private var mode = NONE
 
-    // Remember some things for zooming
-    internal var last = PointF()
-    internal var start = PointF()
-    internal var minScale = 1f
-    internal var maxScale = 3f
-    lateinit var m: FloatArray
+    private lateinit var m: FloatArray
 
-    internal var viewWidth: Int = 0
-    internal var viewHeight: Int = 0
-    internal var saveScale = 1f
-    protected var origWidth: Float = 0.toFloat()
-    protected var origHeight: Float = 0.toFloat()
-    internal var oldMeasuredWidth: Int = 0
-    internal var oldMeasuredHeight: Int = 0
+    private var viewWidth: Int = 0
+    private var viewHeight: Int = 0
+    private var saveScale = 1f
+    private var origWidth = 0f
+    private var origHeight = 0f
+    private var oldMeasuredWidth: Int = 0
+    private var oldMeasuredHeight: Int = 0
 
-    lateinit var mScaleDetector: ScaleGestureDetector
+    private lateinit var mScaleDetector: ScaleGestureDetector
 
-    lateinit var mContext: Context
-
-    var dismissListener: (() -> Unit)? = null
-    var tapListener: (() -> Unit)? = null
+    var callback: InteractionCallback? = null
 
     constructor(context: Context) : super(context) {
         sharedConstructing(context)
@@ -48,90 +44,15 @@ class TouchImageView : AppCompatImageView {
 
     private fun sharedConstructing(context: Context) {
         super.setClickable(true)
-        this.mContext = context
         mScaleDetector = ScaleGestureDetector(context, ScaleListener())
         mMatrix = Matrix()
         m = FloatArray(9)
         imageMatrix = mMatrix
-        scaleType = ImageView.ScaleType.MATRIX
-
-        setOnTouchListener { _, event ->
-            mScaleDetector.onTouchEvent(event)
-            val curr = PointF(event.x, event.y)
-
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    last.set(curr)
-                    start.set(last)
-                    mode = DRAG
-                }
-
-                MotionEvent.ACTION_MOVE -> if (mode == DRAG) {
-                    val deltaX = curr.x - last.x
-                    val deltaY = curr.y - last.y
-                    val fixTransX = getFixDragTrans(deltaX, viewWidth.toFloat(),
-                            origWidth * saveScale)
-                    val fixTransY = getFixDragTrans(deltaY, viewHeight.toFloat(),
-                            origHeight * saveScale)
-                    mMatrix.postTranslate(fixTransX, fixTransY)
-                    fixTrans()
-                    last.set(curr.x, curr.y)
-                }
-
-                MotionEvent.ACTION_UP -> {
-                    val xDiff = Math.abs(curr.x - start.x).toInt()
-                    val yDiff = Math.abs(curr.y - start.y).toInt()
-                    if (xDiff * 2 < yDiff && yDiff > DISMISS_MIN && mode == DRAG && !canSlide()) {
-                        dismissListener?.invoke()
-
-                    }
-                    mode = NONE
-                    if (xDiff < CLICK && yDiff < CLICK) {
-                        performClick()
-                        tapListener?.invoke()
-                    }
-                }
-
-                MotionEvent.ACTION_POINTER_UP -> mode = NONE
-            }
-
-            imageMatrix = mMatrix
-            invalidate()
-            true // indicate event was handled
-        }
+        scaleType = ScaleType.MATRIX
+        setOnTouchListener(TouchListener())
     }
 
-    private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
-        override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
-            mode = ZOOM
-            return true
-        }
-
-        override fun onScale(detector: ScaleGestureDetector): Boolean {
-            var mScaleFactor = detector.scaleFactor
-            val origScale = saveScale
-            saveScale *= mScaleFactor
-            if (saveScale > maxScale) {
-                saveScale = maxScale
-                mScaleFactor = maxScale / origScale
-            } else if (saveScale < minScale) {
-                saveScale = minScale
-                mScaleFactor = minScale / origScale
-            }
-
-            if (origWidth * saveScale <= viewWidth || origHeight * saveScale <= viewHeight)
-                mMatrix.postScale(mScaleFactor, mScaleFactor, (viewWidth / 2).toFloat(),
-                        (viewHeight / 2).toFloat())
-            else
-                mMatrix.postScale(mScaleFactor, mScaleFactor,
-                        detector.focusX, detector.focusY)
-
-            fixTrans()
-            return true
-        }
-    }
-
-    internal fun fixTrans() {
+    private fun fixTrans() {
         mMatrix.getValues(m)
         val transX = m[Matrix.MTRANS_X]
         val transY = m[Matrix.MTRANS_Y]
@@ -171,8 +92,8 @@ class TouchImageView : AppCompatImageView {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        viewWidth = View.MeasureSpec.getSize(widthMeasureSpec)
-        viewHeight = View.MeasureSpec.getSize(heightMeasureSpec)
+        viewWidth = MeasureSpec.getSize(widthMeasureSpec)
+        viewHeight = MeasureSpec.getSize(heightMeasureSpec)
 
         //
         // Rescales image on rotation
@@ -198,7 +119,7 @@ class TouchImageView : AppCompatImageView {
 
             val scaleX = viewWidth.toFloat() / bmWidth.toFloat()
             val scaleY = viewHeight.toFloat() / bmHeight.toFloat()
-            scale = Math.min(scaleX, scaleY)
+            scale = min(scaleX, scaleY)
             mMatrix.setScale(scale, scale)
 
             // Center the image
@@ -218,13 +139,154 @@ class TouchImageView : AppCompatImageView {
 
     fun canSlide() = saveScale > 1.1f
 
+    fun toggleScale(focus: PointF) {
+        if (saveScale >= (MAX_SCALE + MIN_SCALE) / 2) {
+            ValueAnimator.ofFloat(saveScale, MIN_SCALE)
+        } else {
+            ValueAnimator.ofFloat(saveScale, MAX_SCALE)
+        }.apply {
+            duration = 200L
+            addUpdateListener { animator ->
+                val scale = animator.animatedValue as Float
+                val scaleFactor = scale / saveScale
+                scaleImage(scaleFactor, focus)
+                imageMatrix = mMatrix
+                invalidate()
+            }
+            start()
+        }
+    }
+
+    private fun scaleImage(scaleFactor: Float, focus: PointF) {
+        var usableScaleFactor = scaleFactor
+        val origScale = saveScale
+        saveScale *= usableScaleFactor
+        if (saveScale > MAX_SCALE) {
+            saveScale = MAX_SCALE
+            usableScaleFactor = MAX_SCALE / origScale
+        } else if (saveScale < MIN_SCALE) {
+            saveScale = MIN_SCALE
+            usableScaleFactor = MIN_SCALE / origScale
+        }
+
+        if (origWidth * saveScale <= viewWidth || origHeight * saveScale <= viewHeight) {
+            mMatrix.postScale(
+                    usableScaleFactor,
+                    usableScaleFactor,
+                    (viewWidth / 2).toFloat(),
+                    (viewHeight / 2).toFloat()
+            )
+        } else {
+            mMatrix.postScale(
+                    usableScaleFactor,
+                    usableScaleFactor,
+                    focus.x,
+                    focus.y
+            )
+        }
+        fixTrans()
+    }
+
+    interface InteractionCallback {
+        fun onTap()
+        fun onDoubleTap()
+        fun onDismiss()
+    }
+
     companion object {
 
+        private const val MIN_SCALE = 1f
+        private const val MAX_SCALE = 3f
+
         // We can be in one of these 3 states
-        internal val NONE = 0
-        internal val DRAG = 1
-        internal val ZOOM = 2
-        internal val CLICK = 3
-        internal val DISMISS_MIN = 200
+        private const val NONE = 0
+        private const val DRAG = 1
+        private const val ZOOM = 2
+        private const val CLICK = 3
+
+        private const val DISMISS_MIN = 200
+        private const val DOUBLE_TAP_DELAY = 200L
+        private const val POSTPONED_TAP_DELAY = 250L
+    }
+
+    private inner class TouchListener : OnTouchListener {
+
+        private var last = PointF()
+        private var start = PointF()
+
+        private var lastTap = 0L
+
+        private val mainHandler = Handler(Looper.getMainLooper())
+        private val tapRunnable = Runnable {
+            performClick()
+            callback?.onTap()
+        }
+
+        override fun onTouch(v: View?, event: MotionEvent): Boolean {
+            mScaleDetector.onTouchEvent(event)
+            val curr = PointF(event.x, event.y)
+
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    last.set(curr)
+                    start.set(last)
+                    mode = DRAG
+                }
+
+                MotionEvent.ACTION_MOVE -> if (mode == DRAG) {
+                    val deltaX = curr.x - last.x
+                    val deltaY = curr.y - last.y
+                    val fixTransX = getFixDragTrans(deltaX, viewWidth.toFloat(),
+                            origWidth * saveScale)
+                    val fixTransY = getFixDragTrans(deltaY, viewHeight.toFloat(),
+                            origHeight * saveScale)
+                    mMatrix.postTranslate(fixTransX, fixTransY)
+                    fixTrans()
+                    last.set(curr.x, curr.y)
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    val xDiff = abs(curr.x - start.x).toInt()
+                    val yDiff = abs(curr.y - start.y).toInt()
+                    if (xDiff * 2 < yDiff && yDiff > DISMISS_MIN && mode == DRAG && !canSlide()) {
+                        callback?.onDismiss()
+                    }
+                    mode = NONE
+                    if (xDiff < CLICK && yDiff < CLICK) {
+                        val isDoubleClick = System.currentTimeMillis() - lastTap < DOUBLE_TAP_DELAY
+                        if (isDoubleClick) {
+                            callback?.onDoubleTap()
+                            mainHandler.removeCallbacks(tapRunnable)
+                            toggleScale(last)
+                        } else {
+                            lastTap = System.currentTimeMillis()
+                            mainHandler.postDelayed(tapRunnable, POSTPONED_TAP_DELAY)
+                        }
+                    }
+                }
+
+                MotionEvent.ACTION_POINTER_UP -> mode = NONE
+            }
+
+            imageMatrix = mMatrix
+            invalidate()
+            return true
+        }
+    }
+
+    private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+
+        override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
+            mode = ZOOM
+            return true
+        }
+
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            scaleImage(
+                    detector.scaleFactor,
+                    PointF(detector.focusX, detector.focusY)
+            )
+            return true
+        }
     }
 }

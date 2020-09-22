@@ -11,10 +11,11 @@ import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 
-class FullScreenImageAdapter(private val activity: Activity,
-                             private val urls: ArrayList<String>,
-                             private var dismissListener: (() -> Unit)?,
-                             private var tapListener: (() -> Unit)?) : androidx.viewpager.widget.PagerAdapter() {
+class FullScreenImageAdapter(
+        private val activity: Activity,
+        private val urls: ArrayList<String>,
+        private val callback: TouchImageView.InteractionCallback
+) : androidx.viewpager.widget.PagerAdapter() {
 
     private lateinit var inflater: LayoutInflater
     private val tivManager = ActiveTivManager(3)
@@ -28,8 +29,7 @@ class FullScreenImageAdapter(private val activity: Activity,
         val viewLayout = inflater.inflate(R.layout.item_fullscreen_image, container, false)
         val imgDisplay = viewLayout.findViewById<TouchImageView>(R.id.tivImage)
         tivManager.saveTiv(position, imgDisplay)
-        imgDisplay.dismissListener = dismissListener
-        imgDisplay.tapListener = tapListener
+        imgDisplay.callback = callback
         val url = urls[position]
         val fromFile = url.startsWith("file://")
 

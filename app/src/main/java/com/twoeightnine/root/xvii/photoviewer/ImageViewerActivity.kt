@@ -32,7 +32,7 @@ class ImageViewerActivity : AppCompatActivity() {
     private val photos = arrayListOf<Photo>()
     private val permissionHelper by lazy { PermissionHelper(this) }
     private val adapter by lazy {
-        FullScreenImageAdapter(this, getUrlList(), ::onDismiss, ::onTap)
+        FullScreenImageAdapter(this, getUrlList(), ImageInteractionCallback())
     }
 
     private val downloadingQueue = hashMapOf<Long, String>()
@@ -48,12 +48,7 @@ class ImageViewerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.decorView.systemUiVisibility =
-                // Tells the system that the window wishes the content to
-                // be laid out at the most extreme scenario. See the docs for
-                // more information on the specifics
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        // Tells the system that the window wishes the content to
-                        // be laid out as if the navigation bar was hidden
                         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 
         setContentView(R.layout.activity_image_viewer)
@@ -172,16 +167,6 @@ class ImageViewerActivity : AppCompatActivity() {
         })
     }
 
-    private fun onDismiss() {
-        finish()
-    }
-
-    private fun onTap() {
-        if (mode == MODE_ONE_PATH) return
-
-        rlControls.toggle()
-    }
-
     private fun getUrlList() = when (mode) {
         MODE_PHOTOS_LIST -> getUrlsFromPhotos(photos)
         MODE_ONE_PATH -> arrayListOf(filePath!!)
@@ -246,6 +231,21 @@ class ImageViewerActivity : AppCompatActivity() {
                 putExtra(MODE, MODE_ONE_PATH)
             }
             context.startActivity(intent)
+        }
+    }
+
+    private inner class ImageInteractionCallback : TouchImageView.InteractionCallback {
+
+        override fun onTap() {
+            if (mode == MODE_ONE_PATH) return
+            rlControls.toggle()
+        }
+
+        override fun onDoubleTap() {
+        }
+
+        override fun onDismiss() {
+            finish()
         }
     }
 
