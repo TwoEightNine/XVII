@@ -1,10 +1,13 @@
 package com.twoeightnine.root.xvii.pin
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.AndroidRuntimeException
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -16,8 +19,10 @@ import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import kotlinx.android.synthetic.main.activity_pin.*
+import java.io.File
 import javax.inject.Inject
 import kotlin.random.Random
+
 
 /**
  * Created by root on 3/17/17.
@@ -39,6 +44,13 @@ class PinActivity : BaseActivity() {
     private var correctPin: String? = null
     private var failedPrompts: Int = 0
 
+    private val mainHandler = Handler(Looper.getMainLooper())
+
+    private var camera: SimpleCamera? = null
+    private val photoFile by lazy {
+        File(filesDir, "invader.jpg")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App.appComponent?.inject(this)
@@ -54,7 +66,7 @@ class PinActivity : BaseActivity() {
         ivBack.setTopInsetMargin()
 
         if (Session.needToWaitAfterFailedPin()) {
-            showBruteForced()
+            showBruteForced(justNow = false)
         }
 
 //        AlarmActivity.launch(this)
@@ -177,8 +189,11 @@ class PinActivity : BaseActivity() {
     }
 
     @SuppressLint("CheckResult")
-    private fun showBruteForced(justNow: Boolean = false) {
+    private fun showBruteForced(justNow: Boolean = true) {
         rlBruteForce.show()
+        if (justNow) {
+            captureInvader()
+        }
         if (justNow && Prefs.notifyAboutInvaders) {
             api.sendMessage(
                     peerId = Session.uid,
@@ -193,6 +208,18 @@ class PinActivity : BaseActivity() {
                                 .throwable(throwable)
                                 .log("unable to send invader notification")
                     })
+        }
+    }
+
+    private fun captureInvader() {
+        camera = SimpleCamera(
+                textureView,
+                photoFile,
+                CameraDelegate()
+        )
+        camera?.start()
+        postCamera {
+            camera?.takePicture()
         }
     }
 
@@ -232,6 +259,10 @@ class PinActivity : BaseActivity() {
         L.tag(TAG).log(s)
     }
 
+    private fun postCamera(block: () -> Unit) {
+        mainHandler.postDelayed(block, CAMERA_DELAY)
+    }
+
     /**
      * type of action pin is launched for
      */
@@ -244,6 +275,8 @@ class PinActivity : BaseActivity() {
     }
 
     companion object {
+
+        private const val CAMERA_DELAY = 1000L
 
         fun launch(context: Context?, action: Action) {
             context ?: return
@@ -264,5 +297,29 @@ class PinActivity : BaseActivity() {
         private const val ALLOWED_PROMPTS = 5
 
         const val ACTION = "action"
+    }
+
+    private inner class CameraDelegate : SimpleCamera.ControllerDelegate {
+
+        override fun requireActivity(): Activity = this@PinActivity
+
+        override fun onErrorOccurred(explanation: String, throwable: Throwable?) {
+            showToast(this@PinActivity, explanation)
+        }
+
+        override fun onPictureTaken(file: File) {
+            postCamera {
+                textureView.hide()
+                camera?.stop()
+            }
+        }
+
+        override fun onPreviewRatioUpdated(wToH: Float) {
+            if (wToH == 0f) return
+            cvPhoto.layoutParams?.apply {
+                height = (width / wToH).toInt()
+                cvPhoto.layoutParams = this
+            }
+        }
     }
 }
