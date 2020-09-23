@@ -19,6 +19,9 @@ import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import kotlinx.android.synthetic.main.activity_pin.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.File
 import javax.inject.Inject
 import kotlin.random.Random
@@ -188,26 +191,15 @@ class PinActivity : BaseActivity() {
         }
     }
 
-    @SuppressLint("CheckResult")
     private fun showBruteForced(justNow: Boolean = true) {
+        val notify = Prefs.notifyAboutInvaders
+        val notifyWithPhoto = notify && Prefs.takeInvaderPicture
         rlBruteForce.show()
         if (justNow) {
-            captureInvader()
-        }
-        if (justNow && Prefs.notifyAboutInvaders) {
-            api.sendMessage(
-                    peerId = Session.uid,
-                    randomId = Random.nextInt(),
-                    text = getString(R.string.pin_invader_notification)
-            )
-                    .compose(applySchedulers())
-                    .subscribe({
-                        l("invader notification sent")
-                    }, { throwable ->
-                        L.tag(TAG)
-                                .throwable(throwable)
-                                .log("unable to send invader notification")
-                    })
+            when {
+                notifyWithPhoto -> captureInvader()
+                notify -> sendNotify()
+            }
         }
     }
 
@@ -221,6 +213,55 @@ class PinActivity : BaseActivity() {
         postCamera {
             camera?.takePicture()
         }
+    }
+
+    // i'm sorry but i'm lazy
+    private fun uploadPhoto(file: File) {
+        api.getPhotoUploadServer()
+                .subscribeSmart({ uploadServer ->
+                    val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    val body = MultipartBody.Part.createFormData("photo", file.name, requestFile)
+                    api.uploadPhoto(uploadServer.uploadUrl ?: "", body)
+                            .compose(applySchedulers())
+                            .subscribe({ uploaded ->
+                                api.saveMessagePhoto(
+                                        uploaded.photo ?: "",
+                                        uploaded.hash ?: "",
+                                        uploaded.server
+                                )
+                                        .subscribeSmart({ photos ->
+                                            val photoId = photos.getOrNull(0)?.photoId
+                                                    ?.let { "photo$it" }
+                                            sendNotify(photoId)
+                                        }, { error ->
+                                            sendNotify()
+                                            lw("save uploaded photo error: $error")
+                                        })
+                            }, { error ->
+                                lw("unable to upload photo", error)
+                                sendNotify()
+                            })
+
+                }, { error ->
+                    sendNotify()
+                    lw("getting ploading server error: $error")
+                })
+    }
+
+    @SuppressLint("CheckResult")
+    private fun sendNotify(photoId: String? = null) {
+        api.sendMessage(
+                peerId = Session.uid,
+                randomId = Random.nextInt(),
+                text = getString(R.string.pin_invader_notification),
+                attachments = photoId
+        )
+                .compose(applySchedulers())
+                .subscribe({
+                    l("invader notification sent")
+                }, { throwable ->
+                    lw("unable to send invader notification", throwable)
+                })
     }
 
     private fun showError(text: String) {
@@ -257,6 +298,12 @@ class PinActivity : BaseActivity() {
 
     private fun l(s: String) {
         L.tag(TAG).log(s)
+    }
+
+    private fun lw(s: String, throwable: Throwable? = null) {
+        L.tag(TAG)
+                .throwable(throwable)
+                .log(s)
     }
 
     private fun postCamera(block: () -> Unit) {
@@ -304,10 +351,12 @@ class PinActivity : BaseActivity() {
         override fun requireActivity(): Activity = this@PinActivity
 
         override fun onErrorOccurred(explanation: String, throwable: Throwable?) {
-            showToast(this@PinActivity, explanation)
+            sendNotify()
+            lw(explanation, throwable)
         }
 
         override fun onPictureTaken(file: File) {
+            uploadPhoto(file)
             postCamera {
                 textureView.hide()
                 camera?.stop()

@@ -16,6 +16,7 @@ object Prefs {
     private const val PIN = "pin"
     private const val PIN_MIXTURE_TYPE = "pinMixtureType"
     private const val NOTIFY_ABOUT_INVADERS = "notifyAboutInvadres"
+    private const val TAKE_INVADER_PICTURE = "takeInvaderPicture"
     private const val FAKE_APP_TYPE = "fakeAppType"
 
     //general
@@ -242,8 +243,12 @@ object Prefs {
         set(value) = data.edit().putBoolean(SHOW_RATE, false).apply()
 
     var notifyAboutInvaders: Boolean
-        get() = data.getBoolean(NOTIFY_ABOUT_INVADERS, false)
+        get() = data.getBoolean(NOTIFY_ABOUT_INVADERS, true)
         set(value) = data.edit().putBoolean(NOTIFY_ABOUT_INVADERS, value).apply()
+
+    var takeInvaderPicture: Boolean
+        get() = data.getBoolean(TAKE_INVADER_PICTURE, true)
+        set(value) = data.edit().putBoolean(TAKE_INVADER_PICTURE, value).apply()
 
     var pinMixtureType: PinSettingsFragment.MixtureType
         get() = data.getString(PIN_MIXTURE_TYPE, null)
