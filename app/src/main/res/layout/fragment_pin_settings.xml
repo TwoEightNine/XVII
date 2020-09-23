@@ -95,6 +95,14 @@
                     android:hint="@string/pin_settings_notify_about_invader_hint"
                     android:text="@string/pin_settings_notify_about_invader" />
 
+                <com.twoeightnine.root.xvii.views.XviiSwitch
+                    android:id="@+id/switchInvaderPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:hint="@string/pin_settings_invader_photo_hint"
+                    android:text="@string/pin_settings_invader_photo" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

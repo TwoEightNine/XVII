@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.pin.PinSettingsFragment
+import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.utils.isAndroid10OrHigher
 import com.twoeightnine.root.xvii.utils.isMiui
 import java.util.*
@@ -247,21 +247,21 @@ object Prefs {
         set(value) = data.edit().putBoolean(NOTIFY_ABOUT_INVADERS, value).apply()
 
     var takeInvaderPicture: Boolean
-        get() = data.getBoolean(TAKE_INVADER_PICTURE, true)
+        get() = data.getBoolean(TAKE_INVADER_PICTURE, false)
         set(value) = data.edit().putBoolean(TAKE_INVADER_PICTURE, value).apply()
 
-    var pinMixtureType: PinSettingsFragment.MixtureType
+    var pinMixtureType: SecurityFragment.MixtureType
         get() = data.getString(PIN_MIXTURE_TYPE, null)
                 ?.takeIf { it.isNotBlank() }
-                ?.let { PinSettingsFragment.MixtureType.valueOf(it) }
-                ?: PinSettingsFragment.MixtureType.NONE
+                ?.let { SecurityFragment.MixtureType.valueOf(it) }
+                ?: SecurityFragment.MixtureType.NONE
         set(value) = data.edit().putString(PIN_MIXTURE_TYPE, value.name).apply()
 
-    var fakeAppType: PinSettingsFragment.FakeAppType
+    var fakeAppType: SecurityFragment.FakeAppType
         get() = data.getString(FAKE_APP_TYPE, null)
                 ?.takeIf { it.isNotBlank() }
-                ?.let { PinSettingsFragment.FakeAppType.valueOf(it) }
-                ?: PinSettingsFragment.FakeAppType.NONE
+                ?.let { SecurityFragment.FakeAppType.valueOf(it) }
+                ?: SecurityFragment.FakeAppType.NONE
         set(value) = data.edit().putString(FAKE_APP_TYPE, value.name).apply()
 
     fun getSettings() = mapOf<String, Any>(

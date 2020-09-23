@@ -303,7 +303,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_pin"
+                    android:src="@drawable/ic_padlock"
                     android:tag="main" />
 
                 <TextView
@@ -312,7 +312,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/ivPin"
-                    android:text="@string/pin_settings"
+                    android:text="@string/pin_settings_title"
                     android:textSize="17sp" />
 
             </RelativeLayout>

@@ -420,17 +420,19 @@
     <string name="pin_not_secure_date">pin mustn\'t represent a date</string>
     <string name="pin_invader_notification">⚠️⚠️⚠️⚠️⚠️\nsomeone tried to guess your pin!</string>
 
-    <string name="pin_settings_title">pin settings</string>
+    <string name="pin_settings_title">security</string>
     <string name="pin_settings_enable">enable pin</string>
     <string name="pin_settings_enable_hint">enter pin when you open app after inactivity</string>
     <string name="pin_settings_notify_about_invader">notify about invaders</string>
-    <string name="pin_settings_notify_about_invader_hint">you will receive a message about incidents</string>
+    <string name="pin_settings_notify_about_invader_hint">you will receive a message about invasion</string>
     <string name="pin_settings_reset_pin">reset pin</string>
     <string name="pin_settings_change_pin">change pin</string>
     <string name="pin_settings_mixture">enable pin mixtures</string>
     <string name="pin_settings_mixture_hint">append dynamic values to pin for better security</string>
     <string name="pin_settings_fake_app">start with fake app</string>
     <string name="pin_settings_fake_app_hint">at start fake app will be opened instead of messenger</string>
+    <string name="pin_settings_invader_photo">take photo of invader</string>
+    <string name="pin_settings_invader_photo_hint">attach photo from front camera (permission required)</string>
 
     <string name="pin_settings_pin_title">pin</string>
     <string name="pin_settings_invaders_title">invasion</string>

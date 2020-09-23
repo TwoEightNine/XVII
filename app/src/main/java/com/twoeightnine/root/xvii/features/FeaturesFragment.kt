@@ -29,7 +29,7 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.Camera2BasicFragment
 import com.twoeightnine.root.xvii.pin.PinActivity
-import com.twoeightnine.root.xvii.pin.PinSettingsFragment
+import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.web.WebFragment
@@ -80,7 +80,7 @@ class FeaturesFragment : BaseFragment() {
         }
         rlPin.setOnClickListener {
 //            onPinClicked()
-            startFragment<PinSettingsFragment>()
+            startFragment<SecurityFragment>()
         }
 
         rlFeedback.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }

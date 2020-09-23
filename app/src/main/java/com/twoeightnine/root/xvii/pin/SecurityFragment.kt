@@ -1,16 +1,21 @@
 package com.twoeightnine.root.xvii.pin
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.CompoundButton
+import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_pin_settings.*
 
-class PinSettingsFragment : BaseFragment() {
+class SecurityFragment : BaseFragment() {
 
     private val pinCheckedListener = OnPinChecked()
 
@@ -47,6 +52,7 @@ class PinSettingsFragment : BaseFragment() {
         switchPin.isChecked = hasPin
         llPinContainer.setVisible(hasPin)
         switchNotifyAboutInvader.isChecked = Prefs.notifyAboutInvaders
+        switchInvaderPhoto.setVisible(switchNotifyAboutInvader.isChecked)
 
         switchPin.onCheckedListener = pinCheckedListener
     }
@@ -58,6 +64,13 @@ class PinSettingsFragment : BaseFragment() {
         }
         switchNotifyAboutInvader.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             Prefs.notifyAboutInvaders = isChecked
+            switchInvaderPhoto.setVisible(isChecked)
+        }
+        switchInvaderPhoto.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            Prefs.takeInvaderPicture = isChecked
+            if (isChecked && !hasCameraPermissions()) {
+                requestCameraPermissions()
+            }
         }
         switchFakeApp.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             llFakeApp.setVisible(isChecked)
@@ -166,6 +179,31 @@ class PinSettingsFragment : BaseFragment() {
         tvMixtureEnterHint.text = explanationEnter
     }
 
+    private fun invalidateTakePhoto() {
+        val hasPermissions = hasCameraPermissions()
+        if (!hasPermissions) {
+            Prefs.takeInvaderPicture = false
+        }
+        switchInvaderPhoto.isChecked = Prefs.takeInvaderPicture
+    }
+
+    private fun hasCameraPermissions() =
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) ==
+                    PackageManager.PERMISSION_GRANTED
+
+    private fun requestCameraPermissions() {
+        requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_PERMISSIONS)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_PERMISSIONS) {
+            Handler(Looper.getMainLooper()).postDelayed({
+                invalidateTakePhoto()
+            }, 200L)
+        }
+    }
+
     enum class MixtureType {
         NONE,
         MINUTES_START,
@@ -181,7 +219,8 @@ class PinSettingsFragment : BaseFragment() {
     }
 
     companion object {
-        fun newInstance() = PinSettingsFragment()
+        private const val REQUEST_PERMISSIONS = 2625
+        fun newInstance() = SecurityFragment()
     }
 
     private inner class OnPinChecked : CompoundButton.OnCheckedChangeListener {

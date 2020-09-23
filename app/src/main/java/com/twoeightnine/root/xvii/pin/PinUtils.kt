@@ -28,47 +28,47 @@ object PinUtils {
     fun isPinCorrect(
             pin: String,
             correctPinHash: String,
-            mixtureType: PinSettingsFragment.MixtureType,
+            mixtureType: SecurityFragment.MixtureType,
             minutes: String,
             battery: String
     ): Boolean {
 
         val mixtureMatches = when (mixtureType) {
 
-            PinSettingsFragment.MixtureType.MINUTES_START -> {
+            SecurityFragment.MixtureType.MINUTES_START -> {
                 pin.startsWith(minutes)
             }
 
-            PinSettingsFragment.MixtureType.MINUTES_END -> {
+            SecurityFragment.MixtureType.MINUTES_END -> {
                 pin.endsWith(minutes)
             }
 
-            PinSettingsFragment.MixtureType.BATTERY_START -> {
+            SecurityFragment.MixtureType.BATTERY_START -> {
                 pin.startsWith(battery)
             }
 
-            PinSettingsFragment.MixtureType.BATTERY_END -> {
+            SecurityFragment.MixtureType.BATTERY_END -> {
                 pin.endsWith(battery)
             }
 
-            PinSettingsFragment.MixtureType.NONE -> true
+            SecurityFragment.MixtureType.NONE -> true
         }
         if (!mixtureMatches) return false
 
         val cleanPin = when (mixtureType) {
-            PinSettingsFragment.MixtureType.MINUTES_START ->
+            SecurityFragment.MixtureType.MINUTES_START ->
                 pin.substring(minutes.length)
 
-            PinSettingsFragment.MixtureType.MINUTES_END ->
+            SecurityFragment.MixtureType.MINUTES_END ->
                 pin.take(pin.length - minutes.length)
 
-            PinSettingsFragment.MixtureType.BATTERY_START ->
+            SecurityFragment.MixtureType.BATTERY_START ->
                 pin.substring(battery.length)
 
-            PinSettingsFragment.MixtureType.BATTERY_END ->
+            SecurityFragment.MixtureType.BATTERY_END ->
                 pin.take(pin.length - battery.length)
 
-            PinSettingsFragment.MixtureType.NONE -> pin
+            SecurityFragment.MixtureType.NONE -> pin
         }
         return correctPinHash == getPinHash(cleanPin)
     }
