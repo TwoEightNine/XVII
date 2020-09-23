@@ -363,7 +363,6 @@ class SimpleCamera(
                                             mBackgroundHandler
                                     )
                                 }
-                                takePicture()
                             } catch (e: CameraAccessException) {
                                 lw("unable to finish configuring", e)
                             }
@@ -374,7 +373,7 @@ class SimpleCamera(
                         ) {
                             lw("configure failed")
                         }
-                    }, null
+                    }, mBackgroundHandler
             )
         } catch (e: CameraAccessException) {
             lw("unable to create camera preview", e)

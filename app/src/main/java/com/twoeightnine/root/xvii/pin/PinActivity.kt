@@ -45,6 +45,9 @@ class PinActivity : BaseActivity() {
     private var correctPin: String? = null
     private var failedPrompts: Int = 0
 
+    private val mainHandler = Handler(Looper.getMainLooper())
+
+    private var camera: SimpleCamera? = null
     private val photoFile by lazy {
         File(filesDir, "invader.jpg")
     }
@@ -168,12 +171,15 @@ class PinActivity : BaseActivity() {
     }
 
     private fun captureInvader() {
-        val camera = SimpleCamera(
+        camera = SimpleCamera(
                 textureView,
                 photoFile,
                 CameraDelegate()
         )
-        camera.start()
+        camera?.start()
+        postCamera {
+            camera?.takePicture()
+        }
     }
 
     private fun showError(@StringRes textRes: Int) {
@@ -233,6 +239,10 @@ class PinActivity : BaseActivity() {
         return (pinDiff2.sum().toFloat() / pinDiff2.size) >= 1f && zerosCount == 0
     }
 
+    private fun postCamera(block: () -> Unit) {
+        mainHandler.postDelayed(block, CAMERA_DELAY)
+    }
+
     /**
      * type of action pin is launched for
      */
@@ -245,6 +255,8 @@ class PinActivity : BaseActivity() {
     }
 
     companion object {
+
+        private const val CAMERA_DELAY = 1000L
 
         fun launch(context: Context?, action: Action) {
             context ?: return
@@ -277,9 +289,9 @@ class PinActivity : BaseActivity() {
         }
 
         override fun onPictureTaken(file: File) {
-            Handler(Looper.getMainLooper()).post {
-                ivPhoto.load("file://${file.absolutePath}")
-//                textureView.hide()
+            postCamera {
+                textureView.hide()
+                camera?.stop()
             }
         }
 
