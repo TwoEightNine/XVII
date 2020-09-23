@@ -1,12 +1,12 @@
 package com.twoeightnine.root.xvii.pin
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.hardware.camera2.CameraManager
 import android.os.Bundle
 import android.os.Handler
-import android.os.HandlerThread
+import android.os.Looper
 import android.util.AndroidRuntimeException
 import androidx.annotation.StringRes
 import com.twoeightnine.root.xvii.App
@@ -45,6 +45,10 @@ class PinActivity : BaseActivity() {
     private var correctPin: String? = null
     private var failedPrompts: Int = 0
 
+    private val photoFile by lazy {
+        File(filesDir, "invader.jpg")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App.appComponent?.inject(this)
@@ -60,7 +64,7 @@ class PinActivity : BaseActivity() {
         ivBack.setTopInsetMargin()
 
         if (Session.needToWaitAfterFailedPin()) {
-            showBruteForced()
+            showBruteForced(justNow = false)
         }
 
 //        AlarmActivity.launch(this)
@@ -156,28 +160,20 @@ class PinActivity : BaseActivity() {
         }
     }
 
-    private fun showBruteForced() {
+    private fun showBruteForced(justNow: Boolean = true) {
         rlBruteForce.show()
-        captureInvader()
+        if (justNow) {
+            captureInvader()
+        }
     }
 
     private fun captureInvader() {
-        val readerThread = HandlerThread("ReaderBackground").apply { start() }
-        val readerHandler = Handler(readerThread.looper)
-
-        val cameraThread = HandlerThread("CameraBackground").apply { start() }
-        val cameraHandler = Handler(cameraThread.looper)
-
-        val manager = getSystemService(Context.CAMERA_SERVICE)
-                as CameraManager
-        manager.openFrontCamera(cameraHandler) { camera ->
-            val file = File(filesDir, "invader2.jpg").apply {
-                if (exists()) delete()
-            }
-            manager.takePicture(camera, file, readerHandler, cameraHandler) {
-//                camera.close()
-            }
-        }
+        val camera = SimpleCamera(
+                textureView,
+                photoFile,
+                CameraDelegate()
+        )
+        camera.start()
     }
 
     private fun showError(@StringRes textRes: Int) {
@@ -270,5 +266,29 @@ class PinActivity : BaseActivity() {
         const val ACTION = "action"
 
         private const val SALT = "oi|6yw4-c5g846-d5c53s9mx"
+    }
+
+    private inner class CameraDelegate : SimpleCamera.ControllerDelegate {
+
+        override fun requireActivity(): Activity = this@PinActivity
+
+        override fun onErrorOccurred(explanation: String, throwable: Throwable?) {
+            showToast(this@PinActivity, explanation)
+        }
+
+        override fun onPictureTaken(file: File) {
+            Handler(Looper.getMainLooper()).post {
+                ivPhoto.load("file://${file.absolutePath}")
+//                textureView.hide()
+            }
+        }
+
+        override fun onPreviewRatioUpdated(wToH: Float) {
+            if (wToH == 0f) return
+            cvPhoto.layoutParams?.apply {
+                height = (width / wToH).toInt()
+                cvPhoto.layoutParams = this
+            }
+        }
     }
 }
