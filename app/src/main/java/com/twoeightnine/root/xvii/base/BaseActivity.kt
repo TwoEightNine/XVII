@@ -1,6 +1,7 @@
 package com.twoeightnine.root.xvii.base
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
@@ -47,6 +48,11 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun setContentView(@LayoutRes layoutResID: Int) {
         updateConfig()
         super.setContentView(layoutResID)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        updateConfig()
+        super.onNewIntent(intent)
     }
 
     override fun onResume() {
