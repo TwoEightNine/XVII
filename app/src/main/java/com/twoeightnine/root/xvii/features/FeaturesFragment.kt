@@ -27,7 +27,6 @@ import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.pin.Camera2BasicFragment
 import com.twoeightnine.root.xvii.pin.PinActivity
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
@@ -92,7 +91,6 @@ class FeaturesFragment : BaseFragment() {
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
-        tvAbout.setOnLongClickListener { startFragment<Camera2BasicFragment>(); true }
 
         rlRoot.stylizeAll()
     }
