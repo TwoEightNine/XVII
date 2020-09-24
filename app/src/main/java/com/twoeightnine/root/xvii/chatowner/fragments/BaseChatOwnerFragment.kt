@@ -252,6 +252,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
         }
 
-        private fun shouldColorToolbar() = (screenHeight - toolbar.height + 92) <= cvInfo.height
+        private fun shouldColorToolbar() = toolbar
+                ?.let { (screenHeight - it.height + 92) <= cvInfo.height } ?: false
     }
 }

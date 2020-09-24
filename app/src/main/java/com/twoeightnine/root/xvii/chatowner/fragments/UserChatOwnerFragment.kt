@@ -42,6 +42,12 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.blocked.observe(viewLifecycleOwner, Observer(::onBlockedChanged))
+        viewModel.foaf.observe(viewLifecycleOwner, Observer { foaf ->
+            foaf.data?.also { registrationDate ->
+                val registrationTs = (registrationDate.time / 1000L).toInt()
+                addValue(R.drawable.ic_id_card, getDate(registrationTs))
+            }
+        })
     }
 
     override fun bindChatOwner(chatOwner: User?) {
@@ -94,6 +100,7 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
         addValue(R.drawable.ic_fb, user.facebook, null) {
             copy(user.facebook, R.string.facebook)
         }
+        viewModel.loadFoaf(chatOwner.getPeerId())
     }
 
     private fun onBlockedChanged(data: Wrapper<Boolean>) {

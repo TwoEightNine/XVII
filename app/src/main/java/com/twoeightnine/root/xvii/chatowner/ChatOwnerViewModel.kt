@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.chatowner
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,8 +12,11 @@ import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.asChatId
+import com.twoeightnine.root.xvii.utils.matchesUserId
 import com.twoeightnine.root.xvii.utils.subscribeSmart
+import java.util.*
 import javax.inject.Inject
 
 class ChatOwnerViewModel : ViewModel() {
@@ -25,6 +29,7 @@ class ChatOwnerViewModel : ViewModel() {
     private val conversationMembersLiveData = MutableLiveData<List<User>>()
     private val titleLiveData = WrappedMutableLiveData<String>()
     private val blockedLiveData = WrappedMutableLiveData<Boolean>()
+    private val foafLiveData = WrappedMutableLiveData<Date>()
 
     val chatOwner: WrappedLiveData<ChatOwner>
         get() = chatOwnerLiveData
@@ -40,6 +45,9 @@ class ChatOwnerViewModel : ViewModel() {
 
     val blocked: WrappedLiveData<Boolean>
         get() = blockedLiveData
+
+    val foaf: WrappedLiveData<Date>
+        get() = foafLiveData
 
     init {
         App.appComponent?.inject(this)
@@ -128,6 +136,32 @@ class ChatOwnerViewModel : ViewModel() {
             }
         }
         Prefs.muteList = muteList
+    }
+
+    @SuppressLint("CheckResult")
+    fun loadFoaf(peerId: Int) {
+        if (!peerId.matchesUserId()) return
+        api.getFoaf("https://vk.com/foaf.php", peerId)
+                .compose(applySchedulers())
+                .subscribe({ response ->
+                    foafLiveData.value = Wrapper(getFoafDate(response.string()))
+                }, {
+                    // no error in ui
+                })
+    }
+
+    private fun getFoafDate(site: String): Date? {
+        val re = Regex("<ya:created dc:date=\"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:+-]*\"/>")
+        val dateString = re.find(site)?.value?.substring(21, 31) ?: return null
+        val day = dateString.substring(8).toInt()
+        val month = dateString.substring(5, 7).toInt()
+        val year = dateString.substring(0, 4).toInt()
+        val date = Calendar.getInstance().apply {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, month - 1)
+            set(Calendar.DAY_OF_MONTH, day)
+        }
+        return date.time
     }
 
     private fun loadUser(userId: Int) {
