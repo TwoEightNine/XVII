@@ -531,5 +531,14 @@
     <string name="pin_settings_pin_title">пин</string>
     <string name="pin_settings_invaders_title">вторжение</string>
     <string name="pin_settings_mixture_title">примесь</string>
+    <string name="pin_settings_fake_app_title">приложения-фейки</string>
+    <string name="pin_settings_fake_alarms">будильник</string>
+    <string name="pin_settings_fake_alarms_hint">включите все будильники, чтобы войти</string>
+    <string name="pin_settings_fake_diagnostics">диагностика</string>
+    <string name="pin_settings_fake_diagnostics_hint">нажмите и удерживайте \'rerun battery test\', чтобы войти</string>
+    <string name="pin_settings_fake_app">запускать приложение-фейк</string>
+    <string name="pin_settings_fake_app_hint">сначала запустится фейк вместо мессенджера</string>
+    <string name="pin_settings_invader_photo">фсотографировать взломщика</string>
+    <string name="pin_settings_invader_photo_hint">прикрепить фото с фронтальной камеры (требуется разрешение)</string>
 
 </resources>

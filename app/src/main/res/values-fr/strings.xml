@@ -492,6 +492,15 @@
     <string name="pin_settings_invaders_title">invasion</string>
     <string name="pin_settings_mixture_title">mélange</string>
     <string name="pin_settings_pin_title">code d\'accès</string>
+    <string name="pin_settings_fake_app_title">faux apps</string>
+    <string name="pin_settings_fake_alarms">alarmes</string>
+    <string name="pin_settings_fake_diagnostics">diagnostic</string>
+    <string name="pin_settings_fake_alarms_hint">allumez toutes les alarmes pour entere</string>
+    <string name="pin_settings_fake_diagnostics_hint">pressez et tenez \'rerun battery test\' pour entrer</string>
+    <string name="pin_settings_fake_app">commencer avec faux app</string>
+    <string name="pin_settings_fake_app_hint">au début faux app sera ouvert, pas messengeur</string>
+    <string name="pin_settings_invader_photo">prendre une photo d\'envahisseur</string>
+    <string name="pin_settings_invader_photo_hint">attacher une photo de camera frontal (permission requi)</string>
 
 </resources>
 
