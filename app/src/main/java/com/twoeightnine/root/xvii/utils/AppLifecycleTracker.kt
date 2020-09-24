@@ -13,6 +13,7 @@ import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.pin.PinActivity
 import com.twoeightnine.root.xvii.pin.fake.alarm.AlarmActivity
+import com.twoeightnine.root.xvii.pin.fake.diagnostics.DiagnosticsActivity
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
@@ -46,9 +47,10 @@ class AppLifecycleTracker : Application.ActivityLifecycleCallbacks {
     }
 
     private fun ignore(activity: Activity?) =
-            activity is LoginActivity ||
-                    activity is PinActivity ||
-                    activity is AlarmActivity
+            activity is LoginActivity
+                    || activity is PinActivity
+                    || activity is AlarmActivity
+                    || activity is DiagnosticsActivity
 
     override fun onActivityStarted(activity: Activity) {
         if (ignore(activity)) return

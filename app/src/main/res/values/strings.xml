@@ -450,7 +450,7 @@
     <string name="pin_settings_fake_alarms">alarms</string>
     <string name="pin_settings_fake_alarms_hint">enable all alarms to enter</string>
     <string name="pin_settings_fake_diagnostics">diagnostics tool</string>
-    <string name="pin_settings_fake_diagnostics_hint">press and hold on \'battery usage analysis\' to enter</string>
+    <string name="pin_settings_fake_diagnostics_hint">press and hold on \'rerun battery test\' to enter</string>
 
     <string-array name="relations">
         <item>single</item>

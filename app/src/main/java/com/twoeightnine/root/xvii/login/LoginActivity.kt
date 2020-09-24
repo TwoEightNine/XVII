@@ -25,6 +25,7 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.pin.fake.alarm.AlarmActivity
+import com.twoeightnine.root.xvii.pin.fake.diagnostics.DiagnosticsActivity
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
@@ -128,7 +129,9 @@ class LoginActivity : BaseActivity() {
             SecurityFragment.FakeAppType.ALARMS ->
                 AlarmActivity.launch(this)
 
-            SecurityFragment.FakeAppType.DIAGNOSTICS -> {}
+            SecurityFragment.FakeAppType.DIAGNOSTICS -> {
+                DiagnosticsActivity.launch(this)
+            }
 
             SecurityFragment.FakeAppType.NONE ->
                 MainActivity.launch(this)

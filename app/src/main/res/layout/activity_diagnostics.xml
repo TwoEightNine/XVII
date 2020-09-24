@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/background"
     android:layout_width="match_parent"
+    android:animateLayoutChanges="true"
     android:layout_height="match_parent">
 
     <include layout="@layout/toolbar" />
 
     <ScrollView
         android:id="@+id/svContent"
+        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false">
@@ -16,6 +19,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:animateLayoutChanges="true"
+            android:paddingBottom="16dp"
             android:orientation="vertical">
 
             <ProgressBar
@@ -27,10 +34,108 @@
                 android:max="100"
                 android:padding="0dp" />
 
-            <Button
-                android:id="@+id/btnBattery"
+            <TextView
+                android:id="@+id/tvStability"
+                android:textSize="48sp"
+                style="@style/MainText"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="34" />
+
+            <TextView
+                android:text="Device stability"
+                style="@style/MainText"
+                android:textSize="18sp"
+                android:layout_marginBottom="32dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvDisplayTest"
+                android:textSize="16sp"
+                style="@style/MainText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="display test"/>
+
+            <Button
+                android:id="@+id/btnDisplay"
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="rerun display test"
+                />
+
+            <TextView
+                android:id="@+id/tvNetworkTest"
+                android:textSize="16sp"
+                style="@style/MainText"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="display test"/>
+
+            <Button
+                android:id="@+id/btnNetwork"
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="rerun network test"
+                />
+
+            <TextView
+                android:id="@+id/tvBatteryTest"
+                android:textSize="16sp"
+                style="@style/MainText"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="display test"/>
+
+            <Button
+                android:id="@+id/btnBattery"
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="rerun battery test"
+                />
+
+            <TextView
+                android:id="@+id/tvCpuTest"
+                android:textSize="16sp"
+                style="@style/MainText"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="display test"/>
+
+            <Button
+                android:id="@+id/btnCpu"
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="rerun cpu test"
+                />
+
+            <TextView
+                android:id="@+id/tvRamTest"
+                android:textSize="16sp"
+                style="@style/MainText"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="display test"/>
+
+            <Button
+                android:id="@+id/btnRam"
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="rerun ram test"
+                />
+
 
         </LinearLayout>
 
