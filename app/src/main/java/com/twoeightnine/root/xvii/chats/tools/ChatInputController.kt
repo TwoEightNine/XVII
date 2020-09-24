@@ -259,13 +259,12 @@ class ChatInputController(
                         iconRes = R.drawable.ic_calendar_popup,
                         textRes = R.string.scheduled_messages_send,
                         onClick = ::showDatePicker
+                ),
+                ContextPopupItem(
+                        iconRes = R.drawable.ic_clock,
+                        textRes = R.string.destructor_send,
+                        onClick = ::showDestructorDelay
                 )
-                // todo release in nearest future
-//                ContextPopupItem(
-//                        iconRes = R.drawable.ic_clock,
-//                        textRes = R.string.destructor_send,
-//                        onClick = ::showDestructorDelay
-//                )
         )
         createContextPopup(context, items).show()
     }
