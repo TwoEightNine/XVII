@@ -281,6 +281,11 @@ object Prefs {
 
             "isLightTheme" to isLightTheme,
             COLOR to Integer.toHexString(color),
-            USE_STYLED_NOTIFICATIONS to useStyledNotifications
+            USE_STYLED_NOTIFICATIONS to useStyledNotifications,
+
+            NOTIFY_ABOUT_INVADERS to notifyAboutInvaders,
+            TAKE_INVADER_PICTURE to takeInvaderPicture,
+            PIN_MIXTURE_TYPE to pinMixtureType,
+            FAKE_APP_TYPE to fakeAppType
     )
 }

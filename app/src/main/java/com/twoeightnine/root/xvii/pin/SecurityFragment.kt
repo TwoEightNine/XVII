@@ -53,6 +53,7 @@ class SecurityFragment : BaseFragment() {
         llPinContainer.setVisible(hasPin)
         switchNotifyAboutInvader.isChecked = Prefs.notifyAboutInvaders
         switchInvaderPhoto.setVisible(switchNotifyAboutInvader.isChecked)
+        switchInvaderPhoto.isChecked = Prefs.takeInvaderPicture
 
         switchPin.onCheckedListener = pinCheckedListener
     }
