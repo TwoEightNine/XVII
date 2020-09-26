@@ -20,7 +20,6 @@ object PinUtils {
     fun getPinWeakness(rawPin: String): PinWeakness = when {
         rawPin.length < 4 -> PinWeakness.LENGTH
         hasPattern(rawPin) -> PinWeakness.PATTERN
-        isPopularYear(rawPin) -> PinWeakness.YEAR
         isValidDate(rawPin) -> PinWeakness.DATE
         else -> PinWeakness.NONE
     }
@@ -104,15 +103,43 @@ object PinUtils {
     }
 
     private fun isPopularYear(rawPin: String): Boolean =
-            rawPin.toInt() in 1900..2020
+            rawPin.length == 4 && rawPin.toInt() in 1900..2020
 
-    private fun isValidDate(rawPin: String): Boolean {
-        if (rawPin.length > 4) return false
+    private fun isValidDate(rawPin: String): Boolean = when(rawPin.length) {
+        4 -> {
+            isMonthAndDay(rawPin) || isPopularYear(rawPin)
+        }
+        6 -> {
+            val firstFour = rawPin.substring(0, 4)
+            val lastFour = rawPin.substring(2)
+            val firstTwo = rawPin.substring(0, 2)
+            val lastTwo = rawPin.substring(4)
+
+            val hasYearFirst = isPopularYear("19$firstTwo") || isPopularYear("20$firstTwo")
+            val hasYearLast = isPopularYear("19$lastTwo") || isPopularYear("20$lastTwo")
+
+            isMonthAndDay(firstFour) && hasYearLast
+                    || isMonthAndDay(lastFour) && hasYearFirst
+        }
+        8 -> {
+            val firstHalf = rawPin.substring(0, 4)
+            val secondHalf = rawPin.substring(4)
+
+            isMonthAndDay(firstHalf) && isPopularYear(secondHalf)
+                    || isMonthAndDay(secondHalf) && isPopularYear(firstHalf)
+        }
+        else -> false
+
+    }
+
+    private fun isMonthAndDay(rawPin: String): Boolean {
+        if (rawPin.length != 4) return false
 
         val firstPair = rawPin.substring(0, 2).toInt()
         val secondPair = rawPin.substring(2).toInt()
 
         return isMonth(secondPair) && isDayOfMonth(firstPair, secondPair)
+                || isMonth(firstPair) && isDayOfMonth(secondPair, firstPair)
     }
 
     private fun isDayOfMonth(num: Int, month: Int): Boolean {
