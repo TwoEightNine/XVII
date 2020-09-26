@@ -92,6 +92,8 @@ class PermissionHelper {
 
     fun hasRecordAudioPermissions() = hasPermissions(arrayOf(RECORD_AUDIO))
 
+    fun hasCameraPermissions() = hasPermissions(arrayOf(CAMERA))
+
     private fun hasPermission(permission: String): Boolean {
         val check = PermissionChecker.checkSelfPermission(activity, permission)
         return check == PackageManager.PERMISSION_GRANTED
@@ -111,6 +113,7 @@ class PermissionHelper {
         const val READ_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
         const val WRITE_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
         const val RECORD_AUDIO = Manifest.permission.RECORD_AUDIO
+        const val CAMERA = Manifest.permission.CAMERA
     }
 
 }

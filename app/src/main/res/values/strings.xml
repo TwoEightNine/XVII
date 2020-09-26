@@ -454,6 +454,9 @@
     <string name="pin_settings_fake_diagnostics">diagnostics tool</string>
     <string name="pin_settings_fake_diagnostics_hint">press and hold on \'rerun battery test\' to enter</string>
 
+    <string name="camera_permissions_title">camera access</string>
+    <string name="camera_permissions_message">app needs a permission to access camera</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>

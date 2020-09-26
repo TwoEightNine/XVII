@@ -82,7 +82,7 @@ class GalleryFragment : BaseFragment() {
         if (!onlyPhotos) {
             llButtons.show()
             btnCamera.setOnClickListener {
-                imageUtils.dispatchTakePictureIntent(this)
+                onCameraClick()
             }
             btnDoc.setOnClickListener {
                 imageUtils.dispatchSelectFile(this)
@@ -133,6 +133,14 @@ class GalleryFragment : BaseFragment() {
         rvAttachments.adapter = adapter
         adapter.multiSelectMode = true
         adapter.multiListener = fabDone::setVisible
+    }
+
+    private fun onCameraClick() {
+        permissionHelper.doOrRequest(
+                PermissionHelper.CAMERA,
+                R.string.camera_permissions_title,
+                R.string.camera_permissions_message
+        ) { imageUtils.dispatchTakePictureIntent(this) }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
