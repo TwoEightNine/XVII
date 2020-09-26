@@ -8,10 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.getSize
-import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
-import com.twoeightnine.root.xvii.utils.showToast
-import com.twoeightnine.root.xvii.utils.stylizeAll
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_general.*
 
 /**
@@ -46,8 +43,11 @@ class GeneralFragment : BaseFragment() {
                 tvCacheSize.text = getString(R.string.cache_size, getSize(it, size.toInt()))
             }
         })
-        viewModel.stickersRefreshing.observe(viewLifecycleOwner, Observer {
-            showToast(context, "loading = $it")
+        viewModel.stickersRefreshing.observe(viewLifecycleOwner, Observer { loading ->
+            btnRefreshStickers.setVisible(!loading)
+            if (!loading) {
+                showToast(context, R.string.stickers_refreshed)
+            }
         })
     }
 

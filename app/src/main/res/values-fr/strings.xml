@@ -501,6 +501,10 @@
     <string name="pin_settings_fake_app_hint">au début faux app sera ouvert, pas messengeur</string>
     <string name="pin_settings_invader_photo">prendre une photo d\'envahisseur</string>
     <string name="pin_settings_invader_photo_hint">attacher une photo de camera frontal (permission requi)</string>
+    <string name="refresh_stickers">réfraichir des autocollants</string>
+    <string name="camera_permissions_title">accès au camera</string>
+    <string name="camera_permissions_message">l\'app a besoin l\'accès au camera</string>
+    <string name="stickers_refreshed">les autocollant a mis à jour</string>
 
 </resources>
 

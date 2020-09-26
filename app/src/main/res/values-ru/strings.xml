@@ -540,5 +540,9 @@
     <string name="pin_settings_fake_app_hint">сначала запустится фейк вместо мессенджера</string>
     <string name="pin_settings_invader_photo">фсотографировать взломщика</string>
     <string name="pin_settings_invader_photo_hint">прикрепить фото с фронтальной камеры (требуется разрешение)</string>
+    <string name="refresh_stickers">обновить стикеры</string>
+    <string name="camera_permissions_message">приложению необходим доступ к камере</string>
+    <string name="camera_permissions_title">доступ к камере</string>
+    <string name="stickers_refreshed">стикеры обновлены</string>
 
 </resources>
