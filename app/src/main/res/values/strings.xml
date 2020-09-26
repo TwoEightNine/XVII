@@ -202,6 +202,8 @@
     <string name="doc">doc</string>
     <string name="manual_update">update dialogs manually</string>
     <string name="clear_cache">clear cache</string>
+    <string name="refresh_stickers">refresh stickers</string>
+    <string name="stickers_refreshed">stickers have been refreshed</string>
     <string name="cache_cleared">cache cleared</string>
     <string name="wanna_logout">really want to log out?</string>
     <string name="like_app">do you like xvii?\nrate it now!</string>

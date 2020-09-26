@@ -10,6 +10,7 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.getSize
 import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
+import com.twoeightnine.root.xvii.utils.showToast
 import com.twoeightnine.root.xvii.utils.stylizeAll
 import kotlinx.android.synthetic.main.fragment_general.*
 
@@ -27,6 +28,9 @@ class GeneralFragment : BaseFragment() {
         btnClearCache.setOnClickListener {
             viewModel.clearCache()
         }
+        btnRefreshStickers.setOnClickListener {
+            viewModel.refreshStickers()
+        }
         llContainer.stylizeAll()
         svContent.setBottomInsetPadding()
     }
@@ -41,6 +45,9 @@ class GeneralFragment : BaseFragment() {
             context?.resources?.also {
                 tvCacheSize.text = getString(R.string.cache_size, getSize(it, size.toInt()))
             }
+        })
+        viewModel.stickersRefreshing.observe(viewLifecycleOwner, Observer {
+            showToast(context, "loading = $it")
         })
     }
 

@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.db.AppDb
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
@@ -32,6 +34,7 @@ class GeneralViewModel : ViewModel() {
 
     private val cacheSizeLiveData = MutableLiveData<Long>()
     private val cacheClearedLiveData = MutableLiveData<Boolean>()
+    private val stickersRefreshingLiveData = MutableLiveData<Boolean>()
     private val hideStatusLiveData = MutableLiveData<Wrapper<Boolean>>()
 
     val cacheSize: LiveData<Long>
@@ -39,6 +42,9 @@ class GeneralViewModel : ViewModel() {
 
     val hideStatus: LiveData<Wrapper<Boolean>>
         get() = hideStatusLiveData
+
+    val stickersRefreshing: LiveData<Boolean>
+        get() = stickersRefreshingLiveData
 
     init {
         App.appComponent?.inject(this)
@@ -72,11 +78,6 @@ class GeneralViewModel : ViewModel() {
             com.twoeightnine.root.xvii.utils.clearCache(applicationContext)
             true
         }
-                .flatMap { result ->
-                    appDb.stickersDao()
-                            .clearStickers()
-                            .toSingleDefault(result)
-                }
                 .compose(applySingleSchedulers())
                 .onErrorReturn { false }
                 .subscribe { success ->
@@ -84,6 +85,22 @@ class GeneralViewModel : ViewModel() {
                     if (success) {
                         calculateCacheSize()
                     }
+                }
+    }
+
+    fun refreshStickers() {
+        stickersRefreshingLiveData.value = true
+        disposable?.dispose()
+        disposable = appDb.stickersDao()
+                .clearStickers()
+                .onErrorComplete()
+                .subscribe {
+                    StickersEmojiRepository()
+                            .loadStickers(forceLoad = true) {
+                                stickersRefreshingLiveData.value = false
+                                L.tag("stickers")
+                                        .log("refreshed")
+                            }
                 }
     }
 

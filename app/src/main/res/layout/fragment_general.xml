@@ -172,9 +172,20 @@
                 android:layout_marginStart="1dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="12dp"
                 android:drawableStart="@drawable/ic_delete"
                 android:text="@string/clear_cache" />
+
+            <Button
+                android:id="@+id/btnRefreshStickers"
+                style="@style/AccentButton"
+                android:layout_width="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp"
+                android:drawableStart="@drawable/ic_update"
+                android:text="@string/refresh_stickers" />
 
         </LinearLayout>
 

@@ -223,7 +223,7 @@ class StickersEmojiRepository {
                     packs.add(StickerPack(entry.key, entry.value))
                 }
                 packs.add(StickerPack(null, recent))
-                packs.sortBy { it.stickers.getOrNull(0)?.id ?: 0 }
+                packs.sortBy { pack -> pack.stickers.map { it.id }.median() }
                 packs.toList()
             }.compose(applySingleSchedulers())
 
@@ -300,6 +300,17 @@ class StickersEmojiRepository {
 
     private fun Disposable.add() {
         compositeDisposable.add(this)
+    }
+
+    private fun List<Int>.median(): Int {
+        if (isEmpty()) return 0
+        val sorted = sorted()
+        val centerIndex = sorted.size / 2
+        return if (sorted.size % 2 == 0) {
+            (sorted[centerIndex] + sorted[centerIndex + 1]) / 2
+        } else {
+            sorted[centerIndex]
+        }
     }
 
     companion object {
