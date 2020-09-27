@@ -307,7 +307,7 @@ class StickersEmojiRepository {
         val sorted = sorted()
         val centerIndex = sorted.size / 2
         return if (sorted.size % 2 == 0) {
-            (sorted[centerIndex] + sorted[centerIndex + 1]) / 2
+            (sorted[centerIndex] + sorted[centerIndex - 1]) / 2
         } else {
             sorted[centerIndex]
         }
