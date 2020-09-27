@@ -72,11 +72,9 @@ fun formatDate(date: String): String = try {
  * fucking vk format allows "d.M.yyyy" WTF???
  */
 fun formatBdate(bdate: String?) = bdate
-        ?.split(".")
-        ?.map {
+        ?.split(".")?.joinToString(".") {
             if (it.length == 1) "0$it" else it
-        }
-        ?.joinToString(".") ?: ""
+        } ?: ""
 
 fun getMinutes(): String {
     val minutes = Calendar.getInstance().get(Calendar.MINUTE)

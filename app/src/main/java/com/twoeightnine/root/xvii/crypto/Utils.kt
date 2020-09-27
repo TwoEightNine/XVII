@@ -7,28 +7,25 @@ import java.security.SecureRandom
 
 const val PRIME_TEST_PROBABILITY = 30
 
-fun md5Raw(plain: ByteArray) = MessageDigest
+fun md5Raw(plain: ByteArray): ByteArray = MessageDigest
         .getInstance("MD5")
         .digest(plain)
 
 fun md5(plain: String) = md5Raw(plain.toByteArray())
         .map { Integer.toHexString(it.toInt() and 0xff) }
-        .map { if (it.length == 2) it else "0$it" }
-        .joinToString(separator = "")
+        .joinToString(separator = "") { if (it.length == 2) it else "0$it" }
 
-fun sha256Raw(plain: ByteArray) = MessageDigest
+fun sha256Raw(plain: ByteArray): ByteArray = MessageDigest
         .getInstance("SHA-256")
         .digest(plain)
 
 fun sha256(plain: String) = sha256Raw(plain.toByteArray())
         .map { Integer.toHexString(it.toInt() and 0xff) }
-        .map { if (it.length == 2) it else "0$it" }
-        .joinToString(separator = "")
+        .joinToString(separator = "") { if (it.length == 2) it else "0$it" }
 
 fun bytesToHex(bytes: ByteArray) = bytes
         .map { Integer.toHexString(it.toInt() and 0xff) }
-        .map { if (it.length == 2) it else "0$it" }
-        .joinToString(separator = "")
+        .joinToString(separator = "") { if (it.length == 2) it else "0$it" }
 
 fun getUiFriendlyHash(hash: String) = hash
         .mapIndexed { index, c -> if (index % 2 == 0) c.toString() else "$c " } // spaces

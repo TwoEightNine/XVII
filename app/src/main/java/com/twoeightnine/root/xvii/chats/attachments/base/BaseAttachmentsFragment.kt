@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.chats.attachments.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
@@ -42,8 +41,6 @@ abstract class BaseAttachmentsFragment<T : Any> : BaseFragment() {
         viewModel.peerId = peerId
         initRecycler()
 
-        viewModel.getAttachments().observe(this, Observer { updateList(it) })
-        viewModel.loadAttachments()
         adapter.startLoading()
 
         progressBar.show()
@@ -58,9 +55,11 @@ abstract class BaseAttachmentsFragment<T : Any> : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
             rvAttachments.setBottomPadding(bottom)
-        })
+        }
+        viewModel.getAttachments().observe(viewLifecycleOwner, ::updateList)
+        viewModel.loadAttachments()
     }
 
     private fun updateList(data: Wrapper<ArrayList<T>>) {

@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.search
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.ViewCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
@@ -39,7 +38,6 @@ class SearchFragment : BaseFragment() {
         initRecycler()
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[SearchViewModel::class.java]
-        viewModel.getResult().observe(this, Observer { updateResults(it) })
 
         etSearch.subscribeSearch(true, viewModel::search)
         ivDelete.setOnClickListener { etSearch.setText("") }
@@ -48,13 +46,14 @@ class SearchFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        insetViewModel?.topInset?.observe(viewLifecycleOwner, Observer { top ->
+        viewModel.getResult().observe(viewLifecycleOwner, ::updateResults)
+        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
             rlSearch.setTopPadding(top, context?.resources?.getDimensionPixelSize(R.dimen.toolbar_height) ?: 0)
-        })
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+        }
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
             val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
             rvSearch.setBottomPadding(bottom + bottomNavHeight)
-        })
+        }
     }
 
     private fun updateResults(data: Wrapper<ArrayList<Dialog>>) {

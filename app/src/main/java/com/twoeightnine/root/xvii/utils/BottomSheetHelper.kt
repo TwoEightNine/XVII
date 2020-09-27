@@ -9,14 +9,14 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 
 class BottomSheetHelper(private var bottomSheet: RelativeLayout,
-                        private var thumb: RelativeLayout,
+                        thumb: RelativeLayout,
                         private var title: TextView,
                         private var container: Int,
                         private var fragmentManager: androidx.fragment.app.FragmentManager,
                         private var bottomSheetHeightPx: Int) {
 
     companion object {
-        val DURATION = 300L
+        const val DURATION = 300L
     }
 
     private var x: Float = 0f

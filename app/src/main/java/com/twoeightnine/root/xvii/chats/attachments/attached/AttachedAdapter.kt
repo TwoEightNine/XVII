@@ -53,7 +53,7 @@ class AttachedAdapter(
         }
 
     val maxOrder: Int
-        get() = attachmentsOrder.max() ?: 0
+        get() = attachmentsOrder.maxOrNull() ?: 0
 
     private val attachmentsOrder = arrayListOf<Int>()
 

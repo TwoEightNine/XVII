@@ -14,7 +14,7 @@ import java.security.InvalidKeyException
 class AesUnitTest {
 
     @Rule @JvmField
-    val thrown = ExpectedException.none()
+    val thrown: ExpectedException = ExpectedException.none()
 
     @Test
     fun encrypting_invalidKeyLength() {

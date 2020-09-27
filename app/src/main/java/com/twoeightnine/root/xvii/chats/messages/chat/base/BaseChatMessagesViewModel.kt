@@ -162,7 +162,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     fun markAsRead(messageIds: List<Int>) {
         api.markAsRead(messageIds.joinToString(separator = ",") { it.toString() })
                 .subscribeSmart({ _ ->
-                    messageIds.max()?.also {
+                    messageIds.maxOrNull()?.also {
                         lastMarkedAsReadId = it
                     }
                 }, {})

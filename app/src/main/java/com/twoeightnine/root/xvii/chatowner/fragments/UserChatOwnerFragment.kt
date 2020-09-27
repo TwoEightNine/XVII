@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.chatowner.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.model.User
@@ -41,13 +40,13 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.blocked.observe(viewLifecycleOwner, Observer(::onBlockedChanged))
-        viewModel.foaf.observe(viewLifecycleOwner, Observer { foaf ->
+        viewModel.blocked.observe(viewLifecycleOwner, ::onBlockedChanged)
+        viewModel.foaf.observe(viewLifecycleOwner) { foaf ->
             foaf.data?.also { registrationDate ->
                 val registrationTs = (registrationDate.time / 1000L).toInt()
                 addValue(R.drawable.ic_id_card, getDate(registrationTs))
             }
-        })
+        }
     }
 
     override fun bindChatOwner(chatOwner: User?) {
