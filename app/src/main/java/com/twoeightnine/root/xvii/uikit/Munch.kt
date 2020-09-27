@@ -11,6 +11,8 @@ object Munch {
     private const val TRI = 120
     private const val EXTRA = 180
 
+    val isLightTheme = Prefs.isLightTheme
+
     val color = ColorScope.fromColor(Prefs.color)
 
     val nextNearColor = ColorScope.fromColor(color.color.getNextNear())
@@ -77,34 +79,44 @@ object Munch {
 
     data class ColorScope(
             val color: Int,
-            val colorWhite05: Int,
             val colorWhite10: Int,
-            val colorWhite30: Int,
+            val colorWhite25: Int,
             val colorWhite50: Int,
-            val colorWhite70: Int,
-            val colorBlack30: Int,
+            val colorWhite75: Int,
+            val colorBlack10: Int,
+            val colorBlack25: Int,
             val colorBlack50: Int,
-            val colorBlack70: Int,
-            val colorBlack90: Int
+            val colorBlack75: Int
     ) {
 
+        val color10: Int
+            get() = if (isLightTheme) colorWhite10 else colorBlack10
+
+        val color25: Int
+            get() = if (isLightTheme) colorWhite25 else colorBlack25
+
+        val color50: Int
+            get() = if (isLightTheme) colorWhite50 else colorBlack50
+
+        val color75: Int
+            get() = if (isLightTheme) colorWhite75 else colorBlack75
+
         fun toList() = listOf(
-                colorWhite05, colorWhite10, colorWhite30, colorWhite50, colorWhite70,
-                color, colorBlack90, colorBlack70, colorBlack50, colorBlack30
+                colorWhite10, colorWhite25, colorWhite50, colorWhite75,
+                color, colorBlack75, colorBlack50, colorBlack25, colorBlack10
         )
 
         companion object {
             fun fromColor(color: Int): ColorScope = ColorScope(
                     color = color,
-                    colorWhite05 = color.alphaOnWhite(0.05f),
                     colorWhite10 = color.alphaOnWhite(0.1f),
-                    colorWhite30 = color.alphaOnWhite(0.3f),
+                    colorWhite25 = color.alphaOnWhite(0.25f),
                     colorWhite50 = color.alphaOnWhite(0.5f),
-                    colorWhite70 = color.alphaOnWhite(0.7f),
-                    colorBlack30 = color.alphaOnBlack(0.3f),
+                    colorWhite75 = color.alphaOnWhite(0.75f),
+                    colorBlack10 = color.alphaOnBlack(0.1f),
+                    colorBlack25 = color.alphaOnBlack(0.25f),
                     colorBlack50 = color.alphaOnBlack(0.5f),
-                    colorBlack70 = color.alphaOnBlack(0.7f),
-                    colorBlack90 = color.alphaOnBlack(0.9f)
+                    colorBlack75 = color.alphaOnBlack(0.75f)
             )
         }
     }
