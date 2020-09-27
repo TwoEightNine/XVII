@@ -43,12 +43,12 @@ class WallPostFragment : BaseFragment() {
         svContent.setBottomInsetPadding()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_wall_post, menu)
+        inflater.inflate(R.menu.menu_wall_post, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.menu_open_url -> {
             simpleUrlIntent(context, "$WALL_POST_URL$postId")
             true
