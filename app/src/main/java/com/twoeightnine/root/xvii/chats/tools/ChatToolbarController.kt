@@ -40,6 +40,7 @@ class ChatToolbarController(private val toolbar: Toolbar) {
         hide()
     }
 
+    @Suppress("UnstableApiUsage")
     private fun startTimer() {
         actionSubscription?.unsubscribe()
         lastAction = time()

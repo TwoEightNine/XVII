@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.friends.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
@@ -38,8 +37,7 @@ class FriendsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[FriendsViewModel::class.java]
-        viewModel.getFriends().observe(this, Observer { updateFriends(it) })
-        viewModel.loadFriends()
+
         adapter.startLoading()
 
         progressBar.show()
@@ -56,13 +54,15 @@ class FriendsFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        insetViewModel?.topInset?.observe(viewLifecycleOwner, Observer { top ->
+        viewModel.getFriends().observe(viewLifecycleOwner, ::updateFriends)
+        viewModel.loadFriends()
+        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
             adapter.firstItemPadding = top
-        })
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+        }
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
             val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
             rvFriends.setBottomPadding(bottom + bottomNavHeight)
-        })
+        }
     }
 
     private fun updateFriends(data: Wrapper<ArrayList<User>>) {

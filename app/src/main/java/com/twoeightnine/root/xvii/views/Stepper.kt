@@ -7,7 +7,6 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.ColorManager
-import com.twoeightnine.root.xvii.utils.stylize
 import com.twoeightnine.root.xvii.utils.stylizeAnyway
 import kotlinx.android.synthetic.main.view_stepper.view.*
 

@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
@@ -53,8 +52,6 @@ class FeaturesFragment : BaseFragment() {
         setHasOptionsMenu(true)
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[FeaturesViewModel::class.java]
-        viewModel.getAccount().observe(this, Observer { updateAccount(it) })
-        viewModel.loadAccount()
 
         tvSwitchAccount.paintFlags = tvSwitchAccount.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         tvSwitchAccount.stylize()
@@ -97,13 +94,15 @@ class FeaturesFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        insetViewModel?.topInset?.observe(viewLifecycleOwner, Observer { top ->
+        viewModel.getAccount().observe(viewLifecycleOwner, ::updateAccount)
+        viewModel.loadAccount()
+        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
             rlAccounts.setTopMargin(top)
-        })
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+        }
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
             val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
             svContent.setBottomPadding(bottom + bottomNavHeight)
-        })
+        }
     }
 
     override fun onResume() {

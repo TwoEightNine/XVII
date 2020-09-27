@@ -19,6 +19,7 @@ import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.Error
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
@@ -138,7 +139,7 @@ fun Picasso.loadRounded(url: String?): RequestCreator {
 fun TextView.subscribeSearch(
         allowEmpty: Boolean,
         onNext: (String) -> Unit
-) = RxTextView.textChanges(this)
+): Subscription = RxTextView.textChanges(this)
         .filter { allowEmpty || it.isNotBlank() }
         .debounce(300, TimeUnit.MILLISECONDS)
         .observeOn(AndroidSchedulers.mainThread())

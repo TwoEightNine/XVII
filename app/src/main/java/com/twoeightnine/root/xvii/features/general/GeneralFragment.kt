@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.features.general
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
@@ -38,17 +37,17 @@ class GeneralFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this)[GeneralViewModel::class.java]
         viewModel.calculateCacheSize()
 
-        viewModel.cacheSize.observe(viewLifecycleOwner, Observer { size ->
+        viewModel.cacheSize.observe(viewLifecycleOwner) { size ->
             context?.resources?.also {
                 tvCacheSize.text = getString(R.string.cache_size, getSize(it, size.toInt()))
             }
-        })
-        viewModel.stickersRefreshing.observe(viewLifecycleOwner, Observer { loading ->
+        }
+        viewModel.stickersRefreshing.observe(viewLifecycleOwner) { loading ->
             btnRefreshStickers.setVisible(!loading)
             if (!loading) {
                 showToast(context, R.string.stickers_refreshed)
             }
-        })
+        }
     }
 
     private fun initSwitches() {

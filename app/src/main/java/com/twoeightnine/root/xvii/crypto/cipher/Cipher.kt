@@ -6,7 +6,6 @@ import com.twoeightnine.root.xvii.crypto.sha256Raw
 object Cipher {
 
     private const val IV_LENGTH = 16
-    private const val BLOCK_LENGTH = 32
     private const val MAC_LENGTH = 32
 
     fun encrypt(bytes: ByteArray, key: ByteArray): ByteArray {

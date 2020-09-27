@@ -19,6 +19,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.attachments.Audio
+import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 
 
@@ -419,9 +420,9 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             service?.toggleSpeed()
         }
 
-        fun subscribeOnAudioPlaying(consumer: (Track) -> Unit) = playingAudioSubject.subscribe(consumer)
+        fun subscribeOnAudioPlaying(consumer: (Track) -> Unit): Disposable = playingAudioSubject.subscribe(consumer)
 
-        fun subscribeOnAudioPausing(consumer: (Unit) -> Unit) = pausingAudioSubject.subscribe(consumer)
+        fun subscribeOnAudioPausing(consumer: (Unit) -> Unit): Disposable = pausingAudioSubject.subscribe(consumer)
 
         fun getPlayedTrack() = service?.getPlayedTrack()
 

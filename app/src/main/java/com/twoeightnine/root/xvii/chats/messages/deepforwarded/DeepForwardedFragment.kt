@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.chats.messages.deepforwarded
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
@@ -41,8 +40,7 @@ class DeepForwardedFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[DeepForwardedViewModel::class.java]
-        viewModel.getInteraction().observe(this, Observer { onMessageLoaded(it) })
-        viewModel.loadMessage(messageId ?: 0)
+
         rvForwarded.layoutManager = LinearLayoutManager(context)
         rvForwarded.adapter = adapter
     }
@@ -50,6 +48,8 @@ class DeepForwardedFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setTitle(getString(R.string.forwarded_message))
+        viewModel.getInteraction().observe(viewLifecycleOwner, ::onMessageLoaded)
+        viewModel.loadMessage(messageId ?: 0)
     }
 
     private fun onMessageLoaded(data: Wrapper<Interaction>) {

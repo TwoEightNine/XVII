@@ -85,7 +85,7 @@ object PinUtils {
             if (pin[i - 1] == 0) {
                 variants.add(abs(10 - pin[i]))
             }
-            diffs.add(variants.min() ?: 0)
+            diffs.add(variants.minOrNull() ?: 0)
         }
         return diffs
     }

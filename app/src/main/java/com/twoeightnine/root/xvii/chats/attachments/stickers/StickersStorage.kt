@@ -13,13 +13,13 @@ class StickersStorage(
 
     private val gson = Gson()
 
-    override fun serialize(data: ArrayList<Sticker>) = gson.toJson(StickerWrapper(data))
+    override fun serialize(data: ArrayList<Sticker>): String = gson.toJson(StickerWrapper(data))
 
     override fun deserialize(s: String) = try {
         gson.fromJson(s, StickerWrapper::class.java).stickers
     } catch (e: Exception) {
         e.printStackTrace()
-        arrayListOf<Sticker>()
+        arrayListOf()
     }
 
     enum class Type {

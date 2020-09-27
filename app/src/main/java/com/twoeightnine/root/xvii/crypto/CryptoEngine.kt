@@ -15,9 +15,9 @@ import io.reactivex.Single
 import java.math.BigInteger
 
 class CryptoEngine(
-        private val context: Context,
+        context: Context,
         private val peerId: Int,
-        private val testing: Boolean = false
+        testing: Boolean = false
 ) {
 
     var keyType = KeyType.DEFAULT

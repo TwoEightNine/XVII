@@ -93,7 +93,7 @@ data class PollPhoto(
 
 ) : Parcelable {
 
-    fun getOptimalPhotoUrl(): String? = images.maxBy { it.width }?.url
+    fun getOptimalPhotoUrl(): String? = images.maxByOrNull { it.width }?.url
 
     fun getColor(): Int = color.asColorInt()
 }

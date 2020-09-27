@@ -17,7 +17,7 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(protected var contex
 
     open val items: MutableList<T> = mutableListOf()
 
-    protected var inflater = LayoutInflater.from(context)
+    protected var inflater: LayoutInflater = LayoutInflater.from(context)
 
     var emptyView: View? = null
 

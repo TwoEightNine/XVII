@@ -32,20 +32,20 @@ class DiffieHellman {
     private var generator = BigInteger.ONE
     private var modulo = BigInteger.ONE
 
-    var publicOwn = BigInteger.ONE
+    var publicOwn: BigInteger = BigInteger.ONE
         private set
 
     /**
      * sets other public nonce, computes shared key
      * used in case of own generating
      */
-    var publicOther = BigInteger.ONE
+    var publicOther: BigInteger = BigInteger.ONE
         set(value) {
             field = value
             key = value.modPow(privateOwn, modulo)
         }
 
-    var key = BigInteger.ONE
+    var key: BigInteger = BigInteger.ONE
         private set
 
     /**

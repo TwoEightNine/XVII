@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.TextView
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
@@ -63,7 +62,7 @@ class DiagnosticsActivity : BaseActivity() {
     }
 
     private fun LiveData<String>.observeInto(textView: TextView) {
-        observe(this@DiagnosticsActivity, Observer { textView.text = it })
+        observe(this@DiagnosticsActivity) { textView.text = it }
     }
 
     companion object {
