@@ -90,12 +90,12 @@ class PollFragment : BaseFragment() {
 //        }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.poll, menu)
+        inflater.inflate(R.menu.poll, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.menu_clear_vote -> {
             viewModel.clearVotes()
             rlLoader.show()

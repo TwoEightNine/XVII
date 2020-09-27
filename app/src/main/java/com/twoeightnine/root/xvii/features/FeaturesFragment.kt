@@ -111,9 +111,9 @@ class FeaturesFragment : BaseFragment() {
         rlContribute.setVisible(time() - Prefs.lastAssistance > ASSISTANCE_DELAY)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
+        menu.clear()
     }
 
     private fun updateAccount(account: Account) {

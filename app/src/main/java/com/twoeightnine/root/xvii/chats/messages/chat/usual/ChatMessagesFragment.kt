@@ -42,16 +42,16 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
-        inflater?.inflate(R.menu.menu_chat, menu)
-        menu?.findItem(R.id.menu_secret_chat)?.isVisible = peerId.matchesUserId()
-        menu?.findItem(R.id.menu_attach_logs)?.isVisible = peerId == -App.GROUP
+        menu.clear()
+        inflater.inflate(R.menu.menu_chat, menu)
+        menu.findItem(R.id.menu_secret_chat)?.isVisible = peerId.matchesUserId()
+        menu.findItem(R.id.menu_attach_logs)?.isVisible = peerId == -App.GROUP
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.menu_attachments -> {
                 AttachmentsActivity.launch(context, peerId)
                 true

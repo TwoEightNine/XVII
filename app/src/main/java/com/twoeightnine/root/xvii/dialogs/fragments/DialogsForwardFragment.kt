@@ -15,9 +15,9 @@ class DialogsForwardFragment : DialogsFragment() {
     private val shareText by lazy { arguments?.getString(ARG_SHARE_TEXT) }
     private val shareImage by lazy { arguments?.getString(ARG_SHARE_IMAGE) }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
+        menu.clear()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

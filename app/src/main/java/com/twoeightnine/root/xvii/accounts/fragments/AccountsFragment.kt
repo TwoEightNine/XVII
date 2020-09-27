@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
@@ -16,7 +15,6 @@ import com.twoeightnine.root.xvii.accounts.viewmodel.AccountsViewModel
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.login.LoginActivity
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_accounts.*
 import javax.inject.Inject
@@ -62,7 +60,9 @@ class AccountsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTitle(getString(R.string.accounts))
-        viewModel.getAccounts().observe(viewLifecycleOwner, Observer { updateAccounts(it) })
+        viewModel.getAccounts().observe(viewLifecycleOwner) {
+            updateAccounts(it)
+        }
     }
 
     override fun onResume() {
@@ -70,13 +70,13 @@ class AccountsFragment : BaseFragment() {
         viewModel.loadAccounts()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
-        inflater?.inflate(R.menu.menu_accounts, menu)
+        menu.clear()
+        inflater.inflate(R.menu.menu_accounts, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.menu_log_out -> {
             showWarnConfirm(context, getString(R.string.wanna_logout), getString(R.string.logout)) { logout ->
                 if (logout) {
