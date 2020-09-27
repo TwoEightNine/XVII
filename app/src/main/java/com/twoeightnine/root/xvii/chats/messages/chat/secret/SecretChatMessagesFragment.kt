@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
@@ -56,19 +55,22 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
             showKeysDialog()
         }
         ivKeyPattern.show()
+    }
 
-        viewModel.getKeysSet().observe(this, Observer {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.getKeysSet().observe(viewLifecycleOwner) {
             rlNoKeys.setVisible(!it)
             viewModel.loadMessages()
-        })
+        }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_secret_chat, menu)
+        inflater.inflate(R.menu.menu_secret_chat, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.menu_fingerprint -> {
             if (viewModel.isKeyRequired()) {
                 showKeysDialog()

@@ -16,7 +16,7 @@ class FragmentPlacementActivity : ContentActivity() {
     }
 
     override fun createFragment(intent: Intent?): Fragment =
-            Fragment.instantiate(this, fragmentClassName, fragmentArgs)
+            Fragment.instantiate(this, fragmentClassName ?: "", fragmentArgs)
 
     companion object {
 

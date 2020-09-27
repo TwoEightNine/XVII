@@ -48,9 +48,9 @@ class AttachmentsFragment : BaseFragment() {
         tabs.stylize()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
+        menu.clear()
     }
 
     companion object {
