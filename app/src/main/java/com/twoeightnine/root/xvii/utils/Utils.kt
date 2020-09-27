@@ -9,7 +9,6 @@ import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.*
-import android.content.Intent.*
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
@@ -330,8 +329,8 @@ fun equalsDevUids(userId: Int) = App.ID_SALTS
         .isNotEmpty()
 
 fun goHome(context: Context?) {
-    context?.startActivity(Intent(ACTION_MAIN).apply {
-        addCategory(CATEGORY_HOME)
+    context?.startActivity(Intent(Intent.ACTION_MAIN).apply {
+        addCategory(Intent.CATEGORY_HOME)
     })
 }
 
@@ -343,7 +342,7 @@ fun simpleUrlIntent(context: Context?, urlArg: String?) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://$url"
         }
-        val intent = Intent(ACTION_VIEW).apply {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(url)
         }
         context.startActivity(intent)
@@ -462,7 +461,7 @@ fun callIntent(context: Context?, num: String?) {
     var number = num ?: return
     number = number.replace("-", "")
     number = number.replace(" ", "")
-    context.startActivity(Intent(ACTION_DIAL, Uri.parse("tel:$number")))
+    context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number")))
 }
 
 fun addToGallery(context: Context, path: String) {
@@ -706,22 +705,26 @@ fun getTotalRAM(): String {
 
 fun shortifyNumber(value: Int): String {
     var num = value.toString()
-    if (value > 1000000) {
-        val mod = value % 1000000 / 100000
-        num = "${value / 1000000}"
-        if (mod > 0) {
-            num += ".$mod"
+    when {
+        value > 1000000 -> {
+            val mod = value % 1000000 / 100000
+            num = "${value / 1000000}"
+            if (mod > 0) {
+                num += ".$mod"
+            }
+            num += "M"
         }
-        num += "M"
-    } else if (value > 10000) {
-        num = "${value / 1000}K"
-    } else if (value > 1000) {
-        val mod = value % 1000 / 100
-        num = "${value / 1000}"
-        if (mod > 0) {
-            num += ".$mod"
+        value > 10000 -> {
+            num = "${value / 1000}K"
         }
-        num += "K"
+        value > 1000 -> {
+            val mod = value % 1000 / 100
+            num = "${value / 1000}"
+            if (mod > 0) {
+                num += ".$mod"
+            }
+            num += "K"
+        }
     }
     return num
 }
@@ -769,7 +772,7 @@ fun createShortcut(context: Context?, dialog: Dialog) {
         putExtra(ChatActivity.PEER_ID, dialog.peerId)
         putExtra(ChatActivity.TITLE, dialog.alias ?: dialog.title)
         putExtra(ChatActivity.AVATAR, dialog.photo)
-        flags = flags or FLAG_ACTIVITY_CLEAR_TOP
+        flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TOP
     }
     val name = dialog.alias ?: dialog.title
     Picasso.get()
@@ -797,13 +800,13 @@ fun createShortcut(context: Context?, dialog: Dialog) {
 
                 private fun createShortcut(bitmap: Bitmap?) {
                     context?.sendBroadcast(Intent().apply {
-                        putExtra(EXTRA_SHORTCUT_INTENT, intent)
-                        putExtra(EXTRA_SHORTCUT_NAME, dialog)
+                        putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent)
+                        putExtra(Intent.EXTRA_SHORTCUT_NAME, dialog)
                         if (bitmap != null) {
-                            putExtra(EXTRA_SHORTCUT_ICON, bitmap)
+                            putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap)
                         } else {
-                            putExtra(EXTRA_SHORTCUT_ICON_RESOURCE,
-                                    ShortcutIconResource.fromContext(context, R.drawable.xvii_dark_logo_128))
+                            putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                                    Intent.ShortcutIconResource.fromContext(context, R.drawable.xvii_dark_logo_128))
                         }
                         putExtra("duplicate", false)
                         action = "com.android.launcher.action.INSTALL_SHORTCUT"
@@ -813,7 +816,7 @@ fun createShortcut(context: Context?, dialog: Dialog) {
                 @TargetApi(25)
                 private fun createShortcutNew(bitmap: Bitmap?) {
                     val shortcutManager = context?.getSystemService(ShortcutManager::class.java)
-                    intent.action = ACTION_VIEW
+                    intent.action = Intent.ACTION_VIEW
 
                     val shortcutInfo = ShortcutInfo.Builder(context, dialog.peerId.toString())
                             .setShortLabel(name)
@@ -866,10 +869,6 @@ class EndListener(private val onEnd: () -> Unit) : Animator.AnimatorListener {
 
     override fun onAnimationEnd(p0: Animator?) {
         onEnd()
-    }
-
-    override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
-        super.onAnimationStart(animation, isReverse)
     }
 
     override fun onAnimationStart(p0: Animator?) {

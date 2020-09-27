@@ -4,11 +4,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -38,12 +36,16 @@ class ProfileFragment : BaseFragment() {
         stylize()
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[ProfileViewModel::class.java]
-        viewModel.getUser().observe(this, Observer { updateUser(it) })
-        viewModel.getFoaf().observe(this, Observer { updateFoaf(it) })
         viewModel.userId = userId
         viewModel.loadUser()
 
         context?.let { RateAlertDialog(it).show() }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.getUser().observe(viewLifecycleOwner, ::updateUser)
+        viewModel.getFoaf().observe(viewLifecycleOwner, ::updateFoaf)
     }
 
     private fun stylize() {

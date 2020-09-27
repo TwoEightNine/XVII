@@ -45,13 +45,12 @@ class PinPadView : GridLayout {
             } else {
                 tv.setText(if (i == 11) R.string.clear else R.string.ok)
             }
-            val pos = i
             view.setOnClickListener {
                 if (listener != null) {
-                    if (pos <= 10) {
-                        listener?.invoke(pos % 10)
+                    if (i <= 10) {
+                        listener?.invoke(i % 10)
                     } else {
-                        listener?.invoke(if (pos == 11) DELETE else OK)
+                        listener?.invoke(if (i == 11) DELETE else OK)
                     }
                 }
             }

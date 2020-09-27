@@ -26,7 +26,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 
 
-val SANS_SERIF_LIGHT = Typeface.create("sans-serif-light", Typeface.NORMAL)
+val SANS_SERIF_LIGHT: Typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
 
 object ColorManager {
 
@@ -311,9 +311,9 @@ fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false
         setTextColor(mainText)
     }
     for (btn in arrayListOf(
-            findViewById<Button>(android.R.id.button1),
+            findViewById(android.R.id.button1),
             findViewById<Button>(android.R.id.button2),
-            findViewById<Button>(android.R.id.button3)
+            findViewById(android.R.id.button3)
     )) {
         btn?.apply {
             this.typeface = typeface

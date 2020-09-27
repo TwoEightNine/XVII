@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.analyzer.dialog
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -27,8 +26,12 @@ class AnalyzeDialogFragment : BaseFragment() {
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[AnalyseDialogViewModel::class.java]
         viewModel.peerId = peerId
-        viewModel.getUser().observe(this, Observer { updateUser(it) })
-        viewModel.getProgress().observe(this, Observer { updateProgress(it) })
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.getUser().observe(viewLifecycleOwner, ::updateUser)
+        viewModel.getProgress().observe(viewLifecycleOwner, ::updateProgress)
         viewModel.analyse()
     }
 

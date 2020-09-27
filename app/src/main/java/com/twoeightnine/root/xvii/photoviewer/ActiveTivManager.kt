@@ -7,7 +7,7 @@ class ActiveTivManager(val count: Int = 3) {
 
     private val actualTivs by lazy {
         val res = arrayListOf<TouchImageView?>()
-        IntRange(1, count).forEach { res.add(null) }
+        repeat(count) { res.add(null) }
         res
     }
 

@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -103,12 +102,6 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
         rvStickersSuggestion.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvStickersSuggestion.adapter = stickersAdapter
-
-        // TODO move to onActivityCreated with viewLifeCycleOwner
-        viewModel.getLastSeen().observe(this, Observer { onOnlineChanged(it) })
-        viewModel.getCanWrite().observe(this, Observer { onCanWriteChanged(it) })
-        viewModel.getActivity().observe(this, Observer { onActivityChanged(it) })
-        viewModel.mentionedMembers.observe(this, Observer(::showMentionedMembers))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -129,6 +122,11 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             activity?.let { hideKeyboard(it) }
             ChatOwnerActivity.launch(context, peerId)
         }
+
+        viewModel.getLastSeen().observe(viewLifecycleOwner, ::onOnlineChanged)
+        viewModel.getCanWrite().observe(viewLifecycleOwner, ::onCanWriteChanged)
+        viewModel.getActivity().observe(viewLifecycleOwner, ::onActivityChanged)
+        viewModel.mentionedMembers.observe(viewLifecycleOwner, ::showMentionedMembers)
 
         ViewCompat.setOnApplyWindowInsetsListener(rlInputBack) { view, insets ->
             view.setPadding(0, 0, 0, insets.systemWindowInsetBottom)

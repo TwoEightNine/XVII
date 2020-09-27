@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.twoeightnine.root.xvii.App
@@ -61,7 +60,6 @@ class GalleryFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[GalleryViewModel::class.java]
         viewModel.onlyPhotos = onlyPhotos
         initRecycler()
-        viewModel.getAttach().observe(this, Observer { updateList(it) })
         reloadData()
         adapter.startLoading()
 
@@ -98,12 +96,13 @@ class GalleryFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+        viewModel.getAttach().observe(viewLifecycleOwner, ::updateList)
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
             rvAttachments.setPadding(0, rvAttachments.paddingTop, 0, bottom)
             val fabMargin = context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin)
                     ?: 0
             fabDone.setBottomMargin(bottom + fabMargin)
-        })
+        }
     }
 
     private fun onDoneClicked() {

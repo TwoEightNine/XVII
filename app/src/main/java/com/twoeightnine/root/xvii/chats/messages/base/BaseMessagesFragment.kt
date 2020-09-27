@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.chats.messages.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,8 +53,6 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         initMultiAction()
         viewModel = ViewModelProviders.of(this, viewModelFactory)[getViewModelClass()]
         prepareViewModel()
-        viewModel.getInteraction().observe(this, Observer { updateMessages2(it) })
-        viewModel.loadMessages()
         adapter.startLoading()
 
         progressBar.show()
@@ -64,6 +61,12 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
             adapter.reset()
             adapter.startLoading()
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.getInteraction().observe(viewLifecycleOwner, ::updateMessages2)
+        viewModel.loadMessages()
     }
 
     protected fun getSelectedMessageIds() = adapter.multiSelect

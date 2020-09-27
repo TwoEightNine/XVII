@@ -59,17 +59,17 @@ open class DialogsFragment : BaseFragment() {
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[DialogsViewModel::class.java]
         viewModel.getDialogs().observe(viewLifecycleOwner, Observer(::updateDialogs))
-        viewModel.getTypingPeerIds().observe(viewLifecycleOwner, Observer { adapter.typingPeerIds = it })
+        viewModel.getTypingPeerIds().observe(viewLifecycleOwner) { adapter.typingPeerIds = it }
         viewModel.loadDialogs()
         adapter.startLoading()
 
-        insetViewModel?.topInset?.observe(viewLifecycleOwner, Observer { top ->
+        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
             adapter.firstItemPadding = top
-        })
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
+        }
+        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
             val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
             rvDialogs.setBottomPadding(bottom + bottomNavHeight)
-        })
+        }
     }
 
     private fun initRecycler() {

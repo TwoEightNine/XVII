@@ -2,6 +2,8 @@ package com.twoeightnine.root.xvii.wallpost
 
 import android.os.Bundle
 import android.view.*
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -14,6 +16,7 @@ import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.WallPostResponse
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.utils.*
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.content_wall_post.view.*
 import kotlinx.android.synthetic.main.fragment_wall_post.*
 import javax.inject.Inject
@@ -211,10 +214,10 @@ class WallPostFragment : BaseFragment() {
 
     inner class WallViewHolder(view: View) {
 
-        val civAvatar = view.civAvatar
-        val tvTitle = view.tvTitle
-        val tvDate = view.tvDate
-        val tvPost = view.tvPost
-        val llContainer = view.llContainer
+        val civAvatar: CircleImageView = view.civAvatar
+        val tvTitle: TextView = view.tvTitle
+        val tvDate: TextView = view.tvDate
+        val tvPost: TextView = view.tvPost
+        val llContainer: LinearLayout = view.llContainer
     }
 }
