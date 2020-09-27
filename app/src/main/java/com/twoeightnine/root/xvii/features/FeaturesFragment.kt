@@ -29,6 +29,7 @@ import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.PinActivity
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
+import com.twoeightnine.root.xvii.uikit.UiKitFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.web.WebFragment
 import kotlinx.android.synthetic.main.fragment_features.*
@@ -88,6 +89,7 @@ class FeaturesFragment : BaseFragment() {
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
+        tvAbout.setOnLongClickListener { startFragment<UiKitFragment>(); true }
 
         rlRoot.stylizeAll()
     }
