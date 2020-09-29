@@ -7,7 +7,7 @@ def appCompat = '1.0.0'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '29.0.2'
+    buildToolsVersion '29.0.3'
     defaultConfig {
         applicationId "com.twoeightnine.root.xvii"
         minSdkVersion 21
@@ -113,7 +113,7 @@ def lifecycle() {
 
 def okhttp() {
     dependencies {
-        def okhttp_version = "3.12.3"
+        def okhttp_version = "3.14.6"
 
         implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
         implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
