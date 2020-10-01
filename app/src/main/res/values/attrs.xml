@@ -8,4 +8,9 @@
         <attr name="value" format="integer"/>
         <attr name="step" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="XviiToolbar">
+        <attr name="title" format="string" />
+        <attr name="backArrow" format="boolean" />
+    </declare-styleable>
 </resources>

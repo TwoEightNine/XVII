@@ -1,17 +1,24 @@
 package com.twoeightnine.root.xvii.uikit
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.base.BaseActivity
+import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_ui_kit.*
 
-class UiKitFragment : BaseFragment() {
+class UiKitFragment : Fragment() {
 
-    override fun getLayoutId(): Int = R.layout.fragment_ui_kit
+//    override fun getLayoutId(): Int = R.layout.fragment_ui_kit
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_ui_kit, null)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,6 +46,9 @@ class UiKitFragment : BaseFragment() {
 
         addText("extra color")
         addColor(Munch.extraColor)
+
+        (activity as? BaseActivity)?.also(xviiToolbar::setupWith)
+        svContent.setBottomInsetPadding()
     }
 
     private fun addColor(colorScope: Munch.ColorScope) {
