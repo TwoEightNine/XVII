@@ -4,7 +4,6 @@
 
     <color name="primary">#fff</color>
     <color name="primary_dark">#fff</color>
-    <color name="secondary_text">#656565</color>
     <color name="link_color">#55f</color>
     <color name="status_bar">#bfff</color>
     <color name="navigation_bar">#bfff</color>
@@ -12,10 +11,8 @@
 
     <color name="splash_background">#0e0c13</color>
     <color name="background">#fff</color>
-    <color name="background_accented">#f7f7f7</color>
     <color name="popup">#fff</color>
     <color name="popup_error">#B93952</color>
-    <color name="poll_background">#afff</color>
     <color name="toolbar">#15121c</color>
     <color name="divider">#ddd</color>
     <color name="icons">#fff</color>
@@ -27,7 +24,6 @@
     <color name="fab">#92b</color>
     <color name="accent">#666</color>
     <color name="shape">#1c1826</color>
-    <color name="shape_selected">#51447A</color>
     <color name="selected_mess">#7ccc</color>
     <color name="black_transparent">#a00a090e</color>
 

@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,7 +15,6 @@ import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_root.*
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
@@ -73,14 +71,6 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         stylize(isWhite = true)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        android.R.id.home -> {
-            dlRoot.openDrawer(GravityCompat.START)
-            true
-        }
-        else -> false
     }
 
     override fun getThemeId() = R.style.AppTheme_Main
