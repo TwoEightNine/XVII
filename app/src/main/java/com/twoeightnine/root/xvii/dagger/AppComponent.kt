@@ -40,7 +40,6 @@ import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.pin.PinActivity
 import com.twoeightnine.root.xvii.poll.PollFragment
-import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.scheduled.core.SendMessageWorker
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesViewModel
 import com.twoeightnine.root.xvii.search.SearchFragment
@@ -63,7 +62,6 @@ interface AppComponent {
     fun inject(pinActivity: PinActivity)
 
     // fragments
-    fun inject(profileFragment: ProfileFragment)
     fun inject(wallPostFragment: WallPostFragment)
     fun inject(accountsFragment: AccountsFragment)
     fun inject(friendsFragment: FriendsFragment)

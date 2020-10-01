@@ -5,48 +5,30 @@
     <string name="settings">settings</string>
     <string name="addons">add-ons</string>
     <string name="share_on_wall">share xvii on my wall</string>
-    <string name="donate">donate</string>
     <string name="share">share</string>
     <string name="share_image">share the image</string>
 
     <string name="last_seen">last seen: %s</string>
     <string name="online_seen">online: %s</string>
     <string name="status">status</string>
-    <string name="bdate">birth date</string>
-    <string name="city">city</string>
-    <string name="hometown">hometown</string>
-    <string name="relation">relation</string>
     <string name="write_message">write message</string>
     <string name="doenloaded">%s has been downloaded</string>
-    <string name="beoffline">be offline (as soon as possible)</string>
-    <string name="markasread">mark messages as read</string>
-    <string name="lower_texts">use lowercase for names and inputs</string>
-    <string name="use_apple_emojis">use apple\'s emojis</string>
     <string name="unable_to_write">you can\'t write a message to this user</string>
     <string name="keys_not_set">keys aren\'t set</string>
-    <string name="show_typing">show typing</string>
     <string name="feedback">support</string>
     <string name="copied">%s has been copied to clipboard</string>
-    <string name="fiends">friends</string>
     <string name="friends">friends</string>
-    <string name="followers">followers</string>
     <string name="dialogs">dialogs</string>
     <string name="mphone">mobile phone</string>
     <string name="hphone">home phone</string>
     <string name="site">site</string>
     <string name="facebook" translatable="false">facebook</string>
     <string name="twitter" translatable="false">twitter</string>
-    <string name="sound">sound notifications</string>
     <string name="logout">log out</string>
-    <string name="fwd_message">%d forwarded</string>
     <string name="error">error</string>
     <string name="bytes">%d b</string>
     <string name="kilobytes">%s kb</string>
     <string name="megabytes">%s mb</string>
-    <string name="kick_chat">out of chat</string>
-    <string name="invite_chat">in chat</string>
-    <string name="kick_chat_full">%s is out of chat now</string>
-    <string name="invite_chat_full">%s is in chat now</string>
     <string name="link">link</string>
     <string name="add_shortcut">add shortcut</string>
     <string name="wall_post">wall post</string>
@@ -55,13 +37,10 @@
     <string name="poll">poll</string>
     <string name="copy">copy</string>
     <string name="reply">reply</string>
-    <string name="decrypt">decrypt</string>
     <string name="decrypted">decrypt: %s</string>
-    <string name="decrypted_with_fail" translatable="false">invalid ciphertext for given key</string>
     <string name="wanna_change_theme">you\'ve changed the theme. app will be restated. continue?</string>
     <string name="unread100" translatable="false">99+</string>
     <string name="accounts">accounts</string>
-    <string name="new_acc">add an account..</string>
     <string name="rate">rate</string>
     <string name="contribute">contribute</string>
     <string name="gallery">gallery</string>
@@ -70,11 +49,8 @@
     <string name="unpin">unpin</string>
     <string name="alias">alias</string>
     <string name="unmark">unmark</string>
-    <string name="read">read</string>
     <string name="join_us">follow xvii official group in vk for getting the freshest news about app</string>
-    <string name="stickers">stickers</string>
     <string name="download">download</string>
-    <string name="downloading">downloading</string>
     <string name="add_to_saved">save to album</string>
     <string name="added_to_saved">photo has been saved to album</string>
     <string name="notifications">notifications</string>
@@ -82,25 +58,13 @@
     <string name="analyse">analyser</string>
     <string name="in_future_versions">coming soon..</string>
     <string name="not_found">oops.. nothing found!\ntry to change your query</string>
-    <string name="auth_error">auth error</string>
-    <string name="show_notif">show private notifications</string>
-    <string name="show_name">show sender\'s name</string>
-    <string name="about">about</string>
-    <string name="try_again">try again</string>
-    <string name="loading_error">loading error</string>
-    <string name="no_internet">turn on the internet first</string>
     <string name="cannot_delete_acc">you cannot delete running account</string>
     <string name="already_acc">this account is already in use</string>
     <string name="error_message">attachments</string>
-    <string name="typing">typing</string>
-    <string name="recording_voice">recording audio</string>
     <string name="voice_message">voice message</string>
     <string name="choose_dialog">choose dialog</string>
     <string name="theme_changed">theme is changed. app is being restarted..</string>
-    <string name="enc_on">encryption is on now</string>
-    <string name="enc_off">encryption is off</string>
     <string name="clear" translatable="false">clr</string>
-    <string name="forgot_pin">forgot your pin?</string>
     <string name="incorrect_pin">incorrect</string>
     <string name="confirm_pin">confirm your pin</string>
     <string name="enter_pin">enter pin</string>
@@ -110,14 +74,9 @@
     <string name="updated_succ">updated successfully</string>
     <string name="reset_succ">reset successfully</string>
     <string name="dont_match">pins don\'t match</string>
-    <string name="reset_pin">reset pin?</string>
-    <string name="reset_pin_desc">all personal data will be reset in this case</string>
     <string name="have_pin">you already have a pin</string>
-    <string name="pin_settings">pin settings</string>
     <string name="instagram" translatable="false">instagram</string>
-    <string name="skype" translatable="false">skype</string>
     <string name="attachments">attachments</string>
-    <string name="attached">attached</string>
     <string name="attach">attach..</string>
     <string name="important">starred</string>
     <string name="markasimportant">mark as important</string>
@@ -131,8 +90,6 @@
     <string name="appearance">appearance</string>
     <string name="privacy_policy">privacy policy and credits</string>
     <string name="source_code">source code</string>
-    <string name="chat">chat</string>
-    <string name="leave_chat">leave chat</string>
     <string name="new_title">new title</string>
     <string name="chat_created">%s created the chat</string>
     <string name="chat_title_updated">%s updated chat title: \"%s\"</string>
@@ -140,90 +97,56 @@
     <string name="chat_photo_removed">%s removed chat photo</string>
     <string name="user_leaved_chat">%s left chat</string>
     <string name="user_invited_user">%s invited %s</string>
-    <string name="user_invited_user_via_link">%s invited %s via link</string>
     <string name="user_entered_chat">%s entered the chat</string>
     <string name="user_entered_chat_via_link">%s entered the chat via link</string>
     <string name="user_kicked_user">%s kicked %s out of chat</string>
     <string name="user_pinned_message">%s pinned message: \"%s\"</string>
     <string name="user_unpinned_message">%s unpinned message: \"%s\"</string>
-    <string name="new_dialog">new conversation</string>
-    <string name="offline_hint">pay attention that offline mode will not work on every vk client no more. this is caused by vk api that turns online status on automatically every time you refresh dialogs. not handy, we understand, but that is.. fortunately, you can enable \"almost\" offline that will make you offline, but your last seen time will be changed.</string>
     <string name="ten_attachments">you cannot add more than 10 attachments</string>
-    <string name="chat_back_exists">chat background is selected</string>
-    <string name="change">change</string>
-    <string name="chat_back">chat background</string>
-    <string name="show_content">show message content</string>
     <string name="led_lights">led color</string>
-    <string name="mute">mute</string>
-    <string name="unmute">unmute</string>
     <string name="change_keys">change keys</string>
     <string name="random_key">generate randomly</string>
     <string name="user_key">enter own key</string>
-    <string name="default_key">use default key</string>
-    <string name="key_reset">keys were reset to default</string>
-    <string name="generating_keys">generating keys\nit may take up to several minutes\n just for your security</string>
     <string name="key_set">keys were set successfully</string>
     <string name="empty_user_key">key mustn\'t be empty!</string>
-    <string name="key_exchanged">keys were exchanged</string>
-    <string name="secure_length">please use long phrases</string>
     <string name="messages">messages</string>
-    <string name="no_exchg_in_chats">key exchange is not available in this chat</string>
     <string name="encryption">secret chat</string>
     <string name="attach_logs">attach logs</string>
-    <string name="block">block</string>
     <string name="block_user">block user</string>
     <string name="unblock_user">unblock user</string>
     <string name="block_user_confirmation">do you really want to block this user?</string>
     <string name="restart_app">restarting app..</string>
     <string name="hidden_message">message</string>
     <string name="shared">shared successfully</string>
-    <string name="cannot_create_chat">cannot create chat</string>
-    <string name="denied">access denied</string>
-    <string name="audio_denied">prohibited by vk</string>
     <string name="audios">audio</string>
-    <string name="permissions_info">app need to have an access to your files for sending and downloading images and your microphone for sending voice messages</string>
     <string name="conversation">conversation</string>
     <string name="community">community</string>
-    <string name="open_chat">open chat</string>
     <string name="want_delete">really want to delete %s?</string>
-    <string name="rename">rename</string>
-    <string name="left_chat">you left this chat</string>
     <string name="uncaught_exception">something went wrong..</string>
     <string name="send_report">send report</string>
     <string name="take_photo">camera</string>
     <string name="add_doc">document</string>
     <string name="report_sent">report was sent</string>
     <string name="describe_actions">describe what happened</string>
-    <string name="describe_hint">i opened settings</string>
-    <string name="registration_date">registration date</string>
-    <string name="id" translatable="false">id</string>
     <string name="add_to_docs">add to docs</string>
     <string name="added_to_docs">successfully added to docs</string>
-    <string name="doc">doc</string>
-    <string name="manual_update">update dialogs manually</string>
     <string name="clear_cache">clear cache</string>
     <string name="refresh_stickers">refresh stickers</string>
     <string name="stickers_refreshed">stickers have been refreshed</string>
-    <string name="cache_cleared">cache cleared</string>
     <string name="wanna_logout">really want to log out?</string>
     <string name="like_app">do you like xvii?\nrate it now!</string>
     <string name="not_now">not now</string>
     <string name="never">never</string>
     <string name="private_messages_notifs">private messages</string>
     <string name="chats_notifs">chats</string>
-    <string name="show_chats_notifs">show chat notifications</string>
     <string name="delete_for_all">delete for all users</string>
     <string name="delete_only_for_me">delete only for me</string>
     <string name="wanna_delete_messages">do you really want to delete these messages?</string>
-    <string name="edit_message">edit message</string>
-    <string name="unable_to_edit_message">unable to edit this message</string>
     <string name="unable_to_add_to_gallery">unable to add to gallery. it will be added automatically later</string>
     <string name="generation_dh_hint">make sure your interlocutor has installed xvii and opened the secret chat with you. it is necessary for key exchange</string>
-    <string name="key_xchg_failed">the interlocutor have not supported the exchange. failed!</string>
     <string name="fingerprint">fingerprint</string>
     <string name="decrypting_image">image is being decrypted</string>
     <string name="invalid_file">unable to decrypt this file</string>
-    <string name="store_keys">store custom keys</string>
     <string name="key_type">key type: %s</string>
     <string name="downloading_file">downloading file..</string>
     <string name="default_key_type">default</string>
@@ -237,13 +160,9 @@
     <string name="you_sender">you:</string>
     <string name="device_photos">device</string>
     <string name="mic_hint">slide left to cancel\nslide up to lock</string>
-    <string name="mic_lock_hint" translatable="false">swipe up\nto lock</string>
-    <string name="invalid_user_id">invalid user id</string>
     <string name="details">details</string>
     <string name="report_hint">it will help us to solve the problem faster</string>
-    <string name="app_will_be_restarted">app will be restarted. continue?</string>
     <string name="accounts_hint">manage accounts</string>
-    <string name="sample_text" translatable="false">xvii</string>
     <string name="search_hint">search</string>
     <string name="ok" translatable="false">ok</string>
     <string name="join">follow</string>
@@ -261,9 +180,7 @@
     <string name="profile_blacklisted_you">you are in the user\'s black list</string>
     <string name="group_closed">this community is closed</string>
 
-    <string name="no_access_to_mic">no access to the mic</string>
     <string name="no_access_to_storage">no access to the storage</string>
-    <string name="need_access_to_mic">xvii needs an access to the mic to provide the feature of voice messaging</string>
     <string name="need_access_to_storage">xvii needs an access to the storage to provide the feature of attaching and saving media files</string>
     <string name="tap_to_provide_permissions">tap here to allow xvii to use your storage</string>
     <string name="want_to_scream" translatable="false">you want to scream?</string>
@@ -317,11 +234,8 @@
     <string name="make_sound">enable sound</string>
 
     <string name="light_theme">light theme</string>
-    <string name="apply_color_for_notifications" translatable="false">apply color for notifications</string>
-    <string name="apply_color_for_notifications_hint" translatable="false">notification\'s background will not be white</string>
     <string name="theme_color">theme color</string>
     <string name="restart_required">restart required to apply changes</string>
-    <string name="pick_chat_background">pick chat background</string>
     <string name="appearance_sample">this is the sample of how the chats will look like. change appearance according to your preferences</string>
     <string name="appearance_sample_in" translatable="false">hey😁, how is it in stockholm?</string>
     <string name="appearance_sample_out" translatable="false">hi, great, thanks❤️. it\'s rainy so i stay at the hotel😂 how is your being🤔?</string>
@@ -329,7 +243,6 @@
     <string name="appearance_sample_input" translatable="false">U won\'t believe what happened</string>
 
     <string name="cache_size">cache size: %s</string>
-    <string name="message_size" translatable="false">message text size</string>
     <string name="gift_for_you">gift</string>
     <string name="unable_to_pick_file">unable to pick this file. try to select other one or write in support</string>
 
@@ -427,7 +340,6 @@
     <string name="pin_settings_enable_hint">enter pin when you open app after inactivity</string>
     <string name="pin_settings_notify_about_invader">notify about invaders</string>
     <string name="pin_settings_notify_about_invader_hint">you will receive a message about invasion</string>
-    <string name="pin_settings_reset_pin">reset pin</string>
     <string name="pin_settings_change_pin">change pin</string>
     <string name="pin_settings_mixture">enable pin mixtures</string>
     <string name="pin_settings_mixture_hint">append dynamic values to pin for better security</string>
@@ -477,11 +389,6 @@
         <item>via win8</item>
         <item> </item>
     </string-array>
-
-    <plurals name="attach">
-        <item quantity="one">%d attachment</item>
-        <item quantity="other">%d attachments</item>
-    </plurals>
 
     <plurals name="attachments">
         <item quantity="one">%d attachment</item>
@@ -540,17 +447,10 @@
 
     <string name="aboutbig">xvii messenger (by twoeightnine)\nver. %s since %s</string>
 
-    <string name="faces">faces</string>
-    <string name="animals">animals</string>
-    <string name="food">food</string>
-    <string name="nature">nature</string>
-    <string name="people">people</string>
-    <string name="symbols">symbols</string>
     <string name="other">other</string>
     <string name="recent">recent</string>
 
 
-    <string name="online">online</string>
     <string name="offline">offline</string>
 
     <string name="error_1">unknown method passed</string>

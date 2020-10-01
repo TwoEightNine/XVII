@@ -3,17 +3,14 @@
 
     <color name="primary">#1c1826</color>
     <color name="primary_dark">@color/primary</color>
-    <color name="secondary_text">#656565</color>
     <color name="link_color">#79f</color>
     <color name="status_bar">#b00e0c13</color>
     <color name="navigation_bar">#b00e0c13</color>
     <color name="navigation_bar_chat_owner">#b01c1826</color>
 
     <color name="background">#0e0c13</color>
-    <color name="background_accented">#1c1826</color>
     <color name="popup">#1c1826</color>
     <color name="popup_error">#7A2737</color>
-    <color name="poll_background">#a01c1826</color>
     <color name="toolbar">#15121c</color>
     <color name="divider">#2B2B2E</color>
     <color name="icons">#fff</color>
@@ -25,7 +22,6 @@
     <color name="fab">#15121c</color>
     <color name="accent">#fff</color>
     <color name="shape">#1c1826</color>
-    <color name="shape_selected">#51447A</color>
     <color name="selected_mess">#882a2438</color>
 
     <color name="toolbar_text">#fff</color>
