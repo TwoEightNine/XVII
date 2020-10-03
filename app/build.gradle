@@ -105,7 +105,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:19.1.0'
 
     room()
-    workManager()
+//    workManager()
 }
 
 def room() {

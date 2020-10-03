@@ -255,11 +255,11 @@ class ChatInputController(
 
     private fun onSendLongClicked() {
         val items = listOf(
-                ContextPopupItem(
-                        iconRes = R.drawable.ic_calendar_popup,
-                        textRes = R.string.scheduled_messages_send,
-                        onClick = ::showDatePicker
-                ),
+//                ContextPopupItem(
+//                        iconRes = R.drawable.ic_calendar_popup,
+//                        textRes = R.string.scheduled_messages_send,
+//                        onClick = ::showDatePicker
+//                ),
                 ContextPopupItem(
                         iconRes = R.drawable.ic_clock,
                         textRes = R.string.destructor_send,
