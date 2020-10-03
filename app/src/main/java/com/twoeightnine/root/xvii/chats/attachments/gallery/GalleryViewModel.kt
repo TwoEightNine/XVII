@@ -21,6 +21,8 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
     private var disposable: Disposable? = null
     private val preloadedItems = arrayListOf<DeviceItem>()
 
+    private var nLogged = 0
+
     /**
      * to change behavior
      */
@@ -91,6 +93,7 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
                             "file://${item.path}"
                         }
                     }
+                    logOnlyN("item thumbnail: ${item.thumbnail}")
                 }
                 items
             }
@@ -140,6 +143,9 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
                     .throwable(e)
                     .log("error loading videos")
         }
+        if (videos.isNotEmpty()) {
+            logOnlyN("videos loaded: ${videos[0].path}")
+        }
         return videos
     }
 
@@ -177,6 +183,9 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
                     .throwable(e)
                     .log("error loading photos")
         }
+        if (photos.isNotEmpty()) {
+            logOnlyN("photos loaded: ${photos[0].path}")
+        }
         return photos
     }
 
@@ -199,6 +208,12 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
     private fun getFileForItem(item: DeviceItem): File {
         val cacheDir = File(context.cacheDir, CACHE_DIR)
         return File(cacheDir, md5(item.path) + ".png")
+    }
+
+    private fun logOnlyN(s: String, n: Int = 5) {
+        if (nLogged++ < n) {
+            L.tag(TAG).log(s)
+        }
     }
 
     companion object {
