@@ -180,6 +180,7 @@
     <string name="profile_closed">this profile is closed</string>
     <string name="profile_blacklisted_you">you are in the user\'s black list</string>
     <string name="group_closed">this community is closed</string>
+    <string name="wanna_rate">would you like to rate the application?</string>
 
     <string name="no_access_to_storage">no access to the storage</string>
     <string name="need_access_to_storage">xvii needs an access to the storage to provide the feature of attaching and saving media files</string>
