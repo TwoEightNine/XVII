@@ -9,6 +9,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.*
 import android.os.Build
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -333,6 +334,8 @@ fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false
         WindowManager.LayoutParams().apply {
             copyFrom(window?.attributes)
             width = pxFromDp(context, 280)
+            y = pxFromDp(context, 40)
+            gravity = Gravity.BOTTOM
             window?.attributes = this
         }
     }

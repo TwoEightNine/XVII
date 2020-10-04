@@ -44,7 +44,7 @@
     <dimen name="user_margin_between">2dp</dimen>
 
     <dimen name="context_popup_item_height">56dp</dimen>
-    <dimen name="context_popup_radius">8dp</dimen>
+    <dimen name="context_popup_radius">12dp</dimen>
 
     <dimen name="profile_bottom_peek_height">300dp</dimen>
     <dimen name="profile_content_min_height">260dp</dimen>
