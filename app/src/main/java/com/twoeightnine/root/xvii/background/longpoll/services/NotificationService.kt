@@ -24,18 +24,20 @@ class NotificationService : Service() {
         }
     }
 
-    private val core by lazy { LongPollCore(applicationContext) }
+    private var core: LongPollCore? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val core = LongPollCore(applicationContext)
         Thread {
             core.run(intent)
         }.start()
         core.showForeground(this)
+        this.core = core
         return START_REDELIVER_INTENT
     }
 
     override fun onDestroy() {
-        core.onDestroy()
+        core?.onDestroy()
         super.onDestroy()
         launch(applicationContext)
     }

@@ -36,9 +36,12 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.random.Random
 
 
 class LongPollCore(private val context: Context) {
+
+    private val coreId = Random.nextLong()
 
     private val vibrator by lazy { context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator }
     private val notificationManager by lazy {
@@ -60,15 +63,20 @@ class LongPollCore(private val context: Context) {
 
     fun run(intent: Intent?) {
         App.appComponent?.inject(this)
-        if (isProbablyRunning()) return
 
         isRunning = false
-        l("launched")
+        runningCoreId = coreId
+        l("launched core ...${coreId % 1000}")
         while (true) {
             while (isRunning) {
                 Thread.sleep(WAIT_DELAY)
             }
             getUpdates()
+
+            if (runningCoreId != coreId) {
+                l("core ...${coreId % 1000} exits")
+                break
+            }
         }
     }
 
@@ -563,6 +571,8 @@ class LongPollCore(private val context: Context) {
          */
         var lastRun = 0
             private set
+
+        private var runningCoreId: Long? = null
 
         fun isProbablyRunning() = time() - lastRun < LAST_RUN_ALLOWED_DELAY
     }
