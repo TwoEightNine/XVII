@@ -25,7 +25,7 @@
 
     <dimen name="text_view_top_margin">0dp</dimen>
     <dimen name="button_accent_height">48dp</dimen>
-    <dimen name="button_accent_radius">24dp</dimen>
+    <dimen name="button_accent_radius">12dp</dimen>
 
     <dimen name="bottom_navigation_height">50dp</dimen>
 
@@ -93,5 +93,7 @@
 
     <dimen name="scheduled_messages_finger_translation_horizontal">36dp</dimen>
     <dimen name="scheduled_messages_finger_translation_vertical">8dp</dimen>
+
+    <dimen name="button_radius">12dp</dimen>
 
 </resources>

@@ -144,12 +144,13 @@
     </style>
 
     <style name="Button">
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_height">44dp</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">17sp</item>
+        <item name="android:elevation">1dp</item>
         <item name="fontPath">fonts/medium.ttf</item>
     </style>
 
