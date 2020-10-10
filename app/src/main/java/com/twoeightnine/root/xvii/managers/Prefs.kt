@@ -59,7 +59,7 @@ object Prefs {
     private const val COLOR = "color"
     private const val CHAT_BACK = "chatBack"
     private const val MESSAGE_TEXT_SIZE = "messageTextSize"
-    private const val DEFAULT_COLOR = 0xff8833dd
+    private const val DEFAULT_COLOR = 0xff7b7be2
     private const val USE_STYLED_NOTIFICATIONS = "useStyledNotifications"
 
     //other
