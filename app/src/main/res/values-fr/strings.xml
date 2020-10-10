@@ -86,7 +86,6 @@
     <string name="added_to_docs">ajouté aux docs avec succès</string>
     <string name="clear_cache">supprimer la cache</string>
     <string name="wanna_logout">vous voulez réellement quitter?</string>
-    <string name="like_app">adorez xvii?\névaluez-le maintenant!</string>
     <string name="not_now">pas maintenant</string>
     <string name="never">jamais</string>
     <string name="unable_to_add_to_gallery">incapable d\'ajouter à la gallerie. il va être ajouté bientôt</string>
@@ -196,8 +195,6 @@
     <string name="sticker">autocollant</string>
     <string name="you_sender">vous:</string>
     <string name="audios">audio</string>
-    <string name="app_name_music">xvii musique</string>
-    <string name="downloading_file">téléchargement en cours..</string>
     <string name="tap_to_provide_permissions">tapez ici pour permettre un accès au storage</string>
     <string name="unmark">décocher</string>
     <string name="private_messages_notifs">messages privés</string>
@@ -344,7 +341,6 @@
     <string name="this_message">ce message</string>
     <string name="kick_user">frapper</string>
     <string name="scheduled_messages_title">messages planifiés</string>
-    <string name="scheduled_messages_name">xvii messages plinifiés</string>
     <string name="scheduled_hint_success">le message planifié était envoyé</string>
     <string name="scheduled_hint_failure">le message plinifié n\'était pas envoyé</string>
     <string name="scheduled_messages_cancel_prompt">voulez-vous réellement annuler l\'envoyage du message?</string>
@@ -360,7 +356,6 @@
     <string name="pin_incident_report">l\'incident sera rapporté</string>
     <string name="share_on_wall">partager xvii sur mon mur</string>
     <string name="source_code">le code source</string>
-    <string name="destructor_name">xvii destructeur des messages</string>
     <string name="destructor_title">message sera supprimé en %d secondes</string>
     <string name="destructor_process_title">supprime..</string>
     <string name="destructor_send">envoyer comme d\'autodestructant</string>

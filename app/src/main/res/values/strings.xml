@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">xvii</string>
-    <string name="app_name_music">xvii music</string>
     <string name="about_app">about</string>
     <string name="settings">settings</string>
     <string name="addons">add-ons</string>
@@ -134,12 +133,10 @@
     <string name="refresh_stickers">refresh stickers</string>
     <string name="stickers_refreshed">stickers have been refreshed</string>
     <string name="wanna_logout">really want to log out?</string>
-    <string name="like_app">do you like xvii?\nrate it now!</string>
     <string name="not_now">not now</string>
     <string name="never">never</string>
     <string name="private_messages_notifs">private messages</string>
     <string name="chats_notifs">other messages</string>
-    <string name="show_chats_notifs">show chat notifications</string>
     <string name="delete_for_all">delete for all users</string>
     <string name="delete_only_for_me">delete only for me</string>
     <string name="wanna_delete_messages">do you really want to delete these messages?</string>
@@ -149,7 +146,6 @@
     <string name="decrypting_image">image is being decrypted</string>
     <string name="invalid_file">unable to decrypt this file</string>
     <string name="key_type">key type: %s</string>
-    <string name="downloading_file">downloading file..</string>
     <string name="default_key_type">default</string>
     <string name="custom_key_type">custom</string>
     <string name="random_key_type">random (dhe)</string>
@@ -297,7 +293,6 @@
     <string name="alarm_title" translatable="false">alarms</string>
     <string name="alarm_every_day" translatable="false">every day</string>
 
-    <string name="destructor_name">xvii message destructor</string>
     <string name="destructor_title">message will be deleted in %d seconds</string>
     <string name="destructor_process_title">deleting..</string>
     <string name="destructor_hint">keep the internet and the application turned on</string>
@@ -314,7 +309,6 @@
     <string name="destructor_ttl_120">2 minutes</string>
 
     <string name="scheduled_messages_title">scheduled messages</string>
-    <string name="scheduled_messages_name">xvii scheduled messages</string>
     <string name="scheduled_hint_list">to create a scheduled message, press and hold \'send\' icon</string>
     <string name="scheduled_hint_internet">keep the internet turned on</string>
     <string name="scheduled_hint_success">scheduled message was sent</string>
