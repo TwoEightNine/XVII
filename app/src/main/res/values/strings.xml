@@ -210,7 +210,7 @@
     <string name="not_now">not now</string>
     <string name="never">never</string>
     <string name="private_messages_notifs">private messages</string>
-    <string name="chats_notifs">chats</string>
+    <string name="chats_notifs">other messages</string>
     <string name="show_chats_notifs">show chat notifications</string>
     <string name="delete_for_all">delete for all users</string>
     <string name="delete_only_for_me">delete only for me</string>
@@ -466,6 +466,10 @@
     <string name="channel_player">player</string>
     <string name="channel_message_destructor">self-destructing messages</string>
     <string name="channel_scheduled_messages">scheduled messages</string>
+
+    <string name="notifications_open_settings_private">change settings of private messages</string>
+    <string name="notifications_open_settings_other">change settings of other messages</string>
+    <string name="notifications_open_settings">open notification settings</string>
 
     <string-array name="relations">
         <item>single</item>

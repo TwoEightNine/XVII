@@ -86,6 +86,17 @@
                     android:layout_height="wrap_content"
                     android:text="@string/led_lights" />
 
+                <Button
+                    android:id="@+id/btnSettingsPrivate"
+                    style="@style/AccentButton"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/notifications_open_settings_private" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -145,6 +156,17 @@
                     android:layout_height="wrap_content"
                     android:text="@string/led_lights" />
 
+                <Button
+                    android:id="@+id/btnSettingsOther"
+                    style="@style/AccentButton"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/notifications_open_settings_other" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -171,6 +193,17 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/use_styled_notifications_hint"
                     android:text="@string/use_styled_notifications" />
+
+                <Button
+                    android:id="@+id/btnSettings"
+                    style="@style/AccentButton"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/notifications_open_settings" />
 
                 <Switch
                     android:id="@+id/switchEgg"

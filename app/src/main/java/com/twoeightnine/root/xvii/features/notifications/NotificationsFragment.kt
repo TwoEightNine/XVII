@@ -1,7 +1,12 @@
 package com.twoeightnine.root.xvii.features.notifications
 
+import android.annotation.TargetApi
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.provider.Settings
 import android.view.View
 import android.widget.CompoundButton
 import com.twoeightnine.root.xvii.BuildConfig
@@ -11,8 +16,7 @@ import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.start
 import com.twoeightnine.root.xvii.egg.EggFragment
 import com.twoeightnine.root.xvii.features.notifications.color.ColorAlertDialog
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
-import com.twoeightnine.root.xvii.utils.stylizeAll
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
 /**
@@ -122,10 +126,38 @@ class NotificationsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initSwitches()
+        initEgg()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            listOf(switchVibrate, switchSound, csLed,
+                    switchVibrateChats, switchSoundChats, csLedChats)
+                    .forEach { it.hide() }
+            listOf(btnSettingsPrivate, btnSettings)
+                    .forEach { it.show() }
+            btnSettingsPrivate.setOnClickListener {
+                openChannelSettings(NotificationChannels.privateMessages.id)
+            }
+            btnSettingsOther.setOnClickListener {
+                openChannelSettings(NotificationChannels.otherMessages.id)
+            }
+            btnSettings.setOnClickListener {
+                openChannelSettings()
+            }
+        } else {
+            btnSettings.setOnClickListener {
+                openSettingsPreOreo()
+            }
+        }
+
+        listOf(btnSettingsPrivate, btnSettingsOther, btnSettings)
+                .forEach { it.stylize() }
         llContainer.stylizeAll()
+    }
+
+    private fun initEgg() {
         if (Math.random() > 0.85 || BuildConfig.DEBUG) {
-            val handler = Handler()
-            switchEgg.visibility = View.VISIBLE
+            val handler = Handler(Looper.getMainLooper())
+            switchEgg.show()
             switchEgg.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     when (eggState) {
@@ -144,6 +176,29 @@ class NotificationsFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    @TargetApi(26)
+    private fun openChannelSettings(channelId: String? = null) {
+        val action = if (channelId == null) {
+            Settings.ACTION_APP_NOTIFICATION_SETTINGS
+        } else {
+            Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS
+        }
+        startActivity(Intent(action).apply {
+            putExtra(Settings.EXTRA_APP_PACKAGE, context?.packageName)
+            channelId?.also {
+                putExtra(Settings.EXTRA_CHANNEL_ID, channelId)
+            }
+        })
+    }
+
+    private fun openSettingsPreOreo() {
+        startActivity(Intent().apply {
+            action = "android.settings.APP_NOTIFICATION_SETTINGS"
+            putExtra("app_package", context?.packageName)
+            putExtra("app_uid", context?.applicationInfo?.uid)
+        })
     }
 
     companion object {

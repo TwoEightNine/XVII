@@ -22,7 +22,7 @@
     <string name="chat_back">фон чата</string>
     <string name="chat_back_exists">фон чата уже выбран</string>
     <string name="chat_title_updated">%s изменил название беседы: %s</string>
-    <string name="chats_notifs">чаты</string>
+    <string name="chats_notifs">другие сообщения</string>
     <string name="choose_dialog">выберите диалог</string>
     <string name="city">город</string>
     <string name="community">сообщество</string>
@@ -544,5 +544,16 @@
     <string name="camera_permissions_message">приложению необходим доступ к камере</string>
     <string name="camera_permissions_title">доступ к камере</string>
     <string name="stickers_refreshed">стикеры обновлены</string>
+    <string name="channel_other_messages">другие сообщения</string>
+    <string name="channel_other">другое</string>
+    <string name="channel_new_messages">новые сообщения</string>
+    <string name="notifications_open_settings_other">изменить настройки других сообщений</string>
+    <string name="notifications_open_settings_private">изменить настройки личных сообщений</string>
+    <string name="channel_private_messages">личные сообщения</string>
+    <string name="notifications_open_settings">открыть настройки уведомлений</string>
+    <string name="channel_scheduled_messages">отложенные сообщения</string>
+    <string name="channel_message_destructor">самоудаляющиеся сообщения</string>
+    <string name="channel_background_service">фоновый сервис</string>
+    <string name="channel_player">плеер</string>
 
 </resources>

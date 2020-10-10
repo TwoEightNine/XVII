@@ -106,7 +106,7 @@
     <string name="chat_back_exists">le fond du tchat est sélecté</string>
     <string name="change">changer</string>
     <string name="chat_back">fond du tchat</string>
-    <string name="chats_notifs">tchats</string>
+    <string name="chats_notifs">autres messages</string>
     <string name="show_content">montrer le contenu des messages</string>
     <string name="led_lights">couleur de la diode</string>
     <string name="mute">muter</string>
@@ -501,10 +501,21 @@
     <string name="pin_settings_fake_app_hint">au début faux app sera ouvert, pas messengeur</string>
     <string name="pin_settings_invader_photo">prendre une photo d\'envahisseur</string>
     <string name="pin_settings_invader_photo_hint">attacher une photo de camera frontal (permission requi)</string>
-    <string name="refresh_stickers">réfraichir des autocollants</string>
+    <string name="refresh_stickers">service d\'arrier-plane</string>
     <string name="camera_permissions_title">accès au camera</string>
     <string name="camera_permissions_message">l\'app a besoin l\'accès au camera</string>
     <string name="stickers_refreshed">les autocollant a mis à jour</string>
+    <string name="channel_other_messages">autres messages</string>
+    <string name="channel_other">autres</string>
+    <string name="channel_new_messages">nouveaux messages</string>
+    <string name="notifications_open_settings_other">changer préferences des autres messages</string>
+    <string name="notifications_open_settings_private">changer préferences des privats messages</string>
+    <string name="channel_private_messages">messages privés</string>
+    <string name="notifications_open_settings">ouvrir préferences des notifications</string>
+    <string name="channel_scheduled_messages">messages planifiés</string>
+    <string name="channel_message_destructor">messages autodestructants</string>
+    <string name="channel_background_service">service en arrière-plan</string>
+    <string name="channel_player">player</string>
 
 </resources>
 
