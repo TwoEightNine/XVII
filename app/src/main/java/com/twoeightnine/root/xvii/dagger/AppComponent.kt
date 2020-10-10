@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.dagger
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.activities.ExceptionActivity
 import com.twoeightnine.root.xvii.analyzer.dialog.AnalyzeDialogFragment
-import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
@@ -89,7 +88,6 @@ interface AppComponent {
 
     //other
     fun inject(notificationService: NotificationService)
-    fun inject(downloadFileService: DownloadFileService)
     fun inject(destructionService: MessageDestructionService)
     fun inject(sendMessageWorker: SendMessageWorker)
     fun inject(notfJobIntentService: NotificationJobIntentService)

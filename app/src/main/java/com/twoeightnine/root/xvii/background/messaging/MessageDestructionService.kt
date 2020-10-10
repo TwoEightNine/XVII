@@ -1,18 +1,16 @@
 package com.twoeightnine.root.xvii.background.messaging
 
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.utils.NotificationChannels
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -44,7 +42,6 @@ class MessageDestructionService : Service() {
                 }
         l("timer started for $timeToLive seconds")
 
-        createChannel()
         updateNotification(messageId, timeToLive)
 
         return START_STICKY
@@ -74,25 +71,12 @@ class MessageDestructionService : Service() {
         } else {
             getString(R.string.destructor_title, remain)
         }
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+        val notification = NotificationCompat.Builder(this, NotificationChannels.messageDestructor.id)
                 .setContentTitle(title)
                 .setContentText(getString(R.string.destructor_hint))
                 .setSmallIcon(R.drawable.ic_clock)
                 .build()
         startForeground(messageId.hashCode(), notification)
-    }
-
-    private fun createChannel() {
-        if (Build.VERSION.SDK_INT >= 26) {
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val name = getString(R.string.destructor_name)
-            val channel = NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
-                    .apply {
-                        enableVibration(false)
-                        setSound(null, null)
-                    }
-            notificationManager.createNotificationChannel(channel)
-        }
     }
 
     private fun l(s: String) {
@@ -102,8 +86,6 @@ class MessageDestructionService : Service() {
     companion object {
 
         private const val TAG = "message destructor"
-
-        const val CHANNEL_ID = "xvii.message_destructor"
 
         const val ARG_MESSAGE_ID = "messageId"
         const val ARG_TIME_TO_LIVE = "timeToLive"

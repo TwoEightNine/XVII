@@ -1,7 +1,10 @@
 package com.twoeightnine.root.xvii.background.longpoll
 
 import android.annotation.SuppressLint
-import android.app.*
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -272,17 +275,20 @@ class LongPollCore(private val context: Context) {
         val shouldRing = Prefs.soundChats && !peerId.matchesUserId()
                 || Prefs.sound && peerId.matchesUserId()
 
-        createNotificationChannel(shouldRing, shouldVibrate)
-
         if (content.isEmpty()) {
             content.add(context.getString(R.string.messages))
         }
         val text = Html.fromHtml(content.last())
         val textBig = Html.fromHtml(content.joinToString(separator = "<br>"))
 
+        val channelId = when {
+            peerId.matchesUserId() -> NotificationChannels.privateMessages.id
+            else -> NotificationChannels.otherMessages.id
+        }
+
         if (Prefs.useStyledNotifications) {
             loadNotificationBackgroundAsync(context, icon) { notificationBackground ->
-                val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
+                val builder = NotificationCompat.Builder(context, channelId)
                         .setCustomContentView(
                                 getNotificationView(
                                         R.layout.view_notification_message,
@@ -306,7 +312,7 @@ class LongPollCore(private val context: Context) {
                 )
             }
         } else {
-            val builder = NotificationCompat.Builder(context, NOTIFICATIONS_CHANNEL_ID)
+            val builder = NotificationCompat.Builder(context, channelId)
                     .setLargeIcon(icon)
                     .setContentTitle(title)
                     .setAutoCancel(true)
@@ -399,33 +405,11 @@ class LongPollCore(private val context: Context) {
         }
     }
 
-    private fun createNotificationChannel(shouldRing: Boolean, shouldVibrate: Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = context.getString(R.string.app_name)
-            val descriptionText = context.getString(R.string.app_name)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(NOTIFICATIONS_CHANNEL_ID, name, importance)
-            channel.description = descriptionText
-
-            channel.setSound(if (shouldRing) RING_URI else null, null)
-
-            channel.vibrationPattern = if (shouldVibrate) VIBRATE_PATTERN else null
-            channel.enableVibration(shouldVibrate)
-
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
     fun showForeground(service: Service) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = context.getString(R.string.xvii_longpoll)
-            val channel = NotificationChannel(SERVICE_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
-            channel.enableVibration(false)
-            channel.setSound(null, null)
-            notificationManager.createNotificationChannel(channel)
             val explainIntent = Intent(context, LongPollExplanationActivity::class.java)
             val explainPendingIntent = PendingIntent.getActivity(context, 0, explainIntent, 0)
-            val notification = NotificationCompat.Builder(context, SERVICE_CHANNEL_ID)
+            val notification = NotificationCompat.Builder(context, NotificationChannels.backgroundService.id)
                     .setContentIntent(explainPendingIntent)
                     .setShowWhen(false)
                     .setOngoing(true)
@@ -549,9 +533,6 @@ class LongPollCore(private val context: Context) {
     companion object {
 
         private const val TAG = "longpoll"
-
-        private const val NOTIFICATIONS_CHANNEL_ID = "xvii.notifications"
-        private const val SERVICE_CHANNEL_ID = "xvii.service"
 
         private const val VIBRATE_DELAY = 60L
         private const val WAIT_DELAY = 1000L

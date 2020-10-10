@@ -1,8 +1,6 @@
 package com.twoeightnine.root.xvii.background.music.services
 
 import android.annotation.TargetApi
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.*
@@ -19,6 +17,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.attachments.Audio
+import com.twoeightnine.root.xvii.utils.NotificationChannels
 import io.reactivex.subjects.PublishSubject
 
 
@@ -250,13 +249,9 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     private fun getPlayedTrack() = tracks.getOrNull(playedPosition)
 
     private fun showNotification() {
-        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE)
-                as NotificationManager
-
-        initChannel(notificationManager)
         val audio = getPlayedTrack()?.audio ?: return
 
-        val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+        val notification = NotificationCompat.Builder(applicationContext, NotificationChannels.musicPlayer.id)
                 .setCustomContentView(bindRemoteViews(R.layout.view_music_notification, audio))
                 .setCustomBigContentView(bindRemoteViews(R.layout.view_music_notification_extended, audio, true))
                 .setOngoing(true)
@@ -267,20 +262,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
                 .build()
 
         startForeground(FOREGROUND_ID, notification)
-    }
-
-    private fun initChannel(notificationManager: NotificationManager) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = applicationContext.getString(R.string.app_name_music)
-            val descriptionText = applicationContext.getString(R.string.app_name_music)
-            val importance = NotificationManager.IMPORTANCE_LOW
-            val channel = NotificationChannel(CHANNEL_ID, name, importance)
-            channel.description = descriptionText
-            channel.setSound(null, null)
-            channel.enableVibration(false)
-
-            notificationManager.createNotificationChannel(channel)
-        }
     }
 
     private fun bindRemoteViews(@LayoutRes viewId: Int, audio: Audio, isExtended: Boolean = false): RemoteViews {
@@ -361,7 +342,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
         private const val TAG = "music"
         private const val FOREGROUND_ID = 3676
-        private const val CHANNEL_ID = "xvii.music"
 
         private var service: MusicService? = null
 

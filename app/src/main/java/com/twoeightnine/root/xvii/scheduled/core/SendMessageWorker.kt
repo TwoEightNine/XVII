@@ -1,19 +1,17 @@
 package com.twoeightnine.root.xvii.scheduled.core
 
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.work.*
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.messaging.MessageDestructionService
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.utils.NotificationChannels
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.random.Random
@@ -53,7 +51,6 @@ class SendMessageWorker(
                 forwardedMessages = fwdMessages,
                 attachments = attachments
         ).blockingFirst()
-        createChannel()
 
         l("message sent: $response")
         return if (response.response != null) {
@@ -86,7 +83,7 @@ class SendMessageWorker(
     }
 
     private fun showNotification(success: Boolean, notificationId: Int, peer: String? = null) {
-        val notification = NotificationCompat.Builder(applicationContext, MessageDestructionService.CHANNEL_ID)
+        val notification = NotificationCompat.Builder(applicationContext, NotificationChannels.scheduledMessages.id)
                 .setContentTitle(peer)
                 .setContentText(applicationContext.getString(if (success) {
                     R.string.scheduled_hint_success
@@ -99,26 +96,11 @@ class SendMessageWorker(
         notificationManager.notify(notificationId, notification)
     }
 
-    private fun createChannel() {
-        if (Build.VERSION.SDK_INT >= 26) {
-
-            val name = applicationContext.getString(R.string.scheduled_messages_name)
-            val channel = NotificationChannel(CHANNEL_ID, name,
-                    NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                enableVibration(false)
-                setSound(null, null)
-            }
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
     companion object {
 
         private const val TAG = "message scheduler"
 
         const val NOTIFICATION_ID = Int.MAX_VALUE
-        const val CHANNEL_ID = "xvii.scheduled_messages"
 
         const val ARG_MESSAGE_ID = "scheduledMessage_id"
         const val ARG_MESSAGE_PEER_ID = "scheduledMessage_peerId"

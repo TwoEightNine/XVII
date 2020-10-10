@@ -457,6 +457,16 @@
     <string name="camera_permissions_title">camera access</string>
     <string name="camera_permissions_message">app needs a permission to access camera</string>
 
+    <string name="channel_new_messages">new messages</string>
+    <string name="channel_other">other</string>
+
+    <string name="channel_private_messages">private messages</string>
+    <string name="channel_other_messages">other messages</string>
+    <string name="channel_background_service">background service</string>
+    <string name="channel_player">player</string>
+    <string name="channel_message_destructor">self-destructing messages</string>
+    <string name="channel_scheduled_messages">scheduled messages</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>

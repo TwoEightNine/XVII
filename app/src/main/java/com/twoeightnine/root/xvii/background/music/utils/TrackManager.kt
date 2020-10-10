@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.background.music.utils
 
 import android.content.Context
-import com.twoeightnine.root.xvii.background.DownloadFileService
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.model.attachments.Audio
 import java.io.File
@@ -35,11 +34,7 @@ class TrackManager(private val context: Context) {
         val url = track.audio.url ?: return
 
         val trackPath = getFile(track.audio).absolutePath
-        DownloadFileService.startService(context, url, trackPath) {
-            if (it == trackPath) {
-                callback(Track(track.audio, trackPath))
-            }
-        }
+        //TODO add newer download service if needed
     }
 
     fun getTrack(audio: Audio) = Track(audio, getExistingPath(audio))

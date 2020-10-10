@@ -2,15 +2,13 @@ package com.twoeightnine.root.xvii
 
 import android.app.Application
 import android.content.Context
+import android.os.Build
 import com.twoeightnine.root.xvii.crypto.KeyHolder
 import com.twoeightnine.root.xvii.dagger.AppComponent
 import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.lg.L
-import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
-import com.twoeightnine.root.xvii.utils.ColorManager
-import com.twoeightnine.root.xvii.utils.EmojiHelper
-import com.twoeightnine.root.xvii.utils.StatTool
+import com.twoeightnine.root.xvii.utils.*
 import io.github.inflationx.calligraphy3.CalligraphyConfig
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump
@@ -28,6 +26,9 @@ class App : Application() {
         ColorManager.init(applicationContext)
         KeyHolder.reinit()
         EmojiHelper.init()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannels.initChannels(this)
+        }
 
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(CalligraphyInterceptor(
