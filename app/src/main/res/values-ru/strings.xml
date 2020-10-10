@@ -101,7 +101,6 @@
     <string name="longpoll_guide_step2">на открывшемся экране отключите уведомления (как на рисунке ниже)</string>
     <string name="longpoll_guide_step3">вот и все! если это не поможет, свяжитесь с поддержкой</string>
 
-    <string name="like_app">нравится xvii?\nоцените прямо сейчас!</string>
     <string name="not_now">не сейчас</string>
     <string name="never">никогда</string>
     <string name="unable_to_add_to_gallery">невозможно добавть в галерею. будет автоматически добавлена позже</string>
@@ -232,8 +231,6 @@
     <string name="sticker">стикер</string>
     <string name="you_sender">вы:</string>
     <string name="audios">аудио</string>
-    <string name="app_name_music">xvii музыка</string>
-    <string name="downloading_file">загрузка файла..</string>
     <string name="tap_to_provide_permissions">нажмите, чтобы разрешить</string>
     <string name="unmark">снять</string>
     <string name="private_messages_notifs">личные сообщения</string>
@@ -380,7 +377,6 @@
     <string name="this_dialog">этот диалог</string>
     <string name="this_message">это сообщение</string>
     <string name="scheduled_messages_title">отложенные сообщения</string>
-    <string name="scheduled_messages_name">xvii отложенные сообщения</string>
     <string name="scheduled_hint_list">чтобы создать отложенное сообщение, нажмите и удерживайте кнопку отправки</string>
     <string name="scheduled_hint_internet">не выключайте интернет</string>
     <string name="scheduled_hint_success">отложенное сообщение отправлено</string>
@@ -395,7 +391,6 @@
     <string name="pin_brute_force">обнаружен перебор\nдоступ запрещён</string>
     <string name="pin_incident_report">об этом инциденте будет сообщено</string>
     <string name="source_code">исходный код</string>
-    <string name="destructor_name">xvii деструктор сообщений</string>
     <string name="destructor_title">сообщение будет удалено через %d секунд</string>
     <string name="destructor_process_title">удаление..</string>
     <string name="destructor_hint">не выключайте интернет и приложение</string>

@@ -69,6 +69,5 @@
     <dimen name="scheduled_messages_finger_translation_horizontal">36dp</dimen>
     <dimen name="scheduled_messages_finger_translation_vertical">8dp</dimen>
 
-    <dimen name="button_radius">12dp</dimen>
 
 </resources>
