@@ -9,17 +9,17 @@
 
     <item
         android:id="@+id/menu_dialogs"
-        android:icon="@drawable/ic_dialogs"
+        android:icon="@drawable/ic_message_bubble"
         android:title="@string/dialogs" />
 
     <item
         android:id="@+id/menu_friends"
-        android:icon="@drawable/ic_friends"
+        android:icon="@drawable/ic_person"
         android:title="@string/friends" />
 
     <item
         android:id="@+id/menu_features"
-        android:icon="@drawable/ic_features_2"
+        android:icon="@drawable/ic_features"
         android:title="@string/settings" />
 
 </menu>
