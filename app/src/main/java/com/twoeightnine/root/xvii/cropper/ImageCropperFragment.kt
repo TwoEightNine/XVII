@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.utils.*
@@ -26,19 +27,27 @@ class ImageCropperFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cropImageView.setImageUriAsync(Uri.parse("file://$path"))
-        fabDone.setOnClickListener {
+        ivDone.setOnClickListener {
             cropAndExit()
         }
+        ivRotateCounter.setOnClickListener {
+            cropImageView.rotateImage(-90)
+        }
+        ivRotateClock.setOnClickListener {
+            cropImageView.rotateImage(90)
+        }
 
-        fabDone.stylize()
-        fabDone.setBottomInsetMargin(
-                context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin) ?: 0
-        )
+        ivDone.stylize(ColorManager.MAIN_TAG)
+        ViewCompat.setOnApplyWindowInsetsListener(llBottom) { v, insets ->
+            val padding = context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin) ?: 0
+            v.setPadding(0, padding, 0, padding + insets.systemWindowInsetBottom)
+            insets
+        }
     }
 
     private fun cropAndExit() {
         rvLoader.show()
-        fabDone.hide()
+        llBottom.hide()
         cropperDisposable?.dispose()
         cropperDisposable = Single.fromCallable {
             val croppedImage = cropImageView.croppedImage

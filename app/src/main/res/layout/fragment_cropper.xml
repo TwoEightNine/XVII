@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,15 +10,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabDone"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/llBottom"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/attach_fab_done_margin"
-        android:src="@drawable/ic_check"
-        app:backgroundTint="@color/fab" />
+        android:orientation="horizontal"
+        android:background="@color/black_transparent">
+
+        <ImageView
+            android:id="@+id/ivRotateCounter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:src="@drawable/ic_rotate_left" />
+
+        <ImageView
+            android:id="@+id/ivRotateClock"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:scaleX="-1"
+            android:src="@drawable/ic_rotate_left" />
+
+        <ImageView
+            android:id="@+id/ivDone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:src="@drawable/ic_check" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/rvLoader"
