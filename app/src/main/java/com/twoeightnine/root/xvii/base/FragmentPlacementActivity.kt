@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.base
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -23,11 +24,22 @@ class FragmentPlacementActivity : ContentActivity() {
         private const val ARG_FRAGMENT_ARGS = "fragmentArgs"
 
         fun launch(context: Context?, fragmentClass: Class<*>, fragmentArgs: Bundle?) {
-            context?.startActivity(Intent(context, FragmentPlacementActivity::class.java).apply {
-                putExtra(ARG_FRAGMENT_CLASS, fragmentClass.name)
-                putExtra(ARG_FRAGMENT_ARGS, fragmentArgs)
-            })
+            context?.startActivity(createIntent(context, fragmentClass, fragmentArgs))
         }
+
+        fun launchForResult(activity: Activity?, fragmentClass: Class<*>, fragmentArgs: Bundle?, requestCode: Int) {
+            activity?.startActivityForResult(createIntent(activity, fragmentClass, fragmentArgs), requestCode)
+        }
+
+        fun launchForResult(fragment: Fragment?, fragmentClass: Class<*>, fragmentArgs: Bundle?, requestCode: Int) {
+            fragment?.startActivityForResult(createIntent(fragment.context, fragmentClass, fragmentArgs), requestCode)
+        }
+
+        private fun createIntent(context: Context?, fragmentClass: Class<*>, fragmentArgs: Bundle?) =
+                Intent(context, FragmentPlacementActivity::class.java).apply {
+                    putExtra(ARG_FRAGMENT_CLASS, fragmentClass.name)
+                    putExtra(ARG_FRAGMENT_ARGS, fragmentArgs)
+                }
 
         inline fun <reified T : Fragment> Context?.startFragment(fragmentArgs: Bundle? = null) {
             launch(this, T::class.java, fragmentArgs)
@@ -35,6 +47,14 @@ class FragmentPlacementActivity : ContentActivity() {
 
         inline fun <reified T : Fragment> Fragment.startFragment(fragmentArgs: Bundle? = null) {
             launch(context, T::class.java, fragmentArgs)
+        }
+
+        inline fun <reified T : Fragment> Activity?.startFragmentForResult(requestCode: Int, fragmentArgs: Bundle? = null) {
+            launchForResult(this, T::class.java, fragmentArgs, requestCode)
+        }
+
+        inline fun <reified T : Fragment> Fragment.startFragmentForResult(requestCode: Int, fragmentArgs: Bundle? = null) {
+            launchForResult(this, T::class.java, fragmentArgs, requestCode)
         }
     }
 }

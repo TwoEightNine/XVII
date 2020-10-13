@@ -3,6 +3,8 @@ package com.twoeightnine.root.xvii.chats.attachments.gallery
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -10,8 +12,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragmentForResult
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
+import com.twoeightnine.root.xvii.cropper.ImageCropperFragment
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
@@ -40,12 +44,14 @@ class GalleryFragment : BaseFragment() {
     }
 
     private val adapter by lazy {
-        GalleryAdapter(contextOrThrow, ::loadMore)
+        GalleryAdapter(contextOrThrow, ::loadMore, ::onItemClick)
     }
 
     private val permissionHelper by lazy {
         PermissionHelper(this)
     }
+
+    private val cropMapping = mutableMapOf<String, String>()
 
     override fun getLayoutId() = R.layout.fragment_gallery_new
 
@@ -63,10 +69,7 @@ class GalleryFragment : BaseFragment() {
         swipeRefresh.setOnRefreshListener { reloadData() }
 
         with(fabDone) {
-            setOnClickListener {
-                selectedSubject.onNext(adapter.multiSelect)
-                adapter.clearMultiSelect()
-            }
+            setOnClickListener { onDoneClicked() }
             stylize()
         }
         rlPermissions.setVisible(!permissionHelper.hasStoragePermissions())
@@ -103,6 +106,19 @@ class GalleryFragment : BaseFragment() {
         })
     }
 
+    private fun onDoneClicked() {
+        val finalItems = adapter.multiSelect
+                .map { deviceItem ->
+                    if (deviceItem.path in cropMapping) {
+                        deviceItem.copy(path = cropMapping[deviceItem.path] ?: deviceItem.path)
+                    } else {
+                        deviceItem
+                    }
+                }
+        selectedSubject.onNext(finalItems)
+        adapter.clearMultiSelect()
+    }
+
     private fun reloadData() {
         if (permissionHelper.hasStoragePermissions()) {
             adapter.reset()
@@ -135,6 +151,10 @@ class GalleryFragment : BaseFragment() {
         adapter.multiListener = fabDone::setVisible
     }
 
+    private fun onItemClick(deviceItem: DeviceItem) {
+        startFragmentForResult<ImageCropperFragment>(REQUEST_CODE_CROP, ImageCropperFragment.createArgs(deviceItem.path))
+    }
+
     private fun onCameraClick() {
         permissionHelper.doOrRequest(
                 PermissionHelper.CAMERA,
@@ -152,25 +172,40 @@ class GalleryFragment : BaseFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_CANCELED) return
 
-        val path = imageUtils.getPath(requestCode, data)
-        if (path != null && File(path).length() != 0L) {
-            val type = if (requestCode == ImageUtils.REQUEST_SELECT_FILE) {
-                DeviceItem.Type.DOC
-            } else {
-                DeviceItem.Type.PHOTO
+        when (requestCode) {
+            ImageUtils.REQUEST_TAKE_PHOTO -> {
+                val path = imageUtils.getPath(requestCode, data)
+                if (path != null && File(path).length() != 0L) {
+                    val type = if (requestCode == ImageUtils.REQUEST_SELECT_FILE) {
+                        DeviceItem.Type.DOC
+                    } else {
+                        DeviceItem.Type.PHOTO
+                    }
+                    selectedSubject.onNext(arrayListOf(DeviceItem(time() * 1000L, path, type)))
+                    adapter.clearMultiSelect()
+                } else {
+                    L.tag("camera")
+                            .warn()
+                            .log("path is empty but request code is $requestCode and data = $data")
+                    showError(context, R.string.unable_to_pick_file)
+                }
             }
-            selectedSubject.onNext(arrayListOf(DeviceItem(time() * 1000L, path, type)))
-            adapter.clearMultiSelect()
-        } else {
-            L.tag("camera")
-                    .warn()
-                    .log("path is empty but request code is $requestCode and data = $data")
-            showError(context, R.string.unable_to_pick_file)
+            REQUEST_CODE_CROP -> {
+                val origPath = data?.extras?.getString(ImageCropperFragment.RESULT_ORIG_PATH)
+                        ?: return
+                val croppedPath = data.extras?.getString(ImageCropperFragment.RESULT_CROPPED_PATH)
+                        ?: return
+                cropMapping[origPath] = croppedPath
+                Handler(Looper.getMainLooper()).postDelayed({
+                    adapter.checkSelected(origPath)
+                }, 300L)
+            }
         }
     }
 
     companion object {
 
+        private const val REQUEST_CODE_CROP = 8267
         private const val ARG_ONLY_PHOTOS = "onlyPhotos"
 
         const val SPAN_COUNT = 4

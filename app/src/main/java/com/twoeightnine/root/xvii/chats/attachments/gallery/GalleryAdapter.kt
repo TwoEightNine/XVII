@@ -7,15 +7,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
-import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.secToTime
-import com.twoeightnine.root.xvii.utils.setVisible
+import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.item_gallery.view.*
 
 class GalleryAdapter(
         context: Context,
-        loader: (Int) -> Unit
+        loader: (Int) -> Unit,
+        private val onClick: (DeviceItem) -> Unit
 ) : BaseReachAdapter<DeviceItem, GalleryAdapter.GalleryViewHolder>(context, loader) {
+
+    fun checkSelected(path: String) {
+        items.find { it.path == path }?.also { deviceItem ->
+            if (deviceItem !in multiSelect) {
+                multiSelect(deviceItem)
+                notifyItemChanged(items.indexOf(deviceItem))
+            }
+        }
+    }
 
     override fun createHolder(parent: ViewGroup, viewType: Int) =
             GalleryViewHolder(inflater.inflate(R.layout.item_gallery, null))
@@ -53,12 +61,21 @@ class GalleryAdapter(
                 }
                 invalidateCheck(item, animate = false)
                 setOnClickListener {
+                    val deviceItem = items[adapterPosition]
+                    if (deviceItem.type == DeviceItem.Type.PHOTO && item !in multiSelect) {
+                        onClick(deviceItem)
+                    } else {
+                        rlCheck.callOnClick()
+                    }
+                }
+                rlCheck.setOnClickListener {
                     if (multiSelectMode) {
                         val i = items[adapterPosition]
                         multiSelect(i)
                         invalidateCheck(i)
                     }
                 }
+                ivCheckCircle.stylizeAnyway(ColorManager.MAIN_TAG)
             }
         }
 
@@ -73,7 +90,7 @@ class GalleryAdapter(
                         .scaleY(scaleThumb)
                         .setDuration(duration)
                         .start()
-                ivCheck.animate()
+                rlCheck.animate()
                         .scaleX(scaleCheck)
                         .scaleY(scaleCheck)
                         .setDuration(duration)
