@@ -98,10 +98,18 @@ class MessagesAdapter(context: Context,
             } else {
                 putViews(itemView, message, prevMessage, level)
                 with(itemView) {
-                    rlBack.setOnClickListener { onClick(items[adapterPosition]) }
-                    rlBack.setOnLongClickListener { onLongClick(items[adapterPosition]) }
-                    tvBody.setOnClickListener { onClick(items[adapterPosition]) }
-                    tvBody.setOnLongClickListener { onLongClick(items[adapterPosition]) }
+                    rlBack.setOnClickListener {
+                        items.getOrNull(adapterPosition)?.also(::onClick)
+                    }
+                    rlBack.setOnLongClickListener {
+                        items.getOrNull(adapterPosition)?.let(::onLongClick) == true
+                    }
+                    tvBody.setOnClickListener {
+                        items.getOrNull(adapterPosition)?.also(::onClick)
+                    }
+                    tvBody.setOnLongClickListener {
+                        items.getOrNull(adapterPosition)?.let(::onLongClick) == true
+                    }
                 }
             }
         }
@@ -184,7 +192,11 @@ class MessagesAdapter(context: Context,
                     civPhoto?.apply {
                         load(message.photo)
                     }
-                    rlName?.setOnClickListener { callback.onUserClicked(message.fromId) }
+                    rlName?.setOnClickListener {
+                        items.getOrNull(adapterPosition)
+                                ?.fromId
+                                ?.also(callback::onUserClicked)
+                    }
                 }
                 readStateDot?.apply {
                     stylize(ColorManager.MAIN_TAG, changeStroke = false)
@@ -320,7 +332,12 @@ class MessagesAdapter(context: Context,
                                 tvBody.text = resources.getString(R.string.too_deep_forwarding)
                                 rlName?.hide()
                                 tvDate.hide()
-                                setOnClickListener { DeepForwardedActivity.launch(context, items[adapterPosition].id) }
+                                setOnClickListener {
+                                    val messageId = items
+                                            .getOrNull(adapterPosition)
+                                            ?.id ?: return@setOnClickListener
+                                    DeepForwardedActivity.launch(context, messageId)
+                                }
                             }
                         }
                         llMessageContainer.addView(included)

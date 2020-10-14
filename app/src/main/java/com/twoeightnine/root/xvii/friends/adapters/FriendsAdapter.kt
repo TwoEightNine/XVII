@@ -48,7 +48,9 @@ class FriendsAdapter(context: Context,
                 user.lastSeen?.also {
                     tvInfo.text = getLastSeenText(resources, user.isOnline, it.time, it.platform)
                 }
-                setOnClickListener { onClick(items[adapterPosition]) }
+                setOnClickListener {
+                    items.getOrNull(adapterPosition)?.also(onClick)
+                }
             }
         }
     }
