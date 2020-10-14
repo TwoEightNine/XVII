@@ -161,10 +161,9 @@
     <string name="longpoll_explanation">начиная с android 8 (oreo), ос не позволяет запускать фоновые сервисы, единственным исключением являются сервисы google firebase. но api вконтакте не описывает собственный firebase, только longpoll. и этот longpoll требует постоянной работы фонового сервиса, и xvii приходится постоянно показывать уведомление, чтобы сервис работал</string>
 
     <string name="longpoll_guide_title">как убрать это уведомление</string>
-    <string name="longpoll_guide_step1">откройте панель уведомлений и нажмите и удеживайте уведомление \'фоновый сервис xvii\'</string>
-    <string name="longpoll_guide_step2">в контекстном меню нажмите на иконку (i) в верхнем правом углу</string>
-    <string name="longpoll_guide_step3">здесь вы увидите системные настройки \'xvii\'. нажмите на уведомления</string>
-    <string name="longpoll_guide_step4">уберите галочку с \'фонового сервиса xvii\' (но не трогайте другие!). на этом всё! </string>
+    <string name="longpoll_guide_step1">нажмите на кнопку \"открыть настройки уведомлений\"</string>
+    <string name="longpoll_guide_step2">на открывшемся экране отключите уведомления (как на рисунке ниже)</string>
+    <string name="longpoll_guide_step3">вот и все! если это не поможет, свяжитесь с поддержкой</string>
 
     <string name="like_app">нравится xvii?\nоцените прямо сейчас!</string>
     <string name="not_now">не сейчас</string>
@@ -348,7 +347,7 @@
     <string name="keys_not_set">ключи не заданы</string>
     <string name="unable_to_write">вы не можете писать сообщения этому пользователю</string>
     <string name="show_seconds">показывать секунды</string>
-    <string name="longpoll_hint">нажмите, чтобы узнать больше</string>
+    <string name="longpoll_hint">нажмите здесь, чтобы скрыть уведомление</string>
     <string name="xvii_longpoll">фоновый сервис xvii</string>
     <string name="use_apple_emojis">использовать смайлики apple</string>
     <string name="summary">всего</string>
@@ -555,5 +554,7 @@
     <string name="channel_message_destructor">самоудаляющиеся сообщения</string>
     <string name="channel_background_service">фоновый сервис</string>
     <string name="channel_player">плеер</string>
+    <string name="longpoll_guide_button_settings">открыть настройки уведомлений</string>
+    <string name="longpoll_guide_button_support">открыть поддержку</string>
 
 </resources>

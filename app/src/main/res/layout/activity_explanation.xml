@@ -24,6 +24,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="6dp"
                 android:gravity="center"
+                fontPath="fonts/medium.ttf"
                 android:text="@string/xvii_longpoll"
                 android:textColor="@color/main_text"
                 android:textSize="28sp" />
@@ -48,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                fontPath="fonts/medium.ttf"
                 android:text="@string/longpoll_guide_title"
                 android:textSize="19sp" />
 
@@ -61,10 +63,14 @@
                 android:text="@string/longpoll_guide_step1"
                 android:textSize="16sp" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:src="@mipmap/longpoll_pic1" />
+            <Button
+                android:id="@+id/btnOpen"
+                style="@style/AccentButton"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/longpoll_guide_button_settings"
+                android:layout_width="match_parent" />
 
             <TextView
                 style="@style/MainText"
@@ -79,7 +85,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:src="@mipmap/longpoll_pic2" />
+                android:src="@mipmap/lonpoll_pic_1" />
 
             <TextView
                 style="@style/MainText"
@@ -91,25 +97,15 @@
                 android:text="@string/longpoll_guide_step3"
                 android:textSize="16sp" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:src="@mipmap/longpoll_pic3" />
-
-            <TextView
-                style="@style/MainText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/longpoll_guide_step4"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:src="@mipmap/longpoll_pic4" />
+            <Button
+                android:id="@+id/btnSupport"
+                style="@style/AccentButton"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:text="@string/longpoll_guide_button_support"
+                android:layout_width="match_parent" />
 
         </LinearLayout>
 

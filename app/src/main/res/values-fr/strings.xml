@@ -62,7 +62,7 @@
     <string name="no_internet">allumez l\'internet</string>
     <string name="cannot_delete_acc">vous ne pouvez pas supprimer le compte actif</string>
     <string name="already_acc">c\'est un compte actif</string>
-    <string name="error_message">attachments</string>
+    <string name="error_message">"ouvrir "</string>
     <string name="typing">écrit</string>
     <string name="recording_voice">enregistre l\'audio</string>
     <string name="voice_message">message vocal</string>
@@ -160,10 +160,6 @@
     <string name="fingerprint_hint">cette photo et ce texte étaient généré de les clés de chiffrement. s\'ils sont les mêmes dans un appareil de votre interlocuteur et les clés étaient mises, soyez sûr que personne ne va pas casser votre confidentialité. sinon, votre conversation n\'est pas securicée!</string>
 
     <string name="longpoll_guide_title">comment cacher cette notification</string>
-    <string name="longpoll_guide_step1">ouvrez le panel des notifications et appuyez longuement sur \'service en arrière-plan de xvii\'</string>
-    <string name="longpoll_guide_step2">dans le menu contextuel appuyez sur l\'icône (i) dans le coin</string>
-    <string name="longpoll_guide_step3">ici vous pouvez voir des paramètres systemes de \'xvii\'. appuyez sur la notifications</string>
-    <string name="longpoll_guide_step4">supprimez la selection de \'service en arrière-plan de xvii\' (et ne pas touchez des autres!). c\'est ça! </string>
 
 
     <string-array name="relations">
@@ -312,7 +308,7 @@
     <string name="keys_not_set">des clés n\'est pas mises</string>
     <string name="unable_to_write">vous ne pouvez pas écrire un message à l\'utilisateur</string>
     <string name="show_seconds">montrer des secondes</string>
-    <string name="longpoll_hint">tapez pour decouvrir plus</string>
+    <string name="longpoll_hint">tapez ici pour cacher cette notification</string>
     <string name="xvii_longpoll">service en arrière-plan de xvii</string>
     <string name="use_apple_emojis">utiliser des emojis d\'apple</string>
     <string name="summary">totallément</string>
@@ -516,6 +512,8 @@
     <string name="channel_message_destructor">messages autodestructants</string>
     <string name="channel_background_service">service en arrière-plan</string>
     <string name="channel_player">player</string>
+    <string name="longpoll_guide_button_settings">ouvrir les préferences des notifications</string>
+    <string name="longpoll_guide_button_support">ouvrir l\'appui</string>
 
 </resources>
 
