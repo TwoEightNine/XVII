@@ -188,7 +188,7 @@ class ChatInputController(
 
     private fun updateKeyboardIcon() {
         val iconRes = when (keyboardState) {
-            KeyboardState.TEXT -> R.drawable.ic_emoji
+            KeyboardState.TEXT -> R.drawable.ic_sticker
             KeyboardState.STICKERS -> R.drawable.ic_keyboard
         }
         val d = ContextCompat.getDrawable(context, iconRes)

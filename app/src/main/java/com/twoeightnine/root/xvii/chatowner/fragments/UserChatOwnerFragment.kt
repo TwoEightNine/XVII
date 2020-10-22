@@ -44,7 +44,7 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
         viewModel.foaf.observe(viewLifecycleOwner) { foaf ->
             foaf.data?.also { registrationDate ->
                 val registrationTs = (registrationDate.time / 1000L).toInt()
-                addValue(R.drawable.ic_id_card, getDate(registrationTs))
+                addValue(R.drawable.ic_registration_date, getDate(registrationTs))
             }
         }
     }
@@ -73,7 +73,7 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
                 addValue(R.drawable.ic_followers, resources.getQuantityString(R.plurals.followers, count, number))
             }
         }
-        addValue(R.drawable.ic_calendar, formatDate(formatBdate(user.bdate)).toLowerCase())
+        addValue(R.drawable.ic_birth_date, formatDate(formatBdate(user.bdate)).toLowerCase())
         addValue(R.drawable.ic_pin_home, user.city?.title)
         addValue(R.drawable.ic_home, user.hometown)
         addValue(R.drawable.ic_phone, user.mobilePhone, { callIntent(context, user.mobilePhone) }) {

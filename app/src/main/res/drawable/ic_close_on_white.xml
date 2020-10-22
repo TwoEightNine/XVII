@@ -8,6 +8,6 @@
             <size android:height="24dp" android:width="24dp" />
         </shape>
     </item>
-    <item android:drawable="@drawable/ic_clear_black" />
+    <item android:drawable="@drawable/ic_close_with_circle" />
 
 </layer-list>
