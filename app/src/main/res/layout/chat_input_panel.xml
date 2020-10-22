@@ -25,18 +25,18 @@
             android:layout_marginStart="4dp"
             android:padding="6dp">
 
-            <ProgressBar
-                android:id="@+id/pbAttach"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerInParent="true" />
-
             <ImageView
                 android:id="@+id/ivAttach"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_attach" />
+                android:src="@drawable/ic_add_with_circle" />
+
+            <ProgressBar
+                android:id="@+id/pbAttach"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true" />
 
             <RelativeLayout
                 android:id="@+id/rlAttachCount"
@@ -109,7 +109,7 @@
                 android:id="@+id/ivMic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="6dp"
+                android:padding="8dp"
                 android:src="@drawable/ic_mic_small" />
 
         </FrameLayout>

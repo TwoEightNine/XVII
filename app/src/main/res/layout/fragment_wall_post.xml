@@ -38,7 +38,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_favorite"
+                    android:src="@drawable/ic_no_like"
                     android:tag="main" />
 
                 <TextView
