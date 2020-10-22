@@ -23,7 +23,7 @@ android {
             }
         }
         manifestPlaceholders = [adAppId:getLocalProperty("advertising.appId")]
-        resConfigs "en", "fr", "ru"
+        resConfigs "en", "fr", "ru", "de"
     }
     testOptions {
         unitTests.returnDefaultValues = true
