@@ -98,9 +98,10 @@ open class DialogsFragment : BaseFragment() {
 
     protected open fun onLongClick(dialog: Dialog) {
         val items = arrayListOf(
-                ContextPopupItem(R.drawable.ic_pinned, if (dialog.isPinned) R.string.unpin else R.string.pin) {
-                    viewModel.pinDialog(dialog)
-                },
+                ContextPopupItem(
+                        if (dialog.isPinned) R.drawable.ic_pinned_crossed else R.drawable.ic_pinned,
+                        if (dialog.isPinned) R.string.unpin else R.string.pin
+                ) { viewModel.pinDialog(dialog) },
                 ContextPopupItem(R.drawable.ic_eye, R.string.mark_as_read) {
                     viewModel.readDialog(dialog)
                 },
@@ -118,7 +119,7 @@ open class DialogsFragment : BaseFragment() {
                         viewModel.addAlias(dialog, newAlias)
                     }.show()
                 },
-                ContextPopupItem(R.drawable.ic_home, R.string.add_shortcut) {
+                ContextPopupItem(R.drawable.ic_link, R.string.add_shortcut) {
                     createShortcut(context, dialog)
                 }
         )

@@ -460,6 +460,8 @@
 
     <string name="other">other</string>
     <string name="recent">recent</string>
+    <string name="recent_stickers">recent stickers</string>
+    <string name="recent_emojis">recent emojis</string>
 
 
     <string name="offline">offline</string>
