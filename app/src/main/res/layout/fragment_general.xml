@@ -29,7 +29,6 @@
             android:orientation="vertical">
 
             <com.twoeightnine.root.xvii.uikit.XviiLabel
-                style="@style/Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/general_stealth" />
@@ -72,7 +71,6 @@
 
 
             <com.twoeightnine.root.xvii.uikit.XviiLabel
-                style="@style/Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/general_chatting" />
@@ -99,7 +97,6 @@
                 android:text="@string/store_custom_keys" />
 
             <com.twoeightnine.root.xvii.uikit.XviiLabel
-                style="@style/Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/general_other" />

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,11 +9,16 @@
     android:focusable="true"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar" />
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/notifications" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/svContent"
         android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -21,25 +27,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight">
-
-                <TextView
-                    style="@style/OtherText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="28dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/private_messages_notifs"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
+                android:text="@string/private_messages_notifs" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,10 +77,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/led_lights" />
 
-                <Button
+                <com.twoeightnine.root.xvii.uikit.XviiButton
                     android:id="@+id/btnSettingsPrivate"
-                    style="@style/AccentButton"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
@@ -99,25 +90,10 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight">
-
-                <TextView
-                    style="@style/OtherText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="28dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/chats_notifs"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
+                android:text="@string/chats_notifs" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -156,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/led_lights" />
 
-                <Button
+                <com.twoeightnine.root.xvii.uikit.XviiButton
                     android:id="@+id/btnSettingsOther"
                     style="@style/AccentButton"
                     android:layout_width="match_parent"
@@ -167,25 +143,10 @@
                     android:layout_marginBottom="12dp"
                     android:text="@string/notifications_open_settings_other" />
 
-                <LinearLayout
+                <com.twoeightnine.root.xvii.uikit.XviiLabel
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/toolbar"
-                    android:orientation="vertical"
-                    android:tag="extraLight">
-
-                    <TextView
-                        style="@style/OtherText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingTop="8dp"
-                        android:paddingEnd="28dp"
-                        android:paddingBottom="8dp"
-                        android:text="@string/other"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
+                    android:text="@string/other" />
 
                 <com.twoeightnine.root.xvii.views.XviiSwitch
                     android:id="@+id/switchStylizeNotifications"
@@ -194,10 +155,10 @@
                     android:hint="@string/use_styled_notifications_hint"
                     android:text="@string/use_styled_notifications" />
 
-                <Button
+                <com.twoeightnine.root.xvii.uikit.XviiButton
                     android:id="@+id/btnSettings"
-                    style="@style/AccentButton"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
@@ -219,6 +180,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
