@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.stylize
+import kotlinx.android.synthetic.main.fragment_ui_kit.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 abstract class BaseFragment : Fragment() {
@@ -49,6 +50,10 @@ abstract class BaseFragment : Fragment() {
 
     protected fun initToolbar() {
         if (toolbar != null) {
+            if (xviiToolbar != null) {
+                baseActivity?.also(xviiToolbar::setupWith)
+                return
+            }
             baseActivity?.setSupportActionBar(toolbar)
             val actionBar = baseActivity?.supportActionBar
             if (actionBar != null) {

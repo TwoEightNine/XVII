@@ -7,7 +7,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.getSize
+import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
+import com.twoeightnine.root.xvii.utils.setVisible
+import com.twoeightnine.root.xvii.utils.showToast
 import kotlinx.android.synthetic.main.fragment_general.*
 
 /**
@@ -27,13 +30,11 @@ class GeneralFragment : BaseFragment() {
         btnRefreshStickers.setOnClickListener {
             viewModel.refreshStickers()
         }
-        llContainer.stylizeAll()
         svContent.setBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.general))
         viewModel = ViewModelProviders.of(this)[GeneralViewModel::class.java]
         viewModel.calculateCacheSize()
 

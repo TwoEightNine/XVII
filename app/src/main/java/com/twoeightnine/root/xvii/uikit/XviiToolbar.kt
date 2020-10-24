@@ -2,10 +2,13 @@ package com.twoeightnine.root.xvii.uikit
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.AppBarLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
+import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.setTopInsetPadding
+import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.toolbar2.view.*
 
 class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(context, attributeSet) {
@@ -34,7 +37,9 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
         baseActivity.setSupportActionBar(toolbar)
         baseActivity.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(hasBackArrow)
-            setHomeAsUpIndicator(R.drawable.ic_back)
+            val homeDrawable = ContextCompat.getDrawable(context, R.drawable.ic_back)
+            homeDrawable?.stylize(ColorManager.MAIN_TAG)
+            setHomeAsUpIndicator(homeDrawable)
             setHomeButtonEnabled(true)
             setDisplayUseLogoEnabled(false)
         }
