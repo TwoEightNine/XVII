@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.features.appearance
 
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.TypedValue
@@ -14,11 +13,14 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_appearance.*
 import kotlinx.android.synthetic.main.view_appearance_sample.*
+import kotlinx.android.synthetic.main.view_appearance_sample.view.*
 
 class AppearanceFragment : BaseFragment() {
 
@@ -43,8 +45,6 @@ class AppearanceFragment : BaseFragment() {
         btnColor.stylize()
         pbAttach.hide()
         rlAttachCount.hide()
-        llVisualLabel.stylizeAll()
-        llFunctionalLabel.stylizeAll()
 
         etInput.isClickable = false
         etInput.isFocusable = false
@@ -76,7 +76,7 @@ class AppearanceFragment : BaseFragment() {
         csThemeColor.color = currentColor
 
         arrayOf(ivMic, ivSend).forEach { iv ->
-            iv.drawable.setColorFilter(colors[1], PorterDuff.Mode.SRC_ATOP)
+            iv.drawable.paint(Munch.color.color)
         }
 
         if (switchLightTheme.isChecked) {
@@ -144,7 +144,7 @@ class AppearanceFragment : BaseFragment() {
         tvDateOut.text = sampleDateOut
         tvSubtitle.text = sampleLastSeen
 
-        tvTitle.text = getString(R.string.appearance_sample_name)
+        rlToolbar.tvTitle.text = getString(R.string.appearance_sample_name)
         etInput.setText(getString(R.string.appearance_sample_input))
         if (inLower) {
             tvTitle.lower()
@@ -159,11 +159,6 @@ class AppearanceFragment : BaseFragment() {
         ivKeyboard.setVisible(showStickers)
         ivMic.setVisible(showVoice)
         ivSend.setVisible(!showVoice)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.appearance))
     }
 
     private fun initViews() {

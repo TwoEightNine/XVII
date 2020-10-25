@@ -1,8 +1,6 @@
 package com.twoeightnine.root.xvii.poll
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -62,11 +60,11 @@ class PollFragment : BaseFragment() {
     }
 
     private fun bindPoll(poll: Poll) {
-        setTitle(getString(if (poll.anonymous) {
+        xviiToolbar.title = getString(if (poll.anonymous) {
             R.string.poll_anon
         } else {
             R.string.poll_public
-        }))
+        })
         tvQuestion.text = poll.question
         tvVotes.text = context?.resources?.getQuantityString(R.plurals.votes, poll.votes, poll.votes)
         tvDate.text = getTime(poll.created)
@@ -90,10 +88,7 @@ class PollFragment : BaseFragment() {
 //        }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.poll, menu)
-    }
+    override fun getMenu(): Int = R.menu.poll
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.menu_clear_vote -> {

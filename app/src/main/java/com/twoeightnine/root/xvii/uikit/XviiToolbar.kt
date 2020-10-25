@@ -11,7 +11,11 @@ import kotlinx.android.synthetic.main.toolbar2.view.*
 
 class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(context, attributeSet) {
 
-    private var title: String? = null
+    var title: String? = null
+        set(value) {
+            field = value
+            tvToolbarTitle?.text = value
+        }
 
     private var hasBackArrow: Boolean = true
 
@@ -26,7 +30,8 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
         isLiftOnScroll = true
         inflate(context, R.layout.toolbar2, this)
         toolbar.title = ""
-        tvTitle.text = title
+        tvToolbarTitle.text = title
+        toolbar.overflowIcon?.paint(Munch.color.color)
         setTopInsetPadding(context.resources.getDimensionPixelSize(R.dimen.toolbar_height))
     }
 

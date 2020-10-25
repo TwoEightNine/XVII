@@ -9,14 +9,20 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 
-class XviiButton : AppCompatButton {
+class XviiButton(context: Context, attributeSet: AttributeSet) : AppCompatButton(context, attributeSet) {
 
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
+    var warn: Boolean = false
+        private set
 
     init {
+        initAttributes(attributeSet)
+
         val backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_button)
-        backgroundDrawable?.paint(Munch.color.color)
+        backgroundDrawable?.paint(if (warn) {
+            ContextCompat.getColor(context, R.color.popup_error)
+        } else {
+            Munch.color.color
+        })
         background = backgroundDrawable
         setTextColor(Color.WHITE)
 
@@ -32,5 +38,11 @@ class XviiButton : AppCompatButton {
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val modifiedHeightMeasureSpec = MeasureSpec.makeMeasureSpec(88, MeasureSpec.EXACTLY)
         super.onMeasure(widthMeasureSpec, modifiedHeightMeasureSpec)
+    }
+
+    private fun initAttributes(attributeSet: AttributeSet) {
+        val attrs = context.theme.obtainStyledAttributes(attributeSet, R.styleable.XviiButton, 0, 0)
+        warn = attrs.getBoolean(R.styleable.XviiButton_warn, true)
+        attrs.recycle()
     }
 }

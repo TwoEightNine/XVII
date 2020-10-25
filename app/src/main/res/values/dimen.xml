@@ -51,8 +51,8 @@
     <dimen name="profile_margin_start">24dp</dimen>
     <dimen name="profile_margin_end">24dp</dimen>
     <dimen name="profile_avatar_height">240dp</dimen>
-    <dimen name="profile_card_margin_top">46dp</dimen>
-    <dimen name="profile_card_radius">10dp</dimen> <!--actionBarSize - profile_card_margin_top-->
+    <dimen name="profile_card_margin_top">40dp</dimen>
+    <dimen name="profile_card_radius">16dp</dimen> <!--actionBarSize - profile_card_margin_top-->
 
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="chat_fab_more_bottom_margin">72dp</dimen>

@@ -12,7 +12,10 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.getBatteryLevel
+import com.twoeightnine.root.xvii.utils.getMinutes
+import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
+import com.twoeightnine.root.xvii.utils.setVisible
 import kotlinx.android.synthetic.main.fragment_pin_settings.*
 
 class SecurityFragment : BaseFragment() {
@@ -31,13 +34,7 @@ class SecurityFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
         initViews()
-        llContainer.stylizeAll()
         svContent.setBottomInsetPadding()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.pin_settings_title))
     }
 
     override fun onResume() {

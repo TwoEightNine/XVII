@@ -2,16 +2,18 @@ package com.twoeightnine.root.xvii.base
 
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.annotation.MenuRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.fragment_ui_kit.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -83,6 +85,30 @@ abstract class BaseFragment : Fragment() {
                     view.layoutParams = this
                 }
                 insets
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        val menuId = getMenu()
+        if (menuId != 0) {
+            inflater.inflate(menuId, menu)
+            menu.paint(Munch.color.color)
+        }
+    }
+
+    @MenuRes
+    protected open fun getMenu(): Int = 0
+
+    protected fun setStatusBarLight(isLight: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            baseActivity?.window?.decorView?.apply {
+                systemUiVisibility = if (isLight) {
+                    systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                } else {
+                    systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+                }
             }
         }
     }

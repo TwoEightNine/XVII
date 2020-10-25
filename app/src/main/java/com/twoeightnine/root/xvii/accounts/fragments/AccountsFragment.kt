@@ -1,8 +1,6 @@
 package com.twoeightnine.root.xvii.accounts.fragments
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -59,7 +57,6 @@ class AccountsFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.accounts))
         viewModel.getAccounts().observe(viewLifecycleOwner) {
             updateAccounts(it)
         }
@@ -70,11 +67,7 @@ class AccountsFragment : BaseFragment() {
         viewModel.loadAccounts()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-        inflater.inflate(R.menu.menu_accounts, menu)
-    }
+    override fun getMenu(): Int = R.menu.menu_accounts
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.menu_log_out -> {

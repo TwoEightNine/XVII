@@ -2,10 +2,7 @@ package com.twoeightnine.root.xvii.chatowner.fragments
 
 import android.app.Activity
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
@@ -21,6 +18,7 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerViewModel
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Photo
@@ -31,10 +29,8 @@ import kotlinx.android.synthetic.main.fragment_chat_owner.ivAvatar
 import kotlinx.android.synthetic.main.fragment_chat_owner.nsvContent
 import kotlinx.android.synthetic.main.fragment_chat_owner.tvInfo
 import kotlinx.android.synthetic.main.fragment_chat_owner.tvTitle
-import kotlinx.android.synthetic.main.fragment_chat_owner.vShadow
 import kotlinx.android.synthetic.main.fragment_chat_owner_user.*
 import kotlinx.android.synthetic.main.item_chat_owner_field.view.*
-import kotlinx.android.synthetic.main.toolbar.*
 
 abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
@@ -67,11 +63,6 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        toolbar.background = TransitionDrawable(arrayOf(
-                ColorDrawable(Color.TRANSPARENT),
-                ColorDrawable(ColorManager.toolbarColor)
-        ))
-        setTitle("")
 
         viewModel = ViewModelProviders.of(this)[ChatOwnerViewModel::class.java]
         viewModel.chatOwner.observe(viewLifecycleOwner, Observer(::onChatOwnerLoaded))
@@ -82,7 +73,6 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         fabOpenChat.stylize()
         progressBar?.stylize()
 
-        vShadow.setTopInsetMargin(context?.resources?.getDimensionPixelSize(R.dimen.toolbar_height) ?: 0)
         getBottomPaddableView().setBottomInsetMargin()
     }
 
@@ -97,6 +87,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
             chatOwner?.apply {
                 ivAvatar?.load(getAvatar())
                 tvTitle.text = getTitle()
+                xviiToolbar?.title = getTitle()
                 context?.also {
                     tvInfo.text = getInfoText(it)
                     getPrivacyInfo(it).also { privacyInfo ->
@@ -201,7 +192,6 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     companion object {
 
         const val ARG_PEER_ID = "peerId"
-        const val BOTTOM_SHEET_TRIGGER_CALLBACK = 0.97
         const val PARALLAX_COEFF = 0.5f
     }
 
@@ -216,23 +206,16 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         }
 
         override fun onSlide(p0: View, offset: Float) {
+            L.def().log("offset = $offset")
             when {
                 offset <= 0f -> return
-                offset > BOTTOM_SHEET_TRIGGER_CALLBACK -> if (!toolbarColored && shouldColorToolbar()) {
-                    (toolbar.background as? TransitionDrawable)?.startTransition(0)
-                    vShadow.show()
-                    var title = chatOwner?.getTitle()
-                    if (Prefs.lowerTexts) {
-                        title = title?.toLowerCase()
-                    }
-                    setTitle(title ?: "")
+                offset == 1f -> if (!toolbarColored && shouldColorToolbar()) {
                     toolbarColored = true
+                    setStatusBarLight(isLight = true)
                 }
                 toolbarColored -> {
-                    (toolbar.background as? TransitionDrawable)?.reverseTransition(0)
-                    vShadow.hide()
-                    setTitle("")
                     toolbarColored = false
+                    setStatusBarLight(isLight = false)
                 }
                 else -> {
                     val margin = imageHeight * -offset * PARALLAX_COEFF
@@ -252,7 +235,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
         }
 
-        private fun shouldColorToolbar() = toolbar
+        private fun shouldColorToolbar() = xviiToolbar
                 ?.let { (screenHeight - it.height + 92) <= cvInfo.height } ?: false
     }
 }

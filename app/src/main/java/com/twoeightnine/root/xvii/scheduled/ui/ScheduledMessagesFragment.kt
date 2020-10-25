@@ -40,6 +40,7 @@ class ScheduledMessagesFragment : BaseFragment() {
 
         rvMessages.layoutManager = LinearLayoutManager(context)
         rvMessages.adapter = adapter
+        rvMessages.addOnScrollListener(AppBarLifter(xviiToolbar))
         adapter.emptyView = rlHint
 
         ivSend.stylizeAnyway(tag = ColorManager.MAIN_TAG)
@@ -48,7 +49,6 @@ class ScheduledMessagesFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setTitle(getString(R.string.scheduled_messages_title))
         viewModel.scheduledMessages
                 .observe(viewLifecycleOwner, Observer(this::onScheduledMessagesLoaded))
         viewModel.peersMap

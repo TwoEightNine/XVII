@@ -6,8 +6,7 @@ import android.view.MenuInflater
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.utils.show
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.fragment_poll.*
 
 class DialogsForwardFragment : DialogsFragment() {
 
@@ -22,8 +21,7 @@ class DialogsForwardFragment : DialogsFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        toolbar.show()
-        updateTitle(getString(R.string.choose_dialog))
+        xviiToolbar.title = getString(R.string.choose_dialog)
     }
 
     override fun onClick(dialog: Dialog) {

@@ -1,8 +1,6 @@
 package com.twoeightnine.root.xvii.web
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -33,13 +31,8 @@ class WebFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateTitle(title ?: url ?: getString(R.string.app_name))
+        xviiToolbar.title = title ?: url ?: getString(R.string.app_name)
         webView.setBottomInsetPadding()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
     }
 
     companion object {

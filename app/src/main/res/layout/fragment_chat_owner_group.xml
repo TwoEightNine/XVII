@@ -6,7 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/popup">
 
-    <include layout="@layout/toolbar" />
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <View
         android:id="@+id/vShadow"
@@ -64,7 +67,7 @@
 
                 <TextView
                     android:id="@+id/tvTitle"
-                    style="@style/MainMediumText"
+                    style="@style/MainBoldText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/profile_margin_start"

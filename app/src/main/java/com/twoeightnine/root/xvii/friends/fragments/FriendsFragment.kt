@@ -43,6 +43,7 @@ class FriendsFragment : BaseFragment() {
         progressBar.show()
         rvFriends.layoutManager = LinearLayoutManager(context)
         rvFriends.adapter = adapter
+        rvFriends.addOnScrollListener(AppBarLifter(xviiToolbar))
 
         progressBar.stylize()
         swipeRefresh.setOnRefreshListener {
@@ -56,9 +57,9 @@ class FriendsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel.getFriends().observe(viewLifecycleOwner, ::updateFriends)
         viewModel.loadFriends()
-        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
-            adapter.firstItemPadding = top
-        }
+//        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
+//            adapter.firstItemPadding = top
+//        }
         insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
             val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
             rvFriends.setBottomPadding(bottom + bottomNavHeight)

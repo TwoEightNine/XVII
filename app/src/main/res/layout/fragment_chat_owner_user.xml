@@ -6,7 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/popup">
 
-    <include layout="@layout/toolbar" />
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <View
         android:id="@+id/vShadow"
@@ -64,7 +67,7 @@
 
                 <TextView
                     android:id="@+id/tvTitle"
-                    style="@style/MainMediumText"
+                    style="@style/MainBoldText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/profile_margin_start"
@@ -151,10 +154,10 @@
                     android:layout_below="@+id/tvNotifications"
                     android:background="@color/divider" />
 
-                <Button
+                <com.twoeightnine.root.xvii.uikit.XviiButton
                     android:id="@+id/btnSecretChat"
-                    style="@style/AccentButton"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/vNotificationsBottom"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="6dp"
@@ -162,27 +165,29 @@
                     android:drawableStart="@drawable/ic_start_secret_chat_white"
                     android:text="@string/encryption" />
 
-                <Button
+                <com.twoeightnine.root.xvii.uikit.XviiButton
                     android:id="@+id/btnBlockUser"
-                    style="@style/RedButton"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/btnSecretChat"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="@dimen/profile_margin_start"
                     android:drawableStart="@drawable/ic_block_user"
+                    app:warn="true"
                     android:text="@string/block_user" />
 
-                <Button
+                <com.twoeightnine.root.xvii.uikit.XviiButton
                     android:id="@+id/btnUnblockUser"
-                    style="@style/RedButton"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/btnSecretChat"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="@dimen/profile_margin_start"
                     android:drawableStart="@drawable/ic_unblock_user"
                     android:text="@string/unblock_user"
+                    app:warn="true"
                     android:visibility="gone" />
 
                 <View
