@@ -91,16 +91,16 @@
     <string name="source_code">source code</string>
     <string name="new_title">new title</string>
     <string name="chat_created">%s created the chat</string>
-    <string name="chat_title_updated">%s updated chat title: \"%s\"</string>
+    <string name="chat_title_updated">%1$s updated chat title: \"%2$s\"</string>
     <string name="chat_photo_updated">%s updated chat photo</string>
     <string name="chat_photo_removed">%s removed chat photo</string>
     <string name="user_leaved_chat">%s left chat</string>
-    <string name="user_invited_user">%s invited %s</string>
+    <string name="user_invited_user">%1$s invited %2$s</string>
     <string name="user_entered_chat">%s entered the chat</string>
     <string name="user_entered_chat_via_link">%s entered the chat via link</string>
-    <string name="user_kicked_user">%s kicked %s out of chat</string>
-    <string name="user_pinned_message">%s pinned message: \"%s\"</string>
-    <string name="user_unpinned_message">%s unpinned message: \"%s\"</string>
+    <string name="user_kicked_user">%1$s kicked %2$s out of chat</string>
+    <string name="user_pinned_message">%1$s pinned message: \"%2$s\"</string>
+    <string name="user_unpinned_message">%1$s unpinned message: \"%2$s\"</string>
     <string name="ten_attachments">you cannot add more than 10 attachments</string>
     <string name="led_lights">led color</string>
     <string name="change_keys">change keys</string>
@@ -177,6 +177,7 @@
     <string name="profile_blacklisted_you">you are in the user\'s black list</string>
     <string name="group_closed">this community is closed</string>
     <string name="wanna_rate">would you like to rate the application?</string>
+    <string name="more_title">more</string>
 
     <string name="no_access_to_storage">no access to the storage</string>
     <string name="need_access_to_storage">xvii needs an access to the storage to provide the feature of attaching and saving media files</string>
@@ -350,8 +351,8 @@
     <string name="pin_settings_mixture_title">mixture</string>
     <string name="pin_settings_fake_app_title">fake app</string>
 
-    <string name="pin_settings_mixture_explanation_current">current value of minutes is %s\ncurrent battery percentage is %s</string>
-    <string name="pin_settings_mixture_explanation_enter">to enter:\n\t\tfirst, type %s,\n\t\tthen, type %s</string>
+    <string name="pin_settings_mixture_explanation_current">current value of minutes is %1$s\ncurrent battery percentage is %2$s</string>
+    <string name="pin_settings_mixture_explanation_enter">to enter:\n\t\tfirst, type %1$s,\n\t\tthen, type %2$s</string>
     <string name="pin_settings_mixture_your_pin">your pin</string>
     <string name="pin_settings_mixture_minutes">value of minutes</string>
     <string name="pin_settings_mixture_battery">battery percentage</string>
@@ -456,7 +457,7 @@
         <item quantity="other">%s votes</item>
     </plurals>
 
-    <string name="aboutbig">xvii messenger (by twoeightnine)\nver. %s since %s</string>
+    <string name="aboutbig">xvii messenger (by twoeightnine)\nver. %1$s since %2$s</string>
 
     <string name="other">other</string>
     <string name="recent">recent</string>

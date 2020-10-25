@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rlRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:clickable="true"
-    android:focusable="true">
+    android:background="@color/background">
+
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backArrow="false"
+        app:title="@string/more_title" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/svContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:clipToPadding="false">
 
         <LinearLayout
@@ -26,21 +32,11 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_rect">
 
-                <androidx.cardview.widget.CardView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/civPhoto"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="12dp"
-                    app:cardBackgroundColor="@color/placeholder"
-                    app:cardCornerRadius="30dp"
-                    app:cardElevation="0dp">
-
-                    <ImageView
-                        android:id="@+id/ivPhoto"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                </androidx.cardview.widget.CardView>
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_margin="12dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -55,8 +51,17 @@
                         android:paddingTop="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/user_name_text_size"
+                        android:textSize="20sp"
                         tools:text="gucci mane" />
+
+                    <TextView
+                        android:id="@+id/tvLastSeen"
+                        style="@style/OtherText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/accounts_hint"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tvSwitchAccount"
@@ -81,454 +86,121 @@
 
             </RelativeLayout>
 
-            <LinearLayout
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight">
+                android:text="@string/addons" />
 
-                <TextView
-                    style="@style/OtherText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="56dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="28dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/addons"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlAnalyse"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivAnalyse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_analysis"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivAnalyse"
-                    android:text="@string/analyse"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlStarred"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivStarred"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_star"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivStarred"
-                    android:text="@string/important"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlScheduledMessages"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivScheduledMessages"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_clock"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivScheduledMessages"
-                    android:text="@string/scheduled_messages_title"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <LinearLayout
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiAnalyze"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight">
+                app:itemTitle="@string/analyse"
+                app:itemIcon="@drawable/ic_analysis" />
 
-                <TextView
-                    style="@style/OtherText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="56dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="28dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/settings"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlGeneral"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivGeneral"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_general"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivGeneral"
-                    android:text="@string/general"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlNotifications"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivNotifications"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_notifications"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivNotifications"
-                    android:text="@string/notifications"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlAppearance"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivAppearance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_appearance"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivAppearance"
-                    android:text="@string/appearance"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlPin"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivPin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_padlock"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivPin"
-                    android:text="@string/pin_settings_title"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <LinearLayout
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiStarred"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight">
+                app:itemTitle="@string/important"
+                app:itemIcon="@drawable/ic_star" />
 
-                <TextView
-                    style="@style/OtherText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="56dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="28dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/about_app"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlFeedback"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivFeedback"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_support"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivFeedback"
-                    android:text="@string/feedback"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlRate"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivRate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_star"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivRate"
-                    android:text="@string/rate"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlContribute"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivContribute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_rabbit"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivContribute"
-                    android:text="@string/contribute"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlShare"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivShare"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_share"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivShare"
-                    android:text="@string/share_on_wall"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlPrivacy"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivPrivacy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_privacy"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivPrivacy"
-                    android:text="@string/privacy_policy"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlSourceCode"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/selector_rect">
-
-                <ImageView
-                    android:id="@+id/ivSourceCode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_source_code"
-                    android:tag="main" />
-
-                <TextView
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/ivSourceCode"
-                    android:text="@string/source_code"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <LinearLayout
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiScheduledMessages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight">
+                app:itemTitle="@string/scheduled_messages_title"
+                app:itemIcon="@drawable/ic_clock" />
 
-                <TextView
-                    android:id="@+id/tvAbout"
-                    style="@style/OtherText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingStart="12dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/aboutbig"
-                    android:textSize="13sp" />
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings" />
 
-            </LinearLayout>
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiGeneral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/general"
+                app:itemIcon="@drawable/ic_general" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/notifications"
+                app:itemIcon="@drawable/ic_notifications" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiAppearance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/appearance"
+                app:itemIcon="@drawable/ic_appearance" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiSecurity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/pin_settings_title"
+                app:itemIcon="@drawable/ic_padlock" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_app" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiSupport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/feedback"
+                app:itemIcon="@drawable/ic_support" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/rate"
+                app:itemIcon="@drawable/ic_star" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiContribute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/contribute"
+                app:itemIcon="@drawable/ic_rabbit" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/share_on_wall"
+                app:itemIcon="@drawable/ic_share" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiPrivacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/privacy_policy"
+                app:itemIcon="@drawable/ic_privacy" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiSourceCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/source_code"
+                app:itemIcon="@drawable/ic_source_code" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
+                android:id="@+id/xlAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/aboutbig" />
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -129,7 +129,7 @@
 
         <TextView
             android:id="@+id/tvBruteForce"
-            style="@style/MainBoldText"
+            style="@style/MainMediumText"
             android:textSize="36sp"
             android:layout_margin="24dp"
             android:layout_centerInParent="true"

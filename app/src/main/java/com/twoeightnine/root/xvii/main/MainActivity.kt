@@ -60,7 +60,7 @@ class MainActivity : BaseActivity() {
         with(viewPager) {
             adapter = MainPagerAdapter(supportFragmentManager)
             isLocked = true
-            offscreenPageLimit = 3
+            offscreenPageLimit = 2
         }
     }
 
@@ -103,9 +103,9 @@ class MainActivity : BaseActivity() {
         override fun onNavigationItemSelected(item: MenuItem): Boolean {
             viewPager.setCurrentItem(
                     when (item.itemId) {
-                        R.id.menu_search -> 0
-                        R.id.menu_friends -> 2
-                        R.id.menu_features -> 3
+//                        R.id.menu_search -> 0
+                        R.id.menu_friends -> 0
+                        R.id.menu_features -> 2
                         else -> 1 // default menu_dialogs
                     },
                     false

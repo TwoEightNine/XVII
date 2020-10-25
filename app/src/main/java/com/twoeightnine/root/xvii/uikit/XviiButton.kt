@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii.uikit
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatButton
@@ -17,10 +16,11 @@ class XviiButton : AppCompatButton {
 
     init {
         val backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_button)
-        (backgroundDrawable as? GradientDrawable)?.setColor(Munch.color.color)
+        backgroundDrawable?.paint(Munch.color.color)
         background = backgroundDrawable
         setTextColor(Color.WHITE)
 
+        stateListAnimator = null
         elevation = 1f
         setPadding(24, 0, 24, 0)
         compoundDrawablePadding = 16

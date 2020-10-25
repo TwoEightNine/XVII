@@ -21,6 +21,10 @@ class FeaturesViewModel(
 ) : ViewModel() {
 
     private val accountLiveData = MutableLiveData<Account>()
+    private val lastSeenLiveData = MutableLiveData<Pair<Boolean, Int>>()
+
+    val lastSeen: LiveData<Pair<Boolean, Int>>
+        get() = lastSeenLiveData
 
     fun getAccount() = accountLiveData as LiveData<Account>
 
@@ -58,6 +62,15 @@ class FeaturesViewModel(
     fun joinGroup() {
         api.joinGroup(App.GROUP)
                 .subscribeSmart({}, {})
+    }
+
+    fun updateLastSeen() {
+        api.getUsers("${Session.uid}", "online,last_seen")
+                .subscribeSmart({ users ->
+                    users.getOrNull(0)?.also { user ->
+                        lastSeenLiveData.value = Pair(user.isOnline, user.lastSeen?.time ?: 0)
+                    }
+                }, {})
     }
 
     companion object {

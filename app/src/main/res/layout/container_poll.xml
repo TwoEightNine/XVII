@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/tvQuestion"
-        style="@style/MainBoldText"
+        style="@style/MainMediumText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

@@ -20,7 +20,6 @@ import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_dialogs.*
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 
@@ -43,7 +42,7 @@ open class DialogsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
-        toolbar.hide()
+//        toolbar.hide()
 
         progressBar.show()
         swipeRefresh.setOnRefreshListener {
@@ -63,9 +62,9 @@ open class DialogsFragment : BaseFragment() {
         viewModel.loadDialogs()
         adapter.startLoading()
 
-        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
-            adapter.firstItemPadding = top
-        }
+//        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
+//            adapter.firstItemPadding = top
+//        }
         insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
             val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
             rvDialogs.setBottomPadding(bottom + bottomNavHeight)
@@ -75,13 +74,18 @@ open class DialogsFragment : BaseFragment() {
     private fun initRecycler() {
         rvDialogs.layoutManager = LinearLayoutManager(context)
         rvDialogs.adapter = adapter
+        rvDialogs.addOnScrollListener(AppBarLifter(xviiToolbar))
     }
 
     private fun updateDialogs(data: Wrapper<ArrayList<Dialog>>) {
         swipeRefresh.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
-            adapter.update(data.data)
+            val d = arrayListOf<Dialog>().apply {
+                addAll(data.data)
+                addAll(data.data)
+            }
+            adapter.update(d)
 //            adapter.update(FakeData.dialogs)
         } else {
             showError(context, data.error ?: getString(R.string.error))
@@ -93,6 +97,7 @@ open class DialogsFragment : BaseFragment() {
     }
 
     protected open fun onClick(dialog: Dialog) {
+//        startFragment<DialogsFragment>()
         ChatActivity.launch(context, dialog)
     }
 

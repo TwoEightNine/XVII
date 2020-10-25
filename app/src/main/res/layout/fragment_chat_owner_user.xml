@@ -64,7 +64,7 @@
 
                 <TextView
                     android:id="@+id/tvTitle"
-                    style="@style/MainBoldText"
+                    style="@style/MainMediumText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/profile_margin_start"

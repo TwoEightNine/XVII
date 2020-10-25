@@ -76,8 +76,16 @@
         <item name="android:textColor">@color/main_text</item>
     </style>
 
-    <style name="MainBoldText" parent="MainText">
+    <style name="MainMediumText" parent="MainText">
         <item name="fontPath">fonts/medium.ttf</item>
+    </style>
+
+    <style name="MainBoldText" parent="MainText">
+        <item name="fontPath">fonts/bold.ttf</item>
+    </style>
+
+    <style name="MainBlackText" parent="MainText">
+        <item name="fontPath">fonts/black.ttf</item>
     </style>
 
     <style name="OtherText">

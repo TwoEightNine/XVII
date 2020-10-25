@@ -64,7 +64,7 @@ class LoginViewModel : ViewModel() {
                 user.id,
                 token,
                 user.fullName,
-                user.photo100 ?: "",
+                user.photoMax ?: "",
                 isRunning
         )
         appDb.accountsDao()

@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/tvName"
-            style="@style/MainBoldText"
+            style="@style/MainMediumText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

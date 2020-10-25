@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.features
 
 import android.graphics.Paint
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -26,7 +25,6 @@ import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.pin.PinActivity
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
 import com.twoeightnine.root.xvii.uikit.UiKitFragment
@@ -57,50 +55,50 @@ class FeaturesFragment : BaseFragment() {
         tvSwitchAccount.paintFlags = tvSwitchAccount.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         tvSwitchAccount.stylize()
 
-        rlAnalyse.setOnClickListener { showToast(context, R.string.in_future_versions) }
-        rlStarred.setOnClickListener { startFragment<StarredMessagesFragment>() }
-        rlScheduledMessages.setOnClickListener { startFragment<ScheduledMessagesFragment>() }
+        xiAnalyze.setOnClickListener { showToast(context, R.string.in_future_versions) }
+        xiStarred.setOnClickListener { startFragment<StarredMessagesFragment>() }
+        xiScheduledMessages.setOnClickListener { startFragment<ScheduledMessagesFragment>() }
 
         rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, Session.uid) }
         tvSwitchAccount.setOnClickListener { startFragment<AccountsFragment>() }
-        rlGeneral.setOnClickListener {
+        xiGeneral.setOnClickListener {
             startFragment<GeneralFragment>()
             suggestJoin()
         }
-        rlNotifications.setOnClickListener {
+        xiNotifications.setOnClickListener {
             startFragment<NotificationsFragment>()
             suggestJoin()
         }
-        rlAppearance.setOnClickListener {
+        xiAppearance.setOnClickListener {
             AppearanceActivity.launch(context)
             suggestJoin()
         }
-        rlPin.setOnClickListener {
-//            onPinClicked()
-            startFragment<SecurityFragment>()
-        }
+        xiSecurity.setOnClickListener { startFragment<SecurityFragment>() }
 
-        rlFeedback.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }
-        rlRate.setOnClickListener { context?.also { rate(it) } }
-        rlContribute.setOnClickListener { AssistActivity.launch(context) }
-        rlShare.setOnClickListener { share() }
-        rlPrivacy.setOnClickListener { resolvePrivacyPolicy() }
-        rlSourceCode.setOnClickListener { simpleUrlIntent(context, GITHUB_URL) }
+        xiSupport.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }
+        xiRate.setOnClickListener { context?.also { rate(it) } }
+        xiContribute.setOnClickListener { AssistActivity.launch(context) }
+        xiShare.setOnClickListener { share() }
+        xiPrivacy.setOnClickListener { resolvePrivacyPolicy() }
+        xiSourceCode.setOnClickListener { simpleUrlIntent(context, GITHUB_URL) }
 
-        tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
-        tvAbout.setOnClickListener { showLogDialog() }
-        tvAbout.setOnLongClickListener { startFragment<UiKitFragment>(); true }
+        xlAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
+        xlAbout.setOnClickListener { showLogDialog() }
+        xlAbout.setOnLongClickListener { startFragment<UiKitFragment>(); true }
 
-        rlRoot.stylizeAll()
+//        rlRoot.stylizeAll()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getAccount().observe(viewLifecycleOwner, ::updateAccount)
-        viewModel.loadAccount()
-        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
-            rlAccounts.setTopMargin(top)
+        viewModel.lastSeen.observe(viewLifecycleOwner) { (isOnline, timeStamp) ->
+            tvLastSeen.text = getLastSeenText(resources, isOnline, timeStamp, 0)
         }
+        viewModel.loadAccount()
+//        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
+//            rlAccounts.setTopMargin(top)
+//        }
         insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
             val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
             svContent.setBottomPadding(bottom + bottomNavHeight)
@@ -109,7 +107,8 @@ class FeaturesFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        rlContribute.setVisible(time() - Prefs.lastAssistance > ASSISTANCE_DELAY)
+        xiContribute.setVisible(time() - Prefs.lastAssistance > ASSISTANCE_DELAY)
+        viewModel.updateLastSeen()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -118,32 +117,9 @@ class FeaturesFragment : BaseFragment() {
     }
 
     private fun updateAccount(account: Account) {
-        ivPhoto.load(account.photo)
+        civPhoto.load(account.photo)
         tvName.text = account.name
         if (Prefs.lowerTexts) tvName.lower()
-    }
-
-    private fun onPinClicked() {
-        val context = context ?: return
-
-        val pin = Prefs.pin
-        if (TextUtils.isEmpty(pin)) {
-            PinActivity.launch(context, PinActivity.Action.SET)
-            suggestJoin()
-        } else {
-            val dialog = AlertDialog.Builder(context)
-                    .setMessage(R.string.have_pin)
-                    .setPositiveButton(R.string.edit) { _, _ ->
-                        PinActivity.launch(context, PinActivity.Action.EDIT)
-                    }
-                    .setNegativeButton(R.string.reset) { _, _ ->
-                        PinActivity.launch(context, PinActivity.Action.RESET)
-                    }
-                    .create()
-
-            dialog.show()
-            dialog.stylize()
-        }
     }
 
     private fun showLogDialog() {

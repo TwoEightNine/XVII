@@ -154,7 +154,7 @@ class LoginActivity : BaseActivity() {
                     Session.token = token
                     Session.uid = user.id
                     Session.fullName = user.fullName
-                    Session.photo = user.photo100 ?: ""
+                    Session.photo = user.photoMax ?: ""
                 }
                 viewModel.updateAccount(user, token, isRunning = !addNewAccount)
             }
