@@ -69,5 +69,6 @@
     <dimen name="scheduled_messages_finger_translation_horizontal">36dp</dimen>
     <dimen name="scheduled_messages_finger_translation_vertical">8dp</dimen>
 
+    <dimen name="toolbar_padding">60dp</dimen>
 
 </resources>

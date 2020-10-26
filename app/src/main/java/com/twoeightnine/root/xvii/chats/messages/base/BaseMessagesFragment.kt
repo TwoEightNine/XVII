@@ -56,6 +56,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         adapter.startLoading()
 
         progressBar.show()
+        xviiToolbar.isLifted = true
         swipeContainer.setOnRefreshListener {
             loadMore(0)
             adapter.reset()

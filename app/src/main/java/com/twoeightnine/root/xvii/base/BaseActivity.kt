@@ -32,7 +32,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
         window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Prefs.isLightTheme) {
             window.decorView.systemUiVisibility =
@@ -83,7 +84,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected open fun styleScreen(container: ViewGroup) {
         container.stylizeAll()
-        stylize()
+//        stylize()
     }
 
     private fun updateConfig() {

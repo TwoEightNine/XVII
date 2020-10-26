@@ -11,13 +11,85 @@
 
     <TextView
         android:id="@+id/tvToolbarTitle"
-        android:textColor="#171717"
+        android:textColor="@color/toolbar"
         android:textSize="20sp"
         fontPath="fonts/bold.ttf"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginStart="@dimen/toolbar_padding"
+        android:layout_marginEnd="@dimen/toolbar_padding"
         tools:text="title"
         tools:ignore="MissingPrefix" />
+
+    <RelativeLayout
+        android:id="@+id/rlChat"
+        android:layout_marginStart="@dimen/toolbar_padding"
+        android:layout_marginEnd="@dimen/toolbar_padding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civAvatar"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/xvii_dark_logo_128"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/civAvatar"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvChatTitle"
+                fontPath="fonts/bold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_view_top_margin"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/toolbar"
+                android:textSize="@dimen/user_name_text_size"
+                tools:ignore="MissingPrefix"
+                tools:text="mista sinista" />
+
+            <RelativeLayout
+                android:id="@+id/rlSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/user_margin_between">
+
+                <TextView
+                    android:id="@+id/tvSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_view_top_margin"
+                    android:maxLines="1"
+                    android:text="@string/offline"
+                    android:textColor="@color/minor_text"
+                    android:textSize="@dimen/user_info_text_size" />
+
+                <com.twoeightnine.root.xvii.views.activityview.TypingView
+                    android:id="@+id/typingView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tvSubtitle"
+                    android:layout_alignBottom="@+id/tvSubtitle"
+                    android:layout_marginTop="@dimen/text_view_top_margin"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>

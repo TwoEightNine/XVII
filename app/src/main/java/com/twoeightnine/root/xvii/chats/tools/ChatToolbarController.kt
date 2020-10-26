@@ -1,34 +1,34 @@
 package com.twoeightnine.root.xvii.chats.tools
 
-import androidx.appcompat.widget.Toolbar
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.uikit.XviiToolbar
 import com.twoeightnine.root.xvii.utils.*
-import kotlinx.android.synthetic.main.toolbar_chat.view.*
+import kotlinx.android.synthetic.main.toolbar2.view.*
 import rx.Completable
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
-class ChatToolbarController(private val toolbar: Toolbar) {
+class ChatToolbarController(private val xviiToolbar: XviiToolbar) {
 
     private var lastAction = 0
     private var actionSubscription: Subscription? = null
 
     fun setTitle(title: String) {
-        toolbar.tvTitle.text = title
-        if (Prefs.lowerTexts) toolbar.tvTitle.lower()
+        xviiToolbar.tvChatTitle.text = title
+        if (Prefs.lowerTexts) xviiToolbar.tvChatTitle.lower()
     }
 
     fun setSubtitle(subtitle: String) {
-        toolbar.tvSubtitle.text = subtitle
+        xviiToolbar.tvSubtitle.text = subtitle
     }
 
     fun setAvatar(photo: String?) {
-        toolbar.ivAvatar.load(photo)
+        xviiToolbar.civAvatar.load(photo)
     }
 
     fun showActivity() {
-        with(toolbar) {
+        with(xviiToolbar) {
             typingView.show()
             tvSubtitle.setVisibleWithInvis(false)
         }
@@ -53,7 +53,7 @@ class ChatToolbarController(private val toolbar: Toolbar) {
     }
 
     private fun hide() {
-        with(toolbar) {
+        with(xviiToolbar) {
             tvSubtitle.show()
             typingView.hide()
         }

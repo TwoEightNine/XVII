@@ -50,7 +50,6 @@ class MainActivity : BaseActivity() {
         }
         startNotificationAlarm(this)
         apiUtils.trackVisitor()
-        stylize(isWhite = true)
         bottomNavView.stylize()
         StatTool.get()?.incLaunch()
         MobileAds.initialize(this) {}

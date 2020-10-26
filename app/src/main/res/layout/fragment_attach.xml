@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:clickable="true"
-    android:focusable="true"
-    android:orientation="vertical">
+    android:background="@color/background">
 
-    <include layout="@layout/toolbar" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
         android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:background="@color/toolbar"
-        android:elevation="4dp"
-        app:tabIndicatorColor="@color/toolbar_text"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/toolbar_text"
-        app:tabTextAppearance="@style/TabTextAppearance"
-        app:tabTextColor="@color/toolbar_subtext" />
+        android:layout_height="wrap_content"
+        app:withTabs="true"
+        app:alwaysLifted="true"
+        app:title="@string/attach" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vpAttach"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

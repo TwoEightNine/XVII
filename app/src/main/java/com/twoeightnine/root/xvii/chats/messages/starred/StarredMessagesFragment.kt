@@ -21,7 +21,6 @@ import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.toolbar_chat.*
 import kotlinx.android.synthetic.main.view_chat_multiselect.*
 
 class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>() {
@@ -34,18 +33,18 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rlCustom.hide()
         (rlInput.layoutParams as? RelativeLayout.LayoutParams)?.height = 0
         ivReplyMulti.visibility = View.INVISIBLE
         ivDeleteMulti.visibility = View.INVISIBLE
         ivMarkMulti.visibility = View.INVISIBLE
         rlMultiAction.stylizeAll()
         rlMultiAction.stylizeColor()
+        fabHasMore.stylize()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.important))
+        xviiToolbar.title = getString(R.string.important)
         rvChatList.setBottomInsetPadding()
     }
 

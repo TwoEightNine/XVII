@@ -4,7 +4,7 @@
     android:id="@+id/rlMultiAction"
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
-    android:layout_alignBottom="@+id/toolbar"
+    android:layout_alignBottom="@+id/xviiToolbar"
     android:background="@color/popup"
     android:clickable="true"
     android:elevation="4.1dp"

@@ -20,7 +20,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar_chat" />
+        <com.twoeightnine.root.xvii.uikit.XviiToolbar
+            android:id="@+id/xviiToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:alwaysLifted="true" />
 
         <include layout="@layout/view_chat_multiselect" />
 
@@ -29,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/rvAttached"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/xviiToolbar"
             app:srl_direction="bottom">
 
             <androidx.recyclerview.widget.RecyclerView

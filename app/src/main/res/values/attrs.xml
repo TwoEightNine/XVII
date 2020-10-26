@@ -12,6 +12,9 @@
     <declare-styleable name="XviiToolbar">
         <attr name="title" format="string" />
         <attr name="backArrow" format="boolean" />
+        <attr name="withTabs" format="boolean" />
+        <attr name="forChat" format="boolean" />
+        <attr name="alwaysLifted" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="XviiItem">

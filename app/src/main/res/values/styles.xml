@@ -118,7 +118,7 @@
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
         <item name="android:textSize">16dp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="fontPath">fonts/medium.ttf</item>
     </style>
 
     <style name="Button">

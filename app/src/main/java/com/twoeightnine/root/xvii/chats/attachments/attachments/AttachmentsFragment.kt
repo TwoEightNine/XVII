@@ -12,7 +12,6 @@ import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.links.LinkAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
-import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.fragment_attachments_history.*
 
 class AttachmentsFragment : BaseFragment() {
@@ -30,11 +29,6 @@ class AttachmentsFragment : BaseFragment() {
         initAdapter()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.attachments))
-    }
-
     private fun initAdapter() {
         with(adapter) {
             add(PhotoAttachmentsFragment.newInstance(peerId), getString(R.string.photos))
@@ -44,8 +38,7 @@ class AttachmentsFragment : BaseFragment() {
             add(DocAttachmentsFragment.newInstance(peerId), getString(R.string.docs))
         }
         viewPager.adapter = adapter
-        tabs.setupWithViewPager(viewPager, true)
-        tabs.stylize()
+        xviiToolbar.setupWith(viewPager)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

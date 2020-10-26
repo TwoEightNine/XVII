@@ -66,7 +66,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
     }
     private val chatToolbarController by lazy {
-        ChatToolbarController(toolbar)
+        ChatToolbarController(xviiToolbar)
     }
     protected val stickersAdapter by lazy {
         StickersSuggestionAdapter(contextOrThrow, ::onSuggestedStickerClicked)
@@ -86,6 +86,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         setHasOptionsMenu(true)
         inputController = ChatInputController(contextOrThrow, view, InputCallback())
         swipeContainer.setOnRefreshListener { viewModel.loadMessages() }
+        xviiToolbar.forChat = true
 
         rvChatList.addOnScrollListener(RecyclerDateScroller())
         rvAttached.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)

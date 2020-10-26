@@ -18,7 +18,6 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerViewModel
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
-import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Photo
@@ -69,6 +68,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         viewModel.photos.observe(viewLifecycleOwner, Observer(::onPhotosLoaded))
         viewModel.loadChatOwner(peerId, getChatOwnerClass())
 
+        setStatusBarLight(isLight = true)
         swNotifications.stylize()
         fabOpenChat.stylize()
         progressBar?.stylize()
@@ -206,7 +206,6 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         }
 
         override fun onSlide(p0: View, offset: Float) {
-            L.def().log("offset = $offset")
             when {
                 offset <= 0f -> return
                 offset == 1f -> if (!toolbarColored && shouldColorToolbar()) {

@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
-import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.fragment_ui_kit.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -68,7 +67,7 @@ abstract class BaseFragment : Fragment() {
                     toolbar?.setSubtitleTextColor(ContextCompat.getColor(it, R.color.toolbar_subtext))
                 }
             }
-            toolbar.stylize()
+//            toolbar.stylize()
             val am = context?.resources?.assets
             for (i in 0 until toolbar.childCount) {
                 val view = toolbar.getChildAt(i)

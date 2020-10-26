@@ -42,7 +42,7 @@ class XviiButton(context: Context, attributeSet: AttributeSet) : AppCompatButton
 
     private fun initAttributes(attributeSet: AttributeSet) {
         val attrs = context.theme.obtainStyledAttributes(attributeSet, R.styleable.XviiButton, 0, 0)
-        warn = attrs.getBoolean(R.styleable.XviiButton_warn, true)
+        warn = attrs.getBoolean(R.styleable.XviiButton_warn, false)
         attrs.recycle()
     }
 }
