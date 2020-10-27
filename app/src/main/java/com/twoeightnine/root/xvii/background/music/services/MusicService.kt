@@ -9,7 +9,6 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.*
-import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
 import androidx.core.app.NotificationCompat
@@ -138,12 +137,10 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     }
 
     private fun updateSpeed(showNotification: Boolean = true) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            try {
-                player.playbackParams = player.playbackParams.setSpeed(playbackSpeed)
-            } catch (e: Exception) {
-                lw("unable to update speed", e)
-            }
+        try {
+            player.playbackParams = player.playbackParams.setSpeed(playbackSpeed)
+        } catch (e: Exception) {
+            lw("unable to update speed", e)
         }
         if (showNotification) {
             showNotification()
@@ -293,11 +290,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
                 setOnClickPendingIntent(R.id.tvPlaybackSpeed, getActionPendingIntent(MusicBroadcastReceiver.ACTION_SPEED))
 
                 setTextViewText(R.id.tvPlaybackSpeed, getString(R.string.playback_speed, playbackSpeed.toString()))
-                setViewVisibility(R.id.tvPlaybackSpeed, if (Build.VERSION.SDK_INT >= 23) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                })
             }
         }
         return remoteViews

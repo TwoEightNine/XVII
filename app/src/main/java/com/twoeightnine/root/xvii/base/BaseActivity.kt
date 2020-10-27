@@ -10,7 +10,6 @@ import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -81,11 +80,6 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun getStatusBarColor() = Color.TRANSPARENT
 
     protected open fun getNavigationBarColor() = ContextCompat.getColor(this, R.color.navigation_bar)
-
-    protected open fun styleScreen(container: ViewGroup) {
-//        container.stylizeAll()
-//        stylize()
-    }
 
     private fun updateConfig() {
         NightModeHelper.updateConfig(

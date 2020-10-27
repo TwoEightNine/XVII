@@ -25,7 +25,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
     protected lateinit var viewModel: VM
 
     protected val adapter by lazy {
-        MessagesAdapter(contextOrThrow, ::loadMore, getAdapterCallback(), getAdapterSettings())
+        MessagesAdapter(requireContext(), ::loadMore, getAdapterCallback(), getAdapterSettings())
     }
 
     abstract fun getViewModelClass(): Class<VM>

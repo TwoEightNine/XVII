@@ -24,7 +24,7 @@ class SearchFragment : BaseFragment() {
     private lateinit var viewModel: SearchViewModel
 
     private val adapter by lazy {
-        SearchAdapter(contextOrThrow, ::onClick)
+        SearchAdapter(requireContext(), ::onClick)
     }
 
     private val insetViewModel by lazy {

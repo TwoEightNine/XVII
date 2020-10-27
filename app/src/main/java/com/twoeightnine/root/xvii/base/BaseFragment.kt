@@ -1,7 +1,5 @@
 package com.twoeightnine.root.xvii.base
 
-import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.LayoutRes
@@ -17,12 +15,8 @@ abstract class BaseFragment : Fragment() {
     @LayoutRes
     abstract fun getLayoutId(): Int
 
-    protected val baseActivity
+    private val baseActivity
         get() = activity as? BaseActivity
-
-    @Deprecated("use requireContext() if needed", replaceWith = ReplaceWith("requireContext()"))
-    protected val contextOrThrow: Context
-        get() = context ?: throw IllegalStateException("Context has leaked away!")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,14 +54,13 @@ abstract class BaseFragment : Fragment() {
     protected open fun getMenu(): Int = 0
 
     protected fun setStatusBarLight(isLight: Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            baseActivity?.window?.decorView?.apply {
-                systemUiVisibility = if (isLight) {
-                    systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                } else {
-                    systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-                }
+        baseActivity?.window?.decorView?.apply {
+            systemUiVisibility = if (isLight) {
+                systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            } else {
+                systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
             }
         }
+
     }
 }

@@ -43,7 +43,7 @@ class GalleryFragment : BaseFragment() {
     }
 
     private val adapter by lazy {
-        GalleryAdapter(contextOrThrow, ::loadMore, ::onItemClick)
+        GalleryAdapter(requireContext(), ::loadMore, ::onItemClick)
     }
 
     private val permissionHelper by lazy {

@@ -24,7 +24,7 @@ class AccountsFragment : BaseFragment() {
     private lateinit var viewModel: AccountsViewModel
 
     private val adapter by lazy {
-        AccountsAdapter(contextOrThrow, ::onClick, ::onLongClick)
+        AccountsAdapter(requireContext(), ::onClick, ::onLongClick)
     }
 
     private var selectedAccount: Account? = null

@@ -32,7 +32,7 @@ class DeepForwardedFragment : BaseFragment() {
 
     private val messageId by lazy { arguments?.getInt(ARG_MESSAGE_ID) }
     private val adapter by lazy {
-        MessagesAdapter(contextOrThrow, ::loadMore, ForwardedCallback(), getSettings())
+        MessagesAdapter(requireContext(), ::loadMore, ForwardedCallback(), getSettings())
     }
 
     override fun getLayoutId() = R.layout.fragment_deep_forwarded

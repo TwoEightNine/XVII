@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_attachments.*
 class PhotoAttachFragment : BaseAttachFragment<Photo>() {
 
     override val adapter by lazy {
-        PhotoAttachmentsAdapter(contextOrThrow, viewModel::loadAttach) {}
+        PhotoAttachmentsAdapter(requireContext(), viewModel::loadAttach) {}
     }
 
     override fun getLayoutManager() = GridLayoutManager(context, SPAN_COUNT)

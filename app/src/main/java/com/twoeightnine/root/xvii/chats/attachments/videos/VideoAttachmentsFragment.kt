@@ -12,7 +12,7 @@ import com.twoeightnine.root.xvii.web.VideoViewerActivity
 class VideoAttachmentsFragment : BaseAttachmentsFragment<Video>() {
 
     override val adapter by lazy {
-        VideoAttachmentsAdapter(contextOrThrow, ::loadMore, ::onClick)
+        VideoAttachmentsAdapter(requireContext(), ::loadMore, ::onClick)
     }
 
     override fun getLayoutManager() = LinearLayoutManager(context)

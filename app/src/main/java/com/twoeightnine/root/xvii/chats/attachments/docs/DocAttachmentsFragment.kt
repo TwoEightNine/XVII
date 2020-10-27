@@ -11,7 +11,7 @@ import com.twoeightnine.root.xvii.web.GifViewerActivity
 class DocAttachmentsFragment : BaseAttachmentsFragment<Doc>() {
 
     override val adapter by lazy {
-        DocAttachmentsAdapter(contextOrThrow, ::loadMore, ::onClick)
+        DocAttachmentsAdapter(requireContext(), ::loadMore, ::onClick)
     }
 
     override fun getLayoutManager() = LinearLayoutManager(context)

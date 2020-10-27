@@ -61,7 +61,7 @@ class PinActivity : BaseActivity() {
 
         action ?: finish()
         init()
-        styleScreen(rlContainer)
+        rlContainer.stylizeAll()
         rlPinControls.setBottomInsetPadding()
 
         ivBack.setVisible(action != Action.ENTER)

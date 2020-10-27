@@ -10,7 +10,7 @@ import com.twoeightnine.root.xvii.utils.simpleUrlIntent
 class LinkAttachmentsFragment : BaseAttachmentsFragment<Link>() {
 
     override val adapter by lazy {
-        LinkAttachmentsAdapter(contextOrThrow, ::loadMore, ::onClick)
+        LinkAttachmentsAdapter(requireContext(), ::loadMore, ::onClick)
     }
 
     override fun getLayoutManager() = LinearLayoutManager(context)

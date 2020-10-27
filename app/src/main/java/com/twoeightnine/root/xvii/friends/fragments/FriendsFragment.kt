@@ -24,7 +24,7 @@ class FriendsFragment : BaseFragment() {
     private lateinit var viewModel: FriendsViewModel
 
     private val adapter by lazy {
-        FriendsAdapter(contextOrThrow, ::onClick, ::loadMore)
+        FriendsAdapter(requireContext(), ::onClick, ::loadMore)
     }
 
     private val insetViewModel by lazy {

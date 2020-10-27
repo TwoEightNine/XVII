@@ -19,7 +19,7 @@ class ScheduledMessagesFragment : BaseFragment() {
         ViewModelProviders.of(this)[ScheduledMessagesViewModel::class.java]
     }
     private val adapter by lazy {
-        ScheduledMessagesAdapter(contextOrThrow, ::onClicked)
+        ScheduledMessagesAdapter(requireContext(), ::onClicked)
     }
     private val translateHorizontal by lazy {
         context?.resources

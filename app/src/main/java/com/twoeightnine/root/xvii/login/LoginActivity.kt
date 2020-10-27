@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
 import android.webkit.WebView
@@ -82,8 +81,6 @@ class LoginActivity : BaseActivity() {
     } else{
         ContextCompat.getColor(this, R.color.splash_background)
     }
-
-    override fun styleScreen(container: ViewGroup) {}
 
     private fun hasToken() = Session.token.isNotBlank()
 

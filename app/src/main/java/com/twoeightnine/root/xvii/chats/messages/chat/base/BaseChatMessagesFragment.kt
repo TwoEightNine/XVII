@@ -55,12 +55,12 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     private val permissionHelper by lazy { PermissionHelper(this) }
     private val attachedAdapter by lazy {
-        AttachedAdapter(contextOrThrow, ::onAttachClicked) {
+        AttachedAdapter(requireContext(), ::onAttachClicked) {
             inputController?.setAttachedCount(it)
         }
     }
     private val membersAdapter by lazy {
-        MentionedMembersAdapter(contextOrThrow) {
+        MentionedMembersAdapter(requireContext()) {
             inputController?.mentionUser(it)
         }
     }
@@ -68,7 +68,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         ChatToolbarController(xviiToolbar)
     }
     protected val stickersAdapter by lazy {
-        StickersSuggestionAdapter(contextOrThrow, ::onSuggestedStickerClicked)
+        StickersSuggestionAdapter(requireContext(), ::onSuggestedStickerClicked)
     }
 
     private val handler = Handler()
@@ -83,7 +83,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        inputController = ChatInputController(contextOrThrow, view, InputCallback())
+        inputController = ChatInputController(requireContext(), view, InputCallback())
         swipeContainer.setOnRefreshListener { viewModel.loadMessages() }
         xviiToolbar.forChat = true
 

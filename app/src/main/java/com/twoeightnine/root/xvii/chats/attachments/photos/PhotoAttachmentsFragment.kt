@@ -10,7 +10,7 @@ import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 class PhotoAttachmentsFragment : BaseAttachmentsFragment<Photo>() {
 
     override val adapter by lazy {
-        PhotoAttachmentsAdapter(contextOrThrow, ::loadMore, ::onClick)
+        PhotoAttachmentsAdapter(requireContext(), ::loadMore, ::onClick)
     }
 
     override fun getLayoutManager() = GridLayoutManager(context, SPAN_COUNT)

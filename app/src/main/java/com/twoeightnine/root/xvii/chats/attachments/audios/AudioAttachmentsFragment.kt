@@ -17,7 +17,7 @@ class AudioAttachmentsFragment : BaseAttachmentsFragment<Track>() {
         get() = viewModel as AudioAttachmentsViewModel
 
     override val adapter by lazy {
-        AudioAttachmentsAdapter(contextOrThrow, ::loadMore, ::onClick,
+        AudioAttachmentsAdapter(requireContext(), ::loadMore, ::onClick,
                 ::onLongClick, audioViewModel::download, equalsDevUids(Session.uid))
     }
 

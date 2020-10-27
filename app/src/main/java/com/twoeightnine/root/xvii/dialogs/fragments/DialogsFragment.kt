@@ -30,7 +30,7 @@ open class DialogsFragment : BaseFragment() {
     private lateinit var viewModel: DialogsViewModel
 
     private val adapter by lazy {
-        DialogsAdapter(contextOrThrow, ::loadMore, ::onClick, ::onLongClick)
+        DialogsAdapter(requireContext(), ::loadMore, ::onClick, ::onLongClick)
     }
 
     private val insetViewModel by lazy {
@@ -117,7 +117,7 @@ open class DialogsFragment : BaseFragment() {
                 },
                 ContextPopupItem(R.drawable.ic_alias, R.string.alias) {
                     TextInputAlertDialog(
-                            contextOrThrow,
+                            requireContext(),
                             dialog.title,
                             dialog.alias ?: dialog.title
                     ) { newAlias ->
