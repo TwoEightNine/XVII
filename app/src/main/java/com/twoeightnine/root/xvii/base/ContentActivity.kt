@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.DragTouchListener
-import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.activity_content.*
 
 /**
@@ -27,7 +26,6 @@ abstract class ContentActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
         savedInstanceState ?: loadFragment(createFragment(intent))
-        stylize()
 
         if (shouldEnableSwipeToBack() && Prefs.enableSwipeToBack) {
             (vDraggable.layoutParams as? ViewGroup.MarginLayoutParams)

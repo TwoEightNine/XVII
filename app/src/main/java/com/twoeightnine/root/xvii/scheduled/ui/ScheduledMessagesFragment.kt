@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.fragment_scheduled_messages.*
 
@@ -43,7 +45,7 @@ class ScheduledMessagesFragment : BaseFragment() {
         rvMessages.addOnScrollListener(AppBarLifter(xviiToolbar))
         adapter.emptyView = rlHint
 
-        ivSend.stylizeAnyway(tag = ColorManager.MAIN_TAG)
+        ivSend.paint(Munch.color.color)
         rvMessages.setBottomInsetPadding()
     }
 

@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.secToTime
-import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.item_alarm.view.*
 
 class AlarmAdapter(
@@ -44,8 +45,8 @@ class AlarmAdapter(
                     alarm.enabled = isChecked
                     notifyEnabledChanged()
                 }
-                swEnabled.stylize()
-                cbEveryDay.stylize()
+                swEnabled.paint(Munch.color)
+                cbEveryDay.paint(Munch.color.color)
             }
         }
     }

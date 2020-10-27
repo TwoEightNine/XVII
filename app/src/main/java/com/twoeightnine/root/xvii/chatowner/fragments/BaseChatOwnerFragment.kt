@@ -22,6 +22,8 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.RateAlertDialog
 import kotlinx.android.synthetic.main.fragment_chat_owner.ivAvatar
@@ -141,7 +143,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         with(View.inflate(context, R.layout.item_chat_owner_field, null)) {
             if (icon != 0) {
                 ivIcon.setImageResource(icon)
-                ivIcon.stylize()
+                ivIcon.paint(Munch.color.color)
             }
             tvValue.text = text.toLowerCase()
             onClick?.also {

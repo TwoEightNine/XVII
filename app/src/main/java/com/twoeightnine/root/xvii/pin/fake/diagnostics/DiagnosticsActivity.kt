@@ -12,9 +12,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
-import com.twoeightnine.root.xvii.utils.setTopInsetPadding
 import kotlinx.android.synthetic.main.activity_diagnostics.*
-import kotlinx.android.synthetic.main.toolbar.*
 
 class DiagnosticsActivity : BaseActivity() {
 
@@ -57,7 +55,6 @@ class DiagnosticsActivity : BaseActivity() {
             tvStability.text = viewModel.getStability().toString()
         }, 2000L)
 
-        toolbar.setTopInsetPadding(resources.getDimensionPixelSize(R.dimen.toolbar_height))
         svContent.setBottomInsetPadding()
     }
 

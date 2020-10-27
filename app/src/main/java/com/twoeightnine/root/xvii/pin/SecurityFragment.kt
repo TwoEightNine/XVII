@@ -12,6 +12,8 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.getBatteryLevel
 import com.twoeightnine.root.xvii.utils.getMinutes
 import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
@@ -34,6 +36,9 @@ class SecurityFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
         initViews()
+
+        listOf(rbMinutesStart, rbMinutesEnd, rbBatteryStart, rbBatteryEnd, rbAlarms, rbDiagnostics)
+                .forEach { it.paint(Munch.color.color) }
         svContent.setBottomInsetPadding()
     }
 

@@ -30,6 +30,8 @@ import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.attachments.Sticker
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
@@ -93,9 +95,9 @@ class ChatInputController(
             ivSendVoice.setOnClickListener { micListener.sendWhenLocked() }
             ivCancelVoice.setOnClickListener { micListener.cancelWhenLocked() }
 
-            ivSend.stylizeAnyway(ColorManager.MAIN_TAG)
-            ivMic.stylizeAnyway(ColorManager.MAIN_TAG)
-            ivSendVoice.stylizeAnyway(ColorManager.MAIN_TAG)
+            listOf(ivSend, ivMic, ivSendVoice)
+                    .forEach { it.paint(Munch.color.color) }
+            ivAttach.paint(Munch.color.color50)
         }
         stickerKeyboard.setSizeForSoftKeyboard()
         setAttachedCount(0)
@@ -192,6 +194,7 @@ class ChatInputController(
             KeyboardState.STICKERS -> R.drawable.ic_keyboard
         }
         val d = ContextCompat.getDrawable(context, iconRes)
+        d?.paint(Munch.color.color50)
         rootView.ivKeyboard.setImageDrawable(d)
     }
 

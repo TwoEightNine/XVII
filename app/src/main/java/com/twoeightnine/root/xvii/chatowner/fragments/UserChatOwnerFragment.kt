@@ -32,7 +32,6 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
         btnUnblockUser.setOnClickListener {
             viewModel.unblockUser(getChatOwner()?.getPeerId() ?: 0)
         }
-        btnSecretChat.stylize()
 
     }
 

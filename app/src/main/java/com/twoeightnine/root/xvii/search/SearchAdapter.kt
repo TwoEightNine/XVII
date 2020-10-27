@@ -8,7 +8,9 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.hide
+import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.lower
 import kotlinx.android.synthetic.main.item_dialog_search.view.*
 
 class SearchAdapter(
@@ -33,8 +35,6 @@ class SearchAdapter(
                     tvTitle.lower()
                 }
                 ivOnlineDot.hide() // due to this list is not autorefreshable
-
-                ivOnlineDot.stylize(ColorManager.MAIN_TAG)
                 rlItemContainer.setOnClickListener { onClick(items[adapterPosition]) }
             }
         }

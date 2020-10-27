@@ -1,14 +1,11 @@
 package com.twoeightnine.root.xvii.utils
 
-import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.*
-import android.os.Build
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +13,6 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.DialogTitle
-import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -120,18 +116,6 @@ object ColorManager {
             }
 }
 
-fun Activity.stylize(color: Int = ColorManager.mainColor, isWhite: Boolean = false) {
-    if (ColorManager.shouldIgnore) return
-    if (isWhite && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        window.decorView.systemUiVisibility =
-                window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-    }
-}
-
-private fun l(s: String) {
-    Log.i("styler", s)
-}
-
 fun Toolbar.stylize() {
     if (ColorManager.shouldIgnore) return
 
@@ -218,28 +202,7 @@ fun ImageView.stylize(tag: String? = this.tag as? String, changeStroke: Boolean 
     tag?.let { drawable?.stylize(it, changeStroke) }
 }
 
-fun ImageView.stylizeAnyway(tag: String) {
-    val color = ColorManager.getColorByTag(tag)
-    with(drawable) {
-        when (this) {
-            is ShapeDrawable -> paint.color = color
-            is GradientDrawable -> {
-                setColor(color)
-            }
-            is ColorDrawable -> this.color = color
-            is VectorDrawable -> setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-        }
-    }
-}
-
 fun Switch.stylize() {
-    if (ColorManager.shouldIgnore) return
-
-    thumbDrawable.setColorFilter(ColorManager.mainColor, PorterDuff.Mode.SRC_ATOP)
-    trackDrawable.setColorFilter(ColorManager.lightColor, PorterDuff.Mode.SRC_ATOP)
-}
-
-fun SwitchCompat.stylize() {
     if (ColorManager.shouldIgnore) return
 
     thumbDrawable.setColorFilter(ColorManager.mainColor, PorterDuff.Mode.SRC_ATOP)

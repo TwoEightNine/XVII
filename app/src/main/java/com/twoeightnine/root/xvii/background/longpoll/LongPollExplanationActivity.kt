@@ -12,7 +12,6 @@ import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.utils.NotificationChannels
 import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
 import com.twoeightnine.root.xvii.utils.setTopInsetPadding
-import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.activity_explanation.*
 
 class LongPollExplanationActivity : BaseActivity() {
@@ -33,8 +32,6 @@ class LongPollExplanationActivity : BaseActivity() {
             ChatActivity.launch(this, -App.GROUP, getString(R.string.app_name))
         }
 
-        btnOpen.stylize()
-        btnSupport.stylize()
         tvTitle.setTopInsetPadding()
         svContent.setBottomInsetPadding()
     }

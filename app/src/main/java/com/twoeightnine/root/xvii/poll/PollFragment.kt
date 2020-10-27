@@ -72,7 +72,6 @@ class PollFragment : BaseFragment() {
 
         btnVote.setVisibleWithInvis(false)
         btnVote.setOnClickListener { onVoteClick() }
-        btnVote.stylize()
 
 //        when {
 //            poll.photo != null -> {

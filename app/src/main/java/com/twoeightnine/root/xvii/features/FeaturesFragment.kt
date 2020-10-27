@@ -27,7 +27,9 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
+import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.UiKitFragment
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.web.WebFragment
 import kotlinx.android.synthetic.main.fragment_features.*
@@ -53,7 +55,7 @@ class FeaturesFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[FeaturesViewModel::class.java]
 
         tvSwitchAccount.paintFlags = tvSwitchAccount.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-        tvSwitchAccount.stylize()
+        tvSwitchAccount.paint(Munch.color.color)
 
         xiAnalyze.setOnClickListener { showToast(context, R.string.in_future_versions) }
         xiStarred.setOnClickListener { startFragment<StarredMessagesFragment>() }

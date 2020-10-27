@@ -67,11 +67,6 @@ class MainActivity : BaseActivity() {
 
     override fun getNavigationBarColor() = Color.TRANSPARENT
 
-    override fun onResume() {
-        super.onResume()
-        stylize(isWhite = true)
-    }
-
     override fun getThemeId() = R.style.AppTheme_Main
 
     override fun onBackPressed() {

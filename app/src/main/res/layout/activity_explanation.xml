@@ -63,9 +63,9 @@
                 android:text="@string/longpoll_guide_step1"
                 android:textSize="16sp" />
 
-            <Button
+            <com.twoeightnine.root.xvii.uikit.XviiButton
                 android:id="@+id/btnOpen"
-                style="@style/AccentButton"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
@@ -97,9 +97,9 @@
                 android:text="@string/longpoll_guide_step3"
                 android:textSize="16sp" />
 
-            <Button
+            <com.twoeightnine.root.xvii.uikit.XviiButton
                 android:id="@+id/btnSupport"
-                style="@style/AccentButton"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"

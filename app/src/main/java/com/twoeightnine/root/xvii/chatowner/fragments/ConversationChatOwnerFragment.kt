@@ -11,7 +11,10 @@ import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActi
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.setVisible
+import com.twoeightnine.root.xvii.utils.showWarnConfirm
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
 
@@ -44,7 +47,7 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
         rvUsers.adapter = adapter
 
         ivEdit.setOnClickListener { showTitleDialog() }
-        ivEdit.stylize(ColorManager.LIGHT_TAG)
+        ivEdit.paint(Munch.color.color50)
     }
 
     override fun getBottomPaddableView(): View = vBottom

@@ -41,8 +41,6 @@ class AppearanceFragment : BaseFragment() {
         invalidateSample()
         switchLightTheme.stylize()
         rlHideBottom.stylizeColor()
-        btnGallery.stylize()
-        btnColor.stylize()
         pbAttach.hide()
         rlAttachCount.hide()
 

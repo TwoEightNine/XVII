@@ -7,7 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.secToTime
+import com.twoeightnine.root.xvii.utils.setVisible
 import kotlinx.android.synthetic.main.item_gallery.view.*
 
 class GalleryAdapter(
@@ -75,7 +79,7 @@ class GalleryAdapter(
                         invalidateCheck(i)
                     }
                 }
-                ivCheckCircle.stylizeAnyway(ColorManager.MAIN_TAG)
+                ivCheckCircle.paint(Munch.color.color)
             }
         }
 

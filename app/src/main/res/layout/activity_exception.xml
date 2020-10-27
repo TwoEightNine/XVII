@@ -55,7 +55,7 @@
 
     </ScrollView>
 
-    <Button
+    <com.twoeightnine.root.xvii.uikit.XviiButton
         android:id="@+id/btnReport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

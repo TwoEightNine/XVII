@@ -19,6 +19,8 @@ import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.start
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.poll.PollFragment
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import kotlinx.android.synthetic.main.container_audio.view.*
 import kotlinx.android.synthetic.main.container_video.view.*
 
@@ -141,7 +143,6 @@ fun getAudio(audio: Audio, context: Context, audios: List<Audio> = arrayListOf(a
     }
     if (!text.isNullOrBlank()) {
         included.ivSubtitles.show()
-        included.ivSubtitles.stylize()
         included.tvText.text = text
         if (Prefs.lowerTexts) {
             included.tvText.lower()
@@ -209,7 +210,7 @@ fun getPoll(poll: Poll, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_poll, null, false)
 
     included.findViewById<TextView>(R.id.tvQuestion).text = poll.question
-    included.findViewById<ImageView>(R.id.ivPhoto).stylize()
+    included.findViewById<ImageView>(R.id.ivPhoto).paint(Munch.color.color)
     included.setOnClickListener {
         context.startFragment<PollFragment>(PollFragment.getArgs(poll))
     }

@@ -88,8 +88,6 @@ class GalleryFragment : BaseFragment() {
             btnDoc.setOnClickListener {
                 imageUtils.dispatchSelectFile(this)
             }
-            btnDoc.stylize()
-            btnCamera.stylize()
             rvAttachments.setPadding(0, resources.getDimensionPixelOffset(R.dimen.toolbar_height), 0, 0)
         }
     }

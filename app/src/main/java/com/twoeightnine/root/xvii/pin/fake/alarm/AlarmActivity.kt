@@ -12,7 +12,6 @@ import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.utils.*
 import kotlinx.android.synthetic.main.activity_alarms.*
-import kotlinx.android.synthetic.main.toolbar.*
 
 class AlarmActivity : BaseActivity() {
 
@@ -30,6 +29,7 @@ class AlarmActivity : BaseActivity() {
         setContentView(R.layout.activity_alarms)
         rvAlarms.layoutManager = LinearLayoutManager(this)
         rvAlarms.adapter = adapter
+        rvAlarms.addOnScrollListener(AppBarLifter(xviiToolbar))
         adapter.update(createDefaultAlarms())
         rvAlarms.addOnScrollListener(FabVisibilityWatcher())
 
@@ -41,10 +41,8 @@ class AlarmActivity : BaseActivity() {
             }, 9, 17, true).show()
         }
 
-        toolbar.stylize()
         fabAdd.stylize()
 
-        toolbar.setTopInsetPadding(resources.getDimensionPixelSize(R.dimen.toolbar_height))
         rvAlarms.setBottomInsetPadding()
         fabAdd.setBottomInsetMargin(resources.getDimensionPixelSize(R.dimen.accounts_fab_add_margin))
     }

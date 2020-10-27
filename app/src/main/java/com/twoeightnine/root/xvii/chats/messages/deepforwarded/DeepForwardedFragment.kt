@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.utils.AppBarLifter
 import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
@@ -43,11 +44,11 @@ class DeepForwardedFragment : BaseFragment() {
 
         rvForwarded.layoutManager = LinearLayoutManager(context)
         rvForwarded.adapter = adapter
+        rvForwarded.addOnScrollListener(AppBarLifter(xviiToolbar))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setTitle(getString(R.string.forwarded_message))
         viewModel.getInteraction().observe(viewLifecycleOwner, ::onMessageLoaded)
         viewModel.loadMessage(messageId ?: 0)
     }

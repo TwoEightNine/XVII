@@ -94,9 +94,8 @@
                 android:layout_height="?actionBarSize"
                 android:visibility="gone">
 
-                <Button
+                <com.twoeightnine.root.xvii.uikit.XviiButton
                     android:id="@+id/btnGallery"
-                    style="@style/AccentButton"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_gravity="center"
@@ -105,9 +104,8 @@
                     android:drawableStart="@drawable/ic_image"
                     android:text="@string/appearance_pick_from_gallery" />
 
-                <Button
+                <com.twoeightnine.root.xvii.uikit.XviiButton
                     android:id="@+id/btnColor"
-                    style="@style/AccentButton"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_gravity="center"

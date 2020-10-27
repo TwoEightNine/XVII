@@ -41,7 +41,6 @@ import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.toolbar_chat.*
 import kotlinx.android.synthetic.main.view_chat_multiselect.*
 import java.util.concurrent.TimeUnit
 
@@ -119,7 +118,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         if (peerId.matchesChatId()) {
             viewModel.loadMembers()
         }
-        toolbar?.setOnClickListener {
+        xviiToolbar?.setOnClickListener {
             activity?.let { hideKeyboard(it) }
             ChatOwnerActivity.launch(context, peerId)
         }

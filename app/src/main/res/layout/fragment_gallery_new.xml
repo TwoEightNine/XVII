@@ -26,9 +26,8 @@
         android:visibility="gone"
         android:orientation="horizontal">
 
-        <Button
+        <com.twoeightnine.root.xvii.uikit.XviiButton
             android:id="@+id/btnCamera"
-            style="@style/AccentButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -36,9 +35,8 @@
             android:drawableStart="@drawable/ic_camera_white"
             android:text="@string/take_photo" />
 
-        <Button
+        <com.twoeightnine.root.xvii.uikit.XviiButton
             android:id="@+id/btnDoc"
-            style="@style/AccentButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"

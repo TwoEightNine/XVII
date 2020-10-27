@@ -10,8 +10,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.utils.ColorManager
-import com.twoeightnine.root.xvii.utils.stylize
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 
 
 class TypingView : LinearLayout {
@@ -89,7 +89,7 @@ class TypingView : LinearLayout {
         for (i in 0 until childCount) {
             val view = getChildAt(i)
             if (view is ImageView) {
-                view.stylize(tag = ColorManager.MAIN_TAG, changeStroke = false)
+                view.paint(Munch.color.color)
             }
         }
     }

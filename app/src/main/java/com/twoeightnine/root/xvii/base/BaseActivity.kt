@@ -83,7 +83,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun getNavigationBarColor() = ContextCompat.getColor(this, R.color.navigation_bar)
 
     protected open fun styleScreen(container: ViewGroup) {
-        container.stylizeAll()
+//        container.stylizeAll()
 //        stylize()
     }
 
