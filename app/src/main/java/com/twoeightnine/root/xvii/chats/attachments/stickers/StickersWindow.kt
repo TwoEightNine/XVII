@@ -51,7 +51,6 @@ class StickersWindow(
             swipeRefresh.setOnRefreshListener {
                 loadStickers(forceFetch = true)
             }
-            progressBar.stylize()
         }
         return view
     }

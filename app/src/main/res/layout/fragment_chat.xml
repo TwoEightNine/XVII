@@ -87,7 +87,7 @@
 
     </RelativeLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.twoeightnine.root.xvii.uikit.XviiFab
         android:id="@+id/fabHasMore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -95,10 +95,7 @@
         android:layout_marginEnd="@dimen/margin16"
         android:layout_marginBottom="@dimen/chat_fab_more_bottom_margin"
         android:src="@drawable/ic_chevron_down"
-        android:elevation="2dp"
-        app:elevation="2dp"
-        android:visibility="invisible"
-        app:backgroundTint="@color/fab" />
+        android:visibility="invisible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvStickersSuggestion"
@@ -126,7 +123,7 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <ProgressBar
+    <com.twoeightnine.root.xvii.uikit.XviiLoader
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

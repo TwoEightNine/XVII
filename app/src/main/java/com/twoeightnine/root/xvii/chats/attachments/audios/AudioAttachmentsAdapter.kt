@@ -9,7 +9,10 @@ import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.attachments.Audio
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.hide
+import com.twoeightnine.root.xvii.utils.secToTime
+import com.twoeightnine.root.xvii.utils.setVisible
+import com.twoeightnine.root.xvii.utils.show
 import kotlinx.android.synthetic.main.item_attachments_track.view.*
 
 class AudioAttachmentsAdapter(
@@ -50,7 +53,6 @@ class AudioAttachmentsAdapter(
                 }
                 ivDownload.paint(Munch.color.color)
                 ivCached.paint(Munch.color.color)
-                progressBar.stylize()
 
                 val cached = item.isCached()
                 ivDownload.setVisible(!cached && cacheMode)

@@ -41,7 +41,6 @@ class AccountsFragment : BaseFragment() {
         fabAdd.setOnClickListener {
             LoginActivity.launchForNewAccount(context)
         }
-        fabAdd.stylize()
         fabAdd.setBottomInsetMargin(context?.resources?.getDimensionPixelSize(R.dimen.accounts_fab_add_margin) ?: 0)
     }
 

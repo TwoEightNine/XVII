@@ -20,13 +20,12 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.twoeightnine.root.xvii.uikit.XviiFab
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/accounts_fab_add_margin"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/fab" />
+        android:src="@drawable/ic_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

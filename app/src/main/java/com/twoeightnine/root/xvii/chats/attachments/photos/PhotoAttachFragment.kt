@@ -8,7 +8,6 @@ import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachFragment
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.utils.setVisible
-import com.twoeightnine.root.xvii.utils.stylize
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_attachments.*
@@ -31,12 +30,9 @@ class PhotoAttachFragment : BaseAttachFragment<Photo>() {
         super.onViewCreated(view, savedInstanceState)
         adapter.multiSelectMode = true
         adapter.multiListener = fabDone::setVisible
-        with(fabDone) {
-            setOnClickListener {
-                selectedSubject.onNext(adapter.multiSelect.map { Attachment(it) })
-                adapter.clearMultiSelect()
-            }
-            stylize()
+        fabDone.setOnClickListener {
+            selectedSubject.onNext(adapter.multiSelect.map { Attachment(it) })
+            adapter.clearMultiSelect()
         }
     }
 

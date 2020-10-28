@@ -48,7 +48,6 @@ class FriendsFragment : BaseFragment() {
         rvFriends.adapter = adapter
         rvFriends.addOnScrollListener(AppBarLifter(xviiToolbar))
 
-        progressBar.stylize()
         swipeRefresh.setOnRefreshListener {
             viewModel.loadFriends()
             adapter.reset()

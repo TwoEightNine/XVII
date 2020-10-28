@@ -32,7 +32,7 @@
                 android:layout_centerInParent="true"
                 android:src="@drawable/ic_add_with_circle" />
 
-            <ProgressBar
+            <com.twoeightnine.root.xvii.uikit.XviiLoader
                 android:id="@+id/pbAttach"
                 android:layout_width="24dp"
                 android:layout_height="24dp"

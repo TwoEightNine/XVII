@@ -174,7 +174,7 @@
         android:elevation="12dp"
         tools:visibility="gone">
 
-        <ProgressBar
+        <com.twoeightnine.root.xvii.uikit.XviiLoader
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />

@@ -66,10 +66,8 @@ class GalleryFragment : BaseFragment() {
         progressBar.show()
         swipeRefresh.setOnRefreshListener { reloadData() }
 
-        with(fabDone) {
-            setOnClickListener { onDoneClicked() }
-            stylize()
-        }
+        fabDone.setOnClickListener { onDoneClicked() }
+
         rlPermissions.setVisible(!permissionHelper.hasStoragePermissions())
         rlPermissions.setOnClickListener {
             permissionHelper.request(arrayOf(PermissionHelper.READ_STORAGE, PermissionHelper.WRITE_STORAGE)) {
@@ -78,7 +76,6 @@ class GalleryFragment : BaseFragment() {
                 reloadData()
             }
         }
-        progressBar.stylize()
 
         if (!onlyPhotos) {
             llButtons.show()

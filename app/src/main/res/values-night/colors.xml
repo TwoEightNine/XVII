@@ -4,7 +4,7 @@
     <color name="primary">#1c1826</color>
     <color name="primary_dark">@color/primary</color>
     <color name="link_color">#79f</color>
-    <color name="status_bar">#b00e0c13</color>
+    <color name="status_bar">#0e0c13</color>
     <color name="navigation_bar">#b00e0c13</color>
     <color name="navigation_bar_chat_owner">#b01c1826</color>
 

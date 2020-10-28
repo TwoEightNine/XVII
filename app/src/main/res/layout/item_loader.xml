@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="70dp">
 
-    <ProgressBar
+    <com.twoeightnine.root.xvii.uikit.XviiLoader
         android:id="@+id/progressBar"
         android:layout_width="47dp"
         android:layout_height="47dp"

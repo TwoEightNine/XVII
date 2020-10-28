@@ -39,7 +39,6 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         ivMarkMulti.visibility = View.INVISIBLE
         rlMultiAction.stylizeAll()
         rlMultiAction.stylizeColor()
-        fabHasMore.stylize()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

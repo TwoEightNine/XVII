@@ -80,7 +80,7 @@
         android:background="#b000"
         android:visibility="gone">
 
-        <ProgressBar
+        <com.twoeightnine.root.xvii.uikit.XviiLoader
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />

@@ -44,6 +44,7 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
         initAttributes(attributeSet)
         isLiftOnScroll = !alwaysLifted
         inflate(context, R.layout.toolbar2, this)
+        setBackgroundColor(ContextCompat.getColor(context, R.color.background))
         toolbar.title = ""
         if (!forChat) {
             tvToolbarTitle.text = title

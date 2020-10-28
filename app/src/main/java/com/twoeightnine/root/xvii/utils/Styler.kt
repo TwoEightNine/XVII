@@ -10,13 +10,15 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.Switch
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.DialogTitle
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 
@@ -192,15 +194,6 @@ fun Switch.stylize() {
     trackDrawable.setColorFilter(ColorManager.lightColor, PorterDuff.Mode.SRC_ATOP)
 }
 
-fun FloatingActionButton.stylize() {
-    if (ColorManager.shouldIgnore) return
-    backgroundTintList = ColorStateList.valueOf(ColorManager.mainColor)
-}
-
-fun ProgressBar.stylize() {
-    indeterminateDrawable.setColorFilter(ColorManager.mainColor, PorterDuff.Mode.MULTIPLY)
-}
-
 fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false) {
 
     val typeface = Typeface.createFromAsset(context.resources.assets, "fonts/medium.ttf")
@@ -260,7 +253,6 @@ fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false
 fun ViewGroup.stylizeAll(level: Int = 0) {
     if (ColorManager.shouldIgnore) return
 
-//    stylize()
     stylizeColor()
     for (i in 0 until childCount) {
         val v = getChildAt(i)
@@ -269,14 +261,8 @@ fun ViewGroup.stylizeAll(level: Int = 0) {
             r += "--"
         }
         when (v) {
-//            is RadioButton -> v.stylize()
             is Switch -> v.stylize()
-//            is Button -> v.stylize()
-            is FloatingActionButton -> v.stylize()
             is ImageView -> v.stylize()
-//            is Toolbar -> v.stylize()
-//            is TabLayout -> v.stylize()
-            is ProgressBar -> v.stylize()
             is ViewGroup -> v.stylizeAll(level + 1)
         }
     }

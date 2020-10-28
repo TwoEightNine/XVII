@@ -25,4 +25,8 @@
     <declare-styleable name="XviiButton">
         <attr name="warn" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="XviiLoader">
+        <attr name="alwaysWhite" format="boolean" />
+    </declare-styleable>
 </resources>

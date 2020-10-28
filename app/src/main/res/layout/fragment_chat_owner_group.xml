@@ -167,7 +167,7 @@
                     android:background="@color/popup"
                     android:clickable="true">
 
-                    <ProgressBar
+                    <com.twoeightnine.root.xvii.uikit.XviiLoader
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true" />
@@ -180,14 +180,13 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.twoeightnine.root.xvii.uikit.XviiFab
         android:id="@+id/fabOpenChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:src="@drawable/ic_envelope"
         android:visibility="gone"
-        app:backgroundTint="@color/fab"
         app:layout_anchor="@id/nsvContent"
         app:layout_anchorGravity="end" />
 

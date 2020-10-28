@@ -75,7 +75,7 @@
 
     </RelativeLayout>
 
-    <ProgressBar
+    <com.twoeightnine.root.xvii.uikit.XviiLoader
         android:id="@+id/progressBar"
         android:layout_width="24dp"
         android:layout_height="24dp"

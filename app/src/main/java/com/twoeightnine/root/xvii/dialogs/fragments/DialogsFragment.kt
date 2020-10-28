@@ -52,7 +52,6 @@ open class DialogsFragment : BaseFragment() {
             adapter.reset()
             adapter.startLoading()
         }
-        progressBar.stylize()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

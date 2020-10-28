@@ -66,7 +66,6 @@ class LoginActivity : BaseActivity() {
             checkTokenAndStart()
         }
 
-        progressBar.stylize()
         webView.setTopInsetMargin()
     }
 

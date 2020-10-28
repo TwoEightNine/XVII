@@ -39,7 +39,6 @@ class PollFragment : BaseFragment() {
         viewModel.poll.observe(viewLifecycleOwner, Observer(::onPollLoaded))
         viewModel.loadPoll(pollId, ownerId)
 
-        progressBar.stylize()
         rvVotes.consumeInsets { _, bottom ->
             val extraPadding = context?.resources?.getDimensionPixelSize(R.dimen.toolbar_height)
                     ?: 0

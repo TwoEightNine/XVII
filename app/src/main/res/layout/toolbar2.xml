@@ -11,7 +11,7 @@
 
     <TextView
         android:id="@+id/tvToolbarTitle"
-        android:textColor="@color/toolbar"
+        android:textColor="@color/main_text"
         android:textSize="20sp"
         fontPath="fonts/bold.ttf"
         android:layout_centerInParent="true"
@@ -55,7 +55,7 @@
                 android:layout_marginTop="@dimen/text_view_top_margin"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/toolbar"
+                android:textColor="@color/main_text"
                 android:textSize="@dimen/user_name_text_size"
                 tools:ignore="MissingPrefix"
                 tools:text="mista sinista" />
@@ -72,6 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_view_top_margin"
                     android:maxLines="1"
+                    android:ellipsize="end"
                     android:text="@string/offline"
                     android:textColor="@color/minor_text"
                     android:textSize="@dimen/user_info_text_size" />

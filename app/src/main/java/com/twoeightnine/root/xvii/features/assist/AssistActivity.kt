@@ -17,7 +17,6 @@ import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.stylize
 import com.twoeightnine.root.xvii.utils.time
-import kotlinx.android.synthetic.main.activity_assist.*
 
 class AssistActivity : BaseActivity() {
 
@@ -27,7 +26,6 @@ class AssistActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_assist)
-        progressBar.stylize()
         rewardedAd = RewardedAd(this, getAdId())
         rewardedAd?.loadAd(AdRequest.Builder().build(), AdLoadedCallback())
 

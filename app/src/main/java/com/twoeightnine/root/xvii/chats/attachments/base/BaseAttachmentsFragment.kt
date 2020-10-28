@@ -8,7 +8,10 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.hide
+import com.twoeightnine.root.xvii.utils.setBottomPadding
+import com.twoeightnine.root.xvii.utils.show
+import com.twoeightnine.root.xvii.utils.showError
 import kotlinx.android.synthetic.main.fragment_attachments.*
 import javax.inject.Inject
 
@@ -50,7 +53,6 @@ abstract class BaseAttachmentsFragment<T : Any> : BaseFragment() {
             adapter.reset()
             adapter.startLoading()
         }
-        progressBar.stylize()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

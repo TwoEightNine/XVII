@@ -10,7 +10,10 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.main.MainActivity
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.AppBarLifter
+import com.twoeightnine.root.xvii.utils.goHome
+import com.twoeightnine.root.xvii.utils.setBottomInsetMargin
+import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
 import kotlinx.android.synthetic.main.activity_alarms.*
 
 class AlarmActivity : BaseActivity() {
@@ -40,8 +43,6 @@ class AlarmActivity : BaseActivity() {
                 adapter.update(alarms)
             }, 9, 17, true).show()
         }
-
-        fabAdd.stylize()
 
         rvAlarms.setBottomInsetPadding()
         fabAdd.setBottomInsetMargin(resources.getDimensionPixelSize(R.dimen.accounts_fab_add_margin))

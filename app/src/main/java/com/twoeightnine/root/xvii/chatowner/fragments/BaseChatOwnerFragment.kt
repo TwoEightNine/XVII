@@ -72,8 +72,6 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
         setStatusBarLight(isLight = true)
         swNotifications.stylize()
-        fabOpenChat.stylize()
-        progressBar?.stylize()
 
         getBottomPaddableView().setBottomInsetMargin()
     }
