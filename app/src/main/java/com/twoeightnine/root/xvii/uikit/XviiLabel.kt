@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.uikit
 
 import android.content.Context
-import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -18,7 +17,7 @@ class XviiLabel : AppCompatTextView {
         setBackgroundColor(Munch.color.color20)
         setTextColor(ContextCompat.getColor(context, R.color.main_text))
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-        typeface = Typeface.createFromAsset(context.resources.assets, "fonts/bold.ttf")
+        typeface = Wool.get(context, Wool.Font.BOLD)
         val paddingStart = when {
             gravity == Gravity.CENTER_HORIZONTAL -> 0
             paddingStart != 0 -> paddingStart

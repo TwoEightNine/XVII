@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.uikit
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatButton
@@ -32,7 +31,7 @@ class XviiButton(context: Context, attributeSet: AttributeSet) : AppCompatButton
         compoundDrawablePadding = 16
         transformationMethod = null
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
-        typeface = Typeface.createFromAsset(context.resources.assets, "fonts/medium.ttf")
+        typeface = Wool.get(context, Wool.Font.MEDIUM)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
