@@ -12,7 +12,7 @@
         app:backArrow="false"
         app:title="@string/dialogs" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"

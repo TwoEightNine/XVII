@@ -13,12 +13,10 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.DialogTitle
-import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 
@@ -29,11 +27,11 @@ object ColorManager {
 
     const val STROKE = 3 // in px
 
-    const val PHOTO_STUB_URL = "https://dummyimage.com/200x200/%s/%s.png"
+    private const val PHOTO_STUB_URL = "https://dummyimage.com/200x200/%s/%s.png"
 
     const val MAIN_TAG = "main"
-    const val LIGHT_TAG = "light"
-    const val EXTRA_LIGHT_TAG = "extraLight"
+    private const val LIGHT_TAG = "light"
+    private const val EXTRA_LIGHT_TAG = "extraLight"
     const val DARK_TAG = "dark"
 
     var shouldIgnore: Boolean = false
@@ -42,11 +40,9 @@ object ColorManager {
     var shapeColor: Int = 0
         private set
 
-    var defaultColor: Int = 0
-        private set
+    private var defaultColor: Int = 0
 
-    var darkColor: Int = 0
-        private set
+    private var darkColor: Int = 0
 
     var mainColor: Int = 0
         private set
@@ -57,7 +53,7 @@ object ColorManager {
     var extraLightColor: Int = 0
         private set
 
-    var toolbarColor: Int = 0
+    private var toolbarColor: Int = 0
         get() = if (Prefs.isLightTheme) mainColor else field
 
     fun init(context: Context) {
@@ -115,13 +111,6 @@ object ColorManager {
                 color * -shift / 255
             }
 }
-
-fun Toolbar.stylize() {
-    if (ColorManager.shouldIgnore) return
-
-    setBackgroundColor(ColorManager.mainColor)
-}
-
 
 fun ViewGroup.stylizeAsMessage(level: Int, hide: Boolean = false) {
     when {
@@ -191,12 +180,6 @@ fun ViewGroup.stylize(changeStroke: Boolean = true) {
     (tag as? String)?.let { background.stylize(it, changeStroke) }
 }
 
-fun TabLayout.stylize(tag: String = ColorManager.MAIN_TAG) {
-    if (ColorManager.shouldIgnore) return
-
-    setBackgroundColor(ColorManager.getColorByTag(tag))
-}
-
 fun ImageView.stylize(tag: String? = this.tag as? String, changeStroke: Boolean = true) {
     if (ColorManager.shouldIgnore) return
     tag?.let { drawable?.stylize(it, changeStroke) }
@@ -216,36 +199,6 @@ fun FloatingActionButton.stylize() {
 
 fun ProgressBar.stylize() {
     indeterminateDrawable.setColorFilter(ColorManager.mainColor, PorterDuff.Mode.MULTIPLY)
-}
-
-fun RadioButton.stylize() {
-    val colorStateList = ColorStateList(
-            arrayOf(
-                    intArrayOf(-android.R.attr.state_enabled),
-                    intArrayOf(android.R.attr.state_enabled)
-            ),
-            intArrayOf(
-                    0xff888888.toInt(),
-                    ColorManager.mainColor
-            )
-    )
-    buttonTintList = colorStateList
-}
-
-fun Button.stylize() {
-    if (ColorManager.shouldIgnore) return
-
-    val b = background
-    b.stylize(ColorManager.MAIN_TAG, changeStroke = false)
-    background = b
-}
-
-fun TextView.stylize() {
-    setTextColor(if (ColorManager.shouldIgnore) {
-        ColorManager.lightColor
-    } else {
-        ColorManager.mainColor
-    })
 }
 
 fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false) {
@@ -316,13 +269,13 @@ fun ViewGroup.stylizeAll(level: Int = 0) {
             r += "--"
         }
         when (v) {
-            is RadioButton -> v.stylize()
+//            is RadioButton -> v.stylize()
             is Switch -> v.stylize()
-            is Button -> v.stylize()
+//            is Button -> v.stylize()
             is FloatingActionButton -> v.stylize()
             is ImageView -> v.stylize()
-            is Toolbar -> v.stylize()
-            is TabLayout -> v.stylize()
+//            is Toolbar -> v.stylize()
+//            is TabLayout -> v.stylize()
             is ProgressBar -> v.stylize()
             is ViewGroup -> v.stylizeAll(level + 1)
         }

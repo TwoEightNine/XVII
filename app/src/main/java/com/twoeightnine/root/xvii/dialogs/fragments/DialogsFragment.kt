@@ -1,6 +1,7 @@
 package com.twoeightnine.root.xvii.dialogs.fragments
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
@@ -15,6 +17,7 @@ import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
 import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
@@ -42,7 +45,6 @@ open class DialogsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
-//        toolbar.hide()
 
         progressBar.show()
         swipeRefresh.setOnRefreshListener {
@@ -81,11 +83,7 @@ open class DialogsFragment : BaseFragment() {
         swipeRefresh.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
-            val d = arrayListOf<Dialog>().apply {
-                addAll(data.data)
-                addAll(data.data)
-            }
-            adapter.update(d)
+            adapter.update(data.data)
 //            adapter.update(FakeData.dialogs)
         } else {
             showError(context, data.error ?: getString(R.string.error))
@@ -96,8 +94,17 @@ open class DialogsFragment : BaseFragment() {
         viewModel.loadDialogs(offset)
     }
 
+    override fun getMenu(): Int = R.menu.search
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean  = when(item.itemId) {
+        R.id.menu_search -> {
+            startFragment<SearchFragment>()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     protected open fun onClick(dialog: Dialog) {
-//        startFragment<DialogsFragment>()
         ChatActivity.launch(context, dialog)
     }
 
