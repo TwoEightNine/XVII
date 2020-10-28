@@ -89,6 +89,7 @@
             <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="56dp"
                 android:text="@string/addons" />
 
             <com.twoeightnine.root.xvii.uikit.XviiItem
@@ -115,6 +116,7 @@
             <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="56dp"
                 android:text="@string/settings" />
 
             <com.twoeightnine.root.xvii.uikit.XviiItem
@@ -148,6 +150,7 @@
             <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="56dp"
                 android:text="@string/about_app" />
 
             <com.twoeightnine.root.xvii.uikit.XviiItem

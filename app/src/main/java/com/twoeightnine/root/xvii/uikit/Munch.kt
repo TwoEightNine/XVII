@@ -80,11 +80,11 @@ object Munch {
     data class ColorScope(
             val color: Int,
             val colorWhite10: Int,
-            val colorWhite25: Int,
+            val colorWhite20: Int,
             val colorWhite50: Int,
             val colorWhite75: Int,
             val colorBlack10: Int,
-            val colorBlack25: Int,
+            val colorBlack20: Int,
             val colorBlack50: Int,
             val colorBlack75: Int
     ) {
@@ -92,8 +92,8 @@ object Munch {
         val color10: Int
             get() = if (isLightTheme) colorWhite10 else colorBlack10
 
-        val color25: Int
-            get() = if (isLightTheme) colorWhite25 else colorBlack25
+        val color20: Int
+            get() = if (isLightTheme) colorWhite20 else colorBlack20
 
         val color50: Int
             get() = if (isLightTheme) colorWhite50 else colorBlack50
@@ -102,19 +102,19 @@ object Munch {
             get() = if (isLightTheme) colorWhite75 else colorBlack75
 
         fun toList() = listOf(
-                colorWhite10, colorWhite25, colorWhite50, colorWhite75,
-                color, colorBlack75, colorBlack50, colorBlack25, colorBlack10
+                colorWhite10, colorWhite20, colorWhite50, colorWhite75,
+                color, colorBlack75, colorBlack50, colorBlack20, colorBlack10
         )
 
         companion object {
             fun fromColor(color: Int): ColorScope = ColorScope(
                     color = color,
                     colorWhite10 = color.alphaOnWhite(0.1f),
-                    colorWhite25 = color.alphaOnWhite(0.25f),
+                    colorWhite20 = color.alphaOnWhite(0.2f),
                     colorWhite50 = color.alphaOnWhite(0.5f),
                     colorWhite75 = color.alphaOnWhite(0.75f),
                     colorBlack10 = color.alphaOnBlack(0.1f),
-                    colorBlack25 = color.alphaOnBlack(0.25f),
+                    colorBlack20 = color.alphaOnBlack(0.2f),
                     colorBlack50 = color.alphaOnBlack(0.5f),
                     colorBlack75 = color.alphaOnBlack(0.75f)
             )
