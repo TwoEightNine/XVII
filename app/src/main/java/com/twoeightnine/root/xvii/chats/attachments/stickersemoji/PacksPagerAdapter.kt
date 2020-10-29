@@ -3,6 +3,9 @@ package com.twoeightnine.root.xvii.chats.attachments.stickersemoji
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.PagerAdapter
 import com.twoeightnine.root.xvii.R
@@ -10,6 +13,8 @@ import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.EmojiPack
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.StickerPack
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.load
 import kotlinx.android.synthetic.main.item_sticker_tab.view.*
 import kotlinx.android.synthetic.main.view_sticker_pack.view.*
@@ -88,10 +93,10 @@ class PacksPagerAdapter(
             View.inflate(context, R.layout.item_sticker_tab, null)?.apply {
                 when (val url = getPreviewUrl(position)) {
                     recentEmojisTitle -> {
-                        ivStickerTab.setImageResource(R.drawable.ic_emoji_recent)
+                        ivStickerTab.setIcon(R.drawable.ic_emoji_recent)
                     }
                     recentStickersTitle -> {
-                        ivStickerTab.setImageResource(R.drawable.ic_sticker_recent)
+                        ivStickerTab.setIcon(R.drawable.ic_sticker_recent)
                     }
                     else -> {
                         ivStickerTab.load(url)
@@ -100,6 +105,12 @@ class PacksPagerAdapter(
             }
 
     override fun getCount() = unions.size
+
+    private fun ImageView.setIcon(@DrawableRes drawableId: Int) {
+        val drawable = ContextCompat.getDrawable(context, drawableId)
+        drawable?.paint(Munch.color.color)
+        setImageDrawable(drawable)
+    }
 
     private fun getView(pack: EmojiPack): View =
             View.inflate(context, R.layout.view_sticker_pack, null).apply {
