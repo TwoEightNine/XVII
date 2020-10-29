@@ -70,7 +70,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         viewModel.photos.observe(viewLifecycleOwner, Observer(::onPhotosLoaded))
         viewModel.loadChatOwner(peerId, getChatOwnerClass())
 
-        setStatusBarLight(isLight = true)
+        setStatusBarLight(isLight = false)
         swNotifications.stylize()
 
         getBottomPaddableView().setBottomInsetMargin()

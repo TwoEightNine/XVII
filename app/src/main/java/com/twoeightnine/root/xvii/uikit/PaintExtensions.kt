@@ -10,6 +10,7 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.twoeightnine.root.xvii.R
 
 
@@ -50,8 +51,15 @@ fun CheckBox.paint(color: Int) {
 }
 
 fun SwitchCompat.paint(color: Munch.ColorScope) {
-    thumbDrawable.setColorFilter(color.color, PorterDuff.Mode.SRC_ATOP)
-    trackDrawable.setColorFilter(color.color50, PorterDuff.Mode.SRC_ATOP)
+    val states = arrayOf(
+            intArrayOf(android.R.attr.state_checked),
+            intArrayOf()
+    )
+    val thumbColors = intArrayOf(color.color, color.color50)
+    val trackColors = intArrayOf(color.color75, color.color20)
+
+    DrawableCompat.setTintList(thumbDrawable, ColorStateList(states, thumbColors))
+    DrawableCompat.setTintList(trackDrawable, ColorStateList(states, trackColors))
 }
 
 fun RadioButton.paint(color: Int) {
