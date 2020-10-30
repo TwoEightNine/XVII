@@ -100,12 +100,21 @@ data class PhotoPreview(
         @SerializedName("sizes")
         @Expose
         val sizes: List<PreviewSize> = arrayListOf()
-) : Parcelable
+) : Parcelable {
+
+        fun getSmallPreview(): PreviewSize? = sizes.minByOrNull { it.height }
+}
 
 @Parcelize
 data class PreviewSize(
 
         @SerializedName("src")
         @Expose
-        val src: String? = null
+        val src: String? = null,
+
+        @SerializedName("width")
+        val width: Int = 0,
+
+        @SerializedName("height")
+        val height: Int = 0
 ) : Parcelable

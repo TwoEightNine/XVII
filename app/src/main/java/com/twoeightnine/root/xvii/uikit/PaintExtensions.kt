@@ -12,7 +12,11 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.twoeightnine.root.xvii.R
+import kotlin.random.Random
 
+
+fun Array<Munch.ColorScope>.randomFor(any: Any) =
+        random(Random(any.hashCode()))
 
 fun Drawable.paint(color: Int) {
     when (this) {

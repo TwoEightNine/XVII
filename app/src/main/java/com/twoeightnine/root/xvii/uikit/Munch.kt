@@ -43,10 +43,19 @@ object Munch {
             prevRangeColor
     )
 
+    val fullAnalogy = prevAnalogy.reversed().dropLast(1).plus(nextAnalogy).toTypedArray()
+
     val tricolor = arrayOf(
             color,
             nextTriColor,
             prevTriColor
+    )
+
+    val rectangle = arrayOf(
+            color,
+            nextRangeColor,
+            extraColor,
+            prevRangeColor
     )
 
     private fun Int.alphaOnWhite(alpha: Float = 0.5f) = mixWith(Color.WHITE, alpha)
