@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -52,7 +51,6 @@ class MainActivity : BaseActivity() {
         apiUtils.trackVisitor()
         bottomNavView.stylize()
         StatTool.get()?.incLaunch()
-        MobileAds.initialize(this) {}
     }
 
     private fun initViewPager() {

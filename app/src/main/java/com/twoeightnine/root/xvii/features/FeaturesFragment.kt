@@ -18,7 +18,6 @@ import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
-import com.twoeightnine.root.xvii.features.assist.AssistActivity
 import com.twoeightnine.root.xvii.features.general.GeneralFragment
 import com.twoeightnine.root.xvii.features.notifications.NotificationsFragment
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
@@ -79,7 +78,6 @@ class FeaturesFragment : BaseFragment() {
 
         xiSupport.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }
         xiRate.setOnClickListener { context?.also { rate(it) } }
-        xiContribute.setOnClickListener { AssistActivity.launch(context) }
         xiShare.setOnClickListener { share() }
         xiPrivacy.setOnClickListener { resolvePrivacyPolicy() }
         xiSourceCode.setOnClickListener { simpleUrlIntent(context, GITHUB_URL) }
@@ -109,7 +107,6 @@ class FeaturesFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        xiContribute.setVisible(time() - Prefs.lastAssistance > ASSISTANCE_DELAY)
         viewModel.updateLastSeen()
     }
 
@@ -172,8 +169,6 @@ class FeaturesFragment : BaseFragment() {
         const val GITHUB_URL = "https://github.com/twoeightnine/xvii"
 
         const val SHOW_JOIN_DELAY = 3600 * 24 * 7 // one week
-
-        const val ASSISTANCE_DELAY = 60 * 2 // two minutes
 
         fun newInstance() = FeaturesFragment()
     }

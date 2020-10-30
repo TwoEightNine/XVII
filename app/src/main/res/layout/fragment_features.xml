@@ -168,13 +168,6 @@
                 app:itemIcon="@drawable/ic_star" />
 
             <com.twoeightnine.root.xvii.uikit.XviiItem
-                android:id="@+id/xiContribute"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:itemTitle="@string/contribute"
-                app:itemIcon="@drawable/ic_rabbit" />
-
-            <com.twoeightnine.root.xvii.uikit.XviiItem
                 android:id="@+id/xiShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
