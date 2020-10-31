@@ -219,7 +219,7 @@ class MessagesAdapter(context: Context,
                         when (attachment.type) {
 
                             Attachment.TYPE_PHOTO -> attachment.photo?.also {
-                                llMessageContainer.addView(getPhoto(it, context) { photo ->
+                                llMessageContainer.addView(getPhoto(it, context, level) { photo ->
                                     val photos = message.attachments.getPhotos()
                                     callback.onPhotoClicked(photos.indexOf(photo), photos)
                                 })

@@ -1,10 +1,7 @@
 package com.twoeightnine.root.xvii.photoviewer
 
-import android.app.DownloadManager
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -36,7 +33,6 @@ class ImageViewerActivity : AppCompatActivity() {
     }
 
     private val downloadingQueue = hashMapOf<Long, String>()
-    private val actionDownloadedReceiver = ActionDownloadedReceiver()
 
     private var position: Int = 0
     private var filePath: String? = null
@@ -66,7 +62,6 @@ class ImageViewerActivity : AppCompatActivity() {
         if (mode == MODE_ONE_PATH) {
             rlControls.hide()
         }
-        registerReceiver(actionDownloadedReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         ivBack.setOnClickListener { onBackPressed() }
         rlTop.setTopInsetPadding(resources.getDimensionPixelSize(R.dimen.toolbar_height))
@@ -87,22 +82,12 @@ class ImageViewerActivity : AppCompatActivity() {
             ) {
                 val url = tryToGetUrl(currentPhoto()) ?: return@doOrRequest
 
-                var fileName = getNameFromUrl(url).toLowerCase()
+                var fileName = url.getUriName().toLowerCase()
                 if ('?' in fileName) {
                     fileName = fileName.split('?')[0]
                 }
                 val file = File(SAVE_FILE, fileName)
-
-                val request = DownloadManager.Request(Uri.parse(url))
-                        .setTitle(fileName)
-                        .setDescription(getString(R.string.download))
-                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                        .setDestinationUri(Uri.fromFile(file))
-                        .setAllowedOverMetered(true)
-                        .setAllowedOverRoaming(true)
-
-                val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                val downloadId = downloadManager.enqueue(request)
+                val downloadId = DownloadUtils.download(this, file, url)
                 downloadingQueue[downloadId] = file.absolutePath
             }
 
@@ -195,11 +180,6 @@ class ImageViewerActivity : AppCompatActivity() {
                     ?: photo.getLargePhoto()?.url
                     ?: photo.getOptimalPhoto()?.url
 
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(actionDownloadedReceiver)
-    }
-
     companion object {
 
         private const val SAVE_DIR = "vk"
@@ -261,19 +241,6 @@ class ImageViewerActivity : AppCompatActivity() {
         }
 
         override fun onPageScrollStateChanged(state: Int) {}
-    }
-
-    private inner class ActionDownloadedReceiver : BroadcastReceiver() {
-
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val id = intent?.extras?.getLong(DownloadManager.EXTRA_DOWNLOAD_ID) ?: -1
-
-            downloadingQueue[id]?.also { path ->
-                val activity = this@ImageViewerActivity
-                addToGallery(activity, path)
-                showToast(activity, getString(R.string.doenloaded, getNameFromUrl(path)))
-            }
-        }
     }
 
 }

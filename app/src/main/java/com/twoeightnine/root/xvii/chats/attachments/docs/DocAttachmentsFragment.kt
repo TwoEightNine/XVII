@@ -3,10 +3,11 @@ package com.twoeightnine.root.xvii.chats.attachments.docs
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsFragment
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.utils.simpleUrlIntent
-import com.twoeightnine.root.xvii.web.GifViewerActivity
+import com.twoeightnine.root.xvii.web.GifViewerFragment
 
 class DocAttachmentsFragment : BaseAttachmentsFragment<Doc>() {
 
@@ -22,7 +23,7 @@ class DocAttachmentsFragment : BaseAttachmentsFragment<Doc>() {
 
     private fun onClick(doc: Doc) {
         if (doc.isGif) {
-            GifViewerActivity.showGif(context, doc)
+            startFragment<GifViewerFragment>(GifViewerFragment.createArgs(doc))
         } else {
             simpleUrlIntent(context, doc.url)
         }

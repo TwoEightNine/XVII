@@ -479,6 +479,7 @@ fun addToGallery(context: Context, path: String) {
     }
 }
 
+@Deprecated("Use getUriName() instead.")
 fun getNameFromUrl(url: String): String {
     val res = url.split("/".toRegex())
             .dropLastWhile { it.isEmpty() }
@@ -486,14 +487,10 @@ fun getNameFromUrl(url: String): String {
     return res[res.size - 1]
 }
 
-//fun downloadFile(context: Context, url: String, fileName: String, type: String, listener: (() -> Unit), refresh: Boolean = false, noGallery: Boolean = false) {
-//    val task = DownloadFileAsyncTask(refresh, noGallery)
-//    task.listener = {
-//        addToGallery(context, it)
-//        listener.invoke()
-//    }
-//    task.execute(url, fileName, type)
-//}
+fun String.getUriName(): String =
+        split("/".toRegex())
+            .dropLastWhile { it.isEmpty() }
+            .last()
 
 fun loadBitmapIcon(url: String?, useSquare: Boolean = false, callback: (Bitmap) -> Unit) {
     val uiHandler = Handler(Looper.getMainLooper())

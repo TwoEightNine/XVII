@@ -44,7 +44,7 @@ import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesViewModel
 import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
-import com.twoeightnine.root.xvii.web.GifViewerActivity
+import com.twoeightnine.root.xvii.web.GifViewerFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -57,11 +57,11 @@ interface AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(exceptionActivity: ExceptionActivity)
     fun inject(imageViewerActivity: ImageViewerActivity)
-    fun inject(gifViewerActivity: GifViewerActivity)
     fun inject(pinActivity: PinActivity)
 
     // fragments
     fun inject(wallPostFragment: WallPostFragment)
+    fun inject(gifViewerFragment: GifViewerFragment)
     fun inject(accountsFragment: AccountsFragment)
     fun inject(friendsFragment: FriendsFragment)
     fun inject(dialogsFragment: DialogsFragment)

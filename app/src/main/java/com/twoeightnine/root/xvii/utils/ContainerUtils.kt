@@ -11,6 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.makeramen.roundedimageview.RoundedImageView
 import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
@@ -25,9 +26,10 @@ import kotlinx.android.synthetic.main.container_audio.view.*
 import kotlinx.android.synthetic.main.container_video.view.*
 
 
-fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): View {
-    val view = ImageView(context) // LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-    val width = pxFromDp(context, 266)
+fun getPhoto(photo: Photo, context: Context, level: Int = 0, onClick: (Photo) -> Unit = {}): View {
+    val view = RoundedImageView(context) // LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
+    view.setCornerRadiusDimen(R.dimen.default_radius)
+    val width = pxFromDp(context, 266 - 12 * level)
     val photoSize = photo.getOptimalPhoto()
             ?: photo.getMediumPhoto()
             ?: photo.getSmallPhoto()
@@ -42,7 +44,7 @@ fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): Vie
     params.marginEnd = 4
     view.layoutParams = params
     Picasso.get()
-            .loadRounded(photoSize.url)
+            .load(photoSize.url)
             .resize(width, ivHeight)
             .centerCrop()
             .into(view)
@@ -51,7 +53,8 @@ fun getPhoto(photo: Photo, context: Context, onClick: (Photo) -> Unit = {}): Vie
 }
 
 fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}): View {
-    val iv = ImageView(activity)
+    val iv = RoundedImageView(activity)
+    iv.setCornerRadiusDimen(R.dimen.default_radius)
     val width = screenWidth(activity)
     val photoSize = photo.getLargePhoto()
             ?: photo.getOptimalPhoto()
@@ -65,7 +68,7 @@ fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}
     params.bottomMargin = 12
     iv.layoutParams = params
     Picasso.get()
-            .loadRounded(photoSize.url)
+            .load(photoSize.url)
             .resize(width, ivHeight)
             .centerCrop()
             .into(iv)
@@ -77,7 +80,7 @@ fun getGif(doc: Doc, context: Context): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
 
     Picasso.get()
-            .loadRounded(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
+            .load(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
             .into(included.ivVideo)
@@ -89,7 +92,7 @@ fun getGif(doc: Doc, context: Context): View {
             included.ivPlayWhite.show()
             included.rlDuration.show()
             Picasso.get()
-                    .loadRounded(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
+                    .load(doc.preview?.photo?.sizes?.get(0)?.src ?: "")
                     .resize(pxFromDp(context, 250), pxFromDp(context, 186))
                     .centerCrop()
                     .into(included.ivVideo)
@@ -182,7 +185,7 @@ fun getLink(link: Link, context: Context): View {
 fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_video, null, false)
     Picasso.get()
-            .loadRounded(video.maxPhoto)
+            .load(video.maxPhoto)
             .resize(pxFromDp(context, 250), pxFromDp(context, 186))
             .centerCrop()
             .into(included.findViewById<ImageView>(R.id.ivVideo))

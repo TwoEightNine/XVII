@@ -50,6 +50,10 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
+    protected fun onBackPressed() {
+        baseActivity?.onBackPressed()
+    }
+
     @MenuRes
     protected open fun getMenu(): Int = 0
 

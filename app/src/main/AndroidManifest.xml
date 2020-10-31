@@ -79,7 +79,6 @@
         <service
             android:name=".background.music.services.MusicService"
             android:permission="android.permission.WAKE_LOCK" />
-        <service android:name=".background.DownloadFileService" />
         <service android:name=".background.messaging.MessageDestructionService" />
 
         <activity
@@ -103,10 +102,6 @@
             android:theme="@style/AppTheme.Transparent.Photo" />
 
         <activity
-            android:name=".web.GifViewerActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".web.VideoViewerActivity"
             android:theme="@style/AppTheme.Transparent.Photo" />
 
@@ -124,9 +119,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".accounts.activities.AccountsActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
             android:name=".chats.attachments.attachments.AttachmentsActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
@@ -136,28 +128,13 @@
             android:name=".chats.attachments.audios.AudiosActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
-            android:name=".search.SearchActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".egg.EggActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".wallpost.WallPostActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".chats.messages.starred.StarredMessagesActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
-            android:name=".web.WebActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
             android:name=".features.appearance.AppearanceActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".features.general.GeneralActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".features.notifications.NotificationsActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".main.MainActivity"
@@ -206,19 +183,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".poll.PollsActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".features.assist.AssistActivity"
-            android:theme="@style/AppTheme.Transparent"/>
-        <activity
             android:name=".pin.fake.alarm.AlarmActivity"
             android:theme="@style/AppTheme.Transparent"/>
         <activity
             android:name=".pin.fake.diagnostics.DiagnosticsActivity"
-            android:theme="@style/AppTheme.Transparent"/>
-        <activity
-            android:name=".scheduled.ui.ScheduledMessagesActivity"
             android:theme="@style/AppTheme.Transparent"/>
         <activity
             android:name=".base.FragmentPlacementActivity"
