@@ -27,9 +27,13 @@ import kotlinx.android.synthetic.main.container_video.view.*
 
 
 fun getPhoto(photo: Photo, context: Context, level: Int = 0, onClick: (Photo) -> Unit = {}): View {
+    val margin = context.resources.getDimensionPixelSize(R.dimen.chat_message_photo_margin)
+    val levelPadding = context.resources.getDimensionPixelSize(R.dimen.chat_message_level_padding)
+    val contentWidth = context.resources.getDimensionPixelSize(R.dimen.chat_message_content_width)
+
     val view = RoundedImageView(context) // LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
     view.setCornerRadiusDimen(R.dimen.default_radius)
-    val width = pxFromDp(context, 266 - 12 * level)
+    val width = contentWidth - 2 * level * levelPadding - 2 * margin
     val photoSize = photo.getOptimalPhoto()
             ?: photo.getMediumPhoto()
             ?: photo.getSmallPhoto()
@@ -37,12 +41,14 @@ fun getPhoto(photo: Photo, context: Context, level: Int = 0, onClick: (Photo) ->
 
     val scale = width * 1.0f / photoSize.width
     val ivHeight = (photoSize.height * scale).toInt()
-    val params = LinearLayout.LayoutParams(width, ivHeight)
-    params.topMargin = 4
-    params.bottomMargin = 4
-    params.marginStart = 4
-    params.marginEnd = 4
-    view.layoutParams = params
+
+    view.layoutParams = LinearLayout.LayoutParams(width, ivHeight).apply {
+        topMargin = margin
+        bottomMargin = margin
+        marginStart = margin
+        marginEnd = margin
+    }
+
     Picasso.get()
             .load(photoSize.url)
             .resize(width, ivHeight)

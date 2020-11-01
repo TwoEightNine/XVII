@@ -109,7 +109,7 @@ fun ArrayList<Attachment>.isSticker() = isNotEmpty() && this[0].sticker != null
 
 fun ArrayList<Attachment>.isGift() = isNotEmpty() && this[0].gift != null
 
-fun ArrayList<Attachment>.getPhotos() = ArrayList(this.mapNotNull { it.photo })
+fun List<Attachment>.getPhotos() = ArrayList(this.mapNotNull { it.photo })
 
 fun ArrayList<Attachment>.photosCount() = getPhotos().size
 

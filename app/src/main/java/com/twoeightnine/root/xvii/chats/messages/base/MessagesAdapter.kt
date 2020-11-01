@@ -45,7 +45,20 @@ class MessagesAdapter(context: Context,
                       private val settings: Settings
 ) : BaseReachAdapter<Message, MessagesAdapter.MessageViewHolder>(context, loader) {
 
-    private val mediaWidth = pxFromDp(context, MEDIA_WIDTH)
+    private val messageInflater = MessageInflater(context, callback)
+
+    private val contentWidth by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.chat_message_content_width)
+    }
+    private val stickerWidth by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.chat_message_sticker_width)
+    }
+    private val graffitiWidth by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.chat_message_graffiti_width)
+    }
+    private val levelPadding by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.chat_message_level_padding)
+    }
 
     private val messageTextSize by lazy {
         Prefs.messageTextSize.toFloat()
@@ -211,10 +224,10 @@ class MessagesAdapter(context: Context,
 
                 if (!message.attachments.isNullOrEmpty()) {
                     llMessage.layoutParams.width = when {
-                        message.isSticker() -> pxFromDp(context, 180)
-                        message.isGraffiti() -> pxFromDp(context, 220)
-                        else -> mediaWidth
-                    }
+                        message.isSticker() -> stickerWidth
+                        message.isGraffiti() -> graffitiWidth
+                        else -> contentWidth
+                    } - levelPadding * level * 2
                     message.attachments.forEach { attachment ->
                         when (attachment.type) {
 
@@ -316,7 +329,7 @@ class MessagesAdapter(context: Context,
                     llMessage.layoutParams.width = if (settings.fullDeepness) {
                         ViewGroup.LayoutParams.MATCH_PARENT
                     } else {
-                        mediaWidth
+                        contentWidth
                     }
                     rlBack.setPadding(rlBack.paddingLeft, rlBack.paddingTop, 6, rlBack.paddingBottom)
                     message.fwdMessages.forEachIndexed { index, innerMessage ->
@@ -345,8 +358,8 @@ class MessagesAdapter(context: Context,
                 }
                 message.replyMessage?.also { message ->
                     llMessage.layoutParams.width = when {
-                        message.isReplyingSticker() -> pxFromDp(context, 180)
-                        else -> mediaWidth
+                        message.isReplyingSticker() -> stickerWidth
+                        else -> contentWidth
                     }
                     val included = inflater.inflate(R.layout.item_message_in_chat, null)
                     included.tag = true
