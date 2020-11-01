@@ -12,7 +12,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Build
-import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.Html
 import android.widget.RemoteViews
@@ -172,8 +171,8 @@ class LongPollCore(private val context: Context) {
 
         val shouldVibrate = Prefs.vibrateChats && !event.isUser()
                 || Prefs.vibrate && event.isUser()
-        if (!isInForeground()) {
-            if (shouldVibrate) vibrate()
+        if (!isInForeground() && shouldVibrate) {
+            vibrate()
         }
 
         val shouldShowContent = event.isUser() && Prefs.showContent
@@ -502,9 +501,7 @@ class LongPollCore(private val context: Context) {
     }
 
     private fun vibrate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createOneShot(VIBRATE_DELAY, VibrationEffect.DEFAULT_AMPLITUDE))
-        } else {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             vibrator.vibrate(VIBRATE_DELAY)
         }
     }
