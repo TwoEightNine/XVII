@@ -20,6 +20,7 @@ import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.attachments.Audio
 import com.twoeightnine.root.xvii.utils.NotificationChannels
 import io.reactivex.subjects.PublishSubject
+import kotlin.random.Random
 
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener,
@@ -295,7 +296,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     }
 
     private fun getActionPendingIntent(action: String) = PendingIntent.getBroadcast(
-            applicationContext, 0,
+            applicationContext, Random.nextInt(),
             Intent(applicationContext, MusicBroadcastReceiver::class.java).apply {
                 this.action = action
             },
