@@ -4,6 +4,7 @@
     android:id="@+id/rlTrack"
     android:layout_width="match_parent"
     android:layout_height="70dp"
+    android:background="@color/background"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -22,7 +23,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-light"
             android:maxLines="1"
-            android:textColor="#111"
+            android:textColor="@color/main_text"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:text="title" />
@@ -34,7 +35,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-light"
             android:maxLines="1"
-            android:textColor="#444"
+            android:textColor="@color/other_text"
             android:textSize="13sp"
             tools:text="artist" />
     </LinearLayout>

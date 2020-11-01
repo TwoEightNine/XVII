@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -15,7 +16,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="12dp"
         android:padding="12dp"
-        android:textColor="#111"
+        android:textColor="@color/main_text"
         android:textSize="14sp"
         android:textStyle="bold"
         tools:text="speed 1.25x" />
@@ -28,7 +29,7 @@
         android:layout_marginStart="12dp"
         android:padding="12dp"
         android:text="@string/close"
-        android:textColor="#555"
+        android:textColor="@color/other_text"
         android:textSize="14sp"
         android:textStyle="bold" />
 

@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.LayoutRes
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.lg.L
@@ -259,6 +260,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setSmallIcon(R.drawable.ic_play_music)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setColor(ContextCompat.getColor(applicationContext, R.color.background))
                 .build()
 
         startForeground(FOREGROUND_ID, notification)
@@ -267,6 +269,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     private fun bindRemoteViews(@LayoutRes viewId: Int, audio: Audio, isExtended: Boolean = false): RemoteViews {
         val remoteViews = RemoteViews(packageName, viewId)
         with(remoteViews) {
+//            setInt(R.id.rlTrack, "setBackgroundColor", ContextCompat.getColor(applicationContext, R.color.background))
             setTextViewText(R.id.tvTitle, audio.title)
             setTextViewText(R.id.tvArtist, audio.artist)
             val playPauseRes = if (player.isPlayingSafe()) R.drawable.ic_pause_music else R.drawable.ic_play_music
@@ -276,6 +279,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             setOnClickPendingIntent(R.id.ivPlayPause, getActionPendingIntent(MusicBroadcastReceiver.ACTION_PLAY_PAUSE))
 
             if (isExtended) {
+//                setInt(R.id.rlTrackExtended, "setBackgroundColor", ContextCompat.getColor(applicationContext, R.color.background))
                 setOnClickPendingIntent(R.id.tvClose, getActionPendingIntent(MusicBroadcastReceiver.ACTION_CLOSE))
                 setOnClickPendingIntent(R.id.tvPlaybackSpeed, getActionPendingIntent(MusicBroadcastReceiver.ACTION_SPEED))
 
