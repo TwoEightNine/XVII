@@ -2,16 +2,20 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply from: "$project.rootDir/dependencies.gradle"
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion '29.0.3'
+    compileSdkVersion androidVersions.compileSdkVersion
+    buildToolsVersion androidVersions.buildToolsVersion
+
     defaultConfig {
-        applicationId "com.twoeightnine.root.xvii"
-        minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 175
-        versionName "5.22.3"
+        applicationId androidApp.applicationId
+        minSdkVersion androidVersions.minSdkVersion
+        targetSdkVersion androidVersions.targetSdkVersion
+
+        versionCode androidApp.versionCode
+        versionName androidApp.versionName
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.ext.set("archivesBaseName", "xvii" + defaultConfig.versionName)
 
@@ -61,94 +65,59 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
+//    implementation project(':core')
+//    implementation project(':data')
+//    implementation project(':uikit')
+
+    implementation kotlin.kotlin
+
+    implementation androidUi.appCompat
+    implementation androidUi.material
+    implementation androidUi.recyclerView
+
+    implementation lifecycle.extensions
+    implementation lifecycle.viewModel
+    implementation lifecycle.liveData
+
+    implementation room.runtime
+    implementation room.rxJava
+    kapt room.compiler
+
+    implementation workManager.runtime
+    implementation workManager.runtimeKtx
+
+    implementation retrofit.retrofit
+    implementation retrofit.gsonConverter
+    implementation retrofit.rxAdapter
+
+    implementation okHttp.okHttp
+    implementation okHttp.logging
+
+    implementation reactiveX.rxJava
+    implementation reactiveX.rxAndroid
+    implementation reactiveX.rxBinding
+
+    kapt dagger.compiler
+    implementation dagger.dagger
+    compileOnly dagger.jsr
+
+    implementation utils.gson
+    implementation utils.glide
+    implementation utils.picasso
+
+    implementation externalUi.circleImageView
+    implementation externalUi.swipy
+    implementation externalUi.colorPicker
+    implementation externalUi.calligraphy
+    implementation externalUi.viewPump
+    implementation externalUi.imageCropper
+    implementation externalUi.roundedImageView
+
+    testImplementation androidTests.jUnit
+
+    androidTestImplementation(androidTests.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation "androidx.appcompat:appcompat:1.0.0"
-    implementation "com.google.android.material:material:1.0.0"
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
-
-    lifecycle()
-    retrofit()
-    room()
-    workManager()
-    okhttp()
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-
-    implementation "com.google.code.gson:gson:2.8.6"
-
-    implementation "io.reactivex.rxjava2:rxjava:2.2.9"
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
-    implementation 'com.jakewharton.rxbinding:rxbinding:1.0.1'
-
-    kapt "com.google.dagger:dagger-compiler:2.7"
-    implementation "com.google.dagger:dagger:2.7"
-    compileOnly "javax.annotation:jsr250-api:1.0"
-
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    implementation "com.squareup.picasso:picasso:2.71828"
-    implementation "de.hdodenhof:circleimageview:3.1.0"
-    implementation "com.github.orangegangsters:swipy:1.2.3@aar"
-    testImplementation "junit:junit:4.12"
-    implementation "com.github.QuadFlask:colorpicker:0.0.13"
-
-    implementation 'io.github.inflationx:calligraphy3:3.1.1'
-    implementation 'io.github.inflationx:viewpump:2.0.3'
-
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
-    implementation 'com.makeramen:roundedimageview:2.3.0'
-
-//    implementation 'com.google.android.gms:play-services-ads:19.5.0'
-}
-
-def lifecycle() {
-    dependencies {
-        def lifecycle_version = "2.2.0"
-
-        implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-        implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-        implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    }
-}
-
-def okhttp() {
-    dependencies {
-        def okhttp_version = "3.14.6"
-
-        implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-        implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
-    }
-}
-
-def retrofit() {
-    dependencies {
-        def retrofit_version = "2.5.0"
-
-        implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-        implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-        implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    }
-}
-
-def room() {
-    dependencies {
-        def room_version = "2.2.5"
-
-        implementation "androidx.room:room-runtime:$room_version"
-        kapt "androidx.room:room-compiler:$room_version"
-        implementation "androidx.room:room-rxjava2:$room_version"
-    }
-}
-
-def workManager() {
-    dependencies {
-        def work_version = "2.4.0"
-
-        implementation "androidx.work:work-runtime:$work_version"
-        implementation "androidx.work:work-runtime-ktx:$work_version"
-
-    }
 }
 
 kapt {
