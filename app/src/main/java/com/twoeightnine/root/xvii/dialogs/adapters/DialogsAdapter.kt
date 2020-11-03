@@ -11,6 +11,8 @@ import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.uikit.extensions.setVisible
+import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
 import kotlinx.android.synthetic.main.item_dialog.view.*
 
 class DialogsAdapter(

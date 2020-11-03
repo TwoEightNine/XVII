@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.search
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
@@ -10,9 +9,11 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.hideKeyboard
+import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.stylizeAll
+import com.twoeightnine.root.xvii.utils.subscribeSearch
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.view_search.*
 import javax.inject.Inject
@@ -25,10 +26,6 @@ class SearchFragment : BaseFragment() {
 
     private val adapter by lazy {
         SearchAdapter(requireContext(), ::onClick)
-    }
-
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
     }
 
     override fun getLayoutId() = R.layout.fragment_search
@@ -47,13 +44,6 @@ class SearchFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getResult().observe(viewLifecycleOwner, ::updateResults)
-        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
-            rlSearch.setTopPadding(top, context?.resources?.getDimensionPixelSize(R.dimen.toolbar_height) ?: 0)
-        }
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
-            val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
-            rvSearch.setBottomPadding(bottom + bottomNavHeight)
-        }
     }
 
     private fun updateResults(data: Wrapper<ArrayList<Dialog>>) {
@@ -76,12 +66,6 @@ class SearchFragment : BaseFragment() {
             false
         }
         adapter.emptyView = llEmptyView
-
-        ViewCompat.setOnApplyWindowInsetsListener(rvSearch) { view, insets ->
-            val bottomNavBarHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
-            view.setPadding(0, 0, 0, insets.systemWindowInsetBottom + bottomNavBarHeight)
-            insets
-        }
     }
 
     companion object {

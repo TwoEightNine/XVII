@@ -65,15 +65,16 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-//    implementation project(':core')
-//    implementation project(':data')
-//    implementation project(':uikit')
+    implementation project(':core')
+    implementation project(':data')
+    implementation project(':uikit')
 
     implementation kotlin.kotlin
 
     implementation androidUi.appCompat
     implementation androidUi.material
     implementation androidUi.recyclerView
+    implementation androidUi.coreKtx
 
     implementation lifecycle.extensions
     implementation lifecycle.viewModel
@@ -114,10 +115,7 @@ dependencies {
     implementation externalUi.roundedImageView
 
     testImplementation androidTests.jUnit
-
-    androidTestImplementation(androidTests.espresso, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation androidTests.espresso
 }
 
 kapt {

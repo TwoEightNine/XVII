@@ -12,8 +12,8 @@ import com.twoeightnine.root.xvii.model.attachments.PollAnswer
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.ColorManager
-import com.twoeightnine.root.xvii.utils.setVisibleWithInvis
-import com.twoeightnine.root.xvii.utils.show
+import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.item_poll_answer.view.*
 
 class PollAnswersAdapter(

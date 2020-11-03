@@ -16,8 +16,8 @@ import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.getBatteryLevel
 import com.twoeightnine.root.xvii.utils.getMinutes
-import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
-import com.twoeightnine.root.xvii.utils.setVisible
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_pin_settings.*
 
 class SecurityFragment : BaseFragment() {
@@ -39,7 +39,7 @@ class SecurityFragment : BaseFragment() {
 
         listOf(rbMinutesStart, rbMinutesEnd, rbBatteryStart, rbBatteryEnd, rbAlarms, rbDiagnostics)
                 .forEach { it.paint(Munch.color.color) }
-        svContent.setBottomInsetPadding()
+        svContent.applyBottomInsetPadding()
     }
 
     override fun onResume() {

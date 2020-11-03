@@ -16,10 +16,14 @@ import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
-import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
+import com.twoeightnine.root.xvii.utils.copyToClip
+import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.stylizeAll
+import com.twoeightnine.root.xvii.utils.stylizeColor
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.view_chat_multiselect.*
 
@@ -44,7 +48,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         xviiToolbar.title = getString(R.string.important)
-        rvChatList.setBottomInsetPadding()
+        rvChatList.applyBottomInsetPadding()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

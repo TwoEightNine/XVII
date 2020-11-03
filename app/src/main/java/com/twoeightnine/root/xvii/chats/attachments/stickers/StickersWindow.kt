@@ -9,8 +9,13 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickers.preview.StickerPreviewDialog
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
+import com.twoeightnine.root.xvii.utils.applySchedulers
+import com.twoeightnine.root.xvii.utils.applySingleSchedulers
+import com.twoeightnine.root.xvii.utils.showAlert
 import com.twoeightnine.root.xvii.views.KeyboardWindow
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable

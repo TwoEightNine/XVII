@@ -7,6 +7,8 @@ import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.RelativeLayout
 import android.widget.TextView
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 
 class BottomSheetHelper(private var bottomSheet: RelativeLayout,
                         thumb: RelativeLayout,

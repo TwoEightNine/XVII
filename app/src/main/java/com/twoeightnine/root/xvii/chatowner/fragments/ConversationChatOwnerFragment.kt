@@ -13,9 +13,9 @@ import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
-import com.twoeightnine.root.xvii.utils.setVisible
 import com.twoeightnine.root.xvii.utils.showWarnConfirm
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
 
 class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {

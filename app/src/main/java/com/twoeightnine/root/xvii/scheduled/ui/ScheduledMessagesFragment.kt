@@ -10,7 +10,11 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.AppBarLifter
+import com.twoeightnine.root.xvii.utils.EndListener
+import com.twoeightnine.root.xvii.utils.showConfirm
+import com.twoeightnine.root.xvii.utils.showToast
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_scheduled_messages.*
 
 class ScheduledMessagesFragment : BaseFragment() {
@@ -46,7 +50,7 @@ class ScheduledMessagesFragment : BaseFragment() {
         adapter.emptyView = rlHint
 
         ivSend.paint(Munch.color.color)
-        rvMessages.setBottomInsetPadding()
+        rvMessages.applyBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

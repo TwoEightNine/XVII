@@ -8,7 +8,12 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.model.attachments.Doc
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.ApiUtils
+import com.twoeightnine.root.xvii.utils.DownloadUtils
+import com.twoeightnine.root.xvii.utils.PermissionHelper
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.applyTopInsetPadding
+import global.msnthrp.xvii.uikit.extensions.toggle
 import kotlinx.android.synthetic.main.activity_gif_viewer.*
 import java.io.File
 import javax.inject.Inject
@@ -60,8 +65,8 @@ class GifViewerFragment : BaseFragment() {
                 .into(ivGif)
 
         setStatusBarLight(isLight = false)
-        rlTop.setTopInsetPadding(resources.getDimensionPixelSize(R.dimen.toolbar_height))
-        rlBottom.setBottomInsetPadding()
+        rlTop.applyTopInsetPadding()
+        rlBottom.applyBottomInsetPadding()
     }
 
     companion object {

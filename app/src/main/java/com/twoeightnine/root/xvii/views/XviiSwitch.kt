@@ -9,7 +9,7 @@ import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
-import com.twoeightnine.root.xvii.utils.hide
+import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.view_switch.view.*
 
 

@@ -25,7 +25,13 @@ import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.pin.fake.alarm.AlarmActivity
 import com.twoeightnine.root.xvii.pin.fake.diagnostics.DiagnosticsActivity
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.isOnline
+import com.twoeightnine.root.xvii.utils.showAlert
+import com.twoeightnine.root.xvii.utils.startNotificationService
+import com.twoeightnine.root.xvii.utils.startPrimeGenerator
+import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -66,7 +72,7 @@ class LoginActivity : BaseActivity() {
             checkTokenAndStart()
         }
 
-        webView.setTopInsetMargin()
+        webView.applyTopInsetMargin()
     }
 
     override fun getStatusBarColor() = if (isWebViewShown) {

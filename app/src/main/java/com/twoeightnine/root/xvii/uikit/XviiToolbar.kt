@@ -10,8 +10,8 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
-import com.twoeightnine.root.xvii.utils.setTopInsetPadding
-import com.twoeightnine.root.xvii.utils.setVisible
+import global.msnthrp.xvii.uikit.extensions.applyTopInsetPadding
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.toolbar2.view.*
 import kotlinx.android.synthetic.main.view_tabs.view.*
 
@@ -56,7 +56,7 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
         }
         rlChat.setVisible(forChat)
 
-        setTopInsetPadding(/*context.resources.getDimensionPixelSize(R.dimen.toolbar_height)*/)
+        applyTopInsetPadding()
     }
 
     private fun initAttributes(attributeSet: AttributeSet) {

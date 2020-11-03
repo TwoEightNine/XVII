@@ -21,7 +21,6 @@ import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
 import com.twoeightnine.root.xvii.features.general.GeneralFragment
 import com.twoeightnine.root.xvii.features.notifications.NotificationsFragment
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.SecurityFragment
@@ -31,6 +30,7 @@ import com.twoeightnine.root.xvii.uikit.UiKitFragment
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.web.WebFragment
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_features.*
 import java.util.*
 import javax.inject.Inject
@@ -40,10 +40,6 @@ class FeaturesFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: FeaturesViewModel.Factory
     private lateinit var viewModel: FeaturesViewModel
-
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
-    }
 
     override fun getLayoutId() = R.layout.fragment_features
 
@@ -87,6 +83,7 @@ class FeaturesFragment : BaseFragment() {
         xlAbout.setOnLongClickListener { startFragment<UiKitFragment>(); true }
 
 //        rlRoot.stylizeAll()
+        svContent.applyBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -96,13 +93,6 @@ class FeaturesFragment : BaseFragment() {
             tvLastSeen.text = getLastSeenText(resources, isOnline, timeStamp, 0)
         }
         viewModel.loadAccount()
-//        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
-//            rlAccounts.setTopMargin(top)
-//        }
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
-            val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
-            svContent.setBottomPadding(bottom + bottomNavHeight)
-        }
     }
 
     override fun onResume() {

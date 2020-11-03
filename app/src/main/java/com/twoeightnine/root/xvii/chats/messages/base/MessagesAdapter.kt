@@ -24,6 +24,10 @@ import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.setVisible
+import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.container_wall.view.*
 import kotlinx.android.synthetic.main.item_message_in_chat.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.*

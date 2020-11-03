@@ -10,7 +10,7 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
 import com.twoeightnine.root.xvii.utils.getTime
 import com.twoeightnine.root.xvii.utils.lower
-import com.twoeightnine.root.xvii.utils.setVisible
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_scheduled_message.view.*
 
 class ScheduledMessagesAdapter(

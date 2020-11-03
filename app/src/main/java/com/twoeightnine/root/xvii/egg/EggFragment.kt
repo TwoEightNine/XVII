@@ -7,7 +7,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.screenWidth
-import com.twoeightnine.root.xvii.utils.show
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_egg.*
 
 /**

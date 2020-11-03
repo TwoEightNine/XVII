@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.main.MainActivity
-import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.activity_diagnostics.*
 
 class DiagnosticsActivity : BaseActivity() {
@@ -55,7 +55,7 @@ class DiagnosticsActivity : BaseActivity() {
             tvStability.text = viewModel.getStability().toString()
         }, 2000L)
 
-        svContent.setBottomInsetPadding()
+        svContent.applyBottomInsetPadding()
     }
 
     private fun LiveData<String>.observeInto(textView: TextView) {

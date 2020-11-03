@@ -6,7 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.twoeightnine.root.xvii.utils.setVisible
+import global.msnthrp.xvii.uikit.extensions.setVisible
 
 /**
  * Created by root on 8/30/16.

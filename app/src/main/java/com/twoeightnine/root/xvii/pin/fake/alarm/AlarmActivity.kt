@@ -12,8 +12,8 @@ import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.utils.AppBarLifter
 import com.twoeightnine.root.xvii.utils.goHome
-import com.twoeightnine.root.xvii.utils.setBottomInsetMargin
-import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetMargin
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.activity_alarms.*
 
 class AlarmActivity : BaseActivity() {
@@ -44,8 +44,8 @@ class AlarmActivity : BaseActivity() {
             }, 9, 17, true).show()
         }
 
-        rvAlarms.setBottomInsetPadding()
-        fabAdd.setBottomInsetMargin(resources.getDimensionPixelSize(R.dimen.accounts_fab_add_margin))
+        rvAlarms.applyBottomInsetPadding()
+        fabAdd.applyBottomInsetMargin()
     }
 
     override fun onBackPressed() {

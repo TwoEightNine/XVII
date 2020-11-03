@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.view.View
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.utils.hide
+import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.dialog_loading.view.*
 
 class LoadingDialog(context: Context,

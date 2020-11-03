@@ -17,6 +17,9 @@ import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoadingDialog
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_appearance.*
 import kotlinx.android.synthetic.main.view_appearance_sample.*
@@ -32,6 +35,8 @@ class AppearanceFragment : BaseFragment() {
     private var currentColor = 0
 
     var dialog: LoadingDialog? = null
+
+    override fun getLayoutId() = R.layout.fragment_appearance
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,11 +62,9 @@ class AppearanceFragment : BaseFragment() {
         )
         permissionHelper = PermissionHelper(this)
 
-        svContent.setBottomInsetPadding()
-        rlBottom.setBottomInsetPadding(resources.getDimensionPixelSize(R.dimen.bottomsheet_height))
+        svContent.applyBottomInsetPadding()
+        rlBottom.applyBottomInsetPadding()
     }
-
-    override fun getLayoutId() = R.layout.fragment_appearance
 
     private fun invalidateSample() {
         applyColors()

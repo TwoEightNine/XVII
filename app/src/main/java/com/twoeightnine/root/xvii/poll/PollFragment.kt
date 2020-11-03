@@ -10,7 +10,9 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Poll
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.getTime
+import com.twoeightnine.root.xvii.utils.showAlert
+import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.fragment_poll.*
 import javax.inject.Inject
 
@@ -39,12 +41,8 @@ class PollFragment : BaseFragment() {
         viewModel.poll.observe(viewLifecycleOwner, Observer(::onPollLoaded))
         viewModel.loadPoll(pollId, ownerId)
 
-        rvVotes.consumeInsets { _, bottom ->
-            val extraPadding = context?.resources?.getDimensionPixelSize(R.dimen.toolbar_height)
-                    ?: 0
-            rvVotes.setBottomPadding(bottom + extraPadding)
-            btnVote.setBottomMargin(bottom + BUTTON_MARGIN)
-        }
+        btnVote.applyBottomInsetMargin()
+        rvVotes.applyBottomInsetPadding()
     }
 
     private fun onPollLoaded(data: Wrapper<Poll>) {

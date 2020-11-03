@@ -8,9 +8,9 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.getSize
-import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
-import com.twoeightnine.root.xvii.utils.setVisible
 import com.twoeightnine.root.xvii.utils.showToast
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_general.*
 
 /**
@@ -30,7 +30,7 @@ class GeneralFragment : BaseFragment() {
         btnRefreshStickers.setOnClickListener {
             viewModel.refreshStickers()
         }
-        svContent.setBottomInsetPadding()
+        svContent.applyBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

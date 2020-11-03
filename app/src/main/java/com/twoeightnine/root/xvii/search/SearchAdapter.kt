@@ -8,9 +8,9 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.lower
+import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.item_dialog_search.view.*
 
 class SearchAdapter(

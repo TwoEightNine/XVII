@@ -12,11 +12,14 @@ import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.start
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.friends.adapters.FriendsAdapter
 import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.search.SearchFragment
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.AppBarLifter
+import com.twoeightnine.root.xvii.utils.showError
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_friends.*
 import javax.inject.Inject
 
@@ -28,10 +31,6 @@ class FriendsFragment : BaseFragment() {
 
     private val adapter by lazy {
         FriendsAdapter(requireContext(), ::onClick, ::loadMore)
-    }
-
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
     }
 
     override fun getLayoutId() = R.layout.fragment_friends
@@ -53,19 +52,13 @@ class FriendsFragment : BaseFragment() {
             adapter.reset()
             adapter.startLoading()
         }
+        rvFriends.applyBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getFriends().observe(viewLifecycleOwner, ::updateFriends)
         viewModel.loadFriends()
-//        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
-//            adapter.firstItemPadding = top
-//        }
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
-            val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
-            rvFriends.setBottomPadding(bottom + bottomNavHeight)
-        }
     }
 
     override fun getMenu(): Int = R.menu.search
@@ -82,7 +75,11 @@ class FriendsFragment : BaseFragment() {
         swipeRefresh.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
-            adapter.update(data.data)
+            val d = arrayListOf<User>()
+            for (i in 1..10) {
+                d.addAll(data.data)
+            }
+            adapter.update(d)
         } else {
             showError(context, data.error ?: getString(R.string.error))
         }

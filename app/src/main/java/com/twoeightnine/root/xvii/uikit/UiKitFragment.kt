@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
-import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_ui_kit.*
 
 class UiKitFragment : Fragment() {
@@ -48,7 +48,7 @@ class UiKitFragment : Fragment() {
         addColor(Munch.extraColor)
 
         (activity as? BaseActivity)?.also(xviiToolbar::setupWith)
-        svContent.setBottomInsetPadding()
+        svContent.applyBottomInsetPadding()
     }
 
     private fun addColor(colorScope: Munch.ColorScope) {

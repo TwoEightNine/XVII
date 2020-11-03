@@ -18,6 +18,7 @@ import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
+import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.activity_pin.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -62,11 +63,11 @@ class PinActivity : BaseActivity() {
         action ?: finish()
         init()
         rlContainer.stylizeAll()
-        rlPinControls.setBottomInsetPadding()
+        rlPinControls.applyBottomInsetPadding()
 
         ivBack.setVisible(action != Action.ENTER)
         ivBack.setOnClickListener { onBackPressed() }
-        ivBack.setTopInsetMargin()
+        ivBack.applyTopInsetMargin()
 
         if (Session.needToWaitAfterFailedPin()) {
             showBruteForced(justNow = false)

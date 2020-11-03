@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.uikit.extensions.*
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.activity_image_viewer.*
 import java.io.File
@@ -64,8 +65,8 @@ class ImageViewerActivity : AppCompatActivity() {
         }
 
         ivBack.setOnClickListener { onBackPressed() }
-        rlTop.setTopInsetPadding(resources.getDimensionPixelSize(R.dimen.toolbar_height))
-        rlBottom.setBottomInsetPadding()
+        rlTop.applyTopInsetPadding()
+        rlBottom.applyBottomInsetPadding()
     }
 
     override fun attachBaseContext(newBase: Context) {

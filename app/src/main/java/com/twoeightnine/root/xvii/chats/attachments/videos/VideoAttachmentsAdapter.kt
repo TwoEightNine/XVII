@@ -7,7 +7,7 @@ import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.utils.loadRounded
 import com.twoeightnine.root.xvii.utils.secToTime
-import com.twoeightnine.root.xvii.utils.setVisible
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_attachments_video.view.*
 
 class VideoAttachmentsAdapter(

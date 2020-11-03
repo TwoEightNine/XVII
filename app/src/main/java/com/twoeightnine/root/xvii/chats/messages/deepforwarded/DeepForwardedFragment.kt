@@ -18,9 +18,9 @@ import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.utils.AppBarLifter
-import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
+import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.fragment_deep_forwarded.*
 import javax.inject.Inject
 

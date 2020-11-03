@@ -78,30 +78,6 @@ fun <T> Flowable<BaseResponse<T>>.subscribeSmart(response: (T) -> Unit,
             })
 }
 
-fun View.setVisible(visible: Boolean) {
-    visibility = when {
-        visible -> View.VISIBLE
-        else -> View.GONE
-    }
-}
-
-fun View.setVisibleWithInvis(visible: Boolean) {
-    visibility = when {
-        visible -> View.VISIBLE
-        else -> View.INVISIBLE
-    }
-}
-
-fun View.getVisible() = visibility == View.VISIBLE
-
-fun View.toggle() {
-    setVisible(!getVisible())
-}
-
-fun View.show() = setVisible(true)
-
-fun View.hide() = setVisible(false)
-
 fun ImageView.load(url: String?, placeholder: Boolean = true,
                    block: RequestCreator.() -> RequestCreator = { this }) {
     val rc = Picasso.get().load(if (url.isNullOrEmpty()) {

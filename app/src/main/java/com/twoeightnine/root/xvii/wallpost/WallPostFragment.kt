@@ -19,6 +19,8 @@ import com.twoeightnine.root.xvii.network.response.WallPostResponse
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.utils.*
 import de.hdodenhof.circleimageview.CircleImageView
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.content_wall_post.view.*
 import kotlinx.android.synthetic.main.fragment_wall_post.*
 import javax.inject.Inject
@@ -44,7 +46,7 @@ class WallPostFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        svContent.setBottomInsetPadding()
+        svContent.applyBottomInsetPadding()
     }
 
     override fun getMenu(): Int = R.menu.menu_wall_post

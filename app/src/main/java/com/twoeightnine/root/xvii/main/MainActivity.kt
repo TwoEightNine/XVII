@@ -5,7 +5,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProviders
+import androidx.core.view.ViewCompat
+import androidx.core.view.updatePadding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
@@ -21,8 +22,8 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var apiUtils: ApiUtils
 
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(this)[InsetViewModel::class.java]
+    private val bottomNavViewHeight by lazy {
+        resources.getDimensionPixelSize(R.dimen.bottom_navigation_height)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,11 +33,6 @@ class MainActivity : BaseActivity() {
         bottomNavView.setOnNavigationItemSelectedListener(BottomViewListener())
         initViewPager()
         bottomNavView.selectedItemId = R.id.menu_dialogs
-        bottomNavView.setBottomInsetPadding(resources.getDimensionPixelSize(R.dimen.bottom_navigation_height))
-        vStubConsumer.consumeInsets { top, bottom ->
-            insetViewModel.updateTopInset(top)
-            insetViewModel.updateBottomInset(bottom)
-        }
 
         intent?.extras?.apply {
             val userId = getInt(USER_ID)
@@ -51,6 +47,15 @@ class MainActivity : BaseActivity() {
         apiUtils.trackVisitor()
         bottomNavView.stylize()
         StatTool.get()?.incLaunch()
+
+        ViewCompat.setOnApplyWindowInsetsListener(bottomNavView) { view, insets ->
+            view.updatePadding(bottom = insets.systemWindowInsetBottom)
+            view.layoutParams.apply {
+                height = bottomNavViewHeight + insets.systemWindowInsetBottom
+                view.layoutParams = this
+            }
+            insets
+        }
     }
 
     private fun initViewPager() {

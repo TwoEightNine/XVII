@@ -5,8 +5,8 @@ import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
 import com.twoeightnine.root.xvii.model.attachments.Sticker
-import com.twoeightnine.root.xvii.utils.hide
 import com.twoeightnine.root.xvii.views.KeyboardWindow
+import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.window_stickers.view.*
 
 

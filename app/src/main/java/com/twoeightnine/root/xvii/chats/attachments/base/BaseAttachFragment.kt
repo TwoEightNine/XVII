@@ -6,9 +6,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.showError
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetMargin
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_attachments.*
 import javax.inject.Inject
 
@@ -17,10 +20,6 @@ abstract class BaseAttachFragment<T : Any> : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: BaseAttachViewModel.Factory
     protected lateinit var viewModel: BaseAttachViewModel<T>
-
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
-    }
 
     abstract val adapter: BaseAttachmentsAdapter<T, out BaseAttachmentsAdapter.BaseAttachmentViewHolder<T>>
 
@@ -45,15 +44,13 @@ abstract class BaseAttachFragment<T : Any> : BaseFragment() {
             adapter.reset()
             adapter.startLoading()
         }
+
+        rvAttachments.applyBottomInsetPadding()
+        fabDone.applyBottomInsetMargin()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
-            rvAttachments.setBottomPadding(bottom)
-            val fabMargin = context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin) ?: 0
-            fabDone.setBottomMargin(bottom + fabMargin)
-        }
 
         viewModel.getAttach().observe(viewLifecycleOwner, ::updateList)
         viewModel.loadAttach()

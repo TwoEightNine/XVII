@@ -22,6 +22,8 @@ import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.poll.PollFragment
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.container_audio.view.*
 import kotlinx.android.synthetic.main.container_video.view.*
 

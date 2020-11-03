@@ -2,7 +2,12 @@ package com.twoeightnine.root.xvii.chats.tools
 
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.uikit.XviiToolbar
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.utils.lower
+import com.twoeightnine.root.xvii.utils.time
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.toolbar2.view.*
 import rx.Completable
 import rx.Subscription

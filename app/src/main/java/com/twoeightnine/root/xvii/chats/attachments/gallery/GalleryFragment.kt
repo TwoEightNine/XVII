@@ -16,9 +16,12 @@ import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.cropper.ImageCropperFragment
 import com.twoeightnine.root.xvii.lg.L
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.ImageUtils
+import com.twoeightnine.root.xvii.utils.PermissionHelper
+import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.time
+import global.msnthrp.xvii.uikit.extensions.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_gallery_new.*
@@ -31,9 +34,6 @@ class GalleryFragment : BaseFragment() {
     lateinit var viewModelFactory: BaseAttachViewModel.Factory
     private lateinit var viewModel: GalleryViewModel
 
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
-    }
     private val onlyPhotos by lazy {
         arguments?.getBoolean(ARG_ONLY_PHOTOS) == true
     }
@@ -87,17 +87,14 @@ class GalleryFragment : BaseFragment() {
             }
             rvAttachments.setPadding(0, resources.getDimensionPixelOffset(R.dimen.toolbar_height), 0, 0)
         }
+
+        rvAttachments.applyBottomInsetPadding()
+        fabDone.applyBottomInsetMargin()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getAttach().observe(viewLifecycleOwner, ::updateList)
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
-            rvAttachments.setPadding(0, rvAttachments.paddingTop, 0, bottom)
-            val fabMargin = context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin)
-                    ?: 0
-            fabDone.setBottomMargin(bottom + fabMargin)
-        }
     }
 
     private fun onDoneClicked() {

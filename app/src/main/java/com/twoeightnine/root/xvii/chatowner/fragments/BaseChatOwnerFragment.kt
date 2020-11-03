@@ -26,6 +26,9 @@ import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.RateAlertDialog
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetMargin
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_chat_owner.ivAvatar
 import kotlinx.android.synthetic.main.fragment_chat_owner.nsvContent
 import kotlinx.android.synthetic.main.fragment_chat_owner.tvInfo
@@ -73,7 +76,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         setStatusBarLight(isLight = false)
         swNotifications.stylize()
 
-        getBottomPaddableView().setBottomInsetMargin()
+        getBottomPaddableView().applyBottomInsetMargin()
     }
 
     @Suppress("UNCHECKED_CAST")

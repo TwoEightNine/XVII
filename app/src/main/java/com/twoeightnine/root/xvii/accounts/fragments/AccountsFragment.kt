@@ -13,7 +13,11 @@ import com.twoeightnine.root.xvii.accounts.viewmodel.AccountsViewModel
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.login.LoginActivity
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.restartApp
+import com.twoeightnine.root.xvii.utils.showDeleteDialog
+import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.showWarnConfirm
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetMargin
 import kotlinx.android.synthetic.main.fragment_accounts.*
 import javax.inject.Inject
 
@@ -41,7 +45,7 @@ class AccountsFragment : BaseFragment() {
         fabAdd.setOnClickListener {
             LoginActivity.launchForNewAccount(context)
         }
-        fabAdd.setBottomInsetMargin(context?.resources?.getDimensionPixelSize(R.dimen.accounts_fab_add_margin) ?: 0)
+        fabAdd.applyBottomInsetMargin()
     }
 
     private fun updateAccounts(accounts: ArrayList<Account>) {

@@ -15,13 +15,15 @@ import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_dialogs.*
 import javax.inject.Inject
 
@@ -36,10 +38,6 @@ open class DialogsFragment : BaseFragment() {
         DialogsAdapter(requireContext(), ::loadMore, ::onClick, ::onLongClick)
     }
 
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
-    }
-
     override fun getLayoutId() = R.layout.fragment_dialogs
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,6 +50,7 @@ open class DialogsFragment : BaseFragment() {
             adapter.reset()
             adapter.startLoading()
         }
+        rvDialogs.applyBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -62,14 +61,6 @@ open class DialogsFragment : BaseFragment() {
         viewModel.getTypingPeerIds().observe(viewLifecycleOwner) { adapter.typingPeerIds = it }
         viewModel.loadDialogs()
         adapter.startLoading()
-
-//        insetViewModel?.topInset?.observe(viewLifecycleOwner) { top ->
-//            adapter.firstItemPadding = top
-//        }
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner) { bottom ->
-            val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
-            rvDialogs.setBottomPadding(bottom + bottomNavHeight)
-        }
     }
 
     private fun initRecycler() {
@@ -82,7 +73,11 @@ open class DialogsFragment : BaseFragment() {
         swipeRefresh.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
-            adapter.update(data.data)
+            val d = arrayListOf<Dialog>()
+            for (i in 1..2) {
+                d.addAll(data.data)
+            }
+            adapter.update(d)
 //            adapter.update(FakeData.dialogs)
         } else {
             showError(context, data.error ?: getString(R.string.error))
