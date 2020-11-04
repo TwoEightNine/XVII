@@ -24,7 +24,6 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
-        manifestPlaceholders = [adAppId:getLocalProperty("advertising.appId")]
         resConfigs "en", "fr", "ru"
     }
     testOptions {
@@ -36,14 +35,12 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BUILD_TIME", "\"${getDate()}\"")
-            buildConfigField("String", "AD_ID", "\"${getLocalProperty('advertising.id')}\"")
         }
         debug {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BUILD_TIME", "\"${getDate()}\"")
-            buildConfigField("String", "AD_ID", "\"${getLocalProperty('advertising.id')}\"")
         }
     }
     lintOptions {
