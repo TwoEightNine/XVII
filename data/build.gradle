@@ -34,12 +34,21 @@ android {
 }
 
 dependencies {
+    implementation project(':core')
 
     implementation kotlin.kotlin
 
     implementation androidUi.appCompat
     implementation androidUi.material
     implementation androidUi.coreKtx
+
+    implementation retrofit.retrofit
+    implementation retrofit.gsonConverter
+
+    implementation okHttp.okHttp
+    implementation okHttp.logging
+
+    implementation utils.gson
 
     testImplementation androidTests.jUnit
     androidTestImplementation androidTests.espresso
