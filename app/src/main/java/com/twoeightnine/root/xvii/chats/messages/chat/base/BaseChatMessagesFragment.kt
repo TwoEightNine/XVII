@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragmentForResult
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
-import com.twoeightnine.root.xvii.chats.attachments.attach.AttachActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
@@ -579,7 +579,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onAttachClick() {
-            AttachActivity.launch(this@BaseChatMessagesFragment, REQUEST_ATTACH)
+            startFragmentForResult<AttachFragment>(REQUEST_ATTACH)
         }
 
         override fun onVoiceRecordingInvoke() {

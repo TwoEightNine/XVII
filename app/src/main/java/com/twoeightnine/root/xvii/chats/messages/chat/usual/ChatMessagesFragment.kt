@@ -8,7 +8,8 @@ import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActivity
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
+import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
@@ -53,7 +54,7 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_attachments -> {
-                AttachmentsActivity.launch(context, peerId)
+                startFragment<AttachmentsFragment>(AttachmentsFragment.createArgs(peerId))
                 true
             }
             R.id.menu_secret_chat -> {

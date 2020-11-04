@@ -47,14 +47,10 @@ class AttachmentsFragment : BaseFragment() {
     }
 
     companion object {
-        const val ARG_PEER_ID = "peerId"
+        private const val ARG_PEER_ID = "peerId"
 
-        fun newInstance(peerId: Int): AttachmentsFragment {
-            val frag = AttachmentsFragment()
-            frag.arguments = Bundle().apply {
-                putInt(ARG_PEER_ID, peerId)
-            }
-            return frag
+        fun createArgs(peerId: Int) = Bundle().apply {
+            putInt(ARG_PEER_ID, peerId)
         }
     }
 

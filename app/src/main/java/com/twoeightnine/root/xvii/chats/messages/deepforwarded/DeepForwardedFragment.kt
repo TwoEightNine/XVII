@@ -75,12 +75,16 @@ class DeepForwardedFragment : BaseFragment() {
 
     companion object {
 
-        const val ARG_MESSAGE_ID = "messageId"
+        private const val ARG_MESSAGE_ID = "messageId"
 
         fun newInstance(arguments: Bundle?): DeepForwardedFragment {
             val fragment = DeepForwardedFragment()
             fragment.arguments = arguments
             return fragment
+        }
+
+        fun createArgs(messageId: Int) = Bundle().apply {
+            putInt(ARG_MESSAGE_ID, messageId)
         }
     }
 

@@ -5,9 +5,10 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chatowner.MembersAdapter
-import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActivity
+import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Conversation
 import com.twoeightnine.root.xvii.model.User
@@ -34,7 +35,7 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
         fabOpenChat.setVisible(conversation.canWrite?.allowed != false)
         addValue(R.drawable.ic_pinned, conversation.chatSettings?.pinnedMessage?.text, {
             conversation.chatSettings?.pinnedMessage?.id?.also { id ->
-                DeepForwardedActivity.launch(context, id)
+                startFragment<DeepForwardedFragment>(DeepForwardedFragment.createArgs(id))
             }
         })
         viewModel.loadChatMembers(conversation.getPeerId())

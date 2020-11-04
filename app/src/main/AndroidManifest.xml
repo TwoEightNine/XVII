@@ -115,21 +115,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".chats.attachments.attachments.AttachmentsActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".chats.attachments.attach.AttachActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".chats.attachments.audios.AudiosActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".egg.EggActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".chats.messages.starred.StarredMessagesActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
             android:name=".features.appearance.AppearanceActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
@@ -156,12 +141,6 @@
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".background.longpoll.LongPollExplanationActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".features.datausage.DataUsageActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".chats.messages.deepforwarded.DeepForwardedActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".chatowner.ChatOwnerActivity"

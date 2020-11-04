@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
-import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedActivity
+import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.WallPost
@@ -353,7 +353,9 @@ class MessagesAdapter(context: Context,
                                     val messageId = items
                                             .getOrNull(adapterPosition)
                                             ?.id ?: return@setOnClickListener
-                                    DeepForwardedActivity.launch(context, messageId)
+                                    context.startFragment<DeepForwardedFragment>(
+                                            DeepForwardedFragment.createArgs(messageId)
+                                    )
                                 }
                             }
                         }
