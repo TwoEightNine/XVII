@@ -104,7 +104,6 @@ dependencies {
 
     implementation utils.gson
     implementation utils.glide
-    implementation utils.picasso
 
     implementation externalUi.circleImageView
     implementation externalUi.swipy
