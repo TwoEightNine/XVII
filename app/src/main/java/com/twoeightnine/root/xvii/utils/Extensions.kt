@@ -20,6 +20,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.Error
 import io.reactivex.Flowable
@@ -105,20 +106,30 @@ fun ImageView.load(url: String?, placeholder: Boolean = true,
             .into(this)
 }
 
-fun SimpleBitmapTarget.load(context: Context, url: String) {
+fun SimpleBitmapTarget.load(
+        context: Context,
+        url: String,
+        block: RequestBuilder<Bitmap>.() -> RequestBuilder<Bitmap> = { this }
+) {
     Glide.with(context)
             .asBitmap()
             .load(url)
+            .block()
             .into(this)
 }
 
-class SimpleBitmapTarget(private val result: (Bitmap?, Exception?) -> Unit) : CustomTarget<Bitmap>() {
+class SimpleBitmapTarget(
+        val tag: String = "bitmap target",
+        private val result: (Bitmap?, Exception?) -> Unit
+) : CustomTarget<Bitmap>() {
     override fun onLoadFailed(errorDrawable: Drawable?) {
         super.onLoadFailed(errorDrawable)
+        L.tag(tag).warn().log("loading failed")
         result(null, Exception())
     }
 
     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+        L.tag(tag).log("loaded")
         result(resource, null)
     }
 

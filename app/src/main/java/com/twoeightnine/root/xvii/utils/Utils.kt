@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.animation.Animator
-import android.annotation.TargetApi
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
@@ -10,14 +9,10 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.*
 import android.content.pm.PackageManager
-import android.content.pm.ShortcutInfo
-import android.content.pm.ShortcutManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.Icon
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.*
@@ -37,19 +32,15 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
-import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import io.reactivex.Completable
@@ -492,44 +483,35 @@ fun String.getUriName(): String =
             .dropLastWhile { it.isEmpty() }
             .last()
 
-fun loadBitmapIcon(url: String?, useSquare: Boolean = false, callback: (Bitmap) -> Unit) {
+fun loadBitmapIcon(context: Context, url: String?, useSquare: Boolean = false, callback: (Bitmap) -> Unit) {
+    val urlOrStub = when {
+        url.isNullOrEmpty() -> ColorManager.getPhotoStub()
+        else -> url
+    }
+    val drawableRes = if (useSquare) {
+        R.drawable.xvii_dark_logo_128_square
+    } else {
+        R.drawable.xvii_dark_logo_128
+    }
     val uiHandler = Handler(Looper.getMainLooper())
     uiHandler.post {
-        val rc = Picasso.get()
-                .load(if (url.isNullOrEmpty()) {
-                    ColorManager.getPhotoStub()
-                } else {
-                    url
-                })
-        if (!useSquare) {
-            rc.transform(CircleTransform())
+        SimpleBitmapTarget { bitmap, exception ->
+            when {
+                exception != null ->
+                    callback.invoke(BitmapFactory.decodeResource(App.context.resources, drawableRes))
+
+                bitmap != null ->
+                    callback.invoke(bitmap)
+
+                else -> loadBitmapIcon(context, url, useSquare, callback)
+            }
+        }.load(context, urlOrStub) {
+            if (!useSquare) {
+                circleCrop()
+            }
+            override(200, 200)
         }
-        rc.resize(200, 200)
-                .centerCrop()
-                .into(object : Target {
-
-                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
-                        val drawableRes = if (useSquare) {
-                            R.drawable.xvii_dark_logo_128_square
-                        } else {
-                            R.drawable.xvii_dark_logo_128
-                        }
-                        callback.invoke(BitmapFactory.decodeResource(App.context.resources, drawableRes))
-                    }
-
-                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                    }
-
-                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                        if (bitmap != null) {
-                            callback.invoke(bitmap)
-                        } else {
-                            loadBitmapIcon(url, useSquare, callback)
-                        }
-                    }
-                })
     }
-
 }
 
 fun screenWidth(activity: Activity): Int {
@@ -762,70 +744,6 @@ fun isInForeground(): Boolean {
     val appProcessInfo = ActivityManager.RunningAppProcessInfo()
     ActivityManager.getMyMemoryState(appProcessInfo)
     return appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE
-}
-
-fun createShortcut(context: Context?, dialog: Dialog) {
-    val intent = Intent(context, ChatActivity::class.java).apply {
-        putExtra(ChatActivity.PEER_ID, dialog.peerId)
-        putExtra(ChatActivity.TITLE, dialog.alias ?: dialog.title)
-        putExtra(ChatActivity.AVATAR, dialog.photo)
-        flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TOP
-    }
-    val name = dialog.alias ?: dialog.title
-    Picasso.get()
-            .load(dialog.photo)
-            .transform(CircleTransform())
-            .into(object : Target {
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                }
-
-                override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
-                    go(null)
-                }
-
-                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                    go(bitmap)
-                }
-
-                private fun go(bitmap: Bitmap?) {
-                    if (Build.VERSION.SDK_INT >= 25) {
-                        createShortcutNew(bitmap)
-                    } else {
-                        createShortcut(bitmap)
-                    }
-                }
-
-                private fun createShortcut(bitmap: Bitmap?) {
-                    context?.sendBroadcast(Intent().apply {
-                        putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent)
-                        putExtra(Intent.EXTRA_SHORTCUT_NAME, dialog)
-                        if (bitmap != null) {
-                            putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap)
-                        } else {
-                            putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                    Intent.ShortcutIconResource.fromContext(context, R.drawable.xvii_dark_logo_128))
-                        }
-                        putExtra("duplicate", false)
-                        action = "com.android.launcher.action.INSTALL_SHORTCUT"
-                    })
-                }
-
-                @TargetApi(25)
-                private fun createShortcutNew(bitmap: Bitmap?) {
-                    val shortcutManager = context?.getSystemService(ShortcutManager::class.java)
-                    intent.action = Intent.ACTION_VIEW
-
-                    val shortcutInfo = ShortcutInfo.Builder(context, dialog.peerId.toString())
-                            .setShortLabel(name)
-                            .setIcon(Icon.createWithBitmap(bitmap))
-                            .setIntent(intent)
-                            .build()
-                    shortcutManager?.addDynamicShortcuts(arrayListOf(shortcutInfo))
-                    if (Build.VERSION.SDK_INT >= 26) {
-                        shortcutManager?.requestPinShortcut(shortcutInfo, null)
-                    }
-                }
-            })
 }
 
 fun getUriForFile(context: Context?, file: File): Uri? {

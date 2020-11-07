@@ -126,7 +126,11 @@ open class DialogsFragment : BaseFragment() {
                     }.show()
                 },
                 ContextPopupItem(R.drawable.ic_link, R.string.add_shortcut) {
-                    createShortcut(context, dialog)
+                    context?.also { context ->
+                        ShortcutUtils.createShortcut(context, dialog) {
+                            showToast(context, "shortcut added")
+                        }
+                    }
                 }
         )
 
