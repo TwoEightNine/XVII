@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.chats.messages.base
+package com.twoeightnine.root.xvii.chats.attachments
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,20 +11,25 @@ import com.makeramen.roundedimageview.RoundedImageView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.databinding.*
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
+import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.poll.PollFragment
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.show
+import global.msnthrp.xvii.uikit.utils.DisplayUtils
 
-class MessageInflater(
+class AttachmentsInflater(
         private val context: Context,
-        private val callback: MessagesAdapter.Callback
+        private val callback: Callback
 ) {
 
     private val resources = context.resources
@@ -46,26 +51,46 @@ class MessageInflater(
         else -> contentWidth
     } - levelPadding * level * 2
 
-    fun createViewsFor(message: Message, level: Int = 0): List<View> {
-        val attachments = message.attachments ?: return emptyList()
-        return attachments.mapNotNull { createViewFor(it, message, level) }
+    fun createViewsFor(wallPost: WallPost): List<View> {
+        val attachments = wallPost.attachments ?: return emptyList()
+        return attachments.mapNotNull { createViewForWallPost(it, wallPost) }
     }
 
-    private fun createViewFor(attachment: Attachment, message: Message, level: Int = 0): View? {
+    fun createViewsFor(message: Message, level: Int = 0): List<View> {
+        val attachments = message.attachments ?: return emptyList()
+        return attachments.mapNotNull { createViewForMessage(it, message, level) }
+    }
+
+    private fun createViewForMessage(attachment: Attachment, message: Message, level: Int = 0): View? {
         val attachments = message.attachments ?: return null
         return when (attachment.type) {
             Attachment.TYPE_PHOTO -> attachment.photo
-                    ?.let { photo -> createPhoto(photo, attachments.getPhotos(), level) }
+                    ?.let { photo -> createPhotoForMessage(photo, attachments.getPhotos(), level) }
             Attachment.TYPE_STICKER -> attachment.sticker?.let(::createSticker)
             Attachment.TYPE_GIFT -> attachment.gift?.let { createGift(it, message.text) }
+            Attachment.TYPE_WALL -> attachment.wall?.let(::createWallPost)
+            Attachment.TYPE_GRAFFITI -> attachment.graffiti?.let(::createGraffiti)
+            Attachment.TYPE_AUDIO_MESSAGE -> attachment.audioMessage?.let(::createAudioMessage)
+            else -> createViewFor(attachment, attachments)
+        }
+    }
+
+    private fun createViewForWallPost(attachment: Attachment, wallPost: WallPost): View? {
+        val attachments = wallPost.attachments ?: return null
+        return when (attachment.type) {
+            Attachment.TYPE_PHOTO -> attachment.photo
+                    ?.let { photo -> createPhotoForWallPost(photo, attachments.getPhotos()) }
+            else -> createViewFor(attachment, attachments)
+        }
+    }
+
+    private fun createViewFor(attachment: Attachment, attachments: List<Attachment>): View? {
+        return when (attachment.type) {
             Attachment.TYPE_AUDIO -> attachment.audio
                     ?.let { audio -> createAudio(audio, attachments.getAudios().filterNotNull()) }
             Attachment.TYPE_LINK -> attachment.link?.let(::createLink)
             Attachment.TYPE_VIDEO -> attachment.video?.let(::createVideo)
             Attachment.TYPE_POLL -> attachment.poll?.let(::createPoll)
-            Attachment.TYPE_WALL -> attachment.wall?.let(::createWallPost)
-            Attachment.TYPE_GRAFFITI -> attachment.graffiti?.let(::createGraffiti)
-            Attachment.TYPE_AUDIO_MESSAGE -> attachment.audioMessage?.let(::createAudioMessage)
             Attachment.TYPE_DOC -> attachment.doc?.let { doc ->
                 when {
                     doc.isGif -> createGif(doc)
@@ -77,11 +102,30 @@ class MessageInflater(
         }
     }
 
-    private fun createPhoto(photo: Photo, photos: List<Photo>, level: Int = 0): View {
+    private fun createPhotoForMessage(photo: Photo, photos: List<Photo>, level: Int = 0): View {
+        val width = contentWidth - 2 * level * levelPadding - 2 * photoMargin
+        val view = createPhoto(photo, width)
+        view.setOnClickListener {
+            val position = photos.indexOf(photo)
+            callback.onPhotoClicked(position, photos)
+        }
+        return view
+    }
+
+    private fun createPhotoForWallPost(photo: Photo, photos: List<Photo>): View {
+        val width = DisplayUtils.screenWidth
+        val view = createPhoto(photo, width)
+        view.setOnClickListener {
+            val position = photos.indexOf(photo)
+            callback.onPhotoClicked(position, photos)
+        }
+        return view
+    }
+
+    private fun createPhoto(photo: Photo, width: Int): View {
         val roundedImageView = RoundedImageView(context)
         roundedImageView.cornerRadius = defaultRadius.toFloat()
 
-        val width = contentWidth - 2 * level * levelPadding - 2 * photoMargin
         val photoSize = photo.getOptimalPhoto()
                 ?: photo.getMediumPhoto()
                 ?: photo.getSmallPhoto()
@@ -100,10 +144,6 @@ class MessageInflater(
         roundedImageView.load(photoSize.url) {
             override(width, ivHeight)
             centerCrop()
-        }
-        roundedImageView.setOnClickListener {
-            val position = photos.indexOf(photo)
-            callback.onPhotoClicked(position, photos)
         }
         return roundedImageView
     }
@@ -300,8 +340,43 @@ class MessageInflater(
                 tvTitle.text = doc.title
                 tvSize.text = getSize(context.resources, doc.size)
                 root.setOnClickListener {
-                    callback.onEncryptedFileClicked(doc)
+                    callback.onEncryptedDocClicked(doc)
                 }
                 root
             }
+
+    interface Callback {
+        fun onEncryptedDocClicked(doc: Doc)
+        fun onPhotoClicked(position: Int, photos: List<Photo>)
+        fun onVideoClicked(video: Video)
+        fun onLinkClicked(link: Link)
+        fun onDocClicked(doc: Doc)
+        fun onPollClicked(poll: Poll)
+        fun onWallPostClicked(wallPost: WallPost)
+    }
+
+    abstract class DefaultCallback(private val context: Context) : Callback {
+
+        override fun onPhotoClicked(position: Int, photos: List<Photo>) {
+            ImageViewerActivity.viewImages(context, photos, position)
+        }
+
+        override fun onLinkClicked(link: Link) {
+            // TODO
+            simpleUrlIntent(context, link.url)
+        }
+
+        override fun onDocClicked(doc: Doc) {
+            // TODO
+            simpleUrlIntent(context, doc.url)
+        }
+
+        override fun onPollClicked(poll: Poll) {
+            context.startFragment<PollFragment>(PollFragment.getArgs(poll))
+        }
+
+        override fun onWallPostClicked(wallPost: WallPost) {
+            context.startFragment<WallPostFragment>(WallPostFragment.createArgs(wallPost.stringId))
+        }
+    }
 }

@@ -117,7 +117,7 @@ fun ArrayList<Attachment>.getVideos() = ArrayList(this.mapNotNull { it.video })
 
 fun ArrayList<Attachment>.videosCount() = getVideos().size
 
-fun ArrayList<Attachment>.getAudios() = filter { it.type == Attachment.TYPE_AUDIO }.map { it.audio }
+fun List<Attachment>.getAudios() = filter { it.type == Attachment.TYPE_AUDIO }.map { it.audio }
 
 fun ArrayList<Attachment>.audiosCount() = getAudios().size
 

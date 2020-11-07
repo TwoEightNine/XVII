@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.chats.messages.deepforwarded
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -7,21 +8,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
+import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
-import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.model.attachments.*
+import com.twoeightnine.root.xvii.model.attachments.Doc
+import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
-import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
-import com.twoeightnine.root.xvii.poll.PollFragment
 import com.twoeightnine.root.xvii.utils.AppBarLifter
 import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.simpleUrlIntent
-import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.fragment_deep_forwarded.*
@@ -35,7 +32,13 @@ class DeepForwardedFragment : BaseFragment() {
 
     private val messageId by lazy { arguments?.getInt(ARG_MESSAGE_ID) }
     private val adapter by lazy {
-        MessagesAdapter(requireContext(), ::loadMore, ForwardedCallback(), getSettings())
+        MessagesAdapter(
+                requireContext(),
+                ::loadMore,
+                ForwardedMessageCallback(),
+                ForwardedAttachmentsCallback(requireContext()),
+                getSettings()
+        )
     }
 
     override fun getLayoutId() = R.layout.fragment_deep_forwarded
@@ -91,7 +94,7 @@ class DeepForwardedFragment : BaseFragment() {
         }
     }
 
-    private inner class ForwardedCallback : MessagesAdapter.Callback {
+    private inner class ForwardedMessageCallback : MessagesAdapter.Callback {
 
         override fun onClicked(message: Message) {
 
@@ -100,14 +103,10 @@ class DeepForwardedFragment : BaseFragment() {
         override fun onUserClicked(userId: Int) {
             ChatOwnerActivity.launch(context, userId)
         }
+    }
 
-        override fun onEncryptedFileClicked(doc: Doc) {
-
-        }
-
-        override fun onPhotoClicked(position: Int, photos: List<Photo>) {
-            ImageViewerActivity.viewImages(context, photos, position)
-        }
+    private inner class ForwardedAttachmentsCallback(context: Context)
+        : AttachmentsInflater.DefaultCallback(context) {
 
         override fun onVideoClicked(video: Video) {
             context?.also {
@@ -119,22 +118,7 @@ class DeepForwardedFragment : BaseFragment() {
             }
         }
 
-        override fun onLinkClicked(link: Link) {
-            // TODO prompt
-            simpleUrlIntent(context, link.url)
-        }
-
-        override fun onDocClicked(doc: Doc) {
-            // TODO prompt download or open
-            simpleUrlIntent(context, doc.url)
-        }
-
-        override fun onPollClicked(poll: Poll) {
-            startFragment<PollFragment>(PollFragment.getArgs(poll))
-        }
-
-        override fun onWallPostClicked(wallPost: WallPost) {
-            startFragment<WallPostFragment>(WallPostFragment.createArgs(wallPost.stringId))
+        override fun onEncryptedDocClicked(doc: Doc) {
         }
     }
 }

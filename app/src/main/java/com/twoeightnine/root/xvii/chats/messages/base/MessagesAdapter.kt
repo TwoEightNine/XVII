@@ -13,10 +13,9 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
+import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.model.WallPost
-import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.uikit.extensions.hide
@@ -38,11 +37,12 @@ import kotlinx.android.synthetic.main.item_message_wtf.view.tvName
  */
 class MessagesAdapter(context: Context,
                       loader: (Int) -> Unit,
-                      private val callback: Callback,
+                      private val messageCallback: Callback,
+                      private val attachmentsCallback: AttachmentsInflater.Callback,
                       private val settings: Settings
 ) : BaseReachAdapter<Message, MessagesAdapter.MessageViewHolder>(context, loader) {
 
-    private val messageInflater = MessageInflater(context, callback)
+    private val messageInflater = AttachmentsInflater(context, attachmentsCallback)
 
     private val contentWidth by lazy {
         context.resources.getDimensionPixelSize(R.dimen.chat_message_content_width)
@@ -123,7 +123,7 @@ class MessagesAdapter(context: Context,
                 multiSelect(message)
                 invalidateBackground(message)
             } else {
-                callback.onClicked(message)
+                messageCallback.onClicked(message)
             }
         }
 
@@ -154,7 +154,7 @@ class MessagesAdapter(context: Context,
                 if (userId == 0 || userId == null) {
                     userId = message.fromId
                 }
-                tvSystem.setOnClickListener { callback.onUserClicked(userId) }
+                tvSystem.setOnClickListener { messageCallback.onUserClicked(userId) }
             }
         }
 
@@ -199,7 +199,7 @@ class MessagesAdapter(context: Context,
                     rlName?.setOnClickListener {
                         items.getOrNull(adapterPosition)
                                 ?.fromId
-                                ?.also(callback::onUserClicked)
+                                ?.also(messageCallback::onUserClicked)
                     }
                 }
                 readStateDot?.apply {
@@ -300,13 +300,6 @@ class MessagesAdapter(context: Context,
     interface Callback {
         fun onClicked(message: Message)
         fun onUserClicked(userId: Int)
-        fun onEncryptedFileClicked(doc: Doc)
-        fun onPhotoClicked(position: Int, photos: List<Photo>)
-        fun onVideoClicked(video: Video)
-        fun onLinkClicked(link: Link)
-        fun onDocClicked(doc: Doc)
-        fun onPollClicked(poll: Poll)
-        fun onWallPostClicked(wallPost: WallPost)
     }
 
     data class Settings(

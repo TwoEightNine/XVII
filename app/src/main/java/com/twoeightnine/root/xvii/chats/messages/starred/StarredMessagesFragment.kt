@@ -7,20 +7,20 @@ import android.view.View
 import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
+import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
-import com.twoeightnine.root.xvii.model.WallPost
-import com.twoeightnine.root.xvii.model.attachments.*
+import com.twoeightnine.root.xvii.model.attachments.Doc
+import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
-import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
-import com.twoeightnine.root.xvii.poll.PollFragment
-import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
-import com.twoeightnine.root.xvii.wallpost.WallPostFragment
+import com.twoeightnine.root.xvii.utils.copyToClip
+import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.stylizeAll
+import com.twoeightnine.root.xvii.utils.stylizeColor
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_chat.*
@@ -80,11 +80,11 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
             ChatOwnerActivity.launch(context, userId)
         }
 
-        override fun onEncryptedFileClicked(doc: Doc) {
-        }
+    }
 
-        override fun onPhotoClicked(position: Int, photos: List<Photo>) {
-            ImageViewerActivity.viewImages(context, photos, position)
+    override fun getAttachmentsCallback() = object : AttachmentsInflater.DefaultCallback(requireContext()) {
+
+        override fun onEncryptedDocClicked(doc: Doc) {
         }
 
         override fun onVideoClicked(video: Video) {
@@ -93,24 +93,6 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
             }, { error ->
                 showError(context, error)
             })
-        }
-
-        override fun onLinkClicked(link: Link) {
-            // TODO prompt
-            simpleUrlIntent(context, link.url)
-        }
-
-        override fun onDocClicked(doc: Doc) {
-            // TODO prompt download or open
-            simpleUrlIntent(context, doc.url)
-        }
-
-        override fun onPollClicked(poll: Poll) {
-            startFragment<PollFragment>(PollFragment.getArgs(poll))
-        }
-
-        override fun onWallPostClicked(wallPost: WallPost) {
-            startFragment<WallPostFragment>(WallPostFragment.createArgs(wallPost.stringId))
         }
     }
 

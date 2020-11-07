@@ -32,6 +32,7 @@ import com.twoeightnine.root.xvii.utils.startPrimeGenerator
 import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.show
+import global.msnthrp.xvii.uikit.utils.DisplayUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -56,6 +57,7 @@ class LoginActivity : BaseActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DisplayUtils.init(this)
         setContentView(R.layout.activity_login)
         rlLoader.setOnTouchListener(fakeAppTouchListener)
         App.appComponent?.inject(this)

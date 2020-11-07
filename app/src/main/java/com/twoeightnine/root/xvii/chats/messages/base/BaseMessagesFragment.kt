@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.model.Wrapper
@@ -25,7 +26,13 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
     protected lateinit var viewModel: VM
 
     protected val adapter by lazy {
-        MessagesAdapter(requireContext(), ::loadMore, getAdapterCallback(), getAdapterSettings())
+        MessagesAdapter(
+                requireContext(),
+                ::loadMore,
+                getAdapterCallback(),
+                getAttachmentsCallback(),
+                getAdapterSettings()
+        )
     }
 
     abstract fun getViewModelClass(): Class<VM>
@@ -33,6 +40,8 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
     abstract fun inject()
 
     abstract fun getAdapterCallback(): MessagesAdapter.Callback
+
+    abstract fun getAttachmentsCallback(): AttachmentsInflater.Callback
 
     abstract fun getAdapterSettings(): MessagesAdapter.Settings
 
