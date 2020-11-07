@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragmentForResult
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
@@ -29,13 +30,16 @@ import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.User
+import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.poll.PollFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
+import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.setVisible
@@ -474,7 +478,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             onEncryptedDocClicked(doc)
         }
 
-        override fun onPhotoClicked(position: Int, photos: ArrayList<Photo>) {
+        override fun onPhotoClicked(position: Int, photos: List<Photo>) {
             ImageViewerActivity.viewImages(context, photos, position)
         }
 
@@ -484,6 +488,24 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             }, { error ->
                 showError(context, error)
             })
+        }
+
+        override fun onLinkClicked(link: Link) {
+            // TODO prompt
+            simpleUrlIntent(context, link.url)
+        }
+
+        override fun onDocClicked(doc: Doc) {
+            // TODO prompt download or open
+            simpleUrlIntent(context, doc.url)
+        }
+
+        override fun onPollClicked(poll: Poll) {
+            startFragment<PollFragment>(PollFragment.getArgs(poll))
+        }
+
+        override fun onWallPostClicked(wallPost: WallPost) {
+            startFragment<WallPostFragment>(WallPostFragment.createArgs(wallPost.stringId))
         }
     }
 

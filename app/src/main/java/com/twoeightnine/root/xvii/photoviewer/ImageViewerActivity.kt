@@ -182,12 +182,12 @@ class ImageViewerActivity : AppCompatActivity() {
         const val MODE_PHOTOS_LIST = 1
         const val MODE_ONE_PATH = 2
 
-        fun viewImages(context: Context?, photos: ArrayList<Photo>, position: Int = 0) {
+        fun viewImages(context: Context?, photos: List<Photo>, position: Int = 0) {
             context ?: return
             if (photos.isEmpty()) return
 
             val intent = Intent(context, ImageViewerActivity::class.java).apply {
-                putParcelableArrayListExtra(PHOTOS, photos)
+                putParcelableArrayListExtra(PHOTOS, ArrayList(photos))
                 putExtra(POSITION, position)
                 putExtra(MODE, MODE_PHOTOS_LIST)
             }

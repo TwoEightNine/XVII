@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -27,38 +26,6 @@ import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.container_audio.view.*
 import kotlinx.android.synthetic.main.container_video.view.*
 
-
-fun getPhoto(photo: Photo, context: Context, level: Int = 0, onClick: (Photo) -> Unit = {}): View {
-    val margin = context.resources.getDimensionPixelSize(R.dimen.chat_message_photo_margin)
-    val levelPadding = context.resources.getDimensionPixelSize(R.dimen.chat_message_level_padding)
-    val contentWidth = context.resources.getDimensionPixelSize(R.dimen.chat_message_content_width)
-
-    val view = RoundedImageView(context) // LayoutInflater.from(context).inflate(R.layout.container_photo, null, false)
-    view.setCornerRadiusDimen(R.dimen.default_radius)
-    val width = contentWidth - 2 * level * levelPadding - 2 * margin
-    val photoSize = photo.getOptimalPhoto()
-            ?: photo.getMediumPhoto()
-            ?: photo.getSmallPhoto()
-            ?: return view
-
-    val scale = width * 1.0f / photoSize.width
-    val ivHeight = (photoSize.height * scale).toInt()
-
-    view.layoutParams = LinearLayout.LayoutParams(width, ivHeight).apply {
-        topMargin = margin
-        bottomMargin = margin
-        marginStart = margin
-        marginEnd = margin
-    }
-
-    Picasso.get()
-            .load(photoSize.url)
-            .resize(width, ivHeight)
-            .centerCrop()
-            .into(view)
-    view.setOnClickListener { onClick.invoke(photo) }
-    return view
-}
 
 fun getPhotoWall(photo: Photo, activity: Activity, onClick: (Photo) -> Unit = {}): View {
     val iv = RoundedImageView(activity)
@@ -128,17 +95,6 @@ fun getDoc(doc: Doc, context: Context): View {
     return included
 }
 
-fun getEncrypted(doc: Doc, context: Context, decryptCallback: (Doc) -> Unit = {}): View {
-    val included = LayoutInflater.from(context).inflate(R.layout.container_enc, null, false)
-    included.findViewById<ViewGroup>(R.id.relativeLayout).stylize(changeStroke = false)
-    included.findViewById<TextView>(R.id.tvTitle).text = doc.title
-    included.findViewById<TextView>(R.id.tvSize).text = getSize(context.resources, doc.size)
-    included.setOnClickListener {
-        decryptCallback.invoke(doc)
-    }
-    return included
-}
-
 fun getAudio(audio: Audio, context: Context, audios: List<Audio> = arrayListOf(audio), text: String? = null): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_audio, null, false)
     val dPlay = ContextCompat.getDrawable(context, R.drawable.ic_play)
@@ -199,21 +155,6 @@ fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): Vie
             .into(included.findViewById<ImageView>(R.id.ivVideo))
     included.findViewById<TextView>(R.id.tvDuration).text = secToTime(video.duration)
     included.setOnClickListener { onClick.invoke(video) }
-    return included
-}
-
-fun getGift(context: Context, gift: Gift, messageBody: String): View {
-    val included = LayoutInflater.from(context).inflate(R.layout.container_gift, null, false)
-    Picasso.get()
-            .load(gift.thumb256)
-            .into(included.findViewById<ImageView>(R.id.ivThumb))
-
-    if (messageBody.isNotBlank()) {
-        included.findViewById<TextView>(R.id.tvGiftMessage).text = when {
-            EmojiHelper.hasEmojis(messageBody) -> EmojiHelper.getEmojied(context, messageBody)
-            else -> messageBody
-        }
-    }
     return included
 }
 

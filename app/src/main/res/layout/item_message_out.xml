@@ -30,7 +30,7 @@
             android:layout_marginBottom="@dimen/chat_shape_margin_vert"
             android:layout_toEndOf="@+id/readStateDot"
             android:background="@drawable/shape_message"
-            android:elevation="0.5dp"
+            android:elevation="@dimen/chat_message_elevation"
             android:orientation="vertical">
 
 

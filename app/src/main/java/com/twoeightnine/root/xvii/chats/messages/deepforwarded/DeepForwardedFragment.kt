@@ -7,18 +7,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
+import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.model.attachments.Doc
-import com.twoeightnine.root.xvii.model.attachments.Photo
-import com.twoeightnine.root.xvii.model.attachments.Video
+import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.poll.PollFragment
 import com.twoeightnine.root.xvii.utils.AppBarLifter
 import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.simpleUrlIntent
+import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.fragment_deep_forwarded.*
@@ -102,7 +105,7 @@ class DeepForwardedFragment : BaseFragment() {
 
         }
 
-        override fun onPhotoClicked(position: Int, photos: ArrayList<Photo>) {
+        override fun onPhotoClicked(position: Int, photos: List<Photo>) {
             ImageViewerActivity.viewImages(context, photos, position)
         }
 
@@ -114,6 +117,24 @@ class DeepForwardedFragment : BaseFragment() {
                     showError(it, error)
                 })
             }
+        }
+
+        override fun onLinkClicked(link: Link) {
+            // TODO prompt
+            simpleUrlIntent(context, link.url)
+        }
+
+        override fun onDocClicked(doc: Doc) {
+            // TODO prompt download or open
+            simpleUrlIntent(context, doc.url)
+        }
+
+        override fun onPollClicked(poll: Poll) {
+            startFragment<PollFragment>(PollFragment.getArgs(poll))
+        }
+
+        override fun onWallPostClicked(wallPost: WallPost) {
+            startFragment<WallPostFragment>(WallPostFragment.createArgs(wallPost.stringId))
         }
     }
 }

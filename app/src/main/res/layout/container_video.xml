@@ -2,13 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingStart="@dimen/chat_message_photo_margin"
+    android:paddingEnd="@dimen/chat_message_photo_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/ivVideo"
-        android:layout_width="256dp"
-        android:layout_height="192dp"
-        android:layout_margin="@dimen/image_margin"
+        android:layout_width="@dimen/chat_message_video_width"
+        android:layout_height="@dimen/chat_message_video_height"
         app:riv_corner_radius="@dimen/default_radius" />
 
     <ImageView
@@ -29,7 +31,8 @@
         android:id="@+id/rlDuration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/ivVideo"
+        android:layout_alignEnd="@+id/ivVideo"
+        android:layout_marginBottom="@dimen/chat_message_photo_margin"
         android:layout_alignBottom="@+id/ivVideo"
         android:background="@drawable/shape_dur_video">
 
@@ -37,10 +40,10 @@
             android:id="@+id/tvDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_margin="4dp"
             android:fontFamily="sans-serif-light"
-            android:text="12:34"
-            android:textColor="@color/icons"
+            tools:text="12:34"
+            android:textColor="@android:color/white"
             android:textSize="14sp" />
     </RelativeLayout>
 

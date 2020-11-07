@@ -40,6 +40,8 @@
                 android:id="@+id/rvChatList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingTop="@dimen/chat_list_padding"
+                android:paddingBottom="@dimen/chat_list_padding"
                 android:clipToPadding="false" />
 
         </com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout>

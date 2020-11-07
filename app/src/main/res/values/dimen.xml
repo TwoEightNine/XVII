@@ -73,10 +73,14 @@
 
     <dimen name="default_radius">16dp</dimen>
 
+    <dimen name="chat_list_padding">8dp</dimen>
+    <dimen name="chat_message_elevation">0dp</dimen>
     <dimen name="chat_message_content_width">276dp</dimen>
     <dimen name="chat_message_sticker_width">180dp</dimen>
     <dimen name="chat_message_graffiti_width">220dp</dimen>
     <dimen name="chat_message_photo_margin">2dp</dimen>
     <dimen name="chat_message_level_padding">2dp</dimen>
+    <dimen name="chat_message_video_width">272dp</dimen>
+    <dimen name="chat_message_video_height">200dp</dimen>
 
 </resources>

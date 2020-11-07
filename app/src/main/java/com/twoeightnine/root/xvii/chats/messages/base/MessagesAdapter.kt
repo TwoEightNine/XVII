@@ -6,28 +6,22 @@ import android.text.Html
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
-import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
-import global.msnthrp.xvii.uikit.extensions.show
-import kotlinx.android.synthetic.main.container_wall.view.*
 import kotlinx.android.synthetic.main.item_message_in_chat.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.civPhoto
@@ -55,12 +49,6 @@ class MessagesAdapter(context: Context,
     }
     private val stickerWidth by lazy {
         context.resources.getDimensionPixelSize(R.dimen.chat_message_sticker_width)
-    }
-    private val graffitiWidth by lazy {
-        context.resources.getDimensionPixelSize(R.dimen.chat_message_graffiti_width)
-    }
-    private val levelPadding by lazy {
-        context.resources.getDimensionPixelSize(R.dimen.chat_message_level_padding)
     }
 
     private val messageTextSize by lazy {
@@ -226,106 +214,10 @@ class MessagesAdapter(context: Context,
                 llMessageContainer.removeAllViews()
 
                 if (!message.attachments.isNullOrEmpty()) {
-                    llMessage.layoutParams.width = when {
-                        message.isSticker() -> stickerWidth
-                        message.isGraffiti() -> graffitiWidth
-                        else -> contentWidth
-                    } - levelPadding * level * 2
-                    message.attachments.forEach { attachment ->
-                        when (attachment.type) {
-
-                            Attachment.TYPE_PHOTO -> attachment.photo?.also {
-                                llMessageContainer.addView(getPhoto(it, context, level) { photo ->
-                                    val photos = message.attachments.getPhotos()
-                                    callback.onPhotoClicked(photos.indexOf(photo), photos)
-                                })
-                            }
-
-                            Attachment.TYPE_STICKER -> attachment.sticker?.photo512?.also {
-                                val included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null)
-                                included.findViewById<ImageView>(R.id.ivInternal).load(it, placeholder = false)
-                                llMessageContainer.addView(included)
-                            }
-
-                            Attachment.TYPE_GIFT -> attachment.gift?.also {
-                                llMessageContainer.addView(getGift(context, it, message.text))
-                                tvBody.hide()
-                            }
-
-                            Attachment.TYPE_AUDIO -> attachment.audio?.also {
-                                val audios = arrayListOf<Audio>()
-                                items.forEach { message ->
-                                    message.attachments?.getAudios()?.apply {
-                                        audios.addAll(filterNotNull())
-                                    }
-                                }
-                                llMessageContainer.addView(getAudio(it, context, audios))
-                            }
-
-                            Attachment.TYPE_AUDIO_MESSAGE -> attachment.audioMessage?.also { audioMessage ->
-                                val audios = arrayListOf<Audio>()
-                                items.forEach { message ->
-                                    message.getAllAudioMessages().forEach {
-                                        audios.add(Audio(it, context.getString(R.string.voice_message)))
-                                    }
-                                }
-                                llMessageContainer.addView(getAudio(
-                                        Audio(audioMessage, context.getString(R.string.voice_message)),
-                                        context, audios, audioMessage.transcript
-                                ))
-                            }
-
-                            Attachment.TYPE_LINK -> attachment.link?.also {
-                                llMessageContainer.addView(getLink(it, context))
-                            }
-
-                            Attachment.TYPE_VIDEO -> attachment.video?.also {
-                                llMessageContainer.addView(getVideo(it, context, callback::onVideoClicked))
-                            }
-
-                            Attachment.TYPE_DOC -> attachment.doc?.also { doc ->
-                                when {
-                                    doc.isVoiceMessage -> doc.preview?.audioMsg?.also {
-                                        llMessageContainer.addView(getAudio(
-                                                Audio(it, context.getString(R.string.voice_message)),
-                                                context))
-                                    }
-                                    doc.isGif -> {
-                                        llMessageContainer.addView(getGif(doc, context))
-                                    }
-                                    doc.isEncrypted -> {
-                                        llMessageContainer.addView(getEncrypted(doc, context, callback::onEncryptedFileClicked))
-                                    }
-                                    else -> {
-                                        llMessageContainer.addView(getDoc(doc, context))
-                                    }
-                                }
-
-                            }
-
-                            Attachment.TYPE_GRAFFITI -> attachment.graffiti?.url?.also { graffiti ->
-                                val included = LayoutInflater.from(context).inflate(R.layout.container_sticker, null)
-                                included.findViewById<ImageView>(R.id.ivInternal).load(graffiti, placeholder = false)
-                                llMessageContainer.addView(included)
-                            }
-
-                            Attachment.TYPE_POLL -> attachment.poll?.also {
-                                llMessageContainer.addView(getPoll(it, context))
-                            }
-
-                            Attachment.TYPE_WALL -> attachment.wall?.also { wallPost ->
-                                val postId = wallPost.stringId
-                                val included = LayoutInflater.from(context).inflate(R.layout.container_wall, null)
-                                included.setOnClickListener {
-                                    context?.startFragment<WallPostFragment>(
-                                            WallPostFragment.createArgs(postId)
-                                    )
-                                }
-                                bindWallPost(wallPost, included)
-                                llMessageContainer.addView(included)
-                            }
-                        }
-                    }
+                    llMessage.layoutParams.width = messageInflater.getMessageWidth(message, level)
+                    messageInflater
+                            .createViewsFor(message, level)
+                            .forEach(llMessageContainer::addView)
                 }
 
                 if (!message.fwdMessages.isNullOrEmpty()) {
@@ -403,52 +295,18 @@ class MessagesAdapter(context: Context,
 
                         // OR there are 2 hours between messages
                         message.date - prevMessage.date > MESSAGES_BETWEEN_DELAY
-
-        private fun bindWallPost(wallPost: WallPost, included: View) {
-            val title = wallPost.group?.name ?: wallPost.user?.fullName
-            val photo = wallPost.group?.photo100 ?: wallPost.user?.photo100
-            if (title == null && photo == null) return
-
-            with(included) {
-                tvName.show()
-                civPhoto.show()
-                tvPlaceHolder.hide()
-
-                civPhoto.load(photo)
-                tvName.text = title?.toLowerCase()
-                if (!wallPost.text.isNullOrBlank()) {
-                    tvText.show()
-                    tvText.text = wallPost.text
-                }
-                try {
-                    wallPost.attachments?.getPhotos()?.also { photos ->
-                        if (photos.isNotEmpty()) {
-                            ivPhoto.show()
-                            ivPhoto.load(photos[0].getOptimalPhoto()?.url) {
-                                override(
-                                        resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_width),
-                                        resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_height)
-                                )
-                                centerCrop()
-                            }
-                        }
-                    }
-                } catch (e: Exception) {
-                    ivPhoto.hide()
-                    L.tag("messages")
-                            .throwable(e)
-                            .log("binding wall post error")
-                }
-            }
-        }
     }
 
     interface Callback {
         fun onClicked(message: Message)
         fun onUserClicked(userId: Int)
         fun onEncryptedFileClicked(doc: Doc)
-        fun onPhotoClicked(position: Int, photos: ArrayList<Photo>)
+        fun onPhotoClicked(position: Int, photos: List<Photo>)
         fun onVideoClicked(video: Video)
+        fun onLinkClicked(link: Link)
+        fun onDocClicked(doc: Doc)
+        fun onPollClicked(poll: Poll)
+        fun onWallPostClicked(wallPost: WallPost)
     }
 
     data class Settings(
@@ -469,7 +327,5 @@ class MessagesAdapter(context: Context,
         const val IN_CHAT = 1
         const val IN_USER = 2
         const val SYSTEM = 3
-
-        const val MEDIA_WIDTH = 276
     }
 }
