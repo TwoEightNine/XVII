@@ -102,7 +102,7 @@ class MessageInflater(
         }
 
         roundedImageView.load(photoSize.url) {
-            resize(width, ivHeight)
+            override(width, ivHeight)
             centerCrop()
         }
         roundedImageView.setOnClickListener { }
@@ -186,7 +186,7 @@ class MessageInflater(
     private fun createVideo(video: Video): View {
         val videoView = LayoutInflater.from(context).inflate(R.layout.container_video, null)
         videoView.ivVideo.load(video.maxPhoto) {
-            resize(pxFromDp(context, 250), pxFromDp(context, 186))
+            override(pxFromDp(context, 250), pxFromDp(context, 186))
             centerCrop()
         }
         videoView.tvDuration.text = secToTime(video.duration)
@@ -230,7 +230,7 @@ class MessageInflater(
             wallPost.attachments?.getPhotos()?.firstOrNull()?.also { photo ->
                 ivPhoto.show()
                 ivPhoto.load(photo.getOptimalPhoto()?.url) {
-                    resize(
+                    override(
                             resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_width),
                             resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_height)
                     )
@@ -246,7 +246,7 @@ class MessageInflater(
         val gifView = inflater.inflate(R.layout.container_video, null)
 
         gifView.ivVideo.load(gifUrl) {
-            resize(pxFromDp(context, 250), pxFromDp(context, 186))
+            override(pxFromDp(context, 250), pxFromDp(context, 186))
             centerCrop()
         }
         gifView.tvDuration.text = "gif"
@@ -256,7 +256,7 @@ class MessageInflater(
                 gifView.ivPlayWhite.show()
                 gifView.rlDuration.show()
                 gifView.ivVideo.load(gifUrl) {
-                    resize(pxFromDp(context, 250), pxFromDp(context, 186))
+                    override(pxFromDp(context, 250), pxFromDp(context, 186))
                     centerCrop()
                 }
             } else {

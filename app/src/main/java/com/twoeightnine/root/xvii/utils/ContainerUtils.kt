@@ -205,7 +205,7 @@ fun getVideo(video: Video, context: Context, onClick: (Video) -> Unit = {}): Vie
 fun getGift(context: Context, gift: Gift, messageBody: String): View {
     val included = LayoutInflater.from(context).inflate(R.layout.container_gift, null, false)
     Picasso.get()
-            .loadRounded(gift.thumb256)
+            .load(gift.thumb256)
             .into(included.findViewById<ImageView>(R.id.ivThumb))
 
     if (messageBody.isNotBlank()) {

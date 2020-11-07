@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_centerInParent="true"
     android:paddingStart="8dp"
     android:paddingTop="4dp"
@@ -16,26 +17,15 @@
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="120dp"
+            android:layout_height="90dp"
             android:layout_weight="1">
 
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/ivVideo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
-
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/shape_circle_video" />
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/play_white" />
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="@dimen/default_radius" />
 
         </RelativeLayout>
 
@@ -43,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
@@ -53,8 +43,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:ellipsize="end"
-                android:maxLines="4"
-                android:textSize="18sp" />
+                android:maxLines="2"
+                android:textSize="16sp"
+                tools:text="title title title title title"/>
 
             <TextView
                 android:id="@+id/tvDuration"
@@ -62,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 tools:text="12:34" />
 
         </LinearLayout>

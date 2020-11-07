@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.CompoundButton
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
@@ -169,9 +168,7 @@ class AppearanceFragment : BaseFragment() {
         }
         switchLightTheme.isChecked = isLightBefore
         if (Prefs.chatBack.isNotEmpty()) {
-            Picasso.get()
-                    .load("file://${Prefs.chatBack}")
-                    .into(ivBackground)
+            updatePhoto(Prefs.chatBack)
         }
         btnGallery.setOnClickListener { openGallery() }
         csThemeColor.setOnClickListener {
@@ -246,7 +243,7 @@ class AppearanceFragment : BaseFragment() {
         val newPath = getCroppedImagePath(activity, path)
         if (newPath != null) {
             Prefs.chatBack = newPath
-            hideDialog(newPath)
+            updatePhoto(newPath)
         } else {
             showAlert(context, getString(R.string.unable_to_crop))
         }
@@ -258,16 +255,14 @@ class AppearanceFragment : BaseFragment() {
         val newPath = createColoredBitmap(activity, color)
         if (newPath != null) {
             Prefs.chatBack = newPath
-            hideDialog(newPath)
+            updatePhoto(newPath)
         } else {
             showAlert(context, getString(R.string.unable_to_pick_color))
         }
     }
 
-    private fun hideDialog(newPath: String) {
-        Picasso.get()
-                .load("file://$newPath")
-                .into(ivBackground)
+    private fun updatePhoto(path: String) {
+        ivBackground.load("file://$path")
     }
 
     override fun onStop() {

@@ -59,7 +59,7 @@ class GalleryAdapter(
                 tvDuration.text = secToTime((item.duration / 1000L).toInt())
                 if (item.thumbnail != null) {
                     ivThumb.load(item.thumbnail) {
-                        resize(SIZE_PX, SIZE_PX)
+                        override(SIZE_PX, SIZE_PX)
                         centerCrop()
                     }
                 }

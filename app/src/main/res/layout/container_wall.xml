@@ -2,9 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="276dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/ivPhoto"
         android:layout_width="@dimen/chat_wall_post_image_width"
         android:layout_height="@dimen/chat_wall_post_image_height"
@@ -13,6 +14,7 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:visibility="gone"
+        app:riv_corner_radius="@dimen/default_radius"
         tools:src="@tools:sample/backgrounds/scenic"
         tools:visibility="visible" />
 

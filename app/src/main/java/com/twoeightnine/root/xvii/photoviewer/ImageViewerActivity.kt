@@ -3,15 +3,12 @@ package com.twoeightnine.root.xvii.photoviewer
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -124,36 +121,26 @@ class ImageViewerActivity : AppCompatActivity() {
 
     private fun shareImage(context: Context?, url: String?) {
         if (context == null || url == null) return
+        SimpleBitmapTarget { bitmap, _ ->
 
-        Picasso.get().load(url).into(object : Target {
-            override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
-                val i = Intent(Intent.ACTION_SEND).apply {
-                    type = "image/png"
-                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    putExtra(Intent.EXTRA_STREAM, saveBitmap(bitmap))
-                }
-                context.startActivity(Intent.createChooser(i, context.getString(R.string.share_image)))
+            var bmpUri: Uri? = null
+            try {
+                val file = File(context.externalCacheDir, "${System.currentTimeMillis()}.png")
+                val out = FileOutputStream(file)
+                bitmap?.compress(Bitmap.CompressFormat.PNG, 90, out)
+                out.close()
+                bmpUri = getUriForFile(context, file)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
 
-            override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
-
-            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-
-            private fun saveBitmap(bmp: Bitmap): Uri? {
-                var bmpUri: Uri? = null
-                try {
-                    val file = File(context.externalCacheDir, "${System.currentTimeMillis()}.png")
-                    val out = FileOutputStream(file)
-                    bmp.compress(Bitmap.CompressFormat.PNG, 90, out)
-                    out.close()
-                    bmpUri = getUriForFile(context, file)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                return bmpUri
+            val i = Intent(Intent.ACTION_SEND).apply {
+                type = "image/png"
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                putExtra(Intent.EXTRA_STREAM, bmpUri)
             }
-
-        })
+            context.startActivity(Intent.createChooser(i, context.getString(R.string.share_image)))
+        }.load(context, url)
     }
 
     private fun getUrlList() = when (mode) {

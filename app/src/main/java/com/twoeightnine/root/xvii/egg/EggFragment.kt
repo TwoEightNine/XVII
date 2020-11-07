@@ -32,7 +32,7 @@ class EggFragment : BaseFragment() {
         val width = screenWidth(activity ?: return)
         val height = (width / scale).toInt()
         ivBack.load(URL_FIGHT_CLUB, placeholder = false) {
-            resize(width, height)
+            override(width, height)
             centerCrop()
         }
         tvText.text = Html.fromHtml(getString(R.string.quote))
@@ -41,7 +41,7 @@ class EggFragment : BaseFragment() {
     private fun bindLetovAgainst() {
         rlLetovAgainst.show()
         ivLetov.load(URL_LETOV_AGAINST, placeholder = false) {
-            fit()
+            fitCenter()
         }
     }
 

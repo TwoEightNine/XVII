@@ -1,8 +1,6 @@
 package com.twoeightnine.root.xvii.chatowner.fragments
 
 import android.app.Activity
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
@@ -11,8 +9,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerViewModel
@@ -167,22 +163,14 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     }
 
     private fun loadHighResWithAnimation(url: String?) {
-        if (url == null) return
-
-        Picasso.get()
-                .load(url)
-                .into(object : Target {
-                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-
-                    override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
-
-                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                        ivAvatarHighRes?.setImageBitmap(bitmap)
-                        ivAvatarHighRes?.fadeIn(700L) {
-                            ivAvatar?.hide()
-                        }
-                    }
-                })
+        val context = context ?: return
+        url ?: return
+        SimpleBitmapTarget { bitmap, _ ->
+            ivAvatarHighRes?.setImageBitmap(bitmap)
+            ivAvatarHighRes?.fadeIn(700L) {
+                ivAvatar?.hide()
+            }
+        }.load(context, url)
     }
 
     override fun onDestroyView() {

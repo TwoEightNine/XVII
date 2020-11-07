@@ -35,7 +35,7 @@ data class DataUsageEvent(
         API,
 
         /**
-         * loading photo using [XviiPicasso]
+         * loading photo
          */
         PHOTO
     }

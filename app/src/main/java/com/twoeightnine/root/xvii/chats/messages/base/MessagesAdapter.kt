@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
@@ -425,14 +424,13 @@ class MessagesAdapter(context: Context,
                     wallPost.attachments?.getPhotos()?.also { photos ->
                         if (photos.isNotEmpty()) {
                             ivPhoto.show()
-                            Picasso.get()
-                                    .loadRounded(photos[0].getOptimalPhoto()?.url)
-                                    .resize(
-                                            resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_width),
-                                            resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_height)
-                                    )
-                                    .centerCrop()
-                                    .into(ivPhoto)
+                            ivPhoto.load(photos[0].getOptimalPhoto()?.url) {
+                                override(
+                                        resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_width),
+                                        resources.getDimensionPixelSize(R.dimen.chat_wall_post_image_height)
+                                )
+                                centerCrop()
+                            }
                         }
                     }
                 } catch (e: Exception) {

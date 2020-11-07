@@ -3,16 +3,21 @@ package com.twoeightnine.root.xvii.utils
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.SystemClock
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.jakewharton.rxbinding.widget.RxTextView
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.RequestCreator
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
 import com.twoeightnine.root.xvii.network.response.BaseResponse
@@ -79,37 +84,46 @@ fun <T> Flowable<BaseResponse<T>>.subscribeSmart(response: (T) -> Unit,
 }
 
 fun ImageView.load(url: String?, placeholder: Boolean = true,
-                   block: RequestCreator.() -> RequestCreator = { this }) {
-    val rc = Picasso.get().load(if (url.isNullOrEmpty()) {
-        ColorManager.getPhotoStub()
-    } else {
-        url
-    })
-    if (placeholder) {
-        rc.placeholder(ColorDrawable(ContextCompat.getColor(context, R.color.placeholder)))
-                .error(R.drawable.placeholder)
+                   block: RequestBuilder<Drawable>.() -> RequestBuilder<Drawable> = { this }) {
+    val urlOrStub = when {
+        url.isNullOrBlank() -> ColorManager.getPhotoStub()
+        else -> url
     }
-    rc.block().into(this)
-}
-
-fun ImageView.loadRounded(url: String?) {
-    if (url == null) return
-    Picasso.get()
-            .loadRounded(url)
+    val placeholderIfNeeded = { rb: RequestBuilder<Drawable> ->
+        if (placeholder) {
+            val placeholderDrawable = ColorDrawable(ContextCompat.getColor(context, R.color.placeholder))
+            rb.placeholder(placeholderDrawable)
+                    .error(placeholderDrawable)
+        } else {
+            rb
+        }
+    }
+    Glide.with(this)
+            .load(urlOrStub)
+            .let(placeholderIfNeeded)
+            .block()
             .into(this)
 }
 
-fun Picasso.loadRounded(url: String?): RequestCreator {
-    return this
-            .load(if (url.isNullOrEmpty()) {
-                ColorManager.getPhotoStub()
-            } else {
-                url
-            })
-            .transform(RoundedTransformation())
-            .placeholder(R.drawable.placeholder_rounded)
-            .error(R.drawable.placeholder_rounded)
+fun SimpleBitmapTarget.load(context: Context, url: String) {
+    Glide.with(context)
+            .asBitmap()
+            .load(url)
+            .into(this)
+}
 
+class SimpleBitmapTarget(private val result: (Bitmap?, Exception?) -> Unit) : CustomTarget<Bitmap>() {
+    override fun onLoadFailed(errorDrawable: Drawable?) {
+        super.onLoadFailed(errorDrawable)
+        result(null, Exception())
+    }
+
+    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+        result(resource, null)
+    }
+
+    override fun onLoadCleared(placeholder: Drawable?) {
+    }
 }
 
 fun TextView.subscribeSearch(
