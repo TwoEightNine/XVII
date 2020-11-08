@@ -19,6 +19,7 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
 import kotlinx.android.synthetic.main.item_message_in_chat.view.*
@@ -191,7 +192,7 @@ class MessagesAdapter(context: Context,
                 if (showName) {
                     tvName?.apply {
                         text = message.name
-                        if (Prefs.lowerTexts) lower()
+                        lowerIf(Prefs.lowerTexts)
                     }
                     civPhoto?.apply {
                         load(message.photo)

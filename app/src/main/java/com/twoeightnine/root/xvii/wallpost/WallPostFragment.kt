@@ -22,6 +22,7 @@ import com.twoeightnine.root.xvii.network.response.WallPostResponse
 import com.twoeightnine.root.xvii.utils.*
 import de.hdodenhof.circleimageview.CircleImageView
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.content_wall_post.view.*
 import kotlinx.android.synthetic.main.fragment_wall_post.*
@@ -86,9 +87,8 @@ class WallPostFragment : BaseFragment() {
     private fun putViews(holder: WallViewHolder, post: WallPost, level: Int) {
         val group = getGroup(-post.fromId)
         holder.tvTitle.text = group.name
-        if (Prefs.lowerTexts) {
-            holder.tvTitle.lower()
-        }
+        holder.tvTitle.lowerIf(Prefs.lowerTexts)
+
         holder.civAvatar.load(group.photo100)
         holder.tvDate.text = getTime(post.date, withSeconds = Prefs.showSeconds)
         holder.tvPost.text = post.text

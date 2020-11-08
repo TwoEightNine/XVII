@@ -17,7 +17,11 @@ import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.lg.TextEventTransformer
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Doc
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.ReportTool
+import com.twoeightnine.root.xvii.utils.getTime
+import com.twoeightnine.root.xvii.utils.matchesUserId
+import com.twoeightnine.root.xvii.utils.time
+import global.msnthrp.xvii.uikit.extensions.asText
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import java.io.File
 

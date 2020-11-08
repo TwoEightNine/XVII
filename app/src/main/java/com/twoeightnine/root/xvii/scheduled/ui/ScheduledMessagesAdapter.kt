@@ -9,7 +9,7 @@ import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
 import com.twoeightnine.root.xvii.utils.getTime
-import com.twoeightnine.root.xvii.utils.lower
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_scheduled_message.view.*
 
@@ -38,9 +38,7 @@ class ScheduledMessagesAdapter(
         fun bind(scheduledMessage: ScheduledMessage) {
             with(itemView) {
                 tvPeer.text = peersMap[scheduledMessage.peerId] ?: "id${scheduledMessage.peerId}"
-                if (Prefs.lowerTexts) {
-                    tvPeer.lower()
-                }
+                tvPeer.lowerIf(Prefs.lowerTexts)
 
                 tvText.setVisible(scheduledMessage.text.isNotBlank())
                 tvText.text = scheduledMessage.text

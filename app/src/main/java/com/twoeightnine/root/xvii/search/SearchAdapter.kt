@@ -9,8 +9,8 @@ import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.lower
 import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import kotlinx.android.synthetic.main.item_dialog_search.view.*
 
 class SearchAdapter(
@@ -31,9 +31,7 @@ class SearchAdapter(
             with(itemView) {
                 civPhoto.load(dialog.photo)
                 tvTitle.text = dialog.title
-                if (Prefs.lowerTexts) {
-                    tvTitle.lower()
-                }
+                tvTitle.lowerIf(Prefs.lowerTexts)
                 ivOnlineDot.hide() // due to this list is not autorefreshable
                 rlItemContainer.setOnClickListener { onClick(items[adapterPosition]) }
             }

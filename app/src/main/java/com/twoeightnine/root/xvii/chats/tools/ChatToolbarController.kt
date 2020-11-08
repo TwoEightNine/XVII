@@ -3,9 +3,9 @@ package com.twoeightnine.root.xvii.chats.tools
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.uikit.XviiToolbar
 import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.lower
 import com.twoeightnine.root.xvii.utils.time
 import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
 import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.toolbar2.view.*
@@ -21,7 +21,7 @@ class ChatToolbarController(private val xviiToolbar: XviiToolbar) {
 
     fun setTitle(title: String) {
         xviiToolbar.tvChatTitle.text = title
-        if (Prefs.lowerTexts) xviiToolbar.tvChatTitle.lower()
+        xviiToolbar.tvChatTitle.lowerIf(Prefs.lowerTexts)
     }
 
     fun setSubtitle(subtitle: String) {

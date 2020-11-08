@@ -32,9 +32,13 @@ import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.EmojiHelper
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
+import com.twoeightnine.root.xvii.utils.secToTime
+import com.twoeightnine.root.xvii.utils.time
+import com.twoeightnine.root.xvii.utils.writeToFileFromContentUri
+import global.msnthrp.xvii.uikit.extensions.asText
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import global.msnthrp.xvii.uikit.extensions.show

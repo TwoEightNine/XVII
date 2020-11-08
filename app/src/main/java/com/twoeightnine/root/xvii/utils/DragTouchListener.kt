@@ -1,12 +1,12 @@
 package com.twoeightnine.root.xvii.utils
 
-import android.animation.Animator
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import global.msnthrp.xvii.uikit.extensions.EndAnimatorListener
 
 /**
  * allows to move view according to user's finger motions
@@ -79,13 +79,8 @@ class DragTouchListener(
                 applyValue(animatedValue as Float)
             }
             if (withFinish) {
-                addListener(object : StubAnimatorListener() {
-                    override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
-                        activity.finish()
-                    }
-                    override fun onAnimationEnd(animation: Animator?) {
-                        activity.finish()
-                    }
+                addListener(EndAnimatorListener {
+                    activity.finish()
                 })
             }
             start()

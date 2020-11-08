@@ -42,9 +42,7 @@ import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import com.twoeightnine.root.xvii.web.VideoViewerActivity
-import global.msnthrp.xvii.uikit.extensions.hide
-import global.msnthrp.xvii.uikit.extensions.setVisible
-import global.msnthrp.xvii.uikit.extensions.show
+import global.msnthrp.xvii.uikit.extensions.*
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.chat_input_panel.*

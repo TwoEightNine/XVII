@@ -26,6 +26,7 @@ import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.show
 import global.msnthrp.xvii.uikit.utils.DisplayUtils
 import java.io.File
@@ -196,9 +197,7 @@ class AttachmentsInflater(
         if (!text.isNullOrBlank()) {
             binding.ivSubtitles.show()
             binding.tvText.text = text
-            if (Prefs.lowerTexts) {
-                binding.tvText.lower()
-            }
+            binding.tvText.lowerIf(Prefs.lowerTexts)
             binding.ivSubtitles.setOnClickListener {
                 binding.tvText.show()
                 binding.ivSubtitles.hide()

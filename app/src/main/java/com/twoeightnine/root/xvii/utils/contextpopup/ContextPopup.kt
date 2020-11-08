@@ -8,19 +8,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.utils.stylize
 
-fun createContextPopup(context: Context, items: List<ContextPopupItem>, title: String = ""): AlertDialog {
-    val itemHeight = context.resources.getDimensionPixelSize(R.dimen.context_popup_item_height)
-    val content = RecyclerView(context)
-    content.layoutParams = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT, itemHeight * items.size)
-    val dialog = AlertDialog.Builder(context).create()
+fun createContextPopup(context: Context, items: List<ContextPopupItem>): AlertDialog =
 
-    val adapter = ContextPopupAdapter(context, dialog)
-    content.layoutManager = LinearLayoutManager(context)
-    content.adapter = adapter
-    adapter.addAll(items.toMutableList())
-
-    dialog.setView(content)
-    dialog.stylize()
-    return dialog
-}
+        AlertDialog.Builder(context).create().apply {
+            val itemHeight = context.resources.getDimensionPixelSize(R.dimen.context_popup_item_height)
+            val adapter = ContextPopupAdapter(context, this).apply {
+                addAll(items.toMutableList())
+            }
+            RecyclerView(context).apply {
+                layoutParams = FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT, itemHeight * items.size)
+                layoutManager = LinearLayoutManager(context)
+                this.adapter = adapter
+                setView(this)
+            }
+            stylize()
+        }

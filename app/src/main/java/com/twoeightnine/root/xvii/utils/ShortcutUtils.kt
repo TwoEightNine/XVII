@@ -9,6 +9,8 @@ import android.os.Build
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import global.msnthrp.xvii.uikit.extensions.SimpleBitmapTarget
+import global.msnthrp.xvii.uikit.extensions.load
 
 object ShortcutUtils {
 

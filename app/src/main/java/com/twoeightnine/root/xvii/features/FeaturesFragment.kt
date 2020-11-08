@@ -31,6 +31,7 @@ import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.web.WebFragment
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import kotlinx.android.synthetic.main.fragment_features.*
 import java.util.*
 import javax.inject.Inject
@@ -108,7 +109,7 @@ class FeaturesFragment : BaseFragment() {
     private fun updateAccount(account: Account) {
         civPhoto.load(account.photo)
         tvName.text = account.name
-        if (Prefs.lowerTexts) tvName.lower()
+        tvName.lowerIf(Prefs.lowerTexts)
     }
 
     private fun showLogDialog() {

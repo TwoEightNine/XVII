@@ -41,6 +41,8 @@ dependencies {
     implementation androidUi.material
     implementation androidUi.coreKtx
 
+    implementation utils.glide
+
     testImplementation androidTests.jUnit
     androidTestImplementation androidTests.espresso
 }

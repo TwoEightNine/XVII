@@ -18,6 +18,7 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_appearance.*
@@ -146,10 +147,8 @@ class AppearanceFragment : BaseFragment() {
 
         rlToolbar.tvTitle.text = getString(R.string.appearance_sample_name)
         etInput.setText(getString(R.string.appearance_sample_input))
-        if (inLower) {
-            tvTitle.lower()
-            etInput.lower()
-        }
+        tvTitle.lowerIf(inLower)
+        etInput.lowerIf(inLower)
     }
 
     private fun applyVisibility() {

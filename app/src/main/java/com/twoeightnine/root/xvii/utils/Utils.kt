@@ -43,6 +43,8 @@ import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
 import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
+import global.msnthrp.xvii.uikit.extensions.SimpleBitmapTarget
+import global.msnthrp.xvii.uikit.extensions.load
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
