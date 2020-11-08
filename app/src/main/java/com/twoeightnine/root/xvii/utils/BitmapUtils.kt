@@ -3,19 +3,17 @@ package com.twoeightnine.root.xvii.utils
 import android.content.Context
 import android.graphics.*
 import com.twoeightnine.root.xvii.lg.L
+import global.msnthrp.xvii.uikit.utils.color.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.pow
 
 private const val TAG = "bitmap notification"
-const val NEEDED_CONTRAST = 4.0
-val LIGHT_LIGHTNESSES = listOf(0.6f, 0.7f, 0.8f, 0.9f, 0.95f)
-val DARK_LIGHTNESSES = listOf(0.4f, 0.3f, 0.2f, 0.1f, 0.05f)
+private const val NEEDED_CONTRAST = 4.0
+private val LIGHT_LIGHTNESSES = listOf(0.6f, 0.7f, 0.8f, 0.9f, 0.95f)
+private val DARK_LIGHTNESSES = listOf(0.4f, 0.3f, 0.2f, 0.1f, 0.05f)
 
 fun loadNotificationBackgroundAsync(
         context: Context, avatar: Bitmap,
@@ -28,7 +26,7 @@ fun loadNotificationBackgroundAsync(
                     .log("error while loading bitmap")
         })
 
-fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): NotificationBackground {
+private fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): NotificationBackground {
     val hash = avatar.hash()
     val dir = File(context.cacheDir, DIR_NOTIFICATIONS)
     dir.mkdir()
@@ -56,7 +54,7 @@ fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): Notific
     }
 }
 
-fun createNotificationBackground(avatar: Bitmap, debug: Boolean = false): NotificationBackground {
+private fun createNotificationBackground(avatar: Bitmap, debug: Boolean = false): NotificationBackground {
 
     val backgroundWidth = 720
     val backgroundHeight = 180
@@ -118,7 +116,7 @@ fun createNotificationBackground(avatar: Bitmap, debug: Boolean = false): Notifi
     return NotificationBackground(background, textColor, averageColor)
 }
 
-fun getTextColor(imageColors: ImageColors): Int {
+private fun getTextColor(imageColors: ImageColors): Int {
 
     val contrastWithLight = getContrastRatio(imageColors.averageColor, imageColors.averageLight)
     val contrastWithDark = getContrastRatio(imageColors.averageColor, imageColors.averageDark)
@@ -128,6 +126,7 @@ fun getTextColor(imageColors: ImageColors): Int {
     return when {
         contrastWithLight > contrastWithDark
                 && contrastWithLight >= NEEDED_CONTRAST -> imageColors.averageLight
+
         contrastWithDark > contrastWithLight
                 && contrastWithDark >= NEEDED_CONTRAST -> imageColors.averageDark
 
@@ -141,7 +140,7 @@ fun getTextColor(imageColors: ImageColors): Int {
     }
 }
 
-fun getColorOfContrast(back: Int, colorFrom: Int, lightnessRange: List<Float>, contrast: Double, default: Int): Int {
+private fun getColorOfContrast(back: Int, colorFrom: Int, lightnessRange: List<Float>, contrast: Double, default: Int): Int {
     val hsv = FloatArray(3)
     Color.colorToHSV(colorFrom, hsv)
     for (lightnessProb in lightnessRange) {
@@ -163,7 +162,7 @@ fun getColorOfContrast(back: Int, colorFrom: Int, lightnessRange: List<Float>, c
  *      - average dark for the whole image
  *      - average light for the whole image
  */
-fun getImageColors(bitmap: Bitmap): ImageColors {
+private fun getImageColors(bitmap: Bitmap): ImageColors {
 
     val avgThreshold = bitmap.width * 9 / 10
 
@@ -243,13 +242,13 @@ fun getImageColors(bitmap: Bitmap): ImageColors {
         lightAvgB = 255
     }
     return ImageColors(
-            createColor(avgColorR, avgColorG, avgColorB),
-            createColor(darkAvgR, darkAvgG, darkAvgB),
-            createColor(lightAvgR, lightAvgG, lightAvgB)
+            Color.rgb(avgColorR, avgColorG, avgColorB),
+            Color.rgb(darkAvgR, darkAvgG, darkAvgB),
+            Color.rgb(lightAvgR, lightAvgG, lightAvgB)
     )
 }
 
-fun Bitmap.hash(): Int {
+private fun Bitmap.hash(): Int {
     var hash = 31
     (0 until width).step(7).forEach { x ->
         (0 until height).step(6).forEach { y ->
@@ -257,58 +256,6 @@ fun Bitmap.hash(): Int {
         }
     }
     return hash
-}
-
-private fun Int.hasAlpha() = this and 0xff000000.toInt() != 0xff000000.toInt()
-
-private fun Int.red() = (this shr 16) and 0xff
-
-private fun Int.green() = (this shr 8) and 0xff
-
-private fun Int.blue() = this and 0xff
-
-private fun Int.brightness(): Int {
-    val r = red()
-    val g = green()
-    val b = blue()
-    return (max(r, max(g, b)) + min(r, min(g, b))) / 2
-}
-
-private fun createColor(r: Int, g: Int, b: Int) =
-        0xff000000.toInt() or ((r and 0xff) shl 16) or ((g and 0xff) shl 8) or (b and 0xff)
-
-private fun Int.relativeLuminance(): Float {
-    val rs = red().toFloat() / 255
-    val gs = green().toFloat() / 255
-    val bs = blue().toFloat() / 255
-
-    val r = if (rs <= 0.03928) {
-        rs / 12.92
-    } else {
-        ((rs + 0.055) / 1.055).pow(2.4)
-    }
-    val g = if (gs <= 0.03928) {
-        gs / 12.92
-    } else {
-        ((gs + 0.055) / 1.055).pow(2.4)
-    }
-    val b = if (bs <= 0.03928) {
-        bs / 12.92
-    } else {
-        ((bs + 0.055) / 1.055).pow(2.4)
-    }
-    return (0.2126 * r + 0.7152 * g + 0.0722 * b).toFloat()
-}
-
-private fun getContrastRatio(c1: Int, c2: Int): Double {
-    val rl1 = c1.relativeLuminance()
-    val rl2 = c2.relativeLuminance()
-
-    return if (rl1 > rl2) {
-        (rl1 + 0.05) / (rl2 + 0.05)
-    } else {
-        (rl2 + 0.05) / (rl1 + 0.05)
-    }
 }
 
 data class ImageColors(

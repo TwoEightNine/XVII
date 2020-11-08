@@ -2,6 +2,10 @@ package com.twoeightnine.root.xvii.uikit
 
 import android.graphics.Color
 import com.twoeightnine.root.xvii.managers.Prefs
+import global.msnthrp.xvii.uikit.utils.color.Rgb
+import global.msnthrp.xvii.uikit.utils.color.addHue
+import global.msnthrp.xvii.uikit.utils.color.toHsv
+import global.msnthrp.xvii.uikit.utils.color.toRgb
 
 object Munch {
 

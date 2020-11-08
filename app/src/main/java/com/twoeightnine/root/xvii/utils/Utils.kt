@@ -1,13 +1,15 @@
 package com.twoeightnine.root.xvii.utils
 
-import android.animation.Animator
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
 import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -16,18 +18,14 @@ import android.graphics.Canvas
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.*
-import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ClickableSpan
 import android.util.DisplayMetrics
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -401,29 +399,6 @@ fun applyCompletableSchedulers(): (t: Completable) -> Completable {
     }
 }
 
-fun getContextPopup(context: Context, @LayoutRes layout: Int, listener: (View) -> Unit): AlertDialog {
-    val view = View.inflate(context, layout, null)
-
-    val dialog = AlertDialog.Builder(context)
-            .setView(view)
-            .create()
-
-    val click = { v: View ->
-        dialog.dismiss()
-        listener.invoke(v)
-    }
-
-    if (view is ViewGroup) {
-        for (i in 0 until view.childCount) {
-            val v = view.getChildAt(i)
-            if (v is LinearLayout) {
-                v.setOnClickListener(click)
-            }
-        }
-    }
-    return dialog
-}
-
 fun restartApp(context: Context?, title: String) {
     showToast(context, title)
     Handler().postDelayed({ restartApp(context) }, 400L)
@@ -773,24 +748,3 @@ fun isMiui(): Boolean {
 }
 
 fun isAndroid10OrHigher() = Build.VERSION.SDK_INT >= 29
-
-class EndListener(private val onEnd: () -> Unit) : Animator.AnimatorListener {
-
-    override fun onAnimationRepeat(p0: Animator?) {
-    }
-
-    override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
-        super.onAnimationEnd(animation, isReverse)
-        onEnd()
-    }
-
-    override fun onAnimationEnd(p0: Animator?) {
-        onEnd()
-    }
-
-    override fun onAnimationStart(p0: Animator?) {
-    }
-
-    override fun onAnimationCancel(p0: Animator?) {
-    }
-}
