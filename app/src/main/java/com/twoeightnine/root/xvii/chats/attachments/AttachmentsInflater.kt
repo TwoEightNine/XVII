@@ -1,10 +1,12 @@
 package com.twoeightnine.root.xvii.chats.attachments
 
 import android.content.Context
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
@@ -26,6 +28,7 @@ import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.show
 import global.msnthrp.xvii.uikit.utils.DisplayUtils
+import java.io.File
 
 class AttachmentsInflater(
         private val context: Context,
@@ -362,13 +365,34 @@ class AttachmentsInflater(
         }
 
         override fun onLinkClicked(link: Link) {
-            // TODO
-            simpleUrlIntent(context, link.url)
+            // TODO mark link
+            val url = link.url
+            val message = context.getString(R.string.attachment_open_link_prompt, url)
+            showConfirm(context, message) { yes ->
+                if (yes) {
+                    simpleUrlIntent(context, url)
+                }
+            }
         }
 
         override fun onDocClicked(doc: Doc) {
-            // TODO
-            simpleUrlIntent(context, doc.url)
+            doc.url ?: return
+            val fileName = doc.fileName
+            val file = File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+                    fileName
+            )
+            val dialog = AlertDialog.Builder(context)
+                    .setMessage(R.string.attachment_open_doc_prompt)
+                    .setPositiveButton(R.string.attachment_open_doc_prompt_download) { _, _ ->
+                        DownloadUtils.download(context, file, doc.url)
+                    }
+                    .setNeutralButton(R.string.attachment_open_doc_prompt_browser) { _, _ ->
+                        simpleUrlIntent(context, doc.url)
+                    }
+                    .create()
+            dialog.show()
+            dialog.stylize()
         }
 
         override fun onPollClicked(poll: Poll) {

@@ -64,6 +64,18 @@ data class Doc(
     val isEncrypted: Boolean
         get() = ".$ext" == CryptoEngine.EXTENSION
 
+    val fileName: String
+        get() {
+            val safeExt = when (ext) {
+                null -> ""
+                else -> ".$ext"
+            }
+            return when {
+                title?.endsWith(safeExt) == true -> title
+                else -> "${title}${ext}"
+            }
+        }
+
     override fun getId() = "doc${ownerId}_$id"
 }
 
@@ -102,7 +114,7 @@ data class PhotoPreview(
         val sizes: List<PreviewSize> = arrayListOf()
 ) : Parcelable {
 
-        fun getSmallPreview(): PreviewSize? = sizes.minByOrNull { it.height }
+    fun getSmallPreview(): PreviewSize? = sizes.minByOrNull { it.height }
 }
 
 @Parcelize

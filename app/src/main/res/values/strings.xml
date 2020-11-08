@@ -381,6 +381,11 @@
     <string name="notifications_open_settings_other">change settings of other messages</string>
     <string name="notifications_open_settings">open notification settings</string>
 
+    <string name="attachment_open_link_prompt">you are about to open %s. continue?</string>
+    <string name="attachment_open_doc_prompt">how do you want to open this document?</string>
+    <string name="attachment_open_doc_prompt_download">download</string>
+    <string name="attachment_open_doc_prompt_browser">open in browser</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>
