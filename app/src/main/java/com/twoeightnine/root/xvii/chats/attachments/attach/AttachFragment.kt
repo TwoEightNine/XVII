@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BasePagerAdapter
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
@@ -13,6 +12,7 @@ import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachFragment
 import com.twoeightnine.root.xvii.model.attachments.Attachment
+import global.msnthrp.xvii.uikit.base.adapters.BasePagerAdapter
 import kotlinx.android.synthetic.main.fragment_attach.*
 
 class AttachFragment : BaseFragment() {

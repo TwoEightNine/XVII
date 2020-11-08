@@ -75,6 +75,7 @@ dependencies {
     implementation androidUi.material
     implementation androidUi.recyclerView
     implementation androidUi.coreKtx
+    implementation androidUi.fragmentKtx
 
     implementation lifecycle.extensions
     implementation lifecycle.viewModel

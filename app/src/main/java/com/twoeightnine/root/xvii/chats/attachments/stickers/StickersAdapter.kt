@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.utils.load
+import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
 import kotlinx.android.synthetic.main.item_sticker.view.*
 
 class StickersAdapter(

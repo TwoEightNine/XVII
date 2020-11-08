@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BaseAdapter
 import com.twoeightnine.root.xvii.network.datausage.DataUsageEvent
 import com.twoeightnine.root.xvii.utils.getSize
 import com.twoeightnine.root.xvii.utils.getTime
+import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
 import kotlinx.android.synthetic.main.item_data_usage_event.view.*
 
 class DataUsageAdapter(context: Context) : BaseAdapter<DataUsageEvent, DataUsageAdapter.DataUsageViewHolder>(context) {

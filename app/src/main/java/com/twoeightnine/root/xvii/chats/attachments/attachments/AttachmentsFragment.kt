@@ -5,13 +5,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BasePagerAdapter
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.audios.AudioAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.links.LinkAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
+import global.msnthrp.xvii.uikit.base.adapters.BasePagerAdapter
 import kotlinx.android.synthetic.main.fragment_attachments_history.*
 
 class AttachmentsFragment : BaseFragment() {

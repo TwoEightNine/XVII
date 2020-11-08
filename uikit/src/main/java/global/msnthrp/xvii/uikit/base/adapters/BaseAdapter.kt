@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.adapters
+package global.msnthrp.xvii.uikit.base.adapters
 
 import android.content.Context
 import android.view.LayoutInflater

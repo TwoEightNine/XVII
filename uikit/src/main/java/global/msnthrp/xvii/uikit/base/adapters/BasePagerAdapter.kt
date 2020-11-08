@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.adapters
+package global.msnthrp.xvii.uikit.base.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -7,7 +7,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 /**
  * base PagerAdapter, the most common
  */
-open class BasePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+open class BasePagerAdapter(fm: FragmentManager)
+    : FragmentStatePagerAdapter(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val fragments = ArrayList<Fragment>()
     private val titles = ArrayList<String>()
