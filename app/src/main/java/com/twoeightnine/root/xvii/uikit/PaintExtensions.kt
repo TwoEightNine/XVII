@@ -60,7 +60,7 @@ fun SwitchCompat.paint(color: Munch.ColorScope) {
             intArrayOf()
     )
     val thumbColors = intArrayOf(color.color, color.color50)
-    val trackColors = intArrayOf(color.color75, color.color20)
+    val trackColors = intArrayOf(color.color20, color.color20)
 
     DrawableCompat.setTintList(thumbDrawable, ColorStateList(states, thumbColors))
     DrawableCompat.setTintList(trackDrawable, ColorStateList(states, trackColors))

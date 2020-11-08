@@ -121,46 +121,19 @@
                     android:layout_marginTop="12dp"
                     android:orientation="vertical" />
 
-                <View
-                    android:id="@+id/vNotificationsTop"
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_below="@+id/llContainer"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/divider" />
-
-                <TextView
-                    android:id="@+id/tvNotifications"
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_below="@+id/vNotificationsTop"
-                    android:layout_marginStart="@dimen/profile_margin_start"
-                    android:gravity="center_vertical"
-                    android:text="@string/notifications"
-                    android:textSize="17sp" />
-
-                <Switch
+                <com.twoeightnine.root.xvii.views.XviiSwitch
                     android:id="@+id/swNotifications"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/tvNotifications"
-                    android:layout_alignBottom="@+id/tvNotifications"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/profile_margin_end" />
-
-                <View
-                    android:id="@+id/vNotificationsBottom"
+                    android:layout_below="@+id/llContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_below="@+id/tvNotifications"
-                    android:background="@color/divider" />
+                    android:layout_height="wrap_content"
+                    android:hint="@string/show_notifications_conversation"
+                    android:text="@string/show_notifications"/>
 
                 <com.twoeightnine.root.xvii.uikit.XviiButton
                     android:id="@+id/btnLeave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/vNotificationsBottom"
+                    android:layout_below="@+id/swNotifications"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="@dimen/profile_margin_start"
@@ -186,8 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/profile_bottom_peek_height"
                     android:background="@color/popup"
-                    android:clickable="true"
-                    android:visibility="gone">
+                    android:clickable="true">
 
                     <com.twoeightnine.root.xvii.uikit.XviiLoader
                         android:layout_width="wrap_content"

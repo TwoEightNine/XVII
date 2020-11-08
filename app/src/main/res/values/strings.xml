@@ -221,6 +221,9 @@
     <string name="lift_keyboards_hint">turn on if there are a gap between keyboard and input</string>
 
     <string name="show_notifications">show notifications</string>
+    <string name="show_notifications_user">from this user</string>
+    <string name="show_notifications_group">from this group</string>
+    <string name="show_notifications_conversation">from this conversation</string>
     <string name="show_notifications_private_hint">from private chats</string>
     <string name="show_notifications_chats_hint">from public conversations</string>
     <string name="show_senders_name">show sender\'s name</string>

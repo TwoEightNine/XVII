@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.chats.messages.base
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.text.Html
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
@@ -17,6 +18,7 @@ import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.messages.Message
+import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.lowerIf
@@ -296,6 +298,15 @@ class MessagesAdapter(context: Context,
 
                         // OR there are 2 hours between messages
                         message.date - prevMessage.date > MESSAGES_BETWEEN_DELAY
+
+        private fun ViewGroup.stylizeAsMessage(level: Int, hide: Boolean = false) {
+            (background as GradientDrawable).setColor(
+                    when {
+                        hide -> Color.TRANSPARENT
+                        level % 2 == 0 -> Munch.color.color20
+                        else -> Munch.color.color10
+                    })
+        }
     }
 
     interface Callback {

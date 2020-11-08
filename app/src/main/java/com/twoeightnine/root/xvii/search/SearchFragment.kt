@@ -10,9 +10,10 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.hideKeyboard
 import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.stylizeAll
 import com.twoeightnine.root.xvii.utils.subscribeSearch
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.view_search.*
@@ -38,7 +39,7 @@ class SearchFragment : BaseFragment() {
 
         etSearch.subscribeSearch(true, viewModel::search)
         ivDelete.setOnClickListener { etSearch.setText("") }
-        llEmptyView.stylizeAll()
+        ivEmptyView.paint(Munch.color.color50)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

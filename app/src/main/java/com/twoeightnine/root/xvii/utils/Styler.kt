@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.DialogTitle
@@ -114,27 +113,6 @@ object ColorManager {
             }
 }
 
-fun ViewGroup.stylizeAsMessage(level: Int, hide: Boolean = false) {
-    when {
-        hide -> {
-            (background as GradientDrawable)
-                    .setColor(Color.TRANSPARENT)
-        }
-        ColorManager.shouldIgnore -> {
-            (background as GradientDrawable)
-                    .setColor(ColorManager.shapeColor)
-        }
-        level % 2 == 0 -> {
-            (background as GradientDrawable)
-                    .setColor(ColorManager.lightColor)
-        }
-        else -> {
-            (background as GradientDrawable)
-                    .setColor(ColorManager.extraLightColor)
-        }
-    }
-}
-
 @SuppressWarnings
 fun Drawable.stylize(tag: String, changeStroke: Boolean = true) {
     if (ColorManager.shouldIgnore) return
@@ -185,13 +163,6 @@ fun ViewGroup.stylize(changeStroke: Boolean = true) {
 fun ImageView.stylize(tag: String? = this.tag as? String, changeStroke: Boolean = true) {
     if (ColorManager.shouldIgnore) return
     tag?.let { drawable?.stylize(it, changeStroke) }
-}
-
-fun Switch.stylize() {
-    if (ColorManager.shouldIgnore) return
-
-    thumbDrawable.setColorFilter(ColorManager.mainColor, PorterDuff.Mode.SRC_ATOP)
-    trackDrawable.setColorFilter(ColorManager.lightColor, PorterDuff.Mode.SRC_ATOP)
 }
 
 fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false) {
@@ -261,7 +232,6 @@ fun ViewGroup.stylizeAll(level: Int = 0) {
             r += "--"
         }
         when (v) {
-            is Switch -> v.stylize()
             is ImageView -> v.stylize()
             is ViewGroup -> v.stylizeAll(level + 1)
         }
