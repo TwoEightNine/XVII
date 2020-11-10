@@ -16,6 +16,7 @@ import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.showWarnConfirm
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
 
@@ -68,10 +69,7 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
 
     private fun onUserLongClick(user: User) {
         val peerId = getChatOwner()?.getPeerId() ?: 0
-        var name = user.fullName
-        if (Prefs.lowerTexts) {
-            name = name.toLowerCase()
-        }
+        var name = user.fullName.lowerIf(Prefs.lowerTexts)
         showWarnConfirm(context, getString(R.string.wanna_kick_user, name), getString(R.string.kick_user)) { confirmed ->
             if (confirmed) {
                 viewModel.kickUser(peerId, user.id)

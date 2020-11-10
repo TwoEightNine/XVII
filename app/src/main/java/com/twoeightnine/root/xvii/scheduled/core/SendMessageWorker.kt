@@ -12,6 +12,7 @@ import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.NotificationChannels
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.random.Random
@@ -70,10 +71,7 @@ class SendMessageWorker(
             appDb.dialogsDao()
                     .getDialogs(peerId)
                     .subscribe({ dialog ->
-                        var peer = dialog.alias ?: dialog.title
-                        if (Prefs.lowerTexts) {
-                            peer = peer.toLowerCase()
-                        }
+                        val peer = (dialog.alias ?: dialog.title).lowerIf(Prefs.lowerTexts)
                         showNotification(success, peerId, peer)
                     }, { throwable ->
                         lw("error fetching peer id", throwable)

@@ -33,6 +33,7 @@ import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -286,7 +287,7 @@ class LongPollCore(private val context: Context) {
         }
 
         if (Prefs.useStyledNotifications) {
-            loadNotificationBackgroundAsync(context, icon) { notificationBackground ->
+            BitmapNotification.load(context, icon) { notificationBackground ->
                 val builder = NotificationCompat.Builder(context, channelId)
                         .setCustomContentView(
                                 getNotificationView(
@@ -376,14 +377,14 @@ class LongPollCore(private val context: Context) {
 
     private fun getNotificationView(
             @LayoutRes layoutId: Int,
-            notificationBackground: NotificationBackground,
+            notificationBackground: BitmapNotification.NotificationBackground,
             name: String,
             message: CharSequence,
             timeStamp: Int,
             onClickPendingIntent: PendingIntent? = null
     ) = RemoteViews(context.packageName, layoutId).apply {
 
-        val processedName = if (Prefs.lowerTexts) name.toLowerCase() else name
+        val processedName = name.lowerIf(Prefs.lowerTexts)
         setTextViewText(R.id.tvName, processedName)
         setTextViewText(R.id.tvMessages, message)
         setTextViewText(R.id.tvWhen, getTime(timeStamp, shortened = true))
