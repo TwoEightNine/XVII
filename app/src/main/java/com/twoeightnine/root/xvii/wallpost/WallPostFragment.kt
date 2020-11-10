@@ -6,8 +6,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
@@ -22,10 +22,13 @@ import com.twoeightnine.root.xvii.network.response.WallPostResponse
 import com.twoeightnine.root.xvii.utils.*
 import de.hdodenhof.circleimageview.CircleImageView
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.content_wall_post.view.*
+import kotlinx.android.synthetic.main.content_wall_post.view.civAvatar
 import kotlinx.android.synthetic.main.fragment_wall_post.*
+import kotlinx.android.synthetic.main.toolbar2.view.*
 import javax.inject.Inject
 
 class WallPostFragment : BaseFragment() {
@@ -47,14 +50,10 @@ class WallPostFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         App.appComponent?.inject(this)
         getWallPostRequest()
+        svContent.applyBottomInsetPadding()
     }
 
     override fun getLayoutId() = R.layout.fragment_wall_post
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        svContent.applyBottomInsetPadding()
-    }
 
     override fun getMenu(): Int = R.menu.menu_wall_post
 
@@ -70,12 +69,11 @@ class WallPostFragment : BaseFragment() {
         loader.show()
         api.getWallPostById(postId ?: "")
                 .subscribeSmart({ response ->
-                    loader.visibility = View.GONE
+                    loader.hide()
                     postResponse = response
                     if (response.items.size > 0) {
                         fillContent(llRoot)
-                        putViews(WallViewHolder(llRoot), response.items[0], 0)
-                        initLike(response.items[0])
+                        putViews(WallViewHolder(llRoot), response.items[0])
                     } else {
                         showError(context, getString(R.string.error))
                     }
@@ -84,13 +82,22 @@ class WallPostFragment : BaseFragment() {
                 })
     }
 
-    private fun putViews(holder: WallViewHolder, post: WallPost, level: Int) {
+    private fun putViews(holder: WallViewHolder, post: WallPost, level: Int = 0) {
         val group = getGroup(-post.fromId)
-        holder.tvTitle.text = group.name
-        holder.tvTitle.lowerIf(Prefs.lowerTexts)
+        if (level == 0) {
+            xviiToolbar.tvChatTitle.text = group.name
+            xviiToolbar.tvChatTitle.lowerIf(Prefs.lowerTexts)
 
-        holder.civAvatar.load(group.photo100)
-        holder.tvDate.text = getTime(post.date, withSeconds = Prefs.showSeconds)
+            xviiToolbar.civAvatar.load(group.photo100)
+            xviiToolbar.tvSubtitle.text = getTime(post.date, withSeconds = Prefs.showSeconds)
+            holder.rlHeader.hide()
+        } else {
+            holder.tvTitle.text = group.name
+            holder.tvTitle.lowerIf(Prefs.lowerTexts)
+
+            holder.civAvatar.load(group.photo100)
+            holder.tvDate.text = getTime(post.date, withSeconds = Prefs.showSeconds)
+        }
         holder.tvPost.text = post.text
         attachmentsInflater.createViewsFor(post)
                 .forEach(holder.llContainer::addView)
@@ -114,45 +121,6 @@ class WallPostFragment : BaseFragment() {
         root.addView(View.inflate(context, R.layout.content_wall_post, null))
     }
 
-    private fun initLike(wp: WallPost) {
-        val likes = wp.likes ?: return
-        val context = context ?: return
-
-        val noLike = ContextCompat.getDrawable(context, R.drawable.ic_no_like)
-        val like = ContextCompat.getDrawable(context, R.drawable.ic_like)
-        if (likes.isUserLiked) {
-            ivLike.setImageDrawable(like)
-        } else {
-            ivLike.setImageDrawable(noLike)
-        }
-        tvLikes.text = likes.count.toString()
-        val flowableLike = api.like(wp.ownerId, wp.id)
-        val flowableUnlike = api.unlike(wp.ownerId, wp.id)
-        ivLike.setOnClickListener {
-            if (!likes.isUserLiked) {
-                ivLike.setImageDrawable(like)
-                flowableLike
-                        .subscribeSmart({ response ->
-                            likes.isUserLiked = true
-                            tvLikes.text = response.likes.toString()
-                        }, {
-                            showError(context, it)
-                            ivLike.setImageDrawable(noLike)
-                        })
-            } else {
-                ivLike.setImageDrawable(noLike)
-                flowableUnlike
-                        .subscribeSmart({ response ->
-                            likes.isUserLiked = false
-                            tvLikes.text = response.likes.toString()
-                        }, {
-                            showError(context, it)
-                            ivLike.setImageDrawable(like)
-                        })
-            }
-        }
-    }
-
     companion object {
 
         const val WALL_POST_URL = "https://vk.com/wall"
@@ -172,6 +140,7 @@ class WallPostFragment : BaseFragment() {
 
     private inner class WallViewHolder(view: View) {
 
+        val rlHeader: RelativeLayout = view.rlHeader
         val civAvatar: CircleImageView = view.civAvatar
         val tvTitle: TextView = view.tvTitle
         val tvDate: TextView = view.tvDate

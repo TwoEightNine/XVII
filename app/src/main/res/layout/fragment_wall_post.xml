@@ -11,7 +11,7 @@
         android:id="@+id/xviiToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="@string/wall_post" />
+        app:forChat="true" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/svContent"
@@ -21,46 +21,11 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/llRoot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" />
 
-            <LinearLayout
-                android:id="@+id/llRoot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="12dp">
-
-                <ImageView
-                    android:id="@+id/ivLike"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_no_like"
-                    android:tag="main" />
-
-                <TextView
-                    android:id="@+id/tvLikes"
-                    style="@style/OtherText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="6dp"
-                    android:layout_toLeftOf="@+id/ivLike"
-                    android:text="17/53"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.twoeightnine.root.xvii.uikit.XviiLoader
