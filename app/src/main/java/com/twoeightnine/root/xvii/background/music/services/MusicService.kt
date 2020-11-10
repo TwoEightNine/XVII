@@ -264,7 +264,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
                 .setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .setSmallIcon(R.drawable.ic_play_music)
+                .setSmallIcon(R.drawable.ic_play_filled)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setColor(ContextCompat.getColor(applicationContext, R.color.background))
                 .build()
@@ -278,7 +278,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 //            setInt(R.id.rlTrack, "setBackgroundColor", ContextCompat.getColor(applicationContext, R.color.background))
             setTextViewText(R.id.tvTitle, audio.title)
             setTextViewText(R.id.tvArtist, audio.artist)
-            val playPauseRes = if (player.isPlayingSafe()) R.drawable.ic_pause_music else R.drawable.ic_play_music
+            val playPauseRes = if (player.isPlayingSafe()) R.drawable.ic_pause_filled else R.drawable.ic_play_filled
             setImageViewResource(R.id.ivPlayPause, playPauseRes)
             setOnClickPendingIntent(R.id.ivNext, getActionPendingIntent(MusicBroadcastReceiver.ACTION_NEXT))
             setOnClickPendingIntent(R.id.ivPrevious, getActionPendingIntent(MusicBroadcastReceiver.ACTION_PREVIOUS))

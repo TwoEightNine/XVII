@@ -303,8 +303,7 @@ class AttachmentsInflater(
             }
             tvDuration.text = "gif"
             root.setOnClickListener {
-                if (!ivPlay.isShown) {
-                    ivPlay.show()
+                if (!ivPlayWhite.isShown) {
                     ivPlayWhite.show()
                     rlDuration.show()
                     ivVideo.load(gifUrl) {
@@ -312,7 +311,6 @@ class AttachmentsInflater(
                         centerCrop()
                     }
                 } else {
-                    ivPlay.hide()
                     ivPlayWhite.hide()
                     rlDuration.hide()
                     Glide.with(root)

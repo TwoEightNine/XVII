@@ -11,21 +11,17 @@
         android:id="@+id/ivVideo"
         android:layout_width="@dimen/chat_message_video_width"
         android:layout_height="@dimen/chat_message_video_height"
-        app:riv_corner_radius="@dimen/default_radius" />
-
-    <ImageView
-        android:id="@+id/ivPlay"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/shape_circle_video" />
+        app:riv_corner_radius="@dimen/default_radius"
+        tools:scaleType="centerCrop"
+        tools:src="@tools:sample/backgrounds/scenic"/>
 
     <ImageView
         android:id="@+id/ivPlayWhite"
-        android:layout_width="60dp"
+        android:layout_width="70dp"
         android:layout_height="60dp"
+        android:paddingStart="10dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/play_white" />
+        android:src="@drawable/ic_play_filled_overlay" />
 
     <RelativeLayout
         android:id="@+id/rlDuration"
