@@ -154,7 +154,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     }
 
     protected fun goTo(url: String?) {
-        simpleUrlIntent(context, url)
+        UrlUtils.openUrl(context, url)
     }
 
     private fun loadHighResWithAnimation(url: String?) {

@@ -29,7 +29,6 @@ import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.UiKitFragment
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.web.WebFragment
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import kotlinx.android.synthetic.main.fragment_features.*
@@ -77,7 +76,7 @@ class FeaturesFragment : BaseFragment() {
         xiRate.setOnClickListener { context?.also { rate(it) } }
         xiShare.setOnClickListener { share() }
         xiPrivacy.setOnClickListener { resolvePrivacyPolicy() }
-        xiSourceCode.setOnClickListener { simpleUrlIntent(context, GITHUB_URL) }
+        xiSourceCode.setOnClickListener { UrlUtils.openUrl(context, GITHUB_URL) }
 
         xlAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         xlAbout.setOnClickListener { showLogDialog() }
@@ -142,14 +141,12 @@ class FeaturesFragment : BaseFragment() {
     }
 
     private fun resolvePrivacyPolicy() {
-        val url = if (Locale.getDefault() == Locale("ru", "RU")) {
+        val url = if (Locale.getDefault() == Locale("ru")) {
             PRIVACY_RU
         } else {
             PRIVACY_WORLD
         }
-        startFragment<WebFragment>(
-                WebFragment.createArgs(url, getString(R.string.privacy_policy))
-        )
+        UrlUtils.openUrl(context, url)
     }
 
     companion object {

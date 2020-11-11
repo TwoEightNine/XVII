@@ -88,7 +88,7 @@ fun showError(context: Context?, text: String?) {
 }
 
 fun rate(context: Context) {
-    val uri = Uri.parse("market://details?id=" + context.packageName)
+    val uri = Uri.parse("market://details?id=${context.packageName}")
     val goToMarket = Intent(Intent.ACTION_VIEW, uri)
     goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or
             Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
@@ -96,8 +96,7 @@ fun rate(context: Context) {
     try {
         context.startActivity(goToMarket)
     } catch (e: ActivityNotFoundException) {
-        context.startActivity(Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=" + context.packageName)))
+        UrlUtils.openUrl(context, "https://play.google.com/store/apps/details?id=${context.packageName}")
     }
 
 }
@@ -323,24 +322,6 @@ fun goHome(context: Context?) {
     context?.startActivity(Intent(Intent.ACTION_MAIN).apply {
         addCategory(Intent.CATEGORY_HOME)
     })
-}
-
-fun simpleUrlIntent(context: Context?, urlArg: String?) {
-    context ?: return
-
-    var url = urlArg ?: return
-    try {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "http://$url"
-        }
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(url)
-        }
-        context.startActivity(intent)
-    } catch (e: Exception) {
-        L.def().throwable(e)
-                .log("unable to open link")
-    }
 }
 
 fun wrapMentions(context: Context, text: CharSequence, addClickable: Boolean = false): SpannableStringBuilder {

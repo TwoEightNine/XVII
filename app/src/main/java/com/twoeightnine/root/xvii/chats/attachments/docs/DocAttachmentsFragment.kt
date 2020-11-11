@@ -6,7 +6,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsFragment
 import com.twoeightnine.root.xvii.model.attachments.Doc
-import com.twoeightnine.root.xvii.utils.simpleUrlIntent
+import com.twoeightnine.root.xvii.utils.UrlUtils
 import com.twoeightnine.root.xvii.web.GifViewerFragment
 
 class DocAttachmentsFragment : BaseAttachmentsFragment<Doc>() {
@@ -25,7 +25,7 @@ class DocAttachmentsFragment : BaseAttachmentsFragment<Doc>() {
         if (doc.isGif) {
             startFragment<GifViewerFragment>(GifViewerFragment.createArgs(doc))
         } else {
-            simpleUrlIntent(context, doc.url)
+            UrlUtils.openUrl(context, doc.url)
         }
     }
 

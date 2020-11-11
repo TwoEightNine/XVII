@@ -59,7 +59,7 @@ class WallPostFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.menu_open_url -> {
-            simpleUrlIntent(context, "$WALL_POST_URL$postId")
+            UrlUtils.openUrl(context, "$WALL_POST_URL$postId")
             true
         }
         else -> super.onOptionsItemSelected(item)
