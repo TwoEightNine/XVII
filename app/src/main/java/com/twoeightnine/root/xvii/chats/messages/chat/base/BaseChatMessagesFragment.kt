@@ -41,7 +41,6 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
-import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import global.msnthrp.xvii.uikit.extensions.*
 import io.reactivex.Completable
 import io.reactivex.disposables.Disposable
@@ -269,7 +268,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             }
             Attachment.TYPE_VIDEO -> attachment.video?.let {
                 viewModel.loadVideo(context ?: return, it, { playerUrl ->
-                    VideoViewerActivity.launch(context, playerUrl)
+                    UrlUtils.openUrl(context, playerUrl)
                 }, { error ->
                     showError(context, error)
                 })
@@ -480,7 +479,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
         override fun onVideoClicked(video: Video) {
             viewModel.loadVideo(context ?: return, video, { playerUrl ->
-                VideoViewerActivity.launch(context, playerUrl)
+                UrlUtils.openUrl(context, playerUrl)
             }, { error ->
                 showError(context, error)
             })

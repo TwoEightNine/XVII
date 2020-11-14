@@ -6,8 +6,8 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsFragment
 import com.twoeightnine.root.xvii.model.attachments.Video
+import com.twoeightnine.root.xvii.utils.UrlUtils
 import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.web.VideoViewerActivity
 
 class VideoAttachmentsFragment : BaseAttachmentsFragment<Video>() {
 
@@ -25,7 +25,7 @@ class VideoAttachmentsFragment : BaseAttachmentsFragment<Video>() {
 
     private fun onClick(video: Video) {
         (viewModel as? VideoAttachmentsViewModel)?.loadVideoPlayer(video, { player ->
-            VideoViewerActivity.launch(context, player)
+            UrlUtils.openUrl(context, player)
         }) { error ->
             showError(context, error ?: getString(R.string.error))
         }

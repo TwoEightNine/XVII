@@ -15,13 +15,9 @@ import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
+import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
-import com.twoeightnine.root.xvii.utils.copyToClip
-import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.stylizeAll
-import com.twoeightnine.root.xvii.utils.stylizeColor
-import com.twoeightnine.root.xvii.web.VideoViewerActivity
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.view_chat_multiselect.*
@@ -89,7 +85,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
 
         override fun onVideoClicked(video: Video) {
             viewModel.loadVideo(context ?: return, video, { playerUrl ->
-                VideoViewerActivity.launch(context, playerUrl)
+                UrlUtils.openUrl(context, playerUrl)
             }, { error ->
                 showError(context, error)
             })
