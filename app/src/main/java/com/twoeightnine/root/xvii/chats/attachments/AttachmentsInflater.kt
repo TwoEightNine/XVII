@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
@@ -25,6 +24,7 @@ import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
+import com.twoeightnine.root.xvii.web.GifViewerFragment
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.show
@@ -293,34 +293,25 @@ class AttachmentsInflater(
         }
     }
 
-    // TODO autoplay, resize accroding to real size
-    private fun createGif(doc: Doc): View? {
-        val gifUrl = doc.preview?.photo?.sizes?.firstOrNull()?.src ?: return null
-        return ContainerVideoBinding.inflate(inflater).run {
-            ivVideo.load(gifUrl) {
-                override(pxFromDp(context, 250), pxFromDp(context, 186))
-                centerCrop()
-            }
-            tvDuration.text = "gif"
-            root.setOnClickListener {
-                if (!ivPlayWhite.isShown) {
-                    ivPlayWhite.show()
-                    rlDuration.show()
-                    ivVideo.load(gifUrl) {
-                        override(pxFromDp(context, 250), pxFromDp(context, 186))
-                        centerCrop()
-                    }
+    private fun createGif(doc: Doc): View =
+            ContainerGifBinding.inflate(inflater).run {
+                val smallPreview = doc.preview?.photo?.getSmallPreview()
+                val defaultRatio = videoWidth.toFloat() / videoHeight
+                val ratio = if (smallPreview != null) {
+                    smallPreview.width.toFloat() / smallPreview.height
                 } else {
-                    ivPlayWhite.hide()
-                    rlDuration.hide()
-                    Glide.with(root)
-                            .load(doc.url)
-                            .into(ivVideo)
+                    defaultRatio
                 }
+
+                val width = videoWidth
+                val height = (videoWidth / ratio).toInt()
+                root.layoutParams = LinearLayout.LayoutParams(width, height)
+                ivGif.load(doc.url)
+                ivGif.setOnClickListener {
+                    callback.onGifClicked(doc)
+                }
+                root
             }
-            root
-        }
-    }
 
     private fun createDoc(doc: Doc): View =
             ContainerDocBinding.inflate(inflater).run {
@@ -351,6 +342,7 @@ class AttachmentsInflater(
         fun onVideoClicked(video: Video)
         fun onLinkClicked(link: Link)
         fun onDocClicked(doc: Doc)
+        fun onGifClicked(doc: Doc)
         fun onPollClicked(poll: Poll)
         fun onWallPostClicked(wallPost: WallPost)
     }
@@ -390,6 +382,10 @@ class AttachmentsInflater(
                     .create()
             dialog.show()
             dialog.stylize()
+        }
+
+        override fun onGifClicked(doc: Doc) {
+            context.startFragment<GifViewerFragment>(GifViewerFragment.createArgs(doc))
         }
 
         override fun onPollClicked(poll: Poll) {

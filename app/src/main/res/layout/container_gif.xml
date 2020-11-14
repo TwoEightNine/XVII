@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingStart="@dimen/chat_message_photo_margin"
+    android:paddingEnd="@dimen/chat_message_photo_margin"
+    app:cardBackgroundColor="@color/placeholder"
+    app:cardElevation="0dp"
+    app:cardCornerRadius="@dimen/default_radius"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/ivGif"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/backgrounds/scenic"/>
+
+</androidx.cardview.widget.CardView>
