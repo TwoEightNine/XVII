@@ -32,7 +32,7 @@ object ShortcutUtils {
 
                 val icon = when {
                     bitmap != null -> Icon.createWithBitmap(bitmap)
-                    else -> Icon.createWithResource(context, R.drawable.xvii_dark_logo_128)
+                    else -> Icon.createWithResource(context, R.drawable.xvii_logo_128_circle)
                 }
                 val shortcutInfo = ShortcutInfo.Builder(context, dialog.peerId.toString())
                         .setShortLabel(title)
@@ -51,7 +51,7 @@ object ShortcutUtils {
                         putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap)
                     } else {
                         putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                                Intent.ShortcutIconResource.fromContext(context, R.drawable.xvii_dark_logo_128))
+                                Intent.ShortcutIconResource.fromContext(context, R.drawable.xvii_logo_128_circle))
                     }
                     putExtra("duplicate", false)
                     action = "com.android.launcher.action.INSTALL_SHORTCUT"

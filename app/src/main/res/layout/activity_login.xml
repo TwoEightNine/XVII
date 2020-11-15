@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@mipmap/xvii_dark_logo_512" />
+            android:src="@mipmap/xvii_logo_512_circle" />
 
         <com.twoeightnine.root.xvii.uikit.XviiLoader
             android:id="@+id/progressBar"

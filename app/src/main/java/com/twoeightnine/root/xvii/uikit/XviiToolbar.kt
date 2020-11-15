@@ -12,6 +12,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
 import global.msnthrp.xvii.uikit.extensions.applyTopInsetPadding
 import global.msnthrp.xvii.uikit.extensions.setVisible
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.toolbar2.view.*
 import kotlinx.android.synthetic.main.view_tabs.view.*
 
@@ -33,6 +34,7 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
     private var hasBackArrow: Boolean = true
     private var withTabs: Boolean = false
     private var alwaysLifted: Boolean = false
+    private var showLogo: Boolean = false
 
     var isLifted: Boolean
         get() = elevation != 0f
@@ -56,6 +58,12 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
         }
         rlChat.setVisible(forChat)
 
+        if (showLogo) {
+            tvToolbarTitle.text = ""
+            ivToolbarLogo.show()
+            ivToolbarLogo.paint(ContextCompat.getColor(context, R.color.main_text))
+        }
+
         applyTopInsetPadding()
     }
 
@@ -66,6 +74,7 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
         withTabs = attrs.getBoolean(R.styleable.XviiToolbar_withTabs, false)
         forChat = attrs.getBoolean(R.styleable.XviiToolbar_forChat, false)
         alwaysLifted = attrs.getBoolean(R.styleable.XviiToolbar_alwaysLifted, false)
+        showLogo = attrs.getBoolean(R.styleable.XviiToolbar_showLogo, false)
         attrs.recycle()
     }
 

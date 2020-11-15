@@ -41,7 +41,7 @@
                     android:id="@+id/civPhoto"
                     android:layout_width="@dimen/chat_photo_size"
                     android:layout_height="@dimen/chat_photo_size"
-                    android:src="@drawable/xvii_dark_logo_128" />
+                    android:src="@drawable/xvii_logo_128_circle" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

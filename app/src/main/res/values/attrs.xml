@@ -15,6 +15,7 @@
         <attr name="withTabs" format="boolean" />
         <attr name="forChat" format="boolean" />
         <attr name="alwaysLifted" format="boolean" />
+        <attr name="showLogo" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="XviiItem">

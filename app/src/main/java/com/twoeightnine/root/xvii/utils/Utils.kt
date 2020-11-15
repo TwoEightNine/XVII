@@ -447,9 +447,9 @@ fun loadBitmapIcon(context: Context, url: String?, useSquare: Boolean = false, c
         else -> url
     }
     val drawableRes = if (useSquare) {
-        R.drawable.xvii_dark_logo_128_square
+        R.drawable.xvii_logo_128
     } else {
-        R.drawable.xvii_dark_logo_128
+        R.drawable.xvii_logo_128_circle
     }
     val uiHandler = Handler(Looper.getMainLooper())
     uiHandler.post {
