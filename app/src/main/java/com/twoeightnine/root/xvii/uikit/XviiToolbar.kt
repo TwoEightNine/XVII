@@ -42,6 +42,12 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
             elevation = if (value) 10f else 0f
         }
 
+    var onClick: (() -> Unit)? = null
+        set(value) {
+            field = value
+            toolbar?.setOnClickListener { value?.invoke() }
+        }
+
     init {
         initAttributes(attributeSet)
         isLiftOnScroll = !alwaysLifted

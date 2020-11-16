@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.utils.ColorManager
@@ -32,7 +33,7 @@ class MembersAdapter(
 
         fun bind(user: User) {
             with(view) {
-                civPhoto.load(user.photo100)
+                civPhoto.load(user.photo100, user.fullName.getInitials(), id = user.id)
                 val d = ContextCompat.getDrawable(context, R.drawable.dotshape)
                 d?.stylize(ColorManager.MAIN_TAG)
                 ivOnlineDot.setImageDrawable(if (user.isOnline) d else null)
