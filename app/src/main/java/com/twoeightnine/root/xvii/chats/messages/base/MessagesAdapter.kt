@@ -16,6 +16,7 @@ import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
+import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.uikit.Munch
@@ -197,7 +198,7 @@ class MessagesAdapter(context: Context,
                         lowerIf(Prefs.lowerTexts)
                     }
                     civPhoto?.apply {
-                        load(message.photo)
+                        load(message.photo, message.name?.getInitials(), id = message.fromId)
                     }
                     rlName?.setOnClickListener {
                         items.getOrNull(adapterPosition)

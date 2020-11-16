@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.model.attachments.Attachment
-import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.showAlert
 import com.twoeightnine.root.xvii.utils.stylize
 import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter

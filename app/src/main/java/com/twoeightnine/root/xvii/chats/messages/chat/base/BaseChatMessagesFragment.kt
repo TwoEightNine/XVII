@@ -12,7 +12,6 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragmentForResult
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
@@ -111,12 +110,9 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        chatToolbarController.setTitle(title)
+        chatToolbarController.setData(title, photo, id = peerId)
 //        chatToolbarController.setTitle(FakeData.name)
-        if (peerId != -App.GROUP) {
-            chatToolbarController.setAvatar(photo)
-//            chatToolbarController.setAvatar(FakeData.avatar)
-        }
+//        chatToolbarController.setAvatar(FakeData.avatar)
         if (!peerId.matchesUserId()) {
             onOnlineChanged(Triple(false, 0, 0))
         }

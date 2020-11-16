@@ -71,7 +71,7 @@ class SendMessageWorker(
             appDb.dialogsDao()
                     .getDialogs(peerId)
                     .subscribe({ dialog ->
-                        val peer = (dialog.alias ?: dialog.title).lowerIf(Prefs.lowerTexts)
+                        val peer = dialog.aliasOrTitle.lowerIf(Prefs.lowerTexts)
                         showNotification(success, peerId, peer)
                     }, { throwable ->
                         lw("error fetching peer id", throwable)

@@ -1,8 +1,8 @@
 package com.twoeightnine.root.xvii.chats.tools
 
+import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.uikit.XviiToolbar
-import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.time
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.lowerIf
@@ -19,6 +19,13 @@ class ChatToolbarController(private val xviiToolbar: XviiToolbar) {
     private var lastAction = 0
     private var actionSubscription: Subscription? = null
 
+    fun setData(title: String, photo: String?, id: Int = 0) {
+        xviiToolbar.tvChatTitle.text = title
+        xviiToolbar.tvChatTitle.lowerIf(Prefs.lowerTexts)
+        xviiToolbar.civAvatar.load(photo, title.getInitials(), id = id)
+    }
+
+    @Deprecated("Use setData")
     fun setTitle(title: String) {
         xviiToolbar.tvChatTitle.text = title
         xviiToolbar.tvChatTitle.lowerIf(Prefs.lowerTexts)
@@ -28,6 +35,7 @@ class ChatToolbarController(private val xviiToolbar: XviiToolbar) {
         xviiToolbar.tvSubtitle.text = subtitle
     }
 
+    @Deprecated("Use setData")
     fun setAvatar(photo: String?) {
         xviiToolbar.civAvatar.load(photo)
     }

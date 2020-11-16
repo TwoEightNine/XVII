@@ -30,4 +30,8 @@
     <declare-styleable name="XviiLoader">
         <attr name="alwaysWhite" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="XviiAvatar">
+        <attr name="avatarNameSize" format="dimension" />
+    </declare-styleable>
 </resources>

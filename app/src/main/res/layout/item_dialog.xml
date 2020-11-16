@@ -12,13 +12,13 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_rect">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.twoeightnine.root.xvii.uikit.XviiAvatar
             android:id="@+id/civPhoto"
             android:layout_width="@dimen/user_photo_size"
             android:layout_height="@dimen/user_photo_size"
             android:layout_margin="@dimen/item_margin"
             android:src="@color/placeholder"
-            app:civ_border_color="@color/icons" />
+            app:avatarNameSize="@dimen/avatar_name_size_dialog" />
 
         <LinearLayout
             android:layout_width="match_parent"

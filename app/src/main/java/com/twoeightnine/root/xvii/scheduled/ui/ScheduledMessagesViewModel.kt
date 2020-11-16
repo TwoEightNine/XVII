@@ -83,7 +83,7 @@ class ScheduledMessagesViewModel : ViewModel() {
     private fun loadPeers(peerIds: List<Int>, onSuccess: (Map<Int, String>) -> Unit) {
         appDb.dialogsDao()
                 .getDialogsByPeerIds(peerIds)
-                .map { dialogs -> dialogs.map { dialog -> dialog.peerId to (dialog.alias ?: dialog.title) } }
+                .map { dialogs -> dialogs.map { dialog -> dialog.peerId to dialog.aliasOrTitle } }
                 .map { pairList -> pairList.toMap() }
                 .compose(applySingleSchedulers())
                 .subscribe(onSuccess, { throwable ->

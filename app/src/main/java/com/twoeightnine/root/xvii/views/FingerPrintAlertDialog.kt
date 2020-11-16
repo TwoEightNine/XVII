@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
 import com.twoeightnine.root.xvii.crypto.getUiFriendlyHash
-import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.utils.stylize
 import kotlinx.android.synthetic.main.dialog_fingerprint.view.*
 

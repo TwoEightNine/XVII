@@ -13,9 +13,9 @@ import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.EmojiPack
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.StickerPack
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
-import com.twoeightnine.root.xvii.utils.load
 import kotlinx.android.synthetic.main.item_sticker_tab.view.*
 import kotlinx.android.synthetic.main.view_sticker_pack.view.*
 

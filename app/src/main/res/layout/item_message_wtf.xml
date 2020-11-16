@@ -37,11 +37,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <com.twoeightnine.root.xvii.uikit.XviiAvatar
                     android:id="@+id/civPhoto"
                     android:layout_width="@dimen/chat_photo_size"
-                    android:layout_height="@dimen/chat_photo_size"
-                    android:src="@drawable/xvii_logo_128_circle" />
+                    android:layout_height="@dimen/chat_photo_size" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -7,11 +7,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
+import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.utils.ColorManager
 import com.twoeightnine.root.xvii.utils.getLastSeenText
-import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.stylize
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import kotlinx.android.synthetic.main.item_user.view.*
@@ -40,7 +40,7 @@ class FriendsAdapter(context: Context,
                 val topPadding = if (isFirst) firstItemPadding else 0
                 setPadding(0, topPadding, 0, 0)
 
-                civPhoto.load(user.photo100)
+                civPhoto.load(user.photo100, user.fullName.getInitials(), id = user.id)
                 val d = ContextCompat.getDrawable(context, R.drawable.dotshape)
                 d?.stylize(ColorManager.MAIN_TAG)
                 ivOnlineDot.setImageDrawable(if (user.isOnline) d else null)

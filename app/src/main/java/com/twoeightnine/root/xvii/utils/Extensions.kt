@@ -1,17 +1,11 @@
 package com.twoeightnine.root.xvii.utils
 
-import android.graphics.drawable.Drawable
 import android.os.SystemClock
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import com.bumptech.glide.RequestBuilder
 import com.jakewharton.rxbinding.widget.RxTextView
-import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.Error
-import global.msnthrp.xvii.uikit.extensions.load
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import rx.Subscription
@@ -71,13 +65,6 @@ fun <T> Flowable<BaseResponse<T>>.subscribeSmart(response: (T) -> Unit,
                 err.printStackTrace()
                 newtError.invoke(err.message ?: "null")
             })
-}
-
-fun ImageView.load(url: String?, placeholder: Boolean = true,
-                   block: RequestBuilder<Drawable>.() -> RequestBuilder<Drawable> = { this }) {
-    val stubColorUrl = ColorManager.getPhotoStub()
-    val placeholderColor = ContextCompat.getColor(context, R.color.placeholder)
-    load(url, stubColorUrl, placeholderColor, placeholder, block)
 }
 
 fun TextView.subscribeSearch(

@@ -5,10 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.utils.load
 import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
 import kotlinx.android.synthetic.main.item_user_mentioned.view.*
+import java.util.*
 
 class MentionedMembersAdapter(
         context: Context,
@@ -30,7 +31,7 @@ class MentionedMembersAdapter(
             with(itemView) {
                 tvName.text = member.fullName
                 tvInfo.text = "@${member.getPageName()}"
-                civPhoto.load(member.photo100)
+                civPhoto.load(member.photo100, member.fullName.getInitials().toUpperCase(Locale.ROOT), id = member.id)
 
                 setOnClickListener { onClick(items[adapterPosition]) }
             }

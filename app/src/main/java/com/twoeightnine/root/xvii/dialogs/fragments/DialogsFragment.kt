@@ -120,7 +120,7 @@ open class DialogsFragment : BaseFragment() {
                     TextInputAlertDialog(
                             requireContext(),
                             dialog.title,
-                            dialog.alias ?: dialog.title
+                            dialog.aliasOrTitle
                     ) { newAlias ->
                         viewModel.addAlias(dialog, newAlias)
                     }.show()

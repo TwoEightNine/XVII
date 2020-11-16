@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.model.attachments.Video
-import com.twoeightnine.root.xvii.utils.load
 import com.twoeightnine.root.xvii.utils.secToTime
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_attachments_video.view.*

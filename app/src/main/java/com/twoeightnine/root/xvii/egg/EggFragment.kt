@@ -5,7 +5,7 @@ import android.text.Html
 import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.utils.screenWidth
 import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_egg.*

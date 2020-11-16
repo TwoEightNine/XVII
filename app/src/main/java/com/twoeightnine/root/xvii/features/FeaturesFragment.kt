@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.start
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
 import com.twoeightnine.root.xvii.features.general.GeneralFragment
 import com.twoeightnine.root.xvii.features.notifications.NotificationsFragment

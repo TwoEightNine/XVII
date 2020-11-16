@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.uikit.extensions.lowerIf
@@ -47,9 +48,9 @@ class DialogsAdapter(
                 val topPadding = if (isFirst) firstItemPadding else 0
                 setPadding(0, topPadding, 0, 0)
 
-                civPhoto.load(dialog.photo)
+                civPhoto.load(dialog.photo, dialog.aliasOrTitle.getInitials(), id = dialog.peerId)
 
-                tvTitle.text = dialog.alias ?: dialog.title
+                tvTitle.text = dialog.aliasOrTitle
                 tvTitle.lowerIf(Prefs.lowerTexts)
                 tvBody.text = if (EmojiHelper.hasEmojis(dialog.text)) {
                     EmojiHelper.getEmojied(

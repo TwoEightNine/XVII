@@ -22,4 +22,9 @@ data class Dialog(
         var isMute: Boolean = false,
         var isPinned: Boolean = false,
         var alias: String? = null
-) : Parcelable
+) : Parcelable {
+
+    val aliasOrTitle: String
+        get() = alias ?: title
+
+}

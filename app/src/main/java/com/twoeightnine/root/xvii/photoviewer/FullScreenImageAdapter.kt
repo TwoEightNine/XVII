@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.extensions.load
 
 class FullScreenImageAdapter(
         private val activity: Activity,

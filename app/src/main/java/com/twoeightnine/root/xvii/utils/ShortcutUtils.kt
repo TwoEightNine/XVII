@@ -15,7 +15,7 @@ import global.msnthrp.xvii.uikit.extensions.load
 object ShortcutUtils {
 
     fun createShortcut(context: Context, dialog: Dialog, onAdded: () -> Unit) {
-        val title = dialog.alias ?: dialog.title
+        val title = dialog.aliasOrTitle
 
         val intent = Intent(context, ChatActivity::class.java).apply {
             putExtra(ChatActivity.PEER_ID, dialog.peerId)

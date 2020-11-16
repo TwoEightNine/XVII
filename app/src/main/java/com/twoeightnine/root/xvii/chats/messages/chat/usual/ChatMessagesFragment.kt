@@ -87,7 +87,7 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
             val fragment = ChatMessagesFragment()
             fragment.arguments = Bundle().apply {
                 putInt(ARG_PEER_ID, dialog.peerId)
-                putString(ARG_TITLE, dialog.alias ?: dialog.title)
+                putString(ARG_TITLE, dialog.aliasOrTitle)
                 putString(ARG_PHOTO, dialog.photo)
                 if (!forwarded.isNullOrEmpty()) {
                     putString(ARG_FORWARDED, forwarded)
