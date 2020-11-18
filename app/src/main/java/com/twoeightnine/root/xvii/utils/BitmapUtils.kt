@@ -120,10 +120,10 @@ object BitmapNotification {
 
     private fun getTextColor(imageColors: ImageColors): Int {
 
-        val contrastWithLight = getContrastRatio(imageColors.averageColor, imageColors.averageLight)
-        val contrastWithDark = getContrastRatio(imageColors.averageColor, imageColors.averageDark)
-        val contrastWithBlack = getContrastRatio(imageColors.averageColor, Color.BLACK)
-        val contrastWithWhite = getContrastRatio(imageColors.averageColor, Color.WHITE)
+        val contrastWithLight = ColorUtils.getContrastRatio(imageColors.averageColor, imageColors.averageLight)
+        val contrastWithDark = ColorUtils.getContrastRatio(imageColors.averageColor, imageColors.averageDark)
+        val contrastWithBlack = ColorUtils.getContrastRatio(imageColors.averageColor, Color.BLACK)
+        val contrastWithWhite = ColorUtils.getContrastRatio(imageColors.averageColor, Color.WHITE)
 
         return when {
             contrastWithLight > contrastWithDark
@@ -149,7 +149,7 @@ object BitmapNotification {
 
             hsv[2] = lightnessProb
             val newColor = Color.HSVToColor(hsv)
-            val newContrast = getContrastRatio(back, newColor)
+            val newContrast = ColorUtils.getContrastRatio(back, newColor)
 
             if (newContrast >= contrast) {
                 return newColor

@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.uikit.Munch
 
 
 val SANS_SERIF_LIGHT: Typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
@@ -167,10 +168,9 @@ fun ImageView.stylize(tag: String? = this.tag as? String, changeStroke: Boolean 
 
 fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false) {
 
-    val typeface = Typeface.createFromAsset(context.resources.assets, "fonts/medium.ttf")
+    val typeface = Typeface.createFromAsset(context.resources.assets, "fonts/bold.ttf")
 
     val mainText = ContextCompat.getColor(context, R.color.main_text)
-    val otherText = ContextCompat.getColor(context, R.color.other_text)
     val popupColor = ContextCompat.getColor(context, R.color.popup)
 
     window?.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.shape_context_dialog))
@@ -181,13 +181,11 @@ fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false
 
     findViewById<TextView>(android.R.id.message)?.apply {
         if (!keepFont) {
-//            typeface = SANS_SERIF_LIGHT
             textSize = 18f
         }
         setTextColor(mainText)
     }
     findViewById<DialogTitle>(R.id.alertTitle)?.apply {
-        //        typeface = SANS_SERIF_LIGHT
         textSize = 20f
         setTextColor(mainText)
     }
@@ -200,7 +198,7 @@ fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false
             this.typeface = typeface
             textSize = 18f
             isAllCaps = false
-            setTextColor(otherText)
+            setTextColor(Munch.color.color)
         }
 
     }

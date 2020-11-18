@@ -74,39 +74,39 @@ class AppearanceFragment : BaseFragment() {
     }
 
     private fun applyColors() {
-        val colors = ColorManager.getFromMain(currentColor)
+        val color = Munch.ColorScope.fromColor(currentColor)
         csThemeColor.color = currentColor
 
-        arrayOf(ivMic, ivSend).forEach { iv ->
-            iv.drawable.paint(Munch.color.color)
+        arrayOf(ivMic, ivSend, ivBackSample, readStateDot).forEach { iv ->
+            iv.drawable.paint(color.color)
         }
 
         if (switchLightTheme.isChecked) {
 
-            rlToolbar.setBackgroundColor(colors[1])
+            rlToolbar.setBackgroundColor(Color.WHITE)
             rlSampleRoot.setBackgroundColor(Color.WHITE)
             rlInputBack.setBackgroundColor(Color.WHITE)
 
-            arrayOf(tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xff222222.toInt()) }
+            arrayOf(tvTitle, tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xff222222.toInt()) }
             arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(0xff444444.toInt()) }
-            tvSubtitle.setTextColor(0xffe3e3e3.toInt())
+            tvSubtitle.setTextColor(0xff888888.toInt())
 
-            (readStateDot.drawable as? GradientDrawable)?.setColor(colors[1])
-            (llMessageIn.background as? GradientDrawable)?.setColor(colors[2])
-            (llMessageOut.background as? GradientDrawable)?.setColor(colors[3])
+            arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorWhite50) }
+            (llMessageIn.background as? GradientDrawable)?.setColor(color.colorWhite20)
+            (llMessageOut.background as? GradientDrawable)?.setColor(color.colorWhite10)
         } else {
 
-            rlToolbar.setBackgroundColor(0xff15121c.toInt())
+            rlToolbar.setBackgroundColor(0xff0e0c13.toInt())
             rlSampleRoot.setBackgroundColor(0xff0e0c13.toInt())
             rlInputBack.setBackgroundColor(0xff15121c.toInt())
 
-            arrayOf(tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xffdddddd.toInt()) }
+            arrayOf(tvTitle, tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xffdddddd.toInt()) }
             arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(0xffaaaaaa.toInt()) }
-            tvSubtitle.setTextColor(0xffe3e3e3.toInt())
+            tvSubtitle.setTextColor(0xff555555.toInt())
 
-            (readStateDot.drawable as? GradientDrawable)?.setColor(Color.WHITE)
-            (llMessageIn.background as? GradientDrawable)?.setColor(0xff1c1826.toInt())
-            (llMessageOut.background as? GradientDrawable)?.setColor(0xff1c1826.toInt())
+            arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorBlack50) }
+            (llMessageIn.background as? GradientDrawable)?.setColor(color.colorBlack20)
+            (llMessageOut.background as? GradientDrawable)?.setColor(color.colorBlack10)
         }
     }
 
@@ -300,7 +300,7 @@ class AppearanceFragment : BaseFragment() {
         }
     }
 
-    private inline fun showColorPicker(initColor: Int, crossinline onPicked: (Int) -> Unit) {
+    private fun showColorPicker(initColor: Int, onPicked: (Int) -> Unit) {
         ColorPickerDialogBuilder.with(context)
                 .initialColor(initColor)
                 .lightnessSliderOnly()

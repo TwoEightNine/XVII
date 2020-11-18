@@ -28,25 +28,16 @@
             android:clickable="true"
             android:orientation="vertical">
 
-            <TextView
-                style="@style/MainText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <androidx.cardview.widget.CardView
                 android:layout_margin="16dp"
-                android:text="@string/appearance_sample"
-                android:textSize="16sp" />
-
-            <View
+                app:cardElevation="2dp"
+                app:cardCornerRadius="@dimen/default_radius"
+                app:cardBackgroundColor="@color/background"
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider" />
+                android:layout_height="wrap_content">
 
-            <include layout="@layout/view_appearance_sample" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider" />
+                <include layout="@layout/view_appearance_sample" />
+            </androidx.cardview.widget.CardView>
 
             <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
