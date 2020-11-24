@@ -59,8 +59,8 @@ fun SwitchCompat.paint(color: Munch.ColorScope) {
             intArrayOf(android.R.attr.state_checked),
             intArrayOf()
     )
-    val thumbColors = intArrayOf(color.color, color.color50)
-    val trackColors = intArrayOf(color.color20, color.color20)
+    val thumbColors = intArrayOf(color.color, ContextCompat.getColor(context, R.color.switch_thumb_disabled))
+    val trackColors = intArrayOf(color.color20, ContextCompat.getColor(context, R.color.switch_track_disabled))
 
     DrawableCompat.setTintList(thumbDrawable, ColorStateList(states, thumbColors))
     DrawableCompat.setTintList(trackDrawable, ColorStateList(states, trackColors))

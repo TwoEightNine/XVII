@@ -61,7 +61,7 @@
         android:textSize="24sp"
         tools:visibility="gone" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.twoeightnine.root.xvii.uikit.XviiAvatar
         android:id="@+id/civPhoto"
         android:layout_width="30dp"
         android:layout_height="30dp"

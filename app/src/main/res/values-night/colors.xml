@@ -34,4 +34,8 @@
 
     <color name="bottom_icon_enabled">#7C43B8</color>
     <color name="bottom_icon_disabled">#474552</color>
+
+    <color name="switch_thumb_disabled">#555</color>
+    <color name="switch_track_disabled">#333</color>
+
 </resources>

@@ -41,4 +41,7 @@
     <color name="bottom_icon_enabled">#7C43B8</color>
     <color name="bottom_icon_disabled">#bbb</color>
 
+    <color name="switch_thumb_disabled">#bbb</color>
+    <color name="switch_track_disabled">#ddd</color>
+
 </resources>
