@@ -1,6 +1,5 @@
 package com.twoeightnine.root.xvii.activities
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +7,6 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
@@ -35,14 +33,6 @@ class ExceptionActivity : AppCompatActivity() {
     lateinit var api: ApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        NightModeHelper.updateConfig(
-                if (Prefs.isLightTheme) {
-                    Configuration.UI_MODE_NIGHT_NO
-                } else {
-                    Configuration.UI_MODE_NIGHT_YES
-                },
-                this, R.style.AppTheme
-        )
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exception)
         App.appComponent?.inject(this)

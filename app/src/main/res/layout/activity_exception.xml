@@ -2,14 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="#0e0c13"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btnReport">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +23,7 @@
                 android:layout_marginBottom="6dp"
                 android:gravity="center"
                 android:text="@string/uncaught_exception"
-                android:textColor="@color/main_text"
+                android:textColor="#fff"
                 android:textSize="28sp" />
 
             <ImageView
@@ -39,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/details"
-                android:textColor="@color/main_text"
+                android:textColor="#fff"
                 android:textSize="20sp" />
 
             <TextView
@@ -48,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:fontFamily="monospace"
-                android:textColor="@color/main_text"
+                android:textColor="#fff"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -57,6 +56,7 @@
 
     <com.twoeightnine.root.xvii.uikit.XviiButton
         android:id="@+id/btnReport"
+        android:layout_marginTop="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvReportHint"
@@ -71,7 +71,7 @@
         android:layout_margin="4dp"
         android:gravity="center"
         android:text="@string/report_hint"
-        android:textColor="@color/other_text" />
+        android:textColor="#aaa" />
 
     <RelativeLayout
         android:id="@+id/rlLoader"
