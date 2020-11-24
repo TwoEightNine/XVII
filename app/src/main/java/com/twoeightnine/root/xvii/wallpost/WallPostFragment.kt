@@ -12,7 +12,6 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
-import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Group
 import com.twoeightnine.root.xvii.model.WallPost
@@ -20,8 +19,8 @@ import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.WallPostResponse
+import com.twoeightnine.root.xvii.uikit.XviiAvatar
 import com.twoeightnine.root.xvii.utils.*
-import de.hdodenhof.circleimageview.CircleImageView
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.lowerIf
@@ -142,7 +141,7 @@ class WallPostFragment : BaseFragment() {
     private inner class WallViewHolder(view: View) {
 
         val rlHeader: RelativeLayout = view.rlHeader
-        val civAvatar: CircleImageView = view.civAvatar
+        val civAvatar: XviiAvatar = view.civAvatar
         val tvTitle: TextView = view.tvTitle
         val tvDate: TextView = view.tvDate
         val tvPost: TextView = view.tvPost

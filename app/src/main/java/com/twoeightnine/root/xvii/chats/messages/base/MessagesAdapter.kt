@@ -9,7 +9,6 @@ import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
@@ -18,6 +17,7 @@ import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
 import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.utils.*
@@ -48,16 +48,11 @@ class MessagesAdapter(context: Context,
 
     private val messageInflater = AttachmentsInflater(context, attachmentsCallback)
 
-    private val contentWidth by lazy {
-        context.resources.getDimensionPixelSize(R.dimen.chat_message_content_width)
-    }
-    private val stickerWidth by lazy {
-        context.resources.getDimensionPixelSize(R.dimen.chat_message_sticker_width)
-    }
-
     private val messageTextSize by lazy {
         Prefs.messageTextSize.toFloat()
     }
+
+    private val userId = Session.uid
 
     override fun createHolder(parent: ViewGroup, viewType: Int) = MessageViewHolder(inflater.inflate(
             when (viewType) {
@@ -168,7 +163,6 @@ class MessagesAdapter(context: Context,
                 // block of common fields
                 //
                 invalidateBackground(message, this, level)
-                llMessage.layoutParams.width = RelativeLayout.LayoutParams.WRAP_CONTENT
 
                 val preparedText = wrapMentions(context, message.text, addClickable = true)
                 tvBody.setVisible(message.text.isNotEmpty())
@@ -212,28 +206,22 @@ class MessagesAdapter(context: Context,
                 }
 
                 llMessage.stylizeAsMessage(
-                        level + message.out,
+                        level + message.effectiveOutDelta(),
                         hide = message.run { isSticker() || isGraffiti() || isGift() }
                 )
                 llMessageContainer.removeAllViews()
 
+                llMessage.layoutParams.width = messageInflater.getMessageWidth(message, settings.fullDeepness, level)
                 if (!message.attachments.isNullOrEmpty()) {
-                    llMessage.layoutParams.width = messageInflater.getMessageWidth(message, level)
                     messageInflater
                             .createViewsFor(message, level)
                             .forEach(llMessageContainer::addView)
                 }
 
                 if (!message.fwdMessages.isNullOrEmpty()) {
-                    llMessage.layoutParams.width = if (settings.fullDeepness) {
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                    } else {
-                        contentWidth
-                    }
                     rlBack.setPadding(rlBack.paddingLeft, rlBack.paddingTop, 6, rlBack.paddingBottom)
                     message.fwdMessages.forEachIndexed { index, innerMessage ->
                         val included = inflater.inflate(R.layout.item_message_in_chat, null)
-                        included.tag = true
                         with(included.rlBack) {
                             setPadding(paddingLeft, paddingTop, 6, paddingBottom)
                         }
@@ -258,12 +246,7 @@ class MessagesAdapter(context: Context,
                     }
                 }
                 message.replyMessage?.also { message ->
-                    llMessage.layoutParams.width = when {
-                        message.isReplyingSticker() -> stickerWidth
-                        else -> contentWidth
-                    }
                     val included = inflater.inflate(R.layout.item_message_in_chat, null)
-                    included.tag = true
                     with(included.rlBack) {
                         setPadding(paddingLeft, paddingTop, 6, paddingBottom)
                     }
@@ -308,6 +291,8 @@ class MessagesAdapter(context: Context,
                         else -> Munch.color.color10
                     })
         }
+
+        private fun Message.effectiveOutDelta() = if (fromId == userId) 1 else 0
     }
 
     interface Callback {

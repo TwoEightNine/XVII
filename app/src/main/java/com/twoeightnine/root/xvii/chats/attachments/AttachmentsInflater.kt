@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
@@ -49,12 +50,33 @@ class AttachmentsInflater(
     private val videoHeight = resources.getDimensionPixelSize(R.dimen.chat_message_video_height)
     private val stickerSize = resources.getDimensionPixelSize(R.dimen.chat_message_sticker_width)
     private val graffitiSize = resources.getDimensionPixelSize(R.dimen.chat_message_graffiti_width)
+    private val wtfDimen = pxFromDp(context, 8)
 
-    fun getMessageWidth(message: Message, level: Int): Int = when {
-        message.isSticker() -> stickerSize
-        message.isGraffiti() -> graffitiSize
-        else -> contentWidth
-    } - levelPadding * level * 2
+    fun getMessageWidth(message: Message, fullDeepness: Boolean, level: Int): Int {
+        message.replyMessage?.also {
+            return if (message.isReplyingSticker()) {
+                stickerSize
+            } else {
+                contentWidth
+            }
+        }
+        if (!message.fwdMessages.isNullOrEmpty()) {
+            return if (fullDeepness) {
+                ViewGroup.LayoutParams.MATCH_PARENT
+            } else {
+                contentWidth
+            }
+        }
+
+        if (!message.attachments.isNullOrEmpty()) {
+            return when {
+                message.isSticker() -> stickerSize
+                message.isGraffiti() -> graffitiSize
+                else -> contentWidth
+            } - levelPadding * level * 2
+        }
+        return ViewGroup.LayoutParams.WRAP_CONTENT
+    }
 
     fun createViewsFor(wallPost: WallPost): List<View> {
         val attachments = wallPost.attachments ?: return emptyList()
@@ -108,7 +130,7 @@ class AttachmentsInflater(
     }
 
     private fun createPhotoForMessage(photo: Photo, photos: List<Photo>, level: Int = 0): View {
-        val width = contentWidth - 2 * level * levelPadding - 2 * photoMargin
+        val width = contentWidth - 2 * level * levelPadding - 2 * photoMargin - wtfDimen * (level + 1)
         val view = createPhoto(photo, width)
         view.setOnClickListener {
             val position = photos.indexOf(photo)
@@ -304,7 +326,7 @@ class AttachmentsInflater(
                     defaultRatio
                 }
 
-                val width = videoWidth
+                val width = videoWidth - wtfDimen
                 val height = (videoWidth / ratio).toInt()
                 root.layoutParams = LinearLayout.LayoutParams(width, height)
                 ivGif.load(doc.url)

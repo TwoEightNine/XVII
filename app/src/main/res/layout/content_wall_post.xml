@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.twoeightnine.root.xvii.uikit.XviiAvatar
             android:id="@+id/civAvatar"
             android:layout_width="45dp"
             android:layout_height="45dp" />
