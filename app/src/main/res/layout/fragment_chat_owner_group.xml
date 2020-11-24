@@ -41,6 +41,13 @@
         android:layout_marginBottom="@dimen/profile_avatar_height"
         android:background="#3000" />
 
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_height="@dimen/toolbar_height"
+        android:src="@drawable/ic_back" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvContent"
         android:layout_width="match_parent"

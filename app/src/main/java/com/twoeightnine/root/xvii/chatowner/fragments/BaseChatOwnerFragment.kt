@@ -61,6 +61,12 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         ivAvatar?.setOnClickListener(::onAvatarClicked)
         ivAvatarHighRes?.setOnClickListener(::onAvatarClicked)
         context?.let { RateAlertDialog(it).show() }
+        ivBack.apply {
+            applyTopInsetMargin()
+            setOnClickListener {
+                onBackPressed()
+            }
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -200,7 +206,9 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                 offset <= 0f -> return
                 offset == 1f -> if (!toolbarColored && shouldColorToolbar()) {
                     toolbarColored = true
-                    setStatusBarLight(isLight = true)
+                    if (Prefs.isLightTheme) {
+                        setStatusBarLight(isLight = true)
+                    }
                 }
                 toolbarColored -> {
                     toolbarColored = false
