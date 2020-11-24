@@ -134,6 +134,12 @@
                     android:hint="@string/show_notifications_group"
                     android:text="@string/show_notifications"/>
 
+                <View
+                    android:id="@+id/vBottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_below="@+id/swNotifications" />
+
                 <RelativeLayout
                     android:id="@+id/rlLoader"
                     android:layout_width="match_parent"
