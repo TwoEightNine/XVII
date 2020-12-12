@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.uikit
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
@@ -10,6 +11,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
+import global.msnthrp.xvii.uikit.extensions.EndAnimatorListener
 import global.msnthrp.xvii.uikit.extensions.applyTopInsetPadding
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import global.msnthrp.xvii.uikit.extensions.show
@@ -36,10 +38,12 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
     private var alwaysLifted: Boolean = false
     private var showLogo: Boolean = false
 
+    private var animationRunning = false
+
     var isLifted: Boolean
         get() = elevation != 0f
         set(value) {
-            elevation = if (value) 10f else 0f
+            updateElevation(if (value) 10f else 0f)
         }
 
     var onClick: (() -> Unit)? = null
@@ -115,5 +119,26 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
 
     fun setupWith(viewPager: ViewPager) {
         tabs.setupWithViewPager(viewPager, true)
+    }
+
+    private fun updateElevation(newElevation: Float) = synchronized(this) {
+        val currentElevation = elevation
+        if (animationRunning || newElevation == currentElevation) return@synchronized
+
+        ValueAnimator.ofFloat(currentElevation, newElevation).apply {
+            duration = LIFT_ANIM_DURATION
+            addUpdateListener { animation ->
+                elevation = animation.animatedValue as Float
+            }
+            addListener(EndAnimatorListener {
+                animationRunning = false
+            })
+            start()
+            animationRunning = true
+        }
+    }
+
+    companion object {
+        private const val LIFT_ANIM_DURATION = 120L
     }
 }

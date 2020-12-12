@@ -5,9 +5,9 @@
     <color name="primary">#fff</color>
     <color name="primary_dark">#fff</color>
     <color name="link_color">#55f</color>
-    <color name="status_bar">#bfff</color>
-    <color name="navigation_bar">#bfff</color>
-    <color name="navigation_bar_chat_owner">#bfff</color>
+    <color name="status_bar">#fff</color>
+    <color name="navigation_bar">#fff</color>
+    <color name="navigation_bar_chat_owner">#fff</color>
 
     <color name="splash_background">#0e0c13</color>
     <color name="background">#fff</color>
@@ -35,7 +35,7 @@
     <color name="placeholder">#4777</color>
     <color name="input_panel">#fff</color>
     <color name="avatar">#341B4B</color>
-    <color name="bottom_nav_view">#dfff</color>
+    <color name="bottom_nav_view">#fff</color>
     <color name="mic_record_indicator">#E43D3D</color>
 
     <color name="bottom_icon_enabled">#7C43B8</color>
