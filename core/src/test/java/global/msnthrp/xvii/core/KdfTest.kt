@@ -1,7 +1,7 @@
-package com.twoeightnine.root.xvii
+package global.msnthrp.xvii.core
 
-import com.twoeightnine.root.xvii.crypto.bytesToHex
-import com.twoeightnine.root.xvii.crypto.cipher.Pbkdf2HmacSha1
+import global.msnthrp.xvii.core.crypto.CryptoUtils
+import global.msnthrp.xvii.core.crypto.algorithm.Pbkdf2HmacSha1
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
@@ -12,7 +12,7 @@ class KdfTest {
     fun kdf_sameHash() {
         val hash1 = Pbkdf2HmacSha1.deriveFromKey(USER_KEY)
         val hash2 = Pbkdf2HmacSha1.deriveFromKey(USER_KEY)
-        assertEquals(bytesToHex(hash1), bytesToHex(hash2))
+        assertEquals(CryptoUtils.bytesToHex(hash1), CryptoUtils.bytesToHex(hash2))
     }
 
     companion object {

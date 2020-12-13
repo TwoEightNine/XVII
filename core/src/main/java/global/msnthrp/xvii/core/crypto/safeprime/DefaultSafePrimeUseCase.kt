@@ -1,6 +1,6 @@
-package global.msnthrp.xvii.core.safeprime
+package global.msnthrp.xvii.core.crypto.safeprime
 
-import global.msnthrp.xvii.core.safeprime.entity.SafePrime
+import global.msnthrp.xvii.core.crypto.safeprime.entity.SafePrime
 import java.math.BigInteger
 import java.security.SecureRandom
 import java.util.concurrent.TimeUnit

@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.crypto.cipher
+package global.msnthrp.xvii.core.crypto.algorithm
 
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException

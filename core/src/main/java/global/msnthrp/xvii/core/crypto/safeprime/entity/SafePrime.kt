@@ -1,4 +1,4 @@
-package global.msnthrp.xvii.core.safeprime.entity
+package global.msnthrp.xvii.core.crypto.safeprime.entity
 
 data class SafePrime(
         val p: String,

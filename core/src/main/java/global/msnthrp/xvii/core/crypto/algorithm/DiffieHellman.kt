@@ -1,7 +1,6 @@
-package com.twoeightnine.root.xvii.crypto.dh
+package global.msnthrp.xvii.core.crypto.algorithm
 
-import com.twoeightnine.root.xvii.lg.L
-import global.msnthrp.xvii.core.safeprime.entity.SafePrime
+import global.msnthrp.xvii.core.crypto.safeprime.entity.SafePrime
 import java.math.BigInteger
 import java.security.SecureRandom
 
@@ -10,16 +9,16 @@ import java.security.SecureRandom
  * <code>
  *      // as generator
  *      val dh = DiffieHellman()
- *      val dhData = dh.getDhData()
- *      // send dhData to other
+ *      val data = dh.getData()
+ *      // send data to other
  *      // receive other public nonce
  *      dh.publicOther = publicOther
  *      val sharedKey = dh.key
  *
  *
  *      // as receiver
- *      // other dhData received
- *      val dh = DiffeHellman(dhData)
+ *      // other data received
+ *      val dh = DiffeHellman(data)
  *      val publicOwn = dh.publicOwn
  *      // send publicOwn to other
  *      val key = dh.key
@@ -58,15 +57,13 @@ class DiffieHellman {
 
         privateOwn = BigInteger(BITS - 1, SecureRandom())
         publicOwn = generator.modPow(privateOwn, modulo)
-
-        logState()
     }
 
     /**
      * gets generator and other public nonce, generates own private and public nonces,
      * creates shared key
      */
-    constructor(otherData: DhData) {
+    constructor(otherData: Data) {
         generator = otherData.generator
         modulo = otherData.modulo
         publicOther = otherData.public
@@ -74,20 +71,17 @@ class DiffieHellman {
         privateOwn = BigInteger(BITS - 1, SecureRandom())
         publicOwn = generator.modPow(privateOwn, modulo)
         key = publicOther.modPow(privateOwn, modulo)
-
-        logState()
     }
 
-    private fun logState() {
-        L.tag(TAG).debug()
-                .log("DHE-$BITS: p: $modulo\n\t\t\t g: $generator\n\t\t\t a: $privateOwn\n\t\t\t A: $publicOwn")
-    }
-
-    fun getDhData() = DhData(generator, modulo, publicOwn)
+    fun getData() = Data(generator, modulo, publicOwn)
 
     companion object {
-        private const val TAG = "diffie-hellman"
         private const val BITS = 2048
     }
 
+    data class Data(
+            val generator: BigInteger,
+            val modulo: BigInteger,
+            val public: BigInteger
+    )
 }

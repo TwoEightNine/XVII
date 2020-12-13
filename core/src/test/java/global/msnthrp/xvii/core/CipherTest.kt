@@ -1,7 +1,7 @@
-package com.twoeightnine.root.xvii
+package global.msnthrp.xvii.core
 
-import com.twoeightnine.root.xvii.crypto.bytesToHex
-import com.twoeightnine.root.xvii.crypto.cipher.Cipher
+import global.msnthrp.xvii.core.crypto.CryptoUtils
+import global.msnthrp.xvii.core.crypto.algorithm.Cipher
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
@@ -12,7 +12,7 @@ class CipherTest {
         val enc = Cipher.encrypt(SAMPLE_TEXT, KEY)
         val dec = Cipher.decrypt(enc, KEY)
         assertEquals(dec.verified, true)
-        assertEquals(bytesToHex(SAMPLE_TEXT), bytesToHex(dec.bytes ?: byteArrayOf()))
+        assertEquals(CryptoUtils.bytesToHex(SAMPLE_TEXT), CryptoUtils.bytesToHex(dec.bytes ?: byteArrayOf()))
     }
 
     @Test

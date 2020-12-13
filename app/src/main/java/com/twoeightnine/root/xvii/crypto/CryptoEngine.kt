@@ -3,16 +3,15 @@ package com.twoeightnine.root.xvii.crypto
 import android.annotation.SuppressLint
 import android.content.Context
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.crypto.cipher.Cipher
-import com.twoeightnine.root.xvii.crypto.cipher.Pbkdf2HmacSha1
-import com.twoeightnine.root.xvii.crypto.dh.DhData
-import com.twoeightnine.root.xvii.crypto.dh.DiffieHellman
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.getBytesFromFile
 import com.twoeightnine.root.xvii.utils.getNameFromUrl
 import com.twoeightnine.root.xvii.utils.writeBytesToFile
-import global.msnthrp.xvii.core.safeprime.DefaultSafePrimeUseCase
-import global.msnthrp.xvii.core.safeprime.SafePrimeUseCase
+import global.msnthrp.xvii.core.crypto.algorithm.Cipher
+import global.msnthrp.xvii.core.crypto.algorithm.DiffieHellman
+import global.msnthrp.xvii.core.crypto.algorithm.Pbkdf2HmacSha1
+import global.msnthrp.xvii.core.crypto.safeprime.DefaultSafePrimeUseCase
+import global.msnthrp.xvii.core.crypto.safeprime.SafePrimeUseCase
 import global.msnthrp.xvii.data.safeprime.DefaultSafePrimeRepo
 import global.msnthrp.xvii.data.safeprime.storage.PreferencesSafePrimeDataSource
 import global.msnthrp.xvii.data.safeprime.storage.retrofit.RetrofitSafePrimeDataSource
@@ -96,8 +95,8 @@ class CryptoEngine(
     fun startExchange(onKeysGenerated: (String) -> Unit) {
         Single.fromCallable {
             dh = DiffieHellman(safePrimeUseCase.loadSafePrime())
-            val dhData = dh.getDhData()
-            wrapKey(DhData.serialize(dhData))
+            val data = dh.getData()
+            wrapKey(data.serialize())
         }
                 .compose(applySingleSchedulers())
                 .subscribe(onKeysGenerated)
@@ -108,7 +107,7 @@ class CryptoEngine(
      * returns own public nonce
      */
     fun supportExchange(keyEx: String): String {
-        val dhData = DhData.deserialize(unwrapKey(keyEx))
+        val dhData = unwrapKey(keyEx).deserialize()
         dh = DiffieHellman(dhData)
         setKey(dh.key.toString())
         return wrapKey(numToStr(dh.publicOwn))
@@ -172,11 +171,12 @@ class CryptoEngine(
         }
                 .compose(applySingleSchedulers())
                 .subscribe { cipherResult ->
-                    if (!cipherResult.verified || cipherResult.bytes == null) {
+                    val bytes = cipherResult.bytes
+                    if (!cipherResult.verified || bytes == null) {
                         onDecrypted(false, null)
                     } else {
                         val resultName = getNameFromUrl(path).replace(EXTENSION, "")
-                        val cipherPath = writeBytesToFile(context, cipherResult.bytes, resultName)
+                        val cipherPath = writeBytesToFile(context, bytes, resultName)
                         onDecrypted(true, cipherPath)
                     }
                 }
@@ -185,6 +185,23 @@ class CryptoEngine(
     fun getFingerPrint(): String {
         checkKey()
         return sha256(bytesToHex(key))
+    }
+
+    private fun DiffieHellman.Data.serialize(): String =
+            "${toBase64(modulo.toByteArray())}," +
+                    "${toBase64(generator.toByteArray())}," +
+                    toBase64(public.toByteArray())
+
+    private fun String.deserialize(): DiffieHellman.Data {
+        val numArr = split(",")
+                .map { fromBase64(it) }
+                .map { BigInteger(it) }
+                .toTypedArray()
+        return DiffieHellman.Data(
+                modulo = numArr[0],
+                generator = numArr[1],
+                public = numArr[2]
+        )
     }
 
     companion object {

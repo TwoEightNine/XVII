@@ -1,7 +1,7 @@
-package com.twoeightnine.root.xvii
+package global.msnthrp.xvii.core
 
-import com.twoeightnine.root.xvii.crypto.bytesToHex
-import com.twoeightnine.root.xvii.crypto.cipher.Aes256
+import global.msnthrp.xvii.core.crypto.CryptoUtils
+import global.msnthrp.xvii.core.crypto.algorithm.Aes256
 import junit.framework.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -44,7 +44,7 @@ class AesUnitTest {
     fun encrypting_isCorrect() {
         val encrypted = Aes256.encrypt(IV_VALID, KEY_VALID, TEXT_EXAMPLE)
         val decrypted = Aes256.decrypt(IV_VALID, KEY_VALID, encrypted)
-        assertEquals(bytesToHex(decrypted), bytesToHex(TEXT_EXAMPLE))
+        assertEquals(CryptoUtils.bytesToHex(decrypted), CryptoUtils.bytesToHex(TEXT_EXAMPLE))
     }
 
     companion object {

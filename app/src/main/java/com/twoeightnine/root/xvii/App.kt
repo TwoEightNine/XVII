@@ -3,7 +3,6 @@ package com.twoeightnine.root.xvii
 import android.app.Application
 import android.content.Context
 import android.os.Build
-import com.twoeightnine.root.xvii.crypto.KeyHolder
 import com.twoeightnine.root.xvii.dagger.AppComponent
 import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
@@ -24,7 +23,6 @@ class App : Application() {
 
         registerActivityLifecycleCallbacks(AppLifecycleTracker())
         ColorManager.init(applicationContext)
-        KeyHolder.reinit()
         EmojiHelper.init()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannels.initChannels(this)

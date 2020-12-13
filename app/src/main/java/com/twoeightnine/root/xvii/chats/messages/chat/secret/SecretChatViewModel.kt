@@ -169,8 +169,9 @@ class SecretChatViewModel(
 
     override fun prepareTextIn(text: String): String {
         val cipherResult = crypto.decrypt(text)
-        return if (cipherResult.verified && cipherResult.bytes != null) {
-            String(cipherResult.bytes)
+        val bytes = cipherResult.bytes
+        return if (cipherResult.verified && bytes != null) {
+            String(bytes)
         } else {
             ""
         }

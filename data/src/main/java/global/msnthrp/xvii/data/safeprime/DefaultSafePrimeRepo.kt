@@ -1,7 +1,7 @@
 package global.msnthrp.xvii.data.safeprime
 
-import global.msnthrp.xvii.core.safeprime.SafePrimeRepo
-import global.msnthrp.xvii.core.safeprime.entity.SafePrime
+import global.msnthrp.xvii.core.crypto.safeprime.SafePrimeRepo
+import global.msnthrp.xvii.core.crypto.safeprime.entity.SafePrime
 
 class DefaultSafePrimeRepo(
         private val networkDataSource: ReadOnlySafePrimeDataSource,

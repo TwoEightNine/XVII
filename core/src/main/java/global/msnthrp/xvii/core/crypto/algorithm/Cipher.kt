@@ -1,7 +1,6 @@
-package com.twoeightnine.root.xvii.crypto.cipher
+package global.msnthrp.xvii.core.crypto.algorithm
 
-import com.twoeightnine.root.xvii.crypto.getRandomBytes
-import com.twoeightnine.root.xvii.crypto.sha256Raw
+import global.msnthrp.xvii.core.crypto.CryptoUtils
 
 object Cipher {
 
@@ -9,10 +8,10 @@ object Cipher {
     private const val MAC_LENGTH = 32
 
     fun encrypt(bytes: ByteArray, key: ByteArray): ByteArray {
-        val key1 = sha256Raw(key.copyOfRange(0, key.size / 2))
-        val key2 = sha256Raw(key.copyOfRange(key.size / 2, key.size))
+        val key1 = CryptoUtils.sha256(key.copyOfRange(0, key.size / 2))
+        val key2 = CryptoUtils.sha256(key.copyOfRange(key.size / 2, key.size))
 
-        val iv = getRandomBytes(IV_LENGTH)
+        val iv = CryptoUtils.getRandomBytes(IV_LENGTH)
         val encrypted = Aes256.encrypt(iv, key1, bytes)
         val mac = HmacSha256.sign(iv + encrypted, key2)
         return iv + encrypted + mac
@@ -21,8 +20,8 @@ object Cipher {
     fun decrypt(bytes: ByteArray, key: ByteArray): Result {
         if (bytes.size < IV_LENGTH + MAC_LENGTH) return Result(verified = false)
 
-        val key1 = sha256Raw(key.copyOfRange(0, key.size / 2))
-        val key2 = sha256Raw(key.copyOfRange(key.size / 2, key.size))
+        val key1 = CryptoUtils.sha256(key.copyOfRange(0, key.size / 2))
+        val key2 = CryptoUtils.sha256(key.copyOfRange(key.size / 2, key.size))
 
         val iv = bytes.copyOfRange(0, IV_LENGTH)
         val encrypted = bytes.copyOfRange(IV_LENGTH, bytes.size - MAC_LENGTH)

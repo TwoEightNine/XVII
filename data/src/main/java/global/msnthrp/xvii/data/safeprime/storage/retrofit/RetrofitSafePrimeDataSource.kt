@@ -1,6 +1,6 @@
 package global.msnthrp.xvii.data.safeprime.storage.retrofit
 
-import global.msnthrp.xvii.core.safeprime.entity.SafePrime
+import global.msnthrp.xvii.core.crypto.safeprime.entity.SafePrime
 import global.msnthrp.xvii.data.network.Retrofit
 import global.msnthrp.xvii.data.safeprime.DefaultSafePrimeRepo
 
