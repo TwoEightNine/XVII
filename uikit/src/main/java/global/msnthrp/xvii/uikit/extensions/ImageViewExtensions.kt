@@ -33,7 +33,7 @@ fun ImageView.load(
     }
     Glide.with(this)
             .load(urlOrStub)
-            .let(placeholderIfNeeded)
+//            .let(placeholderIfNeeded)
             .block()
             .into(this)
 }
