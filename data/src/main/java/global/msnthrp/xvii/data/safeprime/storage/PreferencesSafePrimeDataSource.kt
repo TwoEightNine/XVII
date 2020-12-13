@@ -12,14 +12,19 @@ class PreferencesSafePrimeDataSource(context: Context)
         context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
     }
 
-    override fun getSafePrime() = SafePrime(
-            p = preferences.getString(KEY_P, "") ?: "",
-            q = preferences.getString(KEY_Q, "") ?: "",
-            g = preferences.getString(KEY_G, "") ?: "",
-            ts = preferences.getLong(KEY_TS, 0L)
-    )
+    override fun getSafePrime() = when {
+        !preferences.contains(KEY_P) -> SafePrime.EMPTY
+        else -> SafePrime(
+                p = preferences.getString(KEY_P, "") ?: "",
+                q = preferences.getString(KEY_Q, "") ?: "",
+                g = preferences.getString(KEY_G, "") ?: "",
+                ts = preferences.getLong(KEY_TS, 0L)
+        )
+    }
 
     override fun saveSafePrime(safePrime: SafePrime) {
+        if (safePrime.isEmpty) return
+
         preferences.edit {
             putString(KEY_P, safePrime.p)
             putString(KEY_Q, safePrime.q)

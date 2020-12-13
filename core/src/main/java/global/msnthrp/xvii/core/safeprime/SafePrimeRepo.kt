@@ -4,5 +4,5 @@ import global.msnthrp.xvii.core.safeprime.entity.SafePrime
 
 interface SafePrimeRepo {
 
-    fun getSafePrime(useCache: Boolean = false): SafePrime?
+    fun getSafePrime(useCache: Boolean = false): SafePrime
 }

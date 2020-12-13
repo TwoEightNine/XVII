@@ -37,8 +37,6 @@ import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadca
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.crypto.md5
-import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
-import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import global.msnthrp.xvii.uikit.extensions.SimpleBitmapTarget
@@ -176,21 +174,6 @@ fun startNotificationService(context: Context) {
         NotificationService.launch(context)
     } catch (e: Exception) {
         L.tag("longpoll")
-                .throwable(e)
-                .log("unable to start service")
-    }
-}
-
-
-fun startPrimeGenerator(context: Context) {
-    try {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            PrimeGeneratorService.launch(context)
-        } else {
-            PrimeGeneratorJobIntentService.launch(context)
-        }
-    } catch (e: Exception) {
-        L.tag("prime generator")
                 .throwable(e)
                 .log("unable to start service")
     }

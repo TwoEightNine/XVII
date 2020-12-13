@@ -11,6 +11,11 @@ import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.getBytesFromFile
 import com.twoeightnine.root.xvii.utils.getNameFromUrl
 import com.twoeightnine.root.xvii.utils.writeBytesToFile
+import global.msnthrp.xvii.core.safeprime.DefaultSafePrimeUseCase
+import global.msnthrp.xvii.core.safeprime.SafePrimeUseCase
+import global.msnthrp.xvii.data.safeprime.DefaultSafePrimeRepo
+import global.msnthrp.xvii.data.safeprime.storage.PreferencesSafePrimeDataSource
+import global.msnthrp.xvii.data.safeprime.storage.retrofit.RetrofitSafePrimeDataSource
 import io.reactivex.Single
 import java.math.BigInteger
 
@@ -27,6 +32,10 @@ class CryptoEngine(
      * the place all the keys are stored in
      */
     private val storage = if (testing) CryptoStorage(context, "cryptoTest") else CryptoStorage(context)
+
+    private val safePrimeUseCase: SafePrimeUseCase = DefaultSafePrimeUseCase(
+            DefaultSafePrimeRepo(RetrofitSafePrimeDataSource(), PreferencesSafePrimeDataSource(context))
+    )
 
     /**
      * the key for current [peerId]
@@ -86,7 +95,7 @@ class CryptoEngine(
     @SuppressLint("CheckResult")
     fun startExchange(onKeysGenerated: (String) -> Unit) {
         Single.fromCallable {
-            dh = DiffieHellman(BigInteger(storage.prime))
+            dh = DiffieHellman(safePrimeUseCase.loadSafePrime())
             val dhData = dh.getDhData()
             wrapKey(DhData.serialize(dhData))
         }

@@ -1,6 +1,6 @@
 package com.twoeightnine.root.xvii
 
-import androidx.test.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import com.twoeightnine.root.xvii.crypto.CryptoEngine
 import com.twoeightnine.root.xvii.crypto.bytesToHex
@@ -17,7 +17,7 @@ class CryptoEngineTest {
 
     @Before
     fun before() {
-        engine = CryptoEngine(InstrumentationRegistry.getTargetContext(), PEER_ID, testing = true)
+        engine = CryptoEngine(InstrumentationRegistry.getInstrumentation().targetContext, PEER_ID, testing = true)
     }
 
     @After

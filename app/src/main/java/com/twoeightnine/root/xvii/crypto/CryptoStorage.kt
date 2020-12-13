@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.twoeightnine.root.xvii.utils.time
 
-class CryptoStorage(private val context: Context,
-                    private val name: String = NAME) {
+class CryptoStorage(
+        private val context: Context,
+        private val name: String = NAME
+) {
 
     private val pref: SharedPreferences by lazy {
         context.getSharedPreferences(name, Context.MODE_PRIVATE)

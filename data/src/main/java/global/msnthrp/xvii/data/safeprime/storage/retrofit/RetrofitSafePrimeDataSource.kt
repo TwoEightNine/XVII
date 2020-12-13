@@ -8,9 +8,9 @@ class RetrofitSafePrimeDataSource : DefaultSafePrimeRepo.ReadOnlySafePrimeDataSo
 
     private val apiService = Retrofit.safePrimeApiService
 
-    override fun getSafePrime(): SafePrime? {
+    override fun getSafePrime(): SafePrime {
         val safePrimeResponse = apiService.getSafePrime().execute().body()
-        return safePrimeResponse?.toSafePrime()
+        return safePrimeResponse?.toSafePrime() ?: SafePrime.EMPTY
     }
 
     private fun SafePrimeResponse.toSafePrime() =

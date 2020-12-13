@@ -28,7 +28,6 @@ import com.twoeightnine.root.xvii.pin.fake.diagnostics.DiagnosticsActivity
 import com.twoeightnine.root.xvii.utils.isOnline
 import com.twoeightnine.root.xvii.utils.showAlert
 import com.twoeightnine.root.xvii.utils.startNotificationService
-import com.twoeightnine.root.xvii.utils.startPrimeGenerator
 import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.show
@@ -65,9 +64,6 @@ class LoginActivity : BaseActivity() {
         viewModel.accountCheckResult.observe(this, Observer(::onAccountChecked))
         viewModel.accountUpdated.observe(this, Observer(::onAccountUpdated))
 
-        if (!addNewAccount) {
-            startPrimeGenerator(this)
-        }
         if (addNewAccount || !hasToken()) {
             logIn()
         } else {

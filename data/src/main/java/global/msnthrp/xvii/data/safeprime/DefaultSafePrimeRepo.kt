@@ -8,22 +8,24 @@ class DefaultSafePrimeRepo(
         private val storageDataSource: ReadWriteSafePrimeDataSource
 ) : SafePrimeRepo {
 
-    override fun getSafePrime(useCache: Boolean): SafePrime? {
-        var safePrime: SafePrime? = null
+    override fun getSafePrime(useCache: Boolean): SafePrime {
+        var safePrime: SafePrime = SafePrime.EMPTY
         if (useCache) {
             safePrime = storageDataSource.getSafePrime()
         }
-        return safePrime ?: getFromNetwork()
+        return safePrime.takeIf { safePrime != SafePrime.EMPTY } ?: getFromNetwork()
     }
 
-    private fun getFromNetwork(): SafePrime? {
+    private fun getFromNetwork(): SafePrime {
         val safePrime = networkDataSource.getSafePrime()
-        safePrime?.let(storageDataSource::saveSafePrime)
+        if (!safePrime.isEmpty) {
+            safePrime.let(storageDataSource::saveSafePrime)
+        }
         return safePrime
     }
 
     interface ReadOnlySafePrimeDataSource {
-        fun getSafePrime(): SafePrime?
+        fun getSafePrime(): SafePrime
     }
 
     interface ReadWriteSafePrimeDataSource : ReadOnlySafePrimeDataSource {

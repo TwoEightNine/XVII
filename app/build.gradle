@@ -116,6 +116,7 @@ dependencies {
     implementation externalUi.roundedImageView
 
     testImplementation androidTests.jUnit
+    androidTestImplementation androidTests.jUnit
     androidTestImplementation androidTests.espresso
 }
 
