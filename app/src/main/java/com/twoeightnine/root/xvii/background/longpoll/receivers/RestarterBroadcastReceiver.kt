@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.background.longpoll.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
+import com.twoeightnine.root.xvii.background.longpoll.core.LongPollCore
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.startNotificationService
 

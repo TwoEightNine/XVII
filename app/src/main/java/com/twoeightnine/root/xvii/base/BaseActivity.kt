@@ -14,7 +14,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
+import com.twoeightnine.root.xvii.background.longpoll.core.LongPollCore
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.*

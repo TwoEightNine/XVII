@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.background.music.services
 
 import android.annotation.TargetApi
-import android.app.PendingIntent
 import android.app.Service
 import android.content.*
 import android.media.AudioAttributes
@@ -9,18 +8,11 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.*
-import android.widget.RemoteViews
-import androidx.annotation.LayoutRes
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
-import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.lg.L
-import com.twoeightnine.root.xvii.model.attachments.Audio
-import com.twoeightnine.root.xvii.utils.NotificationChannels
+import com.twoeightnine.root.xvii.utils.notifications.NotificationUtils
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
-import kotlin.random.Random
 
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener,
@@ -257,51 +249,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
     private fun showNotification() {
         val audio = getPlayedTrack()?.audio ?: return
-
-        val notification = NotificationCompat.Builder(applicationContext, NotificationChannels.musicPlayer.id)
-                .setCustomContentView(bindRemoteViews(R.layout.view_music_notification, audio))
-                .setCustomBigContentView(bindRemoteViews(R.layout.view_music_notification_extended, audio, true))
-                .setOngoing(true)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .setSmallIcon(R.drawable.ic_play_filled)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setColor(ContextCompat.getColor(applicationContext, R.color.background))
-                .build()
-
-        startForeground(FOREGROUND_ID, notification)
+        NotificationUtils.showMusicNotification(audio, this, player.isPlayingSafe(), playbackSpeed)
     }
-
-    private fun bindRemoteViews(@LayoutRes viewId: Int, audio: Audio, isExtended: Boolean = false): RemoteViews {
-        val remoteViews = RemoteViews(packageName, viewId)
-        with(remoteViews) {
-//            setInt(R.id.rlTrack, "setBackgroundColor", ContextCompat.getColor(applicationContext, R.color.background))
-            setTextViewText(R.id.tvTitle, audio.title)
-            setTextViewText(R.id.tvArtist, audio.artist)
-            val playPauseRes = if (player.isPlayingSafe()) R.drawable.ic_pause_filled else R.drawable.ic_play_filled
-            setImageViewResource(R.id.ivPlayPause, playPauseRes)
-            setOnClickPendingIntent(R.id.ivNext, getActionPendingIntent(MusicBroadcastReceiver.ACTION_NEXT))
-            setOnClickPendingIntent(R.id.ivPrevious, getActionPendingIntent(MusicBroadcastReceiver.ACTION_PREVIOUS))
-            setOnClickPendingIntent(R.id.ivPlayPause, getActionPendingIntent(MusicBroadcastReceiver.ACTION_PLAY_PAUSE))
-
-            if (isExtended) {
-//                setInt(R.id.rlTrackExtended, "setBackgroundColor", ContextCompat.getColor(applicationContext, R.color.background))
-                setOnClickPendingIntent(R.id.tvClose, getActionPendingIntent(MusicBroadcastReceiver.ACTION_CLOSE))
-                setOnClickPendingIntent(R.id.tvPlaybackSpeed, getActionPendingIntent(MusicBroadcastReceiver.ACTION_SPEED))
-
-                setTextViewText(R.id.tvPlaybackSpeed, getString(R.string.playback_speed, playbackSpeed.toString()))
-            }
-        }
-        return remoteViews
-    }
-
-    private fun getActionPendingIntent(action: String) = PendingIntent.getBroadcast(
-            applicationContext, Random.nextInt(),
-            Intent(applicationContext, MusicBroadcastReceiver::class.java).apply {
-                this.action = action
-            },
-            PendingIntent.FLAG_UPDATE_CURRENT
-    )
 
     @TargetApi(26)
     private fun createFocusRequest() =
@@ -360,7 +309,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     companion object {
 
         private const val TAG = "music"
-        private const val FOREGROUND_ID = 3676
 
         private var service: MusicService? = null
 

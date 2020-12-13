@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.dagger
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.activities.ExceptionActivity
 import com.twoeightnine.root.xvii.analyzer.dialog.AnalyzeDialogFragment
-import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
+import com.twoeightnine.root.xvii.background.longpoll.core.LongPollCore
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService

@@ -1,50 +1,42 @@
-package com.twoeightnine.root.xvii.background.longpoll
+package com.twoeightnine.root.xvii.background.longpoll.core
 
 import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.media.RingtoneManager
 import android.os.Build
 import android.os.Vibrator
-import android.text.Html
-import android.widget.RemoteViews
-import androidx.annotation.LayoutRes
-import androidx.core.app.NotificationCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.background.longpoll.models.events.LongPollEventFactory
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
 import com.twoeightnine.root.xvii.background.longpoll.models.events.ReadIncomingEvent
 import com.twoeightnine.root.xvii.background.longpoll.models.events.UnreadCountEvent
-import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
-import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.notifications.NotificationUtils
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.sign
 import kotlin.random.Random
 
 
 class LongPollCore(private val context: Context) {
 
-    private val coreId = Random.nextLong()
+    private val coreId = Random.nextLong().apply { this * sign }
 
     private val vibrator by lazy { context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator }
     private val notificationManager by lazy {
@@ -172,6 +164,8 @@ class LongPollCore(private val context: Context) {
 
         val shouldVibrate = Prefs.vibrateChats && !event.isUser()
                 || Prefs.vibrate && event.isUser()
+        val shouldRing = Prefs.soundChats && !event.isUser()
+                || Prefs.sound && event.isUser()
         if (!isInForeground() && shouldVibrate) {
             vibrate()
         }
@@ -191,53 +185,120 @@ class LongPollCore(private val context: Context) {
             arrayListOf(context.resources.getQuantityString(R.plurals.messages, count, count))
         }
         val timeStamp = event.timeStamp * 1000L
-        val ledColor = if (event.isUser()) Prefs.ledColor else Prefs.ledColorChats
+        val ledColor = when {
+            event.isUser() -> Prefs.ledColor
+            else -> Prefs.ledColorChats
+        }
+
+        val isPeerIdStillActual = { peerId: Int ->
+            !unreadMessages[peerId].isNullOrEmpty()
+        }
 
         // trying to get dialog from database
         getDialog(event.peerId, { dialog ->
+            val name = dialog.aliasOrTitle.lowerIf(Prefs.lowerTexts)
             if (Prefs.showName) {
                 loadBitmapIcon(context, dialog.photo, useSquare = Prefs.useStyledNotifications) { bitmap ->
-                    val name = dialog.aliasOrTitle
-                    showNotification(
-                            content,
-                            timeStamp,
-                            event.peerId,
-                            event.id,
-                            name,
-                            name,
-                            bitmap,
-                            ledColor,
-                            dialog.photo
+                    NotificationUtils.showNewMessageNotification(
+                            context = context,
+                            content = content,
+                            timeStamp = timeStamp,
+                            peerId = event.peerId,
+                            messageId = event.id,
+                            userName = name,
+                            title = name,
+                            icon = bitmap,
+                            ledColor = ledColor,
+                            photo = dialog.photo,
+                            unreadMessagesCount = unreadMessages.getOrElse(event.peerId) { emptyList() }.size,
+                            shouldVibrate = shouldVibrate,
+                            shouldRing = shouldRing,
+                            stylish = Prefs.useStyledNotifications,
+                            isPeerIdStillActual = isPeerIdStillActual
                     )
                 }
             } else {
-                showNotification(content, timeStamp, event.peerId, event.id,
-                        dialog.title, ledColor = ledColor, photo = dialog.photo)
+                NotificationUtils.showNewMessageNotification(
+                        context = context,
+                        content = content,
+                        timeStamp = timeStamp,
+                        peerId = event.peerId,
+                        messageId = event.id,
+                        userName = name,
+                        title = context.getString(R.string.app_name),
+                        icon = BitmapFactory.decodeResource(context.resources, R.drawable.xvii_logo_128_circle),
+                        ledColor = ledColor,
+                        photo = dialog.photo,
+                        unreadMessagesCount = unreadMessages.getOrElse(event.peerId) { emptyList() }.size,
+                        shouldVibrate = shouldVibrate,
+                        shouldRing = shouldRing,
+                        stylish = Prefs.useStyledNotifications,
+                        isPeerIdStillActual = isPeerIdStillActual
+                )
             }
         }, {
             if (event.peerId.matchesChatId()) {
                 // chats are shown as is
-                showNotification(content, timeStamp, event.peerId, event.id,
-                        event.title, ledColor = ledColor)
+                val title = event.title.lowerIf(Prefs.lowerTexts)
+                NotificationUtils.showNewMessageNotification(
+                        context = context,
+                        content = content,
+                        timeStamp = timeStamp,
+                        peerId = event.peerId,
+                        messageId = event.id,
+                        userName = title,
+                        title = title,
+                        icon = BitmapFactory.decodeResource(context.resources, R.drawable.xvii_logo_128_circle),
+                        ledColor = ledColor,
+                        photo = null,
+                        unreadMessagesCount = unreadMessages.getOrElse(event.peerId) { emptyList() }.size,
+                        shouldVibrate = shouldVibrate,
+                        shouldRing = shouldRing,
+                        stylish = Prefs.useStyledNotifications,
+                        isPeerIdStillActual = isPeerIdStillActual
+                )
             } else {
 
                 // for groups and users try to resolve them
                 resolveSenderByPeerId(event.peerId, { title, photo ->
+                    val processedTitle = title.lowerIf(Prefs.lowerTexts)
                     loadBitmapIcon(context, photo, useSquare = Prefs.useStyledNotifications) { bitmap ->
-                        showNotification(
-                                content,
-                                timeStamp,
-                                event.peerId,
-                                event.id,
-                                title,
-                                title,
-                                bitmap,
-                                ledColor,
-                                photo
+                        NotificationUtils.showNewMessageNotification(
+                                context = context,
+                                content = content,
+                                timeStamp = timeStamp,
+                                peerId = event.peerId,
+                                messageId = event.id,
+                                userName = processedTitle,
+                                title = processedTitle,
+                                icon = bitmap,
+                                ledColor = ledColor,
+                                photo = photo,
+                                unreadMessagesCount = unreadMessages.getOrElse(event.peerId) { emptyList() }.size,
+                                shouldVibrate = shouldVibrate,
+                                shouldRing = shouldRing,
+                                stylish = Prefs.useStyledNotifications,
+                                isPeerIdStillActual = isPeerIdStillActual
                         )
                     }
                 }, {
-                    showNotification(content, timeStamp, event.peerId, event.id, event.title, ledColor = ledColor)
+                    NotificationUtils.showNewMessageNotification(
+                            context = context,
+                            content = content,
+                            timeStamp = timeStamp,
+                            peerId = event.peerId,
+                            messageId = event.id,
+                            userName = event.title,
+                            title = context.getString(R.string.app_name),
+                            icon = BitmapFactory.decodeResource(context.resources, R.drawable.xvii_logo_128_circle),
+                            ledColor = ledColor,
+                            photo = null,
+                            unreadMessagesCount = unreadMessages.getOrElse(event.peerId) { emptyList() }.size,
+                            shouldVibrate = shouldVibrate,
+                            shouldRing = shouldRing,
+                            stylish = Prefs.useStyledNotifications,
+                            isPeerIdStillActual = isPeerIdStillActual
+                    )
                 })
             }
         })
@@ -259,197 +320,10 @@ class LongPollCore(private val context: Context) {
         longPollStorage.saveLongPoll(newServer)
     }
 
-    private fun showNotification(
-            content: ArrayList<String>,
-            timeStamp: Long,
-            peerId: Int,
-            messageId: Int,
-            userName: String = context.getString(R.string.app_name),
-            title: String = context.getString(R.string.app_name),
-            icon: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.xvii_logo_128_circle),
-            ledColor: Int = Color.BLACK,
-            photo: String? = null
-    ) {
-        val shouldVibrate = Prefs.vibrateChats && !peerId.matchesUserId()
-                || Prefs.vibrate && peerId.matchesUserId()
-        val shouldRing = Prefs.soundChats && !peerId.matchesUserId()
-                || Prefs.sound && peerId.matchesUserId()
-
-        if (content.isEmpty()) {
-            content.add(context.getString(R.string.messages))
-        }
-        val text = Html.fromHtml(content.last())
-        val textBig = Html.fromHtml(content.joinToString(separator = "<br>"))
-
-        val channelId = when {
-            peerId.matchesUserId() -> NotificationChannels.privateMessages.id
-            else -> NotificationChannels.otherMessages.id
-        }
-
-        if (Prefs.useStyledNotifications) {
-            BitmapNotification.load(context, icon) { notificationBackground ->
-                val builder = NotificationCompat.Builder(context, channelId)
-                        .setCustomContentView(
-                                getNotificationView(
-                                        R.layout.view_notification_message,
-                                        notificationBackground,
-                                        title, text, (timeStamp / 1000).toInt()
-                                )
-                        )
-                        .setCustomBigContentView(
-                                getNotificationView(
-                                        R.layout.view_notification_message_extended,
-                                        notificationBackground,
-                                        title, textBig, (timeStamp / 1000).toInt(),
-                                        getMarkAsReadIntent(messageId, peerId)
-                                )
-                        )
-                        .setContentText(text)
-                        .setContentTitle(title)
-                endUpShowingNotification(
-                        builder, peerId, timeStamp, userName,
-                        shouldVibrate, shouldRing, ledColor, photo
-                )
-            }
-        } else {
-            val builder = NotificationCompat.Builder(context, channelId)
-                    .setLargeIcon(icon)
-                    .setContentTitle(title)
-                    .setAutoCancel(true)
-                    .setWhen(timeStamp)
-                    .setContentText(text)
-                    .setNumber(unreadMessages.keys.size)
-                    .setStyle(NotificationCompat.BigTextStyle().bigText(textBig))
-                    .addAction(
-                            R.drawable.ic_eye,
-                            context.getString(R.string.mark_as_read),
-                            getMarkAsReadIntent(messageId, peerId)
-                    )
-            endUpShowingNotification(
-                    builder, peerId, timeStamp, userName,
-                    shouldVibrate, shouldRing, ledColor, photo
-            )
-        }
-    }
-
-    private fun endUpShowingNotification(
-            builder: NotificationCompat.Builder,
-            peerId: Int,
-            timeStamp: Long,
-            userName: String = context.getString(R.string.app_name),
-            shouldVibrate: Boolean,
-            shouldRing: Boolean,
-            ledColor: Int,
-            photo: String? = null
-    ) {
-        builder.setSmallIcon(R.drawable.ic_envelope)
-                .setAutoCancel(true)
-                .setWhen(timeStamp)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setContentIntent(getOpenAppIntent(peerId, userName, photo))
-        if (ledColor != Color.BLACK) {
-            builder.setLights(ledColor, 500, 500)
-        }
-
-
-        val notification = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            if (shouldRing) {
-                builder.setSound(RING_URI)
-            }
-            if (shouldVibrate) {
-                builder.setVibrate(VIBRATE_PATTERN)
-            }
-
-            val notification = builder.build()
-            notification.defaults = notification.defaults or
-                    if (shouldRing) Notification.DEFAULT_SOUND else 0 or
-                            if (shouldVibrate) Notification.DEFAULT_VIBRATE else 0
-            notification
-        } else {
-            builder.build()
-        }
-
-        if (!unreadMessages[peerId].isNullOrEmpty()) {
-            notificationManager.notify(peerId, notification)
-        }
-    }
-
-    private fun getNotificationView(
-            @LayoutRes layoutId: Int,
-            notificationBackground: BitmapNotification.NotificationBackground,
-            name: String,
-            message: CharSequence,
-            timeStamp: Int,
-            onClickPendingIntent: PendingIntent? = null
-    ) = RemoteViews(context.packageName, layoutId).apply {
-
-        val processedName = name.lowerIf(Prefs.lowerTexts)
-        setTextViewText(R.id.tvName, processedName)
-        setTextViewText(R.id.tvMessages, message)
-        setTextViewText(R.id.tvWhen, getTime(timeStamp, shortened = true))
-
-        setImageViewBitmap(R.id.ivBack, notificationBackground.background)
-        setInt(R.id.rlBack, "setBackgroundColor", notificationBackground.backgroundColor)
-
-        setTextColor(R.id.tvName, notificationBackground.textColor)
-        setTextColor(R.id.tvMessages, notificationBackground.textColor)
-        setTextColor(R.id.tvWhen, notificationBackground.textColor)
-        setTextColor(R.id.tvAppName, notificationBackground.textColor)
-
-        setInt(R.id.ivMessageIcon, "setColorFilter", notificationBackground.textColor)
-
-        onClickPendingIntent?.also {
-            setOnClickPendingIntent(R.id.tvMarkAsRead, it)
-            setTextColor(R.id.tvMarkAsRead, notificationBackground.textColor)
-        }
-    }
-
     fun showForeground(service: Service) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val explainIntent = Intent(context, LongPollExplanationActivity::class.java)
-            val explainPendingIntent = PendingIntent.getActivity(context, 0, explainIntent, 0)
-            val notification = NotificationCompat.Builder(context, NotificationChannels.backgroundService.id)
-                    .setContentIntent(explainPendingIntent)
-                    .setShowWhen(false)
-                    .setOngoing(true)
-                    .setVibrate(null)
-                    .setSound(null)
-                    .setSmallIcon(R.drawable.shape_transparent)
-                    .setContentTitle(context.getString(R.string.xvii_longpoll))
-                    .setContentText(context.getString(R.string.longpoll_hint))
-                    .build()
-            service.startForeground(9999, notification)
+            NotificationUtils.showLongPollNotification(service)
         }
-    }
-
-    private fun getOpenAppIntent(peerId: Int, userName: String, photo: String?): PendingIntent {
-        val openAppIntent = Intent(context, MainActivity::class.java).apply {
-            putExtra(MainActivity.USER_ID, peerId)
-            putExtra(MainActivity.TITLE, userName)
-            putExtra(MainActivity.PHOTO, photo)
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-        return PendingIntent.getActivity(
-                context,
-                0,
-                openAppIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        )
-    }
-
-    private fun getMarkAsReadIntent(messageId: Int, peerId: Int): PendingIntent {
-        val markAsReadIntent = Intent(context, MarkAsReadBroadcastReceiver::class.java).apply {
-            action = MarkAsReadBroadcastReceiver.ACTION_MARK_AS_READ
-            putExtra(MarkAsReadBroadcastReceiver.ARG_MESSAGE_ID, messageId)
-            putExtra(MarkAsReadBroadcastReceiver.ARG_PEER_ID, peerId)
-        }
-        return PendingIntent.getBroadcast(
-                context,
-                messageId,
-                markAsReadIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        )
     }
 
     /**
@@ -541,9 +415,6 @@ class LongPollCore(private val context: Context) {
          * it is probably down =(
          */
         private const val LAST_RUN_ALLOWED_DELAY = 45
-
-        private val RING_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        private val VIBRATE_PATTERN = longArrayOf(0L, 200L)
 
         /**
          * watches for running

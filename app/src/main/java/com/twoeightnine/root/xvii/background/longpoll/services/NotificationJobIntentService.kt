@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.background.longpoll.services
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.JobIntentService
-import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
+import com.twoeightnine.root.xvii.background.longpoll.core.LongPollCore
 
 
 class NotificationJobIntentService : JobIntentService() {
