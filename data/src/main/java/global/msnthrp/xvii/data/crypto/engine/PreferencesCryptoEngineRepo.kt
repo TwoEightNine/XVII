@@ -15,12 +15,18 @@ class PreferencesCryptoEngineRepo(
         context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
     }
 
-    override fun getKeyOrNull(peerId: Int): ByteArray? =
+    override fun getKeyOrNull(peerId: Int): ByteArray? {
+        val prefKey = getPeerKey(peerId)
+        return if (preferences.contains(prefKey)) {
             try {
                 cryptoEngineEncoder.decode(preferences.getString(getPeerKey(peerId), null) ?: "")
             } catch (e: Exception) {
                 null
             }
+        } else {
+            null
+        }
+    }
 
     override fun setKey(peerId: Int, key: ByteArray) {
         preferences.edit {

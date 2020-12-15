@@ -51,5 +51,6 @@ dependencies {
     implementation utils.gson
 
     testImplementation androidTests.jUnit
+    androidTestImplementation androidTests.jUnit
     androidTestImplementation androidTests.espresso
 }
