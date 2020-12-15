@@ -338,7 +338,7 @@ class AttachmentsInflater(
 
     private fun createDoc(doc: Doc): View =
             ContainerDocBinding.inflate(inflater).run {
-                relativeLayout.stylize(changeStroke = false)
+                relativeLayout.background.paint(Munch.color.color)
                 tvExt.text = doc.ext
                 tvTitle.text = doc.title
                 tvSize.text = getSize(context.resources, doc.size)
@@ -350,7 +350,7 @@ class AttachmentsInflater(
 
     private fun createEncrypted(doc: Doc): View =
             ContainerEncBinding.inflate(inflater).run {
-                relativeLayout.stylize(changeStroke = false)
+                relativeLayout.background.paint(Munch.color.color)
                 tvTitle.text = doc.title
                 tvSize.text = getSize(context.resources, doc.size)
                 root.setOnClickListener {

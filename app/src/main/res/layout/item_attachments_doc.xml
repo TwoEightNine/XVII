@@ -39,9 +39,8 @@
         android:gravity="center"
         android:textColor="@color/icons"
         android:textSize="13sp"
-        fontPath="fonts/bold.ttf"
-        tools:text="mp3"
-        tools:ignore="MissingPrefix" />
+        style="@style/MainBoldText"
+        tools:text="mp3" />
 
     <LinearLayout
         android:layout_width="match_parent"

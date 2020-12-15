@@ -82,6 +82,8 @@
     <dimen name="chat_message_level_padding">2dp</dimen>
     <dimen name="chat_message_video_width">272dp</dimen>
     <dimen name="chat_message_video_height">200dp</dimen>
+    <dimen name="chat_message_doc_size">46dp</dimen>
+    <dimen name="chat_message_doc_radius">23dp</dimen>
 
     <dimen name="avatar_name_size_toolbar">22dp</dimen>
     <dimen name="avatar_name_size_message">15dp</dimen>
