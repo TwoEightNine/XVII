@@ -1,7 +1,6 @@
-package global.msnthrp.xvii.core
+package global.msnthrp.xvii.core.crypto.algorithm
 
 import global.msnthrp.xvii.core.crypto.CryptoUtils
-import global.msnthrp.xvii.core.crypto.algorithm.Cipher
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
