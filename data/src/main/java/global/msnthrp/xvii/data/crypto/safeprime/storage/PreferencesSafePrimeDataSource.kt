@@ -1,9 +1,9 @@
-package global.msnthrp.xvii.data.safeprime.storage
+package global.msnthrp.xvii.data.crypto.safeprime.storage
 
 import android.content.Context
 import androidx.core.content.edit
 import global.msnthrp.xvii.core.crypto.safeprime.entity.SafePrime
-import global.msnthrp.xvii.data.safeprime.DefaultSafePrimeRepo
+import global.msnthrp.xvii.data.crypto.safeprime.DefaultSafePrimeRepo
 
 class PreferencesSafePrimeDataSource(context: Context)
     : DefaultSafePrimeRepo.ReadWriteSafePrimeDataSource {

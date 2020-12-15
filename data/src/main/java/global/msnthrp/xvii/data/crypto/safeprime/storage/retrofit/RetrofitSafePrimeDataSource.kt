@@ -1,8 +1,8 @@
-package global.msnthrp.xvii.data.safeprime.storage.retrofit
+package global.msnthrp.xvii.data.crypto.safeprime.storage.retrofit
 
 import global.msnthrp.xvii.core.crypto.safeprime.entity.SafePrime
+import global.msnthrp.xvii.data.crypto.safeprime.DefaultSafePrimeRepo
 import global.msnthrp.xvii.data.network.Retrofit
-import global.msnthrp.xvii.data.safeprime.DefaultSafePrimeRepo
 
 class RetrofitSafePrimeDataSource : DefaultSafePrimeRepo.ReadOnlySafePrimeDataSource {
 

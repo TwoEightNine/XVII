@@ -1,4 +1,4 @@
-package global.msnthrp.xvii.data.safeprime.storage.retrofit
+package global.msnthrp.xvii.data.crypto.safeprime.storage.retrofit
 
 import com.google.gson.annotations.SerializedName
 

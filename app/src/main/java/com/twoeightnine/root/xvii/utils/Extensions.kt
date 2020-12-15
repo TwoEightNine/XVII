@@ -3,9 +3,9 @@ package com.twoeightnine.root.xvii.utils
 import android.os.SystemClock
 import android.widget.TextView
 import com.jakewharton.rxbinding.widget.RxTextView
-import com.twoeightnine.root.xvii.crypto.CryptoEngine
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.Error
+import global.msnthrp.xvii.core.crypto.CryptoConsts
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 import rx.Subscription
@@ -15,16 +15,16 @@ import java.util.concurrent.TimeUnit
 const val CHAT_ID_START = 2000000000
 
 fun String.matchesXviiCipher(): Boolean {
-    val prefix = CryptoEngine.DATA_PREFIX
-    val postfix = CryptoEngine.DATA_POSTFIX
+    val prefix = CryptoConsts.DATA_PREFIX
+    val postfix = CryptoConsts.DATA_POSTFIX
     return length > prefix.length + postfix.length &&
             substring(0, prefix.length) == prefix &&
             substring(length - postfix.length) == postfix
 }
 
 fun String.matchesXviiKeyEx(): Boolean {
-    val prefix = CryptoEngine.KEY_PREFIX
-    val postfix = CryptoEngine.KEY_POSTFIX
+    val prefix = CryptoConsts.KEY_PREFIX
+    val postfix = CryptoConsts.KEY_POSTFIX
     return length > prefix.length + postfix.length &&
             substring(0, prefix.length) == prefix &&
             substring(length - postfix.length) == postfix

@@ -82,9 +82,8 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
                 showKeysDialog()
             } else {
                 val fingerprint = viewModel.getFingerprint()
-                val keyType = viewModel.getKeyType()
                 context?.let {
-                    FingerPrintAlertDialog(it, fingerprint, keyType).show()
+                    FingerPrintAlertDialog(it, fingerprint).show()
                 }
             }
             true

@@ -7,20 +7,25 @@ import androidx.lifecycle.MutableLiveData
 import com.twoeightnine.root.xvii.background.longpoll.models.events.BaseMessageEvent
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
-import com.twoeightnine.root.xvii.crypto.CryptoEngine
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.core.crypto.engine.CryptoEngineUseCase
+import global.msnthrp.xvii.core.crypto.safeprime.DefaultSafePrimeUseCase
+import global.msnthrp.xvii.data.crypto.engine.Base64CryptoEngineEncoder
+import global.msnthrp.xvii.data.crypto.engine.CacheCryptoEngineFileSource
+import global.msnthrp.xvii.data.crypto.engine.PreferencesCryptoEngineRepo
+import global.msnthrp.xvii.data.crypto.safeprime.DefaultSafePrimeRepo
+import global.msnthrp.xvii.data.crypto.safeprime.storage.PreferencesSafePrimeDataSource
+import global.msnthrp.xvii.data.crypto.safeprime.storage.retrofit.RetrofitSafePrimeDataSource
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import rx.Completable
-import rx.android.schedulers.AndroidSchedulers
 import java.io.File
-import java.util.concurrent.TimeUnit
+import java.security.MessageDigest
 
 class SecretChatViewModel(
         api: ApiService,
@@ -30,7 +35,7 @@ class SecretChatViewModel(
     private var isExchangeStarted = false
 
     private val crypto by lazy {
-        CryptoEngine(context, peerId)
+        createCryptoEngine()
     }
 
     private val keysSetLiveData = MutableLiveData<Boolean>()
@@ -39,9 +44,7 @@ class SecretChatViewModel(
 
     fun isKeyRequired() = crypto.isKeyRequired()
 
-    fun getFingerprint() = crypto.getFingerPrint()
-
-    fun getKeyType() = crypto.keyType
+    fun getFingerprint(): String = sha256(crypto.getFingerPrint())
 
     fun setKey(key: String) {
         crypto.setKey(key)
@@ -49,16 +52,15 @@ class SecretChatViewModel(
 
     @Suppress("UnstableApiUsage")
     fun startExchange() {
-        crypto.startExchange {
+        AsyncUtils.onIoThread(crypto::startExchange) { keyEx ->
             l("start exchange")
-            ld(it)
-            sendData(it)
+            ld(keyEx)
+            sendData(keyEx)
             isExchangeStarted = true
-            Completable.timer(10L, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
-                    .subscribe {
-                        l("exchange not supported")
-                        isExchangeStarted = false
-                    }
+            AsyncUtils.runDelayed(EXCHANGE_WAITING) {
+                l("exchange not supported")
+                isExchangeStarted = false
+            }
         }
     }
 
@@ -95,10 +97,12 @@ class SecretChatViewModel(
     override fun attachPhoto(path: String, onAttached: (String, Attachment) -> Unit) {
         api.getDocUploadServer("doc")
                 .subscribeSmart({ uploadServer ->
-                    crypto.encryptFile(context, path) { encryptedPath ->
-                        val file = File(encryptedPath)
-                        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-                        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+                    val plainFile = File(path)
+                    val encryptFile = { crypto.encryptFile(plainFile) }
+                    AsyncUtils.onIoThreadNullable(encryptFile) { encFile ->
+                        encFile ?: return@onIoThreadNullable
+                        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), encFile)
+                        val body = MultipartBody.Part.createFormData("file", encFile.name, requestFile)
                         api.uploadDoc(uploadServer.uploadUrl ?: "", body)
                                 .compose(applySchedulers())
                                 .subscribe({ uploaded ->
@@ -123,8 +127,12 @@ class SecretChatViewModel(
     }
 
     fun decryptDoc(doc: Doc, callback: (Boolean, String?) -> Unit) {
-        downloadDoc(doc) {
-            crypto.decryptFile(context, it, callback)
+        downloadDoc(doc) { fileName ->
+            val docFile = File(fileName)
+            val decryptFile = { crypto.decryptFile(docFile) }
+            AsyncUtils.onIoThreadNullable(decryptFile) { plainFile ->
+                callback(plainFile != null, plainFile?.absolutePath)
+            }
         }
     }
 
@@ -167,14 +175,18 @@ class SecretChatViewModel(
         else -> crypto.encrypt(text)
     }
 
-    override fun prepareTextIn(text: String): String {
-        val cipherResult = crypto.decrypt(text)
-        val bytes = cipherResult.bytes
-        return if (cipherResult.verified && bytes != null) {
-            String(bytes)
-        } else {
-            ""
-        }
+    override fun prepareTextIn(text: String): String = crypto.decrypt(text) ?: ""
+
+    private fun createCryptoEngine(): CryptoEngineUseCase {
+        val safePrimeUseCase = DefaultSafePrimeUseCase(
+                DefaultSafePrimeRepo(RetrofitSafePrimeDataSource(), PreferencesSafePrimeDataSource(context))
+        )
+        val cryptoEncoder = Base64CryptoEngineEncoder()
+        val repo = PreferencesCryptoEngineRepo(context, cryptoEncoder)
+        val fileSource = CacheCryptoEngineFileSource(context)
+        return CryptoEngineUseCase(
+                peerId, safePrimeUseCase, repo, cryptoEncoder, fileSource
+        )
     }
 
     private fun ld(s: String) {
@@ -191,7 +203,16 @@ class SecretChatViewModel(
                 .log(s)
     }
 
+    private fun sha256(plain: ByteArray): String = MessageDigest
+            .getInstance("SHA-256")
+            .digest(plain)
+            .map { Integer.toHexString(it.toInt() and 0xff) }
+            .joinToString(separator = "") { if (it.length == 2) it else "0$it" }
+
+
     companion object {
         private const val TAG = "secret chat"
+
+        private const val EXCHANGE_WAITING = 10000L
     }
 }

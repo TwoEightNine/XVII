@@ -1,4 +1,4 @@
-package global.msnthrp.xvii.data.safeprime
+package global.msnthrp.xvii.data.crypto.safeprime
 
 import global.msnthrp.xvii.core.crypto.safeprime.SafePrimeRepo
 import global.msnthrp.xvii.core.crypto.safeprime.entity.SafePrime

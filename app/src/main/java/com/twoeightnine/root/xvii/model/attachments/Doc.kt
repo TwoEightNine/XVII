@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.model.attachments
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.twoeightnine.root.xvii.crypto.CryptoEngine
+import global.msnthrp.xvii.core.crypto.CryptoConsts
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -62,7 +62,7 @@ data class Doc(
                 preview.audioMsg != null
 
     val isEncrypted: Boolean
-        get() = ".$ext" == CryptoEngine.EXTENSION
+        get() = ".$ext" == CryptoConsts.EXTENSION
 
     val fileName: String
         get() {

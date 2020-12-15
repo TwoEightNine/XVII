@@ -5,7 +5,7 @@ import com.google.gson.FieldAttributes
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import global.msnthrp.xvii.data.BuildConfig
-import global.msnthrp.xvii.data.safeprime.storage.retrofit.SafePrimeApiService
+import global.msnthrp.xvii.data.crypto.safeprime.storage.retrofit.SafePrimeApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
