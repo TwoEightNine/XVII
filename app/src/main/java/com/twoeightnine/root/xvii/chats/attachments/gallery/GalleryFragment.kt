@@ -173,7 +173,7 @@ class GalleryFragment : BaseFragment() {
         if (resultCode == Activity.RESULT_CANCELED) return
 
         when (requestCode) {
-            ImageUtils.REQUEST_TAKE_PHOTO -> {
+            ImageUtils.REQUEST_TAKE_PHOTO, ImageUtils.REQUEST_SELECT_FILE -> {
                 val path = imageUtils.getPath(requestCode, data)
                 if (path != null && File(path).length() != 0L) {
                     val type = if (requestCode == ImageUtils.REQUEST_SELECT_FILE) {
