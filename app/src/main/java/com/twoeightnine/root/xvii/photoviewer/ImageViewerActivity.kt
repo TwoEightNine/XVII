@@ -87,7 +87,10 @@ class ImageViewerActivity : AppCompatActivity() {
             ) {
                 val url = tryToGetUrl(currentPhoto()) ?: return@doOrRequest
 
-                val fileName = getNameFromUrl(url).toLowerCase()
+                var fileName = getNameFromUrl(url).toLowerCase()
+                if ('?' in fileName) {
+                    fileName = fileName.split('?')[0]
+                }
                 val file = File(SAVE_FILE, fileName)
 
                 val request = DownloadManager.Request(Uri.parse(url))
