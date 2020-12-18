@@ -467,16 +467,16 @@ fun callIntent(context: Context?, num: String?) {
 
 fun addToGallery(context: Context, path: String) {
     try {
+        val uri = getUriForFile(context, File(path)) ?: return
         val cv = ContentValues()
         cv.put(MediaStore.Images.Media.TITLE, context.getString(R.string.app_name))
         cv.put(MediaStore.Images.Media.DESCRIPTION, context.getString(R.string.app_name))
         cv.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
         cv.put(MediaStore.Images.Media.DATA, path)
         context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv)
-        context.contentResolver.notifyChange(Uri.parse("file://$path"), null)
+        context.contentResolver.notifyChange(uri, null)
     } catch (e: SecurityException) {
         L.tag("gallery").throwable(e).log("unable to add to gallery")
-        showError(context, R.string.unable_to_add_to_gallery)
     }
 }
 
