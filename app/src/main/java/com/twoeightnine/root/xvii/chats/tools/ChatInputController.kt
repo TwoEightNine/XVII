@@ -140,7 +140,7 @@ class ChatInputController(
             var mentionStart = mentionEnd
             do {
                 mentionStart--
-            } while (mentionStart != 0 && input[mentionStart] != '@')
+            } while (mentionStart > 0 && input[mentionStart] != '@')
 
             var replacement = "@${user.getPageName()}"
             if (user != BaseChatMessagesViewModel.USER_ONLINE
