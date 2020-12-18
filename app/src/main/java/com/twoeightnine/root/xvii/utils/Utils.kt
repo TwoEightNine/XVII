@@ -831,8 +831,13 @@ fun createShortcut(context: Context?, dialog: Dialog) {
 fun getUriForFile(context: Context?, file: File): Uri? {
     context ?: return null
 
-    val authority = "${context.applicationContext.packageName}.provider"
-    return FileProvider.getUriForFile(context, authority, file)
+    return try {
+        val authority = "${context.applicationContext.packageName}.provider"
+        FileProvider.getUriForFile(context, authority, file)
+    } catch (e: java.lang.Exception) {
+        L.def().throwable(e).log("unable to get uri for file ${file.absolutePath}")
+        null
+    }
 }
 
 fun isMiui(): Boolean {
