@@ -31,6 +31,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     private val tracks = arrayListOf<Track>()
 
     private val noisyReceiver = NoisyReceiver()
+    private var receiverRegistered = false
 
     private val audioManager by lazy { getSystemService(Context.AUDIO_SERVICE) as AudioManager }
     private val handler = Handler()
@@ -69,7 +70,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         try {
             pausingAudioSubject.onNext(Unit)
             player.release()
-            unregisterReceiver(noisyReceiver)
+            unregisterNoisyReceiver()
         } catch (e: Exception) {
             lw("destroying", e)
         }
@@ -90,7 +91,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             player.setDataSource(path)
             updateSpeed(showNotification = false)
             player.prepareAsync()
-            registerReceiver(noisyReceiver, IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY))
+            registerNoisyReceiver()
         } catch (e: Exception) {
             lw("preparing error", e)
         }
@@ -192,7 +193,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
             } else {
                 audioManager.abandonAudioFocus(this)
             }
-            unregisterReceiver(noisyReceiver)
+            unregisterNoisyReceiver()
         } catch (e: Exception) {
             lw("error stopping", e)
             stopForeground(true)
@@ -323,6 +324,20 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     override fun onUnbind(intent: Intent?): Boolean {
         player.release()
         return false
+    }
+
+    private fun registerNoisyReceiver() = synchronized(this) {
+        if (!receiverRegistered) {
+            registerReceiver(noisyReceiver, IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY))
+            receiverRegistered = true
+        }
+    }
+
+    private fun unregisterNoisyReceiver() = synchronized(this) {
+        if (receiverRegistered) {
+            unregisterReceiver(noisyReceiver)
+            receiverRegistered = false
+        }
     }
 
     private fun MediaPlayer.isPlayingSafe() = try {
