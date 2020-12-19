@@ -174,6 +174,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
     }
 
     private fun pause() {
+        if (!player.isPlayingSafe()) return
         try {
             player.pause()
             pausingAudioSubject.onNext(Unit)
@@ -202,26 +203,31 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
     override fun onAudioFocusChange(focusChange: Int) {
         when (focusChange) {
-            AudioManager.AUDIOFOCUS_GAIN ->
+            AudioManager.AUDIOFOCUS_GAIN -> {
+                l("audiofocus gain")
                 if (isPlaybackDelayed) {
                     synchronized(focusLock) {
                         isPlaybackDelayed = false
                     }
                     startPlaying()
                 }
+            }
             AudioManager.AUDIOFOCUS_LOSS -> {
+                l("audiofocus loss")
                 synchronized(focusLock) {
                     isPlaybackDelayed = false
                 }
                 pause()
             }
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                l("audiofocus transient gain")
                 synchronized(focusLock) {
                     isPlaybackDelayed = false
                 }
                 pause()
             }
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                l("audiofocus transient loss can duck")
                 pause()
             }
         }
@@ -441,7 +447,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
 
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == AudioManager.ACTION_AUDIO_BECOMING_NOISY) {
-                playOrPause()
+                l("becoming noisy")
+                pause()
             }
         }
     }
