@@ -1,7 +1,10 @@
 package com.twoeightnine.root.xvii.photoviewer
 
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -31,6 +34,7 @@ class ImageViewerActivity : AppCompatActivity() {
     }
 
     private val downloadingQueue = hashMapOf<Long, String>()
+    private val actionDownloadedReceiver = ActionDownloadedReceiver()
 
     private var position: Int = 0
     private var filePath: String? = null
@@ -60,6 +64,8 @@ class ImageViewerActivity : AppCompatActivity() {
         if (mode == MODE_ONE_PATH) {
             rlControls.hide()
         }
+        registerReceiver(actionDownloadedReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+
 
         ivBack.setOnClickListener { onBackPressed() }
         rlTop.applyTopInsetPadding()
@@ -168,6 +174,11 @@ class ImageViewerActivity : AppCompatActivity() {
                     ?: photo.getLargePhoto()?.url
                     ?: photo.getOptimalPhoto()?.url
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(actionDownloadedReceiver)
+    }
+
     companion object {
 
         private const val SAVE_DIR = "vk"
@@ -217,6 +228,18 @@ class ImageViewerActivity : AppCompatActivity() {
 
         override fun onDismiss() {
             finish()
+        }
+    }
+
+    private inner class ActionDownloadedReceiver : BroadcastReceiver() {
+
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val id = intent?.extras?.getLong(DownloadManager.EXTRA_DOWNLOAD_ID) ?: -1
+
+            downloadingQueue[id]?.also { path ->
+                val activity = this@ImageViewerActivity
+                addToGallery(activity, path)
+            }
         }
     }
 

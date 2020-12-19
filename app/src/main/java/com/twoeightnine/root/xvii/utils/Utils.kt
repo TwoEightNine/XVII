@@ -6,10 +6,7 @@ import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
 import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.ActivityNotFoundException
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -18,6 +15,7 @@ import android.graphics.Canvas
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.*
+import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ClickableSpan
