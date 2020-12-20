@@ -11,7 +11,11 @@ import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.EmojiHelper
+import com.twoeightnine.root.xvii.utils.getTime
+import com.twoeightnine.root.xvii.utils.wrapMentions
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
@@ -85,9 +89,9 @@ class DialogsAdapter(
                     tvUnreadCount.text = unread
                 }
 
-                ivOnlineDot.stylize(ColorManager.MAIN_TAG)
-                ivUnreadDotOut.stylize(ColorManager.MAIN_TAG, changeStroke = false)
-                rlUnreadCount.stylize()
+                ivOnlineDot.paint(Munch.color.color)
+                ivUnreadDotOut.paint(Munch.color.color)
+                rlUnreadCount.background.paint(Munch.color.color)
                 rlItemContainer.setOnClickListener {
                     items.getOrNull(adapterPosition)?.also(onClick)
                 }

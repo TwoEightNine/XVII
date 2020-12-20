@@ -3,17 +3,17 @@ package com.twoeightnine.root.xvii.friends.adapters
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.utils.ColorManager
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.getLastSeenText
-import com.twoeightnine.root.xvii.utils.stylize
 import global.msnthrp.xvii.uikit.extensions.lowerIf
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_user.view.*
 
 class FriendsAdapter(context: Context,
@@ -41,9 +41,8 @@ class FriendsAdapter(context: Context,
                 setPadding(0, topPadding, 0, 0)
 
                 civPhoto.load(user.photo100, user.fullName.getInitials(), id = user.id)
-                val d = ContextCompat.getDrawable(context, R.drawable.dotshape)
-                d?.stylize(ColorManager.MAIN_TAG)
-                ivOnlineDot.setImageDrawable(if (user.isOnline) d else null)
+                ivOnlineDot.setVisible(user.isOnline)
+                ivOnlineDot.paint(Munch.color.color)
                 tvName.text = user.fullName
                 tvName.lowerIf(Prefs.lowerTexts)
 

@@ -55,7 +55,8 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_alignEnd="@+id/civPhoto"
-            android:layout_alignBottom="@+id/civPhoto" />
+            android:layout_alignBottom="@+id/civPhoto"
+            android:src="@drawable/dotshape" />
 
 
     </RelativeLayout>
