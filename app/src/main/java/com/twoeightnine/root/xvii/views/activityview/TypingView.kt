@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.views.activityview
 
 import android.animation.*
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.Gravity
@@ -11,7 +10,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.uikit.Munch
-import com.twoeightnine.root.xvii.uikit.paint
 
 
 class TypingView : LinearLayout {
@@ -85,18 +83,9 @@ class TypingView : LinearLayout {
         super.onDetachedFromWindow()
     }
 
-    fun stylize() {
-        for (i in 0 until childCount) {
-            val view = getChildAt(i)
-            if (view is ImageView) {
-                view.paint(Munch.color.color)
-            }
-        }
-    }
-
     private fun createDrawable() = GradientDrawable().apply {
         shape = GradientDrawable.OVAL
-        setColor(Color.WHITE)
+        setColor(Munch.color.color)
     }
 
     companion object {

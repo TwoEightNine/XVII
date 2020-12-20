@@ -61,7 +61,6 @@ class DialogsAdapter(
                 } else {
                     Html.fromHtml(getMessageBody(context, dialog))
                 }
-                typingView.stylize()
 
                 val isTyping = dialog.peerId in typingPeerIds
                 typingView.setVisible(isTyping)
