@@ -189,10 +189,13 @@
                 app:itemTitle="@string/source_code"
                 app:itemIcon="@drawable/ic_source_code" />
 
-            <com.twoeightnine.root.xvii.uikit.XviiLabel
-                android:id="@+id/xlAbout"
+            <TextView
+                android:id="@+id/tvAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/other_text"
                 android:gravity="center_horizontal"
                 android:text="@string/aboutbig" />
 

@@ -79,9 +79,9 @@ class FeaturesFragment : BaseFragment() {
         xiPrivacy.setOnClickListener { resolvePrivacyPolicy() }
         xiSourceCode.setOnClickListener { UrlUtils.openUrl(context, GITHUB_URL) }
 
-        xlAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
-        xlAbout.setOnClickListener { showLogDialog() }
-        xlAbout.setOnLongClickListener { startFragment<UiKitFragment>(); true }
+        tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
+        tvAbout.setOnClickListener { showLogDialog() }
+        tvAbout.setOnLongClickListener { startFragment<UiKitFragment>(); true }
 
 //        rlRoot.stylizeAll()
         svContent.applyBottomInsetPadding()
