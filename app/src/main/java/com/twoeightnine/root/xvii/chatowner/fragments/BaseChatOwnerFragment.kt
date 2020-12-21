@@ -72,10 +72,15 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this)[ChatOwnerViewModel::class.java]
-        viewModel.chatOwner.observe(viewLifecycleOwner, Observer(::onChatOwnerLoaded))
-        viewModel.photos.observe(viewLifecycleOwner, Observer(::onPhotosLoaded))
-        viewModel.loadChatOwner(peerId, getChatOwnerClass())
+
+        viewModel = ViewModelProviders.of(this)[ChatOwnerViewModel::class.java].apply {
+            chatOwner.observe(viewLifecycleOwner, Observer(::onChatOwnerLoaded))
+            photos.observe(viewLifecycleOwner, Observer(::onPhotosLoaded))
+            alias.observe(viewLifecycleOwner, Observer(::onAliasLoaded))
+
+            loadChatOwner(peerId, getChatOwnerClass())
+            loadAlias(peerId)
+        }
 
         setStatusBarLight(isLight = false)
 
@@ -120,6 +125,11 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                 loadHighResWithAnimation(photos[0].getOptimalPhoto()?.url)
             }, 1000L)
         }
+    }
+
+    private fun onAliasLoaded(alias: String) {
+        tvAlias.show()
+        tvAlias.text = getString(R.string.aka_prefix, alias)
     }
 
     private fun onAvatarClicked(v: View) {

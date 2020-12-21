@@ -86,11 +86,26 @@
                     tools:text="volodimer soloviev" />
 
                 <TextView
+                    android:id="@+id/tvAlias"
+                    style="@style/MainText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/profile_margin_start"
+                    android:layout_marginEnd="@dimen/profile_margin_end"
+                    android:layout_marginTop="0dp"
+                    android:layout_below="@+id/tvTitle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="20sp"
+                    android:visibility="gone"
+                    tools:text="aka " />
+
+                <TextView
                     android:id="@+id/tvInfo"
                     style="@style/OtherText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvTitle"
+                    android:layout_below="@+id/tvAlias"
                     android:layout_marginStart="@dimen/profile_margin_start"
                     android:layout_marginEnd="@dimen/profile_margin_end"
                     tools:text="last seen 13:37 via ipad" />
@@ -145,6 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/profile_bottom_peek_height"
                     android:background="@color/popup"
+                    tools:visibility="gone"
                     android:clickable="true">
 
                     <com.twoeightnine.root.xvii.uikit.XviiLoader

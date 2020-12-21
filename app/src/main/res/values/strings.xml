@@ -234,6 +234,7 @@
     <string name="use_styled_notifications_hint">notifications will be painted according to users\' avatars</string>
     <string name="vibrate">enable vibration</string>
     <string name="make_sound">enable sound</string>
+    <string name="aka_prefix" translatable="false">aka %s</string>
 
     <string name="light_theme">light theme</string>
     <string name="theme_color">theme color</string>
