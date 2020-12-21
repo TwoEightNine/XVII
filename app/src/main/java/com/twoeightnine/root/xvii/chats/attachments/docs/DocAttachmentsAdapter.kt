@@ -9,6 +9,7 @@ import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.utils.getSize
 import global.msnthrp.xvii.uikit.extensions.setVisible
+import global.msnthrp.xvii.uikit.utils.color.DocColors
 import kotlinx.android.synthetic.main.item_attachments_doc.view.*
 
 class DocAttachmentsAdapter(
@@ -43,7 +44,9 @@ class DocAttachmentsAdapter(
                 } else {
                     ivDocPreview.setImageDrawable(null)
                 }
-                cvDocPreview.setCardBackgroundColor(Munch.color.color)
+                cvDocPreview.setCardBackgroundColor(
+                        DocColors.getColorByExtension(extSafe) ?: Munch.color.color
+                )
                 setOnClickListener { onClick(items[adapterPosition]) }
             }
         }

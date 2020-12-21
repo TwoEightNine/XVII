@@ -31,6 +31,7 @@ import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.show
 import global.msnthrp.xvii.uikit.utils.DisplayUtils
+import global.msnthrp.xvii.uikit.utils.color.DocColors
 import java.io.File
 
 class AttachmentsInflater(
@@ -338,7 +339,9 @@ class AttachmentsInflater(
 
     private fun createDoc(doc: Doc): View =
             ContainerDocBinding.inflate(inflater).run {
-                relativeLayout.background.paint(Munch.color.color)
+                relativeLayout.background.paint(
+                        DocColors.getColorByExtension(doc.ext ?: "") ?: Munch.color.color
+                )
                 tvExt.text = doc.ext
                 tvTitle.text = doc.title
                 tvSize.text = getSize(context.resources, doc.size)
