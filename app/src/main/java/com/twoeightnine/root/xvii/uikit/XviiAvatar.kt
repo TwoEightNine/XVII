@@ -11,6 +11,7 @@ import com.twoeightnine.root.xvii.databinding.ViewAvatarBinding
 import com.twoeightnine.root.xvii.extensions.load
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.show
+import global.msnthrp.xvii.uikit.utils.color.AvatarColors
 
 class XviiAvatar @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null)
     : RelativeLayout(context, attributeSet) {
@@ -35,7 +36,7 @@ class XviiAvatar @JvmOverloads constructor(context: Context, attributeSet: Attri
     }
 
     private fun loadColor(text: String? = null, id: Int = 0) {
-        binding.civAvatarPhoto.setImageDrawable(ColorDrawable(Munch.fullAnalogy.randomFor(id).color))
+        binding.civAvatarPhoto.setImageDrawable(ColorDrawable(AvatarColors.getColor(id)))
         text?.also(binding.tvAvatarName::setText)
         binding.tvAvatarName.show()
     }
