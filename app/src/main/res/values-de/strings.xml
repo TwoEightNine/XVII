@@ -56,46 +56,46 @@
     <string name="not_found">oops.. nichts gefunden!\nversuchen sie ihre abfrage zu verändern</string>
     <string name="cannot_delete_acc">you cannot delete running account</string>
     <string name="already_acc">this account is already in use</string>
-    <string name="error_message">attachments</string>
-    <string name="voice_message">voice message</string>
+    <string name="error_message">anhänge</string>
+    <string name="voice_message">sprachnachricht</string>
     <string name="choose_dialog">choose dialog</string>
-    <string name="theme_changed">theme is changed. app is being restarted..</string>
-    <string name="incorrect_pin">incorrect</string>
-    <string name="confirm_pin">confirm your pin</string>
-    <string name="enter_pin">enter pin</string>
-    <string name="enter_new_pin">enter new pin</string>
-    <string name="reset">reset</string>
-    <string name="edit">edit</string>
-    <string name="updated_succ">updated successfully</string>
-    <string name="reset_succ">reset successfully</string>
-    <string name="dont_match">pins don\'t match</string>
-    <string name="have_pin">you already have a pin</string>
-    <string name="attachments">attachments</string>
-    <string name="attach">attach..</string>
-    <string name="important">starred</string>
-    <string name="markasimportant">mark as important</string>
-    <string name="not_playable_video">video is not playable</string>
-    <string name="mark_as_read">mark as read</string>
+    <string name="theme_changed">das theme ist verändert. die anwendung wurde neu gestartet..</string>
+    <string name="incorrect_pin">falsch</string>
+    <string name="confirm_pin">bestätigen sie ihr pin</string>
+    <string name="enter_pin">eingeben sie ein pin</string>
+    <string name="enter_new_pin">eingeben sie ein neuer pin</string>
+    <string name="reset">zurücksetzen</string>
+    <string name="edit">bearbeiten</string>
+    <string name="updated_succ">erfolgreich aktualisiert</string>
+    <string name="reset_succ">erfolgreich zurückgesetzt</string>
+    <string name="dont_match">die pins entsprechen nicht</string>
+    <string name="have_pin">sie haben schon der pin</string>
+    <string name="attachments">anhänge</string>
+    <string name="attach">anhängen..</string>
+    <string name="important">favoriten</string>
+    <string name="markasimportant">als favoriten markieren</string>
+    <string name="not_playable_video">das video ist nicht spielbar</string>
+    <string name="mark_as_read">als gelesen markieren</string>
     <string name="docs">dateien</string>
     <string name="photos">fotos</string>
     <string name="videos">videos</string>
     <string name="links">links</string>
-    <string name="forward">forward</string>
-    <string name="appearance">appearance</string>
-    <string name="privacy_policy">privacy policy and credits</string>
-    <string name="source_code">source code</string>
+    <string name="forward">vorwärts</string>
+    <string name="appearance">aussehen</string>
+    <string name="privacy_policy">datenschutzerklärung und kredite</string>
+    <string name="source_code">quellcode</string>
     <string name="new_title">new title</string>
-    <string name="chat_created">%s created the chat</string>
-    <string name="chat_title_updated">%s updated chat title: \"%s\"</string>
-    <string name="chat_photo_updated">%s updated chat photo</string>
-    <string name="chat_photo_removed">%s removed chat photo</string>
-    <string name="user_leaved_chat">%s left chat</string>
-    <string name="user_invited_user">%s invited %s</string>
-    <string name="user_entered_chat">%s entered the chat</string>
-    <string name="user_entered_chat_via_link">%s entered the chat via link</string>
-    <string name="user_kicked_user">%s kicked %s out of chat</string>
-    <string name="user_pinned_message">%s pinned message: \"%s\"</string>
-    <string name="user_unpinned_message">%s unpinned message: \"%s\"</string>
+    <string name="chat_created">%s hat das gespräch erstellt</string>
+    <string name="chat_title_updated">%s hat der gesprächstitel aktualisiert: \"%s\"</string>
+    <string name="chat_photo_updated">%s hat das gesprächsfoto aktualisiert</string>
+    <string name="chat_photo_removed">%s hat das gesprächsfoto gelöscht</string>
+    <string name="user_leaved_chat">%s hat das gespräch verlassen</string>
+    <string name="user_invited_user">%s hat %s eingeladen</string>
+    <string name="user_entered_chat">%s hat das gespräch eingegangen</string>
+    <string name="user_entered_chat_via_link">%s hat das gespräch mit link eingegangen</string>
+    <string name="user_kicked_user">%s hat %s aus dem gespräch rausgeworfenkicked</string>
+    <string name="user_pinned_message">%s hat die nachricht fixiert: \"%s\"</string>
+    <string name="user_unpinned_message">%s hat die nachricht unfixiert: \"%s\"</string>
     <string name="ten_attachments">you cannot add more than 10 attachments</string>
     <string name="led_lights">led color</string>
     <string name="change_keys">change keys</string>
@@ -103,23 +103,23 @@
     <string name="user_key">enter own key</string>
     <string name="key_set">keys were set successfully</string>
     <string name="empty_user_key">key mustn\'t be empty!</string>
-    <string name="messages">messages</string>
-    <string name="encryption">secret chat</string>
+    <string name="messages">nachrichten</string>
+    <string name="encryption">geheimes gespräch</string>
     <string name="attach_logs">attach logs</string>
     <string name="block_user">block user</string>
     <string name="unblock_user">unblock user</string>
     <string name="block_user_confirmation">do you really want to block this user?</string>
-    <string name="restart_app">restarting app..</string>
-    <string name="hidden_message">message</string>
+    <string name="restart_app">neustart..</string>
+    <string name="hidden_message">nachricht</string>
     <string name="shared">shared successfully</string>
     <string name="audios">audio</string>
-    <string name="conversation">conversation</string>
-    <string name="community">community</string>
+    <string name="conversation">gespräch</string>
+    <string name="community">gemeinschaft</string>
     <string name="want_delete">really want to delete %s?</string>
     <string name="uncaught_exception">something went wrong..</string>
     <string name="send_report">send report</string>
-    <string name="take_photo">camera</string>
-    <string name="add_doc">document</string>
+    <string name="take_photo">kamera</string>
+    <string name="add_doc">datei</string>
     <string name="report_sent">report was sent</string>
     <string name="describe_actions">describe what happened</string>
     <string name="add_to_docs">add to docs</string>
@@ -128,10 +128,10 @@
     <string name="refresh_stickers">refresh stickers</string>
     <string name="stickers_refreshed">stickers have been refreshed</string>
     <string name="wanna_logout">really want to log out?</string>
-    <string name="not_now">not now</string>
-    <string name="never">never</string>
-    <string name="private_messages_notifs">private messages</string>
-    <string name="chats_notifs">other messages</string>
+    <string name="not_now">nicht jetzt</string>
+    <string name="never">nie</string>
+    <string name="private_messages_notifs">private nachrichten</string>
+    <string name="chats_notifs">andere nachrichten</string>
     <string name="delete_for_all">delete for all users</string>
     <string name="delete_only_for_me">delete only for me</string>
     <string name="wanna_delete_messages">do you really want to delete these messages?</string>
@@ -148,15 +148,15 @@
 
     <string name="sticker">sticker</string>
     <string name="graffiti">graffiti</string>
-    <string name="you_sender">you:</string>
-    <string name="device_photos">device</string>
+    <string name="you_sender">sie:</string>
+    <string name="device_photos">gerät</string>
     <string name="mic_hint">slide left to cancel\nslide up to lock</string>
     <string name="details">details</string>
     <string name="report_hint">it will help us to solve the problem faster</string>
     <string name="accounts_hint">manage accounts</string>
-    <string name="search_hint">search</string>
-    <string name="join">follow</string>
-    <string name="cancel">cancel</string>
+    <string name="search_hint">suche</string>
+    <string name="join">folgen</string>
+    <string name="cancel">abbrechen</string>
     <string name="too_deep_forwarding">tap to see fully</string>
     <string name="request">request</string>
     <string name="summary">summary</string>
@@ -227,7 +227,7 @@
     <string name="appearance_sample">this is the sample of how the chats will look like. change appearance according to your preferences</string>
 
     <string name="cache_size">cache size: %s</string>
-    <string name="gift_for_you">gift</string>
+    <string name="gift_for_you">geschenk</string>
     <string name="unable_to_pick_file">unable to pick this file. try to select other one or write in support</string>
 
     <string name="xvii_longpoll">xvii background service</string>
@@ -249,8 +249,8 @@
     <string name="open_in_browser">open in browser</string>
     <string name="unable_to_crop">unable to crop this image as a background. try to select other one</string>
     <string name="unable_to_pick_color">unable to pick this color. try to pick other one or do it later</string>
-    <string name="close">close</string>
-    <string name="playback_speed">speed %sx</string>
+    <string name="close">schließen</string>
+    <string name="playback_speed">tempo %sx</string>
 
     <string name="assist_prompt">you are about to watch a fullscreen advertising. it is absolutely free to you but watching this is your opportunity to thank the developer for this app. do you want to continue and watch?</string>
     <string name="assist_yes">yes, i\'m in</string>
@@ -350,7 +350,7 @@
     <string name="camera_permissions_title">camera access</string>
     <string name="camera_permissions_message">app needs a permission to access camera</string>
 
-    <string name="channel_new_messages">new messages</string>
+    <string name="channel_new_messages">neue nachrichten</string>
     <string name="channel_other">anderes</string>
 
     <string name="channel_private_messages">private messages</string>
@@ -386,8 +386,8 @@
     </string-array>
 
     <plurals name="attachments">
-        <item quantity="one">%d attachment</item>
-        <item quantity="other">%d attachments</item>
+        <item quantity="one">%d anhang</item>
+        <item quantity="other">%d anhänge</item>
     </plurals>
 
     <plurals name="attachments_photos">
@@ -442,8 +442,8 @@
 
     <string name="aboutbig">xvii messenger (von twoeightnine)\nver. %s seit %s</string>
 
-    <string name="other">other</string>
-    <string name="recent">recent</string>
+    <string name="other">anderes</string>
+    <string name="recent">neuestes</string>
 
 
     <string name="offline">offline</string>
@@ -460,12 +460,12 @@
     <string name="error_200plus">access denied</string>
     <string name="error_500plus">permission denied</string>
 
-    <string name="no_color">no color</string>
-    <string name="red">red</string>
-    <string name="green">green</string>
-    <string name="blue">blue</string>
-    <string name="cyan">cyan</string>
-    <string name="yellow">yellow</string>
+    <string name="no_color">keine farbe</string>
+    <string name="red">rot</string>
+    <string name="green">grün</string>
+    <string name="blue">blau</string>
+    <string name="cyan">zyan</string>
+    <string name="yellow">gelb</string>
     <string name="magenta">magenta</string>
-    <string name="white">white</string>
+    <string name="white">weiß</string>
 </resources>
