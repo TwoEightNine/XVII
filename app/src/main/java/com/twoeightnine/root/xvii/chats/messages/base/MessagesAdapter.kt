@@ -249,8 +249,8 @@ class MessagesAdapter(context: Context,
                             Attachment.TYPE_AUDIO_MESSAGE -> attachment.audioMessage?.also { audioMessage ->
                                 val audios = arrayListOf<Audio>()
                                 items.forEach { message ->
-                                    message.attachments?.getAudioMessage()?.apply {
-                                        audios.add(Audio(this, context.getString(R.string.voice_message)))
+                                    message.getAllAudioMessages().forEach {
+                                        audios.add(Audio(it, context.getString(R.string.voice_message)))
                                     }
                                 }
                                 llMessageContainer.addView(getAudio(

@@ -116,6 +116,15 @@ data class Message(
 
     fun isDeletableForAll() = isOut() && isFresh()
 
+    fun getAllAudioMessages(): List<AudioMessage> {
+        val audioMessages = arrayListOf<AudioMessage>()
+        attachments?.getAudioMessage()?.let(audioMessages::add)
+        fwdMessages?.map(Message::getAllAudioMessages)
+                ?.flatten()
+                ?.let(audioMessages::addAll)
+        return audioMessages
+    }
+
     fun getResolvedMessage(context: Context?): String = when {
         context == null || text.isNotBlank() -> text
         !attachments.isNullOrEmpty() -> {
