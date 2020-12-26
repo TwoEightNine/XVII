@@ -183,7 +183,7 @@ class LongPollCore(private val context: Context) {
         unreadMessages[event.peerId]?.add(event.getResolvedMessage(context, !shouldShowContent))
 
         val content = if (shouldShowContent) {
-            unreadMessages[event.peerId]
+            unreadMessages[event.peerId]?.takeLast(5)?.let { ArrayList(it)}
                     ?: arrayListOf(context.getString(R.string.messages))
         } else {
             val count = unreadMessages[event.peerId]?.size ?: 0
