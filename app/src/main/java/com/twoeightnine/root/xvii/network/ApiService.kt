@@ -87,6 +87,7 @@ interface ApiService {
             @Field("peer_id") peerId: Int,
             @Field("message") message: String,
             @Field("message_id") messageId: Int,
+            @Field("attachment") attachments: String? = null,
             @Field("keep_snippets") keepSnippets: Int = 1,
             @Field("keep_forward_messages") keepForwardedMessages: Int = 1
     ): Flowable<BaseResponse<Int>>

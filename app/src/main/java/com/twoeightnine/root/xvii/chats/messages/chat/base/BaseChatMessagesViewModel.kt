@@ -178,7 +178,13 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     fun editMessage(messageId: Int, text: String) {
-        api.editMessage(peerId, prepareTextOut(text), messageId)
+        val attachments = messages
+                .find { it.id == messageId }
+                ?.attachments
+                ?.map(Attachment::toString)
+                ?.filterNot("null"::equals)
+                ?.joinToString()
+        api.editMessage(peerId, prepareTextOut(text), messageId, attachments)
                 .subscribeSmart({}, ::onErrorOccurred)
     }
 
