@@ -17,7 +17,10 @@ import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_journal_event.view.*
 
-class JournalAdapter(context: Context) : BaseAdapter<JournalEventWithPeer, JournalAdapter.JournalEventViewHolder>(context) {
+class JournalAdapter(
+        context: Context,
+        private val onClick: (JournalEventWithPeer) -> Unit
+) : BaseAdapter<JournalEventWithPeer, JournalAdapter.JournalEventViewHolder>(context) {
 
     override fun onCreateViewHolder(
             parent: ViewGroup,
@@ -46,6 +49,8 @@ class JournalAdapter(context: Context) : BaseAdapter<JournalEventWithPeer, Journ
                 val messageText = getMessageText(event.journalEvent)?.let { "\"$it\"" }
                 tvMessage.setVisible(messageText != null)
                 messageText?.also(tvMessage::setText)
+
+                setOnClickListener { items.getOrNull(adapterPosition)?.also(onClick) }
             }
         }
 

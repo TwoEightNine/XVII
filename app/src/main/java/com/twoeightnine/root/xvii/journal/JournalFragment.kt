@@ -6,7 +6,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.journal.online.JournalOnlineBottomSheet
+import com.twoeightnine.root.xvii.journal.online.model.OnlineInfo
 import com.twoeightnine.root.xvii.utils.AppBarLifter
+import global.msnthrp.xvii.core.journal.model.JournalEvent
+import global.msnthrp.xvii.core.journal.model.JournalEventWithPeer
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_journal.*
 
@@ -15,7 +19,7 @@ class JournalFragment : BaseFragment() {
     private val viewModel by viewModels<JournalViewModel>()
 
     private val adapter by lazy {
-        JournalAdapter(requireContext())
+        JournalAdapter(requireContext(), ::onClick)
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_journal
@@ -27,8 +31,10 @@ class JournalFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.events.observe(adapter::update)
         viewModel.loadEvents()
+
+        viewModel.events.observe(adapter::update)
+        viewModel.onlineEvents.observe(::openOnlineBottomSheet)
     }
 
     private fun initRecyclerView() {
@@ -36,5 +42,17 @@ class JournalFragment : BaseFragment() {
         rvEvents.adapter = adapter
         rvEvents.addOnScrollListener(AppBarLifter(xviiToolbar))
         rvEvents.applyBottomInsetPadding()
+    }
+
+    private fun onClick(event: JournalEventWithPeer) {
+        when (event.journalEvent) {
+            is JournalEvent.StatusJE -> viewModel.loadOnlineEvents(event)
+            else -> {}
+        }
+    }
+
+    private fun openOnlineBottomSheet(onlineInfo: OnlineInfo) {
+        JournalOnlineBottomSheet.newInstance(onlineInfo.userName, onlineInfo.events)
+                .show(childFragmentManager)
     }
 }

@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.graphics.drawable.*
 import android.view.Menu
+import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.RadioButton
@@ -31,6 +32,10 @@ fun Menu.paint(color: Int) {
     for (i in 0 until size()) {
         getItem(i).icon?.paint(color)
     }
+}
+
+fun View.paint(color: Int) {
+    setBackgroundColor(color)
 }
 
 fun ImageView.paint(color: Int) {

@@ -45,11 +45,10 @@ class JournalUseCase(
 
     fun getEvents(): List<JournalEventWithPeer> = getAllJournalEvents().toEventsWithPeer()
 
-    fun getOnlineEvents(userId: Int): List<JournalEventWithPeer> =
+    fun getOnlineEvents(userId: Int): List<JournalEvent.StatusJE> =
             getAllJournalEvents()
                     .filterIsInstance<JournalEvent.StatusJE>()
                     .filter { it.peerId == userId }
-                    .toEventsWithPeer()
 
     fun getMessageEvents(messageId: Int): List<JournalEventWithPeer> =
             getAllJournalEvents()
