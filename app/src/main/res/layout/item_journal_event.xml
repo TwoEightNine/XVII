@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    app:cardCornerRadius="@dimen/default_radius">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.twoeightnine.root.xvii.uikit.XviiAvatar
+            android:id="@+id/xaPhoto"
+            android:layout_margin="8dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/MainMediumText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/xaPhoto"
+            android:layout_alignBottom="@+id/xaPhoto"
+            android:layout_toEndOf="@+id/xaPhoto"
+            android:layout_alignEnd="@+id/tvDate"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:gravity="center_vertical"
+            android:ellipsize="end"
+            tools:text="name name name"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            style="@style/OtherText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_alignTop="@+id/xaPhoto"
+            android:layout_alignBottom="@+id/xaPhoto"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textSize="11sp"
+            tools:text="13:37" />
+
+        <TextView
+            android:id="@+id/tvEvent"
+            style="@style/MainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/xaPhoto"
+            android:layout_toEndOf="@+id/xaPhoto"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:ellipsize="end"
+            tools:text="name name name"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvMessage"
+            style="@style/MainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEvent"
+            android:layout_toEndOf="@+id/xaPhoto"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:ellipsize="end"
+            tools:text="name name name"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivDetails"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_alignTop="@+id/tvEvent"
+            android:layout_alignBottom="@+id/tvEvent"
+            android:src="@drawable/ic_arrow_right" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -21,13 +21,13 @@ import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
 import com.twoeightnine.root.xvii.features.general.GeneralFragment
 import com.twoeightnine.root.xvii.features.notifications.NotificationsFragment
+import com.twoeightnine.root.xvii.journal.JournalFragment
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
 import com.twoeightnine.root.xvii.uikit.Munch
-import com.twoeightnine.root.xvii.uikit.UiKitFragment
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
@@ -56,6 +56,7 @@ class FeaturesFragment : BaseFragment() {
         xiAnalyze.setOnClickListener { showToast(context, R.string.in_future_versions) }
         xiStarred.setOnClickListener { startFragment<StarredMessagesFragment>() }
         xiScheduledMessages.setOnClickListener { startFragment<ScheduledMessagesFragment>() }
+        xiJournal.setOnClickListener { startFragment<JournalFragment>() }
 
         rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, Session.uid) }
         tvSwitchAccount.setOnClickListener { startFragment<AccountsFragment>() }
@@ -81,7 +82,6 @@ class FeaturesFragment : BaseFragment() {
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
-        tvAbout.setOnLongClickListener { startFragment<UiKitFragment>(); true }
 
 //        rlRoot.stylizeAll()
         svContent.applyBottomInsetPadding()

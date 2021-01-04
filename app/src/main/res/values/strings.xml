@@ -389,6 +389,16 @@
     <string name="attachment_open_doc_prompt">how do you want to open this document?</string>
     <string name="attachment_open_doc_prompt_download">download</string>
     <string name="attachment_open_doc_prompt_browser">open in browser</string>
+    
+    <string name="journal_title">journal</string>
+    <string name="journal_event_online">went online %s</string>
+    <string name="journal_event_offline">went offline</string>
+    <string name="journal_event_read">read a message</string>
+    <string name="journal_event_delete">deleted a message</string>
+    <string name="journal_event_new">sent the message:</string>
+    <string name="journal_event_edited">edited the message:</string>
+    <string name="journal_event_typing">was typing a message</string>
+    <string name="journal_event_recording">was recording a message</string>
 
     <string-array name="relations">
         <item>single</item>

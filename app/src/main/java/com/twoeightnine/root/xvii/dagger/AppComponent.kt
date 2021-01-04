@@ -43,6 +43,7 @@ import com.twoeightnine.root.xvii.scheduled.core.SendMessageWorker
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesViewModel
 import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
+import com.twoeightnine.root.xvii.utils.DefaultPeerResolver
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import com.twoeightnine.root.xvii.web.GifViewerFragment
 import dagger.Component
@@ -94,6 +95,7 @@ interface AppComponent {
     fun inject(stickersWindow: StickersWindow)
     fun inject(appLifecycleTracker: AppLifecycleTracker)
     fun inject(stickersEmojiRepository: StickersEmojiRepository)
+    fun inject(defaultPeerResolver: DefaultPeerResolver)
 
     fun inject(chatOwnerViewModel: ChatOwnerViewModel)
     fun inject(generalViewModel: GeneralViewModel)

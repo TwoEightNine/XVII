@@ -14,7 +14,6 @@ class MainPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     init {
         fragments.apply {
             add(FriendsFragment.newInstance())
-//            add(SearchFragment.newInstance())
             add(DialogsFragment.newInstance())
             add(FeaturesFragment.newInstance())
         }

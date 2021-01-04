@@ -13,10 +13,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
-import com.twoeightnine.root.xvii.background.longpoll.models.events.LongPollEventFactory
-import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
-import com.twoeightnine.root.xvii.background.longpoll.models.events.ReadIncomingEvent
-import com.twoeightnine.root.xvii.background.longpoll.models.events.UnreadCountEvent
+import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
@@ -24,6 +21,8 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.notifications.NotificationUtils
+import global.msnthrp.xvii.core.journal.JournalUseCase
+import global.msnthrp.xvii.data.journal.MemoryJournalDataSource
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -41,6 +40,10 @@ class LongPollCore(private val context: Context) {
     private val vibrator by lazy { context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator }
     private val notificationManager by lazy {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
+
+    private val journalUseCase by lazy {
+        JournalUseCase(MemoryJournalDataSource)
     }
 
     private val unreadMessages = hashMapOf<Int, ArrayList<String>>()
@@ -122,6 +125,7 @@ class LongPollCore(private val context: Context) {
         }
         events.forEach { event ->
             EventBus.publishLongPollEventReceived(event)
+            putEventToJournal(event)
 
             when (event) {
                 is UnreadCountEvent -> processUnreadCount(event)
@@ -178,7 +182,7 @@ class LongPollCore(private val context: Context) {
         unreadMessages[event.peerId]?.add(event.getResolvedMessage(context, !shouldShowContent))
 
         val content = if (shouldShowContent) {
-            unreadMessages[event.peerId]?.takeLast(5)?.let { ArrayList(it)}
+            unreadMessages[event.peerId]?.takeLast(5)?.let { ArrayList(it) }
                     ?: arrayListOf(context.getString(R.string.messages))
         } else {
             val count = unreadMessages[event.peerId]?.size ?: 0
@@ -401,6 +405,76 @@ class LongPollCore(private val context: Context) {
     private fun lw(s: String, throwable: Throwable? = null) {
         L.tag(TAG).throwable(throwable).log(s)
     }
+
+    private fun putEventToJournal(event: BaseLongPollEvent) {
+        when (event) {
+            is OnlineEvent -> {
+                journalUseCase.addUserOnline(
+                        userId = event.userId,
+                        deviceCode = event.deviceCode,
+                        timeStamp = event.timeStamp.toLongTimeStamp()
+                )
+            }
+            is OfflineEvent -> {
+                journalUseCase.addUserOffline(
+                        userId = event.userId,
+                        timeStamp = event.timeStamp.toLongTimeStamp()
+                )
+            }
+            is TypingEvent -> {
+                journalUseCase.addActivity(
+                        peerId = event.userId,
+                        isVoice = false
+                )
+            }
+            is RecordingAudioEvent -> {
+                journalUseCase.addActivity(
+                        peerId = event.peerId,
+                        isVoice = true
+                )
+            }
+            is InstallFlagsEvent -> event.takeIf { it.isDeleted }?.let { deletionEvent ->
+                if (!deletionEvent.isOut()) {
+                    journalUseCase.addMessageDeleted(
+                            peerId = deletionEvent.peerId,
+                            messageId = deletionEvent.id
+                    )
+                }
+            }
+            is NewMessageEvent -> {
+                if (!event.isOut()) {
+                    journalUseCase.addMessage(
+                            peerId = event.peerId,
+                            messageId = event.id,
+                            messageText = event.text,
+                            isEdited = false,
+                            fromId = event.info.from,
+                            timeStamp = event.timeStamp.toLongTimeStamp()
+                    )
+                }
+            }
+            is EditMessageEvent -> {
+                if (!event.isOut()) {
+                    journalUseCase.addMessage(
+                            peerId = event.peerId,
+                            messageId = event.id,
+                            messageText = event.text,
+                            isEdited = true,
+                            fromId = event.info.from,
+                            timeStamp = event.timeStamp.toLongTimeStamp()
+                    )
+                }
+            }
+            is ReadOutgoingEvent -> {
+                journalUseCase.addReadMessage(
+                        peerId = event.peerId,
+                        messageId = event.mid
+                )
+            }
+        }
+    }
+
+    private fun Int.toLongTimeStamp() = this * 1000L
 
     companion object {
 

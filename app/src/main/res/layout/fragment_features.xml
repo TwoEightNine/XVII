@@ -114,6 +114,13 @@
                 app:itemTitle="@string/scheduled_messages_title"
                 app:itemIcon="@drawable/ic_clock" />
 
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiJournal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/journal_title"
+                app:itemIcon="@drawable/ic_clock" />
+
             <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

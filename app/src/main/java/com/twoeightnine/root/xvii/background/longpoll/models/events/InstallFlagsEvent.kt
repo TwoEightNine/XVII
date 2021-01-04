@@ -14,7 +14,11 @@ class InstallFlagsEvent(
     val isDeleted: Boolean
         get() = (flags and FLAG_DELETED) == FLAG_DELETED
 
+
+    fun isOut() = (flags and FLAG_OUT) > 0
+
     companion object {
         const val FLAG_DELETED = 128
+        const val FLAG_OUT = 2
     }
 }

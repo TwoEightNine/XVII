@@ -65,6 +65,24 @@ object AsyncUtils {
         override fun isCancelled() = subscription.isUnsubscribed
     }
 
+    class MultiCancellable : Cancellable {
+
+        private val cancellables = arrayListOf<Cancellable>()
+        private var isCancelled = false
+
+        fun add(cancellable: Cancellable) {
+            if (!isCancelled && !cancellable.isCancelled()) {
+                cancellables.add(cancellable)
+            }
+        }
+
+        override fun cancel() {
+            cancellables.forEach { it.cancel() }
+        }
+
+        override fun isCancelled(): Boolean = isCancelled
+    }
+
     private data class Emittable<T>(
             val something: T?
     )

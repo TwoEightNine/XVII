@@ -75,11 +75,7 @@ class FriendsFragment : BaseFragment() {
         swipeRefresh.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
-            val d = arrayListOf<User>()
-            for (i in 1..10) {
-                d.addAll(data.data)
-            }
-            adapter.update(d)
+            adapter.update(data.data)
         } else {
             showError(context, data.error ?: getString(R.string.error))
         }
