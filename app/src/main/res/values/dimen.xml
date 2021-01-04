@@ -72,6 +72,7 @@
     <dimen name="toolbar_padding">60dp</dimen>
 
     <dimen name="default_radius">16dp</dimen>
+    <dimen name="bottom_sheet_radius">@dimen/default_radius</dimen>
 
     <dimen name="chat_list_padding">8dp</dimen>
     <dimen name="chat_message_elevation">0dp</dimen>
