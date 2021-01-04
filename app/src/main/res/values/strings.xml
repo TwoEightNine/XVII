@@ -399,6 +399,7 @@
     <string name="journal_event_edited">edited the message:</string>
     <string name="journal_event_typing">was typing a message</string>
     <string name="journal_event_recording">was recording a message</string>
+    <string name="journal_message_deleted">message deleted</string>
 
     <string-array name="relations">
         <item>single</item>

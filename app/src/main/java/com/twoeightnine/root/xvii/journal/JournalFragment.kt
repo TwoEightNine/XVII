@@ -6,6 +6,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.journal.message.JournalMessageBottomSheet
+import com.twoeightnine.root.xvii.journal.message.model.MessageInfo
 import com.twoeightnine.root.xvii.journal.online.JournalOnlineBottomSheet
 import com.twoeightnine.root.xvii.journal.online.model.OnlineInfo
 import com.twoeightnine.root.xvii.utils.AppBarLifter
@@ -35,6 +37,7 @@ class JournalFragment : BaseFragment() {
 
         viewModel.events.observe(adapter::update)
         viewModel.onlineEvents.observe(::openOnlineBottomSheet)
+        viewModel.messageEvents.observe(::openMessageBottomSheet)
     }
 
     private fun initRecyclerView() {
@@ -47,12 +50,20 @@ class JournalFragment : BaseFragment() {
     private fun onClick(event: JournalEventWithPeer) {
         when (event.journalEvent) {
             is JournalEvent.StatusJE -> viewModel.loadOnlineEvents(event)
+            is JournalEvent.MessageJE -> viewModel.loadMessageEvents(event)
             else -> {}
         }
     }
 
     private fun openOnlineBottomSheet(onlineInfo: OnlineInfo) {
-        JournalOnlineBottomSheet.newInstance(onlineInfo.userName, onlineInfo.events)
+        JournalOnlineBottomSheet
+                .newInstance(onlineInfo)
+                .show(childFragmentManager)
+    }
+
+    private fun openMessageBottomSheet(messageInfo: MessageInfo) {
+        JournalMessageBottomSheet
+                .newInstance(messageInfo)
                 .show(childFragmentManager)
     }
 }
