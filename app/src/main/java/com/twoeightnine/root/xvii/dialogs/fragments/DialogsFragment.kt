@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
@@ -20,6 +21,7 @@ import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
+import com.twoeightnine.root.xvii.utils.notifications.NotificationUtils
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import global.msnthrp.xvii.uikit.extensions.hide
@@ -133,6 +135,12 @@ open class DialogsFragment : BaseFragment() {
         if (dialog.peerId.matchesUserId()) {
             items.add(ContextPopupItem(R.drawable.ic_start_secret_chat, R.string.encryption) {
                 SecretChatActivity.launch(context, dialog)
+            })
+        }
+
+        if (BuildConfig.DEBUG) {
+            items.add(ContextPopupItem(R.drawable.ic_source_code, R.string.notifications) {
+                NotificationUtils.showTestMessageNotification(requireContext(), dialog)
             })
         }
 

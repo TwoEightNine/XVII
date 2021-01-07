@@ -19,12 +19,10 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.LongPollExplanationActivity
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.music.services.MusicBroadcastReceiver
+import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.model.attachments.Audio
-import com.twoeightnine.root.xvii.utils.BitmapNotification
-import com.twoeightnine.root.xvii.utils.NotificationChannels
-import com.twoeightnine.root.xvii.utils.getTime
-import com.twoeightnine.root.xvii.utils.matchesUserId
+import com.twoeightnine.root.xvii.utils.*
 import kotlin.random.Random
 
 object NotificationUtils {
@@ -285,4 +283,25 @@ object NotificationUtils {
         )
     }
 
+    fun showTestMessageNotification(context: Context, dialog: Dialog) {
+        loadBitmapIcon(context, dialog.photo, useSquare = true) { bitmap ->
+            showNewMessageNotification(
+                    context = context,
+                    content = arrayListOf("test message"),
+                    timeStamp = System.currentTimeMillis(),
+                    peerId = dialog.peerId,
+                    messageId = dialog.messageId,
+                    userName = dialog.aliasOrTitle,
+                    title = dialog.aliasOrTitle,
+                    icon = bitmap,
+                    ledColor = Color.BLACK,
+                    photo = dialog.photo,
+                    unreadMessagesCount = 1,
+                    shouldVibrate = false,
+                    shouldRing = false,
+                    stylish = true,
+                    isPeerIdStillActual = { true }
+            )
+        }
+    }
 }
