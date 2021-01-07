@@ -418,7 +418,7 @@ class LongPollCore(private val context: Context) {
             is OfflineEvent -> {
                 journalUseCase.addUserOffline(
                         userId = event.userId,
-                        timeStamp = event.timeStamp.toLongTimeStamp()
+                        lastSeen = event.timeStamp.toLongTimeStamp()
                 )
             }
             is TypingEvent -> {

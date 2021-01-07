@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/rlLastAction"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+
+        <View
+            android:id="@+id/vCenterLastAction"
+            android:layout_centerVertical="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
+        <View
+            android:id="@+id/vPastLineLastAction"
+            android:layout_above="@+id/vCenterLastAction"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/journal_online_line_padding"
+            android:layout_marginEnd="@dimen/journal_online_line_padding"
+            android:layout_alignStart="@+id/ivDotLastAction"
+            android:layout_alignEnd="@+id/ivDotLastAction"
+            android:layout_height="match_parent"
+            tools:background="#000" />
+
+        <View
+            android:id="@+id/vFutureLineLastAction"
+            android:layout_below="@+id/vCenterLastAction"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/journal_online_line_padding"
+            android:layout_marginEnd="@dimen/journal_online_line_padding"
+            android:layout_alignStart="@+id/ivDotLastAction"
+            android:layout_alignEnd="@+id/ivDotLastAction"
+            android:layout_height="match_parent"
+            tools:background="#000" />
+
+
+        <ImageView
+            android:id="@+id/ivDotLastAction"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_width="@dimen/journal_online_dot_size"
+            android:layout_height="@dimen/journal_online_dot_size"
+            android:src="@drawable/shape_circle" />
+
+        <TextView
+            android:id="@+id/tvTimeLastAction"
+            style="@style/MainText"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/ivDotLastAction"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            tools:text="17:53:00"/>
+
+        <TextView
+            android:id="@+id/tvHintLastAction"
+            style="@style/MinorText"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/tvTimeLastAction"
+            android:layout_alignTop="@+id/tvTimeLastAction"
+            android:gravity="bottom"
+            android:layout_alignBottom="@+id/tvTimeLastAction"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="@string/journal_event_last_action_hint"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlOffline"
+        android:layout_below="@+id/rlLastAction"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+
+        <View
+            android:id="@+id/vCenterOffline"
+            android:layout_centerVertical="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
+        <View
+            android:id="@+id/vPastLineOffline"
+            android:layout_above="@+id/vCenterOffline"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/journal_online_line_padding"
+            android:layout_marginEnd="@dimen/journal_online_line_padding"
+            android:layout_alignStart="@+id/ivDotOffline"
+            android:layout_alignEnd="@+id/ivDotOffline"
+            android:layout_height="match_parent"
+            tools:background="#000" />
+
+        <ImageView
+            android:id="@+id/ivDotOffline"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_width="@dimen/journal_online_dot_size"
+            android:layout_height="@dimen/journal_online_dot_size"
+            android:src="@drawable/shape_circle" />
+
+        <TextView
+            android:id="@+id/tvTimeOffline"
+            style="@style/MainText"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/ivDotOffline"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            tools:text="17:53:00"/>
+
+        <TextView
+            android:id="@+id/tvHintOffline"
+            style="@style/MinorText"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/tvTimeOffline"
+            android:layout_alignTop="@+id/tvTimeOffline"
+            android:gravity="bottom"
+            android:layout_alignBottom="@+id/tvTimeOffline"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="@string/journal_event_offline_hint"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

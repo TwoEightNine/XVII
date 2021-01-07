@@ -400,6 +400,9 @@
     <string name="journal_event_typing">was typing a message</string>
     <string name="journal_event_recording">was recording a message</string>
     <string name="journal_message_deleted">message deleted</string>
+    <string name="journal_event_online_hint">went online</string>
+    <string name="journal_event_last_action_hint">made last action</string>
+    <string name="journal_event_offline_hint">went offline</string>
 
     <string-array name="relations">
         <item>single</item>

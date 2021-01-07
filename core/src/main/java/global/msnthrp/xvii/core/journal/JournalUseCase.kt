@@ -13,8 +13,8 @@ class JournalUseCase(
         journalDataSource.addJournalEvent(JournalEvent.StatusJE.OnlineStatusJE(userId, timeStamp, deviceCode))
     }
 
-    fun addUserOffline(userId: Int, timeStamp: Long = System.currentTimeMillis()) {
-        journalDataSource.addJournalEvent(JournalEvent.StatusJE.OfflineStatusJE(userId, timeStamp))
+    fun addUserOffline(userId: Int, lastSeen: Long, timeStamp: Long = System.currentTimeMillis()) {
+        journalDataSource.addJournalEvent(JournalEvent.StatusJE.OfflineStatusJE(userId, timeStamp, lastSeen))
     }
 
     fun addActivity(peerId: Int, isVoice: Boolean, fromId: Int = peerId, timeStamp: Long = System.currentTimeMillis()) {

@@ -93,6 +93,11 @@
         <item name="android:textColor">@color/other_text</item>
     </style>
 
+    <style name="MinorText">
+        <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
+        <item name="android:textColor">@color/minor_text</item>
+    </style>
+
     <style name="AccentText">
         <item name="android:layout_marginTop">@dimen/text_view_top_margin</item>
         <item name="android:textColor">@color/accent</item>

@@ -12,6 +12,7 @@ import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.getTime
 import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
 import global.msnthrp.xvii.uikit.extensions.setVisible
+import kotlinx.android.synthetic.main.item_offline_event.view.*
 import kotlinx.android.synthetic.main.item_online_event.view.*
 
 class OnlineEventAdapter(context: Context) : BaseAdapter<OnlineEvent, OnlineEventAdapter.OnlineEventViewHolder>(context) {
@@ -19,30 +20,66 @@ class OnlineEventAdapter(context: Context) : BaseAdapter<OnlineEvent, OnlineEven
     override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-    ) = OnlineEventViewHolder(inflater.inflate(R.layout.item_online_event, parent, false))
+    ) = OnlineEventViewHolder(inflater.inflate(
+            when (viewType) {
+                TYPE_OFFLINE -> R.layout.item_offline_event
+                else -> R.layout.item_online_event
+            }, parent, false))
 
     override fun onBindViewHolder(holder: OnlineEventViewHolder, position: Int) {
-        holder.bind(items[position], items.getOrNull(position - 1))
+        val current = items[position]
+        val prev = items.getOrNull(position - 1)
+        when {
+            current.isOnline -> holder.bindOnline(current, prev)
+            else -> holder.bindOffline(current)
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int = when {
+        items[position].isOnline -> TYPE_ONLINE
+        else -> TYPE_OFFLINE
+    }
+
+    companion object {
+        private const val TYPE_ONLINE = 1312
+        private const val TYPE_OFFLINE = 1313
     }
 
     inner class OnlineEventViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(event: OnlineEvent, prevEvent: OnlineEvent?) {
+        fun bindOnline(event: OnlineEvent, prevEvent: OnlineEvent?) {
             with(itemView) {
                 val time = getTime(event.time, withSeconds = Prefs.showSeconds)
-                val deviceName = when {
-                    event.isOnline -> com.twoeightnine.root.xvii.background.longpoll.models.events
-                            .OnlineEvent.getDeviceName(context.resources, event.deviceCode)
-                    else -> ""
-                }
-                tvEvent.text = "$time $deviceName"
+                val deviceName = com.twoeightnine.root.xvii.background.longpoll.models.events
+                        .OnlineEvent.getDeviceName(context.resources, event.deviceCode)
+                        .takeIf(String::isNotBlank)
+                        ?.takeIf { event.isOnline }
+                        ?.let { "\n$it" }
+                        ?: ""
+                tvTime.text = "$time$deviceName"
 
-                ivDot.paint(Munch.color.color)
                 vPastLine.paint(Munch.color.color)
+                ivDot.paint(Munch.color.color)
                 vFutureLine.paint(Munch.color.color)
 
                 vPastLine.setVisible(!event.isOnline || event.isOnline && prevEvent?.isOnline == true)
                 vFutureLine.setVisible(event.isOnline)
+            }
+        }
+
+        fun bindOffline(event: OnlineEvent) {
+            with(itemView) {
+                val time = getTime(event.lastSeen, withSeconds = Prefs.showSeconds)
+                val timeOffline = getTime(event.time, withSeconds = Prefs.showSeconds)
+                tvTimeLastAction.text = time
+                tvTimeOffline.text = timeOffline
+
+                vPastLineLastAction.paint(Munch.color.color)
+                ivDotLastAction.paint(Munch.color.color)
+
+                vPastLineOffline.paint(Munch.color.color50)
+                ivDotOffline.paint(Munch.color.color50)
+                vFutureLineLastAction.paint(Munch.color.color50)
             }
         }
     }

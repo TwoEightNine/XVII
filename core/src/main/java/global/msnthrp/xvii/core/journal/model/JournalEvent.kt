@@ -69,6 +69,11 @@ sealed class JournalEvent(
                 val deviceCode: Int
         ) : StatusJE(peerId, timeStamp)
 
-        class OfflineStatusJE(peerId: Int, timeStamp: Long) : StatusJE(peerId, timeStamp)
+        class OfflineStatusJE(
+                peerId: Int,
+                timeStamp: Long,
+
+                val lastSeen: Long
+        ) : StatusJE(peerId, timeStamp)
     }
 }
