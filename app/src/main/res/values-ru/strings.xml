@@ -152,7 +152,7 @@
     <string name="clear_cache">очистить кэш</string>
     <string name="cache_cleared">кэш очищен</string>
     <string name="wanna_logout">действительно хотите выйти?</string>
-    <string name="generation_dh_hint">убедитесь, что ваш собеседний установил xvii и открыл секретный чат с вами. это необходимо для обмена ключами</string>
+    <string name="generation_dh_hint">убедитесь, что ваш собеседник установил xvii и открыл секретный чат с вами. это необходимо для обмена ключами</string>
     <string name="key_xchg_failed">собеседник не поддержал обмен ключами. неудача!</string>
     <string name="decrypting_image">изображение расшифровывается</string>
     <string name="invalid_file">невозможно расшифровать файл</string>
@@ -537,7 +537,7 @@
     <string name="pin_settings_fake_diagnostics_hint">нажмите и удерживайте \'rerun battery test\', чтобы войти</string>
     <string name="pin_settings_fake_app">запускать приложение-фейк</string>
     <string name="pin_settings_fake_app_hint">сначала запустится фейк вместо мессенджера</string>
-    <string name="pin_settings_invader_photo">фсотографировать взломщика</string>
+    <string name="pin_settings_invader_photo">сфотографировать взломщика</string>
     <string name="pin_settings_invader_photo_hint">прикрепить фото с фронтальной камеры (требуется разрешение)</string>
     <string name="refresh_stickers">обновить стикеры</string>
     <string name="camera_permissions_message">приложению необходим доступ к камере</string>
