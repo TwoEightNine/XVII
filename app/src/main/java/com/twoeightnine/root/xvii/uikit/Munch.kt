@@ -1,6 +1,7 @@
 package com.twoeightnine.root.xvii.uikit
 
-import android.graphics.Color
+import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 import global.msnthrp.xvii.uikit.utils.color.Rgb
 import global.msnthrp.xvii.uikit.utils.color.addHue
@@ -14,6 +15,10 @@ object Munch {
     private const val RANGE = 90
     private const val TRI = 120
     private const val EXTRA = 180
+
+    private val backgroundLight = App.context.getColor(R.color.background_light)
+    private val backgroundDark = App.context.getColor(R.color.background_dark)
+
 
     val isLightTheme = Prefs.isLightTheme
 
@@ -62,8 +67,8 @@ object Munch {
             prevRangeColor
     )
 
-    private fun Int.alphaOnWhite(alpha: Float = 0.5f) = mixWith(Color.WHITE, alpha)
-    private fun Int.alphaOnBlack(alpha: Float = 0.5f) = mixWith(Color.BLACK, alpha)
+    private fun Int.alphaOnWhite(alpha: Float = 0.5f) = mixWith(backgroundLight, alpha)
+    private fun Int.alphaOnBlack(alpha: Float = 0.5f) = mixWith(backgroundDark, alpha)
 
     private fun Int.getNextNear() = toHsv().addHue(NEAR).toInt()
     private fun Int.getPrevNear() = toHsv().addHue(-NEAR).toInt()

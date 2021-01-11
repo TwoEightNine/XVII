@@ -8,7 +8,7 @@
     <color name="navigation_bar">#0e0c13</color>
     <color name="navigation_bar_chat_owner">#1c1826</color>
 
-    <color name="background">#0e0c13</color>
+    <color name="background">@color/background_dark</color>
     <color name="popup">#1c1826</color>
     <color name="popup_error">#7A2737</color>
     <color name="toolbar">#15121c</color>
