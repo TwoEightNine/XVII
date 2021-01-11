@@ -6,8 +6,39 @@
     android:background="@color/background"
     android:orientation="vertical">
 
-    <com.twoeightnine.root.xvii.views.LockableViewPager
-        android:id="@+id/viewPager"
+<!--    <com.twoeightnine.root.xvii.views.LockableViewPager-->
+<!--        android:id="@+id/viewPager"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:clipChildren="false"-->
+<!--        android:clipToPadding="false" />-->
+
+    <ImageView
+        android:id="@+id/ivSearch"
+        android:elevation="10dp"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_search"
+        android:layout_width="wrap_content"
+        android:padding="16dp"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@+id/flFriends"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false" />
+
+    <FrameLayout
+        android:id="@+id/flDialogs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false" />
+
+    <FrameLayout
+        android:id="@+id/flFeatures"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"

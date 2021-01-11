@@ -1,20 +1,17 @@
 package com.twoeightnine.root.xvii.friends.fragments
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.friends.adapters.FriendsAdapter
 import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.AppBarLifter
 import com.twoeightnine.root.xvii.utils.showError
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
@@ -59,16 +56,6 @@ class FriendsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel.getFriends().observe(viewLifecycleOwner, ::updateFriends)
         viewModel.loadFriends()
-    }
-
-    override fun getMenu(): Int = R.menu.search
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.menu_search -> {
-            startFragment<SearchFragment>()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
     }
 
     private fun updateFriends(data: Wrapper<ArrayList<User>>) {

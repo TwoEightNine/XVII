@@ -2,6 +2,8 @@ package com.twoeightnine.root.xvii.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
@@ -40,6 +42,15 @@ class SearchFragment : BaseFragment() {
         etSearch.subscribeSearch(true, viewModel::search)
         ivDelete.setOnClickListener { etSearch.setText("") }
         ivEmptyView.paint(Munch.color.color50)
+
+        ViewCompat.setOnApplyWindowInsetsListener(rlSearch) { view, insets ->
+            view.updatePadding(top = insets.systemWindowInsetTop)
+            view.layoutParams.apply {
+                height = resources.getDimensionPixelSize(R.dimen.toolbar_height) + insets.systemWindowInsetTop
+                view.layoutParams = this
+            }
+            insets
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

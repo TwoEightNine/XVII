@@ -11,9 +11,19 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
+import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
+import com.twoeightnine.root.xvii.features.FeaturesFragment
+import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.lg.L
+import com.twoeightnine.root.xvii.search.SearchFragment
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
+import global.msnthrp.xvii.uikit.extensions.isVisible
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -30,8 +40,8 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         App.appComponent?.inject(this)
+        initFragments()
         bottomNavView.setOnNavigationItemSelectedListener(BottomViewListener())
-        initViewPager()
         bottomNavView.selectedItemId = R.id.menu_dialogs
 
         intent?.extras?.apply {
@@ -48,6 +58,12 @@ class MainActivity : BaseActivity() {
         bottomNavView.stylize()
         StatTool.get()?.incLaunch()
 
+        ivSearch.setOnClickListener {
+            startFragment<SearchFragment>()
+        }
+        ivSearch.paint(Munch.color.color)
+        ivSearch.applyTopInsetMargin()
+
         ViewCompat.setOnApplyWindowInsetsListener(bottomNavView) { view, insets ->
             view.updatePadding(bottom = insets.systemWindowInsetBottom)
             view.layoutParams.apply {
@@ -58,12 +74,19 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun initViewPager() {
-        with(viewPager) {
-            adapter = MainPagerAdapter(supportFragmentManager)
-            isLocked = true
-            offscreenPageLimit = 2
-        }
+    private fun initFragments() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.flFriends, FriendsFragment.newInstance())
+                .replace(R.id.flDialogs, DialogsFragment.newInstance())
+                .replace(R.id.flFeatures, FeaturesFragment.newInstance())
+                .commit()
+    }
+
+    private fun showFragment(menuId: Int) {
+        flFriends.setVisible(menuId == R.id.menu_friends)
+        flDialogs.setVisible(menuId == R.id.menu_dialogs)
+        flFeatures.setVisible(menuId == R.id.menu_features)
+        ivSearch.setVisible(menuId != R.id.menu_features)
     }
 
     override fun getStatusBarColor() = ContextCompat.getColor(this, R.color.status_bar)
@@ -73,7 +96,7 @@ class MainActivity : BaseActivity() {
     override fun getThemeId() = R.style.AppTheme_Main
 
     override fun onBackPressed() {
-        if (viewPager.currentItem == 1) {
+        if (flDialogs.isVisible()) {
             try {
                 goHome(this)
             } catch (e: IllegalStateException) {
@@ -98,15 +121,7 @@ class MainActivity : BaseActivity() {
 
     private inner class BottomViewListener : BottomNavigationView.OnNavigationItemSelectedListener {
         override fun onNavigationItemSelected(item: MenuItem): Boolean {
-            viewPager.setCurrentItem(
-                    when (item.itemId) {
-//                        R.id.menu_search -> 0
-                        R.id.menu_friends -> 0
-                        R.id.menu_features -> 2
-                        else -> 1 // default menu_dialogs
-                    },
-                    false
-            )
+            showFragment(item.itemId)
             return true
         }
 
