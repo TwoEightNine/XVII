@@ -42,6 +42,7 @@ class JournalFragment : BaseFragment() {
 
     private fun initRecyclerView() {
         rvEvents.layoutManager = LinearLayoutManager(requireContext())
+                .apply { stackFromEnd = true }
         rvEvents.adapter = adapter
         rvEvents.addOnScrollListener(AppBarLifter(xviiToolbar))
         rvEvents.applyBottomInsetPadding()

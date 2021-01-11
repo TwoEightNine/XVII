@@ -28,6 +28,7 @@ class JournalOnlineBottomSheet private constructor(): BaseBottomSheet() {
         tvName.lowerIf(Prefs.lowerTexts)
 
         rvEvents.layoutManager = LinearLayoutManager(requireContext())
+                .apply { stackFromEnd = true }
         rvEvents.adapter = adapter
         onlineInfo?.events?.also(adapter::update)
     }

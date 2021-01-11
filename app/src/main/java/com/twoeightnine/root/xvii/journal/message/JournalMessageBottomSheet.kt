@@ -28,6 +28,7 @@ class JournalMessageBottomSheet private constructor(): BaseBottomSheet() {
         tvName.lowerIf(Prefs.lowerTexts)
 
         rvEvents.layoutManager = LinearLayoutManager(requireContext())
+                .apply { stackFromEnd = true }
         rvEvents.adapter = adapter
         messageInfo?.events?.also(adapter::update)
     }
