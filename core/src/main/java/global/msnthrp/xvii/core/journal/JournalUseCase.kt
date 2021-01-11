@@ -3,6 +3,7 @@ package global.msnthrp.xvii.core.journal
 import global.msnthrp.xvii.core.journal.model.JournalEvent
 import global.msnthrp.xvii.core.journal.model.JournalEventWithPeer
 import global.msnthrp.xvii.core.utils.PeerResolver
+import java.util.concurrent.TimeUnit
 
 class JournalUseCase(
         private val journalDataSource: JournalDataSource,
@@ -55,7 +56,10 @@ class JournalUseCase(
                     .filterIsInstance<JournalEvent.MessageJE>()
                     .filter { it.messageId == messageId }
 
-    private fun getAllJournalEvents(): List<JournalEvent> = journalDataSource.getJournalEvents()
+    private fun getAllJournalEvents(): List<JournalEvent> {
+        journalDataSource.clearAllExceptRecent(RECENT_THRESHOLD)
+        return journalDataSource.getJournalEvents()
+    }
 
     private fun List<JournalEvent>.toEventsWithPeer(): List<JournalEventWithPeer> {
         val peers = peerResolver?.resolvePeers(map { it.peerId }) ?: mapOf()
@@ -66,6 +70,10 @@ class JournalUseCase(
                     peerPhoto = peers[event.peerId]?.peerPhoto ?: ""
             )
         }
+    }
+
+    companion object {
+        private val RECENT_THRESHOLD = TimeUnit.DAYS.toMillis(2L)
     }
 
 }
