@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 import com.twoeightnine.root.xvii.db.AppDb
+import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
@@ -160,6 +161,7 @@ class ChatOwnerViewModel : ViewModel() {
         appDb.dialogsDao()
                 .getDialogs(peerId)
                 .compose(applySingleSchedulers())
+                .onErrorReturnItem(Dialog())
                 .map { it.alias ?: "" }
                 .subscribe { alias ->
                     if (alias.isNotBlank()) {
