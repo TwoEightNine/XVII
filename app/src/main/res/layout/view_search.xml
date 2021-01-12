@@ -3,7 +3,7 @@
     android:id="@+id/rlSearch"
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
-    android:background="@color/popup"
+    android:background="@drawable/shape_rounded_rect"
     android:elevation="4dp">
 
     <ImageView
@@ -14,17 +14,24 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_close" />
 
+    <ImageView
+        android:id="@+id/ivBack"
+        android:elevation="10dp"
+        android:src="@drawable/ic_back"
+        android:layout_width="wrap_content"
+        android:padding="16dp"
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/etSearch"
+        style="@style/MainText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="16dp"
         android:layout_toStartOf="@+id/ivDelete"
+        android:layout_toEndOf="@+id/ivBack"
         android:background="@android:color/transparent"
-        android:fontFamily="sans-serif-light"
         android:hint="@string/search_hint"
         android:maxLines="1"
-        android:textColor="@color/main_text"
         android:textColorHint="@color/other_text"
         android:textSize="17sp" />
 

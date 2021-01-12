@@ -15,11 +15,11 @@ import kotlinx.android.synthetic.main.item_dialog_search.view.*
 
 class SearchAdapter(
         context: Context,
-        private val onClick: (Dialog) -> Unit
+        private val onClick: (Dialog) -> Unit,
+        private val onLongClick: (Dialog) -> Unit
 ) : BaseAdapter<Dialog, SearchAdapter.SearchViewHolder>(context) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-            = SearchViewHolder(inflater.inflate(R.layout.item_dialog_search, null))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = SearchViewHolder(inflater.inflate(R.layout.item_dialog_search, null))
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         holder.bind(items[position])
@@ -33,7 +33,16 @@ class SearchAdapter(
                 tvTitle.text = dialog.title
                 tvTitle.lowerIf(Prefs.lowerTexts)
                 ivOnlineDot.hide() // due to this list is not autorefreshable
-                rlItemContainer.setOnClickListener { onClick(items[adapterPosition]) }
+
+                rlItemContainer.setOnClickListener {
+                    items.getOrNull(adapterPosition)
+                            ?.also(onClick)
+                }
+                rlItemContainer.setOnLongClickListener {
+                    items.getOrNull(adapterPosition)
+                            ?.also(onLongClick)
+                    true
+                }
             }
         }
     }

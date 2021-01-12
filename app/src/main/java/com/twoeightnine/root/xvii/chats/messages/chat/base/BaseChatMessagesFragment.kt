@@ -36,6 +36,8 @@ import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
@@ -187,7 +189,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     private fun stylize() {
         rlMultiAction.stylizeAll()
-        rlMultiAction.stylizeColor()
+        rlMultiAction.background?.paint(Munch.color.color20)
         rlBack.stylizeAll()
 
         if (Prefs.chatBack.isNotEmpty()) {

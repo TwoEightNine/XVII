@@ -70,11 +70,11 @@
             android:id="@+id/rlDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/xviiToolbar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="6dp"
             android:background="@drawable/shape_message_system"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/tvDatePopup"

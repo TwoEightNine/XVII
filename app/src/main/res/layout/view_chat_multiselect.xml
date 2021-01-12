@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
     android:layout_alignBottom="@+id/xviiToolbar"
-    android:background="@color/popup"
+    android:background="@drawable/shape_rounded_rect"
     android:clickable="true"
     android:elevation="4.1dp"
     android:focusable="true"
     android:tag="extraLight"
     android:visibility="gone"
-    tools:background="#f8b"
     tools:parentTag="android.widget.RelativeLayout"
     tools:visibility="visible">
 

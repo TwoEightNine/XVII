@@ -15,9 +15,14 @@ import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.UrlUtils
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
+import com.twoeightnine.root.xvii.utils.copyToClip
+import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.stylizeAll
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.view_chat_multiselect.*
@@ -37,7 +42,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         ivDeleteMulti.visibility = View.INVISIBLE
         ivMarkMulti.visibility = View.INVISIBLE
         rlMultiAction.stylizeAll()
-        rlMultiAction.stylizeColor()
+        rlMultiAction.background.paint(Munch.color.color20)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
