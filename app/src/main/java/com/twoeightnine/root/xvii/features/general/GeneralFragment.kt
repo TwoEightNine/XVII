@@ -62,6 +62,7 @@ class GeneralFragment : BaseFragment() {
         switchSwipeToBack.isChecked = Prefs.enableSwipeToBack
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
         switchLiftKeyboard.isChecked = Prefs.liftKeyboard
+        switchSuggestPeople.isChecked = Prefs.suggestPeople
 
         switchOffline.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             if (isChecked) switchOnline.isChecked = false
@@ -85,6 +86,7 @@ class GeneralFragment : BaseFragment() {
         Prefs.enableSwipeToBack = switchSwipeToBack.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
         Prefs.liftKeyboard = switchLiftKeyboard.isChecked
+        Prefs.suggestPeople = switchSuggestPeople.isChecked
     }
 
     override fun onStop() {

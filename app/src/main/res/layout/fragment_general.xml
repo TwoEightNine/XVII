@@ -114,6 +114,13 @@
                 android:hint="@string/lift_keyboards_hint"
                 android:text="@string/lift_keyboards" />
 
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchSuggestPeople"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/suggest_people_hint"
+                android:text="@string/suggest_people" />
+
             <TextView
                 android:id="@+id/tvCacheSize"
                 style="@style/MainText"

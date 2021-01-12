@@ -219,6 +219,8 @@
     <string name="swipe_to_back_hint">finishing screens using swipe from the left edge</string>
     <string name="lift_keyboards">lift the stickers keyboard</string>
     <string name="lift_keyboards_hint">turn on if there are a gap between keyboard and input</string>
+    <string name="suggest_people">suggest people in search</string>
+    <string name="suggest_people_hint">show people you may know when search query is empty</string>
 
     <string name="show_notifications">show notifications</string>
     <string name="show_notifications_user">from this user</string>

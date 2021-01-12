@@ -37,6 +37,7 @@ object Prefs {
     private const val ENABLE_SWIPE_TO_BACK = "enableSwipeToBack"
     private const val LAST_ASSISTANCE = "lastAssistance"
     private const val LIFT_KEYBOARD_WINDOW = "liftKeyboardWindow"
+    private const val SUGGEST_PEOPLE = "suggestPeople"
 
     //notifications
     private const val SHOW_NOTIF = "showNotif"
@@ -142,6 +143,10 @@ object Prefs {
     var liftKeyboard
         get() = data.getBoolean(LIFT_KEYBOARD_WINDOW, false)
         set(value) = data.edit().putBoolean(LIFT_KEYBOARD_WINDOW, value).apply()
+
+    var suggestPeople: Boolean
+        get() = data.getBoolean(SUGGEST_PEOPLE, false)
+        set(value) = data.edit().putBoolean(SUGGEST_PEOPLE, value).apply()
 
     // notifications
     // private
