@@ -534,7 +534,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     override fun onCleared() {
         super.onCleared()
-        eventsDisposable?.dispose()
+        eventsDisposable.dispose()
         repo.destroy()
     }
 

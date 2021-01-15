@@ -124,13 +124,24 @@ class LongPollCore(private val context: Context) {
             l("updates: ${events.size}")
         }
         events.forEach { event ->
-            EventBus.publishLongPollEventReceived(event)
             putEventToJournal(event)
 
+            var publishEventToCommonBus = true
             when (event) {
                 is UnreadCountEvent -> processUnreadCount(event)
                 is ReadIncomingEvent -> processReadIncoming(event)
-                is NewMessageEvent -> processNewMessage(event)
+                is NewMessageEvent -> {
+                    val isExchange = processExchangeMessage(event)
+                    if (isExchange) {
+                        publishEventToCommonBus = false
+                        EventBus.publishExchangeEventReceived(event)
+                    } else {
+                        processNewMessage(event)
+                    }
+                }
+            }
+            if (publishEventToCommonBus) {
+                EventBus.publishLongPollEventReceived(event)
             }
         }
     }
@@ -155,6 +166,17 @@ class LongPollCore(private val context: Context) {
                 lw("error cancelling all", e)
             }
         }
+    }
+
+    /**
+     * checks it [event] is exchange event, process it if it is
+     *
+     * @return true if processed and no more processing required
+     */
+    private fun processExchangeMessage(event: NewMessageEvent): Boolean {
+        if (!event.text.matchesXviiKeyEx()) return false
+
+        return true
     }
 
     /**

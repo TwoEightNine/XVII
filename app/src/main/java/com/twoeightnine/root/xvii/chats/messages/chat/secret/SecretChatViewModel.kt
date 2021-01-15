@@ -37,6 +37,7 @@ class SecretChatViewModel(
     private val crypto by lazy {
         createCryptoEngine()
     }
+    private val exchangeDisposable = getExchangeSubscription()
 
     private val keysSetLiveData = MutableLiveData<Boolean>()
 
@@ -73,23 +74,7 @@ class SecretChatViewModel(
     }
 
     override fun onMessageReceived(event: BaseMessageEvent) {
-        if (event.text.matchesXviiKeyEx()) {
-            if (!event.isOut()) {
-                if (isExchangeStarted) {
-                    l("receive support")
-                    ld(event.text)
-                    crypto.finishExchange(event.text)
-                    isExchangeStarted = false
-                    keysSetLiveData.value = true
-                } else {
-                    l("receive exchange")
-                    ld(event.text)
-                    val ownKeys = crypto.supportExchange(event.text)
-                    sendData(ownKeys)
-                }
-            }
-            deleteMessages(event.id.toString(), forAll = false)
-        } else if (!isKeyRequired()) {
+        if (!isKeyRequired()) {
             super.onMessageReceived(event)
         }
     }
@@ -203,11 +188,35 @@ class SecretChatViewModel(
                 .log(s)
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        exchangeDisposable.dispose()
+    }
+
     private fun sha256(plain: ByteArray): String = MessageDigest
             .getInstance("SHA-256")
             .digest(plain)
             .map { Integer.toHexString(it.toInt() and 0xff) }
             .joinToString(separator = "") { if (it.length == 2) it else "0$it" }
+
+    private fun getExchangeSubscription() =
+            EventBus.subscribeExchangeEventReceived { event ->
+                if (!event.isOut()) {
+                    if (isExchangeStarted) {
+                        l("receive support")
+                        ld(event.text)
+                        crypto.finishExchange(event.text)
+                        isExchangeStarted = false
+                        keysSetLiveData.value = true
+                    } else {
+                        l("receive exchange")
+                        ld(event.text)
+                        val ownKeys = crypto.supportExchange(event.text)
+                        sendData(ownKeys)
+                    }
+                }
+                deleteMessages(event.id.toString(), forAll = false)
+            }
 
 
     companion object {
