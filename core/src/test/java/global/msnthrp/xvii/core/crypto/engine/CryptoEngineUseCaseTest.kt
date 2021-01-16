@@ -20,31 +20,31 @@ class CryptoEngineUseCaseTest {
     fun emptyStorage_keyRequired() {
         val useCase = createUseCase()
 
-        Assert.assertEquals(useCase.isKeyRequired(), true)
+        Assert.assertEquals(useCase.isKeyRequired(PEER_ID), true)
     }
 
     @Test
     fun encryptWithoutKey_throw() {
         thrown.expect(IllegalStateException::class.java)
         val useCase = createUseCase()
-        useCase.encrypt("test message")
+        useCase.encrypt(PEER_ID, "test message")
     }
 
     @Test
     fun encryption_valid() {
         val userKey = "test key"
         val useCase = createUseCase()
-        useCase.setKey(userKey)
+        useCase.setKey(PEER_ID, userKey)
 
         val message = "my very very ervy very very ervyervyerv secret meeeeeeeeeeeeeeeeeeeeeesage"
-        val enc = useCase.encrypt(message)
-        val dec = useCase.decrypt(enc)
+        val enc = useCase.encrypt(PEER_ID, message)
+        val dec = useCase.decrypt(PEER_ID, enc)
 
         Assert.assertEquals(message, dec)
 
         val useCase2 = createUseCase()
-        useCase2.setKey(userKey)
-        val dec2 = useCase2.decrypt(enc)
+        useCase2.setKey(PEER_ID, userKey)
+        val dec2 = useCase2.decrypt(PEER_ID, enc)
 
         Assert.assertEquals(message, dec2)
     }
@@ -58,11 +58,11 @@ class CryptoEngineUseCaseTest {
         repo.setKey(peerId1, CryptoUtils.sha256(peerId1.toString().toByteArray()))
         repo.setKey(peerId2, CryptoUtils.sha256(peerId2.toString().toByteArray()))
 
-        val useCase1 = createUseCase(peerId = peerId1, repo = repo)
-        val fingerprint1 = useCase1.getFingerPrint()
+        val useCase1 = createUseCase(repo = repo)
+        val fingerprint1 = useCase1.getFingerPrint(peerId1)
 
-        val useCase2 = createUseCase(peerId = peerId2, repo = repo)
-        val fingerprint2 = useCase2.getFingerPrint()
+        val useCase2 = createUseCase(repo = repo)
+        val fingerprint2 = useCase2.getFingerPrint(peerId2)
 
         Assert.assertNotEquals(CryptoUtils.bytesToHex(fingerprint1), CryptoUtils.bytesToHex(fingerprint2))
     }
@@ -74,10 +74,10 @@ class CryptoEngineUseCaseTest {
         repo.setKey(PEER_ID, CryptoUtils.sha256(PEER_ID.toString().toByteArray()))
 
         val useCase1 = createUseCase(repo = repo)
-        val fingerprint1 = useCase1.getFingerPrint()
+        val fingerprint1 = useCase1.getFingerPrint(PEER_ID)
 
         val useCase2 = createUseCase(repo = repo)
-        val fingerprint2 = useCase2.getFingerPrint()
+        val fingerprint2 = useCase2.getFingerPrint(PEER_ID)
 
         Assert.assertEquals(CryptoUtils.bytesToHex(fingerprint1), CryptoUtils.bytesToHex(fingerprint2))
     }
@@ -90,15 +90,15 @@ class CryptoEngineUseCaseTest {
         val peerId1 = PEER_ID
         val peerId2 = PEER_ID + 1
 
-        val useCase1 = createUseCase(peerId = peerId1, repo = repo1)
-        val useCase2 = createUseCase(peerId = peerId2, repo = repo2)
+        val useCase1 = createUseCase(repo = repo1)
+        val useCase2 = createUseCase(repo = repo2)
 
-        val keyEx1 = useCase1.startExchange()
-        val keyEx2 = useCase2.supportExchange(keyEx1)
-        useCase1.finishExchange(keyEx2)
+        val keyEx1 = useCase1.startExchange(peerId1)
+        val keyEx2 = useCase2.supportExchange(peerId2, keyEx1)
+        useCase1.finishExchange(peerId1, keyEx2)
 
-        val sharedKey1 = useCase1.getFingerPrint()
-        val sharedKey2 = useCase2.getFingerPrint()
+        val sharedKey1 = useCase1.getFingerPrint(peerId1)
+        val sharedKey2 = useCase2.getFingerPrint(peerId2)
 
         Assert.assertEquals(CryptoUtils.bytesToHex(sharedKey1), CryptoUtils.bytesToHex(sharedKey2))
 
@@ -108,8 +108,64 @@ class CryptoEngineUseCaseTest {
         Assert.assertEquals(CryptoUtils.bytesToHex(storedKey1), CryptoUtils.bytesToHex(storedKey2))
     }
 
-    private fun createUseCase(peerId: Int = PEER_ID, repo: CryptoEngineRepo = TestCryptoEngineRepo()) = CryptoEngineUseCase(
-            peerId = peerId,
+    @Test
+    fun encrypt_workInParallel() {
+        val useCase = createUseCase()
+
+        val peerId1 = PEER_ID
+        val peerId2 = PEER_ID + 2
+
+        val userKey1 = "user key 1"
+        val userKey2 = "other user key"
+
+        useCase.setKey(peerId1, userKey1)
+        useCase.setKey(peerId2, userKey2)
+
+        val plain1 = "plainText1"
+        val plain2 = "plainText2"
+
+        val enc1 = useCase.encrypt(peerId1, plain1)
+        val enc2 = useCase.encrypt(peerId2, plain2)
+
+        val dec1 = useCase.decrypt(peerId1, enc1)
+        val dec2 = useCase.decrypt(peerId2, enc2)
+
+        Assert.assertEquals(plain1, dec1)
+        Assert.assertEquals(plain2, dec2)
+    }
+
+    @Test
+    fun diffieHellman_workInParallel() {
+        val useCase = createUseCase()
+        val peerId = PEER_ID
+
+        val useCase2 = createUseCase()
+        val useCase3 = createUseCase()
+        val peerId2 = PEER_ID + 2
+        val peerId3 = PEER_ID + 4
+
+        val keyEx2 = useCase.startExchange(peerId2)
+        val keyExSupport2 = useCase2.supportExchange(peerId, keyEx2)
+
+        val keyEx3 = useCase3.startExchange(peerId)
+        val keyExSupport3 = useCase.supportExchange(peerId3, keyEx3)
+        useCase3.finishExchange(peerId, keyExSupport3)
+
+        useCase.finishExchange(peerId2, keyExSupport2)
+
+        Assert.assertEquals(
+                CryptoUtils.bytesToHex(useCase.getFingerPrint(peerId2)),
+                CryptoUtils.bytesToHex(useCase2.getFingerPrint(peerId))
+        )
+        Assert.assertEquals(
+                CryptoUtils.bytesToHex(useCase.getFingerPrint(peerId3)),
+                CryptoUtils.bytesToHex(useCase3.getFingerPrint(peerId))
+        )
+    }
+
+    private fun createTestKey(peerId: Int) = CryptoUtils.sha256(peerId.toString().toByteArray())
+
+    private fun createUseCase(repo: CryptoEngineRepo = TestCryptoEngineRepo()) = CryptoEngineUseCase(
             safePrimeUseCase = TestSafePrimeUseCase(),
             cryptoEngineRepo = repo,
             cryptoEngineEncoder = TestCryptoEngineEncoder(),

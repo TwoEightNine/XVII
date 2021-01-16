@@ -7,20 +7,13 @@ import androidx.lifecycle.MutableLiveData
 import com.twoeightnine.root.xvii.background.longpoll.models.events.BaseMessageEvent
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
+import com.twoeightnine.root.xvii.crypto.CryptoEngine
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
-import global.msnthrp.xvii.core.crypto.engine.CryptoEngineUseCase
-import global.msnthrp.xvii.core.crypto.safeprime.DefaultSafePrimeUseCase
-import global.msnthrp.xvii.data.crypto.engine.Base64CryptoEngineEncoder
-import global.msnthrp.xvii.data.crypto.engine.CacheCryptoEngineFileSource
-import global.msnthrp.xvii.data.crypto.engine.PreferencesCryptoEngineRepo
-import global.msnthrp.xvii.data.crypto.safeprime.DefaultSafePrimeRepo
-import global.msnthrp.xvii.data.crypto.safeprime.storage.PreferencesSafePrimeDataSource
-import global.msnthrp.xvii.data.crypto.safeprime.storage.retrofit.RetrofitSafePrimeDataSource
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -162,17 +155,7 @@ class SecretChatViewModel(
 
     override fun prepareTextIn(text: String): String = crypto.decrypt(text) ?: ""
 
-    private fun createCryptoEngine(): CryptoEngineUseCase {
-        val safePrimeUseCase = DefaultSafePrimeUseCase(
-                DefaultSafePrimeRepo(RetrofitSafePrimeDataSource(), PreferencesSafePrimeDataSource(context))
-        )
-        val cryptoEncoder = Base64CryptoEngineEncoder()
-        val repo = PreferencesCryptoEngineRepo(context, cryptoEncoder)
-        val fileSource = CacheCryptoEngineFileSource(context)
-        return CryptoEngineUseCase(
-                peerId, safePrimeUseCase, repo, cryptoEncoder, fileSource
-        )
-    }
+    private fun createCryptoEngine() = CryptoEngine.OnePeerUseCase(peerId)
 
     private fun ld(s: String) {
         L.tag(TAG).debug().log(s)

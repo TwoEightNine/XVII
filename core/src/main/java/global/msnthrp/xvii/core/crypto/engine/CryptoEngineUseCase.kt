@@ -11,41 +11,36 @@ import java.io.File
 import java.math.BigInteger
 
 class CryptoEngineUseCase(
-        private val peerId: Int,
         private val safePrimeUseCase: SafePrimeUseCase,
         private val cryptoEngineRepo: CryptoEngineRepo,
         private val cryptoEngineEncoder: CryptoEngineEncoder,
-        private val cryptoEngineFileSource: CryptoEngineFileSource
+        private val cryptoEngineFileSource: CryptoEngineFileSource,
+        private val onKeySetListener: OnKeySetListener? = null
 ) {
 
     /**
      * the key for current [peerId]
      */
-    private lateinit var key: ByteArray
+    private val keysMap = hashMapOf<Int, ByteArray>()
 
     /**
      * provides asymmetric key exchange
      */
-    private lateinit var dh: DiffieHellman
-
-    init {
-        cryptoEngineRepo.getKeyOrNull(peerId)?.also { keyBytes ->
-            key = keyBytes
-        }
-    }
+    private val dhMap = hashMapOf<Int, DiffieHellman>()
 
     /**
      * used to check if [CryptoEngineUseCase] can be used
      */
-    fun isKeyRequired() = !::key.isInitialized
+    fun isKeyRequired(peerId: Int) = peerId !in keysMap
 
     /**
      * check if [key] is set
      * @throws IllegalStateException if key is not set
      */
-    private fun checkKey() {
-        if (isKeyRequired()) {
-            throw IllegalStateException("No key provided!")
+    private fun getKeyOrThrow(peerId: Int): ByteArray {
+        return keysMap.getOrPut(peerId) {
+            cryptoEngineRepo.getKeyOrNull(peerId)
+                    ?: throw IllegalStateException("Key not found for peer $peerId!")
         }
     }
 
@@ -53,11 +48,13 @@ class CryptoEngineUseCase(
      * derives secure key from [userKey]
      * saves as [key] and into [cryptoEngineRepo]
      */
-    fun setKey(userKey: String, save: Boolean = true) {
-        key = Pbkdf2HmacSha1.deriveFromKey(userKey)
+    fun setKey(peerId: Int, userKey: String, save: Boolean = true) {
+        val key = Pbkdf2HmacSha1.deriveFromKey(userKey)
+        keysMap[peerId] = key
         if (save) {
             cryptoEngineRepo.setKey(peerId, key)
         }
+        onKeySetListener?.onKeySet(peerId)
     }
 
     /**
@@ -73,8 +70,9 @@ class CryptoEngineUseCase(
      * @see [DiffieHellman.Data], [DiffieHellman]
      */
     @SuppressLint("CheckResult")
-    fun startExchange(): String {
-        dh = DiffieHellman(safePrimeUseCase.loadSafePrime())
+    fun startExchange(peerId: Int): String {
+        val dh = DiffieHellman(safePrimeUseCase.loadSafePrime())
+        dhMap[peerId] = dh
         val data = dh.getData()
         return wrapKey(data.serialize())
     }
@@ -83,28 +81,30 @@ class CryptoEngineUseCase(
      * supports exchange, receives [DiffieHellman.Data], obtains [key]
      * returns own public nonce
      */
-    fun supportExchange(keyEx: String): String {
+    fun supportExchange(peerId: Int, keyEx: String): String {
         val dhData = unwrapKey(keyEx).deserialize()
-        dh = DiffieHellman(dhData)
-        setKey(dh.key.toString())
+        val dh = DiffieHellman(dhData)
+        dhMap[peerId] = dh
+        setKey(peerId, dh.key.toString())
         return wrapKey(numToStr(dh.publicOwn))
     }
 
     /**
      * finishes the exchange, receive other public nonce, obtains [key]
      */
-    fun finishExchange(publicOtherWrapped: String) {
+    fun finishExchange(peerId: Int, publicOtherWrapped: String) {
         val publicOther = strToNum(unwrapKey(publicOtherWrapped))
+        val dh = dhMap[peerId] ?: return
         dh.publicOther = publicOther
-        setKey(dh.key.toString())
+        setKey(peerId, dh.key.toString())
     }
 
     /**
      * encrypts [message]
      * @return
      */
-    fun encrypt(message: String): String {
-        checkKey()
+    fun encrypt(peerId: Int, message: String): String {
+        val key = getKeyOrThrow(peerId)
 
         val enc = Cipher.encrypt(message.toByteArray(), key)
         return wrapData(cryptoEngineEncoder.encode(enc))
@@ -115,8 +115,8 @@ class CryptoEngineUseCase(
      * @return decrypted message, or null if corrupted
      * @throws IllegalStateException if key is not set
      */
-    fun decrypt(message: String): String? {
-        checkKey()
+    fun decrypt(peerId: Int, message: String): String? {
+        val key = getKeyOrThrow(peerId)
 
         val cipherResult = try {
             val enc = cryptoEngineEncoder.decode(unwrapData(message))
@@ -132,8 +132,8 @@ class CryptoEngineUseCase(
      * encrypts content of [file] and saves it into new one
      * @return new file or null in case of failure
      */
-    fun encryptFile(file: File): File? {
-        checkKey()
+    fun encryptFile(peerId: Int, file: File): File? {
+        val key = getKeyOrThrow(peerId)
 
         val plainBytes = cryptoEngineFileSource.readFromFile(file) ?: return null
         val cipherBytes = Cipher.encrypt(plainBytes, key)
@@ -147,8 +147,8 @@ class CryptoEngineUseCase(
      * @return file in case of success, or null otherwise
      */
     @SuppressLint("CheckResult")
-    fun decryptFile(file: File): File? {
-        checkKey()
+    fun decryptFile(peerId: Int, file: File): File? {
+        val key = getKeyOrThrow(peerId)
 
         val cipherBytes = cryptoEngineFileSource.readFromFile(file) ?: return null
         val cipherResult = Cipher.decrypt(cipherBytes, key)
@@ -162,10 +162,7 @@ class CryptoEngineUseCase(
     /**
      * returns hash of key as its fingerprint
      */
-    fun getFingerPrint(): ByteArray {
-        checkKey()
-        return CryptoUtils.sha256(key)
-    }
+    fun getFingerPrint(peerId: Int): ByteArray = CryptoUtils.sha256(getKeyOrThrow(peerId))
 
     private fun <T> Cipher.Result.ifVerifiedOrNull(runnable: (ByteArray) -> T): T? {
         return when {
@@ -211,5 +208,16 @@ class CryptoEngineUseCase(
             text.substring(CryptoConsts.KEY_PREFIX.length, text.length - CryptoConsts.KEY_POSTFIX.length)
         }
         else -> text
+    }
+
+    /**
+     * used to notify about setting a key
+     */
+    interface OnKeySetListener {
+
+        /**
+         * invoked when a key is set for [peerId]
+         */
+        fun onKeySet(peerId: Int)
     }
 }
