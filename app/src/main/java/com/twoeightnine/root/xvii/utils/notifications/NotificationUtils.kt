@@ -17,6 +17,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.LongPollExplanationActivity
+import com.twoeightnine.root.xvii.background.longpoll.receivers.KeyExchangeHandler
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.music.services.MusicBroadcastReceiver
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
@@ -61,18 +62,22 @@ object NotificationUtils {
         service.startForeground(3676, notification)
     }
 
-    fun showKeyExchangeNotification(context: Context, peerName: String) {
+    fun showKeyExchangeNotification(context: Context, peerName: String, peerId: Int, exchangeText: String) {
         val notification = NotificationCompat.Builder(context, NotificationChannels.keyExchanges.id)
                 .setContentTitle(context.getString(R.string.key_exchange_title, peerName))
                 .setContentText(context.getString(R.string.key_exchange_hint))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
-                .setSmallIcon(R.drawable.ic_play_filled)
+                .setSmallIcon(R.drawable.ic_key)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .addAction(0, context.getString(R.string.key_exchange_deny),
+                        getExchangeIntent(context, peerId, exchangeText, KeyExchangeHandler.ACTION_DENY_EXCHANGE))
+                .addAction(0, context.getString(R.string.key_exchange_accept),
+                        getExchangeIntent(context, peerId, exchangeText, KeyExchangeHandler.ACTION_ACCEPT_EXCHANGE))
                 .build()
 
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)
-                ?.notify(13, notification)
+                ?.notify(Random.nextInt(), notification)
     }
 
     fun showNewMessageNotification(
@@ -293,6 +298,20 @@ object NotificationUtils {
                 context,
                 messageId,
                 markAsReadIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    }
+
+    private fun getExchangeIntent(context: Context, peerId: Int, exchange: String, action: String): PendingIntent {
+        val exchangeIntent = Intent(context, KeyExchangeHandler.Receiver::class.java).apply {
+            this.action = action
+            putExtra(KeyExchangeHandler.ARG_PEER_ID, peerId)
+            putExtra(KeyExchangeHandler.ARG_EXCHANGE_TEXT, exchange)
+        }
+        return PendingIntent.getBroadcast(
+                context,
+                Random.nextInt(),
+                exchangeIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT
         )
     }

@@ -42,7 +42,7 @@
         <receiver
             android:name=".background.longpoll.receivers.RestarterBroadcastReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="restartAction" />
@@ -52,12 +52,23 @@
         <receiver
             android:name=".background.longpoll.receivers.MarkAsReadBroadcastReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="markAsReadAction" />
             </intent-filter>
         </receiver>
+
         <receiver android:name=".background.music.services.MusicBroadcastReceiver" />
+
+        <receiver
+            android:name=".background.longpoll.receivers.KeyExchangeHandler$Receiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="actionDenyExchange" />
+                <action android:name="actionAcceptExchange" />
+            </intent-filter>
+        </receiver>
 
         <!--<service android:name=".background.LongPollService" />-->
 
@@ -70,6 +81,7 @@
         <service
             android:name=".background.music.services.MusicService"
             android:permission="android.permission.WAKE_LOCK" />
+
         <service android:name=".background.messaging.MessageDestructionService" />
 
         <activity

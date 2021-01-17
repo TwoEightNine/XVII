@@ -25,12 +25,9 @@ class SecretChatViewModel(
         private val context: Context
 ) : BaseChatMessagesViewModel(api) {
 
-    private var isExchangeStarted = false
-
     private val crypto by lazy {
         createCryptoEngine()
     }
-    private val exchangeDisposable = getExchangeSubscription()
 
     private val keysSetLiveData = MutableLiveData<Boolean>()
 
@@ -44,17 +41,11 @@ class SecretChatViewModel(
         crypto.setKey(key)
     }
 
-    @Suppress("UnstableApiUsage")
     fun startExchange() {
         AsyncUtils.onIoThread(crypto::startExchange) { keyEx ->
             l("start exchange")
             ld(keyEx)
             sendData(keyEx)
-            isExchangeStarted = true
-            AsyncUtils.runDelayed(EXCHANGE_WAITING) {
-                l("exchange not supported")
-                isExchangeStarted = false
-            }
         }
     }
 
@@ -171,40 +162,14 @@ class SecretChatViewModel(
                 .log(s)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        exchangeDisposable.dispose()
-    }
-
     private fun sha256(plain: ByteArray): String = MessageDigest
             .getInstance("SHA-256")
             .digest(plain)
             .map { Integer.toHexString(it.toInt() and 0xff) }
             .joinToString(separator = "") { if (it.length == 2) it else "0$it" }
 
-    private fun getExchangeSubscription() =
-            EventBus.subscribeExchangeEventReceived { event ->
-                if (!event.isOut()) {
-                    if (isExchangeStarted) {
-                        l("receive exchange support")
-                        ld(event.text)
-                        crypto.finishExchange(event.text)
-                        isExchangeStarted = false
-                        keysSetLiveData.value = true
-                    } else {
-                        l("receive exchange")
-                        ld(event.text)
-                        val ownKeys = crypto.supportExchange(event.text)
-                        sendData(ownKeys)
-                    }
-                }
-                deleteMessages(event.id.toString(), forAll = false)
-            }
-
 
     companion object {
         private const val TAG = "secret chat"
-
-        private const val EXCHANGE_WAITING = 10000L
     }
 }

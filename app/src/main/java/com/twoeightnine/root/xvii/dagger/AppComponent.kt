@@ -97,6 +97,7 @@ interface AppComponent {
     fun inject(appLifecycleTracker: AppLifecycleTracker)
     fun inject(stickersEmojiRepository: StickersEmojiRepository)
     fun inject(defaultPeerResolver: DefaultPeerResolver)
+    fun inject(receiver: KeyExchangeHandler.Receiver)
     fun inject(keyExchangeHandler: KeyExchangeHandler)
 
     fun inject(chatOwnerViewModel: ChatOwnerViewModel)

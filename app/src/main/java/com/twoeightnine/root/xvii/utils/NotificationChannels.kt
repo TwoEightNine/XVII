@@ -97,7 +97,8 @@ object NotificationChannels {
             backgroundService,
             musicPlayer,
             messageDestructor,
-            scheduledMessages
+            scheduledMessages,
+            keyExchanges
     )
 
     private val groups = listOf(newMessages, other)
