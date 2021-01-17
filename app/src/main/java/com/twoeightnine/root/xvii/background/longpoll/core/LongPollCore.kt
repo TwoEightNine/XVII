@@ -14,6 +14,7 @@ import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
+import com.twoeightnine.root.xvii.background.longpoll.receivers.KeyExchangeHandler
 import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
@@ -44,6 +45,9 @@ class LongPollCore(private val context: Context) {
 
     private val journalUseCase by lazy {
         JournalUseCase(MemoryJournalDataSource)
+    }
+    private val keyExchangeHandler by lazy {
+        KeyExchangeHandler()
     }
 
     private val unreadMessages = hashMapOf<Int, ArrayList<String>>()
@@ -176,6 +180,7 @@ class LongPollCore(private val context: Context) {
     private fun processExchangeMessage(event: NewMessageEvent): Boolean {
         if (!event.text.matchesXviiKeyEx()) return false
 
+        keyExchangeHandler.handleKeyExchange(context, event)
         return true
     }
 

@@ -29,9 +29,16 @@ class CryptoEngineUseCase(
     private val dhMap = hashMapOf<Int, DiffieHellman>()
 
     /**
+     * peer ids for exchanges that are started but not yet finished
+     */
+    private val pendingExchanges = arrayListOf<Int>()
+
+    /**
      * used to check if [CryptoEngineUseCase] can be used
      */
     fun isKeyRequired(peerId: Int) = peerId !in keysMap
+
+    fun isExchangeStarted(peerId: Int) = peerId in pendingExchanges
 
     /**
      * check if [key] is set
@@ -74,6 +81,7 @@ class CryptoEngineUseCase(
         val dh = DiffieHellman(safePrimeUseCase.loadSafePrime())
         dhMap[peerId] = dh
         val data = dh.getData()
+        pendingExchanges.add(peerId)
         return wrapKey(data.serialize())
     }
 
@@ -97,6 +105,7 @@ class CryptoEngineUseCase(
         val dh = dhMap[peerId] ?: return
         dh.publicOther = publicOther
         setKey(peerId, dh.key.toString())
+        pendingExchanges.remove(peerId)
     }
 
     /**

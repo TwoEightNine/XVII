@@ -61,6 +61,20 @@ object NotificationUtils {
         service.startForeground(3676, notification)
     }
 
+    fun showKeyExchangeNotification(context: Context, peerName: String) {
+        val notification = NotificationCompat.Builder(context, NotificationChannels.keyExchanges.id)
+                .setContentTitle(context.getString(R.string.key_exchange_title, peerName))
+                .setContentText(context.getString(R.string.key_exchange_hint))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setSmallIcon(R.drawable.ic_play_filled)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .build()
+
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)
+                ?.notify(13, notification)
+    }
+
     fun showNewMessageNotification(
             context: Context,
             content: ArrayList<String>,

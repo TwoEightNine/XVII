@@ -55,8 +55,8 @@ class CryptoEngineUseCaseTest {
         val peerId1 = PEER_ID
         val peerId2 = PEER_ID + 1
 
-        repo.setKey(peerId1, CryptoUtils.sha256(peerId1.toString().toByteArray()))
-        repo.setKey(peerId2, CryptoUtils.sha256(peerId2.toString().toByteArray()))
+        repo.setKey(peerId1, createTestKey(peerId1))
+        repo.setKey(peerId2, createTestKey(peerId2))
 
         val useCase1 = createUseCase(repo = repo)
         val fingerprint1 = useCase1.getFingerPrint(peerId1)
@@ -71,7 +71,7 @@ class CryptoEngineUseCaseTest {
     fun filledStorage_peersKeyDoesntChange() {
         val repo = TestCryptoEngineRepo()
 
-        repo.setKey(PEER_ID, CryptoUtils.sha256(PEER_ID.toString().toByteArray()))
+        repo.setKey(PEER_ID, createTestKey(PEER_ID))
 
         val useCase1 = createUseCase(repo = repo)
         val fingerprint1 = useCase1.getFingerPrint(PEER_ID)
@@ -90,12 +90,18 @@ class CryptoEngineUseCaseTest {
         val peerId1 = PEER_ID
         val peerId2 = PEER_ID + 1
 
-        val useCase1 = createUseCase(repo = repo1)
-        val useCase2 = createUseCase(repo = repo2)
+        val keySetListener1 = PeerKeySetListener(peerId1)
+        val keySetListener2 = PeerKeySetListener(peerId2)
+
+        val useCase1 = createUseCase(repo = repo1, keySetListener = keySetListener1)
+        val useCase2 = createUseCase(repo = repo2, keySetListener = keySetListener2)
 
         val keyEx1 = useCase1.startExchange(peerId1)
         val keyEx2 = useCase2.supportExchange(peerId2, keyEx1)
         useCase1.finishExchange(peerId1, keyEx2)
+
+        Assert.assertEquals(true, keySetListener1.keySet)
+        Assert.assertEquals(true, keySetListener2.keySet)
 
         val sharedKey1 = useCase1.getFingerPrint(peerId1)
         val sharedKey2 = useCase2.getFingerPrint(peerId2)
@@ -165,11 +171,15 @@ class CryptoEngineUseCaseTest {
 
     private fun createTestKey(peerId: Int) = CryptoUtils.sha256(peerId.toString().toByteArray())
 
-    private fun createUseCase(repo: CryptoEngineRepo = TestCryptoEngineRepo()) = CryptoEngineUseCase(
+    private fun createUseCase(
+            repo: CryptoEngineRepo = TestCryptoEngineRepo(),
+            keySetListener: CryptoEngineUseCase.OnKeySetListener? = null
+    ) = CryptoEngineUseCase(
             safePrimeUseCase = TestSafePrimeUseCase(),
             cryptoEngineRepo = repo,
             cryptoEngineEncoder = TestCryptoEngineEncoder(),
-            cryptoEngineFileSource = TestCryptoEngineFileSource()
+            cryptoEngineFileSource = TestCryptoEngineFileSource(),
+            onKeySetListener = keySetListener
     )
 
     companion object {
@@ -190,6 +200,18 @@ class CryptoEngineUseCaseTest {
                 q = ((BigInteger(PRIME) - BigInteger.ONE) / BigInteger("2")).toString(10),
                 g = "3"
         )
+    }
+
+    private class PeerKeySetListener(private val peerId: Int) : CryptoEngineUseCase.OnKeySetListener {
+
+        var keySet = false
+            private set
+
+        override fun onKeySet(peerId: Int) {
+            if (peerId == this.peerId) {
+                keySet = true
+            }
+        }
     }
 
     private class TestSafePrimeUseCase : SafePrimeUseCase {

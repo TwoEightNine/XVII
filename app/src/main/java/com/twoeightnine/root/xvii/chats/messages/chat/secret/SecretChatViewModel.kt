@@ -186,7 +186,7 @@ class SecretChatViewModel(
             EventBus.subscribeExchangeEventReceived { event ->
                 if (!event.isOut()) {
                     if (isExchangeStarted) {
-                        l("receive support")
+                        l("receive exchange support")
                         ld(event.text)
                         crypto.finishExchange(event.text)
                         isExchangeStarted = false

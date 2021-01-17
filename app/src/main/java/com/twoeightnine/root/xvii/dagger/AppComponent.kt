@@ -4,6 +4,7 @@ import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.activities.ExceptionActivity
 import com.twoeightnine.root.xvii.analyzer.dialog.AnalyzeDialogFragment
 import com.twoeightnine.root.xvii.background.longpoll.core.LongPollCore
+import com.twoeightnine.root.xvii.background.longpoll.receivers.KeyExchangeHandler
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
@@ -96,6 +97,7 @@ interface AppComponent {
     fun inject(appLifecycleTracker: AppLifecycleTracker)
     fun inject(stickersEmojiRepository: StickersEmojiRepository)
     fun inject(defaultPeerResolver: DefaultPeerResolver)
+    fun inject(keyExchangeHandler: KeyExchangeHandler)
 
     fun inject(chatOwnerViewModel: ChatOwnerViewModel)
     fun inject(generalViewModel: GeneralViewModel)

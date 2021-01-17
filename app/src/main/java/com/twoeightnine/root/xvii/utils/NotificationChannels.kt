@@ -72,6 +72,15 @@ object NotificationChannels {
             vibrate = false
     )
 
+    val keyExchanges = Channel(
+            id = "xvii.key_exchanges",
+            name = R.string.channel_key_exchanges,
+            description = 0,
+            importance = NotificationManager.IMPORTANCE_DEFAULT,
+            sound = false,
+            vibrate = true
+    )
+
     private val newMessages = Group(
             id = "xvii.group.new_messages",
             name = R.string.channel_new_messages
