@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
 import android.graphics.*
+import androidx.palette.graphics.Palette
 import com.twoeightnine.root.xvii.lg.L
 import global.msnthrp.xvii.uikit.utils.color.*
 import io.reactivex.Single
@@ -63,7 +64,7 @@ object BitmapNotification {
         val background = Bitmap.createBitmap(backgroundWidth, backgroundHeight, Bitmap.Config.RGB_565)
         val canvas = Canvas(background)
 
-        val imageColors = getImageColors(avatar)
+        val imageColors = getImageColorsViaPalette(avatar)
 
         val avgHsv = FloatArray(3)
         Color.colorToHSV(imageColors.averageColor, avgHsv)
@@ -156,6 +157,14 @@ object BitmapNotification {
             }
         }
         return default
+    }
+
+    private fun getImageColorsViaPalette(bitmap: Bitmap): ImageColors {
+        val palette = Palette.Builder(bitmap).generate()
+        val dominant = palette.getDominantColor(Color.BLACK)
+        val darkMuted = palette.getDarkMutedColor(Color.BLACK)
+        val lightVibrant = palette.getLightVibrantColor(Color.WHITE)
+        return ImageColors(dominant, darkMuted, lightVibrant)
     }
 
     /**

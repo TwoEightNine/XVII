@@ -317,24 +317,39 @@ object NotificationUtils {
     }
 
     fun showTestMessageNotification(context: Context, dialog: Dialog) {
-        loadBitmapIcon(context, dialog.photo, useSquare = true) { bitmap ->
-            showNewMessageNotification(
-                    context = context,
-                    content = arrayListOf("test message"),
-                    timeStamp = System.currentTimeMillis(),
-                    peerId = dialog.peerId,
-                    messageId = dialog.messageId,
-                    userName = dialog.aliasOrTitle,
-                    title = dialog.aliasOrTitle,
-                    icon = bitmap,
-                    ledColor = Color.BLACK,
-                    photo = dialog.photo,
-                    unreadMessagesCount = 1,
-                    shouldVibrate = false,
-                    shouldRing = false,
-                    stylish = true,
-                    isPeerIdStillActual = { true }
-            )
+//        loadBitmapIcon(context, dialog.photo, useSquare = true) { bitmap ->
+//            showNewMessageNotification(
+//                    context = context,
+//                    content = arrayListOf("test message"),
+//                    timeStamp = System.currentTimeMillis(),
+//                    peerId = dialog.peerId,
+//                    messageId = dialog.messageId,
+//                    userName = dialog.aliasOrTitle,
+//                    title = dialog.aliasOrTitle,
+//                    icon = bitmap,
+//                    ledColor = Color.BLACK,
+//                    photo = dialog.photo,
+//                    unreadMessagesCount = 1,
+//                    shouldVibrate = false,
+//                    shouldRing = false,
+//                    stylish = true,
+//                    isPeerIdStillActual = { true }
+//            )
+//        }
+        loadBitmapIcon(context, dialog.photo, useSquare = true) { avatar ->
+            val notification = NotificationCompat.Builder(context, NotificationChannels.privateMessages.id)
+                    .setContentTitle(dialog.aliasOrTitle)
+                    .setContentText(dialog.text)
+                    .setSmallIcon(R.drawable.ic_envelope)
+                    .setLargeIcon(avatar)
+                    .setWhen(System.currentTimeMillis())
+                    .setColorized(true)
+                    .setColor(0xff7878ff.toInt())
+                    .setStyle(androidx.media.app.NotificationCompat.MediaStyle())
+                    .build()
+
+            (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+                    .notify(dialog.peerId, notification)
         }
     }
 }

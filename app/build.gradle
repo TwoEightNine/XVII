@@ -77,6 +77,8 @@ dependencies {
     implementation androidUi.coreKtx
     implementation androidUi.fragmentKtx
     implementation androidUi.browser
+    implementation androidUi.palette
+    implementation androidUi.media
 
     implementation lifecycle.extensions
     implementation lifecycle.viewModel
