@@ -39,7 +39,7 @@
     <string name="general">общие</string>
     <string name="have_pin">pin уже есть</string>
     <string name="hphone">домашний телефон</string>
-    <string name="important">важные</string>
+    <string name="important">важные сообщения</string>
     <string name="incorrect_pin">неверный</string>
     <string name="join_us">подписывайтесь на официальную группу xvii вконтакте, чтобы получать свежие новости о приложении</string>
     <string name="key_set">ключи установлены успешно</string>
@@ -49,7 +49,7 @@
     <string name="link">ссылка</string>
     <string name="links">ссылки</string>
     <string name="logout">выйти</string>
-    <string name="markasimportant">отметить важным</string>
+    <string name="markasimportant">отметить как важное</string>
     <string name="megabytes">%s мб</string>
     <string name="messages">сообщения</string>
     <string name="mphone">мобильный</string>

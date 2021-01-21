@@ -52,7 +52,7 @@
     <string name="dont_match">les codes d\'accèss sont differents</string>
     <string name="have_pin">vous avez déjà un code d\'accès</string>
     <string name="attachments">attachments</string>
-    <string name="important">étoilés</string>
+    <string name="important">messages importants</string>
     <string name="markasimportant">marque comme important</string>
     <string name="not_playable_video">vidéo n\'est pas jouable</string>
     <string name="docs">docs</string>

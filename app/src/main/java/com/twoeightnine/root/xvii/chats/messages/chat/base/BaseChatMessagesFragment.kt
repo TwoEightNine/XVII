@@ -43,12 +43,9 @@ import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import global.msnthrp.xvii.uikit.extensions.*
-import io.reactivex.Completable
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.view_chat_multiselect.*
-import java.util.concurrent.TimeUnit
 
 abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMessagesFragment<VM>() {
 
@@ -93,7 +90,6 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         swipeContainer.setOnRefreshListener { viewModel.loadMessages() }
         xviiToolbar.forChat = true
 
-        rvChatList.addOnScrollListener(RecyclerDateScroller())
         rvAttached.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         rvAttached.adapter = attachedAdapter
 
@@ -485,54 +481,6 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
         override fun onEncryptedDocClicked(doc: Doc) {
             this@BaseChatMessagesFragment.onEncryptedDocClicked(doc)
-        }
-    }
-
-    private inner class RecyclerDateScroller : RecyclerView.OnScrollListener() {
-
-        private var lastHandledTopPosition = -1
-        private var lastHandledBottomPosition = -1
-        private var disposable: Disposable? = null
-
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            val adapterTopPosition = (recyclerView.layoutManager as? LinearLayoutManager)
-                    ?.findFirstVisibleItemPosition() ?: -1
-            val adapterBottomPosition = (recyclerView.layoutManager as? LinearLayoutManager)
-                    ?.findLastVisibleItemPosition() ?: -1
-            if (adapterTopPosition != lastHandledTopPosition
-                    && adapterTopPosition != -1
-                    && adapterBottomPosition != lastHandledBottomPosition) {
-                val message = adapter.items.getOrNull(adapterTopPosition) ?: return
-                if (message.date == 0) return
-
-                val uiDate = getDate(message.date)
-                showDate(uiDate)
-                lastHandledTopPosition = adapterTopPosition
-                lastHandledBottomPosition = adapterBottomPosition
-
-                disposable?.dispose()
-                disposable = Completable.timer(2L, TimeUnit.SECONDS)
-                        .compose(applyCompletableSchedulers())
-                        .subscribe {
-                            hideDate()
-                        }
-
-            }
-        }
-
-        private fun showDate(date: String) {
-            if (!tvDatePopup.isShown) {
-                tvDatePopup.fadeIn(200L)
-                tvDatePopup.show()
-            }
-            tvDatePopup.text = date
-        }
-
-        private fun hideDate() {
-            tvDatePopup?.fadeOut(200L) {
-                tvDatePopup?.hide()
-            }
         }
     }
 

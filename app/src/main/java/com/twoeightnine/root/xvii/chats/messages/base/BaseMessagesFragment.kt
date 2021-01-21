@@ -11,12 +11,15 @@ import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
+import com.twoeightnine.root.xvii.utils.getDate
 import com.twoeightnine.root.xvii.utils.showError
-import global.msnthrp.xvii.uikit.extensions.hide
-import global.msnthrp.xvii.uikit.extensions.setVisible
-import global.msnthrp.xvii.uikit.extensions.show
+import global.msnthrp.xvii.uikit.extensions.*
+import io.reactivex.Completable
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.view_chat_multiselect.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment() {
@@ -141,6 +144,8 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         }
         rvChatList.adapter = adapter
         rvChatList.itemAnimator = null
+
+        rvChatList.addOnScrollListener(RecyclerDateScroller())
         adapter.multiSelectListener = ::onMultiSelectChanged
 
         fabHasMore.setOnClickListener { rvChatList.scrollToPosition(adapter.itemCount - 1) }
@@ -180,6 +185,53 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
                     && adapter.lastVisiblePosition(rvChatList.layoutManager) == adapter.itemCount - 1) {
                 fabHasMore.hide()
                 onScrolled(isAtBottom = true)
+            }
+        }
+    }
+
+    private inner class RecyclerDateScroller : RecyclerView.OnScrollListener() {
+
+        private var lastHandledTopPosition = -1
+        private var lastHandledBottomPosition = -1
+        private var disposable: Disposable? = null
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val adapterTopPosition = (recyclerView.layoutManager as? LinearLayoutManager)
+                    ?.findFirstVisibleItemPosition() ?: -1
+            val adapterBottomPosition = (recyclerView.layoutManager as? LinearLayoutManager)
+                    ?.findLastVisibleItemPosition() ?: -1
+            if (adapterTopPosition != lastHandledTopPosition
+                    && adapterTopPosition != -1) {
+                val message = adapter.items.getOrNull(adapterTopPosition) ?: return
+                if (message.date == 0) return
+
+                val uiDate = getDate(message.date)
+                showDate(uiDate)
+                lastHandledTopPosition = adapterTopPosition
+                lastHandledBottomPosition = adapterBottomPosition
+
+                disposable?.dispose()
+                disposable = Completable.timer(2L, TimeUnit.SECONDS)
+                        .compose(applyCompletableSchedulers())
+                        .subscribe {
+                            hideDate()
+                        }
+
+            }
+        }
+
+        private fun showDate(date: String) {
+            if (!tvDatePopup.isShown) {
+                tvDatePopup.fadeIn(200L)
+                tvDatePopup.show()
+            }
+            tvDatePopup.text = date
+        }
+
+        private fun hideDate() {
+            tvDatePopup?.fadeOut(200L) {
+                tvDatePopup?.hide()
             }
         }
     }
