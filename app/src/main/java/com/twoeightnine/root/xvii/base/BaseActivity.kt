@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.base
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -12,12 +11,16 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.core.LongPollCore
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.ExceptionHandler
+import com.twoeightnine.root.xvii.utils.getTime
+import com.twoeightnine.root.xvii.utils.isAndroid10OrHigher
+import com.twoeightnine.root.xvii.utils.startNotificationService
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 /**
@@ -42,7 +45,7 @@ abstract class BaseActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Prefs.isLightTheme) {
             window.decorView.systemUiVisibility =
                     window.decorView.systemUiVisibility or
-                    View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                            View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         }
     }
 
@@ -87,13 +90,12 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun getNavigationBarColor() = ContextCompat.getColor(this, R.color.navigation_bar)
 
     private fun updateConfig() {
-        NightModeHelper.updateConfig(
+        AppCompatDelegate.setDefaultNightMode(
                 if (Prefs.isLightTheme) {
-                    Configuration.UI_MODE_NIGHT_NO
+                    AppCompatDelegate.MODE_NIGHT_NO
                 } else {
-                    Configuration.UI_MODE_NIGHT_YES
-                },
-                this, getThemeId()
+                    AppCompatDelegate.MODE_NIGHT_YES
+                }
         )
     }
 
