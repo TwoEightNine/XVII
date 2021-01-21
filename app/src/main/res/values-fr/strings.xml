@@ -234,7 +234,7 @@
     <string name="user_kicked_user">%s a vivé %s</string>
     <string name="user_leaved_chat">%s a laissé le tchat</string>
     <string name="user_pinned_message">%s a épinglé le message: \"%s\"</string>
-    <string name="edited">modifié</string>
+    <string name="edited">(mod.)</string>
     <string name="forwarded_message">message</string>
     <string name="add_shortcut">ajouter un raccourci</string>
     <string name="poll_anon">sondage anonyme</string>

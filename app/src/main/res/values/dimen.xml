@@ -32,6 +32,14 @@
     <dimen name="chat_shape_side_padding">24dp</dimen>
     <dimen name="chat_message_text_size">15sp</dimen>
     <dimen name="chat_attached_size">80dp</dimen>
+    <dimen name="chat_message_text_margin">8dp</dimen>
+    <dimen name="chat_date_message_margin">2dp</dimen>
+    <dimen name="chat_date_bottom_margin">2dp</dimen>
+    <dimen name="chat_dot_message_margin">4dp</dimen>
+    <dimen name="chat_dot_date_margin">1dp</dimen>
+    <dimen name="chat_date_text_size">10sp</dimen>
+    <dimen name="chat_message_max_width">280dp</dimen>
+    <dimen name="chat_message_floating_margin_horiz">5dp</dimen>
     <!--appearance-->
 
     <!--dialogs-->

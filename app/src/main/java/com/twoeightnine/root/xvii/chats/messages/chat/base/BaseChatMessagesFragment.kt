@@ -522,16 +522,16 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         private fun showDate(date: String) {
-            if (!rlDate.isShown) {
-                rlDate.fadeIn(200L)
-                rlDate.show()
+            if (!tvDatePopup.isShown) {
+                tvDatePopup.fadeIn(200L)
+                tvDatePopup.show()
             }
             tvDatePopup.text = date
         }
 
         private fun hideDate() {
-            rlDate?.fadeOut(200L) {
-                rlDate?.hide()
+            tvDatePopup?.fadeOut(200L) {
+                tvDatePopup?.hide()
             }
         }
     }

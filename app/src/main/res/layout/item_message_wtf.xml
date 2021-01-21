@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rlBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingEnd="@dimen/endmarginshape"
         android:paddingRight="@dimen/endmarginshape">
+
+        <TextView
+            android:id="@+id/tvDateSeparator"
+            style="@style/FloatingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="@dimen/chat_message_floating_margin_horiz"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="@dimen/chat_message_floating_margin_horiz"
+            android:gravity="center"
+            tools:text="7 jun 2018" />
 
 
         <ImageView
@@ -60,7 +74,7 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/tvDate"
+                        android:id="@+id/tvDateOutside"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
@@ -118,6 +132,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

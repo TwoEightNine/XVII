@@ -32,7 +32,8 @@ import kotlinx.android.synthetic.main.item_message_wtf.view.llMessage
 import kotlinx.android.synthetic.main.item_message_wtf.view.llMessageContainer
 import kotlinx.android.synthetic.main.item_message_wtf.view.rlBack
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvBody
-import kotlinx.android.synthetic.main.item_message_wtf.view.tvDate
+import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateOutside
+import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateSeparator
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvName
 
 
@@ -177,9 +178,20 @@ class MessagesAdapter(context: Context,
                 tvBody.movementMethod = LinkMovementMethod.getInstance()
                 tvBody.setTextSize(TypedValue.COMPLEX_UNIT_SP, messageTextSize)
 
-                val date = getTime(message.date, withSeconds = Prefs.showSeconds)
+                val dateOnlyTime = getTime(message.date, noDate = true, withSeconds = Prefs.showSeconds)
+                val dateOnlyDay = getDate(message.date)
+                val dateOnlyDayPrev = prevMessage?.date?.let(::getDate)
+
                 val edited = if (message.isEdited()) resources.getString(R.string.edited) else ""
-                tvDate.text = "$date $edited"
+                val dateMessage = "$dateOnlyTime $edited"
+
+                val zeroLevel = level == 0
+                val dateChanged = dateOnlyDayPrev == null || dateOnlyDayPrev != dateOnlyDay
+                tvDateOutside.setVisibleWithInvis(zeroLevel)
+                rlDateSeparator.setVisible(dateChanged && zeroLevel)
+
+                tvDateSeparator.text = dateOnlyDay
+                tvDateOutside.text = dateMessage
 
                 //
                 // block of optional fields
@@ -231,7 +243,7 @@ class MessagesAdapter(context: Context,
                             with(included) {
                                 tvBody.text = resources.getString(R.string.too_deep_forwarding)
                                 rlName?.hide()
-                                tvDate.hide()
+                                tvDateOutside.hide()
                                 setOnClickListener {
                                     val messageId = items
                                             .getOrNull(adapterPosition)

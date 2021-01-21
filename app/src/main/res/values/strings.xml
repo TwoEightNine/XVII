@@ -171,7 +171,7 @@
     <string name="incoming">incoming\ndata</string>
     <string name="forwarded_message">message</string>
     <string name="forwarded_messages">forwarded messages</string>
-    <string name="edited">edited</string>
+    <string name="edited">(ed.)</string>
     <string name="profile_deactivated">this profile is deactivated</string>
     <string name="profile_closed">this profile is closed</string>
     <string name="profile_blacklisted_you">you are in the user\'s black list</string>

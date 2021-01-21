@@ -33,7 +33,8 @@ ext {
             coreKtx     : "androidx.core:core-ktx:1.2.0",
             material    : "com.google.android.material:material:1.0.0",
             fragmentKtx : "androidx.fragment:fragment-ktx:1.2.5",
-            browser     : "androidx.browser:browser:1.2.0"
+            browser     : "androidx.browser:browser:1.2.0",
+            constraint  : "androidx.constraintlayout:constraintlayout:2.0.4"
     ]
 
     androidTests = [
@@ -89,7 +90,7 @@ ext {
     externalUi = [
             circleImageView : "de.hdodenhof:circleimageview:3.1.0",
             swipy           : "com.github.orangegangsters:swipy:1.2.3@aar",
-            colorPicker     : "com.github.QuadFlask:colorpicker:0.0.13",
+            colorPicker     : "com.github.QuadFlask:colorpicker:0.0.15",
 
             calligraphy     : "io.github.inflationx:calligraphy3:3.1.1",
             viewPump        : "io.github.inflationx:viewpump:2.0.3",
