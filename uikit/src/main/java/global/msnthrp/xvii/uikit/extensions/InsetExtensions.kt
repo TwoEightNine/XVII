@@ -5,6 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.*
 
+fun View.applyHorizontalInsetPadding() =
+        doOnApplyWindowInsets { view, insets, padding, _ ->
+            view.updatePadding(
+                    bottom = padding.bottom + insets.systemWindowInsetBottom,
+                    top = padding.top + insets.systemWindowInsetTop
+            )
+            insets
+        }
+
 fun View.applyBottomInsetPadding() =
         doOnApplyWindowInsets { view, insets, padding, _ ->
             view.updatePadding(

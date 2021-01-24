@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
@@ -30,8 +31,7 @@ import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
-import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
-import global.msnthrp.xvii.uikit.extensions.lowerIf
+import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.fragment_features.*
 import java.util.*
 import javax.inject.Inject
@@ -84,7 +84,8 @@ class FeaturesFragment : BaseFragment() {
         tvAbout.setOnClickListener { showLogDialog() }
 
 //        rlRoot.stylizeAll()
-        svContent.applyBottomInsetPadding()
+        svContent.setOnScrollChangeListener(ContentScrollListener())
+        svContent.applyHorizontalInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -108,8 +109,10 @@ class FeaturesFragment : BaseFragment() {
 
     private fun updateAccount(account: Account) {
         civPhoto.load(account.photo)
-        tvName.text = account.name
-        tvName.lowerIf(Prefs.lowerTexts)
+        account.name?.lowerIf(Prefs.lowerTexts)?.also { userName ->
+            tvName.text = userName
+            xviiToolbar.title = userName
+        }
     }
 
     private fun showLogDialog() {
@@ -160,5 +163,30 @@ class FeaturesFragment : BaseFragment() {
         const val SHOW_JOIN_DELAY = 3600 * 24 * 7 // one week
 
         fun newInstance() = FeaturesFragment()
+    }
+
+    private inner class ContentScrollListener : NestedScrollView.OnScrollChangeListener {
+
+        private val toolbarHeight by lazy {
+            xviiToolbar.height
+        }
+        private val accountsHolderHeight by lazy {
+            rlAccounts.height
+        }
+        private val threshold by lazy { accountsHolderHeight - toolbarHeight }
+
+        private var lastHandledY = 0
+
+        override fun onScrollChange(v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
+            val shouldShowToolbar = threshold in (lastHandledY + 1) until scrollY
+            val shouldHideToolbar = threshold in (scrollY + 1) until lastHandledY
+
+            if (shouldShowToolbar) {
+                xviiToolbar.fadeIn(200L)
+            } else if (shouldHideToolbar) {
+                xviiToolbar.fadeOut(200L)
+            }
+            lastHandledY = scrollY
+        }
     }
 }

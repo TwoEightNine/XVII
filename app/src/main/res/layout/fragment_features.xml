@@ -12,14 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backArrow="false"
-        app:title="@string/more_title" />
+        android:alpha="0" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/svContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/bottom_navigation_height"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:clipToPadding="false">
 
         <LinearLayout
@@ -35,8 +34,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/civPhoto"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_margin="12dp" />
 
                 <LinearLayout
@@ -52,7 +51,7 @@
                         android:paddingTop="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
+                        android:textSize="22sp"
                         tools:text="gucci mane" />
 
                     <TextView
@@ -61,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="@string/accounts_hint"
+                        tools:text="last seen 45:67"
                         android:textSize="15sp" />
 
                     <TextView
