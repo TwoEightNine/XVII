@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.AndroidRuntimeException
+import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
@@ -72,6 +73,10 @@ class PinActivity : BaseActivity() {
         if (Session.needToWaitAfterFailedPin()) {
             showBruteForced(justNow = false)
         }
+
+        window.decorView.systemUiVisibility =
+                window.decorView.systemUiVisibility and
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
 
 //        AlarmActivity.launch(this)
     }
