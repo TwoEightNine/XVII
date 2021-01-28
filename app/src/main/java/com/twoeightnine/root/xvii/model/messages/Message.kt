@@ -39,6 +39,9 @@ data class Message(
         @Expose
         val out: Int = 0,
 
+        @SerializedName("random_id")
+        val randomId: Int = 0,
+
         @SerializedName("action")
         @Expose
         val action: MessageAction? = null,
@@ -90,7 +93,8 @@ data class Message(
             date = event.timeStamp,
             fromId = event.info.from,
             text = prepareText(event.text),
-            out = if (event.isOut() || event.peerId == Session.uid) 1 else 0
+            out = if (event.isOut() || event.peerId == Session.uid) 1 else 0,
+            randomId = event.randomId
     )
 
     fun isEdited() = updateTime != 0

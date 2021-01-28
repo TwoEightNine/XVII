@@ -161,7 +161,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             adapter.multiSelectMode = false
         }
         ivDeleteMulti.setOnClickListener {
-            val selectedMessages = adapter.multiSelect
+            val selectedMessages = adapter.multiSelect.map { it.message }
             val callback = { forAll: Boolean ->
                 viewModel.deleteMessages(getSelectedMessageIds(), forAll)
                 adapter.multiSelectMode = false
@@ -201,7 +201,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     override fun onResume() {
         super.onResume()
         viewModel.isShown = true
-        adapter.items.lastOrNull()?.also { viewModel.invalidateMessages(it) }
+        adapter.items.lastOrNull()?.message?.also { viewModel.invalidateMessages(it) }
     }
 
     override fun onPause() {
@@ -306,7 +306,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     }
 
     private fun onSwipedToReply(position: Int) {
-        val message = adapter.items.getOrNull(position) ?: return
+        val message = adapter.items.getOrNull(position)?.message ?: return
 
         attachedAdapter.fwdMessages = "${message.id}"
         attachedAdapter.isReply = true

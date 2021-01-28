@@ -6,6 +6,70 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/readStateDot"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_alignBottom="@+id/llMessage"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="@dimen/chat_dot_message_margin"
+        android:layout_marginBottom="@dimen/chat_dot_date_margin"
+        android:src="@drawable/unread_dot_shae"
+        app:layout_constraintBottom_toTopOf="@+id/tvDateOutside"
+        app:layout_constraintEnd_toStartOf="@+id/llMessage" />
+
+    <LinearLayout
+        android:id="@+id/llMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/chat_shape_margin_horiz"
+        android:layout_marginTop="@dimen/chat_shape_margin_vert"
+        android:layout_marginEnd="@dimen/chat_shape_margin_horiz"
+        android:layout_marginBottom="@dimen/chat_shape_margin_vert"
+        android:layout_toEndOf="@+id/readStateDot"
+        android:background="@drawable/shape_message"
+        android:elevation="@dimen/chat_message_elevation"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rlDateSeparator"
+        app:layout_constraintWidth_max="@dimen/chat_message_max_width">
+
+        <LinearLayout
+            android:id="@+id/llMessageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/tvBody"
+            style="@style/MainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/chat_message_text_margin"
+            android:autoLink="web"
+            android:gravity="start"
+            android:textColorLink="@color/link_color"
+            android:textSize="@dimen/chat_message_text_size"
+            tools:text="ddjhjh jhdjfhdjf dfhdjfh fdjhfjdhf djfhjdhf dfhdjf djfhd jf djfd jfhd" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pbSending"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:indeterminate="true"
+        android:paddingStart="@dimen/default_radius"
+        android:paddingTop="0dp"
+        android:paddingEnd="@dimen/default_radius"
+        android:paddingBottom="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/llMessage"
+        app:layout_constraintEnd_toEndOf="@+id/llMessage"
+        app:layout_constraintStart_toStartOf="@+id/llMessage" />
+
     <RelativeLayout
         android:id="@+id/rlDateSeparator"
         android:layout_width="match_parent"
@@ -30,55 +94,6 @@
             tools:text="7 jun 2018" />
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/llMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/chat_shape_margin_horiz"
-        android:layout_marginTop="@dimen/chat_shape_margin_vert"
-        android:layout_marginEnd="@dimen/chat_shape_margin_horiz"
-        android:layout_marginBottom="@dimen/chat_shape_margin_vert"
-        android:layout_toEndOf="@+id/readStateDot"
-        android:background="@drawable/shape_message"
-        android:elevation="@dimen/chat_message_elevation"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rlDateSeparator"
-        app:layout_constraintWidth_max="@dimen/chat_message_max_width">
-
-        <TextView
-            android:id="@+id/tvBody"
-            style="@style/MainText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/chat_message_text_margin"
-            android:autoLink="web"
-            android:gravity="start"
-            android:textColorLink="@color/link_color"
-            android:textSize="@dimen/chat_message_text_size"
-            tools:text="ddjhjh jhdjfhdjf dfhdjfh fdjhfjdhf djfhjdhf dfhdjf djfhd jf djfd jfhd" />
-
-        <LinearLayout
-            android:id="@+id/llMessageContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/readStateDot"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:layout_alignBottom="@+id/llMessage"
-        android:layout_alignParentStart="true"
-        android:layout_marginEnd="@dimen/chat_dot_message_margin"
-        android:layout_marginBottom="@dimen/chat_dot_date_margin"
-        android:src="@drawable/unread_dot_shae"
-        app:layout_constraintBottom_toTopOf="@+id/tvDateOutside"
-        app:layout_constraintEnd_toStartOf="@+id/llMessage" />
 
     <TextView
         android:id="@+id/tvDateOutside"

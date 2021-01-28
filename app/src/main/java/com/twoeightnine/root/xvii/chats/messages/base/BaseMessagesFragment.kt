@@ -83,7 +83,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
     }
 
     protected fun getSelectedMessageIds() = adapter.multiSelect
-            .joinToString(separator = ",", transform = { it.id.toString() })
+            .joinToString(separator = ",", transform = { it.message.id.toString() })
 
     private fun updateMessages2(data: Wrapper<Interaction>) {
         swipeContainer.isRefreshing = false
@@ -107,7 +107,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
                         firstLoad -> {
                             var unreadPos = adapter.itemCount - 1 // default last item
                             for (index in interaction.messages.indices) {
-                                val message = interaction.messages[index]
+                                val message = interaction.messages[index].message
                                 if (!message.read && !message.isOut()) {
                                     unreadPos = index
                                     break
@@ -203,7 +203,9 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
                     ?.findLastVisibleItemPosition() ?: -1
             if (adapterTopPosition != lastHandledTopPosition
                     && adapterTopPosition != -1) {
-                val message = adapter.items.getOrNull(adapterTopPosition) ?: return
+                val message = adapter.items
+                        .getOrNull(adapterTopPosition)
+                        ?.message ?: return
                 if (message.date == 0) return
 
                 val uiDate = getDate(message.date)

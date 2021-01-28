@@ -1,6 +1,6 @@
 package com.twoeightnine.root.xvii.chats.messages
 
-import com.twoeightnine.root.xvii.model.messages.Message
+import com.twoeightnine.root.xvii.model.messages.WrappedMessage
 
 /**
  * for interaction with messages
@@ -16,7 +16,7 @@ data class Interaction(
         /**
          * changed messages in natural ui order (eldest first)
          */
-        val messages: List<Message> = arrayListOf()
+        val messages: List<WrappedMessage> = arrayListOf()
 ) {
 
     enum class Type {

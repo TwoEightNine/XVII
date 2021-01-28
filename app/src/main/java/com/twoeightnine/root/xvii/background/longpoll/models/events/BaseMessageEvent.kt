@@ -17,7 +17,8 @@ abstract class BaseMessageEvent(
         val peerId: Int,
         val timeStamp: Int,
         val text: String,
-        val info: MessageInfo
+        val info: MessageInfo,
+        val randomId: Int = 0
 ) : BaseLongPollEvent() {
 
     companion object {

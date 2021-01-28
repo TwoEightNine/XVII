@@ -19,6 +19,7 @@ import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.messages.Message
+import com.twoeightnine.root.xvii.model.messages.WrappedMessage
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.uikit.extensions.hide
@@ -26,10 +27,13 @@ import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
 import kotlinx.android.synthetic.main.item_message_in_chat.view.*
+import kotlinx.android.synthetic.main.item_message_in_chat.view.rlDateSeparator
+import kotlinx.android.synthetic.main.item_message_out.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.civPhoto
 import kotlinx.android.synthetic.main.item_message_wtf.view.llMessage
 import kotlinx.android.synthetic.main.item_message_wtf.view.llMessageContainer
+import kotlinx.android.synthetic.main.item_message_wtf.view.readStateDot
 import kotlinx.android.synthetic.main.item_message_wtf.view.rlBack
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvBody
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateOutside
@@ -45,7 +49,7 @@ class MessagesAdapter(context: Context,
                       private val messageCallback: Callback,
                       private val attachmentsCallback: AttachmentsInflater.Callback,
                       private val settings: Settings
-) : BaseReachAdapter<Message, MessagesAdapter.MessageViewHolder>(context, loader) {
+) : BaseReachAdapter<WrappedMessage, MessagesAdapter.MessageViewHolder>(context, loader) {
 
     private val messageInflater = AttachmentsInflater(context, attachmentsCallback)
 
@@ -74,15 +78,15 @@ class MessagesAdapter(context: Context,
                 else -> R.layout.item_message_in_chat
             }, parent, false))
 
-    override fun bind(holder: MessageViewHolder, item: Message) {
+    override fun bind(holder: MessageViewHolder, item: WrappedMessage) {
         val position = items.indexOf(item)
         holder.bind(item, items.getOrNull(position - 1))
     }
 
-    override fun createStubLoadItem() = Message()
+    override fun createStubLoadItem() = WrappedMessage(Message())
 
     override fun getItemViewType(position: Int): Int {
-        val message = items[position]
+        val message = items[position].message
         val superType = super.getItemViewType(position)
         return when {
             superType != NO_STUB -> superType
@@ -95,12 +99,13 @@ class MessagesAdapter(context: Context,
 
     inner class MessageViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
-        fun bind(message: Message, prevMessage: Message?, level: Int = 0) {
+        fun bind(wrappedMessage: WrappedMessage, prevWrappedMessage: WrappedMessage?, level: Int = 0) {
+            val message = wrappedMessage.message
 
             if (message.isSystem()) {
                 bindSystemMessage(itemView, message)
             } else {
-                putViews(itemView, message, prevMessage, level)
+                putViews(itemView, wrappedMessage, prevWrappedMessage, level)
                 with(itemView) {
                     rlBack.setOnClickListener {
                         items.getOrNull(adapterPosition)?.also(::onClick)
@@ -118,16 +123,16 @@ class MessagesAdapter(context: Context,
             }
         }
 
-        private fun onClick(message: Message) {
+        private fun onClick(message: WrappedMessage) {
             if (multiSelectMode) {
                 multiSelect(message)
                 invalidateBackground(message)
             } else {
-                messageCallback.onClicked(message)
+                messageCallback.onClicked(message.message)
             }
         }
 
-        private fun onLongClick(message: Message): Boolean {
+        private fun onLongClick(message: WrappedMessage): Boolean {
             if (!multiSelectMode) {
                 multiSelectMode = true
                 multiSelect(message)
@@ -137,7 +142,7 @@ class MessagesAdapter(context: Context,
             return false
         }
 
-        private fun invalidateBackground(message: Message, view: View = itemView, level: Int = 0) {
+        private fun invalidateBackground(message: WrappedMessage, view: View = itemView, level: Int = 0) {
             with(view) {
                 rlBack.setBackgroundColor(if (level == 0 && message in multiSelect) {
                     ContextCompat.getColor(context, R.color.selected_mess)
@@ -158,12 +163,16 @@ class MessagesAdapter(context: Context,
             }
         }
 
-        private fun putViews(view: View, message: Message, prevMessage: Message?, level: Int) {
+        private fun putViews(view: View, wrappedMessage: WrappedMessage, prevWrappedMessage: WrappedMessage?, level: Int) {
+            val message = wrappedMessage.message
+            val prevMessage = prevWrappedMessage?.message
+            val isNotSent = !wrappedMessage.sent
+
             with(view) {
                 //
                 // block of common fields
                 //
-                invalidateBackground(message, this, level)
+                invalidateBackground(wrappedMessage, this, level)
 
                 val preparedText = wrapMentions(context, message.text, addClickable = true)
                 tvBody.setVisible(message.text.isNotEmpty())
@@ -208,6 +217,7 @@ class MessagesAdapter(context: Context,
                     }
                     rlName?.setOnClickListener {
                         items.getOrNull(adapterPosition)
+                                ?.message
                                 ?.fromId
                                 ?.also(messageCallback::onUserClicked)
                     }
@@ -216,12 +226,17 @@ class MessagesAdapter(context: Context,
                     stylize(ColorManager.MAIN_TAG, changeStroke = false)
                     setVisibleWithInvis(!message.read && message.isOut())
                 }
+                pbSending?.setVisible(isNotSent)
 
                 llMessage.stylizeAsMessage(
                         level + message.effectiveOutDelta(),
                         hide = message.run { isSticker() || isGraffiti() || isGift() }
                 )
                 llMessageContainer.removeAllViews()
+
+//                if (isNotSent) {
+//                    llMessageContainer.addView(messageInflater.getViewLoader())
+//                }
 
                 llMessage.layoutParams.width = messageInflater.getMessageWidth(message, settings.fullDeepness, level)
                 if (!message.attachments.isNullOrEmpty()) {
@@ -238,7 +253,11 @@ class MessagesAdapter(context: Context,
                             setPadding(paddingLeft, paddingTop, 6, paddingBottom)
                         }
                         if (level < ALLOWED_DEEPNESS || settings.fullDeepness) {
-                            putViews(included, innerMessage, message.fwdMessages.getOrNull(index - 1), level + 1)
+                            val wrappedInnerMessage = WrappedMessage(innerMessage)
+                            val wrappedPrevInnerMessage = message.fwdMessages
+                                    .getOrNull(index - 1)
+                                    ?.let(::WrappedMessage)
+                            putViews(included, wrappedInnerMessage, wrappedPrevInnerMessage, level + 1)
                         } else {
                             with(included) {
                                 tvBody.text = resources.getString(R.string.too_deep_forwarding)
@@ -247,7 +266,8 @@ class MessagesAdapter(context: Context,
                                 setOnClickListener {
                                     val messageId = items
                                             .getOrNull(adapterPosition)
-                                            ?.id ?: return@setOnClickListener
+                                            ?.message?.id
+                                            ?: return@setOnClickListener
                                     context.startFragment<DeepForwardedFragment>(
                                             DeepForwardedFragment.createArgs(messageId)
                                     )
@@ -262,7 +282,7 @@ class MessagesAdapter(context: Context,
                     with(included.rlBack) {
                         setPadding(paddingLeft, paddingTop, 6, paddingBottom)
                     }
-                    putViews(included, message, null, level + 1)
+                    putViews(included, WrappedMessage(message), null, level + 1)
                     llMessageContainer.addView(included)
                 }
             }

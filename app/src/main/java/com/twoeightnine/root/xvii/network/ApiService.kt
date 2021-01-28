@@ -370,7 +370,7 @@ interface ApiService {
             @Query("ts") ts: Int,
             @Query("act") act: String = "a_check",
             @Query("wait") wait: Int = 40,
-            @Query("mode") mode: Int = 2,
+            @Query("mode") mode: Int = 130,
             @Query("version") version: Int = 2
     ): Single<LongPollUpdate>
 

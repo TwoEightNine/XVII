@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.makeramen.roundedimageview.RoundedImageView
@@ -51,6 +52,7 @@ class AttachmentsInflater(
     private val videoHeight = resources.getDimensionPixelSize(R.dimen.chat_message_video_height)
     private val stickerSize = resources.getDimensionPixelSize(R.dimen.chat_message_sticker_width)
     private val graffitiSize = resources.getDimensionPixelSize(R.dimen.chat_message_graffiti_width)
+    private val loaderSize = resources.getDimensionPixelSize(R.dimen.chat_message_loader)
     private val wtfDimen = pxFromDp(context, 8)
 
     fun getMessageWidth(message: Message, fullDeepness: Boolean, level: Int): Int {
@@ -77,6 +79,10 @@ class AttachmentsInflater(
             } - levelPadding * level * 2
         }
         return ViewGroup.LayoutParams.WRAP_CONTENT
+    }
+
+    fun getViewLoader(): View = ProgressBar(context).apply {
+        layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, loaderSize)
     }
 
     fun createViewsFor(wallPost: WallPost): List<View> {
