@@ -197,12 +197,18 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     ) {
         val randomId = getRandomId()
         val textOut = prepareTextOut(text)
-        addWrappedNotSentMessage(peerId, randomId, textOut)
+        val sendAsReply = text.isNullOrEmpty() && replyTo != null
+        val fwdMessages = when {
+            sendAsReply -> "$replyTo"
+            else -> forwardedMessages
+        }
+        val hasAttachmentsOrForwarded = !attachments.isNullOrBlank() || !fwdMessages.isNullOrBlank()
+        addWrappedNotSentMessage(peerId, randomId, textOut, hasAttachmentsOrForwarded)
         // reply with empty message is prohibited. send it as forwarded
-        if (text.isNullOrEmpty() && replyTo != null) {
-            api.sendMessage(peerId, randomId, textOut, "$replyTo", attachments)
+        if (sendAsReply) {
+            api.sendMessage(peerId, randomId, textOut, fwdMessages, attachments)
         } else {
-            api.sendMessage(peerId, randomId, textOut, forwardedMessages, attachments, replyTo)
+            api.sendMessage(peerId, randomId, textOut, fwdMessages, attachments, replyTo)
         }
                 .subscribeSmart({ messageId ->
                     setOffline()
@@ -565,7 +571,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         }
     }
 
-    private fun addWrappedNotSentMessage(peerId: Int, randomId: Int, text: String) {
+    private fun addWrappedNotSentMessage(peerId: Int, randomId: Int, text: String, hasAttachmentsOrForwarded: Boolean) {
         val message = Message(
                 peerId = peerId,
                 text = text,
@@ -574,7 +580,11 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 out = 1,
                 randomId = randomId
         )
-        val wrappedMessage = WrappedMessage(message, sent = false)
+        val wrappedMessage = WrappedMessage(
+                message = message,
+                sent = false,
+                hasAttachmentsOrForwarded = hasAttachmentsOrForwarded
+        )
         val count = messages.size
         messages.add(wrappedMessage)
         interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, count, arrayListOf(wrappedMessage)))

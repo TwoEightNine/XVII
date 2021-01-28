@@ -167,6 +167,7 @@ class MessagesAdapter(context: Context,
             val message = wrappedMessage.message
             val prevMessage = prevWrappedMessage?.message
             val isNotSent = !wrappedMessage.sent
+            val hasAttachmentsOrForwarded = wrappedMessage.hasAttachmentsOrForwarded
 
             with(view) {
                 //
@@ -226,7 +227,7 @@ class MessagesAdapter(context: Context,
                     stylize(ColorManager.MAIN_TAG, changeStroke = false)
                     setVisibleWithInvis(!message.read && message.isOut())
                 }
-                pbSending?.setVisible(isNotSent)
+                pbSending?.setVisible(isNotSent && !hasAttachmentsOrForwarded)
 
                 llMessage.stylizeAsMessage(
                         level + message.effectiveOutDelta(),
@@ -234,9 +235,9 @@ class MessagesAdapter(context: Context,
                 )
                 llMessageContainer.removeAllViews()
 
-//                if (isNotSent) {
-//                    llMessageContainer.addView(messageInflater.getViewLoader())
-//                }
+                if (isNotSent && hasAttachmentsOrForwarded) {
+                    llMessageContainer.addView(messageInflater.getViewLoader())
+                }
 
                 llMessage.layoutParams.width = messageInflater.getMessageWidth(message, settings.fullDeepness, level)
                 if (!message.attachments.isNullOrEmpty()) {

@@ -35,12 +35,6 @@
         app:layout_constraintTop_toBottomOf="@id/rlDateSeparator"
         app:layout_constraintWidth_max="@dimen/chat_message_max_width">
 
-        <LinearLayout
-            android:id="@+id/llMessageContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
         <TextView
             android:id="@+id/tvBody"
             style="@style/MainText"
@@ -52,6 +46,12 @@
             android:textColorLink="@color/link_color"
             android:textSize="@dimen/chat_message_text_size"
             tools:text="ddjhjh jhdjfhdjf dfhdjfh fdjhfjdhf djfhjdhf dfhdjf djfhd jf djfd jfhd" />
+
+        <LinearLayout
+            android:id="@+id/llMessageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
     </LinearLayout>
 

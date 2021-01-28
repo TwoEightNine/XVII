@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.makeramen.roundedimageview.RoundedImageView
@@ -81,9 +80,7 @@ class AttachmentsInflater(
         return ViewGroup.LayoutParams.WRAP_CONTENT
     }
 
-    fun getViewLoader(): View = ProgressBar(context).apply {
-        layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, loaderSize)
-    }
+    fun getViewLoader(): View = ContainerLoaderBinding.inflate(inflater).root
 
     fun createViewsFor(wallPost: WallPost): List<View> {
         val attachments = wallPost.attachments ?: return emptyList()
