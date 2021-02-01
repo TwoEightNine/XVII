@@ -2,4 +2,7 @@
 <resources>
     <color name="background_light">#ffffff</color>
     <color name="background_dark">#0e0c13</color>
+
+    <color name="background_light_alpha_aa">#aaffffff</color>
+    <color name="background_dark_alpha_aa">#aa0e0c13</color>
 </resources>
