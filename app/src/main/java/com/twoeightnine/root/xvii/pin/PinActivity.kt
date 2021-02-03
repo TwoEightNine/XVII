@@ -81,6 +81,8 @@ class PinActivity : BaseActivity() {
 //        AlarmActivity.launch(this)
     }
 
+    override fun shouldRunService(): Boolean = false
+
     private fun onPin(key: Int) {
         when (key) {
             PinPadView.DELETE -> {

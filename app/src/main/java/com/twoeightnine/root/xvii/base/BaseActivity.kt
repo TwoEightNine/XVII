@@ -89,6 +89,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected open fun getNavigationBarColor() = ContextCompat.getColor(this, R.color.navigation_bar)
 
+    protected open fun shouldRunService() = true
+
     private fun updateConfig() {
         AppCompatDelegate.setDefaultNightMode(
                 if (Prefs.isLightTheme) {
@@ -100,7 +102,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun runServiceIfDown() {
-        if (!LongPollCore.isProbablyRunning()) {
+        if (shouldRunService() && !LongPollCore.isProbablyRunning()) {
             L.tag("longpoll")
                     .log("inactive since ${getTime(LongPollCore.lastRun, withSeconds = true)}")
             Handler(Looper.getMainLooper())

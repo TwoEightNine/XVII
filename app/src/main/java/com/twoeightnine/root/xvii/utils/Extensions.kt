@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit
 
 const val CHAT_ID_START = 2000000000
 
+private val reloginHandler by lazy { ReloginHandler() }
+
 fun String.matchesXviiCipher(): Boolean {
     val prefix = CryptoConsts.DATA_PREFIX
     val postfix = CryptoConsts.DATA_POSTFIX
@@ -49,8 +51,8 @@ fun <T> Flowable<BaseResponse<T>>.subscribeSmart(response: (T) -> Unit,
                     response.invoke(resp.response)
                 } else if (resp.error != null) {
                     val errorMsg = resp.error.friendlyMessage()
-                    val errCode = resp.error.code
-                    when (errCode) {
+                    when (resp.error.code) {
+                        Error.AUTH_FAILED -> reloginHandler.onAuthFailed()
                         Error.TOO_MANY -> {
                             Thread {
                                 SystemClock.sleep(330)
@@ -59,7 +61,6 @@ fun <T> Flowable<BaseResponse<T>>.subscribeSmart(response: (T) -> Unit,
                         }
                         else -> error.invoke(errorMsg ?: "null")
                     }
-
                 }
             }, { err ->
                 err.printStackTrace()

@@ -58,6 +58,8 @@ class AlarmActivity : BaseActivity() {
         }
     }
 
+    override fun shouldRunService(): Boolean = false
+
     private fun createDefaultAlarms() = arrayListOf(
             Alarm(450, false, enabled = false),
             Alarm(480, true, enabled = false),

@@ -20,4 +20,7 @@ interface AccountsDao {
     @Delete
     fun deleteAccount(account: Account): Single<Int>
 
+    @Query("DELETE FROM accounts WHERE token = :token")
+    fun deleteByToken(token: String): Completable
+
 }

@@ -45,6 +45,7 @@ import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesViewModel
 import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
 import com.twoeightnine.root.xvii.utils.DefaultPeerResolver
+import com.twoeightnine.root.xvii.utils.ReloginHandler
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
 import com.twoeightnine.root.xvii.web.GifViewerFragment
 import dagger.Component
@@ -99,6 +100,7 @@ interface AppComponent {
     fun inject(defaultPeerResolver: DefaultPeerResolver)
     fun inject(receiver: KeyExchangeHandler.Receiver)
     fun inject(keyExchangeHandler: KeyExchangeHandler)
+    fun inject(reloginHandler: ReloginHandler)
 
     fun inject(chatOwnerViewModel: ChatOwnerViewModel)
     fun inject(generalViewModel: GeneralViewModel)

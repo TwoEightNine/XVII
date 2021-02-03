@@ -64,4 +64,8 @@ object Session {
 
     fun needToWaitAfterFailedPin() = pinBruteForced && Prefs.pin.isNotEmpty()
             && time() - pinLastFailedPrompt <= PIN_RETRY_THRESHOLD
+
+    fun clearAll() {
+        pref.edit().clear().apply()
+    }
 }

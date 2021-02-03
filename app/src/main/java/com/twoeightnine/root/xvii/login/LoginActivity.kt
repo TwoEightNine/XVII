@@ -87,6 +87,8 @@ class LoginActivity : BaseActivity() {
 
     private fun hasToken() = Session.token.isNotBlank()
 
+    override fun shouldRunService() = false
+
     private fun checkTokenAndStart() {
         if (isOnline()) {
             viewModel.checkAccount(Session.token, Session.uid)

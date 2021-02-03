@@ -58,6 +58,8 @@ class DiagnosticsActivity : BaseActivity() {
         svContent.applyBottomInsetPadding()
     }
 
+    override fun shouldRunService(): Boolean = false
+
     private fun LiveData<String>.observeInto(textView: TextView) {
         observe(this@DiagnosticsActivity) { textView.text = it }
     }

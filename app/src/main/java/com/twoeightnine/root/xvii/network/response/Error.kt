@@ -34,6 +34,7 @@ data class Error(
             }
 
     companion object {
+        const val AUTH_FAILED = 5
         const val TOO_MANY = 6
         const val CAPTCHA = 14
     }

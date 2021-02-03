@@ -73,7 +73,7 @@ class AccountsViewModel(
     }
 
     fun logOut() {
-        Session.token = ""
+        Session.clearAll()
         appDb.clearAsync()
 //        CacheHelper.deleteAllMessagesAsync()
     }
