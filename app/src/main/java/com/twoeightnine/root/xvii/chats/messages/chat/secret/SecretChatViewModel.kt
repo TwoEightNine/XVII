@@ -64,6 +64,24 @@ class SecretChatViewModel(
     }
 
     override fun attachPhoto(path: String, onAttached: (String, Attachment) -> Unit) {
+        attachFile(path, "photo", onAttached)
+    }
+
+    override fun attachDoc(path: String, onAttached: (String, Attachment) -> Unit) {
+        attachFile(path, "doc", onAttached)
+    }
+
+    fun decryptDoc(doc: Doc, callback: (Boolean, String?) -> Unit) {
+        downloadDoc(doc) { fileName ->
+            val docFile = File(fileName)
+            val decryptFile = { crypto.decryptFile(docFile) }
+            AsyncUtils.onIoThreadNullable(decryptFile) { plainFile ->
+                callback(plainFile != null, plainFile?.absolutePath)
+            }
+        }
+    }
+
+    private fun attachFile(path: String, what: String = "???", onAttached: (String, Attachment) -> Unit) {
         api.getDocUploadServer("doc")
                 .subscribeSmart({ uploadServer ->
                     val plainFile = File(path)
@@ -80,10 +98,10 @@ class SecretChatViewModel(
                                                 onAttached(path, Attachment(it[0]))
                                             }, { error ->
                                                 onErrorOccurred(error)
-                                                lw("save uploaded photo error: $error")
+                                                lw("save uploaded $what error: $error")
                                             })
                                 }, { error ->
-                                    lw("uploading photo error", error)
+                                    lw("uploading $what error", error)
                                     val message = error.message ?: "null"
                                     onErrorOccurred(message)
                                 })
@@ -93,16 +111,6 @@ class SecretChatViewModel(
                     onErrorOccurred(error)
                     lw("getting uploading server error: $error")
                 })
-    }
-
-    fun decryptDoc(doc: Doc, callback: (Boolean, String?) -> Unit) {
-        downloadDoc(doc) { fileName ->
-            val docFile = File(fileName)
-            val decryptFile = { crypto.decryptFile(docFile) }
-            AsyncUtils.onIoThreadNullable(decryptFile) { plainFile ->
-                callback(plainFile != null, plainFile?.absolutePath)
-            }
-        }
     }
 
     private fun sendData(data: String) {

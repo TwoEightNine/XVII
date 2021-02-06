@@ -262,7 +262,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             }
             Attachment.TYPE_VIDEO -> attachment.video?.let {
                 viewModel.loadVideo(context ?: return, it, { playerUrl ->
-                    UrlUtils.openUrl(context, playerUrl)
+                    BrowsingUtils.openUrl(context, playerUrl)
                 }, { error ->
                     showError(context, error)
                 })
@@ -473,7 +473,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
         override fun onVideoClicked(video: Video) {
             viewModel.loadVideo(context ?: return, video, { playerUrl ->
-                UrlUtils.openUrl(context, playerUrl)
+                BrowsingUtils.openUrl(context, playerUrl)
             }, { error ->
                 showError(context, error)
             })

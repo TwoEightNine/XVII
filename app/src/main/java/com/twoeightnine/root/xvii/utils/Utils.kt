@@ -92,7 +92,7 @@ fun rate(context: Context) {
     try {
         context.startActivity(goToMarket)
     } catch (e: ActivityNotFoundException) {
-        UrlUtils.openUrl(context, "https://play.google.com/store/apps/details?id=${context.packageName}")
+        BrowsingUtils.openUrl(context, "https://play.google.com/store/apps/details?id=${context.packageName}")
     }
 
 }

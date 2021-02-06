@@ -330,7 +330,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 })
     }
 
-    fun attachDoc(path: String, onAttached: (String, Attachment) -> Unit) {
+    open fun attachDoc(path: String, onAttached: (String, Attachment) -> Unit) {
         api.getDocUploadServer("doc")
                 .subscribeSmart({ uploadServer ->
                     val file = File(path)

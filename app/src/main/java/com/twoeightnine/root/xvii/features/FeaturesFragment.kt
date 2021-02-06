@@ -78,7 +78,7 @@ class FeaturesFragment : BaseFragment() {
         xiRate.setOnClickListener { context?.also { rate(it) } }
         xiShare.setOnClickListener { share() }
         xiPrivacy.setOnClickListener { resolvePrivacyPolicy() }
-        xiSourceCode.setOnClickListener { UrlUtils.openUrl(context, GITHUB_URL) }
+        xiSourceCode.setOnClickListener { BrowsingUtils.openUrl(context, GITHUB_URL) }
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
@@ -150,7 +150,7 @@ class FeaturesFragment : BaseFragment() {
         } else {
             PRIVACY_WORLD
         }
-        UrlUtils.openUrl(context, url)
+        BrowsingUtils.openUrl(context, url)
     }
 
     companion object {

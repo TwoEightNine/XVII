@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsFragment
 import com.twoeightnine.root.xvii.model.attachments.Link
-import com.twoeightnine.root.xvii.utils.UrlUtils
+import com.twoeightnine.root.xvii.utils.BrowsingUtils
 
 class LinkAttachmentsFragment : BaseAttachmentsFragment<Link>() {
 
@@ -22,7 +22,7 @@ class LinkAttachmentsFragment : BaseAttachmentsFragment<Link>() {
     }
 
     private fun onClick(link: Link) {
-        UrlUtils.openUrl(context, link.url)
+        BrowsingUtils.openUrl(context, link.url)
     }
 
     companion object {

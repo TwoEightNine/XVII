@@ -12,18 +12,16 @@ import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
-import com.twoeightnine.root.xvii.utils.matchesUserId
-import com.twoeightnine.root.xvii.utils.showAlert
-import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.showToast
 import com.twoeightnine.root.xvii.views.FingerPrintAlertDialog
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import global.msnthrp.xvii.uikit.extensions.show
+import global.msnthrp.xvii.uikit.utils.ExtensionUtils
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 
@@ -43,10 +41,16 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
         dialogLoading.show()
         viewModel.decryptDoc(doc) { verified, path ->
             dialogLoading.dismiss()
-            if (!path.isNullOrEmpty() && verified) {
-                ImageViewerActivity.viewImage(context, "file://$path")
-            } else {
-                showError(context, R.string.invalid_file)
+            when {
+                !verified || path.isNullOrBlank() -> {
+                    showError(context, R.string.invalid_file)
+                }
+                ExtensionUtils.isImage(path) -> {
+                    ImageViewerActivity.viewImage(context, "file://$path")
+                }
+                else -> {
+                    BrowsingUtils.openFile(context, path)
+                }
             }
         }
     }

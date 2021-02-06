@@ -17,7 +17,7 @@ import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
-import com.twoeightnine.root.xvii.utils.UrlUtils
+import com.twoeightnine.root.xvii.utils.BrowsingUtils
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.utils.copyToClip
@@ -90,7 +90,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
 
         override fun onVideoClicked(video: Video) {
             viewModel.loadVideo(context ?: return, video, { playerUrl ->
-                UrlUtils.openUrl(context, playerUrl)
+                BrowsingUtils.openUrl(context, playerUrl)
             }, { error ->
                 showError(context, error)
             })

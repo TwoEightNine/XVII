@@ -21,7 +21,7 @@ import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
-import com.twoeightnine.root.xvii.utils.UrlUtils
+import com.twoeightnine.root.xvii.utils.BrowsingUtils
 import com.twoeightnine.root.xvii.utils.copyToClip
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.utils.showToast
@@ -174,7 +174,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     }
 
     protected fun goTo(url: String?) {
-        UrlUtils.openUrl(context, url)
+        BrowsingUtils.openUrl(context, url)
     }
 
     private fun loadHighResWithAnimation(url: String?) {

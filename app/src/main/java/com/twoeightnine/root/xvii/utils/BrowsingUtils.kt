@@ -6,11 +6,15 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.lg.L
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 
-object UrlUtils {
+object BrowsingUtils {
 
     private const val STABLE_PACKAGE = "com.android.chrome"
     private const val BETA_PACKAGE = "com.chrome.beta"
@@ -19,30 +23,64 @@ object UrlUtils {
 
     private var mPackageNameToUse: String? = null
 
-    fun openUrl(context: Context?, url: String?) {
+    fun openFile(context: Context?, path: String) {
         context ?: return
-        url ?: return
-        val fixedUrl = getFixedUrl(url)
-        val packageName = getCustomTabsPackage(context)
-        if (packageName != null) {
-            openCustomTabs(context, packageName, fixedUrl)
-        } else {
-            openUrlIntent(context, fixedUrl)
+
+        AsyncUtils.onIoThread({
+            val file = File(path)
+            val bytes = FileInputStream(file).use { it.readBytes() }
+            FileOutputStream(file).use { it.write(bytes) }
+            FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
+        }) { uri ->
+            openUri(context, uri)
         }
     }
 
-    private fun openCustomTabs(context: Context, packageName: String, url: String) {
+    fun openUri(context: Context?, uri: Uri?) {
+        context ?: return
+        uri ?: return
+        if (uri == Uri.EMPTY) return
+
+        try {
+            openCustomTabs(context, uri, withGrantUri = true)
+        } catch (e: Exception) {
+            L.def().throwable(e)
+            openUriIntent(context, uri)
+        }
+    }
+
+    fun openUrl(context: Context?, url: String?) {
+        context ?: return
+        url ?: return
+
+        val fixedUrl = getFixedUrl(url)
+        val uri = Uri.parse(fixedUrl)
+
+        val packageName = getCustomTabsPackage(context)
+        if (packageName != null) {
+            openCustomTabs(context, uri, packageName)
+        } else {
+            openUriIntent(context, uri)
+        }
+    }
+
+    private fun openCustomTabs(context: Context, uri: Uri, packageName: String? = null, withGrantUri: Boolean = false) {
         CustomTabsIntent.Builder()
                 .setToolbarColor(ContextCompat.getColor(context, R.color.background))
                 .build()
-                .apply { intent.setPackage(packageName) }
-                .launchUrl(context, Uri.parse(url))
+                .apply {
+                    packageName?.also(intent::setPackage)
+                    if (withGrantUri) {
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                }
+                .launchUrl(context, uri)
     }
 
-    private fun openUrlIntent(context: Context, url: String) {
+    private fun openUriIntent(context: Context, uri: Uri) {
         try {
             val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(url)
+                data = uri
             }
             context.startActivity(intent)
         } catch (e: Exception) {
@@ -91,5 +129,9 @@ object UrlUtils {
             } else {
                 url
             }
+
+    private fun getContentUriFromFilePath(context: Context, path: String) {
+
+    }
 
 }

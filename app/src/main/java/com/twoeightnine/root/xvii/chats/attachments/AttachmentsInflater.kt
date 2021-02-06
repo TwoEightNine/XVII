@@ -388,7 +388,7 @@ class AttachmentsInflater(
             val message = context.getString(R.string.attachment_open_link_prompt, url)
             showConfirm(context, message) { yes ->
                 if (yes) {
-                    UrlUtils.openUrl(context, url)
+                    BrowsingUtils.openUrl(context, url)
                 }
             }
         }
@@ -406,7 +406,7 @@ class AttachmentsInflater(
                         DownloadUtils.download(context, file, doc.url)
                     }
                     .setNeutralButton(R.string.attachment_open_doc_prompt_browser) { _, _ ->
-                        UrlUtils.openUrl(context, doc.url)
+                        BrowsingUtils.openUrl(context, doc.url)
                     }
                     .create()
             dialog.show()
