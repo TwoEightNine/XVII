@@ -22,6 +22,7 @@ class DialogsForwardFragment : DialogsFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         xviiToolbar.title = getString(R.string.choose_dialog)
+        xviiToolbar.showLogo = false
     }
 
     override fun onClick(dialog: Dialog) {

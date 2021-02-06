@@ -11,10 +11,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
-import global.msnthrp.xvii.uikit.extensions.EndAnimatorListener
-import global.msnthrp.xvii.uikit.extensions.applyTopInsetPadding
-import global.msnthrp.xvii.uikit.extensions.setVisible
-import global.msnthrp.xvii.uikit.extensions.show
+import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.toolbar2.view.*
 import kotlinx.android.synthetic.main.view_tabs.view.*
 
@@ -33,10 +30,16 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
             tvToolbarTitle?.text = if (value) "" else title
         }
 
+    var showLogo: Boolean = false
+        set(value) {
+            field = value
+            setLogoVisible(value)
+        }
+
     private var hasBackArrow: Boolean = true
     private var withTabs: Boolean = false
     private var alwaysLifted: Boolean = false
-    private var showLogo: Boolean = false
+
 
     private var animationRunning = false
 
@@ -67,12 +70,7 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
             addTabs()
         }
         rlChat.setVisible(forChat)
-
-        if (showLogo) {
-            tvToolbarTitle.text = ""
-            ivToolbarLogo.show()
-            ivToolbarLogo.paint(ContextCompat.getColor(context, R.color.main_text))
-        }
+        setLogoVisible(showLogo)
 
         applyTopInsetPadding()
     }
@@ -135,6 +133,14 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
             })
             start()
             animationRunning = true
+        }
+    }
+
+    private fun setLogoVisible(visible: Boolean) {
+        ivToolbarLogo?.setVisible(visible)
+        tvToolbarTitle?.text = if (visible) "" else title
+        if (visible) {
+            ivToolbarLogo?.paint(ContextCompat.getColor(context, R.color.main_text))
         }
     }
 
