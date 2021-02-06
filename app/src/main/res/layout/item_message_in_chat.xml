@@ -5,7 +5,7 @@
     android:id="@+id/rlBack"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="@color/background">
+    tools:background="#567">
 
     <RelativeLayout
         android:id="@+id/rlDateSeparator"
@@ -97,11 +97,10 @@
 
     <TextView
         android:id="@+id/tvDateOutside"
-        style="@style/OtherText"
+        style="@style/FloatingText.Time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/chat_date_message_margin"
-        android:layout_marginBottom="@dimen/chat_date_bottom_margin"
         android:maxLines="1"
         android:textSize="@dimen/chat_date_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/llMessage"
