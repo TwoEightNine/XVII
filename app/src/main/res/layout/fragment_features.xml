@@ -96,6 +96,7 @@
                 android:id="@+id/xiAnalyze"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:itemTitle="@string/analyse"
                 app:itemIcon="@drawable/ic_analysis" />
 
