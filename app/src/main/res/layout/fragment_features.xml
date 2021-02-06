@@ -119,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemTitle="@string/journal_title"
-                app:itemIcon="@drawable/ic_clock" />
+                app:itemIcon="@drawable/ic_journal" />
 
             <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
