@@ -411,6 +411,7 @@
     <string name="journal_event_online_hint">went online</string>
     <string name="journal_event_last_action_hint">made last action</string>
     <string name="journal_event_offline_hint">went offline</string>
+    <string name="journal_disclaimer">time can differ from reality due to network delays</string>
 
     <string-array name="relations">
         <item>single</item>

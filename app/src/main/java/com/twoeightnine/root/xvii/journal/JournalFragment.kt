@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.journal
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
@@ -45,6 +46,9 @@ class JournalFragment : BaseFragment() {
                 .apply { stackFromEnd = true }
         rvEvents.adapter = adapter
         rvEvents.addOnScrollListener(AppBarLifter(xviiToolbar))
+        tvDisclaimer.post {
+            rvEvents.updatePadding(top = tvDisclaimer.height)
+        }
         rvEvents.applyBottomInsetPadding()
     }
 
