@@ -56,9 +56,8 @@
 
     </LinearLayout>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/pbSending"
-        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="4dp"
         android:indeterminate="true"
@@ -67,6 +66,7 @@
         android:paddingEnd="@dimen/default_radius"
         android:paddingBottom="0dp"
         android:visibility="visible"
+        app:trackCornerRadius="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/llMessage"
         app:layout_constraintEnd_toEndOf="@+id/llMessage"
         app:layout_constraintStart_toStartOf="@+id/llMessage" />

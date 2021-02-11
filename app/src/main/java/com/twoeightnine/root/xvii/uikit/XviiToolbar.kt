@@ -43,11 +43,11 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
 
     private var animationRunning = false
 
-    var isLifted: Boolean
-        get() = elevation != 0f
-        set(value) {
-            updateElevation(if (value) 10f else 0f)
-        }
+//    var isLifted: Boolean
+//        get() = elevation != 0f
+//        set(value) {
+//            updateElevation(if (value) 10f else 0f)
+//        }
 
     var onClick: (() -> Unit)? = null
         set(value) {

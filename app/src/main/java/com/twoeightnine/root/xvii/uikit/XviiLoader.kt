@@ -1,23 +1,27 @@
 package com.twoeightnine.root.xvii.uikit
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
-import android.widget.ProgressBar
+import android.view.View
+import android.widget.FrameLayout
 import com.twoeightnine.root.xvii.R
+import kotlinx.android.synthetic.main.view_loader.view.*
 
-class XviiLoader(context: Context, attributeSet: AttributeSet) : ProgressBar(context, attributeSet) {
+class XviiLoader(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
 
     private var alwaysWhite = false
 
     init {
         initAttributes(attributeSet)
-        indeterminateTintList = ColorStateList.valueOf(if (alwaysWhite) {
-            Color.WHITE
-        } else {
-            Munch.color.color
-        })
+        View.inflate(context, R.layout.view_loader, this)
+        circularProgress.apply {
+            if (alwaysWhite) {
+                setIndicatorColor(Color.WHITE)
+            } else {
+                setIndicatorColor(*Munch.nextAnalogy.map { it.color }.toIntArray())
+            }
+        }
     }
 
     private fun initAttributes(attributeSet: AttributeSet) {

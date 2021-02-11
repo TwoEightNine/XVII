@@ -11,7 +11,7 @@
 
     <color name="splash_background">#0e0c13</color>
     <color name="background">@color/background_light</color>
-    <color name="background_transparent">@color/background_light_alpha_aa</color>
+    <color name="background_transparent">@color/background_light_alpha_bb</color>
     <color name="popup">#fff</color>
     <color name="popup_error">#B93952</color>
     <color name="toolbar">#15121c</color>

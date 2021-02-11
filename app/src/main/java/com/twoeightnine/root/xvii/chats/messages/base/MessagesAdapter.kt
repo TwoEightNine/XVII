@@ -228,6 +228,7 @@ class MessagesAdapter(context: Context,
                     setVisibleWithInvis(!message.read && message.isOut())
                 }
                 pbSending?.setVisible(isNotSent && !hasAttachmentsOrForwarded)
+                pbSending?.setIndicatorColor(Munch.color.color)
 
                 llMessage.stylizeAsMessage(
                         level + message.effectiveOutDelta(),
