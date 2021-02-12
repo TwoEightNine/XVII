@@ -1,11 +1,11 @@
 package com.twoeightnine.root.xvii.features.appearance
 
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.widget.CompoundButton
+import androidx.core.content.ContextCompat
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.twoeightnine.root.xvii.R
@@ -27,6 +27,34 @@ import kotlinx.android.synthetic.main.view_appearance_sample.*
 import kotlinx.android.synthetic.main.view_appearance_sample.view.*
 
 class AppearanceFragment : BaseFragment() {
+
+    private val mainTextLight by lazy {
+        ContextCompat.getColor(requireContext(), R.color.main_text_light)
+    }
+    private val otherTextLight by lazy {
+        ContextCompat.getColor(requireContext(), R.color.other_text_light)
+    }
+    private val minorTextLight by lazy {
+        ContextCompat.getColor(requireContext(), R.color.minor_text_light)
+    }
+    private val mainTextDark by lazy {
+        ContextCompat.getColor(requireContext(), R.color.main_text_dark)
+    }
+    private val otherTextDark by lazy {
+        ContextCompat.getColor(requireContext(), R.color.other_text_dark)
+    }
+    private val minorTextDark by lazy {
+        ContextCompat.getColor(requireContext(), R.color.minor_text_dark)
+    }
+    private val backgroundLight by lazy {
+        ContextCompat.getColor(requireContext(), R.color.background_light)
+    }
+    private val backgroundDark by lazy {
+        ContextCompat.getColor(requireContext(), R.color.background_dark)
+    }
+    private val backgroundDarkLighter by lazy {
+        ContextCompat.getColor(requireContext(), R.color.background_dark_lighter)
+    }
 
     private lateinit var bottomSheetHelper: BottomSheetHelper
     private lateinit var permissionHelper: PermissionHelper
@@ -83,26 +111,26 @@ class AppearanceFragment : BaseFragment() {
 
         if (switchLightTheme.isChecked) {
 
-            rlToolbar.setBackgroundColor(Color.WHITE)
-            rlSampleRoot.setBackgroundColor(Color.WHITE)
-            rlInputBack.setBackgroundColor(Color.WHITE)
+            rlToolbar.setBackgroundColor(backgroundLight)
+            rlSampleRoot.setBackgroundColor(backgroundLight)
+            rlInputBack.setBackgroundColor(backgroundLight)
 
-            arrayOf(tvTitle, tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xff222222.toInt()) }
-            arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(0xff444444.toInt()) }
-            tvSubtitle.setTextColor(0xff888888.toInt())
+            arrayOf(tvTitle, tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(mainTextLight) }
+            arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(otherTextLight) }
+            tvSubtitle.setTextColor(minorTextLight)
 
             arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorWhite50) }
             (llMessageIn.background as? GradientDrawable)?.setColor(color.colorWhite20)
             (llMessageOut.background as? GradientDrawable)?.setColor(color.colorWhite10)
         } else {
 
-            rlToolbar.setBackgroundColor(0xff0e0c13.toInt())
-            rlSampleRoot.setBackgroundColor(0xff0e0c13.toInt())
-            rlInputBack.setBackgroundColor(0xff15121c.toInt())
+            rlToolbar.setBackgroundColor(backgroundDark)
+            rlSampleRoot.setBackgroundColor(backgroundDark)
+            rlInputBack.setBackgroundColor(backgroundDarkLighter)
 
-            arrayOf(tvTitle, tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xffdddddd.toInt()) }
-            arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(0xffaaaaaa.toInt()) }
-            tvSubtitle.setTextColor(0xff555555.toInt())
+            arrayOf(tvTitle, tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(mainTextDark) }
+            arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(otherTextDark) }
+            tvSubtitle.setTextColor(minorTextDark)
 
             arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorBlack50) }
             (llMessageIn.background as? GradientDrawable)?.setColor(color.colorBlack20)

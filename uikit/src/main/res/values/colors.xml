@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background_light">#ffffff</color>
-    <color name="background_dark">#0e0c13</color>
+    <color name="background_dark">#1C1A22</color>
+
+    <color name="background_dark_lighter">#221F29</color>
+    <color name="background_dark_popup">#2F2C39</color>
 
     <color name="background_light_alpha_bb">#bbffffff</color>
-    <color name="background_dark_alpha_bb">#bb0e0c13</color>
+    <color name="background_dark_alpha_bb">#bb1C1A22</color>
+
+    <color name="divider_light">#ddd</color>
+    <color name="divider_dark">#2B2B2E</color>
+
+    <color name="main_text_light">#222</color>
+    <color name="main_text_dark">#ddd</color>
+
+    <color name="other_text_light">#444</color>
+    <color name="other_text_dark">#aaa</color>
+
+    <color name="minor_text_light">#888</color>
+    <color name="minor_text_dark">#666</color>
 </resources>
