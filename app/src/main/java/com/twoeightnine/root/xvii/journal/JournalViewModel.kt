@@ -64,7 +64,7 @@ class JournalViewModel : BaseViewModel() {
     fun loadMessageEvents(event: JournalEventWithPeer) {
         val messageEvent = event.journalEvent as? JournalEvent.MessageJE ?: return
 
-        onIoThread({ journalUseCase.getMessageEvents(messageEvent.messageId) }) { events ->
+        onIoThread({ journalUseCase.getMessageEventsWithDiffs(messageEvent.messageId) }) { events ->
             messageEventsLiveData.value = MessageInfo(
                     messageId = messageEvent.messageId,
                     peerId = messageEvent.peerId,

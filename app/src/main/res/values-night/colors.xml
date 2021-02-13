@@ -39,4 +39,10 @@
     <color name="switch_thumb_disabled">#555</color>
     <color name="switch_track_disabled">#333</color>
 
+    <color name="text_diff_insert">#72CD85</color>
+    <color name="text_diff_remove">#BF5D5D</color>
+
+    <color name="text_diff_insert_background">#293328</color>
+    <color name="text_diff_remove_background">#372A2A</color>
+
 </resources>

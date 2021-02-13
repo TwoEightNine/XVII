@@ -45,4 +45,10 @@
     <color name="switch_thumb_disabled">#bbb</color>
     <color name="switch_track_disabled">#ddd</color>
 
+    <color name="text_diff_insert">#488A56</color>
+    <color name="text_diff_remove">#9A2A2A</color>
+
+    <color name="text_diff_insert_background">#F1FFF4</color>
+    <color name="text_diff_remove_background">#FDEBEB</color>
+
 </resources>

@@ -2,6 +2,8 @@ package global.msnthrp.xvii.core.journal
 
 import global.msnthrp.xvii.core.journal.model.JournalEvent
 import global.msnthrp.xvii.core.journal.model.JournalEventWithPeer
+import global.msnthrp.xvii.core.journal.model.MessageJEWithDiff
+import global.msnthrp.xvii.core.utils.MyersDiff
 import global.msnthrp.xvii.core.utils.PeerResolver
 import java.util.concurrent.TimeUnit
 
@@ -55,6 +57,39 @@ class JournalUseCase(
             getAllJournalEvents()
                     .filterIsInstance<JournalEvent.MessageJE>()
                     .filter { it.messageId == messageId }
+
+    fun getMessageEventsWithDiffs(
+            messageId: Int
+    ): List<MessageJEWithDiff> {
+        val messageEvents = getMessageEvents(messageId)
+        val result = arrayListOf<MessageJEWithDiff>()
+        for (messageEvent in messageEvents) {
+            if (messageEvent !is JournalEvent.MessageJE.EditedMessageJE) {
+                result.add(MessageJEWithDiff(messageEvent))
+                continue
+            }
+
+            val previousEvent = messageEvents.getOrNull(messageEvents.indexOf(messageEvent) - 1)
+            if (previousEvent == null) {
+                result.add(MessageJEWithDiff(messageEvent))
+                continue
+            }
+
+            val textBefore = when (previousEvent) {
+                is JournalEvent.MessageJE.EditedMessageJE -> previousEvent.messageText
+                is JournalEvent.MessageJE.NewMessageJE -> previousEvent.messageText
+                else -> null
+            }
+            if (textBefore == null) {
+                result.add(MessageJEWithDiff(messageEvent))
+                continue
+            }
+
+            val difference = MyersDiff.getDiffByWords(textBefore, messageEvent.messageText)
+            result.add(MessageJEWithDiff(messageEvent, difference))
+        }
+        return result
+    }
 
     private fun getAllJournalEvents(): List<JournalEvent> {
         journalDataSource.clearAllExceptRecent(System.currentTimeMillis() - RECENT_THRESHOLD)
