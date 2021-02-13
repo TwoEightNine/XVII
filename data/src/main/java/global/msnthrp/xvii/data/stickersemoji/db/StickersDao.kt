@@ -1,11 +1,11 @@
-package com.twoeightnine.root.xvii.chats.attachments.stickersemoji.db
+package global.msnthrp.xvii.data.stickersemoji.db
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.StickerUsage
+import global.msnthrp.xvii.data.stickersemoji.model.Sticker
+import global.msnthrp.xvii.data.stickersemoji.model.StickerUsage
 import io.reactivex.Completable
 import io.reactivex.Single
 

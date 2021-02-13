@@ -15,14 +15,14 @@ import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.background.longpoll.receivers.KeyExchangeHandler
-import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.notifications.NotificationUtils
 import global.msnthrp.xvii.core.journal.JournalUseCase
+import global.msnthrp.xvii.data.db.AppDb
+import global.msnthrp.xvii.data.dialogs.Dialog
 import global.msnthrp.xvii.data.journal.MemoryJournalDataSource
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import io.reactivex.Observable

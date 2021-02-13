@@ -1,7 +1,6 @@
-package com.twoeightnine.root.xvii.dialogs.db
+package global.msnthrp.xvii.data.dialogs
 
 import androidx.room.*
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import io.reactivex.Completable
 import io.reactivex.Single
 

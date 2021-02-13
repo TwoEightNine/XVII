@@ -1,7 +1,7 @@
 package com.twoeightnine.root.xvii.utils
 
-import com.twoeightnine.root.xvii.accounts.models.Account
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import global.msnthrp.xvii.data.accounts.Account
+import global.msnthrp.xvii.data.dialogs.Dialog
 
 object FakeData {
 

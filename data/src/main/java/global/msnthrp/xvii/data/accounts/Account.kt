@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.accounts.models
+package global.msnthrp.xvii.data.accounts
 
 import android.os.Parcelable
 import androidx.room.Entity

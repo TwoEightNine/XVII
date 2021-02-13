@@ -20,10 +20,10 @@ import com.twoeightnine.root.xvii.background.longpoll.LongPollExplanationActivit
 import com.twoeightnine.root.xvii.background.longpoll.receivers.KeyExchangeHandler
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.music.services.MusicBroadcastReceiver
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.model.attachments.Audio
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.data.dialogs.Dialog
 import kotlin.random.Random
 
 object NotificationUtils {

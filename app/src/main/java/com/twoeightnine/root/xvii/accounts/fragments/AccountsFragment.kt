@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.adapters.AccountsAdapter
-import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.accounts.viewmodel.AccountsViewModel
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.base.BaseFragment
@@ -17,6 +16,7 @@ import com.twoeightnine.root.xvii.utils.restartApp
 import com.twoeightnine.root.xvii.utils.showDeleteDialog
 import com.twoeightnine.root.xvii.utils.showError
 import com.twoeightnine.root.xvii.utils.showWarnConfirm
+import global.msnthrp.xvii.data.accounts.Account
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetMargin
 import kotlinx.android.synthetic.main.fragment_accounts.*
 import javax.inject.Inject

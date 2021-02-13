@@ -6,8 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
-import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
@@ -15,6 +13,8 @@ import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.data.db.AppDb
+import global.msnthrp.xvii.data.dialogs.Dialog
 import java.util.*
 import javax.inject.Inject
 

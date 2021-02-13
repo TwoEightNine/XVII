@@ -1,7 +1,8 @@
-package com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.network
+package com.twoeightnine.root.xvii.chats.attachments.stickersemoji
 
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.model.attachments.Sticker
+
 
 data class Pack(
 

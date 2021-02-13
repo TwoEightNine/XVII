@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model
+package global.msnthrp.xvii.data.stickersemoji.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

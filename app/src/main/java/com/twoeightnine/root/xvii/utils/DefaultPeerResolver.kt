@@ -1,10 +1,10 @@
 package com.twoeightnine.root.xvii.utils
 
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.network.ApiService
 import global.msnthrp.xvii.core.utils.PeerResolver
+import global.msnthrp.xvii.data.db.AppDb
+import global.msnthrp.xvii.data.dialogs.Dialog
 import javax.inject.Inject
 
 class DefaultPeerResolver : PeerResolver {

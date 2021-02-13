@@ -1,7 +1,6 @@
-package com.twoeightnine.root.xvii.accounts.db
+package global.msnthrp.xvii.data.accounts
 
 import androidx.room.*
-import com.twoeightnine.root.xvii.accounts.models.Account
 import io.reactivex.Completable
 import io.reactivex.Single
 

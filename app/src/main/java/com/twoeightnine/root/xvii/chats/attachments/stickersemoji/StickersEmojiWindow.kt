@@ -3,9 +3,9 @@ package com.twoeightnine.root.xvii.chats.attachments.stickersemoji
 import android.content.Context
 import android.view.View
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.views.KeyboardWindow
+import global.msnthrp.xvii.data.stickersemoji.model.Emoji
 import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.window_stickers.view.*
 
@@ -69,7 +69,7 @@ class StickersEmojiWindow(
 
     private inner class WindowCallback : PacksPagerAdapter.Callback {
 
-        override fun onStickerClicked(sticker: com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker) {
+        override fun onStickerClicked(sticker: global.msnthrp.xvii.data.stickersemoji.model.Sticker) {
             this@StickersEmojiWindow.onStickerClicked(Sticker(stickerId = sticker.id))
         }
 

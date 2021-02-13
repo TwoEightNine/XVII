@@ -5,7 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import global.msnthrp.xvii.data.dialogs.Dialog
 import kotlinx.android.synthetic.main.fragment_poll.*
 
 class DialogsForwardFragment : DialogsFragment() {

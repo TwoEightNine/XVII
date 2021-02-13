@@ -9,13 +9,14 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.PagerAdapter
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.EmojiPack
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.StickerPack
 import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
+import global.msnthrp.xvii.data.stickersemoji.model.Emoji
+import global.msnthrp.xvii.data.stickersemoji.model.EmojiPack
+import global.msnthrp.xvii.data.stickersemoji.model.Sticker
+import global.msnthrp.xvii.data.stickersemoji.model.StickerPack
+import global.msnthrp.xvii.uikit.extensions.lower
 import kotlinx.android.synthetic.main.item_sticker_tab.view.*
 import kotlinx.android.synthetic.main.view_sticker_pack.view.*
 
@@ -35,11 +36,7 @@ class PacksPagerAdapter(
     init {
         emojis.forEach { pack ->
             val view = getView(pack)
-            val title = if (pack.name == null) {
-                recentEmojisTitle
-            } else {
-                pack.name.toLowerCase()
-            }
+            val title = pack.name?.lower() ?: recentEmojisTitle
             val union = Union(
                     view, title,
                     emojis = pack
@@ -48,11 +45,7 @@ class PacksPagerAdapter(
         }
         stickers.forEach { pack ->
             val view = getView(pack)
-            val title = if (pack.name == null) {
-                recentStickersTitle
-            } else {
-                pack.name.toLowerCase()
-            }
+            val title = pack.name?.lower() ?: recentStickersTitle
             val union = Union(
                     view, title,
                     stickers = pack

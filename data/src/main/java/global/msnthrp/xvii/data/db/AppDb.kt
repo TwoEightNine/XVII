@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.db
+package global.msnthrp.xvii.data.db
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,21 +8,21 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.twoeightnine.root.xvii.accounts.db.AccountsDao
-import com.twoeightnine.root.xvii.accounts.models.Account
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.db.EmojisDao
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.db.StickersDao
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.EmojiUsage
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.StickerUsage
-import com.twoeightnine.root.xvii.dialogs.db.DialogsDao
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.lg.L
-import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
-import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessageDao
-import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
+import global.msnthrp.xvii.data.accounts.Account
+import global.msnthrp.xvii.data.accounts.AccountsDao
+import global.msnthrp.xvii.data.dialogs.Dialog
+import global.msnthrp.xvii.data.dialogs.DialogsDao
+import global.msnthrp.xvii.data.scheduled.ScheduledMessage
+import global.msnthrp.xvii.data.scheduled.ScheduledMessageDao
+import global.msnthrp.xvii.data.stickersemoji.db.EmojisDao
+import global.msnthrp.xvii.data.stickersemoji.db.StickersDao
+import global.msnthrp.xvii.data.stickersemoji.model.Emoji
+import global.msnthrp.xvii.data.stickersemoji.model.EmojiUsage
+import global.msnthrp.xvii.data.stickersemoji.model.Sticker
+import global.msnthrp.xvii.data.stickersemoji.model.StickerUsage
 import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -51,11 +51,12 @@ abstract class AppDb : RoomDatabase() {
         Completable.fromCallable {
             clearAllTables()
         }
-                .compose(applyCompletableSchedulers())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({}) {
-                    L.tag(TAG)
-                            .throwable(it)
-                            .log("error clearing all tables")
+//                    L.tag(TAG)
+//                            .throwable(it)
+//                            .log("error clearing all tables")
                 }
     }
 
@@ -151,9 +152,9 @@ abstract class AppDb : RoomDatabase() {
                 cursor = db.query("SELECT * FROM emojis")
                 count = cursor.count
             } catch (e: Exception) {
-                L.tag(TAG)
-                        .throwable(e)
-                        .log("error getting emojis count")
+//                L.tag(TAG)
+//                        .throwable(e)
+//                        .log("error getting emojis count")
             } finally {
                 cursor?.close()
             }
@@ -170,9 +171,9 @@ abstract class AppDb : RoomDatabase() {
                         str = br.readLine()
                     }
                 } catch (e: Exception) {
-                    L.tag(TAG)
-                            .throwable(e)
-                            .log("error inserting emojis")
+//                    L.tag(TAG)
+//                            .throwable(e)
+//                            .log("error inserting emojis")
                 } finally {
                     br?.close()
                 }

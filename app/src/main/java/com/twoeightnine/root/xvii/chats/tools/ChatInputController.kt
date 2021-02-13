@@ -24,7 +24,6 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiWindow
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -38,6 +37,7 @@ import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.utils.secToTime
 import com.twoeightnine.root.xvii.utils.time
 import com.twoeightnine.root.xvii.utils.writeToFileFromContentUri
+import global.msnthrp.xvii.data.stickersemoji.model.Emoji
 import global.msnthrp.xvii.uikit.extensions.asText
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.setVisible
@@ -63,7 +63,7 @@ class ChatInputController(
     private val stickerKeyboard = StickersEmojiWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked, ::addEmoji)
     private val voiceRecorder = VoiceRecorder(context, InputRecorderCallback())
     private val repo by lazy { StickersEmojiRepository() }
-    private val stickers = arrayListOf<com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker>()
+    private val stickers = arrayListOf<global.msnthrp.xvii.data.stickersemoji.model.Sticker>()
 
     private var attachedCount = 0
     private var lastTypingInvocation = 0

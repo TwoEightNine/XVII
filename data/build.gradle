@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
 }
 apply from: "$project.rootDir/dependencies.gradle"
 
@@ -45,6 +47,14 @@ dependencies {
     implementation retrofit.retrofit
     implementation retrofit.gsonConverter
 
+    implementation room.runtime
+    implementation room.rxJava
+    kapt room.compiler
+
+    // used for room, remove later
+    implementation reactiveX.rxJava
+    implementation reactiveX.rxAndroid
+
     implementation okHttp.okHttp
     implementation okHttp.logging
 
@@ -53,4 +63,12 @@ dependencies {
     testImplementation androidTests.jUnit
     androidTestImplementation androidTests.jUnit
     androidTestImplementation androidTests.espresso
+}
+
+kapt {
+    generateStubs = true
+}
+
+androidExtensions {
+    experimental = true
 }

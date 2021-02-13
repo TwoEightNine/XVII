@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.dialogs.models
+package global.msnthrp.xvii.data.dialogs
 
 import android.os.Parcelable
 import androidx.room.Entity

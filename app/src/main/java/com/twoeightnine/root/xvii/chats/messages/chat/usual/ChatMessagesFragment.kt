@@ -12,7 +12,6 @@ import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.start
 import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.lg.TextEventTransformer
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -21,6 +20,7 @@ import com.twoeightnine.root.xvii.utils.ReportTool
 import com.twoeightnine.root.xvii.utils.getTime
 import com.twoeightnine.root.xvii.utils.matchesUserId
 import com.twoeightnine.root.xvii.utils.time
+import global.msnthrp.xvii.data.dialogs.Dialog
 import global.msnthrp.xvii.uikit.extensions.asText
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import java.io.File

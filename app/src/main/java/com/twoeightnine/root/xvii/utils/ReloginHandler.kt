@@ -3,9 +3,9 @@ package com.twoeightnine.root.xvii.utils
 import android.annotation.SuppressLint
 import android.os.Handler
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Session
+import global.msnthrp.xvii.data.db.AppDb
 import javax.inject.Inject
 
 class ReloginHandler {

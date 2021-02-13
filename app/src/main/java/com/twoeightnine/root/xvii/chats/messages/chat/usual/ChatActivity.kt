@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.ContentActivity
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.model.User
+import global.msnthrp.xvii.data.dialogs.Dialog
 
 class ChatActivity : ContentActivity() {
 

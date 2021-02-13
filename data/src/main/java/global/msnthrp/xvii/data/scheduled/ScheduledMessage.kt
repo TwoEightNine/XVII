@@ -1,4 +1,4 @@
-package com.twoeightnine.root.xvii.scheduled.core
+package global.msnthrp.xvii.data.scheduled
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

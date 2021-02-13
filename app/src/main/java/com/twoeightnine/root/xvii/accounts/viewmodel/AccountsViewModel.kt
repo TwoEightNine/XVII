@@ -5,13 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
-import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
+import global.msnthrp.xvii.data.accounts.Account
+import global.msnthrp.xvii.data.db.AppDb
 import javax.inject.Inject
 
 class AccountsViewModel(

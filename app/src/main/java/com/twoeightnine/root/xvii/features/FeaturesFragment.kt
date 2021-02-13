@@ -12,7 +12,6 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
-import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
@@ -31,6 +30,7 @@ import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.data.accounts.Account
 import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.fragment_features.*
 import java.util.*
