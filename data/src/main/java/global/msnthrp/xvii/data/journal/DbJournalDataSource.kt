@@ -3,25 +3,21 @@ package global.msnthrp.xvii.data.journal
 import global.msnthrp.xvii.core.journal.JournalDataSource
 import global.msnthrp.xvii.core.journal.model.JournalEvent
 
-object MemoryJournalDataSource : JournalDataSource {
-
-    private val events = arrayListOf<JournalEvent>()
+class DbJournalDataSource(private val journalDao: JournalDao) : JournalDataSource {
 
     override fun addJournalEvent(journalEvent: JournalEvent) {
-        events.add(journalEvent)
+        journalDao.insertEvent(journalEvent.let(JournalEntity::from))
     }
 
     override fun getJournalEvents(): List<JournalEvent> {
-        return events
+        return journalDao.getAllEvents().mapNotNull(JournalEntity::toJournalEvent)
     }
 
     override fun clearAll() {
-        events.clear()
+        clearAllExceptRecent(0L)
     }
 
     override fun clearAllExceptRecent(recentThresholdTimeStamp: Long) {
-        val recent = events.filter { it.timeStamp >= recentThresholdTimeStamp }
-        events.clear()
-        events.addAll(recent)
+        journalDao.clearAllExceptRecent(recentThresholdTimeStamp)
     }
 }

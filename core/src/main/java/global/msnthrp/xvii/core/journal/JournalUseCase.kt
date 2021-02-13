@@ -57,7 +57,7 @@ class JournalUseCase(
                     .filter { it.messageId == messageId }
 
     private fun getAllJournalEvents(): List<JournalEvent> {
-        journalDataSource.clearAllExceptRecent(RECENT_THRESHOLD)
+        journalDataSource.clearAllExceptRecent(System.currentTimeMillis() - RECENT_THRESHOLD)
         return journalDataSource.getJournalEvents()
     }
 

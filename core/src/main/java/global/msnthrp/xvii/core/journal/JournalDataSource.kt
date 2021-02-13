@@ -10,5 +10,9 @@ interface JournalDataSource {
 
     fun clearAll()
 
-    fun clearAllExceptRecent(recentThreshold: Long)
+    /**
+     * events with timeStamp < [recentThresholdTimeStamp] should be deleted
+     * @param recentThresholdTimeStamp timeStamp of obsolescence threshold
+     */
+    fun clearAllExceptRecent(recentThresholdTimeStamp: Long)
 }

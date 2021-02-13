@@ -34,6 +34,7 @@ import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.features.general.GeneralViewModel
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
+import com.twoeightnine.root.xvii.journal.JournalViewModel
 import com.twoeightnine.root.xvii.login.LoginActivity
 import com.twoeightnine.root.xvii.login.LoginViewModel
 import com.twoeightnine.root.xvii.main.MainActivity
@@ -107,5 +108,6 @@ interface AppComponent {
     fun inject(baseChatMessagesViewModel: BaseChatMessagesViewModel)
     fun inject(scheduledMessagesViewModel: ScheduledMessagesViewModel)
     fun inject(loginViewModel: LoginViewModel)
+    fun inject(journalViewModel: JournalViewModel)
 
 }

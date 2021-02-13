@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.journal
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.base.BaseViewModel
 import com.twoeightnine.root.xvii.journal.message.model.MessageEvent
 import com.twoeightnine.root.xvii.journal.message.model.MessageInfo
@@ -11,12 +12,22 @@ import com.twoeightnine.root.xvii.utils.DefaultPeerResolver
 import global.msnthrp.xvii.core.journal.JournalUseCase
 import global.msnthrp.xvii.core.journal.model.JournalEvent
 import global.msnthrp.xvii.core.journal.model.JournalEventWithPeer
-import global.msnthrp.xvii.data.journal.MemoryJournalDataSource
+import global.msnthrp.xvii.data.db.AppDb
+import global.msnthrp.xvii.data.journal.DbJournalDataSource
+import javax.inject.Inject
 
 class JournalViewModel : BaseViewModel() {
 
+    @Inject
+    lateinit var appDb: AppDb
+
+    private val journalDataSource by lazy {
+        App.appComponent?.inject(this)
+        DbJournalDataSource(appDb.journalDao())
+    }
+
     private val journalUseCase by lazy {
-        JournalUseCase(MemoryJournalDataSource, DefaultPeerResolver())
+        JournalUseCase(journalDataSource, DefaultPeerResolver())
     }
 
     private val eventsLiveData = MutableLiveData<List<JournalEventWithPeer>>()

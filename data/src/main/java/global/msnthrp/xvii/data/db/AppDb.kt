@@ -12,6 +12,8 @@ import global.msnthrp.xvii.data.accounts.Account
 import global.msnthrp.xvii.data.accounts.AccountsDao
 import global.msnthrp.xvii.data.dialogs.Dialog
 import global.msnthrp.xvii.data.dialogs.DialogsDao
+import global.msnthrp.xvii.data.journal.JournalDao
+import global.msnthrp.xvii.data.journal.JournalEntity
 import global.msnthrp.xvii.data.scheduled.ScheduledMessage
 import global.msnthrp.xvii.data.scheduled.ScheduledMessageDao
 import global.msnthrp.xvii.data.stickersemoji.db.EmojisDao
@@ -33,7 +35,7 @@ import java.nio.charset.StandardCharsets
     Dialog::class, Account::class,
     Sticker::class, Emoji::class,
     StickerUsage::class, EmojiUsage::class,
-    ScheduledMessage::class], version = 8)
+    ScheduledMessage::class, JournalEntity::class], version = 9)
 abstract class AppDb : RoomDatabase() {
 
     abstract fun dialogsDao(): DialogsDao
@@ -45,6 +47,8 @@ abstract class AppDb : RoomDatabase() {
     abstract fun emojisDao(): EmojisDao
 
     abstract fun scheduledMessagesDao(): ScheduledMessageDao
+
+    abstract fun journalDao(): JournalDao
 
     @SuppressLint("CheckResult")
     fun clearAsync() {
@@ -132,10 +136,27 @@ abstract class AppDb : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_8_9 = object : Migration(8, 9) {
+
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE journal (" +
+                        "id INTEGER PRIMARY KEY NOT NULL," +
+                        "type INTEGER NOT NULL," +
+                        "peer_id INTEGER NOT NULL," +
+                        "time_stamp INTEGER NOT NULL," +
+                        "message_id INTEGER," +
+                        "from_id INTEGER," +
+                        "device_code INTEGER," +
+                        "last_seen INTEGER," +
+                        "text TEXT" +
+                        ")")
+            }
+        }
+
         fun buildDatabase(context: Context) =
                 Room.databaseBuilder(context.applicationContext,
                         AppDb::class.java, "xvii_room.db")
-                        .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
+                        .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
 //                        .fallbackToDestructiveMigration()
                         .addCallback(object : Callback() {
                             override fun onOpen(db: SupportSQLiteDatabase) {
