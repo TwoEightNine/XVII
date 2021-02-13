@@ -6,7 +6,6 @@ import android.database.Cursor
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import global.msnthrp.xvii.data.accounts.Account
 import global.msnthrp.xvii.data.accounts.AccountsDao
@@ -35,7 +34,7 @@ import java.nio.charset.StandardCharsets
     Dialog::class, Account::class,
     Sticker::class, Emoji::class,
     StickerUsage::class, EmojiUsage::class,
-    ScheduledMessage::class, JournalEntity::class], version = 9)
+    ScheduledMessage::class, JournalEntity::class], version = Migrations.DB_VERSION)
 abstract class AppDb : RoomDatabase() {
 
     abstract fun dialogsDao(): DialogsDao
@@ -68,95 +67,12 @@ abstract class AppDb : RoomDatabase() {
 
         private const val TAG = "app db"
 
-        private val MIGRATION_4_5 = object : Migration(4, 5) {
 
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE dialogs ADD COLUMN isPinned INTEGER NOT NULL DEFAULT 0")
-                database.execSQL("ALTER TABLE dialogs ADD COLUMN alias TEXT")
-            }
-        }
-
-        private val MIGRATION_5_6 = object : Migration(5, 6) {
-
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE stickers (" +
-                        "id INTEGER NOT NULL," +
-                        "key_words TEXT NOT NULL," +
-                        "key_words_custom TEXT NOT NULL," +
-                        "pack_name TEXT NOT NULL," +
-                        "PRIMARY KEY(id)" +
-                        ")")
-                database.execSQL("CREATE TABLE emojis (" +
-                        "code TEXT NOT NULL," +
-                        "file_name TEXT NOT NULL," +
-                        "pack_name TEXT NOT NULL," +
-                        "PRIMARY KEY(code)" +
-                        ")")
-                database.execSQL("CREATE TABLE sticker_usages (" +
-                        "sticker_id INTEGER NOT NULL," +
-                        "last_used INTEGER NOT NULL," +
-                        "PRIMARY KEY(sticker_id)" +
-                        ")")
-                database.execSQL("CREATE TABLE emoji_usages (" +
-                        "emoji_code TEXT NOT NULL," +
-                        "last_used INTEGER NOT NULL," +
-                        "PRIMARY KEY(emoji_code)" +
-                        ")")
-            }
-        }
-
-        private val MIGRATION_6_7 = object : Migration(6, 7) {
-
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE scheduled_messages (" +
-                        "id INTEGER NOT NULL," +
-                        "peer_id INTEGER NOT NULL," +
-                        "when_ms INTEGER NOT NULL," +
-                        "text TEXT NOT NULL," +
-                        "attachments TEXT," +
-                        "fwd_messages TEXT," +
-                        "PRIMARY KEY(id)" +
-                        ")")
-            }
-        }
-
-        private val MIGRATION_7_8 = object : Migration(7, 8) {
-
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE scheduled_messages_tmp (" +
-                        "id INTEGER PRIMARY KEY NOT NULL," +
-                        "peer_id INTEGER NOT NULL," +
-                        "when_ms INTEGER NOT NULL," +
-                        "text TEXT NOT NULL," +
-                        "attachments TEXT," +
-                        "fwd_messages TEXT" +
-                        ")")
-                database.execSQL("DROP TABLE scheduled_messages")
-                database.execSQL("ALTER TABLE scheduled_messages_tmp RENAME TO scheduled_messages")
-            }
-        }
-
-        private val MIGRATION_8_9 = object : Migration(8, 9) {
-
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE journal (" +
-                        "id INTEGER PRIMARY KEY NOT NULL," +
-                        "type INTEGER NOT NULL," +
-                        "peer_id INTEGER NOT NULL," +
-                        "time_stamp INTEGER NOT NULL," +
-                        "message_id INTEGER," +
-                        "from_id INTEGER," +
-                        "device_code INTEGER," +
-                        "last_seen INTEGER," +
-                        "text TEXT" +
-                        ")")
-            }
-        }
 
         fun buildDatabase(context: Context) =
                 Room.databaseBuilder(context.applicationContext,
                         AppDb::class.java, "xvii_room.db")
-                        .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9)
+                        .addMigrations(*Migrations.getMigrations())
 //                        .fallbackToDestructiveMigration()
                         .addCallback(object : Callback() {
                             override fun onOpen(db: SupportSQLiteDatabase) {

@@ -23,7 +23,7 @@ import com.twoeightnine.root.xvii.utils.notifications.NotificationUtils
 import global.msnthrp.xvii.core.journal.JournalUseCase
 import global.msnthrp.xvii.data.db.AppDb
 import global.msnthrp.xvii.data.dialogs.Dialog
-import global.msnthrp.xvii.data.journal.MemoryJournalDataSource
+import global.msnthrp.xvii.data.journal.DbJournalDataSource
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -44,7 +44,7 @@ class LongPollCore(private val context: Context) {
     }
 
     private val journalUseCase by lazy {
-        JournalUseCase(MemoryJournalDataSource)
+        JournalUseCase(DbJournalDataSource(appDb.journalDao()))
     }
     private val keyExchangeHandler by lazy {
         KeyExchangeHandler()

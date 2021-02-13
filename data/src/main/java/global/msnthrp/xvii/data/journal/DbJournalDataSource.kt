@@ -9,9 +9,8 @@ class DbJournalDataSource(private val journalDao: JournalDao) : JournalDataSourc
         journalDao.insertEvent(journalEvent.let(JournalEntity::from))
     }
 
-    override fun getJournalEvents(): List<JournalEvent> {
-        return journalDao.getAllEvents().mapNotNull(JournalEntity::toJournalEvent)
-    }
+    override fun getJournalEvents(): List<JournalEvent> =
+            journalDao.getAllEvents().mapNotNull(JournalEntity::toJournalEvent)
 
     override fun clearAll() {
         clearAllExceptRecent(0L)
