@@ -488,7 +488,7 @@ class LongPollCore(private val context: Context) {
                             messageText = event.text,
                             isEdited = true,
                             fromId = event.info.from,
-                            timeStamp = event.timeStamp.toLongTimeStamp()
+                            timeStamp = System.currentTimeMillis()
                     )
                 }
             }
