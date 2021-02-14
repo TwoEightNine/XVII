@@ -3,19 +3,32 @@ package global.msnthrp.xvii.core.utils
 object MyersDiff {
 
 
-
+    /**
+     * calculates difference using [splitByWordsAndSigns]
+     */
     fun getDiffByWordsAndSigns(a: String, b: String): List<Change<String>> {
         return getDiff(a.splitByWordsAndSigns(), b.splitByWordsAndSigns())
     }
 
+    /**
+     * calculates difference using [split] by space,
+     * kid of split by words but without any respect to signs
+     */
     fun getDiffByWords(a: String, b: String): List<Change<String>> {
         return getDiff(a.split(" "), b.split(" "))
     }
 
+    /**
+     * calculates difference by single character
+     */
     fun getDiffByCharacters(a: String, b: String): List<Change<Char>> {
         return getDiff(a.toList(), b.toList())
     }
 
+    /**
+     * splits string into words and signs:
+     * signs are represented as a separated word, words are followed by space
+     */
     private fun String.splitByWordsAndSigns(): List<String> {
         val signs = ".,<>/?!\"\n:;'()*"
         val result = arrayListOf<String>()
@@ -41,6 +54,9 @@ object MyersDiff {
         }
     }
 
+    /**
+     * core algo that implements myers diff algorithm
+     */
     private fun <T : Any> getDiff(a: List<T>, b: List<T>): List<Change<T>> {
         val frontier = hashMapOf<Int, Frontier<T>>()
         frontier[1] = Frontier(0, emptyList())
@@ -99,12 +115,24 @@ object MyersDiff {
             val history: List<Change<T>>
     )
 
+    /**
+     * change betwee two sentences
+     */
     sealed class Change<T : Any>(val elem: T) {
 
+        /**
+         * [elem] is kept
+         */
         class Keep<T : Any>(elem: T) : Change<T>(elem)
 
+        /**
+         * [elem] is inserted
+         */
         class Insert<T : Any>(elem: T) : Change<T>(elem)
 
+        /**
+         * [elem is removed]
+         */
         class Remove<T : Any>(elem: T) : Change<T>(elem)
     }
 }
