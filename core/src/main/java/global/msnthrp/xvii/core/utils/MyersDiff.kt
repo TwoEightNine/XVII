@@ -2,12 +2,43 @@ package global.msnthrp.xvii.core.utils
 
 object MyersDiff {
 
+
+
+    fun getDiffByWordsAndSigns(a: String, b: String): List<Change<String>> {
+        return getDiff(a.splitByWordsAndSigns(), b.splitByWordsAndSigns())
+    }
+
     fun getDiffByWords(a: String, b: String): List<Change<String>> {
         return getDiff(a.split(" "), b.split(" "))
     }
 
     fun getDiffByCharacters(a: String, b: String): List<Change<Char>> {
         return getDiff(a.toList(), b.toList())
+    }
+
+    private fun String.splitByWordsAndSigns(): List<String> {
+        val signs = ".,<>/?!\"\n:;'()*"
+        val result = arrayListOf<String>()
+        try {
+            var startPos = 0
+            var pointer = 0
+            var isWord = this[pointer] !in signs
+            while (pointer < length - 1) {
+                pointer++
+                val isWordNow = this[pointer] !in signs
+                val isSpaceNow = this[pointer] == ' '
+                if (isWord != isWordNow || !isWord || isSpaceNow) {
+                    isWord = isWordNow
+                    result.add(substring(startPos, pointer))
+                    startPos = pointer
+                }
+            }
+            result.add(substring(startPos, pointer + 1))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            return result
+        }
     }
 
     private fun <T : Any> getDiff(a: List<T>, b: List<T>): List<Change<T>> {

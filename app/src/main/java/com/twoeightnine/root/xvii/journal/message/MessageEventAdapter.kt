@@ -66,7 +66,6 @@ class MessageEventAdapter(context: Context) : BaseAdapter<MessageEvent, MessageE
                         ChangeType.INSERT -> appendColored(colorInsertText, colorInsertBackground, change.word)
                         ChangeType.REMOVE -> strikeThrough { appendColored(colorRemoveText, colorRemoveBackground, change.word) }
                     }
-                    append(' ')
                 }
             }
         }

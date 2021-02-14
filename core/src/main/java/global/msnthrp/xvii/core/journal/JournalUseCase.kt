@@ -85,7 +85,7 @@ class JournalUseCase(
                 continue
             }
 
-            val difference = MyersDiff.getDiffByWords(textBefore, messageEvent.messageText)
+            val difference = MyersDiff.getDiffByWordsAndSigns(textBefore, messageEvent.messageText)
             result.add(MessageJEWithDiff(messageEvent, difference))
         }
         return result
