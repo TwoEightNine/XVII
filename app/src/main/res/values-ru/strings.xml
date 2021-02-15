@@ -456,5 +456,37 @@
     <string name="channel_player">плеер</string>
     <string name="longpoll_guide_button_settings">открыть настройки уведомлений</string>
     <string name="longpoll_guide_button_support">открыть поддержку</string>
+    <string name="wanna_rate">не хотели бы вы оценить приложение?</string>
+    <string name="more_title">еще</string>
+    <string name="suggest_people">рекомендовать людей в поиске</string>
+    <string name="show_notifications_user">от этого пользователя</string>
+    <string name="show_notifications_group">от этой группы</string>
+    <string name="show_notifications_conversation">от этой беседы</string>
+    <string name="journal_title">журнал</string>
+    <string name="attachment_open_doc_prompt_download">скачать</string>
+    <string name="suggest_people_hint">показывать людей, которых вы можете знать, если запрос пустой</string>
+    <string name="attachment_open_doc_prompt_browser">открыть в браузере</string>
+    <string name="journal_event_online">появился в сети %s</string>
+    <string name="journal_event_offline">пропал из сети</string>
+    <string name="journal_event_read">прочитал сообщение</string>
+    <string name="journal_event_delete">удалил сообщение</string>
+    <string name="journal_event_new">отправил сообщение:</string>
+    <string name="journal_event_edited">изменил сообщение:</string>
+    <string name="journal_event_typing">печатал сообщение</string>
+    <string name="journal_event_recording">записывал голосовое сообщение</string>
+    <string name="journal_message_deleted">сообщение удалено</string>
+    <string name="journal_event_online_hint">появился в сети</string>
+    <string name="journal_event_last_action_hint">сделал последнее действие</string>
+    <string name="journal_event_offline_hint">пропал из сети</string>
+    <string name="journal_disclaimer">время может отличаться от реальности из-за сетевых задержек</string>
+    <string name="recent_stickers">недавние стикеры</string>
+    <string name="recent_emojis">недавние смайлы</string>
+    <string name="key_exchange_accept">принять</string>
+    <string name="key_exchange_deny">отклонить</string>
+    <string name="attachment_open_doc_prompt">как вы хотите открыть этот документ?</string>
+    <string name="attachment_open_link_prompt">вы собираетесь открыть %s. продолжить?</string>
+    <string name="channel_key_exchanges">обмены ключами</string>
+    <string name="key_exchange_title">%s хочет начать секретный чат с вами</string>
+    <string name="key_exchange_hint">отклоните, если это кажется вам подозрительным</string>
 
 </resources>

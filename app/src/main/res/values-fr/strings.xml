@@ -417,6 +417,19 @@
     <string name="channel_player">player</string>
     <string name="longpoll_guide_button_settings">ouvrir les préferences des notifications</string>
     <string name="longpoll_guide_button_support">ouvrir l\'appui</string>
+    <string name="wanna_rate">voulez-vous évaluer l\'app?</string>
+    <string name="more_title">plus</string>
+    <string name="suggest_people">suggester des gens dans récherche</string>
+    <string name="show_notifications_user">de cet utilisateur</string>
+    <string name="show_notifications_group">de ce groupe</string>
+    <string name="show_notifications_conversation">de cette conversation</string>
+    <string name="journal_title">journal</string>
+    <string name="attachment_open_doc_prompt_download">télécharger</string>
+    <string name="attachment_open_doc_prompt_browser">ouvrir dans navigateur</string>
+    <string name="key_exchange_accept">accepter</string>
+    <string name="key_exchange_deny">rejecter</string>
+    <string name="attachment_open_link_prompt">vous allez ouvrir %s. continuer?</string>
+    <string name="attachment_open_doc_prompt">comment voulez-vous ouvrir ce document?</string>
 
 </resources>
 
