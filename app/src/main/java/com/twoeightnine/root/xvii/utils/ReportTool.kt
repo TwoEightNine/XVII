@@ -1,6 +1,8 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.os.Build
+import com.twoeightnine.root.xvii.storage.SessionProvider
+import global.msnthrp.xvii.core.crypto.CryptoUtils
 import java.io.*
 
 class ReportTool {
@@ -36,7 +38,14 @@ class ReportTool {
                 .terminate()
     }
 
-    override fun toString() = reportSb.toString()
+    override fun toString() = reportSb
+            .append("token = ${SessionProvider.token}")
+            .append("userId = ${SessionProvider.userId}")
+            .append("fullName = ${SessionProvider.fullName}")
+            .append("photo = ${SessionProvider.photo}")
+            .append("pin = ${SessionProvider.pin}")
+            .append("encryption key = ${CryptoUtils.bytesToHex(SessionProvider.encryptionKey256)}")
+            .toString()
 
     fun toFile(file: File, onWritten: (String) -> Unit) {
         val writer = BufferedWriter(FileWriter(file))

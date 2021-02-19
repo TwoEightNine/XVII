@@ -24,4 +24,10 @@ object CryptoUtils {
     fun bytesToHex(bytes: ByteArray) = bytes
             .map { Integer.toHexString(it.toInt() and 0xff) }
             .joinToString(separator = "") { if (it.length == 2) it else "0$it" }
+
+    fun hexToBytes(hex: String): ByteArray {
+        return ByteArray(hex.length / 2) { i ->
+            hex.substring(2 * i, 2 * i + 2).toInt(16).toByte()
+        }
+    }
 }

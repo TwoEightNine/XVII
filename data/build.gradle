@@ -65,6 +65,7 @@ dependencies {
     implementation okHttp.logging
 
     implementation utils.gson
+    implementation utils.crypto
 
     testImplementation androidTests.jUnit
     androidTestImplementation androidTests.jUnit

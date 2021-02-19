@@ -102,6 +102,7 @@ ext {
     utils = [
             gson   : "com.google.code.gson:gson:2.8.5",
             glide  : "com.github.bumptech.glide:glide:4.11.0",
-            picasso: "com.squareup.picasso:picasso:2.71828"
+            picasso: "com.squareup.picasso:picasso:2.71828",
+            crypto : "androidx.security:security-crypto:1.0.0-rc04"
     ]
 }
