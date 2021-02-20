@@ -29,14 +29,18 @@ object SharedPreferencesDelegates {
             private val key: String
     ) {
 
+        private var cachedValue: T? = null
+
         abstract fun SharedPreferences.getter(key: String): T
 
         abstract fun SharedPreferences.Editor.setter(key: String, value: T)
 
-        operator fun getValue(thisRef: Any?, prop: KProperty<*>): T = prefs.getter(key)
+        operator fun getValue(thisRef: Any?, prop: KProperty<*>): T =
+                cachedValue ?: prefs.getter(key).also { cachedValue = it }
 
         operator fun setValue(thisRef: Any?, prop: KProperty<*>, value: T) {
             prefs.edit { setter(key, value) }
+            cachedValue = value
         }
     }
 
