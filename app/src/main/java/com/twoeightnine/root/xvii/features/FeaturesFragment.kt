@@ -24,9 +24,9 @@ import com.twoeightnine.root.xvii.features.notifications.NotificationsFragment
 import com.twoeightnine.root.xvii.journal.JournalFragment
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
@@ -58,7 +58,7 @@ class FeaturesFragment : BaseFragment() {
         xiScheduledMessages.setOnClickListener { startFragment<ScheduledMessagesFragment>() }
         xiJournal.setOnClickListener { startFragment<JournalFragment>() }
 
-        rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, Session.uid) }
+        rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, SessionProvider.userId) }
         tvSwitchAccount.setOnClickListener { startFragment<AccountsFragment>() }
         xiGeneral.setOnClickListener {
             startFragment<GeneralFragment>()
@@ -129,7 +129,7 @@ class FeaturesFragment : BaseFragment() {
         if (time() - Prefs.joinShownLast <= SHOW_JOIN_DELAY) return // one week
 
         Prefs.joinShownLast = time()
-        if (!equalsDevUids(Session.uid)) {
+        if (!SessionProvider.isDevUserId()) {
             viewModel.checkMembership { inGroup ->
                 if (!inGroup) {
                     val dialog = AlertDialog.Builder(context ?: return@checkMembership)

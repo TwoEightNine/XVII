@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import global.msnthrp.xvii.data.accounts.Account
@@ -30,9 +31,6 @@ class AccountsViewModel(
                 .subscribe({ accounts ->
                     accountsLiveData.value = ArrayList(accounts)
                     L.tag(TAG).log("loaded")
-                    if (accounts.isEmpty()) {
-                        restoreFromSession()
-                    }
                 }, {
                     L.tag(TAG)
                             .warn()
@@ -43,10 +41,10 @@ class AccountsViewModel(
 
     fun switchTo(account: Account) {
         with(account) {
-            Session.token = token ?: ""
-            Session.uid = uid
-            Session.fullName = name ?: ""
-            Session.photo = photo ?: ""
+            SessionProvider.token = token
+            SessionProvider.userId = uid
+            SessionProvider.fullName = name
+            SessionProvider.photo = photo
             longPollStorage.clear()
         }
         updateRunningAccount()
@@ -75,32 +73,6 @@ class AccountsViewModel(
     fun logOut() {
         Session.clearAll()
         appDb.clearAsync()
-//        CacheHelper.deleteAllMessagesAsync()
-    }
-
-    /**
-     * in case of first launching with this new database
-     */
-    @SuppressLint("CheckResult")
-    private fun restoreFromSession() {
-        val account = Account(
-                Session.uid,
-                Session.token,
-                Session.fullName,
-                Session.photo,
-                true
-        )
-        appDb.accountsDao().insertAccount(account)
-                .compose(applyCompletableSchedulers())
-                .subscribe({
-                    L.tag(TAG).log("restored from session")
-                    accountsLiveData.value = arrayListOf(account)
-                }, {
-                    L.tag(TAG)
-                            .warn()
-                            .throwable(it)
-                            .log("restoring error")
-                })
     }
 
     // TODO replace with one update query

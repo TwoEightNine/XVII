@@ -7,6 +7,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import global.msnthrp.xvii.data.accounts.Account
@@ -38,7 +39,7 @@ class LoginViewModel : ViewModel() {
         App.appComponent?.inject(this)
     }
 
-    fun checkAccount(token: String, userId: Int) {
+    fun checkAccount(token: String?, userId: Int) {
         api.checkUser(userId.toString(), token)
                 .subscribeSmart({ response ->
                     val user = response.getOrNull(0)
@@ -60,6 +61,12 @@ class LoginViewModel : ViewModel() {
     }
 
     fun updateAccount(user: User, token: String, isRunning: Boolean) {
+        if (isRunning) {
+            SessionProvider.token = token
+            SessionProvider.userId = user.id
+            SessionProvider.fullName = user.fullName
+            SessionProvider.photo = user.photoMax
+        }
         val account = Account(
                 user.id,
                 token,

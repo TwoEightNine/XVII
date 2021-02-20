@@ -185,7 +185,7 @@ interface ApiService {
     @GET("users.get")
     fun checkUser(
             @Query("user_ids") userIds: String,
-            @Query("access_token") token: String,
+            @Query("access_token") token: String?,
             @Query("v") version: String = "5.92",
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<BaseResponse<List<User>>>

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import global.msnthrp.xvii.data.accounts.Account
 import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
 import global.msnthrp.xvii.uikit.extensions.lowerIf
@@ -34,7 +34,7 @@ class AccountsAdapter(
                 tvAccount.text = account.name
                 tvAccount.lowerIf(Prefs.lowerTexts)
                 tvId.text = "@id${account.uid}"
-                if (Session.token == account.token) {
+                if (SessionProvider.isTokenTheSame(account.token)) {
                     tvAccount.paintFlags = tvAccount.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                 } else {
                     tvAccount.paintFlags = tvAccount.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()

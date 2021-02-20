@@ -5,6 +5,7 @@ import android.os.Handler
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import global.msnthrp.xvii.data.db.AppDb
 import javax.inject.Inject
 
@@ -18,11 +19,12 @@ class ReloginHandler {
     @SuppressLint("CheckResult")
     fun onAuthFailed() {
         if (handled) return
+        val token = SessionProvider.token ?: return
 
         handled = true
         App.appComponent?.inject(this)
         L.tag(TAG).log("delete account")
-        appDb.accountsDao().deleteByToken(Session.token)
+        appDb.accountsDao().deleteByToken(token)
                 .compose(applyCompletableSchedulers())
                 .subscribe({
                     L.tag(TAG).log("account deleted")

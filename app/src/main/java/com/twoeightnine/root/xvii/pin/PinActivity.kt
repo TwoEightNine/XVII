@@ -17,6 +17,7 @@ import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import global.msnthrp.xvii.uikit.extensions.*
@@ -259,7 +260,7 @@ class PinActivity : BaseActivity() {
     @SuppressLint("CheckResult")
     private fun sendNotify(photoId: String? = null) {
         api.sendMessage(
-                peerId = Session.uid,
+                peerId = SessionProvider.userId,
                 randomId = Random.nextInt(),
                 text = getString(R.string.pin_invader_notification),
                 attachments = photoId

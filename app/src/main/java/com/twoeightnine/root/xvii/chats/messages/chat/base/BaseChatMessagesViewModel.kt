@@ -12,7 +12,6 @@ import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.LastSeen
 import com.twoeightnine.root.xvii.model.User
@@ -27,6 +26,7 @@ import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.MessagesHistoryResponse
 import com.twoeightnine.root.xvii.scheduled.core.SendMessageWorker
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.data.db.AppDb
 import global.msnthrp.xvii.data.scheduled.ScheduledMessage
@@ -576,7 +576,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 peerId = peerId,
                 text = text,
                 date = time(),
-                fromId = Session.uid,
+                fromId = SessionProvider.userId,
                 out = 1,
                 randomId = randomId
         )

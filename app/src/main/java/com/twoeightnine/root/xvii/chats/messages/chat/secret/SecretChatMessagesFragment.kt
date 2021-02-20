@@ -8,9 +8,9 @@ import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
@@ -100,7 +100,7 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
     }
 
     private fun showKeysDialog() {
-        val canMakeExchange = peerId.matchesUserId() && peerId != Session.uid
+        val canMakeExchange = peerId.matchesUserId() && !SessionProvider.isUserIdTheSame(peerId)
         if (canMakeExchange) {
             createContextPopup(context ?: return, arrayListOf(
                     ContextPopupItem(R.drawable.ic_edit_popup, R.string.user_key) {

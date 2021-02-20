@@ -17,9 +17,9 @@ import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
 import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.model.messages.WrappedMessage
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.uikit.extensions.hide
@@ -57,7 +57,7 @@ class MessagesAdapter(context: Context,
         Prefs.messageTextSize.toFloat()
     }
 
-    private val userId = Session.uid
+    private val userId = SessionProvider.userId
 
     override fun createHolder(parent: ViewGroup, viewType: Int) = MessageViewHolder(inflater.inflate(
             when (viewType) {

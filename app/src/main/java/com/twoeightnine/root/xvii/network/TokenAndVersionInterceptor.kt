@@ -1,6 +1,6 @@
 package com.twoeightnine.root.xvii.network
 
-import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -15,7 +15,7 @@ class TokenAndVersionInterceptor: Interceptor {
         val builder = request.url().newBuilder()
         if (needParameters(request)) {
             val version = if (isNewVersion(request)) VERSION_NEW else VERSION_OLD
-            builder.addQueryParameter(ACCESS_TOKEN, Session.token)
+            builder.addQueryParameter(ACCESS_TOKEN, SessionProvider.token)
                     .addQueryParameter(VERSION, version)
         }
         val url = builder.build()

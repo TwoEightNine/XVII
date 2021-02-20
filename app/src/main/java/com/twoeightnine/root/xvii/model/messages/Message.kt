@@ -6,8 +6,8 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.models.events.BaseMessageEvent
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.attachments.*
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.matchesChatId
 import com.twoeightnine.root.xvii.utils.time
 import kotlinx.android.parcel.Parcelize
@@ -93,7 +93,7 @@ data class Message(
             date = event.timeStamp,
             fromId = event.info.from,
             text = prepareText(event.text),
-            out = if (event.isOut() || event.peerId == Session.uid) 1 else 0,
+            out = if (event.isOut() || SessionProvider.isUserIdTheSame(event.peerId)) 1 else 0,
             randomId = event.randomId
     )
 

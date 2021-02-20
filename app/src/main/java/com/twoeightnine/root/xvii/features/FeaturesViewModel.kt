@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.lg.L
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import global.msnthrp.xvii.data.accounts.Account
@@ -49,7 +49,7 @@ class FeaturesViewModel(
     }
 
     fun checkMembership(callback: (Boolean) -> Unit) {
-        api.isGroupMember(App.GROUP, Session.uid)
+        api.isGroupMember(App.GROUP, SessionProvider.userId)
                 .subscribeSmart({
                     callback.invoke(it == 1)
                 }, { error ->
@@ -65,7 +65,7 @@ class FeaturesViewModel(
     }
 
     fun updateLastSeen() {
-        api.getUsers("${Session.uid}", "online,last_seen")
+        api.getUsers("${SessionProvider.userId}", "online,last_seen")
                 .subscribeSmart({ users ->
                     users.getOrNull(0)?.also { user ->
                         lastSeenLiveData.value = Pair(user.isOnline, user.lastSeen?.time ?: 0)

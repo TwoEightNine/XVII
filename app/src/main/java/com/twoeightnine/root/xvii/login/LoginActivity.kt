@@ -21,10 +21,10 @@ import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.pin.fake.alarm.AlarmActivity
 import com.twoeightnine.root.xvii.pin.fake.diagnostics.DiagnosticsActivity
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.isOnline
 import com.twoeightnine.root.xvii.utils.showAlert
 import com.twoeightnine.root.xvii.utils.startNotificationService
@@ -64,7 +64,7 @@ class LoginActivity : BaseActivity() {
         viewModel.accountCheckResult.observe(this, Observer(::onAccountChecked))
         viewModel.accountUpdated.observe(this, Observer(::onAccountUpdated))
 
-        if (addNewAccount || !hasToken()) {
+        if (addNewAccount || !SessionProvider.hasToken()) {
             logIn()
         } else {
             checkTokenAndStart()
@@ -85,13 +85,11 @@ class LoginActivity : BaseActivity() {
         ContextCompat.getColor(this, R.color.splash_background)
     }
 
-    private fun hasToken() = Session.token.isNotBlank()
-
     override fun shouldRunService() = false
 
     private fun checkTokenAndStart() {
         if (isOnline()) {
-            viewModel.checkAccount(Session.token, Session.uid)
+            viewModel.checkAccount(SessionProvider.token, SessionProvider.userId)
         } else {
             startApp()
         }
@@ -152,15 +150,9 @@ class LoginActivity : BaseActivity() {
         val token = accountCheckResult.token
         when {
             accountCheckResult.success && user != null && token != null -> {
-                if (!addNewAccount) {
-                    Session.token = token
-                    Session.uid = user.id
-                    Session.fullName = user.fullName
-                    Session.photo = user.photoMax ?: ""
-                }
                 viewModel.updateAccount(user, token, isRunning = !addNewAccount)
             }
-            hasToken() -> showWebView()
+            SessionProvider.hasToken() -> showWebView()
             else -> finishWithAlert(getString(R.string.login_unable_to_log_in))
         }
     }
