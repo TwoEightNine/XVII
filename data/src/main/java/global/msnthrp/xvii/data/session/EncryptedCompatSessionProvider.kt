@@ -2,6 +2,7 @@ package global.msnthrp.xvii.data.session
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import global.msnthrp.xvii.core.session.SessionProvider
 import kotlin.reflect.KProperty
 
@@ -56,6 +57,16 @@ class EncryptedCompatSessionProvider(context: Context) : SessionProvider {
 
     override val encryptionKey256: ByteArray
         get() = encryptedSessionProvider.encryptionKey256
+
+    override fun clearAll() {
+        encryptedSessionProvider.clearAll()
+        prefsCompat.edit {
+            listOf(TOKEN, UID, FULL_NAME, PHOTO).forEach(::remove)
+        }
+        pinPrefsCompat.edit {
+            remove(PIN)
+        }
+    }
 
     companion object {
         private const val NAME_SESSION = "sessionPref"

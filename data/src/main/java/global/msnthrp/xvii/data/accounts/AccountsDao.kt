@@ -2,22 +2,24 @@ package global.msnthrp.xvii.data.accounts
 
 import androidx.room.*
 import io.reactivex.Completable
-import io.reactivex.Single
 
 @Dao
 interface AccountsDao {
 
     @Query("SELECT * FROM accounts")
-    fun getAccounts(): Single<List<Account>>
+    fun getAccounts(): List<AccountEntity>
+
+    @Query("SELECT * FROM accounts ORDER BY isRunning DESC")
+    fun getAccountsRunningFirst(): List<AccountEntity>
 
     @Query("SELECT * FROM accounts WHERE isRunning = 1 LIMIT 1")
-    fun getRunningAccount(): Single<Account>
+    fun getRunningAccount(): AccountEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAccount(account: Account): Completable
+    fun insertAccount(account: AccountEntity)
 
     @Delete
-    fun deleteAccount(account: Account): Single<Int>
+    fun deleteAccount(account: AccountEntity): Int
 
     @Query("DELETE FROM accounts WHERE token = :token")
     fun deleteByToken(token: String): Completable

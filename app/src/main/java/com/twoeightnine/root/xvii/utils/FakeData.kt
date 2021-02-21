@@ -1,6 +1,6 @@
 package com.twoeightnine.root.xvii.utils
 
-import global.msnthrp.xvii.data.accounts.Account
+import global.msnthrp.xvii.core.accounts.model.Account
 import global.msnthrp.xvii.data.dialogs.Dialog
 
 object FakeData {
@@ -35,7 +35,7 @@ object FakeData {
     ), Dialog(
             title = "fresno yummy",
             timeStamp = time() - 1000,
-            photo = "https://upload.wikimedia.org/wikipedia/commons/7/7f/Cheryl_Ann_Krause.jpg",
+            photo = "https://cf-images.us-east-1.prod.boltdns.net/v1/static/5596404782001/2f9f5225-e3d4-4f07-8d01-fd37440cd1ef/0676f989-2150-4292-8050-bb460dd77843/1280x720/match/image.jpg",
             text = "эй, ты чего?",
             unreadCount = 3,
             isRead = false,
@@ -75,13 +75,22 @@ object FakeData {
     )
 
     val accounts = arrayListOf(Account(
-            uid = 1753175317,
+            userId = 1753175317,
+            token = "stub",
             name = "fresno yummy",
-            photo = "https://upload.wikimedia.org/wikipedia/commons/7/7f/Cheryl_Ann_Krause.jpg",
-            isRunning = true
+            photo = "https://cf-images.us-east-1.prod.boltdns.net/v1/static/5596404782001/2f9f5225-e3d4-4f07-8d01-fd37440cd1ef/0676f989-2150-4292-8050-bb460dd77843/1280x720/match/image.jpg",
+            isActive = true
     ), Account(
-            uid = 1717531753,
+            userId = 1753171753,
+            token = "stub",
+            name = "kriepie fank",
+            photo = "https://www.shared.com/content/images/2018/09/CCTV.jpg",
+            isActive = false
+    ), Account(
+            userId = 1717531753,
             name = "pierre gardin",
-            photo = "https://upload.wikimedia.org/wikipedia/commons/f/f6/Colour_grid_showing_256_color_image_composed_of_true_color_values.png"
+            token = "stub",
+            photo = "https://upload.wikimedia.org/wikipedia/commons/f/f6/Colour_grid_showing_256_color_image_composed_of_true_color_values.png",
+            isActive = false
     ))
 }

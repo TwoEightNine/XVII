@@ -34,4 +34,8 @@
     <declare-styleable name="XviiAvatar">
         <attr name="avatarNameSize" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="XviiLabel">
+        <attr name="paintBackground" format="boolean" />
+    </declare-styleable>
 </resources>

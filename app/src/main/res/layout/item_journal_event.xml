@@ -9,7 +9,7 @@
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
     app:cardBackgroundColor="@color/popup"
-    app:cardElevation="1dp"
+    app:cardElevation="@dimen/cardview_elevation"
     app:cardCornerRadius="@dimen/default_radius">
 
     <RelativeLayout

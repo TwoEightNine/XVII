@@ -153,7 +153,7 @@
     <string name="mic_hint">slide left to cancel\nslide up to lock</string>
     <string name="details">details</string>
     <string name="report_hint">it will help us to solve the problem faster</string>
-    <string name="accounts_hint">manage accounts</string>
+    <string name="accounts_hint">you can add as much accounts as you want. only one account can be active at a time. only active account can receive notifications</string>
     <string name="search_hint">suche</string>
     <string name="join">folgen</string>
     <string name="cancel">abbrechen</string>
@@ -496,4 +496,5 @@
     <string name="key_exchange_title">"%s will ein geheimes gespräch mit sie anfangen "</string>
     <string name="key_exchange_hint">leugnen sie wenn sie es verdächtig finden</string>
     <string name="channel_key_exchanges">schlüsselaustauschen</string>
+    <string name="accounts_manage">manage accounts</string>
 </resources>

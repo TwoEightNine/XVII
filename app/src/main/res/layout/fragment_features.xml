@@ -70,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="6dp"
                         android:paddingBottom="6dp"
-                        android:text="@string/accounts_hint"
+                        android:text="@string/accounts_manage"
                         android:textSize="@dimen/user_info_text_size" />
 
                 </LinearLayout>

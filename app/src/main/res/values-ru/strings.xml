@@ -242,7 +242,7 @@
     <string name="yellow">желтый</string>
     <string name="magenta">пурпурный</string>
     <string name="white">белый</string>
-    <string name="accounts_hint">управление аккаунтами</string>
+    <string name="accounts_hint">you can add as much accounts as you want. only one account can be active at a time. only active account can receive notifications</string>
     <string name="pin">закрепить</string>
     <string name="alias">псевдоним</string>
     <string name="addons">дополнительно</string>
@@ -488,5 +488,6 @@
     <string name="channel_key_exchanges">обмены ключами</string>
     <string name="key_exchange_title">%s хочет начать секретный чат с вами</string>
     <string name="key_exchange_hint">отклоните, если это кажется вам подозрительным</string>
+    <string name="accounts_manage">управление аккаунтами</string>
 
 </resources>

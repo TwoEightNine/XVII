@@ -13,4 +13,6 @@ interface SessionProvider {
     var pin: String?
 
     val encryptionKey256: ByteArray
+
+    fun clearAll()
 }

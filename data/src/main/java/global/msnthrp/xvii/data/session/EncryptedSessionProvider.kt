@@ -34,6 +34,12 @@ class EncryptedSessionProvider(context: Context) : SessionProvider {
 
     override val encryptionKey256: ByteArray by EncryptionKeyDelegate()
 
+    override fun clearAll() {
+        prefs.edit {
+            clear()
+        }
+    }
+
     companion object {
         private const val NAME = "session"
 

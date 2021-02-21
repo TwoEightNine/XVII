@@ -8,13 +8,16 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 
-class XviiLabel : AppCompatTextView {
+class XviiLabel(context: Context, attributeSet: AttributeSet) : AppCompatTextView(context, attributeSet) {
 
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
+    private var paintBackground = true
 
     init {
-        setBackgroundColor(Munch.color.color20)
+        initAttributes(attributeSet)
+
+        if (paintBackground) {
+            setBackgroundColor(Munch.color.color20)
+        }
         setTextColor(ContextCompat.getColor(context, R.color.main_text))
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
         typeface = Wool.get(context, Wool.Font.BOLD)
@@ -24,5 +27,11 @@ class XviiLabel : AppCompatTextView {
             else -> 32
         }
         setPadding(paddingStart, 20, 0, 20)
+    }
+
+    private fun initAttributes(attributeSet: AttributeSet) {
+        val attrs = context.theme.obtainStyledAttributes(attributeSet, R.styleable.XviiLabel, 0, 0)
+        paintBackground = attrs.getBoolean(R.styleable.XviiLabel_paintBackground, true)
+        attrs.recycle()
     }
 }

@@ -30,7 +30,7 @@ import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
-import global.msnthrp.xvii.data.accounts.Account
+import global.msnthrp.xvii.core.accounts.model.Account
 import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.fragment_features.*
 import java.util.*
@@ -109,7 +109,7 @@ class FeaturesFragment : BaseFragment() {
 
     private fun updateAccount(account: Account) {
         civPhoto.load(account.photo)
-        account.name?.lowerIf(Prefs.lowerTexts)?.also { userName ->
+        account.name.lowerIf(Prefs.lowerTexts).also { userName ->
             tvName.text = userName
             xviiToolbar.title = userName
         }

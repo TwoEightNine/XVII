@@ -7,7 +7,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import global.msnthrp.xvii.data.accounts.Account
+import global.msnthrp.xvii.data.accounts.AccountEntity
 import global.msnthrp.xvii.data.accounts.AccountsDao
 import global.msnthrp.xvii.data.dialogs.Dialog
 import global.msnthrp.xvii.data.dialogs.DialogsDao
@@ -31,7 +31,7 @@ import java.nio.charset.StandardCharsets
 
 
 @Database(entities = [
-    Dialog::class, Account::class,
+    Dialog::class, AccountEntity::class,
     Sticker::class, Emoji::class,
     StickerUsage::class, EmojiUsage::class,
     ScheduledMessage::class, JournalEntity::class], version = Migrations.DB_VERSION)

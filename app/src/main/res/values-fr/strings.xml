@@ -206,7 +206,7 @@
     <string name="magenta">bonbon</string>
     <string name="white">blanc</string>
     <string name="cyan">azur</string>
-    <string name="accounts_hint">manager des comptes</string>
+    <string name="accounts_hint">you can add as much accounts as you want. only one account can be active at a time. only active account can receive notifications</string>
     <string name="pin">épingler</string>
     <string name="alias">pseudonyme</string>
     <string name="addons">ajouts</string>
@@ -430,6 +430,7 @@
     <string name="key_exchange_deny">rejecter</string>
     <string name="attachment_open_link_prompt">vous allez ouvrir %s. continuer?</string>
     <string name="attachment_open_doc_prompt">comment voulez-vous ouvrir ce document?</string>
+    <string name="accounts_manage">manager des comptes</string>
 
 </resources>
 
