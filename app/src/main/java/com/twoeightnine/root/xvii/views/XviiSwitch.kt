@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.widget.CompoundButton
-import android.widget.RelativeLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
@@ -13,7 +13,7 @@ import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.view_switch.view.*
 
 
-class XviiSwitch(context: Context, attributeSet: AttributeSet) : RelativeLayout(context, attributeSet) {
+class XviiSwitch(context: Context, attributeSet: AttributeSet) : ConstraintLayout(context, attributeSet) {
 
     var onCheckedListener: CompoundButton.OnCheckedChangeListener? = null
         set(value) {
