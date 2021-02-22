@@ -489,5 +489,12 @@
     <string name="key_exchange_title">%s хочет начать секретный чат с вами</string>
     <string name="key_exchange_hint">отклоните, если это кажется вам подозрительным</string>
     <string name="accounts_manage">управление аккаунтами</string>
+    <string name="accounts_activate">активировать</string>
+    <string name="accounts_active">активные аккаунты</string>
+    <string name="accounts_add_new_account">добавить аккаунт</string>
+    <string name="accounts_log_out_all">вы действительно хотите выйти из всех аккаунтов?</string>
+    <string name="accounts_log_out_all_accounts">выйти из всех аккаунтов</string>
+    <string name="accounts_view">открыть</string>
+    <string name="accounts_other">другие аккаунты</string>
 
 </resources>

@@ -14,7 +14,7 @@
     <string name="hphone">téléphone</string>
     <string name="site">site</string>
     <string name="vibrate">vibrer pour des nouveaus messages</string>
-    <string name="logout">quitter</string>
+    <string name="logout">se déconnecter</string>
     <string name="error">erreur</string>
     <string name="bytes">%d o</string>
     <string name="kilobytes">%s ko</string>
@@ -431,6 +431,26 @@
     <string name="attachment_open_link_prompt">vous allez ouvrir %s. continuer?</string>
     <string name="attachment_open_doc_prompt">comment voulez-vous ouvrir ce document?</string>
     <string name="accounts_manage">manager des comptes</string>
+    <string name="accounts_activate">activer</string>
+    <string name="accounts_active">comptes actifs</string>
+    <string name="accounts_add_new_account">ajouter un compte</string>
+    <string name="accounts_log_out_all">voulez-vous réellement se déconnecter de tous comptes?</string>
+    <string name="accounts_log_out_all_accounts">se déconnecter de tous comptes</string>
+    <string name="accounts_other">comptes autres</string>
+    <string name="accounts_view">voir</string>
+    <string name="channel_key_exchanges">échange de clé</string>
+    <string name="journal_event_delete">a supprimé un message</string>
+    <string name="journal_event_edited">a modifié le message:</string>
+    <string name="journal_event_last_action_hint">a fait l\'action dernier</string>
+    <string name="journal_event_new">a envoyé le message:</string>
+    <string name="journal_event_offline">est allé hors ligne</string>
+    <string name="journal_event_offline_hint">est allé hors ligne</string>
+    <string name="journal_event_online">est allé en ligne %s</string>
+    <string name="journal_event_online_hint">est allé en ligne</string>
+    <string name="journal_event_read">a lu un message</string>
+    <string name="journal_event_recording">enregistrais un message</string>
+    <string name="journal_event_typing">tapais un message</string>
+    <string name="journal_message_deleted">le message est supprimé</string>
 
 </resources>
 
