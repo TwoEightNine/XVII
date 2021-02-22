@@ -141,7 +141,7 @@
     <string name="delete_only_for_me">delete only for me</string>
     <string name="wanna_delete_messages">do you really want to delete these messages?</string>
     <string name="unable_to_add_to_gallery">unable to add to gallery. it will be added automatically later</string>
-    <string name="generation_dh_hint">make sure your interlocutor has installed xvii and opened the secret chat with you. it is necessary for key exchange</string>
+    <string name="generation_dh_hint">make sure your interlocutor has installed and opened xvii. it is necessary for key exchange</string>
     <string name="fingerprint">fingerprint</string>
     <string name="decrypting_image">image is being decrypted</string>
     <string name="invalid_file">unable to decrypt this file</string>

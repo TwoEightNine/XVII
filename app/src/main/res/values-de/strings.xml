@@ -123,21 +123,21 @@
     <string name="report_sent">der bericht ist gesendet</string>
     <string name="describe_actions">beschreiben sie was passiert ist</string>
     <string name="add_to_docs">zur deteien hinzufügen</string>
-    <string name="added_to_docs">successfully added to docs</string>
-    <string name="clear_cache">clear cache</string>
-    <string name="refresh_stickers">refresh stickers</string>
-    <string name="stickers_refreshed">stickers have been refreshed</string>
+    <string name="added_to_docs">zur deteien erfolgreich hinzugefügt</string>
+    <string name="clear_cache">cache löschen</string>
+    <string name="refresh_stickers">aufkleber aktualisieren</string>
+    <string name="stickers_refreshed">aufkleber ist aktualisiert</string>
     <string name="wanna_logout">really want to log out?</string>
     <string name="not_now">nicht jetzt</string>
     <string name="never">nie</string>
     <string name="private_messages_notifs">private nachrichten</string>
     <string name="chats_notifs">andere nachrichten</string>
-    <string name="delete_for_all">delete for all users</string>
-    <string name="delete_only_for_me">delete only for me</string>
+    <string name="delete_for_all">für alle benutzer löschen</string>
+    <string name="delete_only_for_me">nur für mich löschen</string>
     <string name="wanna_delete_messages">do you really want to delete these messages?</string>
     <string name="unable_to_add_to_gallery">unable to add to gallery. it will be added automatically later</string>
     <string name="generation_dh_hint">make sure your interlocutor has installed xvii and opened the secret chat with you. it is necessary for key exchange</string>
-    <string name="fingerprint">fingerprint</string>
+    <string name="fingerprint">fingerabdruck</string>
     <string name="decrypting_image">image is being decrypted</string>
     <string name="invalid_file">unable to decrypt this file</string>
     <string name="key_type">key type: %s</string>
@@ -146,7 +146,7 @@
     <string name="random_key_type">random (dhe)</string>
     <string name="fingerprint_hint">this image and this text were generated from the encryption key. if they look the same on your interlocutor\'s device and the keys were set, be sure that no one breaks your privacy. otherwise your conversation is not secure!</string>
 
-    <string name="sticker">sticker</string>
+    <string name="sticker">aufkleber</string>
     <string name="graffiti">graffiti</string>
     <string name="you_sender">sie:</string>
     <string name="device_photos">gerät</string>
