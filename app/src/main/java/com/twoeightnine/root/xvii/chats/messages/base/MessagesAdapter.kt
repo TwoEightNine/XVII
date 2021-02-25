@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.chats.messages.base
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.text.Html
 import android.text.Spanned
@@ -9,6 +10,7 @@ import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
@@ -21,6 +23,7 @@ import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.model.messages.WrappedMessage
 import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.lowerIf
@@ -250,7 +253,10 @@ class MessagesAdapter(context: Context,
                 if (!message.fwdMessages.isNullOrEmpty()) {
                     rlBack.setPadding(rlBack.paddingLeft, rlBack.paddingTop, 6, rlBack.paddingBottom)
                     message.fwdMessages.forEachIndexed { index, innerMessage ->
-                        val included = inflater.inflate(R.layout.item_message_in_chat, null)
+                        val included = inflater.inflate(R.layout.item_message_in_chat, llMessageContainer, false)
+                        val maxWidth = messageInflater.getMessageMaxWidth(settings.fullDeepness, level + 1)
+                        (included.llMessage.layoutParams as? ConstraintLayout.LayoutParams)
+                                ?.matchConstraintMaxWidth = maxWidth
                         with(included.rlBack) {
                             setPadding(paddingLeft, paddingTop, 6, paddingBottom)
                         }
@@ -263,6 +269,8 @@ class MessagesAdapter(context: Context,
                         } else {
                             with(included) {
                                 tvBody.text = resources.getString(R.string.too_deep_forwarding)
+                                tvBody.paint(Munch.color.color)
+                                tvBody.paintFlags = tvBody.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                                 rlName?.hide()
                                 tvDateOutside.hide()
                                 setOnClickListener {

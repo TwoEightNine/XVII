@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.updateMargins
+import androidx.core.view.updatePadding
 import com.makeramen.roundedimageview.RoundedImageView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
@@ -43,6 +46,7 @@ class AttachmentsInflater(
     private val inflater: LayoutInflater =
             context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
+    private val messageMaxWidth = resources.getDimensionPixelSize(R.dimen.chat_message_max_width)
     private val photoMargin = resources.getDimensionPixelSize(R.dimen.chat_message_photo_margin)
     private val levelPadding = resources.getDimensionPixelSize(R.dimen.chat_message_level_padding)
     private val contentWidth = resources.getDimensionPixelSize(R.dimen.chat_message_content_width)
@@ -52,7 +56,7 @@ class AttachmentsInflater(
     private val stickerSize = resources.getDimensionPixelSize(R.dimen.chat_message_sticker_width)
     private val graffitiSize = resources.getDimensionPixelSize(R.dimen.chat_message_graffiti_width)
     private val loaderSize = resources.getDimensionPixelSize(R.dimen.chat_message_loader)
-    private val wtfDimen = pxFromDp(context, 8)
+    private val wtfDimen = pxFromDp(context, 3)
 
     fun getMessageWidth(message: Message, fullDeepness: Boolean, level: Int): Int {
         message.replyMessage?.also {
@@ -80,6 +84,13 @@ class AttachmentsInflater(
         return ViewGroup.LayoutParams.WRAP_CONTENT
     }
 
+    fun getMessageMaxWidth(fullDeepness: Boolean, level: Int): Int {
+        return when {
+            fullDeepness -> ViewGroup.LayoutParams.MATCH_PARENT
+            else -> messageMaxWidth - levelPadding * level * 2
+        }
+    }
+
     fun getViewLoader(): View = ContainerLoaderBinding.inflate(inflater).root
 
     fun createViewsFor(wallPost: WallPost): List<View> {
@@ -102,7 +113,7 @@ class AttachmentsInflater(
             Attachment.TYPE_WALL -> attachment.wall?.let(::createWallPost)
             Attachment.TYPE_GRAFFITI -> attachment.graffiti?.let(::createGraffiti)
             Attachment.TYPE_AUDIO_MESSAGE -> attachment.audioMessage?.let(::createAudioMessage)
-            else -> createViewFor(attachment, attachments)
+            else -> createViewFor(attachment, attachments, level)
         }
     }
 
@@ -115,7 +126,7 @@ class AttachmentsInflater(
         }
     }
 
-    private fun createViewFor(attachment: Attachment, attachments: List<Attachment>): View? {
+    private fun createViewFor(attachment: Attachment, attachments: List<Attachment>, level: Int = 0): View? {
         return when (attachment.type) {
             Attachment.TYPE_AUDIO -> attachment.audio
                     ?.let { audio -> createAudio(audio, attachments.getAudios().filterNotNull()) }
@@ -124,7 +135,7 @@ class AttachmentsInflater(
             Attachment.TYPE_POLL -> attachment.poll?.let(::createPoll)
             Attachment.TYPE_DOC -> attachment.doc?.let { doc ->
                 when {
-                    doc.isGif -> createGif(doc)
+                    doc.isGif -> createGif(doc, level)
                     doc.isEncrypted -> createEncrypted(doc)
                     else -> createDoc(doc)
                 }
@@ -134,7 +145,7 @@ class AttachmentsInflater(
     }
 
     private fun createPhotoForMessage(photo: Photo, photos: List<Photo>, level: Int = 0): View {
-        val width = contentWidth - 2 * level * levelPadding - 2 * photoMargin - wtfDimen * (level + 1)
+        val width = getViewWidth(photoMargin, level)
         val view = createPhoto(photo, width)
         view.setOnClickListener {
             val position = photos.indexOf(photo)
@@ -154,7 +165,9 @@ class AttachmentsInflater(
     }
 
     private fun createPhoto(photo: Photo, width: Int): View {
-        val roundedImageView = RoundedImageView(context)
+        val roundedImageView = RoundedImageView(context).apply {
+            updatePadding(0, 0, 0, 0)
+        }
         roundedImageView.cornerRadius = defaultRadius.toFloat()
 
         val photoSize = photo.getOptimalPhoto()
@@ -165,12 +178,8 @@ class AttachmentsInflater(
         val scale = width * 1.0f / photoSize.width
         val ivHeight = (photoSize.height * scale).toInt()
 
-        roundedImageView.layoutParams = LinearLayout.LayoutParams(width, ivHeight).apply {
-            topMargin = photoMargin
-            bottomMargin = photoMargin
-            marginStart = photoMargin
-            marginEnd = photoMargin
-        }
+        roundedImageView.layoutParams = LinearLayout.LayoutParams(width, ivHeight)
+                .withMargin(getAppliedMargin(photoMargin))
 
         roundedImageView.load(photoSize.url) {
             override(width, ivHeight)
@@ -191,16 +200,17 @@ class AttachmentsInflater(
                 load(graffiti.url, placeholder = false)
             }
 
-    private fun createGift(gift: Gift, messageBody: String): View = ContainerGiftBinding.inflate(inflater).run {
-        ivThumb.load(gift.thumb256)
-        if (messageBody.isNotBlank()) {
-            tvGiftMessage.text = when {
-                EmojiHelper.hasEmojis(messageBody) -> EmojiHelper.getEmojied(context, messageBody)
-                else -> messageBody
+    private fun createGift(gift: Gift, messageBody: String): View =
+            ContainerGiftBinding.inflate(inflater).run {
+                ivThumb.load(gift.thumb256)
+                if (messageBody.isNotBlank()) {
+                    tvGiftMessage.text = when {
+                        EmojiHelper.hasEmojis(messageBody) -> EmojiHelper.getEmojied(context, messageBody)
+                        else -> messageBody
+                    }
+                }
+                root
             }
-        }
-        root
-    }
 
     //TODO pass all audio messages
     private fun createAudioMessage(audioMessage: AudioMessage): View =
@@ -259,7 +269,7 @@ class AttachmentsInflater(
                 root
             }
 
-    private fun createVideo(video: Video): View =
+    private fun createVideo(video: Video, level: Int = 0): View =
             ContainerVideoBinding.inflate(inflater).run {
                 ivVideo.load(video.maxPhoto) {
                     override(videoWidth, videoHeight)
@@ -270,6 +280,12 @@ class AttachmentsInflater(
                 } else {
                     rlDuration.hide()
                 }
+
+                val width = getViewWidth(photoMargin, level)
+                val ratio = videoWidth.toFloat() / videoHeight
+                val height = (width / ratio).toInt()
+                ivVideo.layoutParams = RelativeLayout.LayoutParams(width, height)
+                        .withMargin(getAppliedMargin(photoMargin))
                 root.setOnClickListener {
                     callback.onVideoClicked(video)
                 }
@@ -320,19 +336,20 @@ class AttachmentsInflater(
         }
     }
 
-    private fun createGif(doc: Doc): View =
+    private fun createGif(doc: Doc, level: Int = 0): View =
             ContainerGifBinding.inflate(inflater).run {
                 val smallPreview = doc.preview?.photo?.getSmallPreview()
-                val defaultRatio = videoWidth.toFloat() / videoHeight
+                val width = getViewWidth(photoMargin, level)
+                val defaultRatio = width.toFloat() / videoHeight
                 val ratio = if (smallPreview != null) {
                     smallPreview.width.toFloat() / smallPreview.height
                 } else {
                     defaultRatio
                 }
 
-                val width = videoWidth - wtfDimen
-                val height = (videoWidth / ratio).toInt()
+                val height = (width / ratio).toInt()
                 root.layoutParams = LinearLayout.LayoutParams(width, height)
+                        .withMargin(getAppliedMargin(photoMargin))
                 ivGif.load(doc.url)
                 ivGif.setOnClickListener {
                     callback.onGifClicked(doc)
@@ -364,6 +381,15 @@ class AttachmentsInflater(
                 }
                 root
             }
+
+    private fun getViewWidth(marginWeWant: Int, level: Int = 0) =
+            contentWidth - 2 * marginWeWant - 2 * level * levelPadding
+
+    private fun getAppliedMargin(marginWeWant: Int) = marginWeWant - wtfDimen
+
+    private fun ViewGroup.MarginLayoutParams.withMargin(margin: Int) = apply {
+        updateMargins(margin, margin, margin, margin)
+    }
 
     interface Callback {
         fun onEncryptedDocClicked(doc: Doc)

@@ -89,8 +89,8 @@
     <dimen name="chat_message_content_width">276dp</dimen>
     <dimen name="chat_message_sticker_width">180dp</dimen>
     <dimen name="chat_message_graffiti_width">220dp</dimen>
-    <dimen name="chat_message_photo_margin">2dp</dimen>
-    <dimen name="chat_message_level_padding">2dp</dimen>
+    <dimen name="chat_message_photo_margin">4dp</dimen>
+    <dimen name="chat_message_level_padding">8dp</dimen>
     <dimen name="chat_message_video_width">272dp</dimen>
     <dimen name="chat_message_video_height">200dp</dimen>
     <dimen name="chat_message_doc_size">46dp</dimen>
