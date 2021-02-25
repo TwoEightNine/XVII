@@ -93,6 +93,14 @@ class AttachmentsInflater(
 
     fun getViewLoader(): View = ContainerLoaderBinding.inflate(inflater).root
 
+    fun getRepliedMessageView(repliedMessage: Message): View =
+            ItemMessageRepliedBinding.inflate(inflater).run {
+                tvName.text = repliedMessage.name
+                tvName.lowerIf(Prefs.lowerTexts)
+                tvBody.text = repliedMessage.getResolvedMessage(context)
+                root
+            }
+
     fun createViewsFor(wallPost: WallPost): List<View> {
         val attachments = wallPost.attachments ?: return emptyList()
         return attachments.mapNotNull { createViewForWallPost(it, wallPost) }

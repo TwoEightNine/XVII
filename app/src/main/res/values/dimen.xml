@@ -39,6 +39,7 @@
     <dimen name="chat_dot_date_margin">2dp</dimen>
     <dimen name="chat_date_text_size">10sp</dimen>
     <dimen name="chat_message_max_width">280dp</dimen>
+    <dimen name="chat_replied_message_max_width">264dp</dimen> <!--message_max_width - 2 * level_padding-->
     <dimen name="chat_message_floating_margin_horiz">5dp</dimen>
     <!--appearance-->
 

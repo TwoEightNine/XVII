@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlBack"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="#567">
+
+    <LinearLayout
+        android:id="@+id/llMessage"
+        android:layout_width="@dimen/chat_replied_message_max_width"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/chat_shape_margin_horiz"
+        android:layout_marginTop="@dimen/chat_shape_margin_horiz"
+        android:layout_marginBottom="@dimen/chat_shape_margin_vert"
+        android:background="@drawable/shape_message"
+        android:clickable="false"
+        android:elevation="@dimen/chat_message_elevation"
+        android:orientation="vertical"
+        app:layout_constraintWidth_max="@dimen/chat_replied_message_max_width">
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/MainMediumText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="13sp"
+            tools:text="Misdsdsdta Sisdsdsdnista" />
+
+        <TextView
+            android:id="@+id/tvBody"
+            style="@style/MainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="6dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColorLink="@color/link_color"
+            android:textSize="13sp"
+            tools:text="all my life i wanted" />
+
+    </LinearLayout>
+
+</FrameLayout>

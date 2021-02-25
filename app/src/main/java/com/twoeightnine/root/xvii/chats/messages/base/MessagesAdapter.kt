@@ -32,6 +32,7 @@ import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
 import kotlinx.android.synthetic.main.item_message_in_chat.view.*
 import kotlinx.android.synthetic.main.item_message_in_chat.view.rlDateSeparator
 import kotlinx.android.synthetic.main.item_message_out.view.*
+import kotlinx.android.synthetic.main.item_message_replied.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.civPhoto
 import kotlinx.android.synthetic.main.item_message_wtf.view.llMessage
@@ -295,14 +296,10 @@ class MessagesAdapter(context: Context,
                         llMessageContainer.addView(included)
                     }
                 }
-                message.replyMessage?.also { message ->
-                    val included = inflater.inflate(R.layout.item_message_in_chat, null)
-                    with(included.rlBack) {
-                        setPadding(paddingLeft, paddingTop, 6, paddingBottom)
-                    }
-                    putViews(included, WrappedMessage(message), null, level + 1, isOutgoingStack)
-                    llMessageContainer.addView(included)
-                }
+                message.replyMessage
+                        ?.let(messageInflater::getRepliedMessageView)
+                        ?.also(llMessageContainer::addView)
+                        ?.also { it.llMessage.stylizeAsMessage(level + paintDelta + 1) }
             }
         }
 
