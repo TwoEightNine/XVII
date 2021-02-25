@@ -1,5 +1,6 @@
 package com.twoeightnine.root.xvii.chats.tools
 
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.uikit.XviiToolbar
@@ -22,7 +23,9 @@ class ChatToolbarController(private val xviiToolbar: XviiToolbar) {
     fun setData(title: String, photo: String?, id: Int = 0) {
         xviiToolbar.tvChatTitle.text = title
         xviiToolbar.tvChatTitle.lowerIf(Prefs.lowerTexts)
-        xviiToolbar.civAvatar.load(photo, title.getInitials(), id = id)
+        if (id != -App.GROUP) {
+            xviiToolbar.civAvatar.load(photo, title.getInitials(), id = id)
+        }
     }
 
     @Deprecated("Use setData")
