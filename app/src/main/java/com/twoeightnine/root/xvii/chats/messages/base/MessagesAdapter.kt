@@ -108,7 +108,8 @@ class MessagesAdapter(context: Context,
             if (message.isSystem()) {
                 bindSystemMessage(itemView, message)
             } else {
-                putViews(itemView, wrappedMessage, prevWrappedMessage, level)
+                val isOutgoingStack = wrappedMessage.message.isOut() || !wrappedMessage.sent
+                putViews(itemView, wrappedMessage, prevWrappedMessage, level, isOutgoingStack)
                 with(itemView) {
                     rlBack.setOnClickListener {
                         items.getOrNull(adapterPosition)?.also(::onClick)
@@ -166,7 +167,13 @@ class MessagesAdapter(context: Context,
             }
         }
 
-        private fun putViews(view: View, wrappedMessage: WrappedMessage, prevWrappedMessage: WrappedMessage?, level: Int) {
+        private fun putViews(
+                view: View,
+                wrappedMessage: WrappedMessage,
+                prevWrappedMessage: WrappedMessage?,
+                level: Int,
+                isOutgoingStack: Boolean
+        ) {
             val message = wrappedMessage.message
             val prevMessage = prevWrappedMessage?.message
             val isNotSent = !wrappedMessage.sent
@@ -233,8 +240,9 @@ class MessagesAdapter(context: Context,
                 pbSending?.setVisible(isNotSent && !hasAttachmentsOrForwarded)
                 pbSending?.setIndicatorColor(Munch.color.color)
 
+                val paintDelta = if (isOutgoingStack) 1 else 0
                 llMessage.stylizeAsMessage(
-                        level + message.effectiveOutDelta(),
+                        level + paintDelta,
                         hide = message.run { isSticker() || isGraffiti() || isGift() }
                 )
                 llMessageContainer.removeAllViews()
@@ -265,7 +273,7 @@ class MessagesAdapter(context: Context,
                             val wrappedPrevInnerMessage = message.fwdMessages
                                     .getOrNull(index - 1)
                                     ?.let(::WrappedMessage)
-                            putViews(included, wrappedInnerMessage, wrappedPrevInnerMessage, level + 1)
+                            putViews(included, wrappedInnerMessage, wrappedPrevInnerMessage, level + 1, isOutgoingStack)
                         } else {
                             with(included) {
                                 tvBody.text = resources.getString(R.string.too_deep_forwarding)
@@ -292,7 +300,7 @@ class MessagesAdapter(context: Context,
                     with(included.rlBack) {
                         setPadding(paddingLeft, paddingTop, 6, paddingBottom)
                     }
-                    putViews(included, WrappedMessage(message), null, level + 1)
+                    putViews(included, WrappedMessage(message), null, level + 1, isOutgoingStack)
                     llMessageContainer.addView(included)
                 }
             }
@@ -333,8 +341,6 @@ class MessagesAdapter(context: Context,
                         else -> Munch.color.color10
                     })
         }
-
-        private fun Message.effectiveOutDelta() = if (fromId == userId) 1 else 0
     }
 
     interface Callback {
