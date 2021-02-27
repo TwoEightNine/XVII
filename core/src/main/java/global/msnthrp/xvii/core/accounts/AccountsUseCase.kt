@@ -18,6 +18,12 @@ class AccountsUseCase(private val dataSource: AccountsDataSource) {
         }
     }
 
+    fun deleteCurrentAccount() {
+        dataSource.apply {
+            deleteAccount(getActiveAccount())
+        }
+    }
+
     fun deactivateCurrentAccount() {
         val activeAccount = dataSource.getActiveAccount()
                 .copy(isActive = false)
