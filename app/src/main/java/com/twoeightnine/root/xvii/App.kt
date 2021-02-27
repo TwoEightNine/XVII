@@ -8,6 +8,8 @@ import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.data.utils.ContextHolder
+import global.msnthrp.xvii.data.utils.ContextProvider
 import io.github.inflationx.calligraphy3.CalligraphyConfig
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump
@@ -17,6 +19,9 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+        ContextHolder.contextProvider = object : ContextProvider {
+            override val applicationContext: Context = context
+        }
         appComponent = DaggerAppComponent.builder()
                 .contextModule(ContextModule(this))
                 .build()

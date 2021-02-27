@@ -7,11 +7,14 @@ object Cipher {
     private const val IV_LENGTH = 16
     private const val MAC_LENGTH = 32
 
-    fun encrypt(bytes: ByteArray, key: ByteArray): ByteArray {
+    fun encrypt(bytes: ByteArray, key: ByteArray, deterministic: Boolean = false): ByteArray {
         val key1 = CryptoUtils.sha256(key.copyOfRange(0, key.size / 2))
         val key2 = CryptoUtils.sha256(key.copyOfRange(key.size / 2, key.size))
 
-        val iv = CryptoUtils.getRandomBytes(IV_LENGTH)
+        val iv = when {
+            deterministic -> CryptoUtils.md5(key)
+            else -> CryptoUtils.getRandomBytes(IV_LENGTH)
+        }
         val encrypted = Aes256.encrypt(iv, key1, bytes)
         val mac = HmacSha256.sign(iv + encrypted, key2)
         return iv + encrypted + mac
