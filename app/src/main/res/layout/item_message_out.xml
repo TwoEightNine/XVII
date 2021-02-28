@@ -66,7 +66,8 @@
         android:paddingEnd="@dimen/default_radius"
         android:paddingBottom="0dp"
         android:visibility="visible"
-        app:trackCornerRadius="2dp"
+        app:trackCornerRadius="0.5dp"
+        app:trackThickness="1dp"
         app:layout_constraintBottom_toBottomOf="@+id/llMessage"
         app:layout_constraintEnd_toEndOf="@+id/llMessage"
         app:layout_constraintStart_toStartOf="@+id/llMessage" />
