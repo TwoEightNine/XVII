@@ -29,6 +29,10 @@
 
     <declare-styleable name="XviiLoader">
         <attr name="alwaysWhite" format="boolean" />
+        <attr name="size" format="enum">
+            <enum name="usual" value="0" />
+            <enum name="small" value="1" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="XviiAvatar">

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlInputBack"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -34,8 +35,9 @@
 
             <com.twoeightnine.root.xvii.uikit.XviiLoader
                 android:id="@+id/pbAttach"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:size="small"
                 android:layout_centerInParent="true" />
 
             <RelativeLayout
