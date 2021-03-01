@@ -36,7 +36,7 @@ import kotlin.random.Random
 
 class LongPollCore(private val context: Context) {
 
-    private val coreId = Random.nextLong().apply { this * sign }
+    private val coreId = Random.nextLong().run { this * sign }
 
     private val vibrator by lazy { context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator }
     private val notificationManager by lazy {
@@ -75,9 +75,8 @@ class LongPollCore(private val context: Context) {
             }
             getUpdates()
 
-            if (runningCoreId != coreId) {
-                l("core ...${coreId % 1000} exits")
-                break
+            doOnNotCurrentCore {
+                return
             }
         }
     }
@@ -112,6 +111,7 @@ class LongPollCore(private val context: Context) {
     }
 
     private fun onUpdateReceived(longPollUpdate: LongPollUpdate) {
+        doOnNotCurrentCore { return }
         when {
             longPollUpdate.shouldUpdateServer() -> updateLongPollServer()
             else -> {
@@ -423,6 +423,13 @@ class LongPollCore(private val context: Context) {
                 .subscribe {
                     isRunning = false
                 }
+    }
+
+    private inline fun doOnNotCurrentCore(runnable: () -> Unit) {
+        if (runningCoreId != coreId) {
+            l("core ...${coreId % 1000} exits")
+            runnable()
+        }
     }
 
     private fun l(s: String) {
