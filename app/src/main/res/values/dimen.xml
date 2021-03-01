@@ -105,4 +105,10 @@
     <dimen name="journal_online_dot_size">20dp</dimen>
     <dimen name="journal_online_line_padding">6dp</dimen>
 
+    <dimen name="loader_extra_padding">8dp</dimen>
+    <dimen name="loader_usual_size">40dp</dimen>
+    <dimen name="loader_usual_thickness">4dp</dimen>
+    <dimen name="loader_small_size">24dp</dimen>
+    <dimen name="loader_small_thickness">2dp</dimen>
+
 </resources>

@@ -10,6 +10,10 @@ import kotlinx.android.synthetic.main.view_loader.view.*
 
 class XviiLoader(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
 
+    private val extraPadding by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.loader_extra_padding)
+    }
+
     private var alwaysWhite = false
     private var size = Size.USUAL
 
@@ -22,14 +26,14 @@ class XviiLoader(context: Context, attributeSet: AttributeSet) : FrameLayout(con
             } else {
                 setIndicatorColor(*Munch.nextAnalogy.map { it.color }.toIntArray())
             }
-            indicatorSize = size.indicatorSize
-            trackThickness = size.trackThickness
-            trackCornerRadius = size.trackThickness / 2
+            indicatorSize = size.getIndicatorSize(context)
+            trackThickness = size.getTrackThickness(context)
+            trackCornerRadius = trackThickness / 2
         }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val size = this.size.indicatorSize + EXTRA_PADDING
+        val size = this.size.getIndicatorSize(context) + extraPadding
         super.onMeasure(
                 MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY)
@@ -43,12 +47,17 @@ class XviiLoader(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         attrs.recycle()
     }
 
-    companion object {
-        private const val EXTRA_PADDING = 14
-    }
+    enum class Size(
+            private val indicatorSizeDimenRes: Int,
+            private val trackThicknessDimenRes: Int
+    ) {
+        USUAL(R.dimen.loader_usual_size, R.dimen.loader_usual_thickness),
+        SMALL(R.dimen.loader_small_size, R.dimen.loader_small_thickness);
 
-    enum class Size(val indicatorSize: Int, val trackThickness: Int) {
-        USUAL(80, 8),
-        SMALL(48, 6)
+        fun getIndicatorSize(context: Context) =
+                context.resources.getDimensionPixelSize(indicatorSizeDimenRes)
+
+        fun getTrackThickness(context: Context) =
+                context.resources.getDimensionPixelSize(trackThicknessDimenRes)
     }
 }
