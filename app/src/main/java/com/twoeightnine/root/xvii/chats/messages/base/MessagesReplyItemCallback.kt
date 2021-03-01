@@ -1,18 +1,15 @@
 package com.twoeightnine.root.xvii.chats.messages.base
 
-import android.content.Context
 import android.graphics.Canvas
-import android.os.Vibrator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.twoeightnine.root.xvii.utils.VibrationHelper
 
 class MessagesReplyItemCallback(
-        context: Context?,
         private val onReplySwiped: (Int) -> Unit
 ) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     private var invoked = false
-    private val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
 
     override fun onMove(
             recyclerView: RecyclerView,
@@ -39,7 +36,7 @@ class MessagesReplyItemCallback(
         when {
             !invoked && dX < INVOKE_THRESHOLD_PX -> {
                 invoked = true
-                vibrator?.vibrate(20L)
+                VibrationHelper.vibrateHaptic()
                 onReplySwiped(viewHolder.adapterPosition)
             }
             dX == .0f -> {
@@ -50,7 +47,7 @@ class MessagesReplyItemCallback(
 
     companion object {
         private const val UNREACHABLE_VALUE = 100000f
-        private const val SWIPE_LIMIT_FACTOR = 3
-        private const val INVOKE_THRESHOLD_PX = -300f
+        private const val SWIPE_LIMIT_FACTOR = 2
+        private const val INVOKE_THRESHOLD_PX = -250f
     }
 }

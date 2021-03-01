@@ -22,6 +22,7 @@ class App : Application() {
         ContextHolder.contextProvider = object : ContextProvider {
             override val applicationContext: Context = context
         }
+        VibrationHelper.initVibrator(context)
         appComponent = DaggerAppComponent.builder()
                 .contextModule(ContextModule(this))
                 .build()

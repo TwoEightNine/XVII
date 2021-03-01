@@ -8,7 +8,6 @@ import android.content.ClipDescription
 import android.content.Context
 import android.net.Uri
 import android.os.CountDownTimer
-import android.os.Vibrator
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -31,12 +30,9 @@ import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
-import com.twoeightnine.root.xvii.utils.EmojiHelper
+import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
-import com.twoeightnine.root.xvii.utils.secToTime
-import com.twoeightnine.root.xvii.utils.time
-import com.twoeightnine.root.xvii.utils.writeToFileFromContentUri
 import global.msnthrp.xvii.data.stickersemoji.model.Emoji
 import global.msnthrp.xvii.uikit.extensions.asText
 import global.msnthrp.xvii.uikit.extensions.hide
@@ -343,10 +339,7 @@ class ChatInputController(
         createContextPopup(context, items).show()
     }
 
-    private fun vibrate() {
-        val vibrate = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        vibrate.vibrate(20L)
-    }
+    private fun vibrate() = VibrationHelper.vibrateHaptic()
 
     companion object {
         const val TYPING_INVOCATION_DELAY = 5 // seconds

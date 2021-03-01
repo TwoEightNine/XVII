@@ -96,7 +96,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         rvMentionedMembers.layoutManager = LinearLayoutManager(context)
         rvMentionedMembers.adapter = membersAdapter
 
-        val swipeToReply = ItemTouchHelper(MessagesReplyItemCallback(context, ::onSwipedToReply))
+        val swipeToReply = ItemTouchHelper(MessagesReplyItemCallback(::onSwipedToReply))
         swipeToReply.attachToRecyclerView(rvChatList)
         stylize()
         initContent()
