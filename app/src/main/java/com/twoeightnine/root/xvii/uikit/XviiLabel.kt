@@ -16,7 +16,7 @@ class XviiLabel(context: Context, attributeSet: AttributeSet) : AppCompatTextVie
         initAttributes(attributeSet)
 
         if (paintBackground) {
-            setBackgroundColor(Munch.color.color20)
+            setBackgroundColor(Munch.color.color(15))
         }
         setTextColor(ContextCompat.getColor(context, R.color.main_text))
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)

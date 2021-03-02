@@ -102,7 +102,7 @@ class AppearanceFragment : BaseFragment() {
     }
 
     private fun applyColors() {
-        val color = Munch.ColorScope.fromColor(currentColor)
+        val color = Munch.ColorScope(currentColor)
         csThemeColor.color = currentColor
 
         arrayOf(ivMic, ivSend, ivBackSample, readStateDot).forEach { iv ->
@@ -119,9 +119,11 @@ class AppearanceFragment : BaseFragment() {
             arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(otherTextLight) }
             tvSubtitle.setTextColor(minorTextLight)
 
-            arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorWhite50) }
-            (llMessageIn.background as? GradientDrawable)?.setColor(color.colorWhite20)
-            (llMessageOut.background as? GradientDrawable)?.setColor(color.colorWhite10)
+            arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorWhite(50)) }
+            (llMessageIn.background as? GradientDrawable)
+                    ?.setColor(color.color(Munch.UseCase.MESSAGES_IN, Munch.Theme.WHITE))
+            (llMessageOut.background as? GradientDrawable)
+                    ?.setColor(color.color(Munch.UseCase.MESSAGES_OUT, Munch.Theme.WHITE))
         } else {
 
             rlToolbar.setBackgroundColor(backgroundDark)
@@ -132,9 +134,11 @@ class AppearanceFragment : BaseFragment() {
             arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(otherTextDark) }
             tvSubtitle.setTextColor(minorTextDark)
 
-            arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorBlack50) }
-            (llMessageIn.background as? GradientDrawable)?.setColor(color.colorBlack20)
-            (llMessageOut.background as? GradientDrawable)?.setColor(color.colorBlack10)
+            arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorDark(50)) }
+            (llMessageIn.background as? GradientDrawable)
+                    ?.setColor(color.color(Munch.UseCase.MESSAGES_IN, Munch.Theme.DARK))
+            (llMessageOut.background as? GradientDrawable)
+                    ?.setColor(color.color(Munch.UseCase.MESSAGES_OUT, Munch.Theme.DARK))
         }
     }
 

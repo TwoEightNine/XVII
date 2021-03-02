@@ -45,7 +45,7 @@ class AlarmAdapter(
                     alarm.enabled = isChecked
                     notifyEnabledChanged()
                 }
-                swEnabled.paint(Munch.color)
+                swEnabled.paint(Munch.color.color)
                 cbEveryDay.paint(Munch.color.color)
             }
         }

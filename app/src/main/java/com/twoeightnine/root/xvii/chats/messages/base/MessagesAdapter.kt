@@ -334,8 +334,8 @@ class MessagesAdapter(context: Context,
             (background as GradientDrawable).setColor(
                     when {
                         hide -> Color.TRANSPARENT
-                        level % 2 == 0 -> Munch.color.color20
-                        else -> Munch.color.color10
+                        level % 2 == 0 -> Munch.color.color(Munch.UseCase.MESSAGES_IN)
+                        else -> Munch.color.color(Munch.UseCase.MESSAGES_OUT)
                     })
         }
     }

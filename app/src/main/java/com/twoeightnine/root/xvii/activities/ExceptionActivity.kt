@@ -44,8 +44,8 @@ class ExceptionActivity : AppCompatActivity() {
         btnReport.setOnClickListener {
             showDialog(error)
         }
-        window.statusBarColor = ContextCompat.getColor(this, R.color.background)
-        window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.background_dark)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.background_dark)
     }
 
     private fun showDialog(error: String) {
