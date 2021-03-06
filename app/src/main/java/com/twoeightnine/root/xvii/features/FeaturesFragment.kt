@@ -1,6 +1,5 @@
 package com.twoeightnine.root.xvii.features
 
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -27,8 +26,6 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
 import com.twoeightnine.root.xvii.storage.SessionProvider
-import com.twoeightnine.root.xvii.uikit.Munch
-import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.core.accounts.model.Account
 import global.msnthrp.xvii.uikit.extensions.*
@@ -50,16 +47,14 @@ class FeaturesFragment : BaseFragment() {
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[FeaturesViewModel::class.java]
 
-        tvSwitchAccount.paintFlags = tvSwitchAccount.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-        tvSwitchAccount.paint(Munch.color.color)
-
         xiAnalyze.setOnClickListener { showToast(context, R.string.in_future_versions) }
         xiStarred.setOnClickListener { startFragment<StarredMessagesFragment>() }
         xiScheduledMessages.setOnClickListener { startFragment<ScheduledMessagesFragment>() }
         xiJournal.setOnClickListener { startFragment<JournalFragment>() }
 
+        ivProfileEdit.setOnClickListener { BrowsingUtils.openUrl(context, EDIT_PROFILE_URL) }
         rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, SessionProvider.userId) }
-        tvSwitchAccount.setOnClickListener { startFragment<AccountsFragment>() }
+        xiAccounts.setOnClickListener { startFragment<AccountsFragment>() }
         xiGeneral.setOnClickListener {
             startFragment<GeneralFragment>()
             suggestJoin()
@@ -159,6 +154,8 @@ class FeaturesFragment : BaseFragment() {
         const val PRIVACY_RU = "https://github.com/TwoEightNine/XVII/blob/master/privacy_ru.md"
 
         const val GITHUB_URL = "https://github.com/twoeightnine/xvii"
+
+        const val EDIT_PROFILE_URL = "https://m.vk.com/edit"
 
         const val SHOW_JOIN_DELAY = 3600 * 24 * 7 // one week
 

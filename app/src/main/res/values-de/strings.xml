@@ -496,7 +496,7 @@
     <string name="key_exchange_title">"%s will ein geheimes gespräch mit sie anfangen "</string>
     <string name="key_exchange_hint">leugnen sie wenn sie es verdächtig finden</string>
     <string name="channel_key_exchanges">schlüsselaustauschen</string>
-    <string name="accounts_manage">manage accounts</string>
+    <string name="accounts_manage">konten</string>
     <string name="accounts_activate">aktivieren</string>
     <string name="accounts_active">aktive konten</string>
     <string name="accounts_add_new_account">ein konto hinzufügen</string>

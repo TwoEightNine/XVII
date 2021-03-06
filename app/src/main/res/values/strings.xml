@@ -412,7 +412,7 @@
     <string name="journal_event_offline_hint">went offline</string>
     <string name="journal_disclaimer">time can differ from reality due to network delays</string>
 
-    <string name="accounts_manage">manage accounts</string>
+    <string name="accounts_manage">accounts</string>
     <string name="accounts_active">active accounts</string>
     <string name="accounts_other">other accounts</string>
     <string name="accounts_view">view</string>

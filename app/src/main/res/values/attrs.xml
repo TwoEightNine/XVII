@@ -21,6 +21,7 @@
     <declare-styleable name="XviiItem">
         <attr name="itemTitle" format="string" />
         <attr name="itemIcon" format="integer" />
+        <attr name="hasDivider" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="XviiButton">

@@ -430,7 +430,7 @@
     <string name="key_exchange_deny">rejecter</string>
     <string name="attachment_open_link_prompt">vous allez ouvrir %s. continuer?</string>
     <string name="attachment_open_doc_prompt">comment voulez-vous ouvrir ce document?</string>
-    <string name="accounts_manage">manager des comptes</string>
+    <string name="accounts_manage">comptes</string>
     <string name="accounts_activate">activer</string>
     <string name="accounts_active">comptes actifs</string>
     <string name="accounts_add_new_account">ajouter un compte</string>

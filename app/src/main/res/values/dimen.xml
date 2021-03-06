@@ -111,4 +111,7 @@
     <dimen name="loader_small_size">24dp</dimen>
     <dimen name="loader_small_thickness">2dp</dimen>
 
+    <dimen name="item_height">48dp</dimen>
+    <dimen name="item_divider_margin">56dp</dimen>
+
 </resources>

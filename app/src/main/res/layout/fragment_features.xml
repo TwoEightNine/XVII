@@ -39,20 +39,23 @@
                     android:layout_margin="12dp" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/civPhoto"
+                    android:layout_toStartOf="@+id/ivProfileEdit"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvName"
                         style="@style/MainBoldText"
                         android:paddingTop="6dp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="22sp"
-                        tools:text="gucci mane" />
+                        tools:text="gucci\nmane" />
 
                     <TextView
                         android:id="@+id/tvLastSeen"
@@ -63,28 +66,34 @@
                         tools:text="last seen 45:67"
                         android:textSize="15sp" />
 
-                    <TextView
-                        android:id="@+id/tvSwitchAccount"
-                        style="@style/OtherText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp"
-                        android:text="@string/accounts_manage"
-                        android:textSize="@dimen/user_info_text_size" />
-
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/ivProfileEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="12dp"
+                    android:padding="12dp"
                     android:src="@drawable/ic_arrow_right"
                     android:tag="main" />
 
+                <View
+                    android:layout_marginStart="56dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider" />
+
             </RelativeLayout>
+
+            <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiAccounts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/accounts_manage"
+                app:itemIcon="@drawable/ic_relation"
+                app:hasDivider="false"/>
 
             <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
@@ -119,7 +128,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemTitle="@string/journal_title"
-                app:itemIcon="@drawable/ic_journal" />
+                app:itemIcon="@drawable/ic_journal"
+                app:hasDivider="false"/>
 
             <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
@@ -153,7 +163,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:itemTitle="@string/pin_settings_title"
-                app:itemIcon="@drawable/ic_padlock" />
+                app:itemIcon="@drawable/ic_padlock"
+                app:hasDivider="false"/>
 
             <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
