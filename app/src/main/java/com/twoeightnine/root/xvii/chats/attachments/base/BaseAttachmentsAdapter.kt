@@ -15,7 +15,8 @@ abstract class BaseAttachmentsAdapter<T : Any, VH : BaseAttachmentsAdapter.BaseA
 
     abstract fun getLayoutId(): Int
 
-    override fun createHolder(parent: ViewGroup, viewType: Int) = getViewHolder(inflater.inflate(getLayoutId(), null))
+    override fun createHolder(parent: ViewGroup, viewType: Int) =
+            getViewHolder(inflater.inflate(getLayoutId(), parent, false))
 
     override fun bind(holder: VH, item: T) {
         (holder as? BaseAttachmentViewHolder<T>)?.bind(item)
