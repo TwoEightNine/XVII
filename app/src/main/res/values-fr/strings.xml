@@ -2,7 +2,7 @@
     <string name="about_app">à propos</string>
     <string name="settings">paramètres</string>
 
-    <string name="last_seen">été vu: %s</string>
+    <string name="last_seen">vu: %s</string>
     <string name="status">statut</string>
     <string name="write_message">écrire un message</string>
     <string name="doenloaded">%s a été téléchargé</string>

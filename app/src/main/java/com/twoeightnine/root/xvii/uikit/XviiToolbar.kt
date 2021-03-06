@@ -70,6 +70,7 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
             addTabs()
         }
         rlChat.setVisible(forChat)
+        tvSubtitle.isSelected = true
         setLogoVisible(showLogo)
 
         applyTopInsetPadding()
