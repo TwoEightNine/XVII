@@ -2,6 +2,7 @@ package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
@@ -20,6 +21,8 @@ object BrowsingUtils {
     private const val BETA_PACKAGE = "com.chrome.beta"
     private const val DEV_PACKAGE = "com.chrome.dev"
     private const val LOCAL_PACKAGE = "com.google.android.apps.chrome"
+
+    private const val TAG = "browsing"
 
     private var mPackageNameToUse: String? = null
 
@@ -56,11 +59,17 @@ object BrowsingUtils {
         val fixedUrl = getFixedUrl(url)
         val uri = Uri.parse(fixedUrl)
 
-        val packageName = getCustomTabsPackage(context)
-        if (packageName != null) {
-            openCustomTabs(context, uri, packageName)
+        val browserPackages = getBrowserAppPackages(context)
+        val nativePackageName = getNativeAppPackage(context, uri, browserPackages)
+        if (nativePackageName != null) {
+            openUriIntent(context, uri, nativePackageName)
         } else {
-            openUriIntent(context, uri)
+            val packageName = getCustomTabsPackage(context, browserPackages)
+            if (packageName != null) {
+                openCustomTabs(context, uri, packageName)
+            } else {
+                openUriIntent(context, uri)
+            }
         }
     }
 
@@ -77,10 +86,11 @@ object BrowsingUtils {
                 .launchUrl(context, uri)
     }
 
-    private fun openUriIntent(context: Context, uri: Uri) {
+    private fun openUriIntent(context: Context, uri: Uri, packageName: String? = null) {
         try {
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = uri
+                packageName?.also { `package` = it }
             }
             context.startActivity(intent)
         } catch (e: Exception) {
@@ -89,26 +99,24 @@ object BrowsingUtils {
         }
     }
 
-    private fun getCustomTabsPackage(context: Context): String? {
+    private fun getCustomTabsPackage(context: Context, browserPackages: Set<String>? = null): String? {
         if (mPackageNameToUse != null) {
             return mPackageNameToUse
         }
 
-        // Get default VIEW intent handler that can view a web url.
-        val activityIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.test-url.com"))
-
-        // Get all apps that can handle VIEW intents.
         val pm = context.packageManager
-        val resolvedActivityList = pm.queryIntentActivities(activityIntent, 0)
-        val packagesSupportingCustomTabs: MutableList<String> = ArrayList()
-        for (info in resolvedActivityList) {
-            val serviceIntent = Intent()
-            serviceIntent.action = CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION
-            serviceIntent.setPackage(info.activityInfo.packageName)
-            if (pm.resolveService(serviceIntent, 0) != null) {
-                packagesSupportingCustomTabs.add(info.activityInfo.packageName)
-            }
-        }
+        val packagesSupportingCustomTabs = arrayListOf<String>()
+
+        (browserPackages ?: getBrowserAppPackages(context))
+                .forEach { packageName ->
+                    val serviceIntent = Intent().apply {
+                        action = CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION
+                        `package` = packageName
+                    }
+                    pm.resolveService(serviceIntent, 0)?.also {
+                        packagesSupportingCustomTabs.add(packageName)
+                    }
+                }
 
         // Now packagesSupportingCustomTabs contains all apps that can handle both VIEW intents
         // and service calls.
@@ -123,6 +131,33 @@ object BrowsingUtils {
         return mPackageNameToUse
     }
 
+    private fun getNativeAppPackage(context: Context, uri: Uri, browserPackages: Set<String>? = null): String? {
+
+        // Get default VIEW intent handler that can view a web url.
+        val activityIntent = Intent(Intent.ACTION_VIEW, uri)
+
+        // Get all apps that can handle VIEW intents.
+        val pm = context.packageManager
+        val resolvedPackages = pm.queryIntentActivities(activityIntent, 0)
+                .toPackageNamesSet()
+                .toMutableSet()
+        resolvedPackages.removeAll(browserPackages ?: getBrowserAppPackages(context))
+        l("found for ${uri.host}: $resolvedPackages")
+        return resolvedPackages.firstOrNull()
+    }
+
+    private fun getBrowserAppPackages(context: Context): Set<String> {
+        // Get default VIEW intent handler that can view a web url.
+        val activityIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.test-url.com"))
+
+        // Get all apps that can handle VIEW intents.
+        val pm = context.packageManager
+        val resolvedPackages = pm.queryIntentActivities(activityIntent, 0)
+                .toPackageNamesSet()
+        l("found as browsers: $resolvedPackages")
+        return resolvedPackages
+    }
+
     private fun getFixedUrl(url: String): String =
             if (!url.startsWith("http://") && !url.startsWith("https://")) {
                 "https://$url"
@@ -130,8 +165,11 @@ object BrowsingUtils {
                 url
             }
 
-    private fun getContentUriFromFilePath(context: Context, path: String) {
+    private fun List<ResolveInfo>.toPackageNamesSet(): Set<String> =
+            map { it.activityInfo.packageName }.toSet()
 
+    private fun l(s: String) {
+        L.tag(TAG).log(s)
     }
 
 }
