@@ -25,6 +25,7 @@ object BrowsingUtils {
     private const val TAG = "browsing"
 
     private var mPackageNameToUse: String? = null
+    private val packagesToIgnore by lazy { getListOfPackagesToIgnore() }
 
     fun openFile(context: Context?, path: String) {
         context ?: return
@@ -142,6 +143,8 @@ object BrowsingUtils {
                 .toPackageNamesSet()
                 .toMutableSet()
         resolvedPackages.removeAll(browserPackages ?: getBrowserAppPackages(context))
+        resolvedPackages.removeAll(packagesToIgnore)
+        resolvedPackages.remove(context.packageName)
         l("found for ${uri.host}: $resolvedPackages")
         return resolvedPackages.firstOrNull()
     }
@@ -167,6 +170,10 @@ object BrowsingUtils {
 
     private fun List<ResolveInfo>.toPackageNamesSet(): Set<String> =
             map { it.activityInfo.packageName }.toSet()
+
+    private fun getListOfPackagesToIgnore() = listOf(
+            "com.perm.kate_new_6",
+    )
 
     private fun l(s: String) {
         L.tag(TAG).log(s)

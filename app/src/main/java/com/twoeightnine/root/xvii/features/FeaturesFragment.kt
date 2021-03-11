@@ -26,6 +26,8 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
 import com.twoeightnine.root.xvii.storage.SessionProvider
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.core.accounts.model.Account
 import global.msnthrp.xvii.uikit.extensions.*
@@ -52,6 +54,7 @@ class FeaturesFragment : BaseFragment() {
         xiScheduledMessages.setOnClickListener { startFragment<ScheduledMessagesFragment>() }
         xiJournal.setOnClickListener { startFragment<JournalFragment>() }
 
+        ivProfileEdit.paint(Munch.color.color50)
         ivProfileEdit.setOnClickListener { BrowsingUtils.openUrl(context, EDIT_PROFILE_URL) }
         rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, SessionProvider.userId) }
         xiAccounts.setOnClickListener { startFragment<AccountsFragment>() }

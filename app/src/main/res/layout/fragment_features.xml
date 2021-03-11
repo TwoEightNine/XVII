@@ -75,7 +75,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:padding="12dp"
-                    android:src="@drawable/ic_arrow_right"
+                    android:src="@drawable/ic_settings"
                     android:tag="main" />
 
                 <View
