@@ -86,8 +86,8 @@ class FeaturesFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getAccount().observe(viewLifecycleOwner, ::updateAccount)
-        viewModel.lastSeen.observe(viewLifecycleOwner) { (isOnline, timeStamp) ->
-            tvLastSeen.text = getLastSeenText(resources, isOnline, timeStamp, 0)
+        viewModel.lastSeen.observe(viewLifecycleOwner) { (isOnline, timeStamp, deviceCode) ->
+            tvLastSeen.text = LastSeenUtils.getFull(context, isOnline, timeStamp, deviceCode)
         }
         viewModel.loadAccount()
     }

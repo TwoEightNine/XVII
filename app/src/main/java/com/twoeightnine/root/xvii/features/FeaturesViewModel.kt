@@ -27,9 +27,9 @@ class FeaturesViewModel(
     }
 
     private val accountLiveData = MutableLiveData<Account>()
-    private val lastSeenLiveData = MutableLiveData<Pair<Boolean, Int>>()
+    private val lastSeenLiveData = MutableLiveData<Triple<Boolean, Int, Int>>()
 
-    val lastSeen: LiveData<Pair<Boolean, Int>>
+    val lastSeen: LiveData<Triple<Boolean, Int, Int>>
         get() = lastSeenLiveData
 
     fun getAccount() = accountLiveData as LiveData<Account>
@@ -70,7 +70,11 @@ class FeaturesViewModel(
         api.getUsers("${SessionProvider.userId}", "online,last_seen")
                 .subscribeSmart({ users ->
                     users.getOrNull(0)?.also { user ->
-                        lastSeenLiveData.value = Pair(user.isOnline, user.lastSeen?.time ?: 0)
+                        lastSeenLiveData.value = Triple(
+                                user.isOnline,
+                                user.lastSeen?.time ?: 0,
+                                user.lastSeen?.platform ?: 0
+                        )
                     }
                 }, {})
     }

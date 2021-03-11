@@ -11,7 +11,7 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
-import com.twoeightnine.root.xvii.utils.getLastSeenText
+import com.twoeightnine.root.xvii.utils.LastSeenUtils
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_user.view.*
@@ -47,7 +47,7 @@ class FriendsAdapter(context: Context,
                 tvName.lowerIf(Prefs.lowerTexts)
 
                 user.lastSeen?.also {
-                    tvInfo.text = getLastSeenText(resources, user.isOnline, it.time, it.platform)
+                    tvInfo.text = LastSeenUtils.getFull(context, user.isOnline, it.time, it.platform)
                 }
                 setOnClickListener {
                     items.getOrNull(adapterPosition)?.also(onClick)

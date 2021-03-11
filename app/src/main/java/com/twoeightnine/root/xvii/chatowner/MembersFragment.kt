@@ -10,7 +10,7 @@ import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.utils.ColorManager
-import com.twoeightnine.root.xvii.utils.getLastSeenText
+import com.twoeightnine.root.xvii.utils.LastSeenUtils
 import com.twoeightnine.root.xvii.utils.stylize
 import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
 import global.msnthrp.xvii.uikit.extensions.lowerIf
@@ -41,7 +41,7 @@ class MembersAdapter(
                 tvName.lowerIf(Prefs.lowerTexts)
 
                 user.lastSeen?.also {
-                    tvInfo.text = getLastSeenText(resources, user.isOnline, it.time, it.platform)
+                    tvInfo.text = LastSeenUtils.getFull(context, user.isOnline, it.time, it.platform)
                 }
                 setOnClickListener { onClick(items[adapterPosition]) }
                 setOnLongClickListener { onLongClick(items[adapterPosition]); true }

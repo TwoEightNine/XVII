@@ -34,7 +34,7 @@ class ChatToolbarController(private val xviiToolbar: XviiToolbar) {
         xviiToolbar.tvChatTitle.lowerIf(Prefs.lowerTexts)
     }
 
-    fun setSubtitle(subtitle: String) {
+    fun setSubtitle(subtitle: CharSequence) {
         xviiToolbar.tvSubtitle.text = subtitle
     }
 

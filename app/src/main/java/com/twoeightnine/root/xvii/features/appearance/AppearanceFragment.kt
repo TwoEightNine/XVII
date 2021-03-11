@@ -153,8 +153,8 @@ class AppearanceFragment : BaseFragment() {
         val sampleOut = getString(R.string.appearance_sample_out)
         val sampleDateIn = getTime(time() - 3647, withSeconds = showSeconds)
         val sampleDateOut = getTime(time() - 364, withSeconds = showSeconds)
-        val sampleLastSeen = getLastSeenText(
-                context.resources,
+        val sampleLastSeen = LastSeenUtils.getFull(
+                context = context,
                 isOnline = false,
                 timeStamp = time() - 2147,
                 deviceCode = 0,

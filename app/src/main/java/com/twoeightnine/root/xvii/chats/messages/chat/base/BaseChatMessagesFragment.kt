@@ -281,7 +281,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         chatToolbarController.setSubtitle(when {
             peerId.matchesChatId() -> getString(R.string.conversation)
             peerId.matchesGroupId() -> getString(R.string.community)
-            else -> getLastSeenText(context?.resources, value.first, value.second, value.third)
+            else -> LastSeenUtils.getFull(context, value.first, value.second, value.third)
         })
     }
 

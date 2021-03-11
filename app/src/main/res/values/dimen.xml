@@ -79,7 +79,7 @@
     <dimen name="scheduled_messages_finger_translation_horizontal">36dp</dimen>
     <dimen name="scheduled_messages_finger_translation_vertical">8dp</dimen>
 
-    <dimen name="toolbar_padding">60dp</dimen>
+    <dimen name="toolbar_padding">56dp</dimen>
 
     <dimen name="default_radius">16dp</dimen>
     <dimen name="bottom_sheet_radius">@dimen/default_radius</dimen>
