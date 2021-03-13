@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.LastSeenUtils
 import com.twoeightnine.root.xvii.utils.getTime
 import global.msnthrp.xvii.core.journal.model.JournalEvent
 import global.msnthrp.xvii.core.journal.model.JournalEventWithPeer
@@ -54,10 +54,11 @@ class JournalAdapter(
             }
         }
 
-        private fun getEventText(event: JournalEventWithPeer): String? {
+        private fun getEventText(event: JournalEventWithPeer): CharSequence? {
             (event.journalEvent as? JournalEvent.StatusJE.OnlineStatusJE)?.also { onlineEvent ->
-                val deviceName = OnlineEvent.getDeviceName(context.resources, onlineEvent.deviceCode)
-                return context.getString(R.string.journal_event_online, deviceName)
+                val text = context.getString(R.string.journal_event_online, LastSeenUtils.SPAN_TEMPLATE)
+                val position = text.length - 1
+                return LastSeenUtils.getSpannedWithDeviceIcon(context, text, position, onlineEvent.deviceCode)
             }
             return when (event.journalEvent) {
                 is JournalEvent.StatusJE.OnlineStatusJE -> R.string.journal_event_online

@@ -14,6 +14,8 @@ import com.twoeightnine.root.xvii.uikit.paint
 
 object LastSeenUtils {
 
+    const val SPAN_TEMPLATE = "\u2004 "
+
     private const val SPAN_SIZE_FACTOR = 0.8f
     private const val TEXT_SIZE_DEFAULT = 28
 
@@ -37,17 +39,28 @@ object LastSeenUtils {
         val lastSeen = context.getString(stringRes, getTime(time, withSeconds = withSeconds))
 
         return if (deviceIconSpan != null) {
-            val start = lastSeen.length + 1
-            val end = start + 1
-            SpannableStringBuilder()
-                    .append(lastSeen)
-                    .append("\u2004 ")
-                    .apply {
-                        setSpan(deviceIconSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    }
+            val text = "$lastSeen$SPAN_TEMPLATE"
+            val position = text.length - 1
+            getSpannedWithDeviceIcon(context, text, position, deviceCode, textSizePx)
         } else {
             lastSeen
         }
+    }
+
+    fun getSpannedWithDeviceIcon(
+            context: Context,
+            text: CharSequence,
+            position: Int,
+            deviceCode: Int,
+            textSizePx: Int = TEXT_SIZE_DEFAULT
+    ): CharSequence {
+        val deviceIconSpan = createDeviceIconSpan(context, deviceCode, textSizePx)
+        return SpannableStringBuilder()
+                .append(text)
+                .apply {
+                    setSpan(deviceIconSpan, position, position + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+
     }
 
     private fun createDeviceIconSpan(context: Context, deviceCode: Int, textSizePx: Int): ImageSpan? {
@@ -65,11 +78,11 @@ object LastSeenUtils {
         if (deviceCode !in 1..7) return 0
 
         return when(deviceCode) {
-            1 -> 0// mobile
-            2, 3 -> R.drawable.ic_apple_device
-            4 -> R.drawable.ic_android_device
-            5, 6 -> R.drawable.ic_windows_device
-            else -> 0 // full or unknown
+            1 -> R.drawable.ic_mobile
+            2, 3 -> R.drawable.ic_apple
+            4 -> R.drawable.ic_android
+            5, 6 -> R.drawable.ic_windows
+            else -> R.drawable.ic_desktop
         }
     }
 }

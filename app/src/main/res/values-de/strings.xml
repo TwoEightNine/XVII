@@ -474,7 +474,7 @@
     <string name="show_notifications_group">von dieser gruppe</string>
     <string name="show_notifications_conversation">von diesem gespräch</string>
     <string name="journal_title">zeitschrift</string>
-    <string name="journal_event_online">ist online %s gegangen</string>
+    <string name="journal_event_online">ist online gegangen %s</string>
     <string name="journal_event_offline">ist offline gegangen</string>
     <string name="journal_event_read">hat eine nachricht gelesen</string>
     <string name="journal_event_delete">hat eine nachricht gelöscht</string>
