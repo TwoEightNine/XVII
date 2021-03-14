@@ -65,7 +65,7 @@ class GalleryAdapter(
                 }
                 invalidateCheck(item, animate = false)
                 setOnClickListener {
-                    val deviceItem = items[adapterPosition]
+                    val deviceItem = items.getOrNull(adapterPosition) ?: return@setOnClickListener
                     if (deviceItem.type == DeviceItem.Type.PHOTO && item !in multiSelect) {
                         onClick(deviceItem)
                     } else {
@@ -74,9 +74,9 @@ class GalleryAdapter(
                 }
                 rlCheck.setOnClickListener {
                     if (multiSelectMode) {
-                        val i = items[adapterPosition]
-                        multiSelect(i)
-                        invalidateCheck(i)
+                        val deviceItem = items.getOrNull(adapterPosition) ?: return@setOnClickListener
+                        multiSelect(deviceItem)
+                        invalidateCheck(deviceItem)
                     }
                 }
                 ivCheckCircle.paint(Munch.color.color)
