@@ -242,11 +242,15 @@ class ChatInputController(
             return arrayListOf()
         }
 
+        val filter: (String, String) -> Boolean = when {
+            Prefs.exactSuggestions -> { word, input -> word == input }
+            else -> { word, input -> word.startsWith(input) }
+        }
         val typedLower = typed.toString().toLowerCase()
         return stickers
                 .filter { sticker ->
                     sticker.keyWordsList
-                            .map { word -> if (word.startsWith(typedLower)) 1 else 0 }
+                            .map { word -> if (filter(word, typedLower)) 1 else 0 }
                             .sum() != 0
                 }
                 .map { Sticker(it.id) }

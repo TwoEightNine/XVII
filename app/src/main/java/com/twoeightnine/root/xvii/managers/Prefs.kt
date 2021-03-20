@@ -33,6 +33,7 @@ object Prefs {
     private const val STORE_CUSTOM_KEYS = "storeCustomKeys"
     private const val SEND_BY_ENTER = "sendByEnter"
     private const val STICKER_SUGGESTIONS = "stickerSuggestions"
+    private const val EXACT_SUGGESTIONS = "exactSuggestions"
     private const val JOIN_SHOWN_LAST = "joinShownLast"
     private const val ENABLE_SWIPE_TO_BACK = "enableSwipeToBack"
     private const val LIFT_KEYBOARD_WINDOW = "liftKeyboardWindow"
@@ -126,6 +127,10 @@ object Prefs {
     var stickerSuggestions
         get() = data.getBoolean(STICKER_SUGGESTIONS, true)
         set(value) = data.edit().putBoolean(STICKER_SUGGESTIONS, value).apply()
+
+    var exactSuggestions
+        get() = data.getBoolean(EXACT_SUGGESTIONS, false)
+        set(value) = data.edit().putBoolean(EXACT_SUGGESTIONS, value).apply()
 
     var joinShownLast
         get() = data.getInt(JOIN_SHOWN_LAST, 0)
@@ -267,6 +272,8 @@ object Prefs {
     fun getSettings() = mapOf<String, Any>(
             BE_OFFLINE to beOffline,
             BE_ONLINE to beOnline,
+            STICKER_SUGGESTIONS to stickerSuggestions,
+            EXACT_SUGGESTIONS to exactSuggestions,
 
             SHOW_NOTIF to showNotifs,
             VIBRATE to vibrate,

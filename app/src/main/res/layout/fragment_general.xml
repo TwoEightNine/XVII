@@ -89,6 +89,13 @@
                 android:text="@string/sticker_suggestions" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchExactSuggestions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sticker_suggestions_exact_hint"
+                android:text="@string/sticker_suggestions_exact" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchStoreKeys"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

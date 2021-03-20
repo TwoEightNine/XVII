@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.features.general
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -19,7 +19,9 @@ import kotlinx.android.synthetic.main.fragment_general.*
 
 class GeneralFragment : BaseFragment() {
 
-    private lateinit var viewModel: GeneralViewModel
+    private val viewModel by viewModels<GeneralViewModel>()
+
+    override fun getLayoutId() = R.layout.fragment_general
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +37,6 @@ class GeneralFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this)[GeneralViewModel::class.java]
         viewModel.calculateCacheSize()
 
         viewModel.cacheSize.observe(viewLifecycleOwner) { size ->
@@ -59,6 +60,7 @@ class GeneralFragment : BaseFragment() {
         switchTyping.isChecked = Prefs.showTyping
         switchSendByEnter.isChecked = Prefs.sendByEnter
         switchStickerSuggestions.isChecked = Prefs.stickerSuggestions
+        switchExactSuggestions.isChecked = Prefs.exactSuggestions
         switchSwipeToBack.isChecked = Prefs.enableSwipeToBack
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
         switchLiftKeyboard.isChecked = Prefs.liftKeyboard
@@ -73,6 +75,9 @@ class GeneralFragment : BaseFragment() {
         switchHideStatus.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             viewModel.setHideMyStatus(isChecked)
         }
+        switchStickerSuggestions.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            switchExactSuggestions.setVisible(isChecked)
+        }
     }
 
     private fun saveSwitches() {
@@ -83,6 +88,7 @@ class GeneralFragment : BaseFragment() {
         Prefs.showTyping = switchTyping.isChecked
         Prefs.sendByEnter = switchSendByEnter.isChecked
         Prefs.stickerSuggestions = switchStickerSuggestions.isChecked
+        Prefs.exactSuggestions = switchExactSuggestions.isChecked
         Prefs.enableSwipeToBack = switchSwipeToBack.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
         Prefs.liftKeyboard = switchLiftKeyboard.isChecked
@@ -93,8 +99,6 @@ class GeneralFragment : BaseFragment() {
         super.onStop()
         saveSwitches()
     }
-
-    override fun getLayoutId() = R.layout.fragment_general
 
     companion object {
 
