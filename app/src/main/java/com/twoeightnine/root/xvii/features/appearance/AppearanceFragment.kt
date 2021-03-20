@@ -301,12 +301,7 @@ class AppearanceFragment : BaseFragment() {
         super.onStop()
         GalleryFragment.clear()
 
-        Prefs.showSeconds = switchShowSeconds.isChecked
-        Prefs.lowerTexts = switchLowerTexts.isChecked
-        Prefs.appleEmojis = switchAppleEmojis.isChecked
-        Prefs.showStickers = switchShowStickers.isChecked
-        Prefs.showVoice = switchShowVoice.isChecked
-        Prefs.messageTextSize = stMessageSize.value
+        savePreferences()
     }
 
     /**
@@ -323,6 +318,7 @@ class AppearanceFragment : BaseFragment() {
             if (yes) {
                 Prefs.color = currentColor
                 Prefs.isLightTheme = switchLightTheme.isChecked
+                savePreferences()
                 restartApp(context, getString(R.string.theme_changed))
             } else {
                 switchLightTheme.isChecked = isLightBefore
@@ -345,6 +341,15 @@ class AppearanceFragment : BaseFragment() {
                 .build()
                 .apply { stylize() }
                 .show()
+    }
+
+    private fun savePreferences() {
+        Prefs.showSeconds = switchShowSeconds.isChecked
+        Prefs.lowerTexts = switchLowerTexts.isChecked
+        Prefs.appleEmojis = switchAppleEmojis.isChecked
+        Prefs.showStickers = switchShowStickers.isChecked
+        Prefs.showVoice = switchShowVoice.isChecked
+        Prefs.messageTextSize = stMessageSize.value
     }
 
     companion object {
