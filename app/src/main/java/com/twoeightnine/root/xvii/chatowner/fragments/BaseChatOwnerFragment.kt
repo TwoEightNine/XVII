@@ -6,8 +6,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
@@ -41,7 +40,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     }
     private var chatOwner: ChatOwner? = null
 
-    protected lateinit var viewModel: ChatOwnerViewModel
+    protected val viewModel by viewModels<ChatOwnerViewModel>()
 
     abstract fun getChatOwnerClass(): Class<T>
 
@@ -72,11 +71,10 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
-        viewModel = ViewModelProviders.of(this)[ChatOwnerViewModel::class.java].apply {
-            chatOwner.observe(viewLifecycleOwner, Observer(::onChatOwnerLoaded))
-            photos.observe(viewLifecycleOwner, Observer(::onPhotosLoaded))
-            alias.observe(viewLifecycleOwner, Observer(::onAliasLoaded))
+        viewModel.apply {
+            chatOwner.observe(::onChatOwnerLoaded)
+            photos.observe(::onPhotosLoaded)
+            alias.observe(::onAliasLoaded)
 
             loadChatOwner(peerId, getChatOwnerClass())
             loadAlias(peerId)

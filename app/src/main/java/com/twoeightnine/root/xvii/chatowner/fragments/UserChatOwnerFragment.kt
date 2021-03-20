@@ -6,7 +6,9 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_chat_owner_user.*
 
@@ -33,15 +35,14 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
         btnUnblockUser.setOnClickListener {
             viewModel.unblockUser(getChatOwner()?.getPeerId() ?: 0)
         }
-
     }
 
     override fun getBottomPaddableView(): View = vBottom
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.blocked.observe(viewLifecycleOwner, ::onBlockedChanged)
-        viewModel.foaf.observe(viewLifecycleOwner) { foaf ->
+        viewModel.blocked.observe(::onBlockedChanged)
+        viewModel.foaf.observe { foaf ->
             foaf.data?.also { registrationDate ->
                 val registrationTs = (registrationDate.time / 1000L).toInt()
                 addValue(R.drawable.ic_registration_date, getDate(registrationTs))
@@ -100,6 +101,11 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
             copy(user.facebook, R.string.facebook)
         }
         viewModel.loadFoaf(chatOwner.getPeerId())
+
+        if (SessionProvider.isUserIdTheSame(user.id)) {
+            btnBlockUser.hide()
+            btnUnblockUser.hide()
+        }
     }
 
     private fun onBlockedChanged(data: Wrapper<Boolean>) {
