@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.search
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
@@ -46,7 +45,8 @@ class SearchFragment : BaseFragment() {
         ivDelete.setOnClickListener { etSearch.setText("") }
         ivEmptyView.paint(Munch.color.color50)
 
-        ivBack.paint(ContextCompat.getColor(requireContext(), R.color.main_text))
+        ivDelete.paint(Munch.color.colorDark(50))
+        ivBack.paint(Munch.color.colorDark(50))
         ivBack.setOnClickListener { onBackPressed() }
         rlSearch.background.paint(Munch.color.color20)
 

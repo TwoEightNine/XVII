@@ -184,9 +184,9 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     }
 
     private fun stylize() {
-        rlMultiAction.stylizeAll()
         rlMultiAction.background?.paint(Munch.color.color20)
-        rlBack.stylizeAll()
+        listOf(ivCancelMulti, ivMarkMulti, ivDeleteMulti, ivForwardMulti, ivReplyMulti)
+                .forEach { it.paint(Munch.color.colorDark(50)) }
 
         if (Prefs.chatBack.isNotEmpty()) {
             try {
