@@ -73,8 +73,7 @@ class AppearanceFragment : BaseFragment() {
         currentColor = colorBefore
         initViews()
         invalidateSample()
-        switchLightTheme.stylize()
-        rlHideBottom.stylizeColor()
+        rlHideBottom.paint(Munch.color.color)
         pbAttach.hide()
         rlAttachCount.hide()
 

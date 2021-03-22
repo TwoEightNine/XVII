@@ -55,7 +55,7 @@ class MainActivity : BaseActivity() {
         }
         startNotificationAlarm(this)
         apiUtils.trackVisitor()
-        bottomNavView.stylize()
+        bottomNavView.paint(Munch.color.color)
         StatTool.get()?.incLaunch()
 
         ivSearch.setOnClickListener {

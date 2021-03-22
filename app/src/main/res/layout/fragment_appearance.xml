@@ -183,7 +183,7 @@
                 android:layout_height="@dimen/bottomsheet_thumb_height"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="12dp"
-                android:src="@drawable/ic_chevron_down" />
+                android:src="@drawable/ic_clear" />
 
             <TextView
                 android:id="@+id/tvBottomTitle"

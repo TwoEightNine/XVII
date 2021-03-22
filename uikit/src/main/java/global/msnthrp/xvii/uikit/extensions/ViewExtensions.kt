@@ -26,3 +26,5 @@ fun View.toggle() {
 fun View.show() = setVisible(true)
 
 fun View.hide() = setVisible(false)
+
+fun View.hideInvis() = setVisibleWithInvis(false)

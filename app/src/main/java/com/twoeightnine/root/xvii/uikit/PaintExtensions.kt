@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twoeightnine.root.xvii.R
 import kotlin.random.Random
 
@@ -83,4 +84,16 @@ fun RadioButton.paint(color: Int) {
             )
     )
     buttonTintList = colorStateList
+}
+
+fun BottomNavigationView.paint(color: Int) {
+
+    val states = arrayOf(
+            intArrayOf(android.R.attr.state_selected, android.R.attr.state_checked),
+            intArrayOf()
+    )
+
+    val gray = ContextCompat.getColor(context, R.color.bottom_nav_non_active)
+    val colors = intArrayOf(color, gray)
+    itemIconTintList = ColorStateList(states, colors)
 }

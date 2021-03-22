@@ -49,11 +49,6 @@ import java.util.regex.Pattern
 
 private const val REGEX_MENTION = "(\\[id\\d{1,9}\\|[^\\]]+\\])"
 
-@Deprecated("Use SizeUtils", replaceWith = ReplaceWith("SizeUtils.pxFromDp", "global.msnthrp.xvii.uikit.utils.SizeUtils"))
-fun pxFromDp(context: Context, dp: Int): Int {
-    return (dp * context.resources.displayMetrics.density).toInt()
-}
-
 fun isOnline(): Boolean {
     val cm = App.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val isOnline = cm.activeNetworkInfo?.isConnectedOrConnecting ?: false

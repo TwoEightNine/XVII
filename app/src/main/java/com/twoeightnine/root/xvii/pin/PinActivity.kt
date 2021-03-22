@@ -18,6 +18,8 @@ import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.storage.SessionProvider
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import global.msnthrp.xvii.uikit.extensions.*
@@ -64,7 +66,7 @@ class PinActivity : BaseActivity() {
 
         action ?: finish()
         init()
-        rlContainer.stylizeAll()
+        rlContainer.paint(Munch.color.colorDark(20))
         rlPinControls.applyBottomInsetPadding()
 
         ivBack.setVisible(action != Action.ENTER)
@@ -79,7 +81,6 @@ class PinActivity : BaseActivity() {
                 window.decorView.systemUiVisibility and
                         View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
 
-//        AlarmActivity.launch(this)
     }
 
     override fun shouldRunService(): Boolean = false

@@ -1,14 +1,12 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.*
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
@@ -17,10 +15,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.DialogTitle
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.uikit.Munch
+import global.msnthrp.xvii.uikit.utils.SizeUtils
 
 
 val SANS_SERIF_LIGHT: Typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
@@ -39,21 +37,17 @@ object ColorManager {
     var shouldIgnore: Boolean = false
         private set
 
-    var shapeColor: Int = 0
-        private set
+    private var shapeColor: Int = 0
 
     private var defaultColor: Int = 0
 
     private var darkColor: Int = 0
 
-    var mainColor: Int = 0
-        private set
+    private var mainColor: Int = 0
 
-    var lightColor: Int = 0
-        private set
+    private var lightColor: Int = 0
 
-    var extraLightColor: Int = 0
-        private set
+    private var extraLightColor: Int = 0
 
     private var toolbarColor: Int = 0
         get() = if (Prefs.isLightTheme) mainColor else field
@@ -77,7 +71,7 @@ object ColorManager {
         else -> mainColor
     }
 
-    fun getFromMain(mainColor: Int = this.mainColor): IntArray { //[dark, main, light, extraLight]
+    private fun getFromMain(mainColor: Int = this.mainColor): IntArray { //[dark, main, light, extraLight]
 
         val dark = -120
         val light = 75 // #b0b0b0
@@ -138,29 +132,6 @@ fun CardView.stylize(tag: String = ColorManager.DARK_TAG) {
     setCardBackgroundColor(ColorManager.getColorByTag(tag))
 }
 
-fun BottomNavigationView.stylize() {
-
-    val states = arrayOf(
-            intArrayOf(android.R.attr.state_selected, android.R.attr.state_checked),
-            intArrayOf()
-    )
-
-    val gray = if (ColorManager.shouldIgnore) Color.DKGRAY else Color.LTGRAY
-    val colors = intArrayOf(ColorManager.mainColor, gray)
-    itemIconTintList = ColorStateList(states, colors)
-}
-
-fun ViewGroup.stylizeColor() {
-    if (ColorManager.shouldIgnore) return
-    (tag as? String)?.let { setBackgroundColor(ColorManager.getColorByTag(it)) }
-}
-
-@SuppressWarnings
-fun ViewGroup.stylize(changeStroke: Boolean = true) {
-    if (ColorManager.shouldIgnore) return
-    (tag as? String)?.let { background.stylize(it, changeStroke) }
-}
-
 fun ImageView.stylize(tag: String? = this.tag as? String, changeStroke: Boolean = true) {
     if (ColorManager.shouldIgnore) return
     tag?.let { drawable?.stylize(it, changeStroke) }
@@ -211,27 +182,10 @@ fun AlertDialog.stylize(keepFont: Boolean = false, warnPositive: Boolean = false
     if (!keepFont) {
         WindowManager.LayoutParams().apply {
             copyFrom(window?.attributes)
-            width = pxFromDp(context, 280)
-            y = pxFromDp(context, 40)
+            width = SizeUtils.pxFromDp(context, 280)
+            y = SizeUtils.pxFromDp(context, 40)
             gravity = Gravity.BOTTOM
             window?.attributes = this
-        }
-    }
-}
-
-fun ViewGroup.stylizeAll(level: Int = 0) {
-    if (ColorManager.shouldIgnore) return
-
-    stylizeColor()
-    for (i in 0 until childCount) {
-        val v = getChildAt(i)
-        var r = ""
-        for (j in 0 until level) {
-            r += "--"
-        }
-        when (v) {
-            is ImageView -> v.stylize()
-            is ViewGroup -> v.stylizeAll(level + 1)
         }
     }
 }

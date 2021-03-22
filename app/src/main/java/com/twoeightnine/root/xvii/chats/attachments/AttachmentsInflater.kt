@@ -34,6 +34,7 @@ import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.show
 import global.msnthrp.xvii.uikit.utils.DisplayUtils
+import global.msnthrp.xvii.uikit.utils.SizeUtils
 import global.msnthrp.xvii.uikit.utils.color.DocColors
 import java.io.File
 
@@ -56,7 +57,7 @@ class AttachmentsInflater(
     private val stickerSize = resources.getDimensionPixelSize(R.dimen.chat_message_sticker_width)
     private val graffitiSize = resources.getDimensionPixelSize(R.dimen.chat_message_graffiti_width)
     private val loaderSize = resources.getDimensionPixelSize(R.dimen.chat_message_loader)
-    private val wtfDimen = pxFromDp(context, 3)
+    private val wtfDimen = SizeUtils.pxFromDp(context, 3)
 
     fun getMessageWidth(message: Message, fullDeepness: Boolean, level: Int): Int {
         message.replyMessage?.also {
