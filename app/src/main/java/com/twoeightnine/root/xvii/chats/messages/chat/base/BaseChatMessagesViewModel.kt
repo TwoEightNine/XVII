@@ -114,7 +114,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     fun getCanWrite() = canWriteLiveData as LiveData<CanWrite>
 
-    fun getActivity() = activityLiveData as LiveData<String>
+    fun getActivity() = (activityLiveData as LiveData<String>)
 
     protected fun setOffline() {
         if (Prefs.beOffline) {
@@ -385,6 +385,19 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 }, ::onErrorOccurred)
     }
 
+    fun onResume(lastMessage: Message? = null) {
+        isShown = true
+        activityLiveData.value = ACTIVITY_NONE
+        lastMessage?.also(::invalidateMessages)
+        l("onResume")
+    }
+
+    fun onPause() {
+        isShown = false
+        activityLiveData.value = ACTIVITY_NONE
+        l("onPause")
+    }
+
     private fun readOutgoingMessages() {
         val firstUnreadPos = messages.indexOfFirst { !it.message.read }
         if (firstUnreadPos == -1) return
@@ -599,9 +612,17 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     protected fun getRandomId() = Random.nextInt()
 
     protected open fun lw(s: String, throwable: Throwable? = null) {
-        L.tag("chat")
+        L.tag(TAG)
                 .throwable(throwable)
                 .log(s)
+    }
+
+    protected open fun ld(s: String) {
+        L.tag(TAG).debug().log(s)
+    }
+
+    protected open fun l(s: String) {
+        L.tag(TAG).log(s)
     }
 
     companion object {
@@ -622,5 +643,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         const val ACTIVITY_TYPING = "typing"
         const val ACTIVITY_VOICE = "audiomessage"
         const val ACTIVITY_NONE = "none"
+
+        private const val TAG = "chat"
     }
 }

@@ -156,11 +156,11 @@ class SecretChatViewModel(
 
     private fun createCryptoEngine() = CryptoEngine.OnePeerUseCase(peerId)
 
-    private fun ld(s: String) {
+    override fun ld(s: String) {
         L.tag(TAG).debug().log(s)
     }
 
-    private fun l(s: String) {
+    override fun l(s: String) {
         L.tag(TAG).log(s)
     }
 
