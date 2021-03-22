@@ -22,7 +22,6 @@ import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.utils.copyToClip
 import com.twoeightnine.root.xvii.utils.showError
-import com.twoeightnine.root.xvii.utils.stylizeAll
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.view_chat_multiselect.*
@@ -41,8 +40,10 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         ivReplyMulti.visibility = View.INVISIBLE
         ivDeleteMulti.visibility = View.INVISIBLE
         ivMarkMulti.visibility = View.INVISIBLE
-        rlMultiAction.stylizeAll()
-        rlMultiAction.background.paint(Munch.color.color20)
+
+        rlMultiAction.background?.paint(Munch.color.color20)
+        listOf(ivCancelMulti, ivMarkMulti, ivDeleteMulti, ivForwardMulti, ivReplyMulti)
+                .forEach { it.paint(Munch.color.colorDark(50)) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
