@@ -4,46 +4,97 @@ import android.content.Context
 import android.text.Layout
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
-import kotlin.math.ceil
+import com.twoeightnine.root.xvii.lg.L
+import kotlin.math.roundToInt
 
 class AccurateTextView(context: Context, attrs: AttributeSet?) : AppCompatTextView(context, attrs) {
 
 
-    override fun onMeasure(
-            widthMeasureSpec: Int,
-            heightMeasureSpec: Int
-    ) {
-        if (layout == null || layout.lineCount < 2) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-            return
-        }
+    private var maxLineWidth: Int? = null
+    private var lastLineWidth: Int? = null
+    private var linesCount: Int? = null
+    private var calculated = false
 
-        val maxLineWidth = ceil(getMaxLineWidth(layout)).toInt()
-        val uselessPaddingWidth = layout.width - maxLineWidth
-        val extraDeltaToCarryLine = when {
-            isLastLineAlmostFullWidth(layout) -> CARRY_LINE_DELTA
-            else -> 0
-        }
+//    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+//        val maxLineWidth = maxLineWidth
+//        if (maxLineWidth != null) {
+//            L.def().log("setMeasured $maxLineWidth, '$text'")
+//            setMeasuredDimension(maxLineWidth, measuredHeight)
+//        } else {
+//            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+//        }
+//    }
 
-        val width = measuredWidth - uselessPaddingWidth - extraDeltaToCarryLine
+//    override fun setText(text: CharSequence?, type: BufferType?) {
+//        if (text != this.text) {
+//            calculated = false
+//            L.def().log("non equal '$text', '${this.text}'")
+//        } else {
+//            L.def().log("equal '$text', '${this.text}'")
+//        }
+//        super.setText(text, type)
+//        if (!calculated) {
+//            calculated = true
+//            if (layout != null) {
+//                L.def().log("just non null, '$text'")
+//                recalculate()
+//            } else {
+//                onPreDraw {
+//                    if (layout != null) {
+//                        L.def().log("predraw non null, '$text'")
+//                        recalculate()
+//                    }
+//                }
+//            }
+//        }
+//    }
 
-        val newWidthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST)
-        val newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
-        super.onMeasure(newWidthMeasureSpec, newHeightMeasureSpec)
+    private fun recalculate() {
+        maxLineWidth = getMaxLineWidth(layout)
+        lastLineWidth = getLastLineWidth(layout)
+        linesCount = layout.lineCount
+
+        L.def().log("$maxLineWidth, $lastLineWidth, '$text'")
+        requestLayout()
+        invalidate()
     }
 
-    private fun getMaxLineWidth(layout: Layout): Float {
+    //    override fun onMeasure(
+//            widthMeasureSpec: Int,
+//            heightMeasureSpec: Int
+//    ) {
+//        if (layout == null || layout.lineCount < 2) {
+//            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+//            return
+//        }
+//
+//        val maxLineWidth = ceil(getMaxLineWidth(layout)).toInt()
+//        val uselessPaddingWidth = layout.width - maxLineWidth
+//        val extraDeltaToCarryLine = when {
+//            isLastLineAlmostFullWidth(layout) -> CARRY_LINE_DELTA
+//            else -> 0
+//        }
+//
+//        val width = measuredWidth - uselessPaddingWidth - extraDeltaToCarryLine
+//
+//        val newWidthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST)
+//        val newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+//        super.onMeasure(newWidthMeasureSpec, newHeightMeasureSpec)
+//    }
+
+    private fun getExtraSpaceOnLastLine(layout: Layout): Int {
+        return getMaxLineWidth(layout) - getLastLineWidth(layout)
+    }
+
+    private fun getLastLineWidth(layout: Layout): Int {
+        return layout.getLineWidth(layout.lineCount.dec()).roundToInt()
+    }
+
+    private fun getMaxLineWidth(layout: Layout): Int {
         return (0 until layout.lineCount)
-                .map { layout.getLineWidth(it) }
-                .maxOrNull() ?: 0.0f
-    }
-
-    private fun isLastLineAlmostFullWidth(layout: Layout): Boolean {
-        return layout.width - layout.getLineWidth(layout.lineCount - 1) < LAST_LINE_THRESHOLD
-    }
-
-    companion object {
-        private const val LAST_LINE_THRESHOLD = 200
-        private const val CARRY_LINE_DELTA = 20
+                .map(layout::getLineWidth)
+                .maxOrNull()
+                ?.roundToInt()
+                ?: 0
     }
 }

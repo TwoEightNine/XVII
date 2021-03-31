@@ -1,6 +1,7 @@
 package global.msnthrp.xvii.uikit.extensions
 
 import android.view.View
+import android.view.ViewTreeObserver
 
 
 fun View.setVisible(visible: Boolean) {
@@ -28,3 +29,22 @@ fun View.show() = setVisible(true)
 fun View.hide() = setVisible(false)
 
 fun View.hideInvis() = setVisibleWithInvis(false)
+
+inline fun View.onReady(crossinline callback: () -> Unit) {
+    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            callback()
+            viewTreeObserver.removeOnGlobalLayoutListener(this)
+        }
+    })
+}
+
+inline fun View.onPreDraw(crossinline callback: () -> Unit) {
+    viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+        override fun onPreDraw(): Boolean {
+            callback()
+            viewTreeObserver.removeOnPreDrawListener(this)
+            return true
+        }
+    })
+}
