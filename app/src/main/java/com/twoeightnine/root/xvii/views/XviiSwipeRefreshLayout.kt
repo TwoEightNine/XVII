@@ -15,7 +15,7 @@ class XviiSwipeRefreshLayout : SwipyRefreshLayout {
     init {
         setDistanceToTriggerSync(100)
         setProgressBackgroundColor(R.color.popup)
-        setColorSchemeColors(*Munch.nextAnalogy)
+        setColorSchemeColors(*Munch.nearColors)
     }
 
 }

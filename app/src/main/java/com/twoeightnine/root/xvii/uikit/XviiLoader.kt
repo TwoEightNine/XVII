@@ -24,7 +24,7 @@ class XviiLoader(context: Context, attributeSet: AttributeSet) : FrameLayout(con
             if (alwaysWhite) {
                 setIndicatorColor(Color.WHITE)
             } else {
-                setIndicatorColor(*Munch.nextAnalogy)
+                setIndicatorColor(*Munch.nearColors)
             }
             indicatorSize = size.getIndicatorSize(context)
             trackThickness = size.getTrackThickness(context)

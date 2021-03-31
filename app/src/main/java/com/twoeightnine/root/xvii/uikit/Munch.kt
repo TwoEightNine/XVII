@@ -22,6 +22,19 @@ object Munch {
 
     val color = ColorScope(Prefs.color)
 
+    val nextNear = color.color.getNextNear()
+    val prevNear = color.color.getPrevNear()
+
+    val nearColors: IntArray by lazy {
+        val color = color.color
+        intArrayOf(
+                color,
+                color.getNextNear(),
+                color,
+                color.getPrevNear()
+        )
+    }
+
     val nextAnalogy: IntArray by lazy {
         val color = color.color
         intArrayOf(
@@ -38,6 +51,8 @@ object Munch {
     private fun Int.getNextNear() = toHsv().addHue(NEAR).toInt()
     private fun Int.getNextSimilar() = toHsv().addHue(SIMILAR).toInt()
     private fun Int.getNextRange() = toHsv().addHue(RANGE).toInt()
+
+    private fun Int.getPrevNear() = toHsv().addHue(-NEAR).toInt()
 
     private fun Int.mixWith(color: Int, alpha: Float = 0.5f): Int {
         return when (alpha) {
