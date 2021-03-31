@@ -8,13 +8,26 @@
     tools:background="#673">
 
     <ImageView
-        android:id="@+id/readStateDot"
+        android:id="@+id/ivReadDot"
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:layout_alignBottom="@+id/llMessage"
         android:layout_alignParentStart="true"
         android:layout_marginEnd="@dimen/chat_dot_message_margin"
         android:src="@drawable/unread_dot_shae"
+        app:layout_constraintTop_toTopOf="@+id/tvDateOutside"
+        app:layout_constraintEnd_toStartOf="@+id/tvDateOutside"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDateOutside" />
+
+    <ImageView
+        android:id="@+id/ivSendingIcon"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_alignBottom="@+id/llMessage"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="@dimen/chat_dot_message_margin"
+        android:src="@drawable/ic_clock"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="@+id/tvDateOutside"
         app:layout_constraintEnd_toStartOf="@+id/tvDateOutside"
         app:layout_constraintBottom_toBottomOf="@+id/tvDateOutside" />
@@ -55,22 +68,6 @@
             android:orientation="vertical" />
 
     </LinearLayout>
-
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/pbSending"
-        android:layout_width="0dp"
-        android:layout_height="4dp"
-        android:indeterminate="true"
-        android:paddingStart="@dimen/default_radius"
-        android:paddingTop="0dp"
-        android:paddingEnd="@dimen/default_radius"
-        android:paddingBottom="0dp"
-        android:visibility="visible"
-        app:trackCornerRadius="0.5dp"
-        app:trackThickness="1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/llMessage"
-        app:layout_constraintEnd_toEndOf="@+id/llMessage"
-        app:layout_constraintStart_toStartOf="@+id/llMessage" />
 
     <RelativeLayout
         android:id="@+id/rlDateSeparator"

@@ -37,7 +37,6 @@ import kotlinx.android.synthetic.main.item_message_wtf.view.*
 import kotlinx.android.synthetic.main.item_message_wtf.view.civPhoto
 import kotlinx.android.synthetic.main.item_message_wtf.view.llMessage
 import kotlinx.android.synthetic.main.item_message_wtf.view.llMessageContainer
-import kotlinx.android.synthetic.main.item_message_wtf.view.readStateDot
 import kotlinx.android.synthetic.main.item_message_wtf.view.rlBack
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvBody
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateOutside
@@ -234,12 +233,14 @@ class MessagesAdapter(context: Context,
                                 ?.also(messageCallback::onUserClicked)
                     }
                 }
-                readStateDot?.apply {
-                    stylize(ColorManager.MAIN_TAG, changeStroke = false)
-                    setVisibleWithInvis(!message.read && message.isOut())
+
+                ivSendingIcon?.setVisible(isNotSent)
+                ivSendingIcon?.paint(Munch.color.color)
+
+                ivReadDot?.apply {
+                    paint(Munch.color.color)
+                    setVisibleWithInvis(!message.read && message.isOut() && !isNotSent)
                 }
-                pbSending?.setVisible(isNotSent && !hasAttachmentsOrForwarded)
-                pbSending?.setIndicatorColor(Munch.color.color)
 
                 val paintDelta = if (isOutgoingStack) 1 else 0
                 llMessage.stylizeAsMessage(
