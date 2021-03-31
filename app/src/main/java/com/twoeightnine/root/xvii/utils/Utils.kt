@@ -484,7 +484,7 @@ fun getCroppedImagePath(activity: Activity, original: String): String? {
             bmp = Bitmap.createBitmap(bmp, 0, (ih - newH) / 2, newW, newH)
         }
         bmp = Bitmap.createScaledBitmap(bmp, sw, sh, true)
-        val fileName = File(activity.filesDir, "chatBack${time() % 10}.png").absolutePath
+        val fileName = File(activity.filesDir, "chatBack${time()}.png").absolutePath
         saveBmp(fileName, bmp)
         return fileName
     } catch (e: Exception) {
@@ -506,7 +506,7 @@ fun createColoredBitmap(activity: Activity, color: Int): String? {
         Canvas(bitmap).apply {
             drawColor(color)
         }
-        val fileName = File(activity.filesDir, "chatBack${time() % 10}.png").absolutePath
+        val fileName = File(activity.filesDir, "chatBack${time()}.png").absolutePath
         saveBmp(fileName, bitmap)
         return fileName
     } catch (e: Exception) {
