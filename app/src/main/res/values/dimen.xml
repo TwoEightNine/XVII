@@ -35,6 +35,8 @@
     <dimen name="chat_message_text_margin">8dp</dimen>
     <dimen name="chat_date_message_margin">2dp</dimen>
     <dimen name="chat_date_bottom_margin">2dp</dimen>
+    <dimen name="chat_date_overlay_margin">8dp</dimen>
+    <dimen name="chat_date_embedded_margin">8dp</dimen>
     <dimen name="chat_dot_message_margin">4dp</dimen>
     <dimen name="chat_dot_date_margin">2dp</dimen>
     <dimen name="chat_date_text_size">10sp</dimen>
@@ -71,8 +73,8 @@
     <dimen name="accounts_fab_add_margin">16dp</dimen>
     <dimen name="attach_fab_done_margin">16dp</dimen>
 
-    <dimen name="chat_wall_post_image_height">180dp</dimen>
-    <dimen name="chat_wall_post_image_width">268dp</dimen>
+    <dimen name="chat_wall_post_image_height">183dp</dimen>
+    <dimen name="chat_wall_post_image_width">272dp</dimen>
 
     <dimen name="stickers_tab_item_size">24dp</dimen>
 

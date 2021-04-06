@@ -59,6 +59,23 @@ data class Attachment(
         val graffiti: Graffiti? = null
 ) : Parcelable {
 
+    val isGraphical: Boolean
+        get() {
+            val isPureGraphical = listOf(photo, sticker, gift, video).any { it != null }
+            if (isPureGraphical) {
+                return true
+            }
+            val isGraphicalWallPost = wall?.attachments?.getPhotos()?.isNotEmpty() ?: false
+            if (isGraphicalWallPost) {
+                return true
+            }
+            val isGraphicalDoc = doc?.isGif ?: false
+            if (isGraphicalDoc) {
+                return true
+            }
+            return false
+        }
+
     constructor(photo: Photo) : this(
             type = TYPE_PHOTO,
             photo = photo

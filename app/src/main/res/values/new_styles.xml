@@ -37,6 +37,11 @@
         <item name="android:textSize">@dimen/chat_date_text_size</item>
     </style>
 
+    <style name="FloatingText.Time.Overlay">
+        <item name="android:textColor">@color/main_text_dark</item>
+        <item name="android:background">@drawable/shape_time_overlay</item>
+    </style>
+
     <!-- set the rounded drawable as background to your bottom sheet -->
     <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/shape_bottom_sheet</item>

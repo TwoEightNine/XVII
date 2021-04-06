@@ -59,6 +59,15 @@ class AttachmentsInflater(
     private val loaderSize = resources.getDimensionPixelSize(R.dimen.chat_message_loader)
     private val wtfDimen = SizeUtils.pxFromDp(context, 3)
 
+    fun getTimeStyle(message: Message): TimeStyle {
+        val attachments = message.attachments
+        return when {
+            attachments.isNullOrEmpty() -> TimeStyle.TEXT
+            attachments.last().isGraphical -> TimeStyle.ATTACHMENTS_OVERLAYED
+            else -> TimeStyle.ATTACHMENTS_EMBEDDED
+        }
+    }
+
     fun getMessageWidth(message: Message, fullDeepness: Boolean, level: Int): Int {
         message.replyMessage?.also {
             return if (message.isReplyingSticker()) {
@@ -271,7 +280,7 @@ class AttachmentsInflater(
             ContainerLinkBinding.inflate(inflater).run {
                 ivPhoto.load(link.photo?.getSmallPhoto()?.url)
                 tvTitle.text = link.title
-                tvCaption.text = link.url
+                tvCaption.text = link.caption
                 root.setOnClickListener {
                     callback.onLinkClicked(link)
                 }
@@ -409,6 +418,12 @@ class AttachmentsInflater(
         fun onGifClicked(doc: Doc)
         fun onPollClicked(poll: Poll)
         fun onWallPostClicked(wallPost: WallPost)
+    }
+
+    enum class TimeStyle {
+        ATTACHMENTS_OVERLAYED,
+        ATTACHMENTS_EMBEDDED,
+        TEXT
     }
 
     abstract class DefaultCallback(private val context: Context) : Callback {

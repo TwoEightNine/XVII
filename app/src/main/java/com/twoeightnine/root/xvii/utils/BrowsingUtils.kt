@@ -74,6 +74,10 @@ object BrowsingUtils {
         }
     }
 
+    fun getMeaningfulUrl(url: String): String {
+        return Uri.parse(url).host ?: url
+    }
+
     private fun openCustomTabs(context: Context, uri: Uri, packageName: String? = null, withGrantUri: Boolean = false) {
         CustomTabsIntent.Builder()
                 .setToolbarColor(ContextCompat.getColor(context, R.color.background))

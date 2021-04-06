@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rlBack"
@@ -83,6 +84,34 @@
                         android:text="26.01.2016 12.34"
                         android:textColor="@color/other_text"
                         android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/tvDateAttachmentsOverlay"
+                        style="@style/FloatingText.Time.Overlay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/chat_date_overlay_margin"
+                        android:layout_marginBottom="@dimen/chat_date_overlay_margin"
+                        android:maxLines="1"
+                        android:textSize="@dimen/chat_date_text_size"
+                        app:layout_constraintBottom_toBottomOf="@+id/llMessage"
+                        app:layout_constraintEnd_toEndOf="@+id/llMessage"
+                        android:visibility="gone"
+                        tools:text="19:02:31" />
+
+                    <TextView
+                        android:id="@+id/tvDateAttachmentsEmbedded"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/chat_date_embedded_margin"
+                        android:layout_marginBottom="@dimen/chat_date_embedded_margin"
+                        android:maxLines="1"
+                        android:textColor="@color/other_text"
+                        android:textSize="@dimen/chat_date_text_size"
+                        app:layout_constraintBottom_toBottomOf="@+id/llMessage"
+                        app:layout_constraintEnd_toEndOf="@+id/llMessage"
+                        android:visibility="gone"
+                        tools:text="19:02:31" />
 
 
                 </LinearLayout>

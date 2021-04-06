@@ -25,9 +25,10 @@
         android:id="@+id/rlDuration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/ivVideo"
-        android:layout_marginBottom="@dimen/chat_message_photo_margin"
-        android:layout_alignBottom="@+id/ivVideo"
+        android:layout_alignStart="@+id/ivVideo"
+        android:layout_marginTop="@dimen/chat_message_photo_margin"
+        android:layout_marginStart="@dimen/chat_message_photo_margin"
+        android:layout_alignTop="@+id/ivVideo"
         android:background="@drawable/shape_dur_video">
 
         <TextView

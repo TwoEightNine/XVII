@@ -39,6 +39,8 @@ import kotlinx.android.synthetic.main.item_message_wtf.view.llMessage
 import kotlinx.android.synthetic.main.item_message_wtf.view.llMessageContainer
 import kotlinx.android.synthetic.main.item_message_wtf.view.rlBack
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvBody
+import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateAttachmentsEmbedded
+import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateAttachmentsOverlay
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateOutside
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateSeparator
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvName
@@ -212,6 +214,16 @@ class MessagesAdapter(context: Context,
 
                 tvDateSeparator.text = dateOnlyDay
                 tvDateOutside.text = dateMessage
+
+                val timeStyle = messageInflater.getTimeStyle(message)
+                tvDateAttachmentsOverlay.apply {
+                    setVisible(timeStyle == AttachmentsInflater.TimeStyle.ATTACHMENTS_OVERLAYED)
+                    text = dateMessage
+                }
+                tvDateAttachmentsEmbedded.apply {
+                    setVisible(timeStyle == AttachmentsInflater.TimeStyle.ATTACHMENTS_EMBEDDED)
+                    text = dateMessage
+                }
 
                 //
                 // block of optional fields
