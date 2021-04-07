@@ -35,7 +35,7 @@
             android:layout_marginBottom="@dimen/margin8"
             android:src="@drawable/unread_dot_shae" />
 
-        <LinearLayout
+        <RelativeLayout
             android:elevation="2dp"
             android:id="@+id/llMessage"
             android:layout_width="wrap_content"
@@ -113,6 +113,17 @@
                         android:visibility="gone"
                         tools:text="19:02:31" />
 
+                    <TextView
+                        android:id="@+id/tvDateText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvBody"
+                        android:maxLines="1"
+                        android:layout_marginEnd="@dimen/chat_date_text_margin"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/other_text"
+                        android:textSize="@dimen/chat_date_text_size"
+                        tools:text="19:02:31" />
 
                 </LinearLayout>
 
@@ -139,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rlImportant"

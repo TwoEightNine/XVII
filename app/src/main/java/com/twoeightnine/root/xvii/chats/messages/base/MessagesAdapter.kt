@@ -43,6 +43,7 @@ import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateAttachmentsEmb
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateAttachmentsOverlay
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateOutside
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateSeparator
+import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateText
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvName
 
 
@@ -224,6 +225,10 @@ class MessagesAdapter(context: Context,
                     setVisible(timeStyle == AttachmentsInflater.TimeStyle.ATTACHMENTS_EMBEDDED)
                     text = dateMessage
                 }
+                tvDateText.apply {
+                    setVisible(timeStyle == AttachmentsInflater.TimeStyle.TEXT)
+                    text = dateMessage
+                }
 
                 //
                 // block of optional fields
@@ -266,7 +271,12 @@ class MessagesAdapter(context: Context,
                 }
 
                 llMessage.layoutParams.width = messageInflater.getMessageWidth(message, settings.fullDeepness, level)
-                if (!message.attachments.isNullOrEmpty()) {
+                val hasAttachments = !message.attachments.isNullOrEmpty()
+                val hasForwarded = !message.fwdMessages.isNullOrEmpty()
+                val hasReplied = message.replyMessage != null
+                val hasContent = hasAttachments || hasForwarded || hasReplied
+                llMessageContainer.setVisible(hasContent)
+                if (hasAttachments) {
                     messageInflater
                             .createViewsFor(message, level)
                             .forEach(llMessageContainer::addView)
@@ -312,7 +322,7 @@ class MessagesAdapter(context: Context,
                 message.replyMessage
                         ?.let(messageInflater::getRepliedMessageView)
                         ?.also(llMessageContainer::addView)
-                        ?.also { it.llMessage.stylizeAsMessage(level + paintDelta + 1) }
+                        ?.also { it.llRepliedMessage.stylizeAsMessage(level + paintDelta + 1) }
             }
         }
 

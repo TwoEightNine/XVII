@@ -62,7 +62,7 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,18 +82,37 @@
             style="@style/MainText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/chat_message_text_margin"
+            android:layout_marginStart="@dimen/chat_message_text_margin"
+            android:layout_marginEnd="@dimen/chat_message_text_margin"
+            android:layout_marginTop="@dimen/chat_message_text_margin"
+            android:autoLink="web"
+            android:gravity="start"
             android:textColorLink="@color/link_color"
             android:textSize="@dimen/chat_message_text_size"
             tools:text="all my life i wanted" />
 
+        <TextView
+            android:id="@+id/tvDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvBody"
+            android:maxLines="1"
+            android:layout_marginTop="@dimen/chat_date_text_margin"
+            android:layout_alignEnd="@+id/tvBody"
+            android:textColor="@color/other_text"
+            android:textSize="@dimen/chat_date_text_size"
+            tools:text="19:02:31" />
+
         <LinearLayout
             android:id="@+id/llMessageContainer"
+            android:layout_below="@+id/tvBody"
+            android:layout_marginTop="@dimen/chat_message_text_margin"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tvDateOutside"
