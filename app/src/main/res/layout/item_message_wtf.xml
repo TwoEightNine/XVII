@@ -114,12 +114,26 @@
                         tools:text="19:02:31" />
 
                     <TextView
+                        android:id="@+id/tvDateTextInlined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/tvBody"
+                        android:maxLines="1"
+                        android:layout_marginEnd="@dimen/chat_date_text_margin_end"
+                        android:layout_alignBottom="@+id/tvBody"
+                        android:textColor="@color/other_text"
+                        android:visibility="gone"
+                        android:textSize="@dimen/chat_date_text_size"
+                        tools:text="19:02:31" />
+
+
+                    <TextView
                         android:id="@+id/tvDateText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvBody"
                         android:maxLines="1"
-                        android:layout_marginEnd="@dimen/chat_date_text_margin"
+                        android:layout_marginEnd="@dimen/chat_date_text_margin_end"
                         android:layout_alignParentEnd="true"
                         android:textColor="@color/other_text"
                         android:textSize="@dimen/chat_date_text_size"

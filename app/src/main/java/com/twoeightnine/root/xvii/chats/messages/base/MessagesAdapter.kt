@@ -4,12 +4,11 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
-import android.text.Html
-import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
@@ -21,14 +20,11 @@ import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.model.messages.WrappedMessage
-import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.XviiAvatar
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
-import global.msnthrp.xvii.uikit.extensions.hide
-import global.msnthrp.xvii.uikit.extensions.lowerIf
-import global.msnthrp.xvii.uikit.extensions.setVisible
-import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
+import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.item_message_in_chat.view.*
 import kotlinx.android.synthetic.main.item_message_in_chat.view.rlDateSeparator
 import kotlinx.android.synthetic.main.item_message_out.view.*
@@ -41,9 +37,9 @@ import kotlinx.android.synthetic.main.item_message_wtf.view.rlBack
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvBody
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateAttachmentsEmbedded
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateAttachmentsOverlay
-import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateOutside
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateSeparator
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateText
+import kotlinx.android.synthetic.main.item_message_wtf.view.tvDateTextInlined
 import kotlinx.android.synthetic.main.item_message_wtf.view.tvName
 
 
@@ -63,7 +59,12 @@ class MessagesAdapter(context: Context,
         Prefs.messageTextSize.toFloat()
     }
 
-    private val userId = SessionProvider.userId
+    private val textWidthInlineFittness by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.chat_message_inline_fitness_width)
+    }
+    private val dateTextExtraPadding by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.chat_date_text_margin_end)
+    }
 
     override fun createHolder(parent: ViewGroup, viewType: Int) = MessageViewHolder(inflater.inflate(
             when (viewType) {
@@ -188,68 +189,22 @@ class MessagesAdapter(context: Context,
                 //
                 invalidateBackground(wrappedMessage, this, level)
 
-                val preparedText = wrapMentions(context, message.text, addClickable = true)
-                tvBody.setVisible(message.text.isNotEmpty())
-                tvBody.text = when {
-                    message.text.isNotEmpty() -> when {
-                        EmojiHelper.hasEmojis(message.text) -> EmojiHelper.getEmojied(context, message.text, preparedText)
-                        isDecrypted(message.text) -> getWrapped(message.text)
-                        else -> preparedText
-                    }
-                    else -> ""
-                }
-                tvBody.movementMethod = LinkMovementMethod.getInstance()
-                tvBody.setTextSize(TypedValue.COMPLEX_UNIT_SP, messageTextSize)
-
-                val dateOnlyTime = getTime(message.date, noDate = true, withSeconds = Prefs.showSeconds)
-                val dateOnlyDay = getDate(message.date)
-                val dateOnlyDayPrev = prevMessage?.date?.let(::getDate)
-
-                val edited = if (message.isEdited()) resources.getString(R.string.edited) else ""
-                val dateMessage = "$dateOnlyTime $edited"
-
-                val zeroLevel = level == 0
-                val dateChanged = dateOnlyDayPrev == null || dateOnlyDayPrev != dateOnlyDay
-                tvDateOutside.setVisibleWithInvis(zeroLevel)
-                rlDateSeparator.setVisible(dateChanged && zeroLevel)
-
-                tvDateSeparator.text = dateOnlyDay
-                tvDateOutside.text = dateMessage
-
-                val timeStyle = messageInflater.getTimeStyle(message)
-                tvDateAttachmentsOverlay.apply {
-                    setVisible(timeStyle == AttachmentsInflater.TimeStyle.ATTACHMENTS_OVERLAYED)
-                    text = dateMessage
-                }
-                tvDateAttachmentsEmbedded.apply {
-                    setVisible(timeStyle == AttachmentsInflater.TimeStyle.ATTACHMENTS_EMBEDDED)
-                    text = dateMessage
-                }
-                tvDateText.apply {
-                    setVisible(timeStyle == AttachmentsInflater.TimeStyle.TEXT)
-                    text = dateMessage
-                }
+                bindMessageText(tvBody, message.text)
+                bindMessageDate(message, prevMessage, level, rlDateSeparator, tvDateSeparator)
+                bindMessageTime(
+                        context,
+                        message,
+                        tvDateAttachmentsOverlay,
+                        tvDateAttachmentsEmbedded,
+                        tvDateTextInlined,
+                        tvDateText,
+                        tvBody
+                )
 
                 //
                 // block of optional fields
                 //
-                val showName = shouldShowName(message, prevMessage)
-                rlName?.setVisible(showName)
-                if (showName) {
-                    tvName?.apply {
-                        text = message.name
-                        lowerIf(Prefs.lowerTexts)
-                    }
-                    civPhoto?.apply {
-                        load(message.photo, message.name?.getInitials(), id = message.fromId)
-                    }
-                    rlName?.setOnClickListener {
-                        items.getOrNull(adapterPosition)
-                                ?.message
-                                ?.fromId
-                                ?.also(messageCallback::onUserClicked)
-                    }
-                }
+                bindName(message, prevMessage, rlName, tvName, civPhoto)
 
                 ivSendingIcon?.setVisible(isNotSent)
                 ivSendingIcon?.paint(Munch.color.color)
@@ -304,7 +259,6 @@ class MessagesAdapter(context: Context,
                                 tvBody.paint(Munch.color.color)
                                 tvBody.paintFlags = tvBody.paintFlags or Paint.UNDERLINE_TEXT_FLAG
                                 rlName?.hide()
-                                tvDateOutside.hide()
                                 setOnClickListener {
                                     val messageId = items
                                             .getOrNull(adapterPosition)
@@ -326,32 +280,133 @@ class MessagesAdapter(context: Context,
             }
         }
 
-        private fun isDecrypted(body: String?): Boolean {
-            val prefix = context.getString(R.string.decrypted, "")
-            return body?.startsWith(prefix) == true
+        private fun bindMessageText(textView: TextView, messageText: String) {
+            val isNotEmpty = messageText.isNotEmpty()
+            textView.setVisible(isNotEmpty)
+
+            if (isNotEmpty) {
+                val preparedText = wrapMentions(context, messageText, addClickable = true)
+                textView.text = when {
+                    EmojiHelper.hasEmojis(messageText) -> EmojiHelper.getEmojied(context, messageText, preparedText)
+                    else -> preparedText
+
+                }
+
+                // TODO move to one-time setup
+                textView.movementMethod = LinkMovementMethod.getInstance()
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, messageTextSize)
+            }
         }
 
-        private fun getWrapped(text: String?): Spanned {
-            if (text.isNullOrEmpty()) return Html.fromHtml("")
+        private fun bindMessageDate(
+                message: Message,
+                prevMessage: Message?,
+                level: Int,
+                dateContainer: View,
+                dateTextView: TextView
+        ) {
+            val dateOnlyDay = getDate(message.date)
+            val dateOnlyDayPrev = prevMessage?.date?.let(::getDate)
 
-            val prefix = context.getString(R.string.decrypted, "")
-            val color = String.format("%X", ContextCompat.getColor(context, R.color.minor_text)).substring(2)
-            val result = "<font color=\"#$color\"><i>$prefix</i></font>${text.substring(prefix.length)}"
-            return Html.fromHtml(result)
+            val zeroLevel = level == 0
+            val dateChanged = dateOnlyDayPrev == null || dateOnlyDayPrev != dateOnlyDay
+
+            dateContainer.setVisible(dateChanged && zeroLevel)
+            if (dateContainer.isVisible()) {
+                dateTextView.text = dateOnlyDay
+            }
+        }
+
+        private fun bindMessageTime(
+                context: Context,
+                message: Message,
+                textViewOverlayed: TextView,
+                textViewEmbedded: TextView,
+                textViewInlined: TextView,
+                textViewUnderlayed: TextView,
+                textViewMessage: TextView
+        ) {
+            val dateOnlyTime = getTime(message.date, noDate = true, withSeconds = Prefs.showSeconds)
+
+            val edited = when {
+                message.isEdited() -> context.resources.getString(R.string.edited)
+                else -> ""
+            }
+            val dateMessage = "$dateOnlyTime $edited"
+
+            val dateToBeShown = when (messageInflater.getTimeStyle(message)) {
+
+                AttachmentsInflater.TimeStyle.ATTACHMENTS_OVERLAYED -> {
+                    textViewOverlayed
+                }
+
+                AttachmentsInflater.TimeStyle.ATTACHMENTS_EMBEDDED -> {
+                    textViewEmbedded
+                }
+
+                AttachmentsInflater.TimeStyle.TEXT -> {
+                    val bodyWidth = textViewMessage.paint.measureText(textViewMessage.text.toString())
+                    val timeWidth = textViewUnderlayed.paint.measureText(dateMessage)
+
+                    val freeSpace = textWidthInlineFittness - bodyWidth
+                    val canBeInlined = freeSpace > timeWidth + dateTextExtraPadding
+
+                    when {
+                        canBeInlined -> textViewInlined
+                        else -> textViewUnderlayed
+                    }
+                }
+            }
+            dateToBeShown.apply {
+                text = dateMessage
+                show()
+            }
+            listOf(textViewOverlayed,
+                    textViewEmbedded,
+                    textViewInlined,
+                    textViewUnderlayed)
+                    .filter { it != dateToBeShown }
+                    .forEach { it.hide() }
+        }
+
+        private fun bindName(
+                message: Message,
+                prevMessage: Message?,
+                nameContainer: View?,
+                nameTextView: TextView?,
+                photoImageView: XviiAvatar?
+        ) {
+            val showName = shouldShowName(message, prevMessage)
+            nameContainer?.setVisible(showName)
+            if (showName) {
+                nameTextView?.apply {
+                    text = message.name
+                    lowerIf(Prefs.lowerTexts)
+                }
+                photoImageView?.apply {
+                    load(message.photo, message.name?.getInitials(), id = message.fromId)
+                }
+                nameContainer?.setOnClickListener {
+                    items.getOrNull(adapterPosition)
+                            ?.message
+                            ?.fromId
+                            ?.also(messageCallback::onUserClicked)
+                }
+            }
         }
 
         private fun shouldShowName(message: Message, prevMessage: Message?) =
                 // this message is first (no previous)
-                prevMessage == null ||
+                prevMessage == null
 
                         // OR from different users
-                        message.fromId != prevMessage.fromId ||
+                        || message.fromId != prevMessage.fromId
 
                         // OR previous contains action
-                        prevMessage.isSystem() ||
+                        || prevMessage.isSystem()
 
                         // OR there are 2 hours between messages
-                        message.date - prevMessage.date > MESSAGES_BETWEEN_DELAY
+                        || message.date - prevMessage.date > MESSAGES_BETWEEN_DELAY
 
         private fun ViewGroup.stylizeAsMessage(level: Int, hide: Boolean = false) {
             (background as GradientDrawable).setColor(

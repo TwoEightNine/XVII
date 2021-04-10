@@ -11,26 +11,22 @@
         android:id="@+id/ivReadDot"
         android:layout_width="10dp"
         android:layout_height="10dp"
-        android:layout_alignBottom="@+id/llMessage"
-        android:layout_alignParentStart="true"
         android:layout_marginEnd="@dimen/chat_dot_message_margin"
+        android:layout_marginBottom="@dimen/chat_dot_message_margin"
         android:src="@drawable/unread_dot_shae"
-        app:layout_constraintTop_toTopOf="@+id/tvDateOutside"
-        app:layout_constraintEnd_toStartOf="@+id/tvDateOutside"
-        app:layout_constraintBottom_toBottomOf="@+id/tvDateOutside" />
+        app:layout_constraintEnd_toStartOf="@+id/llMessage"
+        app:layout_constraintBottom_toBottomOf="@+id/llMessage" />
 
     <ImageView
         android:id="@+id/ivSendingIcon"
         android:layout_width="10dp"
         android:layout_height="10dp"
-        android:layout_alignBottom="@+id/llMessage"
-        android:layout_alignParentStart="true"
         android:layout_marginEnd="@dimen/chat_dot_message_margin"
+        android:layout_marginBottom="@dimen/chat_dot_message_margin"
         android:src="@drawable/ic_clock"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@+id/tvDateOutside"
-        app:layout_constraintEnd_toStartOf="@+id/tvDateOutside"
-        app:layout_constraintBottom_toBottomOf="@+id/tvDateOutside" />
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/llMessage"
+        app:layout_constraintBottom_toBottomOf="@+id/llMessage" />
 
     <RelativeLayout
         android:id="@+id/llMessage"
@@ -40,7 +36,6 @@
         android:layout_marginTop="@dimen/chat_shape_margin_vert"
         android:layout_marginEnd="@dimen/chat_shape_margin_horiz"
         android:layout_marginBottom="@dimen/chat_shape_margin_vert"
-        android:layout_toEndOf="@+id/readStateDot"
         android:background="@drawable/shape_message"
         android:elevation="@dimen/chat_message_elevation"
         android:orientation="vertical"
@@ -49,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@id/rlDateSeparator"
         app:layout_constraintWidth_max="@dimen/chat_message_max_width">
 
-        <com.twoeightnine.root.xvii.uikit.AccurateTextView
+        <TextView
             android:id="@+id/tvBody"
             style="@style/MainText"
             android:layout_width="wrap_content"
@@ -57,11 +52,12 @@
             android:layout_marginStart="@dimen/chat_message_text_margin"
             android:layout_marginEnd="@dimen/chat_message_text_margin"
             android:layout_marginTop="@dimen/chat_message_text_margin"
+            android:layout_marginBottom="@dimen/chat_message_text_margin"
             android:autoLink="web"
             android:gravity="start"
             android:textColorLink="@color/link_color"
             android:textSize="@dimen/chat_message_text_size"
-            tools:text="ddjhjh jhdjfhdjf df dfdf dfdf e" />
+            tools:text="ddjhjh jhdjfhdjf df dfdf " />
 
         <TextView
             android:id="@+id/tvDateText"
@@ -69,16 +65,29 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvBody"
             android:maxLines="1"
-            android:layout_marginTop="@dimen/chat_date_text_margin"
+            android:layout_marginTop="@dimen/chat_date_text_margin_top"
             android:layout_alignEnd="@+id/tvBody"
             android:textColor="@color/other_text"
+            android:visibility="gone"
+            android:textSize="@dimen/chat_date_text_size"
+            tools:text="19:02:31" />
+
+        <TextView
+            android:id="@+id/tvDateTextInlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tvBody"
+            android:maxLines="1"
+            android:layout_marginEnd="@dimen/chat_date_text_margin_end"
+            android:layout_alignBottom="@+id/tvBody"
+            android:textColor="@color/other_text"
+            android:visibility="gone"
             android:textSize="@dimen/chat_date_text_size"
             tools:text="19:02:31" />
 
         <LinearLayout
             android:id="@+id/llMessageContainer"
             android:layout_below="@+id/tvBody"
-            android:layout_marginTop="@dimen/chat_message_text_margin"
             android:layout_width="match_parent"
             android:visibility="gone"
             android:layout_height="wrap_content"
@@ -110,18 +119,6 @@
             tools:text="7 jun 2018" />
 
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tvDateOutside"
-        style="@style/FloatingText.Time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/chat_date_message_margin"
-        android:maxLines="1"
-        android:textSize="@dimen/chat_date_text_size"
-        app:layout_constraintBottom_toBottomOf="@+id/llMessage"
-        app:layout_constraintEnd_toStartOf="@+id/llMessage"
-        tools:text="19:02:31" />
 
     <TextView
         android:id="@+id/tvDateAttachmentsOverlay"
