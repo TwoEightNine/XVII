@@ -61,7 +61,7 @@ data class Attachment(
 
     val isGraphical: Boolean
         get() {
-            val isPureGraphical = listOf(photo, sticker, gift, video).any { it != null }
+            val isPureGraphical = listOf(photo, sticker, gift, video, graffiti).any { it != null }
             if (isPureGraphical) {
                 return true
             }

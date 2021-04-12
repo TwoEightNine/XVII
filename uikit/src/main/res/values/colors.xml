@@ -8,6 +8,7 @@
 
     <color name="background_light_alpha_bb">#bbffffff</color>
     <color name="background_dark_alpha_bb">#bb1C1A22</color>
+    <color name="background_dark_alpha_99">#991C1A22</color>
 
     <color name="divider_light">#ddd</color>
     <color name="divider_dark">#2B2B2E</color>

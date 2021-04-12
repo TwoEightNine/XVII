@@ -231,6 +231,12 @@ class MessagesAdapter(context: Context,
                 val hasReplied = message.replyMessage != null
                 val hasContent = hasAttachments || hasForwarded || hasReplied
                 llMessageContainer.setVisible(hasContent)
+
+                message.replyMessage
+                        ?.let(messageInflater::getRepliedMessageView)
+                        ?.also(llMessageContainer::addView)
+                        ?.also { it.llRepliedMessage.stylizeAsMessage(level + paintDelta + 1) }
+
                 if (hasAttachments) {
                     messageInflater
                             .createViewsFor(message, level)
@@ -273,10 +279,6 @@ class MessagesAdapter(context: Context,
                         llMessageContainer.addView(included)
                     }
                 }
-                message.replyMessage
-                        ?.let(messageInflater::getRepliedMessageView)
-                        ?.also(llMessageContainer::addView)
-                        ?.also { it.llRepliedMessage.stylizeAsMessage(level + paintDelta + 1) }
             }
         }
 
