@@ -76,7 +76,7 @@
     <string name="user_key">ввести свой ключ</string>
     <string name="vibrate">вибрировать</string>
     <string name="videos">видео</string>
-    <string name="voice_message">голосовое сообщение</string>
+    <string name="voice_message">голосовое</string>
     <string name="wall_post">запись со стены</string>
     <string name="want_delete">действительно хотите удалить %s?</string>
     <string name="write_message">сообщение..</string>
