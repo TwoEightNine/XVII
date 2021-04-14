@@ -208,13 +208,9 @@ class LongPollCore(private val context: Context) {
         }
         unreadMessages[event.peerId]?.add(event.getResolvedMessage(context, !shouldShowContent))
 
-        val content = if (shouldShowContent) {
-            unreadMessages[event.peerId]?.takeLast(5)?.let { ArrayList(it) }
-                    ?: arrayListOf(context.getString(R.string.messages))
-        } else {
-            val count = unreadMessages[event.peerId]?.size ?: 0
-            arrayListOf(context.resources.getQuantityString(R.plurals.messages, count, count))
-        }
+        val content = unreadMessages[event.peerId]?.takeLast(5)?.let { ArrayList(it) }
+                ?: arrayListOf(context.getString(R.string.messages))
+
         val timeStamp = event.timeStamp * 1000L
         val ledColor = when {
             event.isUser() -> Prefs.ledColor
