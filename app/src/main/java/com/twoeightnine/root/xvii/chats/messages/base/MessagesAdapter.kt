@@ -8,9 +8,11 @@ import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.setMargins
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
@@ -59,11 +61,20 @@ class MessagesAdapter(context: Context,
         Prefs.messageTextSize.toFloat()
     }
 
-    private val textWidthInlineFittness by lazy {
+    private val textWidthInlineFitness by lazy {
         context.resources.getDimensionPixelSize(R.dimen.chat_message_inline_fitness_width)
     }
     private val dateTextExtraPadding by lazy {
         context.resources.getDimensionPixelSize(R.dimen.chat_date_text_margin_end)
+    }
+    private val dateTextMarginTop by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.chat_date_text_margin_top)
+    }
+    private val dateTextMarginSingle by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.chat_date_text_margin_single)
+    }
+    private val levelPadding by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.chat_message_level_padding)
     }
 
     override fun createHolder(parent: ViewGroup, viewType: Int) = MessageViewHolder(inflater.inflate(
@@ -198,7 +209,8 @@ class MessagesAdapter(context: Context,
                         tvDateAttachmentsEmbedded,
                         tvDateTextInlined,
                         tvDateText,
-                        tvBody
+                        tvBody,
+                        level
                 )
 
                 //
@@ -326,7 +338,8 @@ class MessagesAdapter(context: Context,
                 textViewEmbedded: TextView,
                 textViewInlined: TextView,
                 textViewUnderlayed: TextView,
-                textViewMessage: TextView
+                textViewMessage: TextView,
+                level: Int
         ) {
             val dateOnlyTime = getTime(message.date, noDate = true, withSeconds = Prefs.showSeconds)
 
@@ -347,11 +360,27 @@ class MessagesAdapter(context: Context,
                 }
 
                 AttachmentsInflater.TimeStyle.TEXT -> {
-                    val bodyWidth = textViewMessage.paint.measureText(textViewMessage.text.toString())
+                    val bodyWidth = textViewMessage.paint.measureText(message.text)
                     val timeWidth = textViewUnderlayed.paint.measureText(dateMessage)
 
-                    val freeSpace = textWidthInlineFittness - bodyWidth
-                    val canBeInlined = freeSpace > timeWidth + dateTextExtraPadding
+                    val isEmpty = message.text.isEmpty()
+                    val freeSpace = textWidthInlineFitness - bodyWidth - 2 * levelPadding * level
+                    val hasEnoughSpaceToInline = freeSpace > timeWidth + dateTextExtraPadding
+                    val canBeInlined = hasEnoughSpaceToInline && !isEmpty
+
+                    if (!canBeInlined) {
+                        (textViewUnderlayed.layoutParams as? RelativeLayout.LayoutParams)?.apply {
+                            if (isEmpty) {
+                                setMargins(dateTextMarginSingle)
+                                removeRule(RelativeLayout.ALIGN_END)
+                                addRule(RelativeLayout.ALIGN_PARENT_END)
+                            } else {
+                                setMargins(0, dateTextMarginTop, 0, 0)
+                                removeRule(RelativeLayout.ALIGN_PARENT_END)
+                                addRule(RelativeLayout.ALIGN_END, R.id.tvBody)
+                            }
+                        }
+                    }
 
                     when {
                         canBeInlined -> textViewInlined

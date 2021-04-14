@@ -38,7 +38,8 @@
     <dimen name="chat_date_bottom_margin">2dp</dimen>
     <dimen name="chat_date_overlay_margin">8dp</dimen>
     <dimen name="chat_date_embedded_margin">8dp</dimen>
-    <dimen name="chat_date_text_margin_top">-6dp</dimen>
+    <dimen name="chat_date_text_margin_top">-8dp</dimen>
+    <dimen name="chat_date_text_margin_single">4dp</dimen>
     <dimen name="chat_date_text_margin_end">6dp</dimen>
     <dimen name="chat_dot_message_margin">4dp</dimen>
     <dimen name="chat_dot_date_margin">2dp</dimen>
