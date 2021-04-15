@@ -163,7 +163,7 @@ class NotificationsFragment : BaseFragment() {
                             eggState = -2
                             handler.postDelayed({ switchEgg.isChecked = false }, 500L)
                             handler.postDelayed({
-                                startFragment<EggFragment>(EggFragment.createArgs(EggFragment.MODE_LETOV_AGAINST))
+                                startFragment<EggFragment>()
                             }, 1000L)
                         }
                         else -> {

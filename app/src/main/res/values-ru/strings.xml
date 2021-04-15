@@ -498,5 +498,6 @@
     <string name="accounts_other">другие аккаунты</string>
     <string name="sticker_suggestions_exact">предлагать только точные совпадения</string>
     <string name="sticker_suggestions_exact_hint">"показывать только стикеры, точно совпадающие с вводом "</string>
+    <string name="egg_poverty">Двух годовых военных бюджетов всех стран достаточно, чтобы побороть бедность. Мы просто не хотим</string>
 
 </resources>

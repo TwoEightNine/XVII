@@ -424,6 +424,8 @@
     <string name="accounts_hint">you can add as much accounts as you want. only one account can be active at a time. only active account can receive notifications</string>
     <string name="accounts_log_out_all">do you really want to log out all accounts?</string>
 
+    <string name="egg_poverty">Two yearly military budgets of all countries are enough to end poverty. We just don\'t want to</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>
