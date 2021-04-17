@@ -42,6 +42,8 @@
     <dimen name="chat_date_text_margin_single">4dp</dimen>
     <dimen name="chat_date_text_margin_end">6dp</dimen>
     <dimen name="chat_dot_message_margin">4dp</dimen>
+    <dimen name="chat_dot_message_margin_bottom">15dp</dimen>
+    <dimen name="chat_dot_message_size">8dp</dimen>
     <dimen name="chat_dot_date_margin">2dp</dimen>
     <dimen name="chat_date_text_size">10sp</dimen>
     <dimen name="chat_message_max_width">280dp</dimen>

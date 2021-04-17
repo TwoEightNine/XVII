@@ -9,20 +9,20 @@
 
     <ImageView
         android:id="@+id/ivReadDot"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="@dimen/chat_dot_message_size"
+        android:layout_height="@dimen/chat_dot_message_size"
         android:layout_marginEnd="@dimen/chat_dot_message_margin"
-        android:layout_marginBottom="@dimen/chat_dot_message_margin"
+        android:layout_marginBottom="@dimen/chat_dot_message_margin_bottom"
         android:src="@drawable/unread_dot_shae"
         app:layout_constraintEnd_toStartOf="@+id/llMessage"
         app:layout_constraintBottom_toBottomOf="@+id/llMessage" />
 
     <ImageView
         android:id="@+id/ivSendingIcon"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="@dimen/chat_dot_message_size"
+        android:layout_height="@dimen/chat_dot_message_size"
         android:layout_marginEnd="@dimen/chat_dot_message_margin"
-        android:layout_marginBottom="@dimen/chat_dot_message_margin"
+        android:layout_marginBottom="@dimen/chat_dot_message_margin_bottom"
         android:src="@drawable/ic_clock_small"
         android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/llMessage"
@@ -58,7 +58,7 @@
             android:visibility="gone"
             android:textColorLink="@color/link_color"
             android:textSize="@dimen/chat_message_text_size"
-            tools:text="ddjhjh jhdjfhdjf df dfdf " />
+            tools:text="ddjhjh jhdjfhdjf dfdf " />
 
         <TextView
             android:id="@+id/tvDateText"
