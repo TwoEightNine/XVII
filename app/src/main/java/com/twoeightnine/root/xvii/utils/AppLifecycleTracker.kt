@@ -28,10 +28,6 @@ class AppLifecycleTracker : Application.ActivityLifecycleCallbacks {
 
     private var numStarted = 0
 
-    init {
-        App.appComponent?.inject(this)
-    }
-
     private fun onForeground(context: Context) {
         if (Session.needToPromptPin()) {
             PinActivity.launch(context, PinActivity.Action.ENTER)
@@ -77,6 +73,7 @@ class AppLifecycleTracker : Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
 
     private fun startOnline() {
+        initApiIfNeeded()
         L.tag(TAG_ONLINE).log("start")
         disposable = Flowable.interval(0L, ONLINE_INTERVAL, TimeUnit.SECONDS)
                 .flatMap {
@@ -95,6 +92,12 @@ class AppLifecycleTracker : Application.ActivityLifecycleCallbacks {
         if (disposable?.isDisposed == false) {
             disposable?.dispose()
             L.tag(TAG_ONLINE).log("stop")
+        }
+    }
+
+    private fun initApiIfNeeded() {
+        if (!::api.isInitialized) {
+            App.appComponent?.inject(this)
         }
     }
 

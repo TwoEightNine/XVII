@@ -29,10 +29,6 @@ class App : Application() {
 
         registerActivityLifecycleCallbacks(AppLifecycleTracker())
         ColorManager.init(applicationContext)
-        EmojiHelper.init()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannels.initChannels(this)
-        }
 
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(CalligraphyInterceptor(
@@ -43,13 +39,20 @@ class App : Application() {
                 ))
                 .build())
 
-        try {
-            StatTool.init(applicationContext)
-        } catch (e: Exception) {
-            L.tag("stat").warn()
-                    .throwable(e)
-                    .log("init failed")
-        }
+        AsyncUtils.onIoThread({
+            EmojiHelper.init()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannels.initChannels(this)
+            }
+
+            try {
+                StatTool.init(applicationContext)
+            } catch (e: Exception) {
+                L.tag("stat").warn()
+                        .throwable(e)
+                        .log("init failed")
+            }
+        })
     }
 
     companion object {
