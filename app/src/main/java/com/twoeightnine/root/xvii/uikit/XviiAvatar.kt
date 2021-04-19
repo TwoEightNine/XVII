@@ -36,13 +36,17 @@ class XviiAvatar @JvmOverloads constructor(context: Context, attributeSet: Attri
     }
 
     private fun loadColor(text: String? = null, id: Int = 0) {
-        binding.civAvatarPhoto.setImageDrawable(ColorDrawable(AvatarColors.getColor(id)))
+        binding.civAvatarPhoto.hide()
+        binding.civAvatarColor.show()
+        binding.civAvatarColor.setImageDrawable(ColorDrawable(AvatarColors.getColor(id)))
         text?.also(binding.tvAvatarName::setText)
         binding.tvAvatarName.show()
     }
 
     private fun loadUrl(url: String?) {
         binding.civAvatarPhoto.load(url)
+        binding.civAvatarPhoto.show()
+        binding.civAvatarColor.hide()
         binding.tvAvatarName.hide()
     }
 
