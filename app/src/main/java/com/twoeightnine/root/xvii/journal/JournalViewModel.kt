@@ -12,6 +12,7 @@ import com.twoeightnine.root.xvii.utils.DefaultPeerResolver
 import global.msnthrp.xvii.core.journal.JournalUseCase
 import global.msnthrp.xvii.core.journal.model.JournalEvent
 import global.msnthrp.xvii.core.journal.model.JournalEventWithPeer
+import global.msnthrp.xvii.core.journal.model.JournalFilter
 import global.msnthrp.xvii.data.db.AppDb
 import global.msnthrp.xvii.data.journal.DbJournalDataSource
 import javax.inject.Inject
@@ -43,8 +44,9 @@ class JournalViewModel : BaseViewModel() {
     val messageEvents: LiveData<MessageInfo>
         get() = messageEventsLiveData
 
-    fun loadEvents() {
-        onIoThread(journalUseCase::getEvents) { events ->
+    fun loadEvents(filter: JournalFilter = JournalFilter.ALL) {
+        val task = { journalUseCase.getEvents(filter) }
+        onIoThread(task) { events ->
             eventsLiveData.value = events
         }
     }

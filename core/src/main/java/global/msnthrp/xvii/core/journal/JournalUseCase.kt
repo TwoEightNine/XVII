@@ -2,6 +2,7 @@ package global.msnthrp.xvii.core.journal
 
 import global.msnthrp.xvii.core.journal.model.JournalEvent
 import global.msnthrp.xvii.core.journal.model.JournalEventWithPeer
+import global.msnthrp.xvii.core.journal.model.JournalFilter
 import global.msnthrp.xvii.core.journal.model.MessageJEWithDiff
 import global.msnthrp.xvii.core.utils.MyersDiff
 import global.msnthrp.xvii.core.utils.PeerResolver
@@ -46,7 +47,17 @@ class JournalUseCase(
         journalDataSource.addJournalEvent(JournalEvent.MessageJE.ReadMessageJE(peerId, timeStamp, messageId))
     }
 
-    fun getEvents(): List<JournalEventWithPeer> = getAllJournalEvents().toEventsWithPeer()
+    fun getEvents(filter: JournalFilter = JournalFilter.ALL): List<JournalEventWithPeer> {
+        val events = getAllJournalEvents()
+        val filteredEvents = when (filter) {
+            JournalFilter.ALL -> events
+            JournalFilter.EDITED_MESSAGES -> events.filterIsInstance<JournalEvent.MessageJE.EditedMessageJE>()
+            JournalFilter.DELETED_MESSAGES -> events.filterIsInstance<JournalEvent.MessageJE.DeletedMessageJE>()
+            JournalFilter.STATUSES -> events.filterIsInstance<JournalEvent.StatusJE>()
+        }
+
+        return filteredEvents.toEventsWithPeer()
+    }
 
     fun getOnlineEvents(userId: Int): List<JournalEvent.StatusJE> =
             getAllJournalEvents()

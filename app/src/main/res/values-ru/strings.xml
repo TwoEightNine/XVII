@@ -499,5 +499,10 @@
     <string name="sticker_suggestions_exact">предлагать только точные совпадения</string>
     <string name="sticker_suggestions_exact_hint">"показывать только стикеры, точно совпадающие с вводом "</string>
     <string name="egg_poverty">Двух годовых военных бюджетов всех стран достаточно, чтобы побороть бедность. Мы просто не хотим</string>
+    <string name="journal_filter">фильтр</string>
+    <string name="journal_filter_all">все</string>
+    <string name="journal_filter_deleted_messages">удалённые сообщения</string>
+    <string name="journal_filter_edited_messages">изменённые сообщения</string>
+    <string name="journal_filter_statuses">статусы</string>
 
 </resources>

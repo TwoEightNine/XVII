@@ -451,6 +451,11 @@
     <string name="journal_event_recording">enregistrais un message</string>
     <string name="journal_event_typing">tapais un message</string>
     <string name="journal_message_deleted">le message est supprimé</string>
+    <string name="journal_filter">filter</string>
+    <string name="journal_filter_all">tous</string>
+    <string name="journal_filter_deleted_messages">messages supprimés</string>
+    <string name="journal_filter_edited_messages">messages modifiés</string>
+    <string name="journal_filter_statuses">statuts</string>
 
 </resources>
 

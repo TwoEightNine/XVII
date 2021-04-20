@@ -9,6 +9,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_context_popup.view.*
 
 class ContextPopupAdapter(
@@ -28,8 +29,13 @@ class ContextPopupAdapter(
         fun bind(item: ContextPopupItem) {
             with(itemView) {
                 tvTitle.text = context.getString(item.textRes)
-                ivIcon.setImageResource(item.iconRes)
-                ivIcon.paint(Munch.color.color)
+
+                val hasIcon = item.iconRes != 0
+                ivIcon.setVisible(hasIcon)
+                if (hasIcon) {
+                    ivIcon.setImageResource(item.iconRes)
+                    ivIcon.paint(Munch.color.color)
+                }
                 rlBack.setOnClickListener {
                     dialog.dismiss()
                     item.onClick()

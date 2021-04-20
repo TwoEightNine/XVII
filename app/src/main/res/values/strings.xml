@@ -400,6 +400,11 @@
     <string name="attachment_open_doc_prompt_browser">open in browser</string>
     
     <string name="journal_title">journal (beta)</string>
+    <string name="journal_filter">filter</string>
+    <string name="journal_filter_all">all</string>
+    <string name="journal_filter_edited_messages">edited messages</string>
+    <string name="journal_filter_deleted_messages">deleted messages</string>
+    <string name="journal_filter_statuses">statuses</string>
     <string name="journal_event_online">went online %s</string>
     <string name="journal_event_offline">went offline</string>
     <string name="journal_event_read">read a message</string>

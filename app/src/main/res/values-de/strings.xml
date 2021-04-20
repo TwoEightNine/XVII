@@ -504,4 +504,9 @@
     <string name="accounts_log_out_all_accounts">abmelden alle konten</string>
     <string name="accounts_other">andere konten</string>
     <string name="accounts_view">anzeigen</string>
+    <string name="journal_filter">filter</string>
+    <string name="journal_filter_all">alle</string>
+    <string name="journal_filter_deleted_messages">gelöschte nachrichten</string>
+    <string name="journal_filter_edited_messages">bearbeitete nachrichten</string>
+    <string name="journal_filter_statuses">status</string>
 </resources>
