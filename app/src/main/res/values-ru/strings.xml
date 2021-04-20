@@ -462,7 +462,7 @@
     <string name="show_notifications_user">от этого пользователя</string>
     <string name="show_notifications_group">от этой группы</string>
     <string name="show_notifications_conversation">от этой беседы</string>
-    <string name="journal_title">журнал</string>
+    <string name="journal_title">журнал (beta)</string>
     <string name="attachment_open_doc_prompt_download">скачать</string>
     <string name="suggest_people_hint">показывать людей, которых вы можете знать, если запрос пустой</string>
     <string name="attachment_open_doc_prompt_browser">открыть в браузере</string>

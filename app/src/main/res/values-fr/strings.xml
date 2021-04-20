@@ -423,7 +423,7 @@
     <string name="show_notifications_user">de cet utilisateur</string>
     <string name="show_notifications_group">de ce groupe</string>
     <string name="show_notifications_conversation">de cette conversation</string>
-    <string name="journal_title">journal</string>
+    <string name="journal_title">journal (beta)</string>
     <string name="attachment_open_doc_prompt_download">télécharger</string>
     <string name="attachment_open_doc_prompt_browser">ouvrir dans navigateur</string>
     <string name="key_exchange_accept">accepter</string>

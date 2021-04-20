@@ -399,7 +399,7 @@
     <string name="attachment_open_doc_prompt_download">download</string>
     <string name="attachment_open_doc_prompt_browser">open in browser</string>
     
-    <string name="journal_title">journal</string>
+    <string name="journal_title">journal (beta)</string>
     <string name="journal_event_online">went online %s</string>
     <string name="journal_event_offline">went offline</string>
     <string name="journal_event_read">read a message</string>
