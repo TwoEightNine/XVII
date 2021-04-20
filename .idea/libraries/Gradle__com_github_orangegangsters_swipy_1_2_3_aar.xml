@@ -1,13 +1,16 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.orangegangsters:swipy:1.2.3@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7345ded9891e4f7399b9f5e867055170/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/55a99b6cc5387be1a6cd5cbb372ea497/jetified-swipy-1.2.3/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7345ded9891e4f7399b9f5e867055170/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7345ded9891e4f7399b9f5e867055170/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/55a99b6cc5387be1a6cd5cbb372ea497/jetified-swipy-1.2.3/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/55a99b6cc5387be1a6cd5cbb372ea497/jetified-swipy-1.2.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/55a99b6cc5387be1a6cd5cbb372ea497/jetified-swipy-1.2.3/res" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.orangegangsters/swipy/1.2.3/14c78529d344e58a03b515e6cd87d9a9b256eb6d/swipy-1.2.3-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.orangegangsters/swipy/1.2.3/d91feec96cb2730989252f3db882667b5bcfedb6/swipy-1.2.3-sources.jar!/" />
     </SOURCES>

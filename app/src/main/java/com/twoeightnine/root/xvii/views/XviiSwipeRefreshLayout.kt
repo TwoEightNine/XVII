@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.uikit.Munch
 
 class XviiSwipeRefreshLayout : SwipyRefreshLayout {
 
@@ -15,7 +15,7 @@ class XviiSwipeRefreshLayout : SwipyRefreshLayout {
     init {
         setDistanceToTriggerSync(100)
         setProgressBackgroundColor(R.color.popup)
-        setColorSchemeColors(Prefs.color)
+        setColorSchemeColors(*Munch.nearColors)
     }
 
 }

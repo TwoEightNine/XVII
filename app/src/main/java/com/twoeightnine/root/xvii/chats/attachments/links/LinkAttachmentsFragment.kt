@@ -3,14 +3,16 @@ package com.twoeightnine.root.xvii.chats.attachments.links
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsFragment
 import com.twoeightnine.root.xvii.model.attachments.Link
-import com.twoeightnine.root.xvii.utils.simpleUrlIntent
+import com.twoeightnine.root.xvii.utils.BrowsingUtils
+import com.twoeightnine.root.xvii.utils.showConfirm
 
 class LinkAttachmentsFragment : BaseAttachmentsFragment<Link>() {
 
     override val adapter by lazy {
-        LinkAttachmentsAdapter(contextOrThrow, ::loadMore, ::onClick)
+        LinkAttachmentsAdapter(requireContext(), ::loadMore, ::onClick)
     }
 
     override fun getLayoutManager() = LinearLayoutManager(context)
@@ -22,7 +24,14 @@ class LinkAttachmentsFragment : BaseAttachmentsFragment<Link>() {
     }
 
     private fun onClick(link: Link) {
-        simpleUrlIntent(context, link.url)
+        // TODO mark link
+        val url = link.url
+        val message = context?.getString(R.string.attachment_open_link_prompt, url) ?: return
+        showConfirm(context, message) { yes ->
+            if (yes) {
+                BrowsingUtils.openUrl(context, url)
+            }
+        }
     }
 
     companion object {

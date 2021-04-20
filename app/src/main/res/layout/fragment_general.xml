@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:animateLayoutChanges="true"
-    android:clickable="true"
-    android:orientation="vertical">
+    android:animateLayoutChanges="true">
 
-    <include layout="@layout/toolbar" />
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/general" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/svContent"
         android:clipToPadding="false"
         android:animateLayoutChanges="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -24,25 +27,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight">
-
-                <TextView
-                    style="@style/OtherText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="28dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/general_stealth"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
+                android:text="@string/general_stealth" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchOffline"
@@ -81,25 +69,10 @@
                 android:text="@string/mark_messages_as_read" />
 
 
-            <LinearLayout
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight">
-
-                <TextView
-                    style="@style/OtherText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="28dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/general_chatting"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
+                android:text="@string/general_chatting" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchSendByEnter"
@@ -116,31 +89,23 @@
                 android:text="@string/sticker_suggestions" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchExactSuggestions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sticker_suggestions_exact_hint"
+                android:text="@string/sticker_suggestions_exact" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchStoreKeys"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/store_custom_keys_hint"
                 android:text="@string/store_custom_keys" />
 
-            <LinearLayout
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight">
-
-                <TextView
-                    style="@style/OtherText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="28dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/general_other"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
+                android:text="@string/general_other" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchSwipeToBack"
@@ -156,6 +121,13 @@
                 android:hint="@string/lift_keyboards_hint"
                 android:text="@string/lift_keyboards" />
 
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchSuggestPeople"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/suggest_people_hint"
+                android:text="@string/suggest_people" />
+
             <TextView
                 android:id="@+id/tvCacheSize"
                 style="@style/MainText"
@@ -167,10 +139,10 @@
                 android:textSize="16sp"
                 tools:text="cache size: 1337 mb" />
 
-            <Button
+            <com.twoeightnine.root.xvii.uikit.XviiButton
                 android:id="@+id/btnClearCache"
-                style="@style/AccentButton"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginStart="1dp"
                 android:layout_marginTop="8dp"
@@ -178,10 +150,10 @@
                 android:drawableStart="@drawable/ic_delete"
                 android:text="@string/clear_cache" />
 
-            <Button
+            <com.twoeightnine.root.xvii.uikit.XviiButton
                 android:id="@+id/btnRefreshStickers"
-                style="@style/AccentButton"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginStart="1dp"
                 android:layout_marginTop="8dp"
@@ -192,6 +164,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

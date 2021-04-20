@@ -2,21 +2,24 @@ package com.twoeightnine.root.xvii.chats.messages.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.hide
-import com.twoeightnine.root.xvii.utils.setVisible
-import com.twoeightnine.root.xvii.utils.show
+import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
+import com.twoeightnine.root.xvii.utils.getDate
 import com.twoeightnine.root.xvii.utils.showError
+import global.msnthrp.xvii.uikit.extensions.*
+import io.reactivex.Completable
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.view_chat_multiselect.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment() {
@@ -26,7 +29,13 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
     protected lateinit var viewModel: VM
 
     protected val adapter by lazy {
-        MessagesAdapter(contextOrThrow, ::loadMore, getAdapterCallback(), getAdapterSettings())
+        MessagesAdapter(
+                requireContext(),
+                ::loadMore,
+                getAdapterCallback(),
+                getAttachmentsCallback(),
+                getAdapterSettings()
+        )
     }
 
     abstract fun getViewModelClass(): Class<VM>
@@ -34,6 +43,8 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
     abstract fun inject()
 
     abstract fun getAdapterCallback(): MessagesAdapter.Callback
+
+    abstract fun getAttachmentsCallback(): AttachmentsInflater.Callback
 
     abstract fun getAdapterSettings(): MessagesAdapter.Settings
 
@@ -54,11 +65,10 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         initMultiAction()
         viewModel = ViewModelProviders.of(this, viewModelFactory)[getViewModelClass()]
         prepareViewModel()
-        viewModel.getInteraction().observe(this, Observer { updateMessages2(it) })
-        viewModel.loadMessages()
         adapter.startLoading()
 
         progressBar.show()
+        xviiToolbar.isLifted = true
         swipeContainer.setOnRefreshListener {
             loadMore(0)
             adapter.reset()
@@ -66,8 +76,14 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         }
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.getInteraction().observe(viewLifecycleOwner, ::updateMessages2)
+        viewModel.loadMessages()
+    }
+
     protected fun getSelectedMessageIds() = adapter.multiSelect
-            .joinToString(separator = ",", transform = { it.id.toString() })
+            .joinToString(separator = ",", transform = { it.message.id.toString() })
 
     private fun updateMessages2(data: Wrapper<Interaction>) {
         swipeContainer.isRefreshing = false
@@ -91,7 +107,7 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
                         firstLoad -> {
                             var unreadPos = adapter.itemCount - 1 // default last item
                             for (index in interaction.messages.indices) {
-                                val message = interaction.messages[index]
+                                val message = interaction.messages[index].message
                                 if (!message.read && !message.isOut()) {
                                     unreadPos = index
                                     break
@@ -128,6 +144,8 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         }
         rvChatList.adapter = adapter
         rvChatList.itemAnimator = null
+
+        rvChatList.addOnScrollListener(RecyclerDateScroller())
         adapter.multiSelectListener = ::onMultiSelectChanged
 
         fabHasMore.setOnClickListener { rvChatList.scrollToPosition(adapter.itemCount - 1) }
@@ -167,6 +185,55 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
                     && adapter.lastVisiblePosition(rvChatList.layoutManager) == adapter.itemCount - 1) {
                 fabHasMore.hide()
                 onScrolled(isAtBottom = true)
+            }
+        }
+    }
+
+    private inner class RecyclerDateScroller : RecyclerView.OnScrollListener() {
+
+        private var lastHandledTopPosition = -1
+        private var lastHandledBottomPosition = -1
+        private var disposable: Disposable? = null
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val adapterTopPosition = (recyclerView.layoutManager as? LinearLayoutManager)
+                    ?.findFirstVisibleItemPosition() ?: -1
+            val adapterBottomPosition = (recyclerView.layoutManager as? LinearLayoutManager)
+                    ?.findLastVisibleItemPosition() ?: -1
+            if (adapterTopPosition != lastHandledTopPosition
+                    && adapterTopPosition != -1) {
+                val message = adapter.items
+                        .getOrNull(adapterTopPosition)
+                        ?.message ?: return
+                if (message.date == 0) return
+
+                val uiDate = getDate(message.date)
+                showDate(uiDate)
+                lastHandledTopPosition = adapterTopPosition
+                lastHandledBottomPosition = adapterBottomPosition
+
+                disposable?.dispose()
+                disposable = Completable.timer(2L, TimeUnit.SECONDS)
+                        .compose(applyCompletableSchedulers())
+                        .subscribe {
+                            hideDate()
+                        }
+
+            }
+        }
+
+        private fun showDate(date: String) {
+            if (!tvDatePopup.isShown) {
+                tvDatePopup.fadeIn(200L)
+                tvDatePopup.show()
+            }
+            tvDatePopup.text = date
+        }
+
+        private fun hideDate() {
+            tvDatePopup?.fadeOut(200L) {
+                tvDatePopup?.hide()
             }
         }
     }

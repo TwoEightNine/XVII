@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.utils.stylize
-import kotlinx.android.synthetic.main.item_loader.view.*
 
 /**
  * provides pagination functionality
@@ -145,12 +143,7 @@ abstract class BaseReachAdapter<T : Any, VH : RecyclerView.ViewHolder> construct
         state = newState
     }
 
-    inner class LoaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        init {
-            itemView.progressBar.stylize()
-        }
-    }
+    inner class LoaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     enum class State {
         INITIAL,

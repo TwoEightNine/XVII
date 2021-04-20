@@ -9,9 +9,9 @@ import android.text.style.ImageSpan
 import androidx.collection.LruCache
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
+import global.msnthrp.xvii.data.stickersemoji.model.Emoji
 
 object EmojiHelper {
 

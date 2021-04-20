@@ -6,21 +6,24 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.adapters.DialogsAdapter
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.dialogs.viewmodels.DialogsViewModel
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
+import com.twoeightnine.root.xvii.utils.notifications.NotificationUtils
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
+import global.msnthrp.xvii.data.dialogs.Dialog
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_dialogs.*
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 
@@ -31,11 +34,7 @@ open class DialogsFragment : BaseFragment() {
     private lateinit var viewModel: DialogsViewModel
 
     private val adapter by lazy {
-        DialogsAdapter(contextOrThrow, ::loadMore, ::onClick, ::onLongClick)
-    }
-
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
+        DialogsAdapter(requireContext(), ::loadMore, ::onClick, ::onLongClick)
     }
 
     override fun getLayoutId() = R.layout.fragment_dialogs
@@ -43,7 +42,6 @@ open class DialogsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
-        toolbar.hide()
 
         progressBar.show()
         swipeRefresh.setOnRefreshListener {
@@ -51,7 +49,7 @@ open class DialogsFragment : BaseFragment() {
             adapter.reset()
             adapter.startLoading()
         }
-        progressBar.stylize()
+        rvDialogs.applyBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -59,22 +57,15 @@ open class DialogsFragment : BaseFragment() {
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[DialogsViewModel::class.java]
         viewModel.getDialogs().observe(viewLifecycleOwner, Observer(::updateDialogs))
-        viewModel.getTypingPeerIds().observe(viewLifecycleOwner, Observer { adapter.typingPeerIds = it })
+        viewModel.getTypingPeerIds().observe(viewLifecycleOwner) { adapter.typingPeerIds = it }
         viewModel.loadDialogs()
         adapter.startLoading()
-
-        insetViewModel?.topInset?.observe(viewLifecycleOwner, Observer { top ->
-            adapter.firstItemPadding = top
-        })
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
-            val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
-            rvDialogs.setBottomPadding(bottom + bottomNavHeight)
-        })
     }
 
     private fun initRecycler() {
         rvDialogs.layoutManager = LinearLayoutManager(context)
         rvDialogs.adapter = adapter
+        rvDialogs.addOnScrollListener(AppBarLifter(xviiToolbar))
     }
 
     private fun updateDialogs(data: Wrapper<ArrayList<Dialog>>) {
@@ -98,9 +89,10 @@ open class DialogsFragment : BaseFragment() {
 
     protected open fun onLongClick(dialog: Dialog) {
         val items = arrayListOf(
-                ContextPopupItem(R.drawable.ic_pinned, if (dialog.isPinned) R.string.unpin else R.string.pin) {
-                    viewModel.pinDialog(dialog)
-                },
+                ContextPopupItem(
+                        if (dialog.isPinned) R.drawable.ic_pinned_crossed else R.drawable.ic_pinned,
+                        if (dialog.isPinned) R.string.unpin else R.string.pin
+                ) { viewModel.pinDialog(dialog) },
                 ContextPopupItem(R.drawable.ic_eye, R.string.mark_as_read) {
                     viewModel.readDialog(dialog)
                 },
@@ -111,21 +103,31 @@ open class DialogsFragment : BaseFragment() {
                 },
                 ContextPopupItem(R.drawable.ic_alias, R.string.alias) {
                     TextInputAlertDialog(
-                            contextOrThrow,
+                            requireContext(),
                             dialog.title,
-                            dialog.alias ?: dialog.title
+                            dialog.aliasOrTitle
                     ) { newAlias ->
                         viewModel.addAlias(dialog, newAlias)
                     }.show()
                 },
-                ContextPopupItem(R.drawable.ic_home, R.string.add_shortcut) {
-                    createShortcut(context, dialog)
+                ContextPopupItem(R.drawable.ic_link, R.string.add_shortcut) {
+                    context?.also { context ->
+                        ShortcutUtils.createShortcut(context, dialog) {
+                            showToast(context, "shortcut added")
+                        }
+                    }
                 }
         )
 
         if (dialog.peerId.matchesUserId()) {
             items.add(ContextPopupItem(R.drawable.ic_start_secret_chat, R.string.encryption) {
                 SecretChatActivity.launch(context, dialog)
+            })
+        }
+
+        if (BuildConfig.DEBUG) {
+            items.add(ContextPopupItem(R.drawable.ic_source_code, R.string.notifications) {
+                NotificationUtils.showTestMessageNotification(requireContext(), dialog)
             })
         }
 

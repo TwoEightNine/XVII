@@ -3,12 +3,13 @@ package com.twoeightnine.root.xvii
 import android.app.Application
 import android.content.Context
 import android.os.Build
-import com.twoeightnine.root.xvii.crypto.KeyHolder
 import com.twoeightnine.root.xvii.dagger.AppComponent
 import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.data.utils.ContextHolder
+import global.msnthrp.xvii.data.utils.ContextProvider
 import io.github.inflationx.calligraphy3.CalligraphyConfig
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump
@@ -18,17 +19,16 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+        ContextHolder.contextProvider = object : ContextProvider {
+            override val applicationContext: Context = context
+        }
+        VibrationHelper.initVibrator(context)
         appComponent = DaggerAppComponent.builder()
                 .contextModule(ContextModule(this))
                 .build()
 
         registerActivityLifecycleCallbacks(AppLifecycleTracker())
         ColorManager.init(applicationContext)
-        KeyHolder.reinit()
-        EmojiHelper.init()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannels.initChannels(this)
-        }
 
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(CalligraphyInterceptor(
@@ -39,13 +39,20 @@ class App : Application() {
                 ))
                 .build())
 
-        try {
-            StatTool.init(applicationContext)
-        } catch (e: Exception) {
-            L.tag("stat").warn()
-                    .throwable(e)
-                    .log("init failed")
-        }
+        AsyncUtils.onIoThread({
+            EmojiHelper.init()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannels.initChannels(this)
+            }
+
+            try {
+                StatTool.init(applicationContext)
+            } catch (e: Exception) {
+                L.tag("stat").warn()
+                        .throwable(e)
+                        .log("init failed")
+            }
+        })
     }
 
     companion object {

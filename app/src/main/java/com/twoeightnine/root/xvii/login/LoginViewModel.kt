@@ -4,13 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.accounts.models.Account
-import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
+import com.twoeightnine.root.xvii.storage.SessionProvider
+import com.twoeightnine.root.xvii.utils.AsyncUtils
 import com.twoeightnine.root.xvii.utils.subscribeSmart
+import global.msnthrp.xvii.core.accounts.AccountsUseCase
+import global.msnthrp.xvii.core.accounts.model.Account
+import global.msnthrp.xvii.data.accounts.DbAccountsDataSource
+import global.msnthrp.xvii.data.db.AppDb
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -22,7 +25,12 @@ class LoginViewModel : ViewModel() {
 
     @Inject
     lateinit var appDb: AppDb
+    
+    private val accountsUseCase by lazy { 
+        AccountsUseCase(DbAccountsDataSource(appDb.accountsDao()))
+    }
 
+    private val multiCancellables = AsyncUtils.MultiCancellable()
     private val compositeDisposable = CompositeDisposable()
 
     private val accountUpdatedLiveData = MutableLiveData<Unit>()
@@ -38,7 +46,7 @@ class LoginViewModel : ViewModel() {
         App.appComponent?.inject(this)
     }
 
-    fun checkAccount(token: String, userId: Int) {
+    fun checkAccount(token: String?, userId: Int) {
         api.checkUser(userId.toString(), token)
                 .subscribeSmart({ response ->
                     val user = response.getOrNull(0)
@@ -60,23 +68,25 @@ class LoginViewModel : ViewModel() {
     }
 
     fun updateAccount(user: User, token: String, isRunning: Boolean) {
+        if (isRunning) {
+            SessionProvider.token = token
+            SessionProvider.userId = user.id
+            SessionProvider.fullName = user.fullName
+            SessionProvider.photo = user.photoMax
+        }
         val account = Account(
-                user.id,
-                token,
-                user.fullName,
-                user.photo100 ?: "",
-                isRunning
+                userId = user.id,
+                token = token,
+                name = user.fullName,
+                photo = user.photoMax,
+                isActive = isRunning
         )
-        appDb.accountsDao()
-                .insertAccount(account)
-                .compose(applyCompletableSchedulers())
-                .subscribe({
-                    L.tag(TAG).log("account updated")
-                    accountUpdatedLiveData.value = Unit
-                }, {
-                    L.tag(TAG).throwable(it).log("updating account error")
-                })
-                .addToDisposables()
+        AsyncUtils.onIoThread({ accountsUseCase.updateAccount(account) }, {
+            L.tag(TAG).throwable(it).log("updating account error")
+        }) {
+            L.tag(TAG).log("account updated")
+            accountUpdatedLiveData.value = Unit
+        }.addToMultiCancellable()
     }
 
     override fun onCleared() {
@@ -86,6 +96,10 @@ class LoginViewModel : ViewModel() {
 
     private fun Disposable.addToDisposables() {
         compositeDisposable.add(this)
+    }
+
+    private fun AsyncUtils.Cancellable.addToMultiCancellable() {
+        multiCancellables.add(this)
     }
 
     companion object {

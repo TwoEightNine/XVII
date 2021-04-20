@@ -6,7 +6,7 @@
     android:background="@color/popup"
     android:layout_height="match_parent">
 
-    <ProgressBar
+    <com.twoeightnine.root.xvii.uikit.XviiLoader
         android:layout_margin="8dp"
         android:layout_gravity="center"
         android:layout_width="60dp"

@@ -3,12 +3,14 @@ package com.twoeightnine.root.xvii.features.general
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.getSize
+import com.twoeightnine.root.xvii.utils.showToast
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_general.*
 
 /**
@@ -17,7 +19,9 @@ import kotlinx.android.synthetic.main.fragment_general.*
 
 class GeneralFragment : BaseFragment() {
 
-    private lateinit var viewModel: GeneralViewModel
+    private val viewModel by viewModels<GeneralViewModel>()
+
+    override fun getLayoutId() = R.layout.fragment_general
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,27 +32,24 @@ class GeneralFragment : BaseFragment() {
         btnRefreshStickers.setOnClickListener {
             viewModel.refreshStickers()
         }
-        llContainer.stylizeAll()
-        svContent.setBottomInsetPadding()
+        svContent.applyBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.general))
-        viewModel = ViewModelProviders.of(this)[GeneralViewModel::class.java]
         viewModel.calculateCacheSize()
 
-        viewModel.cacheSize.observe(viewLifecycleOwner, Observer { size ->
+        viewModel.cacheSize.observe(viewLifecycleOwner) { size ->
             context?.resources?.also {
                 tvCacheSize.text = getString(R.string.cache_size, getSize(it, size.toInt()))
             }
-        })
-        viewModel.stickersRefreshing.observe(viewLifecycleOwner, Observer { loading ->
+        }
+        viewModel.stickersRefreshing.observe(viewLifecycleOwner) { loading ->
             btnRefreshStickers.setVisible(!loading)
             if (!loading) {
                 showToast(context, R.string.stickers_refreshed)
             }
-        })
+        }
     }
 
     private fun initSwitches() {
@@ -59,9 +60,11 @@ class GeneralFragment : BaseFragment() {
         switchTyping.isChecked = Prefs.showTyping
         switchSendByEnter.isChecked = Prefs.sendByEnter
         switchStickerSuggestions.isChecked = Prefs.stickerSuggestions
+        switchExactSuggestions.isChecked = Prefs.exactSuggestions
         switchSwipeToBack.isChecked = Prefs.enableSwipeToBack
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
         switchLiftKeyboard.isChecked = Prefs.liftKeyboard
+        switchSuggestPeople.isChecked = Prefs.suggestPeople
 
         switchOffline.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             if (isChecked) switchOnline.isChecked = false
@@ -71,6 +74,9 @@ class GeneralFragment : BaseFragment() {
         }
         switchHideStatus.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             viewModel.setHideMyStatus(isChecked)
+        }
+        switchStickerSuggestions.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            switchExactSuggestions.setVisible(isChecked)
         }
     }
 
@@ -82,17 +88,17 @@ class GeneralFragment : BaseFragment() {
         Prefs.showTyping = switchTyping.isChecked
         Prefs.sendByEnter = switchSendByEnter.isChecked
         Prefs.stickerSuggestions = switchStickerSuggestions.isChecked
+        Prefs.exactSuggestions = switchExactSuggestions.isChecked
         Prefs.enableSwipeToBack = switchSwipeToBack.isChecked
         Prefs.storeCustomKeys = switchStoreKeys.isChecked
         Prefs.liftKeyboard = switchLiftKeyboard.isChecked
+        Prefs.suggestPeople = switchSuggestPeople.isChecked
     }
 
     override fun onStop() {
         super.onStop()
         saveSwitches()
     }
-
-    override fun getLayoutId() = R.layout.fragment_general
 
     companion object {
 

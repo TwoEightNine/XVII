@@ -2,7 +2,7 @@ package com.twoeightnine.root.xvii.base
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
-import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
 
 abstract class BaseMultiSelectAdapter<T, VH : RecyclerView.ViewHolder>(context: Context)
     : BaseAdapter<T, VH>(context) {

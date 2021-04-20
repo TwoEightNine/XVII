@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="item_margin">7dp</dimen>
+    <dimen name="endmarginshape">18dp</dimen>
     <dimen name="marginshape">4dp</dimen>
     <dimen name="marginside">7dp</dimen>
-    <dimen name="endmarginshape">18dp</dimen>
-    <dimen name="frame_pad">5dp</dimen>
-    <dimen name="big_margin">30dp</dimen>
-    <dimen name="item_margin">7dp</dimen>
 
     <dimen name="image_margin">5dp</dimen>
     <dimen name="margin8">8dp</dimen>
     <dimen name="margin16">16dp</dimen>
-    <dimen name="sticker_width">80dp</dimen>
 
-    <dimen name="drawer_width">100dp</dimen>
-    <dimen name="drawer_item_width">90dp</dimen>
     <dimen name="tabs_height">38dp</dimen>
     <dimen name="image_corners_radius">12dp</dimen>
-    <dimen name="sticker_height">50dp</dimen>
     <dimen name="emoji_size">17sp</dimen>
-    <dimen name="loader_size">15dp</dimen>
     <dimen name="typing_dot_size">7dp</dimen>
-    <dimen name="arc_width">450dp</dimen>
 
     <dimen name="text_view_top_margin">0dp</dimen>
     <dimen name="button_accent_height">48dp</dimen>
@@ -41,23 +32,25 @@
     <dimen name="chat_shape_side_padding">24dp</dimen>
     <dimen name="chat_message_text_size">15sp</dimen>
     <dimen name="chat_attached_size">80dp</dimen>
-
-    <!--profile-->
-    <dimen name="profile_ava_size">300dp</dimen>
-    <dimen name="profile_data_top_margin">270dp</dimen>
-    <dimen name="profile_arc_height">70dp</dimen>
-
+    <dimen name="chat_message_text_margin">8dp</dimen>
+    <dimen name="chat_message_text_margin_bottom">1dp</dimen>
+    <dimen name="chat_date_message_margin">2dp</dimen>
+    <dimen name="chat_date_bottom_margin">2dp</dimen>
+    <dimen name="chat_date_overlay_margin">8dp</dimen>
+    <dimen name="chat_date_embedded_margin">8dp</dimen>
+    <dimen name="chat_date_text_margin_top">-8dp</dimen>
+    <dimen name="chat_date_text_margin_single">4dp</dimen>
+    <dimen name="chat_date_text_margin_end">6dp</dimen>
+    <dimen name="chat_dot_message_margin">4dp</dimen>
+    <dimen name="chat_dot_message_margin_bottom">15dp</dimen>
+    <dimen name="chat_dot_message_size">8dp</dimen>
+    <dimen name="chat_dot_date_margin">2dp</dimen>
+    <dimen name="chat_date_text_size">10sp</dimen>
+    <dimen name="chat_message_max_width">280dp</dimen>
+    <dimen name="chat_message_inline_fitness_width">258dp</dimen>
+    <dimen name="chat_replied_message_max_width">264dp</dimen> <!--message_max_width - 2 * level_padding-->
+    <dimen name="chat_message_floating_margin_horiz">5dp</dimen>
     <!--appearance-->
-    <dimen name="picker_outside_width">300dp</dimen>
-    <dimen name="picker_outside_height">130dp</dimen>
-    <dimen name="picker_inside_width">280dp</dimen>
-    <dimen name="picker_inside_height">110dp</dimen>
-    <dimen name="picker_large_side_width">160dp</dimen>
-    <dimen name="picker_small_side_width">110dp</dimen>
-    <dimen name="picker_small_side_height">50dp</dimen>
-    <dimen name="picker_space_width">10dp</dimen>
-    <dimen name="picker_space_height">10dp</dimen>
-    <dimen name="picker">220dp</dimen>
 
     <!--dialogs-->
     <dimen name="dialogs_photo_size">55dp</dimen>
@@ -69,31 +62,65 @@
     <dimen name="user_margin_between">2dp</dimen>
 
     <dimen name="context_popup_item_height">56dp</dimen>
-    <dimen name="context_popup_radius">8dp</dimen>
+    <dimen name="context_popup_radius">12dp</dimen>
 
     <dimen name="profile_bottom_peek_height">300dp</dimen>
     <dimen name="profile_content_min_height">260dp</dimen>
     <dimen name="profile_margin_start">24dp</dimen>
     <dimen name="profile_margin_end">24dp</dimen>
     <dimen name="profile_avatar_height">240dp</dimen>
-    <dimen name="profile_card_margin_top">46dp</dimen>
-    <dimen name="profile_card_radius">10dp</dimen> <!--actionBarSize - profile_card_margin_top-->
+    <dimen name="profile_card_margin_top">40dp</dimen>
+    <dimen name="profile_card_radius">@dimen/default_radius</dimen> <!--actionBarSize - profile_card_margin_top-->
 
     <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="toolbar_height_double">112dp</dimen>
     <dimen name="chat_fab_more_bottom_margin">72dp</dimen>
     <dimen name="chat_sticker_suggestions_bottom_margin">44dp</dimen>
     <dimen name="chat_mentioned_members_bottom_margin">56dp</dimen>
     <dimen name="accounts_fab_add_margin">16dp</dimen>
     <dimen name="attach_fab_done_margin">16dp</dimen>
 
-    <dimen name="chat_wall_post_image_height">180dp</dimen>
-    <dimen name="chat_wall_post_image_width">268dp</dimen>
+    <dimen name="chat_wall_post_image_height">183dp</dimen>
+    <dimen name="chat_wall_post_image_width">272dp</dimen>
 
     <dimen name="stickers_tab_item_size">24dp</dimen>
 
     <dimen name="scheduled_messages_finger_translation_horizontal">36dp</dimen>
     <dimen name="scheduled_messages_finger_translation_vertical">8dp</dimen>
 
-    <dimen name="button_radius">12dp</dimen>
+    <dimen name="toolbar_padding">56dp</dimen>
+
+    <dimen name="default_radius">16dp</dimen>
+    <dimen name="bottom_sheet_radius">@dimen/default_radius</dimen>
+    <dimen name="cardview_elevation">1dp</dimen>
+
+    <dimen name="chat_list_padding">8dp</dimen>
+    <dimen name="chat_message_elevation">0dp</dimen>
+    <dimen name="chat_message_content_width">276dp</dimen>
+    <dimen name="chat_message_sticker_width">180dp</dimen>
+    <dimen name="chat_message_graffiti_width">220dp</dimen>
+    <dimen name="chat_message_photo_margin">4dp</dimen>
+    <dimen name="chat_message_level_padding">8dp</dimen>
+    <dimen name="chat_message_video_width">272dp</dimen>
+    <dimen name="chat_message_video_height">200dp</dimen>
+    <dimen name="chat_message_doc_size">46dp</dimen>
+    <dimen name="chat_message_doc_radius">23dp</dimen>
+    <dimen name="chat_message_loader">30dp</dimen>
+
+    <dimen name="avatar_name_size_toolbar">22dp</dimen>
+    <dimen name="avatar_name_size_message">15dp</dimen>
+    <dimen name="avatar_name_size_dialog">27dp</dimen>
+
+    <dimen name="journal_online_dot_size">20dp</dimen>
+    <dimen name="journal_online_line_padding">6dp</dimen>
+
+    <dimen name="loader_extra_padding">8dp</dimen>
+    <dimen name="loader_usual_size">40dp</dimen>
+    <dimen name="loader_usual_thickness">4dp</dimen>
+    <dimen name="loader_small_size">24dp</dimen>
+    <dimen name="loader_small_thickness">2dp</dimen>
+
+    <dimen name="item_height">48dp</dimen>
+    <dimen name="item_divider_margin">56dp</dimen>
 
 </resources>

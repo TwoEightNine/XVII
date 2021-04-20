@@ -5,8 +5,8 @@ import android.content.DialogInterface
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.utils.asText
 import com.twoeightnine.root.xvii.utils.stylize
+import global.msnthrp.xvii.uikit.extensions.asText
 import kotlinx.android.synthetic.main.dialog_comment.view.*
 
 class TextInputAlertDialog(

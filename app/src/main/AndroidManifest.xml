@@ -22,7 +22,7 @@
     <application
         android:name="com.twoeightnine.root.xvii.App"
         android:allowBackup="true"
-        android:icon="@drawable/xvii_dark_logo_128"
+        android:icon="@drawable/xvii_logo_128_circle"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
@@ -38,15 +38,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="${adAppId}"/>
-
 
         <receiver
             android:name=".background.longpoll.receivers.RestarterBroadcastReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="restartAction" />
@@ -56,30 +52,36 @@
         <receiver
             android:name=".background.longpoll.receivers.MarkAsReadBroadcastReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="markAsReadAction" />
             </intent-filter>
         </receiver>
+
         <receiver android:name=".background.music.services.MusicBroadcastReceiver" />
+
+        <receiver
+            android:name=".background.longpoll.receivers.KeyExchangeHandler$Receiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="actionDenyExchange" />
+                <action android:name="actionAcceptExchange" />
+            </intent-filter>
+        </receiver>
 
         <!--<service android:name=".background.LongPollService" />-->
 
         <service android:name=".background.longpoll.services.NotificationService" />
 
-        <service android:name="com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService" />
         <service
             android:name=".background.longpoll.services.NotificationJobIntentService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name="com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service
             android:name=".background.music.services.MusicService"
             android:permission="android.permission.WAKE_LOCK" />
-        <service android:name=".background.DownloadFileService" />
+
         <service android:name=".background.messaging.MessageDestructionService" />
 
         <activity
@@ -103,14 +105,6 @@
             android:theme="@style/AppTheme.Transparent.Photo" />
 
         <activity
-            android:name=".web.GifViewerActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".web.VideoViewerActivity"
-            android:theme="@style/AppTheme.Transparent.Photo" />
-
-        <activity
             android:name=".activities.ExceptionActivity"
             android:screenOrientation="portrait" />
 
@@ -124,40 +118,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".accounts.activities.AccountsActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".chats.attachments.attachments.AttachmentsActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".chats.attachments.attach.AttachActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".chats.attachments.audios.AudiosActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".search.SearchActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".egg.EggActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".wallpost.WallPostActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".chats.messages.starred.StarredMessagesActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".web.WebActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
             android:name=".features.appearance.AppearanceActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".features.general.GeneralActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".features.notifications.NotificationsActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".main.MainActivity"
@@ -185,12 +146,6 @@
             android:name=".background.longpoll.LongPollExplanationActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
-            android:name=".features.datausage.DataUsageActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".chats.messages.deepforwarded.DeepForwardedActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
             android:name=".chatowner.ChatOwnerActivity"
             android:theme="@style/AppTheme.Transparent">
             <intent-filter>
@@ -206,19 +161,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".poll.PollsActivity"
-            android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".features.assist.AssistActivity"
-            android:theme="@style/AppTheme.Transparent"/>
-        <activity
             android:name=".pin.fake.alarm.AlarmActivity"
             android:theme="@style/AppTheme.Transparent"/>
         <activity
             android:name=".pin.fake.diagnostics.DiagnosticsActivity"
-            android:theme="@style/AppTheme.Transparent"/>
-        <activity
-            android:name=".scheduled.ui.ScheduledMessagesActivity"
             android:theme="@style/AppTheme.Transparent"/>
         <activity
             android:name=".base.FragmentPlacementActivity"

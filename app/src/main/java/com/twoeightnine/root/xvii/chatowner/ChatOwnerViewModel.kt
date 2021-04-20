@@ -8,14 +8,13 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.utils.applySchedulers
-import com.twoeightnine.root.xvii.utils.asChatId
-import com.twoeightnine.root.xvii.utils.matchesUserId
-import com.twoeightnine.root.xvii.utils.subscribeSmart
+import com.twoeightnine.root.xvii.storage.SessionProvider
+import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.data.db.AppDb
+import global.msnthrp.xvii.data.dialogs.Dialog
 import java.util.*
 import javax.inject.Inject
 
@@ -24,12 +23,16 @@ class ChatOwnerViewModel : ViewModel() {
     @Inject
     lateinit var api: ApiService
 
+    @Inject
+    lateinit var appDb: AppDb
+
     private val chatOwnerLiveData = WrappedMutableLiveData<ChatOwner>()
     private val photosLiveData = MutableLiveData<List<Photo>>()
     private val conversationMembersLiveData = MutableLiveData<List<User>>()
     private val titleLiveData = WrappedMutableLiveData<String>()
     private val blockedLiveData = WrappedMutableLiveData<Boolean>()
     private val foafLiveData = WrappedMutableLiveData<Date>()
+    private val aliasLiveData = MutableLiveData<String>()
 
     val chatOwner: WrappedLiveData<ChatOwner>
         get() = chatOwnerLiveData
@@ -48,6 +51,9 @@ class ChatOwnerViewModel : ViewModel() {
 
     val foaf: WrappedLiveData<Date>
         get() = foafLiveData
+
+    val alias: LiveData<String>
+        get() = aliasLiveData
 
     init {
         App.appComponent?.inject(this)
@@ -101,7 +107,7 @@ class ChatOwnerViewModel : ViewModel() {
     }
 
     fun leaveConversation(peerId: Int) {
-        kickUser(peerId, Session.uid)
+        kickUser(peerId, SessionProvider.userId)
     }
 
     fun blockUser(userId: Int) {
@@ -148,6 +154,20 @@ class ChatOwnerViewModel : ViewModel() {
                 }, {
                     // no error in ui
                 })
+    }
+
+    @SuppressLint("CheckResult")
+    fun loadAlias(peerId: Int) {
+        appDb.dialogsDao()
+                .getDialogs(peerId)
+                .compose(applySingleSchedulers())
+                .onErrorReturnItem(Dialog())
+                .map { it.alias ?: "" }
+                .subscribe { alias ->
+                    if (alias.isNotBlank()) {
+                        aliasLiveData.value = alias
+                    }
+                }
     }
 
     private fun getFoafDate(site: String): Date? {

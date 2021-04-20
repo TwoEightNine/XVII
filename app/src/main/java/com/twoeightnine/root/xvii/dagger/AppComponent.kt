@@ -3,7 +3,8 @@ package com.twoeightnine.root.xvii.dagger
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.activities.ExceptionActivity
 import com.twoeightnine.root.xvii.analyzer.dialog.AnalyzeDialogFragment
-import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
+import com.twoeightnine.root.xvii.background.longpoll.core.LongPollCore
+import com.twoeightnine.root.xvii.background.longpoll.receivers.KeyExchangeHandler
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
@@ -33,19 +34,21 @@ import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.features.general.GeneralViewModel
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
+import com.twoeightnine.root.xvii.journal.JournalViewModel
 import com.twoeightnine.root.xvii.login.LoginActivity
 import com.twoeightnine.root.xvii.login.LoginViewModel
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
 import com.twoeightnine.root.xvii.pin.PinActivity
 import com.twoeightnine.root.xvii.poll.PollFragment
-import com.twoeightnine.root.xvii.profile.fragments.ProfileFragment
 import com.twoeightnine.root.xvii.scheduled.core.SendMessageWorker
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesViewModel
 import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.utils.AppLifecycleTracker
+import com.twoeightnine.root.xvii.utils.DefaultPeerResolver
+import com.twoeightnine.root.xvii.utils.ReloginHandler
 import com.twoeightnine.root.xvii.wallpost.WallPostFragment
-import com.twoeightnine.root.xvii.web.GifViewerActivity
+import com.twoeightnine.root.xvii.web.GifViewerFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -58,12 +61,11 @@ interface AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(exceptionActivity: ExceptionActivity)
     fun inject(imageViewerActivity: ImageViewerActivity)
-    fun inject(gifViewerActivity: GifViewerActivity)
     fun inject(pinActivity: PinActivity)
 
     // fragments
-    fun inject(profileFragment: ProfileFragment)
     fun inject(wallPostFragment: WallPostFragment)
+    fun inject(gifViewerFragment: GifViewerFragment)
     fun inject(accountsFragment: AccountsFragment)
     fun inject(friendsFragment: FriendsFragment)
     fun inject(dialogsFragment: DialogsFragment)
@@ -96,11 +98,16 @@ interface AppComponent {
     fun inject(stickersWindow: StickersWindow)
     fun inject(appLifecycleTracker: AppLifecycleTracker)
     fun inject(stickersEmojiRepository: StickersEmojiRepository)
+    fun inject(defaultPeerResolver: DefaultPeerResolver)
+    fun inject(receiver: KeyExchangeHandler.Receiver)
+    fun inject(keyExchangeHandler: KeyExchangeHandler)
+    fun inject(reloginHandler: ReloginHandler)
 
     fun inject(chatOwnerViewModel: ChatOwnerViewModel)
     fun inject(generalViewModel: GeneralViewModel)
     fun inject(baseChatMessagesViewModel: BaseChatMessagesViewModel)
     fun inject(scheduledMessagesViewModel: ScheduledMessagesViewModel)
     fun inject(loginViewModel: LoginViewModel)
+    fun inject(journalViewModel: JournalViewModel)
 
 }

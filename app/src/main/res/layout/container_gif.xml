@@ -1,44 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardBackgroundColor="@color/placeholder"
+    app:cardElevation="0dp"
+    app:cardCornerRadius="@dimen/default_radius"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/ivVideo"
+        android:id="@+id/ivGif"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/image_margin" />
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/backgrounds/scenic"/>
 
-    <ImageView
-        android:id="@+id/ivPlay"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/shape_circle_video" />
-
-    <ImageView
-        android:id="@+id/ivPlayWhite"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/play_white" />
-
-    <RelativeLayout
-        android:id="@+id/rlDuration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/ivVideo"
-        android:layout_alignBottom="@+id/ivVideo"
-        android:background="@drawable/shape_dur_video">
-
-        <TextView
-            android:id="@+id/tvDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:text="gif"
-            android:textColor="@color/icons"
-            android:textSize="14sp" />
-    </RelativeLayout>
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

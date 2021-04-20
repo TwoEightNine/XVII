@@ -6,13 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
-import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.getCacheSize
 import com.twoeightnine.root.xvii.utils.subscribeSmart
+import global.msnthrp.xvii.data.db.AppDb
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

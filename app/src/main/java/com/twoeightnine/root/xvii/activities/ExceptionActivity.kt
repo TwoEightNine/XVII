@@ -1,6 +1,5 @@
 package com.twoeightnine.root.xvii.activities
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
@@ -8,11 +7,12 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.activity_exception.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -33,14 +33,6 @@ class ExceptionActivity : AppCompatActivity() {
     lateinit var api: ApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        NightModeHelper.updateConfig(
-                if (Prefs.isLightTheme) {
-                    Configuration.UI_MODE_NIGHT_NO
-                } else {
-                    Configuration.UI_MODE_NIGHT_YES
-                },
-                this, R.style.AppTheme
-        )
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exception)
         App.appComponent?.inject(this)
@@ -52,8 +44,8 @@ class ExceptionActivity : AppCompatActivity() {
         btnReport.setOnClickListener {
             showDialog(error)
         }
-        window.statusBarColor = ContextCompat.getColor(this, R.color.background)
-        window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.background_dark)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.background_dark)
     }
 
     private fun showDialog(error: String) {

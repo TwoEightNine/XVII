@@ -3,6 +3,11 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState />
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -18,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/file/ic_cloud_download_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/more_vert/baseline_more_vert_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,8 +34,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_piggy_bank" />
-                            <entry key="sourceFile" value="$USER_HOME$/Documents/icons/svg/089-piggy-bank.svg" />
+                            <entry key="outputName" value="ic_quote" />
+                            <entry key="sourceFile" value="$USER_HOME$/Documents/icons/custom/quote.svg" />
                           </map>
                         </option>
                       </PersistentState>

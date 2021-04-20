@@ -1,30 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/llContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:clickable="true"
-    android:focusable="true"
-    android:orientation="vertical">
+    android:background="@color/background">
 
-    <include layout="@layout/toolbar" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvAccounts"
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar" />
+        app:title="@string/accounts" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="wrap_content"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvContent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/accounts_fab_add_margin"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/fab" />
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
-</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/llContent"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAccounts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <com.twoeightnine.root.xvii.uikit.XviiButton
+                android:id="@+id/btnAddAccount"
+                android:text="@string/accounts_add_new_account"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/OtherText"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/accounts_hint"/>
+
+            <com.twoeightnine.root.xvii.uikit.XviiButton
+                android:id="@+id/btnLogOutAll"
+                app:warn="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/accounts_log_out_all_accounts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

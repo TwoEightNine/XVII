@@ -6,8 +6,9 @@ class NewMessageEvent(
         peerId: Int,
         timeStamp: Int,
         text: String,
-        info: MessageInfo
-) : BaseMessageEvent(id, flags, peerId, timeStamp, text, info) {
+        info: MessageInfo,
+        randomId: Int
+) : BaseMessageEvent(id, flags, peerId, timeStamp, text, info, randomId) {
 
     override fun getType() = TYPE_NEW_MESSAGE
 }

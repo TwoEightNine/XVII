@@ -7,7 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.extensions.load
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.secToTime
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_gallery.view.*
 
 class GalleryAdapter(
@@ -55,13 +59,13 @@ class GalleryAdapter(
                 tvDuration.text = secToTime((item.duration / 1000L).toInt())
                 if (item.thumbnail != null) {
                     ivThumb.load(item.thumbnail) {
-                        resize(SIZE_PX, SIZE_PX)
+                        override(SIZE_PX, SIZE_PX)
                         centerCrop()
                     }
                 }
                 invalidateCheck(item, animate = false)
                 setOnClickListener {
-                    val deviceItem = items[adapterPosition]
+                    val deviceItem = items.getOrNull(adapterPosition) ?: return@setOnClickListener
                     if (deviceItem.type == DeviceItem.Type.PHOTO && item !in multiSelect) {
                         onClick(deviceItem)
                     } else {
@@ -70,12 +74,12 @@ class GalleryAdapter(
                 }
                 rlCheck.setOnClickListener {
                     if (multiSelectMode) {
-                        val i = items[adapterPosition]
-                        multiSelect(i)
-                        invalidateCheck(i)
+                        val deviceItem = items.getOrNull(adapterPosition) ?: return@setOnClickListener
+                        multiSelect(deviceItem)
+                        invalidateCheck(deviceItem)
                     }
                 }
-                ivCheckCircle.stylizeAnyway(ColorManager.MAIN_TAG)
+                ivCheckCircle.paint(Munch.color.color)
             }
         }
 

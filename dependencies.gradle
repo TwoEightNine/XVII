@@ -1,0 +1,108 @@
+ext {
+    androidApp = [
+            versionCode  : 175,
+            versionName  : "5.22.3",
+            applicationId: "com.twoeightnine.root.xvii"
+    ]
+
+    androidVersions = [
+            minSdkVersion    : 23,
+            targetSdkVersion : 29,
+            compileSdkVersion: 29,
+            buildToolsVersion: '30.0.0'
+    ]
+
+    toolsVersions = [
+            kotlinVersion     : "1.4.10",
+            javaVersion       : "1.8",
+
+            roomVersion       : "2.2.5",
+            workManagerVersion: "2.4.0",
+            retrofitVersion   : "2.5.0",
+            okHttpVersion     : "3.14.6",
+            lifecycleVersion  : "2.2.0"
+    ]
+
+    kotlin = [
+            kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${toolsVersions.kotlinVersion}"
+    ]
+
+    androidUi = [
+            appCompat   : "androidx.appcompat:appcompat:1.0.0",
+            recyclerView: "androidx.recyclerview:recyclerview:1.1.0",
+            coreKtx     : "androidx.core:core-ktx:1.2.0",
+            material    : "com.google.android.material:material:1.3.0",
+            fragmentKtx : "androidx.fragment:fragment-ktx:1.2.5",
+            browser     : "androidx.browser:browser:1.2.0",
+            constraint  : "androidx.constraintlayout:constraintlayout:2.0.4"
+    ]
+
+    androidTests = [
+            jUnit         : "junit:junit:4.12",
+            runner        : "androidx.test:runner:1.2.0",
+            espresso      : "androidx.test.espresso:espresso-core:3.2.0",
+            arch          : "android.arch.core:core-testing:1.1.1",
+            truth         : "com.google.truth:truth:0.36",
+            mockito       : "org.mockito:mockito-core:${toolsVersions.mockito}",
+            mockitoAndroid: "org.mockito:mockito-android:${toolsVersions.mockito}"
+    ]
+
+    reactiveX = [
+            rxJava   : "io.reactivex.rxjava2:rxjava:2.2.9",
+            rxAndroid: "io.reactivex.rxjava2:rxandroid:2.1.1",
+            rxBinding: "com.jakewharton.rxbinding:rxbinding:1.0.1"
+    ]
+
+    room = [
+            runtime : "androidx.room:room-runtime:${toolsVersions.roomVersion}",
+            rxJava  : "androidx.room:room-rxjava2:${toolsVersions.roomVersion}",
+            compiler: "androidx.room:room-compiler:${toolsVersions.roomVersion}"
+    ]
+
+    workManager = [
+            runtime   : "androidx.work:work-runtime:${toolsVersions.workManagerVersion}",
+            runtimeKtx: "androidx.work:work-runtime-ktx:${toolsVersions.workManagerVersion}"
+    ]
+
+    retrofit = [
+            retrofit     : "com.squareup.retrofit2:retrofit:${toolsVersions.retrofitVersion}",
+            gsonConverter: "com.squareup.retrofit2:converter-gson:${toolsVersions.retrofitVersion}",
+            rxAdapter    : "com.squareup.retrofit2:adapter-rxjava2:${toolsVersions.retrofitVersion}"
+    ]
+
+    okHttp = [
+            okHttp : "com.squareup.okhttp3:okhttp:${toolsVersions.okHttpVersion}",
+            logging: "com.squareup.okhttp3:logging-interceptor:${toolsVersions.okHttpVersion}"
+    ]
+
+    lifecycle = [
+            extensions: "androidx.lifecycle:lifecycle-extensions:${toolsVersions.lifecycleVersion}",
+            viewModel : "androidx.lifecycle:lifecycle-viewmodel-ktx:${toolsVersions.lifecycleVersion}",
+            liveData  : "androidx.lifecycle:lifecycle-livedata-ktx:${toolsVersions.lifecycleVersion}"
+    ]
+
+    dagger = [
+            compiler: "com.google.dagger:dagger-compiler:2.7",
+            dagger  : "com.google.dagger:dagger:2.7",
+            jsr     : "javax.annotation:jsr250-api:1.0"
+    ]
+
+    externalUi = [
+            circleImageView : "de.hdodenhof:circleimageview:3.1.0",
+            swipy           : "com.github.orangegangsters:swipy:1.2.3@aar",
+            colorPicker     : "com.github.QuadFlask:colorpicker:0.0.15",
+
+            calligraphy     : "io.github.inflationx:calligraphy3:3.1.1",
+            viewPump        : "io.github.inflationx:viewpump:2.0.3",
+
+            imageCropper    : "com.theartofdev.edmodo:android-image-cropper:2.8.0",
+            roundedImageView: "com.makeramen:roundedimageview:2.3.0"
+    ]
+
+    utils = [
+            gson   : "com.google.code.gson:gson:2.8.5",
+            glide  : "com.github.bumptech.glide:glide:4.11.0",
+            picasso: "com.squareup.picasso:picasso:2.71828",
+            crypto : "androidx.security:security-crypto:1.0.0-rc04"
+    ]
+}

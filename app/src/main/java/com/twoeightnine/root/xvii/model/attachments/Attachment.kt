@@ -59,6 +59,23 @@ data class Attachment(
         val graffiti: Graffiti? = null
 ) : Parcelable {
 
+    val isGraphical: Boolean
+        get() {
+            val isPureGraphical = listOf(photo, sticker, gift, video, graffiti).any { it != null }
+            if (isPureGraphical) {
+                return true
+            }
+            val isGraphicalWallPost = wall?.attachments?.getPhotos()?.isNotEmpty() ?: false
+            if (isGraphicalWallPost) {
+                return true
+            }
+            val isGraphicalDoc = doc?.isGif ?: false
+            if (isGraphicalDoc) {
+                return true
+            }
+            return false
+        }
+
     constructor(photo: Photo) : this(
             type = TYPE_PHOTO,
             photo = photo
@@ -109,7 +126,7 @@ fun ArrayList<Attachment>.isSticker() = isNotEmpty() && this[0].sticker != null
 
 fun ArrayList<Attachment>.isGift() = isNotEmpty() && this[0].gift != null
 
-fun ArrayList<Attachment>.getPhotos() = ArrayList(this.mapNotNull { it.photo })
+fun List<Attachment>.getPhotos() = ArrayList(this.mapNotNull { it.photo })
 
 fun ArrayList<Attachment>.photosCount() = getPhotos().size
 
@@ -117,7 +134,7 @@ fun ArrayList<Attachment>.getVideos() = ArrayList(this.mapNotNull { it.video })
 
 fun ArrayList<Attachment>.videosCount() = getVideos().size
 
-fun ArrayList<Attachment>.getAudios() = filter { it.type == Attachment.TYPE_AUDIO }.map { it.audio }
+fun List<Attachment>.getAudios() = filter { it.type == Attachment.TYPE_AUDIO }.map { it.audio }
 
 fun ArrayList<Attachment>.audiosCount() = getAudios().size
 

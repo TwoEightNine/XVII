@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height" />
+
+    <TextView
+        android:id="@+id/tvToolbarTitle"
+        android:textColor="@color/main_text"
+        android:textSize="22sp"
+        fontPath="fonts/bold.ttf"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginStart="@dimen/toolbar_padding"
+        android:layout_marginEnd="@dimen/toolbar_padding"
+        tools:text="title"
+        tools:ignore="MissingPrefix" />
+
+    <ImageView
+        android:id="@+id/ivToolbarLogo"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_xvii_logo"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:layout_marginBottom="16dp" />
+
+    <RelativeLayout
+        android:id="@+id/rlChat"
+        android:layout_marginStart="@dimen/toolbar_padding"
+        android:layout_marginEnd="@dimen/toolbar_padding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <com.twoeightnine.root.xvii.uikit.XviiAvatar
+            android:id="@+id/civAvatar"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_centerVertical="true"
+            app:avatarNameSize="@dimen/avatar_name_size_toolbar"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/civAvatar"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvChatTitle"
+                fontPath="fonts/bold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_view_top_margin"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/main_text"
+                android:textSize="@dimen/user_name_text_size"
+                tools:ignore="MissingPrefix"
+                tools:text="mista sinista" />
+
+            <RelativeLayout
+                android:id="@+id/rlSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/user_margin_between">
+
+                <TextView
+                    android:id="@+id/tvSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_view_top_margin"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:text="@string/offline"
+                    android:textColor="@color/minor_text"
+                    android:textSize="@dimen/user_info_text_size" />
+
+                <com.twoeightnine.root.xvii.views.activityview.TypingView
+                    android:id="@+id/typingView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tvSubtitle"
+                    android:layout_alignBottom="@+id/tvSubtitle"
+                    android:layout_marginTop="@dimen/text_view_top_margin"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

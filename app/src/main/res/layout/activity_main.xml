@@ -1,13 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.twoeightnine.root.xvii.views.InsettableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical">
 
-    <com.twoeightnine.root.xvii.views.LockableViewPager
-        android:id="@+id/viewPager"
+<!--    <com.twoeightnine.root.xvii.views.LockableViewPager-->
+<!--        android:id="@+id/viewPager"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:clipChildren="false"-->
+<!--        android:clipToPadding="false" />-->
+
+    <ImageView
+        android:id="@+id/ivSearch"
+        android:elevation="10dp"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_search"
+        android:layout_width="wrap_content"
+        android:padding="16dp"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@+id/flFriends"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false" />
+
+    <FrameLayout
+        android:id="@+id/flDialogs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false" />
+
+    <FrameLayout
+        android:id="@+id/flFeatures"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
@@ -24,9 +55,4 @@
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/menu_main_bottom" />
 
-    <View
-        android:id="@+id/vStubConsumer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-</com.twoeightnine.root.xvii.views.InsettableRelativeLayout>
+</RelativeLayout>

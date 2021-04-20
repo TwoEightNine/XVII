@@ -8,15 +8,20 @@ import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsActivity
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
+import com.twoeightnine.root.xvii.chats.attachments.attachments.AttachmentsFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.lg.TextEventTransformer
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Doc
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.ReportTool
+import com.twoeightnine.root.xvii.utils.getTime
+import com.twoeightnine.root.xvii.utils.matchesUserId
+import com.twoeightnine.root.xvii.utils.time
+import global.msnthrp.xvii.data.dialogs.Dialog
+import global.msnthrp.xvii.uikit.extensions.asText
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import java.io.File
 
@@ -42,18 +47,18 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
-        inflater?.inflate(R.menu.menu_chat, menu)
-        menu?.findItem(R.id.menu_secret_chat)?.isVisible = peerId.matchesUserId()
-        menu?.findItem(R.id.menu_attach_logs)?.isVisible = peerId == -App.GROUP
+        menu.clear()
+        inflater.inflate(R.menu.menu_chat, menu)
+        menu.findItem(R.id.menu_secret_chat)?.isVisible = peerId.matchesUserId()
+        menu.findItem(R.id.menu_attach_logs)?.isVisible = peerId == -App.GROUP
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.menu_attachments -> {
-                AttachmentsActivity.launch(context, peerId)
+                startFragment<AttachmentsFragment>(AttachmentsFragment.createArgs(peerId))
                 true
             }
             R.id.menu_secret_chat -> {
@@ -82,7 +87,7 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
             val fragment = ChatMessagesFragment()
             fragment.arguments = Bundle().apply {
                 putInt(ARG_PEER_ID, dialog.peerId)
-                putString(ARG_TITLE, dialog.alias ?: dialog.title)
+                putString(ARG_TITLE, dialog.aliasOrTitle)
                 putString(ARG_PHOTO, dialog.photo)
                 if (!forwarded.isNullOrEmpty()) {
                     putString(ARG_FORWARDED, forwarded)

@@ -11,7 +11,7 @@
 
     <TextView
         android:id="@+id/tvPeer"
-        style="@style/MainBoldText"
+        style="@style/MainMediumText"
         android:textSize="17sp"
         android:maxLines="1"
         android:ellipsize="end"

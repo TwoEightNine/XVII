@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
-import com.twoeightnine.root.xvii.search.SearchFragment
 
 class MainPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
@@ -14,9 +13,8 @@ class MainPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
     init {
         fragments.apply {
-            add(SearchFragment.newInstance())
-            add(DialogsFragment.newInstance())
             add(FriendsFragment.newInstance())
+            add(DialogsFragment.newInstance())
             add(FeaturesFragment.newInstance())
         }
     }

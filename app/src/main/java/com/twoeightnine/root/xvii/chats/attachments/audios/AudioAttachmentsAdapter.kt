@@ -7,7 +7,12 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
 import com.twoeightnine.root.xvii.model.attachments.Audio
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.secToTime
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.setVisible
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.item_attachments_track.view.*
 
 class AudioAttachmentsAdapter(
@@ -39,16 +44,15 @@ class AudioAttachmentsAdapter(
             with(itemView) {
                 val icon = if (item == played) {
                     val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
-                    dPause?.stylize(ColorManager.DARK_TAG)
+                    dPause?.paint(Munch.color.color)
                     dPause
                 } else {
                     val dPlay = ContextCompat.getDrawable(context, R.drawable.ic_play)
-                    dPlay?.stylize(ColorManager.DARK_TAG)
+                    dPlay?.paint(Munch.color.color)
                     dPlay
                 }
-                ivDownload.stylize(ColorManager.DARK_TAG)
-                ivCached.stylize(ColorManager.DARK_TAG)
-                progressBar.stylize()
+                ivDownload.paint(Munch.color.color)
+                ivCached.paint(Munch.color.color)
 
                 val cached = item.isCached()
                 ivDownload.setVisible(!cached && cacheMode)

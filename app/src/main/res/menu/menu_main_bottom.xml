@@ -2,24 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item
-        android:id="@+id/menu_search"
-        android:icon="@drawable/ic_search"
-        android:title="@string/search_hint" />
+<!--    <item-->
+<!--        android:id="@+id/menu_search"-->
+<!--        android:icon="@drawable/ic_search"-->
+<!--        android:title="@string/search_hint" />-->
 
-    <item
-        android:id="@+id/menu_dialogs"
-        android:icon="@drawable/ic_dialogs"
-        android:title="@string/dialogs" />
 
     <item
         android:id="@+id/menu_friends"
-        android:icon="@drawable/ic_friends"
+        android:icon="@drawable/ic_person"
         android:title="@string/friends" />
 
     <item
+        android:id="@+id/menu_dialogs"
+        android:icon="@drawable/ic_message_bubble"
+        android:title="@string/dialogs" />
+
+    <item
         android:id="@+id/menu_features"
-        android:icon="@drawable/ic_features_2"
+        android:icon="@drawable/ic_features"
         android:title="@string/settings" />
 
 </menu>

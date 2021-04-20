@@ -17,7 +17,8 @@ abstract class BaseMessageEvent(
         val peerId: Int,
         val timeStamp: Int,
         val text: String,
-        val info: MessageInfo
+        val info: MessageInfo,
+        val randomId: Int = 0
 ) : BaseLongPollEvent() {
 
     companion object {
@@ -38,10 +39,10 @@ abstract class BaseMessageEvent(
 
     fun hasEmoji() = info.emoji
 
+    // TODO move to utils
     fun getResolvedMessage(context: Context?, hideContent: Boolean = false): String = when {
         context == null -> text
-        text.isNotBlank() && hideContent -> context.getString(R.string.hidden_message)
-        text.isNotBlank() -> text
+        text.isNotBlank() && !hideContent -> text
         info.attachments != null -> {
             val count = info.attachments.count
             when {
@@ -72,6 +73,7 @@ abstract class BaseMessageEvent(
             val count = info.getForwardedCount()
             context.resources.getQuantityString(R.plurals.messages, count, count)
         }
+        hideContent -> context.getString(R.string.hidden_message)
         else -> text
     }
 

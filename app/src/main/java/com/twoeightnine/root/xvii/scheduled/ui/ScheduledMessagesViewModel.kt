@@ -6,12 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.longpoll.models.events.NewMessageEvent
-import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
-import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
 import com.twoeightnine.root.xvii.scheduled.core.SendMessageWorker
 import com.twoeightnine.root.xvii.utils.EventBus
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
+import global.msnthrp.xvii.data.db.AppDb
+import global.msnthrp.xvii.data.scheduled.ScheduledMessage
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -83,7 +83,7 @@ class ScheduledMessagesViewModel : ViewModel() {
     private fun loadPeers(peerIds: List<Int>, onSuccess: (Map<Int, String>) -> Unit) {
         appDb.dialogsDao()
                 .getDialogsByPeerIds(peerIds)
-                .map { dialogs -> dialogs.map { dialog -> dialog.peerId to (dialog.alias ?: dialog.title) } }
+                .map { dialogs -> dialogs.map { dialog -> dialog.peerId to dialog.aliasOrTitle } }
                 .map { pairList -> pairList.toMap() }
                 .compose(applySingleSchedulers())
                 .subscribe(onSuccess, { throwable ->

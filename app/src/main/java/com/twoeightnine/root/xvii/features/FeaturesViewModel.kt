@@ -6,13 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.accounts.models.Account
-import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.network.ApiService
-import com.twoeightnine.root.xvii.utils.applySingleSchedulers
+import com.twoeightnine.root.xvii.storage.SessionProvider
+import com.twoeightnine.root.xvii.utils.AsyncUtils
 import com.twoeightnine.root.xvii.utils.subscribeSmart
+import global.msnthrp.xvii.core.accounts.AccountsUseCase
+import global.msnthrp.xvii.core.accounts.model.Account
+import global.msnthrp.xvii.data.accounts.DbAccountsDataSource
+import global.msnthrp.xvii.data.db.AppDb
 import javax.inject.Inject
 
 class FeaturesViewModel(
@@ -20,21 +22,25 @@ class FeaturesViewModel(
         private val api: ApiService
 ) : ViewModel() {
 
+    private val accountsUseCase by lazy {
+        AccountsUseCase(DbAccountsDataSource(appDb.accountsDao()))
+    }
+
     private val accountLiveData = MutableLiveData<Account>()
+    private val lastSeenLiveData = MutableLiveData<Triple<Boolean, Int, Int>>()
+
+    val lastSeen: LiveData<Triple<Boolean, Int, Int>>
+        get() = lastSeenLiveData
 
     fun getAccount() = accountLiveData as LiveData<Account>
 
     @SuppressLint("CheckResult")
     fun loadAccount() {
-        appDb.accountsDao().getRunningAccount()
-                .compose(applySingleSchedulers())
-                .subscribe({ account ->
-                    accountLiveData.value = account
-                }, {
-                    L.tag(TAG)
-                            .throwable(it)
-                            .log("error loading account")
-                })
+        AsyncUtils.onIoThread(accountsUseCase::getActiveAccount, {
+            L.tag(TAG).throwable(it).log("error loading account")
+        }) { account ->
+            accountLiveData.value = account
+        }
     }
 
     fun shareXvii(onSuccess: () -> Unit, onError: (String) -> Unit) {
@@ -45,7 +51,7 @@ class FeaturesViewModel(
     }
 
     fun checkMembership(callback: (Boolean) -> Unit) {
-        api.isGroupMember(App.GROUP, Session.uid)
+        api.isGroupMember(App.GROUP, SessionProvider.userId)
                 .subscribeSmart({
                     callback.invoke(it == 1)
                 }, { error ->
@@ -58,6 +64,19 @@ class FeaturesViewModel(
     fun joinGroup() {
         api.joinGroup(App.GROUP)
                 .subscribeSmart({}, {})
+    }
+
+    fun updateLastSeen() {
+        api.getUsers("${SessionProvider.userId}", "online,last_seen")
+                .subscribeSmart({ users ->
+                    users.getOrNull(0)?.also { user ->
+                        lastSeenLiveData.value = Triple(
+                                user.isOnline,
+                                user.lastSeen?.time ?: 0,
+                                user.lastSeen?.platform ?: 0
+                        )
+                    }
+                }, {})
     }
 
     companion object {

@@ -8,9 +8,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.EmojiHelper
+import com.twoeightnine.root.xvii.utils.getTime
+import com.twoeightnine.root.xvii.utils.wrapMentions
+import global.msnthrp.xvii.data.dialogs.Dialog
+import global.msnthrp.xvii.uikit.extensions.lowerIf
+import global.msnthrp.xvii.uikit.extensions.setVisible
+import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
 import kotlinx.android.synthetic.main.item_dialog.view.*
 
 class DialogsAdapter(
@@ -44,10 +52,10 @@ class DialogsAdapter(
                 val topPadding = if (isFirst) firstItemPadding else 0
                 setPadding(0, topPadding, 0, 0)
 
-                civPhoto.load(dialog.photo)
+                civPhoto.load(dialog.photo, dialog.aliasOrTitle.getInitials(), id = dialog.peerId)
 
-                tvTitle.text = dialog.alias ?: dialog.title
-                if (Prefs.lowerTexts) tvTitle.lower()
+                tvTitle.text = dialog.aliasOrTitle
+                tvTitle.lowerIf(Prefs.lowerTexts)
                 tvBody.text = if (EmojiHelper.hasEmojis(dialog.text)) {
                     EmojiHelper.getEmojied(
                             context,
@@ -57,7 +65,6 @@ class DialogsAdapter(
                 } else {
                     Html.fromHtml(getMessageBody(context, dialog))
                 }
-                typingView.stylize()
 
                 val isTyping = dialog.peerId in typingPeerIds
                 typingView.setVisible(isTyping)
@@ -82,9 +89,9 @@ class DialogsAdapter(
                     tvUnreadCount.text = unread
                 }
 
-                ivOnlineDot.stylize(ColorManager.MAIN_TAG)
-                ivUnreadDotOut.stylize(ColorManager.MAIN_TAG, changeStroke = false)
-                rlUnreadCount.stylize()
+                ivOnlineDot.paint(Munch.color.color)
+                ivUnreadDotOut.paint(Munch.color.color)
+                rlUnreadCount.background.paint(Munch.color.color)
                 rlItemContainer.setOnClickListener {
                     items.getOrNull(adapterPosition)?.also(onClick)
                 }

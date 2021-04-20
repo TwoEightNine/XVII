@@ -8,7 +8,6 @@ import android.content.ClipDescription
 import android.content.Context
 import android.net.Uri
 import android.os.CountDownTimer
-import android.os.Vibrator
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -24,15 +23,21 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiWindow
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesViewModel
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.attachments.Sticker
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
+import global.msnthrp.xvii.data.stickersemoji.model.Emoji
+import global.msnthrp.xvii.uikit.extensions.asText
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.setVisible
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.chat_input_panel.view.*
 import java.io.File
 import java.util.*
@@ -54,7 +59,7 @@ class ChatInputController(
     private val stickerKeyboard = StickersEmojiWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked, ::addEmoji)
     private val voiceRecorder = VoiceRecorder(context, InputRecorderCallback())
     private val repo by lazy { StickersEmojiRepository() }
-    private val stickers = arrayListOf<com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker>()
+    private val stickers = arrayListOf<global.msnthrp.xvii.data.stickersemoji.model.Sticker>()
 
     private var attachedCount = 0
     private var lastTypingInvocation = 0
@@ -93,9 +98,9 @@ class ChatInputController(
             ivSendVoice.setOnClickListener { micListener.sendWhenLocked() }
             ivCancelVoice.setOnClickListener { micListener.cancelWhenLocked() }
 
-            ivSend.stylizeAnyway(ColorManager.MAIN_TAG)
-            ivMic.stylizeAnyway(ColorManager.MAIN_TAG)
-            ivSendVoice.stylizeAnyway(ColorManager.MAIN_TAG)
+            listOf(ivSend, ivMic, ivSendVoice)
+                    .forEach { it.paint(Munch.color.color) }
+            ivAttach.paint(Munch.color.color50)
         }
         stickerKeyboard.setSizeForSoftKeyboard()
         setAttachedCount(0)
@@ -188,10 +193,11 @@ class ChatInputController(
 
     private fun updateKeyboardIcon() {
         val iconRes = when (keyboardState) {
-            KeyboardState.TEXT -> R.drawable.ic_emoji
+            KeyboardState.TEXT -> R.drawable.ic_sticker
             KeyboardState.STICKERS -> R.drawable.ic_keyboard
         }
         val d = ContextCompat.getDrawable(context, iconRes)
+        d?.paint(Munch.color.color50)
         rootView.ivKeyboard.setImageDrawable(d)
     }
 
@@ -236,11 +242,15 @@ class ChatInputController(
             return arrayListOf()
         }
 
+        val filter: (String, String) -> Boolean = when {
+            Prefs.exactSuggestions -> { word, input -> word == input }
+            else -> { word, input -> word.startsWith(input) }
+        }
         val typedLower = typed.toString().toLowerCase()
         return stickers
                 .filter { sticker ->
                     sticker.keyWordsList
-                            .map { word -> if (word.startsWith(typedLower)) 1 else 0 }
+                            .map { word -> if (filter(word, typedLower)) 1 else 0 }
                             .sum() != 0
                 }
                 .map { Sticker(it.id) }
@@ -333,10 +343,7 @@ class ChatInputController(
         createContextPopup(context, items).show()
     }
 
-    private fun vibrate() {
-        val vibrate = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        vibrate.vibrate(20L)
-    }
+    private fun vibrate() = VibrationHelper.vibrateHaptic()
 
     companion object {
         const val TYPING_INVOCATION_DELAY = 5 // seconds

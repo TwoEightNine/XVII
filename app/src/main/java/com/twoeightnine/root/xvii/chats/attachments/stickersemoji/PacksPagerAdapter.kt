@@ -3,14 +3,20 @@ package com.twoeightnine.root.xvii.chats.attachments.stickersemoji
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.PagerAdapter
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.EmojiPack
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Sticker
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.StickerPack
-import com.twoeightnine.root.xvii.utils.load
+import com.twoeightnine.root.xvii.extensions.load
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import global.msnthrp.xvii.data.stickersemoji.model.Emoji
+import global.msnthrp.xvii.data.stickersemoji.model.EmojiPack
+import global.msnthrp.xvii.data.stickersemoji.model.Sticker
+import global.msnthrp.xvii.data.stickersemoji.model.StickerPack
+import global.msnthrp.xvii.uikit.extensions.lower
 import kotlinx.android.synthetic.main.item_sticker_tab.view.*
 import kotlinx.android.synthetic.main.view_sticker_pack.view.*
 
@@ -21,7 +27,8 @@ class PacksPagerAdapter(
         private val callback: Callback
 ) : PagerAdapter() {
 
-    private val recentTitle = context.getString(R.string.recent)
+    private val recentEmojisTitle = context.getString(R.string.recent_emojis)
+    private val recentStickersTitle = context.getString(R.string.recent_stickers)
     private val unions = arrayListOf<Union>()
 
     val recentStickersPosition = emojis.size
@@ -29,11 +36,7 @@ class PacksPagerAdapter(
     init {
         emojis.forEach { pack ->
             val view = getView(pack)
-            val title = if (pack.name == null) {
-                recentTitle
-            } else {
-                pack.name.toLowerCase()
-            }
+            val title = pack.name?.lower() ?: recentEmojisTitle
             val union = Union(
                     view, title,
                     emojis = pack
@@ -42,11 +45,7 @@ class PacksPagerAdapter(
         }
         stickers.forEach { pack ->
             val view = getView(pack)
-            val title = if (pack.name == null) {
-                recentTitle
-            } else {
-                pack.name.toLowerCase()
-            }
+            val title = pack.name?.lower() ?: recentStickersTitle
             val union = Union(
                     view, title,
                     stickers = pack
@@ -73,27 +72,38 @@ class PacksPagerAdapter(
     private fun getPreviewUrl(position: Int): String? {
         val union = unions[position]
         return when {
-            union.title != recentTitle && union.stickers != null -> {
+            union.title != recentStickersTitle && union.stickers != null -> {
                 union.stickers.stickers.getOrNull(0)?.photo128
             }
-            union.title != recentTitle && union.emojis != null -> {
+            union.title != recentEmojisTitle && union.emojis != null -> {
                 union.emojis.emojis.getOrNull(0)?.fullPath
             }
-            else -> null
+            else -> union.title
         }
     }
 
     fun getTabView(position: Int): View? =
             View.inflate(context, R.layout.item_sticker_tab, null)?.apply {
-                val url = getPreviewUrl(position)
-                if (url != null) {
-                    ivStickerTab.load(url)
-                } else {
-                    ivStickerTab.setImageResource(R.drawable.ic_clock_recent)
+                when (val url = getPreviewUrl(position)) {
+                    recentEmojisTitle -> {
+                        ivStickerTab.setIcon(R.drawable.ic_emoji_recent)
+                    }
+                    recentStickersTitle -> {
+                        ivStickerTab.setIcon(R.drawable.ic_sticker_recent)
+                    }
+                    else -> {
+                        ivStickerTab.load(url)
+                    }
                 }
             }
 
     override fun getCount() = unions.size
+
+    private fun ImageView.setIcon(@DrawableRes drawableId: Int) {
+        val drawable = ContextCompat.getDrawable(context, drawableId)
+        drawable?.paint(Munch.color.color)
+        setImageDrawable(drawable)
+    }
 
     private fun getView(pack: EmojiPack): View =
             View.inflate(context, R.layout.view_sticker_pack, null).apply {
@@ -152,6 +162,6 @@ class PacksPagerAdapter(
         }
 
         private fun getStickersOrder(title: String?) =
-                if (title == recentTitle) 8 else 9
+                if (title == recentStickersTitle) 8 else 9
     }
 }

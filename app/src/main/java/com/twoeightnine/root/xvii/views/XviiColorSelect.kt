@@ -7,7 +7,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.utils.hide
+import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.view_color_select.view.*
 
 

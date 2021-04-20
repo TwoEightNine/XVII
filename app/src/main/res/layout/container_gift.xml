@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/image_margin">
 
     <TextView
@@ -18,17 +19,18 @@
         android:textSize="14sp"
         tools:ignore="MissingPrefix" />
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/ivThumb"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="@dimen/chat_message_sticker_width"
+        android:layout_height="@dimen/chat_message_sticker_width"
         android:layout_below="@+id/tvGiftTitle"
+        app:riv_corner_radius="@dimen/default_radius"
         android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tvGiftMessage"
         style="@style/MainText"
-        android:layout_width="180dp"
+        android:layout_width="@dimen/chat_message_sticker_width"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivThumb"
         android:layout_marginTop="@dimen/image_margin"

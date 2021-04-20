@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.AndroidRuntimeException
+import android.view.View
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
@@ -16,8 +17,12 @@ import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.storage.SessionProvider
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
+import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.activity_pin.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -61,19 +66,24 @@ class PinActivity : BaseActivity() {
 
         action ?: finish()
         init()
-        styleScreen(rlContainer)
-        rlPinControls.setBottomInsetPadding()
+        rlContainer.paint(Munch.color.colorDark(20))
+        rlPinControls.applyBottomInsetPadding()
 
         ivBack.setVisible(action != Action.ENTER)
         ivBack.setOnClickListener { onBackPressed() }
-        ivBack.setTopInsetMargin()
+        ivBack.applyTopInsetMargin()
 
         if (Session.needToWaitAfterFailedPin()) {
             showBruteForced(justNow = false)
         }
 
-//        AlarmActivity.launch(this)
+        window.decorView.systemUiVisibility =
+                window.decorView.systemUiVisibility and
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+
     }
+
+    override fun shouldRunService(): Boolean = false
 
     private fun onPin(key: Int) {
         when (key) {
@@ -251,7 +261,7 @@ class PinActivity : BaseActivity() {
     @SuppressLint("CheckResult")
     private fun sendNotify(photoId: String? = null) {
         api.sendMessage(
-                peerId = Session.uid,
+                peerId = SessionProvider.userId,
                 randomId = Random.nextInt(),
                 text = getString(R.string.pin_invader_notification),
                 attachments = photoId

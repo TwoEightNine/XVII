@@ -3,13 +3,17 @@ package com.twoeightnine.root.xvii.friends.adapters
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseReachAdapter
+import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.LastSeenUtils
+import global.msnthrp.xvii.uikit.extensions.lowerIf
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_user.view.*
 
 class FriendsAdapter(context: Context,
@@ -36,17 +40,14 @@ class FriendsAdapter(context: Context,
                 val topPadding = if (isFirst) firstItemPadding else 0
                 setPadding(0, topPadding, 0, 0)
 
-                civPhoto.load(user.photo100)
-                val d = ContextCompat.getDrawable(context, R.drawable.dotshape)
-                d?.stylize(ColorManager.MAIN_TAG)
-                ivOnlineDot.setImageDrawable(if (user.isOnline) d else null)
+                civPhoto.load(user.photo100, user.fullName.getInitials(), id = user.id)
+                ivOnlineDot.setVisible(user.isOnline)
+                ivOnlineDot.paint(Munch.color.color)
                 tvName.text = user.fullName
-                if (Prefs.lowerTexts) {
-                    tvName.lower()
-                }
+                tvName.lowerIf(Prefs.lowerTexts)
 
                 user.lastSeen?.also {
-                    tvInfo.text = getLastSeenText(resources, user.isOnline, it.time, it.platform)
+                    tvInfo.text = LastSeenUtils.getFull(context, user.isOnline, it.time, it.platform)
                 }
                 setOnClickListener {
                     items.getOrNull(adapterPosition)?.also(onClick)

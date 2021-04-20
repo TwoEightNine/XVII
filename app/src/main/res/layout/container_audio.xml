@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/tvTitle"
-            style="@style/MainBoldText"
+            style="@style/MainMediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
@@ -48,8 +48,9 @@
         android:tag="dark"
         android:visibility="gone"
         tools:visibility="visible"
-        android:layout_alignBottom="@+id/ivButton"
+        android:layout_alignTop="@+id/ivButton"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="3dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:src="@drawable/ic_subtitles"

@@ -17,20 +17,16 @@ import com.twoeightnine.root.xvii.utils.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import rx.Completable
-import rx.android.schedulers.AndroidSchedulers
 import java.io.File
-import java.util.concurrent.TimeUnit
+import java.security.MessageDigest
 
 class SecretChatViewModel(
         api: ApiService,
         private val context: Context
 ) : BaseChatMessagesViewModel(api) {
 
-    private var isExchangeStarted = false
-
     private val crypto by lazy {
-        CryptoEngine(context, peerId)
+        createCryptoEngine()
     }
 
     private val keysSetLiveData = MutableLiveData<Boolean>()
@@ -39,26 +35,17 @@ class SecretChatViewModel(
 
     fun isKeyRequired() = crypto.isKeyRequired()
 
-    fun getFingerprint() = crypto.getFingerPrint()
-
-    fun getKeyType() = crypto.keyType
+    fun getFingerprint(): String = sha256(crypto.getFingerPrint())
 
     fun setKey(key: String) {
         crypto.setKey(key)
     }
 
-    @Suppress("UnstableApiUsage")
     fun startExchange() {
-        crypto.startExchange {
+        AsyncUtils.onIoThread(crypto::startExchange) { keyEx ->
             l("start exchange")
-            ld(it)
-            sendData(it)
-            isExchangeStarted = true
-            Completable.timer(10L, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
-                    .subscribe {
-                        l("exchange not supported")
-                        isExchangeStarted = false
-                    }
+            ld(keyEx)
+            sendData(keyEx)
         }
     }
 
@@ -71,34 +58,38 @@ class SecretChatViewModel(
     }
 
     override fun onMessageReceived(event: BaseMessageEvent) {
-        if (event.text.matchesXviiKeyEx()) {
-            if (!event.isOut()) {
-                if (isExchangeStarted) {
-                    l("receive support")
-                    ld(event.text)
-                    crypto.finishExchange(event.text)
-                    isExchangeStarted = false
-                    keysSetLiveData.value = true
-                } else {
-                    l("receive exchange")
-                    ld(event.text)
-                    val ownKeys = crypto.supportExchange(event.text)
-                    sendData(ownKeys)
-                }
-            }
-            deleteMessages(event.id.toString(), forAll = false)
-        } else if (!isKeyRequired()) {
+        if (!isKeyRequired()) {
             super.onMessageReceived(event)
         }
     }
 
     override fun attachPhoto(path: String, onAttached: (String, Attachment) -> Unit) {
+        attachFile(path, "photo", onAttached)
+    }
+
+    override fun attachDoc(path: String, onAttached: (String, Attachment) -> Unit) {
+        attachFile(path, "doc", onAttached)
+    }
+
+    fun decryptDoc(doc: Doc, callback: (Boolean, String?) -> Unit) {
+        downloadDoc(doc) { fileName ->
+            val docFile = File(fileName)
+            val decryptFile = { crypto.decryptFile(docFile) }
+            AsyncUtils.onIoThreadNullable(decryptFile) { plainFile ->
+                callback(plainFile != null, plainFile?.absolutePath)
+            }
+        }
+    }
+
+    private fun attachFile(path: String, what: String = "???", onAttached: (String, Attachment) -> Unit) {
         api.getDocUploadServer("doc")
                 .subscribeSmart({ uploadServer ->
-                    crypto.encryptFile(context, path) { encryptedPath ->
-                        val file = File(encryptedPath)
-                        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-                        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+                    val plainFile = File(path)
+                    val encryptFile = { crypto.encryptFile(plainFile) }
+                    AsyncUtils.onIoThreadNullable(encryptFile) { encFile ->
+                        encFile ?: return@onIoThreadNullable
+                        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), encFile)
+                        val body = MultipartBody.Part.createFormData("file", encFile.name, requestFile)
                         api.uploadDoc(uploadServer.uploadUrl ?: "", body)
                                 .compose(applySchedulers())
                                 .subscribe({ uploaded ->
@@ -107,10 +98,10 @@ class SecretChatViewModel(
                                                 onAttached(path, Attachment(it[0]))
                                             }, { error ->
                                                 onErrorOccurred(error)
-                                                lw("save uploaded photo error: $error")
+                                                lw("save uploaded $what error: $error")
                                             })
                                 }, { error ->
-                                    lw("uploading photo error", error)
+                                    lw("uploading $what error", error)
                                     val message = error.message ?: "null"
                                     onErrorOccurred(message)
                                 })
@@ -120,12 +111,6 @@ class SecretChatViewModel(
                     onErrorOccurred(error)
                     lw("getting uploading server error: $error")
                 })
-    }
-
-    fun decryptDoc(doc: Doc, callback: (Boolean, String?) -> Unit) {
-        downloadDoc(doc) {
-            crypto.decryptFile(context, it, callback)
-        }
     }
 
     private fun sendData(data: String) {
@@ -167,20 +152,15 @@ class SecretChatViewModel(
         else -> crypto.encrypt(text)
     }
 
-    override fun prepareTextIn(text: String): String {
-        val cipherResult = crypto.decrypt(text)
-        return if (cipherResult.verified && cipherResult.bytes != null) {
-            String(cipherResult.bytes)
-        } else {
-            ""
-        }
-    }
+    override fun prepareTextIn(text: String): String = crypto.decrypt(text) ?: ""
 
-    private fun ld(s: String) {
+    private fun createCryptoEngine() = CryptoEngine.OnePeerUseCase(peerId)
+
+    override fun ld(s: String) {
         L.tag(TAG).debug().log(s)
     }
 
-    private fun l(s: String) {
+    override fun l(s: String) {
         L.tag(TAG).log(s)
     }
 
@@ -189,6 +169,13 @@ class SecretChatViewModel(
                 .throwable(throwable)
                 .log(s)
     }
+
+    private fun sha256(plain: ByteArray): String = MessageDigest
+            .getInstance("SHA-256")
+            .digest(plain)
+            .map { Integer.toHexString(it.toInt() and 0xff) }
+            .joinToString(separator = "") { if (it.length == 2) it else "0$it" }
+
 
     companion object {
         private const val TAG = "secret chat"

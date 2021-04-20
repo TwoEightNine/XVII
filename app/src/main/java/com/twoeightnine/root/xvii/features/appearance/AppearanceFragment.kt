@@ -1,26 +1,60 @@
 package com.twoeightnine.root.xvii.features.appearance
 
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.widget.CompoundButton
+import androidx.core.content.ContextCompat
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.gallery.GalleryFragment
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.LoadingDialog
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.lowerIf
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_appearance.*
 import kotlinx.android.synthetic.main.view_appearance_sample.*
+import kotlinx.android.synthetic.main.view_appearance_sample.view.*
 
 class AppearanceFragment : BaseFragment() {
+
+    private val mainTextLight by lazy {
+        ContextCompat.getColor(requireContext(), R.color.main_text_light)
+    }
+    private val otherTextLight by lazy {
+        ContextCompat.getColor(requireContext(), R.color.other_text_light)
+    }
+    private val minorTextLight by lazy {
+        ContextCompat.getColor(requireContext(), R.color.minor_text_light)
+    }
+    private val mainTextDark by lazy {
+        ContextCompat.getColor(requireContext(), R.color.main_text_dark)
+    }
+    private val otherTextDark by lazy {
+        ContextCompat.getColor(requireContext(), R.color.other_text_dark)
+    }
+    private val minorTextDark by lazy {
+        ContextCompat.getColor(requireContext(), R.color.minor_text_dark)
+    }
+    private val backgroundLight by lazy {
+        ContextCompat.getColor(requireContext(), R.color.background_light)
+    }
+    private val backgroundDark by lazy {
+        ContextCompat.getColor(requireContext(), R.color.background_dark)
+    }
+    private val backgroundDarkLighter by lazy {
+        ContextCompat.getColor(requireContext(), R.color.background_dark_lighter)
+    }
 
     private lateinit var bottomSheetHelper: BottomSheetHelper
     private lateinit var permissionHelper: PermissionHelper
@@ -31,20 +65,17 @@ class AppearanceFragment : BaseFragment() {
 
     var dialog: LoadingDialog? = null
 
+    override fun getLayoutId() = R.layout.fragment_appearance
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         colorBefore = Prefs.color
         currentColor = colorBefore
         initViews()
         invalidateSample()
-        switchLightTheme.stylize()
-        rlHideBottom.stylizeColor()
-        btnGallery.stylize()
-        btnColor.stylize()
+        rlHideBottom.paint(Munch.color.color)
         pbAttach.hide()
         rlAttachCount.hide()
-        llVisualLabel.stylizeAll()
-        llFunctionalLabel.stylizeAll()
 
         etInput.isClickable = false
         etInput.isFocusable = false
@@ -59,11 +90,9 @@ class AppearanceFragment : BaseFragment() {
         )
         permissionHelper = PermissionHelper(this)
 
-        svContent.setBottomInsetPadding()
-        rlBottom.setBottomInsetPadding(resources.getDimensionPixelSize(R.dimen.bottomsheet_height))
+        svContent.applyBottomInsetPadding()
+        rlBottom.applyBottomInsetPadding()
     }
-
-    override fun getLayoutId() = R.layout.fragment_appearance
 
     private fun invalidateSample() {
         applyColors()
@@ -72,39 +101,43 @@ class AppearanceFragment : BaseFragment() {
     }
 
     private fun applyColors() {
-        val colors = ColorManager.getFromMain(currentColor)
+        val color = Munch.ColorScope(currentColor)
         csThemeColor.color = currentColor
 
-        arrayOf(ivMic, ivSend).forEach { iv ->
-            iv.drawable.setColorFilter(colors[1], PorterDuff.Mode.SRC_ATOP)
+        arrayOf(ivMic, ivSend, ivBackSample, readStateDot).forEach { iv ->
+            iv.drawable.paint(color.color)
         }
 
         if (switchLightTheme.isChecked) {
 
-            rlToolbar.setBackgroundColor(colors[1])
-            rlSampleRoot.setBackgroundColor(Color.WHITE)
-            rlInputBack.setBackgroundColor(Color.WHITE)
+            rlToolbar.setBackgroundColor(backgroundLight)
+            rlSampleRoot.setBackgroundColor(backgroundLight)
+            rlInputBack.setBackgroundColor(backgroundLight)
 
-            arrayOf(tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xff222222.toInt()) }
-            arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(0xff444444.toInt()) }
-            tvSubtitle.setTextColor(0xffe3e3e3.toInt())
+            arrayOf(tvTitle, tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(mainTextLight) }
+            arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(otherTextLight) }
+            tvSubtitle.setTextColor(minorTextLight)
 
-            (readStateDot.drawable as? GradientDrawable)?.setColor(colors[1])
-            (llMessageIn.background as? GradientDrawable)?.setColor(colors[2])
-            (llMessageOut.background as? GradientDrawable)?.setColor(colors[3])
+            arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorWhite(50)) }
+            (llMessageIn.background as? GradientDrawable)
+                    ?.setColor(color.color(Munch.UseCase.MESSAGES_IN, Munch.Theme.WHITE))
+            (llMessageOut.background as? GradientDrawable)
+                    ?.setColor(color.color(Munch.UseCase.MESSAGES_OUT, Munch.Theme.WHITE))
         } else {
 
-            rlToolbar.setBackgroundColor(0xff15121c.toInt())
-            rlSampleRoot.setBackgroundColor(0xff0e0c13.toInt())
-            rlInputBack.setBackgroundColor(0xff15121c.toInt())
+            rlToolbar.setBackgroundColor(backgroundDark)
+            rlSampleRoot.setBackgroundColor(backgroundDark)
+            rlInputBack.setBackgroundColor(backgroundDarkLighter)
 
-            arrayOf(tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(0xffdddddd.toInt()) }
-            arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(0xffaaaaaa.toInt()) }
-            tvSubtitle.setTextColor(0xffe3e3e3.toInt())
+            arrayOf(tvTitle, tvBodyIn, tvBodyOut, etInput).forEach { it.setTextColor(mainTextDark) }
+            arrayOf(tvDateIn, tvDateOut).forEach { it.setTextColor(otherTextDark) }
+            tvSubtitle.setTextColor(minorTextDark)
 
-            (readStateDot.drawable as? GradientDrawable)?.setColor(Color.WHITE)
-            (llMessageIn.background as? GradientDrawable)?.setColor(0xff1c1826.toInt())
-            (llMessageOut.background as? GradientDrawable)?.setColor(0xff1c1826.toInt())
+            arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorDark(50)) }
+            (llMessageIn.background as? GradientDrawable)
+                    ?.setColor(color.color(Munch.UseCase.MESSAGES_IN, Munch.Theme.DARK))
+            (llMessageOut.background as? GradientDrawable)
+                    ?.setColor(color.color(Munch.UseCase.MESSAGES_OUT, Munch.Theme.DARK))
         }
     }
 
@@ -119,8 +152,8 @@ class AppearanceFragment : BaseFragment() {
         val sampleOut = getString(R.string.appearance_sample_out)
         val sampleDateIn = getTime(time() - 3647, withSeconds = showSeconds)
         val sampleDateOut = getTime(time() - 364, withSeconds = showSeconds)
-        val sampleLastSeen = getLastSeenText(
-                context.resources,
+        val sampleLastSeen = LastSeenUtils.getFull(
+                context = context,
                 isOnline = false,
                 timeStamp = time() - 2147,
                 deviceCode = 0,
@@ -144,12 +177,10 @@ class AppearanceFragment : BaseFragment() {
         tvDateOut.text = sampleDateOut
         tvSubtitle.text = sampleLastSeen
 
-        tvTitle.text = getString(R.string.appearance_sample_name)
+        rlToolbar.tvTitle.text = getString(R.string.appearance_sample_name)
         etInput.setText(getString(R.string.appearance_sample_input))
-        if (inLower) {
-            tvTitle.lower()
-            etInput.lower()
-        }
+        tvTitle.lowerIf(inLower)
+        etInput.lowerIf(inLower)
     }
 
     private fun applyVisibility() {
@@ -161,11 +192,6 @@ class AppearanceFragment : BaseFragment() {
         ivSend.setVisible(!showVoice)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.appearance))
-    }
-
     private fun initViews() {
         isLightBefore = Prefs.isLightTheme
         switchLightTheme.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, b ->
@@ -173,9 +199,7 @@ class AppearanceFragment : BaseFragment() {
         }
         switchLightTheme.isChecked = isLightBefore
         if (Prefs.chatBack.isNotEmpty()) {
-            Picasso.get()
-                    .load("file://${Prefs.chatBack}")
-                    .into(ivBackground)
+            updatePhoto(Prefs.chatBack)
         }
         btnGallery.setOnClickListener { openGallery() }
         csThemeColor.setOnClickListener {
@@ -250,7 +274,7 @@ class AppearanceFragment : BaseFragment() {
         val newPath = getCroppedImagePath(activity, path)
         if (newPath != null) {
             Prefs.chatBack = newPath
-            hideDialog(newPath)
+            updatePhoto(newPath)
         } else {
             showAlert(context, getString(R.string.unable_to_crop))
         }
@@ -262,28 +286,21 @@ class AppearanceFragment : BaseFragment() {
         val newPath = createColoredBitmap(activity, color)
         if (newPath != null) {
             Prefs.chatBack = newPath
-            hideDialog(newPath)
+            updatePhoto(newPath)
         } else {
             showAlert(context, getString(R.string.unable_to_pick_color))
         }
     }
 
-    private fun hideDialog(newPath: String) {
-        Picasso.get()
-                .load("file://$newPath")
-                .into(ivBackground)
+    private fun updatePhoto(path: String) {
+        ivBackground.load("file://$path")
     }
 
     override fun onStop() {
         super.onStop()
         GalleryFragment.clear()
 
-        Prefs.showSeconds = switchShowSeconds.isChecked
-        Prefs.lowerTexts = switchLowerTexts.isChecked
-        Prefs.appleEmojis = switchAppleEmojis.isChecked
-        Prefs.showStickers = switchShowStickers.isChecked
-        Prefs.showVoice = switchShowVoice.isChecked
-        Prefs.messageTextSize = stMessageSize.value
+        savePreferences()
     }
 
     /**
@@ -300,6 +317,7 @@ class AppearanceFragment : BaseFragment() {
             if (yes) {
                 Prefs.color = currentColor
                 Prefs.isLightTheme = switchLightTheme.isChecked
+                savePreferences()
                 restartApp(context, getString(R.string.theme_changed))
             } else {
                 switchLightTheme.isChecked = isLightBefore
@@ -309,7 +327,7 @@ class AppearanceFragment : BaseFragment() {
         }
     }
 
-    private inline fun showColorPicker(initColor: Int, crossinline onPicked: (Int) -> Unit) {
+    private fun showColorPicker(initColor: Int, onPicked: (Int) -> Unit) {
         ColorPickerDialogBuilder.with(context)
                 .initialColor(initColor)
                 .lightnessSliderOnly()
@@ -322,6 +340,15 @@ class AppearanceFragment : BaseFragment() {
                 .build()
                 .apply { stylize() }
                 .show()
+    }
+
+    private fun savePreferences() {
+        Prefs.showSeconds = switchShowSeconds.isChecked
+        Prefs.lowerTexts = switchLowerTexts.isChecked
+        Prefs.appleEmojis = switchAppleEmojis.isChecked
+        Prefs.showStickers = switchShowStickers.isChecked
+        Prefs.showVoice = switchShowVoice.isChecked
+        Prefs.messageTextSize = stMessageSize.value
     }
 
     companion object {

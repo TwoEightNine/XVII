@@ -1,40 +1,37 @@
 package com.twoeightnine.root.xvii.chatowner.fragments
 
 import android.app.Activity
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerViewModel
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.BrowsingUtils
+import com.twoeightnine.root.xvii.utils.copyToClip
+import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.showToast
 import com.twoeightnine.root.xvii.views.RateAlertDialog
+import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.fragment_chat_owner.ivAvatar
 import kotlinx.android.synthetic.main.fragment_chat_owner.nsvContent
 import kotlinx.android.synthetic.main.fragment_chat_owner.tvInfo
 import kotlinx.android.synthetic.main.fragment_chat_owner.tvTitle
-import kotlinx.android.synthetic.main.fragment_chat_owner.vShadow
 import kotlinx.android.synthetic.main.fragment_chat_owner_user.*
 import kotlinx.android.synthetic.main.item_chat_owner_field.view.*
-import kotlinx.android.synthetic.main.toolbar.*
 
 abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
@@ -43,7 +40,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     }
     private var chatOwner: ChatOwner? = null
 
-    protected lateinit var viewModel: ChatOwnerViewModel
+    protected val viewModel by viewModels<ChatOwnerViewModel>()
 
     abstract fun getChatOwnerClass(): Class<T>
 
@@ -63,27 +60,29 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         ivAvatar?.setOnClickListener(::onAvatarClicked)
         ivAvatarHighRes?.setOnClickListener(::onAvatarClicked)
         context?.let { RateAlertDialog(it).show() }
+        ivBack.apply {
+            applyTopInsetMargin()
+            setOnClickListener {
+                onBackPressed()
+            }
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        toolbar.background = TransitionDrawable(arrayOf(
-                ColorDrawable(Color.TRANSPARENT),
-                ColorDrawable(ColorManager.toolbarColor)
-        ))
-        setTitle("")
 
-        viewModel = ViewModelProviders.of(this)[ChatOwnerViewModel::class.java]
-        viewModel.chatOwner.observe(viewLifecycleOwner, Observer(::onChatOwnerLoaded))
-        viewModel.photos.observe(viewLifecycleOwner, Observer(::onPhotosLoaded))
-        viewModel.loadChatOwner(peerId, getChatOwnerClass())
+        viewModel.apply {
+            chatOwner.observe(::onChatOwnerLoaded)
+            photos.observe(::onPhotosLoaded)
+            alias.observe(::onAliasLoaded)
 
-        swNotifications.stylize()
-        fabOpenChat.stylize()
-        progressBar?.stylize()
+            loadChatOwner(peerId, getChatOwnerClass())
+            loadAlias(peerId)
+        }
 
-        vShadow.setTopInsetMargin(context?.resources?.getDimensionPixelSize(R.dimen.toolbar_height) ?: 0)
-        getBottomPaddableView().setBottomInsetMargin()
+        setStatusBarLight(isLight = false)
+
+        getBottomPaddableView().applyBottomInsetMargin()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -97,6 +96,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
             chatOwner?.apply {
                 ivAvatar?.load(getAvatar())
                 tvTitle.text = getTitle()
+                xviiToolbar?.title = getTitle()
                 context?.also {
                     tvInfo.text = getInfoText(it)
                     getPrivacyInfo(it).also { privacyInfo ->
@@ -105,10 +105,8 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                         privacyInfo?.also { tvPrivacy.text = it }
                     }
                 }
-                if (Prefs.lowerTexts) {
-                    tvTitle.lower()
-                    tvInfo.lower()
-                }
+                tvTitle.lowerIf(Prefs.lowerTexts)
+                tvInfo.lowerIf(Prefs.lowerTexts)
                 swNotifications.isChecked = viewModel.getShowNotifications(getPeerId())
                 resetValues()
                 bindChatOwner(this as? T)
@@ -125,6 +123,11 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                 loadHighResWithAnimation(photos[0].getOptimalPhoto()?.url)
             }, 1000L)
         }
+    }
+
+    private fun onAliasLoaded(alias: String) {
+        tvAlias.show()
+        tvAlias.text = getString(R.string.aka_prefix, alias)
     }
 
     private fun onAvatarClicked(v: View) {
@@ -150,7 +153,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         with(View.inflate(context, R.layout.item_chat_owner_field, null)) {
             if (icon != 0) {
                 ivIcon.setImageResource(icon)
-                ivIcon.stylize()
+                ivIcon.paint(Munch.color.color)
             }
             tvValue.text = text.toLowerCase()
             onClick?.also {
@@ -169,26 +172,18 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     }
 
     protected fun goTo(url: String?) {
-        simpleUrlIntent(context, url)
+        BrowsingUtils.openUrl(context, url)
     }
 
     private fun loadHighResWithAnimation(url: String?) {
-        if (url == null) return
-
-        Picasso.get()
-                .load(url)
-                .into(object : Target {
-                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-
-                    override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
-
-                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                        ivAvatarHighRes?.setImageBitmap(bitmap)
-                        ivAvatarHighRes?.fadeIn(700L) {
-                            ivAvatar?.hide()
-                        }
-                    }
-                })
+        val context = context ?: return
+        url ?: return
+        SimpleBitmapTarget { bitmap, _ ->
+            ivAvatarHighRes?.setImageBitmap(bitmap)
+            ivAvatarHighRes?.fadeIn(700L) {
+                ivAvatar?.hide()
+            }
+        }.load(context, url)
     }
 
     override fun onDestroyView() {
@@ -201,7 +196,6 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
     companion object {
 
         const val ARG_PEER_ID = "peerId"
-        const val BOTTOM_SHEET_TRIGGER_CALLBACK = 0.97
         const val PARALLAX_COEFF = 0.5f
     }
 
@@ -218,21 +212,15 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
         override fun onSlide(p0: View, offset: Float) {
             when {
                 offset <= 0f -> return
-                offset > BOTTOM_SHEET_TRIGGER_CALLBACK -> if (!toolbarColored && shouldColorToolbar()) {
-                    (toolbar.background as? TransitionDrawable)?.startTransition(0)
-                    vShadow.show()
-                    var title = chatOwner?.getTitle()
-                    if (Prefs.lowerTexts) {
-                        title = title?.toLowerCase()
-                    }
-                    setTitle(title ?: "")
+                offset == 1f -> if (!toolbarColored && shouldColorToolbar()) {
                     toolbarColored = true
+                    if (Prefs.isLightTheme) {
+                        setStatusBarLight(isLight = true)
+                    }
                 }
                 toolbarColored -> {
-                    (toolbar.background as? TransitionDrawable)?.reverseTransition(0)
-                    vShadow.hide()
-                    setTitle("")
                     toolbarColored = false
+                    setStatusBarLight(isLight = false)
                 }
                 else -> {
                     val margin = imageHeight * -offset * PARALLAX_COEFF
@@ -252,7 +240,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
 
         }
 
-        private fun shouldColorToolbar() = toolbar
+        private fun shouldColorToolbar() = xviiToolbar
                 ?.let { (screenHeight - it.height + 92) <= cvInfo.height } ?: false
     }
 }

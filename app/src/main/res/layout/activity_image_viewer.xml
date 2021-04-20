@@ -19,39 +19,35 @@
         <RelativeLayout
             android:id="@+id/rlTop"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height"
+            android:layout_height="wrap_content"
             android:background="@color/black_transparent">
 
             <ImageView
                 android:id="@+id/ivBack"
                 android:layout_width="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_height="@dimen/toolbar_height"
                 android:src="@drawable/ic_back" />
 
             <TextView
                 android:id="@+id/tvPosition"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_height="@dimen/toolbar_height"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical"
                 android:fontFamily="sans-serif-light"
                 android:layout_toEndOf="@+id/ivBack"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
-                tools:text="12/24" />
+                tools:text="file.png" />
 
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/toolbar_height"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
+                android:gravity="center_vertical"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
@@ -92,7 +88,6 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:drawableTop="@drawable/ic_copy"
-                    android:fontFamily="sans-serif-light"
                     android:text="@string/add_to_saved"
                     android:textAllCaps="false"
                     android:textColor="@color/icons"
@@ -106,7 +101,6 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:drawableTop="@drawable/ic_download"
-                    android:fontFamily="sans-serif-light"
                     android:text="@string/download"
                     android:textAllCaps="false"
                     android:textColor="@color/icons"
@@ -120,7 +114,6 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:drawableTop="@drawable/ic_share_white"
-                    android:fontFamily="sans-serif-light"
                     android:text="@string/share"
                     android:textAllCaps="false"
                     android:textColor="@color/icons"

@@ -20,7 +20,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar_chat" />
+        <com.twoeightnine.root.xvii.uikit.XviiToolbar
+            android:id="@+id/xviiToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:alwaysLifted="true" />
 
         <include layout="@layout/view_chat_multiselect" />
 
@@ -29,13 +33,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/rvAttached"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/xviiToolbar"
             app:srl_direction="bottom">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChatList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingTop="@dimen/chat_list_padding"
+                android:paddingBottom="@dimen/chat_list_padding"
                 android:clipToPadding="false" />
 
         </com.twoeightnine.root.xvii.views.XviiSwipeRefreshLayout>
@@ -60,30 +66,18 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rlDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
+        <TextView
+            android:id="@+id/tvDatePopup"
+            style="@style/FloatingText"
+            android:layout_below="@+id/xviiToolbar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="6dp"
-            android:background="@drawable/shape_message_system"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tvDatePopup"
-                style="@style/WhiteText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:textSize="13sp"
-                tools:text="28 sep" />
-
-        </RelativeLayout>
+            android:visibility="gone"
+            tools:text="28 sep" />
 
     </RelativeLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.twoeightnine.root.xvii.uikit.XviiFab
         android:id="@+id/fabHasMore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -91,10 +85,7 @@
         android:layout_marginEnd="@dimen/margin16"
         android:layout_marginBottom="@dimen/chat_fab_more_bottom_margin"
         android:src="@drawable/ic_chevron_down"
-        android:elevation="2dp"
-        app:elevation="2dp"
-        android:visibility="invisible"
-        app:backgroundTint="@color/fab" />
+        android:visibility="invisible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvStickersSuggestion"
@@ -122,7 +113,7 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <ProgressBar
+    <com.twoeightnine.root.xvii.uikit.XviiLoader
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,7 +1,5 @@
 package com.twoeightnine.root.xvii.utils
 
-import android.animation.Animator
-import android.annotation.TargetApi
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
@@ -9,16 +7,11 @@ import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.*
-import android.content.Intent.*
 import android.content.pm.PackageManager
-import android.content.pm.ShortcutInfo
-import android.content.pm.ShortcutManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.Icon
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.*
@@ -28,31 +21,22 @@ import android.text.SpannableStringBuilder
 import android.text.style.ClickableSpan
 import android.util.DisplayMetrics
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.background.longpoll.models.events.OnlineEvent
 import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
-import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.crypto.md5
-import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorJobIntentService
-import com.twoeightnine.root.xvii.crypto.prime.PrimeGeneratorService
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
-import com.twoeightnine.root.xvii.managers.Prefs
+import global.msnthrp.xvii.uikit.extensions.SimpleBitmapTarget
+import global.msnthrp.xvii.uikit.extensions.load
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -62,15 +46,8 @@ import java.io.*
 import java.text.DecimalFormat
 import java.util.regex.Pattern
 
+
 private const val REGEX_MENTION = "(\\[id\\d{1,9}\\|[^\\]]+\\])"
-
-fun pxFromDp(context: Context, dp: Int): Int {
-    return (dp * context.resources.displayMetrics.density).toInt()
-}
-
-fun dpFromPx(context: Context, px: Int): Int {
-    return (px / context.resources.displayMetrics.density).toInt()
-}
 
 fun isOnline(): Boolean {
     val cm = App.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -98,7 +75,7 @@ fun showError(context: Context?, text: String?) {
 }
 
 fun rate(context: Context) {
-    val uri = Uri.parse("market://details?id=" + context.packageName)
+    val uri = Uri.parse("market://details?id=${context.packageName}")
     val goToMarket = Intent(Intent.ACTION_VIEW, uri)
     goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or
             Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
@@ -106,8 +83,7 @@ fun rate(context: Context) {
     try {
         context.startActivity(goToMarket)
     } catch (e: ActivityNotFoundException) {
-        context.startActivity(Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=" + context.packageName)))
+        BrowsingUtils.openUrl(context, "https://play.google.com/store/apps/details?id=${context.packageName}")
     }
 
 }
@@ -136,26 +112,6 @@ fun showAlert(context: Context?, text: String?, onOkPressed: (() -> Unit)? = nul
             .create()
     dialog.show()
     dialog.stylize()
-}
-
-fun getLastSeenText(
-        resources: Resources?,
-        isOnline: Boolean,
-        timeStamp: Int,
-        deviceCode: Int,
-        withSeconds: Boolean = Prefs.showSeconds
-): String {
-    if (resources == null) return ""
-
-    val deviceCodeName = OnlineEvent.getDeviceName(resources, deviceCode)
-    val time = if (timeStamp == 0) {
-        time() - (if (isOnline) 0 else 300)
-    } else {
-        timeStamp
-    }
-    val stringRes = if (isOnline) R.string.online_seen else R.string.last_seen
-    val lastSeen = resources.getString(stringRes, getTime(time, withSeconds = withSeconds))
-    return "$lastSeen $deviceCodeName"
 }
 
 fun showConfirm(context: Context?, text: String, callback: (Boolean) -> Unit) {
@@ -187,21 +143,6 @@ fun startNotificationService(context: Context) {
         NotificationService.launch(context)
     } catch (e: Exception) {
         L.tag("longpoll")
-                .throwable(e)
-                .log("unable to start service")
-    }
-}
-
-
-fun startPrimeGenerator(context: Context) {
-    try {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            PrimeGeneratorService.launch(context)
-        } else {
-            PrimeGeneratorJobIntentService.launch(context)
-        }
-    } catch (e: Exception) {
-        L.tag("prime generator")
                 .throwable(e)
                 .log("unable to start service")
     }
@@ -330,27 +271,9 @@ fun equalsDevUids(userId: Int) = App.ID_SALTS
         .isNotEmpty()
 
 fun goHome(context: Context?) {
-    context?.startActivity(Intent(ACTION_MAIN).apply {
-        addCategory(CATEGORY_HOME)
+    context?.startActivity(Intent(Intent.ACTION_MAIN).apply {
+        addCategory(Intent.CATEGORY_HOME)
     })
-}
-
-fun simpleUrlIntent(context: Context?, urlArg: String?) {
-    context ?: return
-
-    var url = urlArg ?: return
-    try {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "http://$url"
-        }
-        val intent = Intent(ACTION_VIEW).apply {
-            data = Uri.parse(url)
-        }
-        context.startActivity(intent)
-    } catch (e: Exception) {
-        L.def().throwable(e)
-                .log("unable to open link")
-    }
 }
 
 fun wrapMentions(context: Context, text: CharSequence, addClickable: Boolean = false): SpannableStringBuilder {
@@ -409,29 +332,6 @@ fun applyCompletableSchedulers(): (t: Completable) -> Completable {
     }
 }
 
-fun getContextPopup(context: Context, @LayoutRes layout: Int, listener: (View) -> Unit): AlertDialog {
-    val view = View.inflate(context, layout, null)
-
-    val dialog = AlertDialog.Builder(context)
-            .setView(view)
-            .create()
-
-    val click = { v: View ->
-        dialog.dismiss()
-        listener.invoke(v)
-    }
-
-    if (view is ViewGroup) {
-        for (i in 0 until view.childCount) {
-            val v = view.getChildAt(i)
-            if (v is LinearLayout) {
-                v.setOnClickListener(click)
-            }
-        }
-    }
-    return dialog
-}
-
 fun restartApp(context: Context?, title: String) {
     showToast(context, title)
     Handler().postDelayed({ restartApp(context) }, 400L)
@@ -462,7 +362,7 @@ fun callIntent(context: Context?, num: String?) {
     var number = num ?: return
     number = number.replace("-", "")
     number = number.replace(" ", "")
-    context.startActivity(Intent(ACTION_DIAL, Uri.parse("tel:$number")))
+    context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number")))
 }
 
 fun addToGallery(context: Context, path: String) {
@@ -480,6 +380,7 @@ fun addToGallery(context: Context, path: String) {
     }
 }
 
+@Deprecated("Use getUriName() instead.")
 fun getNameFromUrl(url: String): String {
     val res = url.split("/".toRegex())
             .dropLastWhile { it.isEmpty() }
@@ -487,53 +388,40 @@ fun getNameFromUrl(url: String): String {
     return res[res.size - 1]
 }
 
-//fun downloadFile(context: Context, url: String, fileName: String, type: String, listener: (() -> Unit), refresh: Boolean = false, noGallery: Boolean = false) {
-//    val task = DownloadFileAsyncTask(refresh, noGallery)
-//    task.listener = {
-//        addToGallery(context, it)
-//        listener.invoke()
-//    }
-//    task.execute(url, fileName, type)
-//}
+fun String.getUriName(): String =
+        split("/".toRegex())
+            .dropLastWhile { it.isEmpty() }
+            .last()
 
-fun loadBitmapIcon(url: String?, useSquare: Boolean = false, callback: (Bitmap) -> Unit) {
+fun loadBitmapIcon(context: Context, url: String?, useSquare: Boolean = false, callback: (Bitmap) -> Unit) {
+    val urlOrStub = when {
+        url.isNullOrEmpty() -> ColorManager.getPhotoStub()
+        else -> url
+    }
+    val drawableRes = if (useSquare) {
+        R.drawable.xvii_logo_128
+    } else {
+        R.drawable.xvii_logo_128_circle
+    }
     val uiHandler = Handler(Looper.getMainLooper())
     uiHandler.post {
-        val rc = Picasso.get()
-                .load(if (url.isNullOrEmpty()) {
-                    ColorManager.getPhotoStub()
-                } else {
-                    url
-                })
-        if (!useSquare) {
-            rc.transform(CircleTransform())
+        SimpleBitmapTarget { bitmap, exception ->
+            when {
+                exception != null ->
+                    callback.invoke(BitmapFactory.decodeResource(App.context.resources, drawableRes))
+
+                bitmap != null ->
+                    callback.invoke(bitmap)
+
+                else -> loadBitmapIcon(context, url, useSquare, callback)
+            }
+        }.load(context, urlOrStub) {
+            if (!useSquare) {
+                circleCrop()
+            }
+            override(200, 200)
         }
-        rc.resize(200, 200)
-                .centerCrop()
-                .into(object : Target {
-
-                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
-                        val drawableRes = if (useSquare) {
-                            R.drawable.xvii_dark_logo_128_square
-                        } else {
-                            R.drawable.xvii_dark_logo_128
-                        }
-                        callback.invoke(BitmapFactory.decodeResource(App.context.resources, drawableRes))
-                    }
-
-                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                    }
-
-                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                        if (bitmap != null) {
-                            callback.invoke(bitmap)
-                        } else {
-                            loadBitmapIcon(url, useSquare, callback)
-                        }
-                    }
-                })
     }
-
 }
 
 fun screenWidth(activity: Activity): Int {
@@ -596,7 +484,7 @@ fun getCroppedImagePath(activity: Activity, original: String): String? {
             bmp = Bitmap.createBitmap(bmp, 0, (ih - newH) / 2, newW, newH)
         }
         bmp = Bitmap.createScaledBitmap(bmp, sw, sh, true)
-        val fileName = File(activity.filesDir, "chatBack${time() % 10}.png").absolutePath
+        val fileName = File(activity.filesDir, "chatBack${time()}.png").absolutePath
         saveBmp(fileName, bmp)
         return fileName
     } catch (e: Exception) {
@@ -618,7 +506,7 @@ fun createColoredBitmap(activity: Activity, color: Int): String? {
         Canvas(bitmap).apply {
             drawColor(color)
         }
-        val fileName = File(activity.filesDir, "chatBack${time() % 10}.png").absolutePath
+        val fileName = File(activity.filesDir, "chatBack${time()}.png").absolutePath
         saveBmp(fileName, bitmap)
         return fileName
     } catch (e: Exception) {
@@ -706,22 +594,26 @@ fun getTotalRAM(): String {
 
 fun shortifyNumber(value: Int): String {
     var num = value.toString()
-    if (value > 1000000) {
-        val mod = value % 1000000 / 100000
-        num = "${value / 1000000}"
-        if (mod > 0) {
-            num += ".$mod"
+    when {
+        value > 1000000 -> {
+            val mod = value % 1000000 / 100000
+            num = "${value / 1000000}"
+            if (mod > 0) {
+                num += ".$mod"
+            }
+            num += "M"
         }
-        num += "M"
-    } else if (value > 10000) {
-        num = "${value / 1000}K"
-    } else if (value > 1000) {
-        val mod = value % 1000 / 100
-        num = "${value / 1000}"
-        if (mod > 0) {
-            num += ".$mod"
+        value > 10000 -> {
+            num = "${value / 1000}K"
         }
-        num += "K"
+        value > 1000 -> {
+            val mod = value % 1000 / 100
+            num = "${value / 1000}"
+            if (mod > 0) {
+                num += ".$mod"
+            }
+            num += "K"
+        }
     }
     return num
 }
@@ -764,70 +656,6 @@ fun isInForeground(): Boolean {
     return appProcessInfo.importance == IMPORTANCE_FOREGROUND || appProcessInfo.importance == IMPORTANCE_VISIBLE
 }
 
-fun createShortcut(context: Context?, dialog: Dialog) {
-    val intent = Intent(context, ChatActivity::class.java).apply {
-        putExtra(ChatActivity.PEER_ID, dialog.peerId)
-        putExtra(ChatActivity.TITLE, dialog.alias ?: dialog.title)
-        putExtra(ChatActivity.AVATAR, dialog.photo)
-        flags = flags or FLAG_ACTIVITY_CLEAR_TOP
-    }
-    val name = dialog.alias ?: dialog.title
-    Picasso.get()
-            .load(dialog.photo)
-            .transform(CircleTransform())
-            .into(object : Target {
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                }
-
-                override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
-                    go(null)
-                }
-
-                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                    go(bitmap)
-                }
-
-                private fun go(bitmap: Bitmap?) {
-                    if (Build.VERSION.SDK_INT >= 25) {
-                        createShortcutNew(bitmap)
-                    } else {
-                        createShortcut(bitmap)
-                    }
-                }
-
-                private fun createShortcut(bitmap: Bitmap?) {
-                    context?.sendBroadcast(Intent().apply {
-                        putExtra(EXTRA_SHORTCUT_INTENT, intent)
-                        putExtra(EXTRA_SHORTCUT_NAME, dialog)
-                        if (bitmap != null) {
-                            putExtra(EXTRA_SHORTCUT_ICON, bitmap)
-                        } else {
-                            putExtra(EXTRA_SHORTCUT_ICON_RESOURCE,
-                                    ShortcutIconResource.fromContext(context, R.drawable.xvii_dark_logo_128))
-                        }
-                        putExtra("duplicate", false)
-                        action = "com.android.launcher.action.INSTALL_SHORTCUT"
-                    })
-                }
-
-                @TargetApi(25)
-                private fun createShortcutNew(bitmap: Bitmap?) {
-                    val shortcutManager = context?.getSystemService(ShortcutManager::class.java)
-                    intent.action = ACTION_VIEW
-
-                    val shortcutInfo = ShortcutInfo.Builder(context, dialog.peerId.toString())
-                            .setShortLabel(name)
-                            .setIcon(Icon.createWithBitmap(bitmap))
-                            .setIntent(intent)
-                            .build()
-                    shortcutManager?.addDynamicShortcuts(arrayListOf(shortcutInfo))
-                    if (Build.VERSION.SDK_INT >= 26) {
-                        shortcutManager?.requestPinShortcut(shortcutInfo, null)
-                    }
-                }
-            })
-}
-
 fun getUriForFile(context: Context?, file: File): Uri? {
     context ?: return null
 
@@ -853,28 +681,3 @@ fun isMiui(): Boolean {
 }
 
 fun isAndroid10OrHigher() = Build.VERSION.SDK_INT >= 29
-
-class EndListener(private val onEnd: () -> Unit) : Animator.AnimatorListener {
-
-    override fun onAnimationRepeat(p0: Animator?) {
-    }
-
-    override fun onAnimationEnd(animation: Animator?, isReverse: Boolean) {
-        super.onAnimationEnd(animation, isReverse)
-        onEnd()
-    }
-
-    override fun onAnimationEnd(p0: Animator?) {
-        onEnd()
-    }
-
-    override fun onAnimationStart(animation: Animator?, isReverse: Boolean) {
-        super.onAnimationStart(animation, isReverse)
-    }
-
-    override fun onAnimationStart(p0: Animator?) {
-    }
-
-    override fun onAnimationCancel(p0: Animator?) {
-    }
-}

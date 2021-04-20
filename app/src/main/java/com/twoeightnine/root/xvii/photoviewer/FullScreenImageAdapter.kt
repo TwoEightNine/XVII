@@ -7,9 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.Picasso
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.extensions.load
 
 class FullScreenImageAdapter(
         private val activity: Activity,
@@ -33,29 +32,24 @@ class FullScreenImageAdapter(
         val url = urls[position]
         val fromFile = url.startsWith("file://")
 
-        var requestCreator = Picasso.get()
-                .load(urls[position])
+        imgDisplay.load(urls[position], placeholder = false) {
+            if (fromFile) {
+                var (width, height) = getImageSize(url)
+                val ratio = width.toFloat() / height.toFloat()
+                if (width > height) {
+                    width = 3000
+                    height = (width / ratio).toInt()
+                } else {
+                    height = 3000
+                    width = (ratio * height).toInt()
+                }
 
-        if (fromFile) {
-            val size = getImageSize(url)
-            var width = size.first
-            var height = size.second
-            val ratio = width.toFloat() / height.toFloat()
-            if (width > height) {
-                width = 3000
-                height = (width / ratio).toInt()
-            } else {
-                height = 3000
-                width = (ratio * height).toInt()
+                override(width, height)
+//                apply(RequestOptions().downsample(DownsampleStrategy.AT_MOST))
+//                onlyScaleDown()
             }
-            requestCreator = requestCreator
-                    .resize(width, height)
-                    .onlyScaleDown()
+            skipMemoryCache(true)
         }
-
-        requestCreator
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .into(imgDisplay)
 
         container.addView(viewLayout)
         return viewLayout

@@ -5,14 +5,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BasePagerAdapter
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chats.attachments.audios.AudioAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.docs.DocAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.links.LinkAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.photos.PhotoAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.attachments.videos.VideoAttachmentsFragment
-import com.twoeightnine.root.xvii.utils.stylize
+import global.msnthrp.xvii.uikit.base.adapters.BasePagerAdapter
 import kotlinx.android.synthetic.main.fragment_attachments_history.*
 
 class AttachmentsFragment : BaseFragment() {
@@ -30,11 +29,6 @@ class AttachmentsFragment : BaseFragment() {
         initAdapter()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.attachments))
-    }
-
     private fun initAdapter() {
         with(adapter) {
             add(PhotoAttachmentsFragment.newInstance(peerId), getString(R.string.photos))
@@ -44,24 +38,19 @@ class AttachmentsFragment : BaseFragment() {
             add(DocAttachmentsFragment.newInstance(peerId), getString(R.string.docs))
         }
         viewPager.adapter = adapter
-        tabs.setupWithViewPager(viewPager, true)
-        tabs.stylize()
+        xviiToolbar.setupWith(viewPager)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
+        menu.clear()
     }
 
     companion object {
-        const val ARG_PEER_ID = "peerId"
+        private const val ARG_PEER_ID = "peerId"
 
-        fun newInstance(peerId: Int): AttachmentsFragment {
-            val frag = AttachmentsFragment()
-            frag.arguments = Bundle().apply {
-                putInt(ARG_PEER_ID, peerId)
-            }
-            return frag
+        fun createArgs(peerId: Int) = Bundle().apply {
+            putInt(ARG_PEER_ID, peerId)
         }
     }
 

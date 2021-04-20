@@ -1,6 +1,5 @@
 package com.twoeightnine.root.xvii.chats.attachments.gallery.model
 
-import android.graphics.Bitmap
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 

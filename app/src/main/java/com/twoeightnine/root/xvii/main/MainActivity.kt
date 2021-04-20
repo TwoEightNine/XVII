@@ -5,18 +5,26 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
-import androidx.lifecycle.ViewModelProviders
-import com.google.android.gms.ads.MobileAds
+import androidx.core.view.ViewCompat
+import androidx.core.view.updatePadding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
+import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
+import com.twoeightnine.root.xvii.features.FeaturesFragment
+import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.lg.L
+import com.twoeightnine.root.xvii.search.SearchFragment
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
+import global.msnthrp.xvii.uikit.extensions.isVisible
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_root.*
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
@@ -24,22 +32,17 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var apiUtils: ApiUtils
 
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(this)[InsetViewModel::class.java]
+    private val bottomNavViewHeight by lazy {
+        resources.getDimensionPixelSize(R.dimen.bottom_navigation_height)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         App.appComponent?.inject(this)
+        initFragments()
         bottomNavView.setOnNavigationItemSelectedListener(BottomViewListener())
-        initViewPager()
         bottomNavView.selectedItemId = R.id.menu_dialogs
-        bottomNavView.setBottomInsetPadding(resources.getDimensionPixelSize(R.dimen.bottom_navigation_height))
-        vStubConsumer.consumeInsets { top, bottom ->
-            insetViewModel.updateTopInset(top)
-            insetViewModel.updateBottomInset(bottom)
-        }
 
         intent?.extras?.apply {
             val userId = getInt(USER_ID)
@@ -52,41 +55,48 @@ class MainActivity : BaseActivity() {
         }
         startNotificationAlarm(this)
         apiUtils.trackVisitor()
-        stylize(isWhite = true)
-        bottomNavView.stylize()
+        bottomNavView.paint(Munch.color.color)
         StatTool.get()?.incLaunch()
-        MobileAds.initialize(this) {}
+
+        ivSearch.setOnClickListener {
+            startFragment<SearchFragment>()
+        }
+        ivSearch.paint(Munch.color.color)
+        ivSearch.applyTopInsetMargin()
+
+        ViewCompat.setOnApplyWindowInsetsListener(bottomNavView) { view, insets ->
+            view.updatePadding(bottom = insets.systemWindowInsetBottom)
+            view.layoutParams.apply {
+                height = bottomNavViewHeight + insets.systemWindowInsetBottom
+                view.layoutParams = this
+            }
+            insets
+        }
     }
 
-    private fun initViewPager() {
-        with(viewPager) {
-            adapter = MainPagerAdapter(supportFragmentManager)
-            isLocked = true
-            offscreenPageLimit = 3
-        }
+    private fun initFragments() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.flFriends, FriendsFragment.newInstance())
+                .replace(R.id.flDialogs, DialogsFragment.newInstance())
+                .replace(R.id.flFeatures, FeaturesFragment.newInstance())
+                .commit()
+    }
+
+    private fun showFragment(menuId: Int) {
+        flFriends.setVisible(menuId == R.id.menu_friends)
+        flDialogs.setVisible(menuId == R.id.menu_dialogs)
+        flFeatures.setVisible(menuId == R.id.menu_features)
+        ivSearch.setVisible(menuId != R.id.menu_features)
     }
 
     override fun getStatusBarColor() = ContextCompat.getColor(this, R.color.status_bar)
 
     override fun getNavigationBarColor() = Color.TRANSPARENT
 
-    override fun onResume() {
-        super.onResume()
-        stylize(isWhite = true)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        android.R.id.home -> {
-            dlRoot.openDrawer(GravityCompat.START)
-            true
-        }
-        else -> false
-    }
-
     override fun getThemeId() = R.style.AppTheme_Main
 
     override fun onBackPressed() {
-        if (viewPager.currentItem == 1) {
+        if (flDialogs.isVisible()) {
             try {
                 goHome(this)
             } catch (e: IllegalStateException) {
@@ -111,15 +121,7 @@ class MainActivity : BaseActivity() {
 
     private inner class BottomViewListener : BottomNavigationView.OnNavigationItemSelectedListener {
         override fun onNavigationItemSelected(item: MenuItem): Boolean {
-            viewPager.setCurrentItem(
-                    when (item.itemId) {
-                        R.id.menu_search -> 0
-                        R.id.menu_friends -> 2
-                        R.id.menu_features -> 3
-                        else -> 1 // default menu_dialogs
-                    },
-                    false
-            )
+            showFragment(item.itemId)
             return true
         }
 

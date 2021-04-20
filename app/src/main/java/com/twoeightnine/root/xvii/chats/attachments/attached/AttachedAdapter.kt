@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.model.attachments.Attachment
-import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.setVisible
 import com.twoeightnine.root.xvii.utils.showAlert
 import com.twoeightnine.root.xvii.utils.stylize
+import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_attached.view.*
 
 class AttachedAdapter(
@@ -53,7 +53,7 @@ class AttachedAdapter(
         }
 
     val maxOrder: Int
-        get() = attachmentsOrder.max() ?: 0
+        get() = attachmentsOrder.maxOrNull() ?: 0
 
     private val attachmentsOrder = arrayListOf<Int>()
 

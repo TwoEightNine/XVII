@@ -1,14 +1,14 @@
 package com.twoeightnine.root.xvii.chats.attachments.stickersemoji
 
 import com.twoeightnine.root.xvii.App
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.*
-import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.time
+import global.msnthrp.xvii.data.db.AppDb
+import global.msnthrp.xvii.data.stickersemoji.model.*
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

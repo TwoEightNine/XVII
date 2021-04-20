@@ -8,4 +8,39 @@
         <attr name="value" format="integer"/>
         <attr name="step" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="XviiToolbar">
+        <attr name="title" format="string" />
+        <attr name="backArrow" format="boolean" />
+        <attr name="withTabs" format="boolean" />
+        <attr name="forChat" format="boolean" />
+        <attr name="alwaysLifted" format="boolean" />
+        <attr name="showLogo" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="XviiItem">
+        <attr name="itemTitle" format="string" />
+        <attr name="itemIcon" format="integer" />
+        <attr name="hasDivider" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="XviiButton">
+        <attr name="warn" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="XviiLoader">
+        <attr name="alwaysWhite" format="boolean" />
+        <attr name="size" format="enum">
+            <enum name="usual" value="0" />
+            <enum name="small" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="XviiAvatar">
+        <attr name="avatarNameSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="XviiLabel">
+        <attr name="paintBackground" format="boolean" />
+    </declare-styleable>
 </resources>

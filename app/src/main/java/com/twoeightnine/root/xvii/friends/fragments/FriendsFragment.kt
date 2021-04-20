@@ -2,7 +2,6 @@ package com.twoeightnine.root.xvii.friends.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
@@ -11,10 +10,13 @@ import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.friends.adapters.FriendsAdapter
 import com.twoeightnine.root.xvii.friends.viewmodel.FriendsViewModel
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.AppBarLifter
+import com.twoeightnine.root.xvii.utils.showError
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_friends.*
 import javax.inject.Inject
 
@@ -25,11 +27,7 @@ class FriendsFragment : BaseFragment() {
     private lateinit var viewModel: FriendsViewModel
 
     private val adapter by lazy {
-        FriendsAdapter(contextOrThrow, ::onClick, ::loadMore)
-    }
-
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
+        FriendsAdapter(requireContext(), ::onClick, ::loadMore)
     }
 
     override fun getLayoutId() = R.layout.fragment_friends
@@ -38,31 +36,26 @@ class FriendsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[FriendsViewModel::class.java]
-        viewModel.getFriends().observe(this, Observer { updateFriends(it) })
-        viewModel.loadFriends()
+
         adapter.startLoading()
 
         progressBar.show()
         rvFriends.layoutManager = LinearLayoutManager(context)
         rvFriends.adapter = adapter
+        rvFriends.addOnScrollListener(AppBarLifter(xviiToolbar))
 
-        progressBar.stylize()
         swipeRefresh.setOnRefreshListener {
             viewModel.loadFriends()
             adapter.reset()
             adapter.startLoading()
         }
+        rvFriends.applyBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        insetViewModel?.topInset?.observe(viewLifecycleOwner, Observer { top ->
-            adapter.firstItemPadding = top
-        })
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
-            val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
-            rvFriends.setBottomPadding(bottom + bottomNavHeight)
-        })
+        viewModel.getFriends().observe(viewLifecycleOwner, ::updateFriends)
+        viewModel.loadFriends()
     }
 
     private fun updateFriends(data: Wrapper<ArrayList<User>>) {

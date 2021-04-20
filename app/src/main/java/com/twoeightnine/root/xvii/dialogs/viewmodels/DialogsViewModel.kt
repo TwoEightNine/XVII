@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.App.Companion.context
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
-import com.twoeightnine.root.xvii.db.AppDb
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.WrappedLiveData
@@ -18,12 +16,15 @@ import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.ConversationsResponse
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.data.db.AppDb
+import global.msnthrp.xvii.data.dialogs.Dialog
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 class DialogsViewModel(
@@ -34,25 +35,17 @@ class DialogsViewModel(
     private var longPollSubscription: Disposable? = null
     private var typingCompositeDisposable = CompositeDisposable()
 
+    private val isLoadingDialogs = AtomicBoolean(false)
+    private val isLoadingNewConversations = AtomicBoolean(false)
+    private val eventQueue = mutableListOf<BaseLongPollEvent>()
+
     private val typingPeerIds =
             MutableLiveData<HashSet<Int>>().apply { value = hashSetOf() }
     private val dialogsLiveData = WrappedMutableLiveData<ArrayList<Dialog>>()
 
     init {
         longPollSubscription?.dispose()
-        longPollSubscription = EventBus.subscribeLongPollEventReceived { event ->
-            when (event) {
-                is OnlineEvent -> onStatusChanged(event.userId, true)
-                is OfflineEvent -> onStatusChanged(event.userId, false)
-                is ReadOutgoingEvent -> onReadStateChanged(event.peerId)
-                is ReadIncomingEvent -> onReadStateChanged(event.peerId)
-                is NewMessageEvent -> onNewMessageAdded(event)
-                is DeleteMessagesEvent -> onDialogRemoved(event.peerId)
-                is TypingEvent -> onTyping(event.userId)
-                is TypingChatEvent -> onTyping(event.peerId)
-                is RecordingAudioEvent -> onTyping(event.peerId)
-            }
-        }
+        longPollSubscription = EventBus.subscribeLongPollEventReceived(::onLongPollEventReceived)
     }
 
     fun getTypingPeerIds() = typingPeerIds as LiveData<HashSet<Int>>
@@ -75,6 +68,8 @@ class DialogsViewModel(
             }
             return
         }
+
+        isLoadingDialogs.set(true)
         api.getConversations(COUNT_CONVERSATIONS, offset)
                 .map { convertToDialogs(it) }
                 .subscribeSmart({ dialogs ->
@@ -87,6 +82,9 @@ class DialogsViewModel(
                     notifyDialogsChanged()
                     saveDialogsAsync(dialogs)
                     setOffline()
+
+                    isLoadingDialogs.set(false)
+                    handleEventQueue()
                 }, ::onErrorOccurred)
     }
 
@@ -221,16 +219,19 @@ class DialogsViewModel(
             notifyDialogsChanged()
             saveDialogAsync(dialog)
         } else { // new dialog
-            api.getConversations(COUNT_NEW_CONVERSATION)
-                    .map { convertToDialogs(it) }
-                    .subscribeSmart({ dialogs ->
-                        val newDialog = dialogs.find { it.peerId == event.peerId }
-                                ?: return@subscribeSmart
+            if (isLoadingNewConversations.compareAndSet(false, true)) {
+                api.getConversations(COUNT_NEW_CONVERSATION)
+                        .map { convertToDialogs(it) }
+                        .subscribeSmart({ dialogs ->
+                            val newDialog = dialogs.find { it.peerId == event.peerId }
+                                    ?: return@subscribeSmart
 
-                        dialogsLiveData.value?.data?.add(newDialog)
-                        notifyDialogsChanged()
-                        saveDialogAsync(newDialog)
-                    }, ::onErrorOccurred)
+                            dialogsLiveData.value?.data?.add(newDialog)
+                            notifyDialogsChanged()
+                            saveDialogAsync(newDialog)
+                            isLoadingNewConversations.set(false)
+                        }, ::onErrorOccurred)
+            }
         }
     }
 
@@ -272,6 +273,8 @@ class DialogsViewModel(
     }
 
     private fun onErrorOccurred(error: String) {
+        isLoadingNewConversations.set(false)
+        isLoadingDialogs.set(false)
         dialogsLiveData.value = Wrapper(error = error)
     }
 
@@ -315,6 +318,33 @@ class DialogsViewModel(
         longPollSubscription?.dispose()
         typingCompositeDisposable.dispose()
         super.onCleared()
+    }
+
+    private fun onLongPollEventReceived(event: BaseLongPollEvent) {
+        if (isLoadingDialogs.get()) {
+            eventQueue.add(event)
+        } else {
+            processEvent(event)
+        }
+    }
+
+    private fun handleEventQueue() {
+        eventQueue.forEach(::processEvent)
+        eventQueue.clear()
+    }
+
+    private fun processEvent(event: BaseLongPollEvent) {
+        when (event) {
+            is OnlineEvent -> onStatusChanged(event.userId, true)
+            is OfflineEvent -> onStatusChanged(event.userId, false)
+            is ReadOutgoingEvent -> onReadStateChanged(event.peerId)
+            is ReadIncomingEvent -> onReadStateChanged(event.peerId)
+            is NewMessageEvent -> onNewMessageAdded(event)
+            is DeleteMessagesEvent -> onDialogRemoved(event.peerId)
+            is TypingEvent -> onTyping(event.userId)
+            is TypingChatEvent -> onTyping(event.peerId)
+            is RecordingAudioEvent -> onTyping(event.peerId)
+        }
     }
 
     private fun l(s: String) {

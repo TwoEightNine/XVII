@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_height"
+    android:background="@drawable/selector_rect"
+    tools:parentTag="android.widget.RelativeLayout">
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        tools:src="@drawable/ic_source_code" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/MainText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/ivIcon"
+        android:textSize="17sp"
+        tools:text="item text" />
+
+<!--    <View-->
+<!--        android:id="@+id/vItemDivider"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1px"-->
+<!--        android:layout_marginStart="@dimen/item_divider_margin"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:background="@color/divider" />-->
+
+</merge>

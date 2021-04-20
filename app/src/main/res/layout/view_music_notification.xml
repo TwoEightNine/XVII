@@ -48,17 +48,17 @@
         android:layout_centerVertical="true"
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
-        android:src="@drawable/ic_next" />
+        android:src="@drawable/ic_forward" />
 
     <ImageView
         android:id="@+id/ivPlayPause"
         android:layout_width="36dp"
-        android:layout_height="26dp"
+        android:layout_height="36dp"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/ivNext"
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
-        android:src="@drawable/ic_play_music" />
+        android:src="@drawable/ic_play_filled" />
 
     <ImageView
         android:id="@+id/ivPrevious"
@@ -68,6 +68,6 @@
         android:layout_toStartOf="@id/ivPlayPause"
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
-        android:src="@drawable/ic_previous" />
+        android:src="@drawable/ic_backward" />
 
 </RelativeLayout>

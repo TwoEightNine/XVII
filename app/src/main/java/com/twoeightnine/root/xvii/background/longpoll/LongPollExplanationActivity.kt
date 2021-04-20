@@ -10,9 +10,8 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.utils.NotificationChannels
-import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
-import com.twoeightnine.root.xvii.utils.setTopInsetPadding
-import com.twoeightnine.root.xvii.utils.stylize
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.applyTopInsetPadding
 import kotlinx.android.synthetic.main.activity_explanation.*
 
 class LongPollExplanationActivity : BaseActivity() {
@@ -33,10 +32,8 @@ class LongPollExplanationActivity : BaseActivity() {
             ChatActivity.launch(this, -App.GROUP, getString(R.string.app_name))
         }
 
-        btnOpen.stylize()
-        btnSupport.stylize()
-        tvTitle.setTopInsetPadding()
-        svContent.setBottomInsetPadding()
+        tvTitle.applyTopInsetPadding()
+        svContent.applyBottomInsetPadding()
     }
 
     override fun getStatusBarColor() = ContextCompat.getColor(this, R.color.status_bar)

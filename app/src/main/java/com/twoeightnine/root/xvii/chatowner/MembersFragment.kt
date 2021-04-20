@@ -6,10 +6,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BaseAdapter
+import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.ColorManager
+import com.twoeightnine.root.xvii.utils.LastSeenUtils
+import com.twoeightnine.root.xvii.utils.stylize
+import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import kotlinx.android.synthetic.main.item_user.view.*
 
 class MembersAdapter(
@@ -29,17 +33,15 @@ class MembersAdapter(
 
         fun bind(user: User) {
             with(view) {
-                civPhoto.load(user.photo100)
+                civPhoto.load(user.photo100, user.fullName.getInitials(), id = user.id)
                 val d = ContextCompat.getDrawable(context, R.drawable.dotshape)
                 d?.stylize(ColorManager.MAIN_TAG)
                 ivOnlineDot.setImageDrawable(if (user.isOnline) d else null)
                 tvName.text = user.fullName
-                if (Prefs.lowerTexts) {
-                    tvName.lower()
-                }
+                tvName.lowerIf(Prefs.lowerTexts)
 
                 user.lastSeen?.also {
-                    tvInfo.text = getLastSeenText(resources, user.isOnline, it.time, it.platform)
+                    tvInfo.text = LastSeenUtils.getFull(context, user.isOnline, it.time, it.platform)
                 }
                 setOnClickListener { onClick(items[adapterPosition]) }
                 setOnLongClickListener { onLongClick(items[adapterPosition]); true }

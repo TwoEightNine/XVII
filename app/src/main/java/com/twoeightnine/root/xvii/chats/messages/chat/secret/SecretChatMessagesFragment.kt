@@ -5,20 +5,23 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.base.BaseChatMessagesFragment
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.FingerPrintAlertDialog
 import com.twoeightnine.root.xvii.views.LoadingDialog
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
+import global.msnthrp.xvii.data.dialogs.Dialog
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.setVisible
+import global.msnthrp.xvii.uikit.extensions.show
+import global.msnthrp.xvii.uikit.utils.ExtensionUtils
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 
@@ -38,10 +41,16 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
         dialogLoading.show()
         viewModel.decryptDoc(doc) { verified, path ->
             dialogLoading.dismiss()
-            if (!path.isNullOrEmpty() && verified) {
-                ImageViewerActivity.viewImage(context, "file://$path")
-            } else {
-                showError(context, R.string.invalid_file)
+            when {
+                !verified || path.isNullOrBlank() -> {
+                    showError(context, R.string.invalid_file)
+                }
+                ExtensionUtils.isImage(path) -> {
+                    ImageViewerActivity.viewImage(context, "file://$path")
+                }
+                else -> {
+                    BrowsingUtils.openFile(context, path)
+                }
             }
         }
     }
@@ -56,27 +65,29 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
             showKeysDialog()
         }
         ivKeyPattern.show()
+    }
 
-        viewModel.getKeysSet().observe(this, Observer {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.getKeysSet().observe(viewLifecycleOwner) {
             rlNoKeys.setVisible(!it)
             viewModel.loadMessages()
-        })
+        }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_secret_chat, menu)
+        inflater.inflate(R.menu.menu_secret_chat, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.menu_fingerprint -> {
             if (viewModel.isKeyRequired()) {
                 showKeysDialog()
             } else {
                 val fingerprint = viewModel.getFingerprint()
-                val keyType = viewModel.getKeyType()
                 context?.let {
-                    FingerPrintAlertDialog(it, fingerprint, keyType).show()
+                    FingerPrintAlertDialog(it, fingerprint).show()
                 }
             }
             true
@@ -89,7 +100,7 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
     }
 
     private fun showKeysDialog() {
-        val canMakeExchange = peerId.matchesUserId() && peerId != Session.uid
+        val canMakeExchange = peerId.matchesUserId() && !SessionProvider.isUserIdTheSame(peerId)
         if (canMakeExchange) {
             createContextPopup(context ?: return, arrayListOf(
                     ContextPopupItem(R.drawable.ic_edit_popup, R.string.user_key) {
@@ -126,7 +137,7 @@ class SecretChatMessagesFragment : BaseChatMessagesFragment<SecretChatViewModel>
             val fragment = SecretChatMessagesFragment()
             fragment.arguments = Bundle().apply {
                 putInt(ARG_PEER_ID, dialog.peerId)
-                putString(ARG_TITLE, dialog.alias ?: dialog.title)
+                putString(ARG_TITLE, dialog.aliasOrTitle)
                 putString(ARG_PHOTO, dialog.photo)
             }
             return fragment

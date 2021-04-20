@@ -5,9 +5,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
-import com.twoeightnine.root.xvii.utils.show
-import kotlinx.android.synthetic.main.toolbar.*
+import global.msnthrp.xvii.data.dialogs.Dialog
+import kotlinx.android.synthetic.main.fragment_poll.*
 
 class DialogsForwardFragment : DialogsFragment() {
 
@@ -15,15 +14,15 @@ class DialogsForwardFragment : DialogsFragment() {
     private val shareText by lazy { arguments?.getString(ARG_SHARE_TEXT) }
     private val shareImage by lazy { arguments?.getString(ARG_SHARE_IMAGE) }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
+        menu.clear()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        toolbar.show()
-        updateTitle(getString(R.string.choose_dialog))
+        xviiToolbar.title = getString(R.string.choose_dialog)
+        xviiToolbar.showLogo = false
     }
 
     override fun onClick(dialog: Dialog) {

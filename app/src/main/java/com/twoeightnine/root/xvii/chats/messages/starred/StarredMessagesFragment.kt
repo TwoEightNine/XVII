@@ -8,20 +8,23 @@ import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
+import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
 import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
 import com.twoeightnine.root.xvii.model.attachments.Doc
-import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
-import com.twoeightnine.root.xvii.photoviewer.ImageViewerActivity
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.BrowsingUtils
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
-import com.twoeightnine.root.xvii.web.VideoViewerActivity
+import com.twoeightnine.root.xvii.utils.copyToClip
+import com.twoeightnine.root.xvii.utils.showError
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hideInvis
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.toolbar_chat.*
 import kotlinx.android.synthetic.main.view_chat_multiselect.*
 
 class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>() {
@@ -34,24 +37,25 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rlCustom.hide()
         (rlInput.layoutParams as? RelativeLayout.LayoutParams)?.height = 0
-        ivReplyMulti.visibility = View.INVISIBLE
-        ivDeleteMulti.visibility = View.INVISIBLE
-        ivMarkMulti.visibility = View.INVISIBLE
-        rlMultiAction.stylizeAll()
-        rlMultiAction.stylizeColor()
+        ivReplyMulti.hideInvis()
+        ivDeleteMulti.hideInvis()
+        ivMarkMulti.hideInvis()
+
+        rlMultiAction.background?.paint(Munch.color.color20)
+        listOf(ivCancelMulti, ivMarkMulti, ivDeleteMulti, ivForwardMulti, ivReplyMulti)
+                .forEach { it.paint(Munch.color.colorDark(50)) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.important))
-        rvChatList.setBottomInsetPadding()
+        xviiToolbar.title = getString(R.string.important)
+        rvChatList.applyBottomInsetPadding()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
+        menu.clear()
     }
 
 
@@ -79,16 +83,16 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
             ChatOwnerActivity.launch(context, userId)
         }
 
-        override fun onEncryptedFileClicked(doc: Doc) {
-        }
+    }
 
-        override fun onPhotoClicked(position: Int, photos: ArrayList<Photo>) {
-            ImageViewerActivity.viewImages(context, photos, position)
+    override fun getAttachmentsCallback() = object : AttachmentsInflater.DefaultCallback(requireContext()) {
+
+        override fun onEncryptedDocClicked(doc: Doc) {
         }
 
         override fun onVideoClicked(video: Video) {
             viewModel.loadVideo(context ?: return, video, { playerUrl ->
-                VideoViewerActivity.launch(context, playerUrl)
+                BrowsingUtils.openUrl(context, playerUrl)
             }, { error ->
                 showError(context, error)
             })

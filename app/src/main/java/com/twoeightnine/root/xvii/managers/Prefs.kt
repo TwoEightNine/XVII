@@ -33,10 +33,11 @@ object Prefs {
     private const val STORE_CUSTOM_KEYS = "storeCustomKeys"
     private const val SEND_BY_ENTER = "sendByEnter"
     private const val STICKER_SUGGESTIONS = "stickerSuggestions"
+    private const val EXACT_SUGGESTIONS = "exactSuggestions"
     private const val JOIN_SHOWN_LAST = "joinShownLast"
     private const val ENABLE_SWIPE_TO_BACK = "enableSwipeToBack"
-    private const val LAST_ASSISTANCE = "lastAssistance"
     private const val LIFT_KEYBOARD_WINDOW = "liftKeyboardWindow"
+    private const val SUGGEST_PEOPLE = "suggestPeople"
 
     //notifications
     private const val SHOW_NOTIF = "showNotif"
@@ -100,11 +101,11 @@ object Prefs {
         set(value) = data.edit().putBoolean(SHOW_SECONDS, value).apply()
 
     var lowerTexts: Boolean
-        get() = data.getBoolean(LOWER_TEXTS, false)
+        get() = data.getBoolean(LOWER_TEXTS, true)
         set(value) = data.edit().putBoolean(LOWER_TEXTS, value).apply()
 
     var appleEmojis: Boolean
-        get() = data.getBoolean(APPLE_EMOJIS, true)
+        get() = data.getBoolean(APPLE_EMOJIS, false)
         set(value) = data.edit().putBoolean(APPLE_EMOJIS, value).apply()
 
     var showStickers: Boolean
@@ -127,6 +128,10 @@ object Prefs {
         get() = data.getBoolean(STICKER_SUGGESTIONS, true)
         set(value) = data.edit().putBoolean(STICKER_SUGGESTIONS, value).apply()
 
+    var exactSuggestions
+        get() = data.getBoolean(EXACT_SUGGESTIONS, false)
+        set(value) = data.edit().putBoolean(EXACT_SUGGESTIONS, value).apply()
+
     var joinShownLast
         get() = data.getInt(JOIN_SHOWN_LAST, 0)
         set(value) = data.edit().putInt(JOIN_SHOWN_LAST, value).apply()
@@ -135,13 +140,13 @@ object Prefs {
         get() = data.getBoolean(ENABLE_SWIPE_TO_BACK, !isAndroid10OrHigher())
         set(value) = data.edit().putBoolean(ENABLE_SWIPE_TO_BACK, value).apply()
 
-    var lastAssistance
-        get() = data.getInt(LAST_ASSISTANCE, 0)
-        set(value) = data.edit().putInt(LAST_ASSISTANCE, value).apply()
-
     var liftKeyboard
         get() = data.getBoolean(LIFT_KEYBOARD_WINDOW, false)
         set(value) = data.edit().putBoolean(LIFT_KEYBOARD_WINDOW, value).apply()
+
+    var suggestPeople: Boolean
+        get() = data.getBoolean(SUGGEST_PEOPLE, false)
+        set(value) = data.edit().putBoolean(SUGGEST_PEOPLE, value).apply()
 
     // notifications
     // private
@@ -267,6 +272,8 @@ object Prefs {
     fun getSettings() = mapOf<String, Any>(
             BE_OFFLINE to beOffline,
             BE_ONLINE to beOnline,
+            STICKER_SUGGESTIONS to stickerSuggestions,
+            EXACT_SUGGESTIONS to exactSuggestions,
 
             SHOW_NOTIF to showNotifs,
             VIBRATE to vibrate,

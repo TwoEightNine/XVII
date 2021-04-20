@@ -11,7 +11,7 @@ import io.reactivex.subjects.PublishSubject
 class VideoAttachFragment : BaseAttachFragment<Video>() {
 
     override val adapter by lazy {
-        VideoAttachmentsAdapter(contextOrThrow, ::loadMore, ::onClick)
+        VideoAttachmentsAdapter(requireContext(), ::loadMore, ::onClick)
     }
 
     override fun getLayoutManager() = LinearLayoutManager(context)

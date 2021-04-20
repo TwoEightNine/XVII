@@ -4,10 +4,10 @@ import android.content.Context
 import android.view.View
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsAdapter
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.model.attachments.Video
-import com.twoeightnine.root.xvii.utils.loadRounded
 import com.twoeightnine.root.xvii.utils.secToTime
-import com.twoeightnine.root.xvii.utils.setVisible
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_attachments_video.view.*
 
 class VideoAttachmentsAdapter(
@@ -29,7 +29,7 @@ class VideoAttachmentsAdapter(
             with(itemView) {
                 tvDuration.setVisible(item.duration != 0)
                 tvDuration.text = secToTime(item.duration)
-                ivVideo.loadRounded(item.maxPhoto)
+                ivVideo.load(item.maxPhoto)
                 tvTitle.text = item.title
                 setOnClickListener { onClick(item) }
             }

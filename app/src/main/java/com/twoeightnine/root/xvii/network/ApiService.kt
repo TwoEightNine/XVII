@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.network
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.chatowner.model.api.MembersResponse
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.network.Pack
+import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.Pack
 import com.twoeightnine.root.xvii.model.*
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Photo
@@ -185,7 +185,7 @@ interface ApiService {
     @GET("users.get")
     fun checkUser(
             @Query("user_ids") userIds: String,
-            @Query("access_token") token: String,
+            @Query("access_token") token: String?,
             @Query("v") version: String = "5.92",
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<BaseResponse<List<User>>>
@@ -370,7 +370,7 @@ interface ApiService {
             @Query("ts") ts: Int,
             @Query("act") act: String = "a_check",
             @Query("wait") wait: Int = 40,
-            @Query("mode") mode: Int = 2,
+            @Query("mode") mode: Int = 130,
             @Query("version") version: Int = 2
     ): Single<LongPollUpdate>
 

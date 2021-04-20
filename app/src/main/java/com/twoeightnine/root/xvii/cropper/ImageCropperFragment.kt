@@ -8,7 +8,13 @@ import android.view.View
 import androidx.core.view.ViewCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.applySingleSchedulers
+import com.twoeightnine.root.xvii.utils.saveBmp
+import com.twoeightnine.root.xvii.utils.time
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_cropper.*
@@ -37,7 +43,7 @@ class ImageCropperFragment : BaseFragment() {
             cropImageView.rotateImage(90)
         }
 
-        ivDone.stylize(ColorManager.MAIN_TAG)
+        ivDone.paint(Munch.color.color)
         ViewCompat.setOnApplyWindowInsetsListener(llBottom) { v, insets ->
             val padding = context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin) ?: 0
             v.setPadding(0, padding, 0, padding + insets.systemWindowInsetBottom)

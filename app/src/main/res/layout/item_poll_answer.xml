@@ -24,7 +24,7 @@
             android:indeterminate="false"
             android:max="100"
             android:padding="0dp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/ivCheck"

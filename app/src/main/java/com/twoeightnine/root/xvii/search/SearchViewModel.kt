@@ -2,7 +2,7 @@ package com.twoeightnine.root.xvii.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.twoeightnine.root.xvii.dialogs.models.Dialog
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.WrappedLiveData
 import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
@@ -12,6 +12,7 @@ import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.ListResponse
 import com.twoeightnine.root.xvii.network.response.SearchConversationsResponse
 import com.twoeightnine.root.xvii.utils.subscribeSmart
+import global.msnthrp.xvii.data.dialogs.Dialog
 import io.reactivex.Flowable
 import io.reactivex.functions.Function3
 import javax.inject.Inject
@@ -24,12 +25,16 @@ class SearchViewModel(private val api: ApiService) : ViewModel() {
 
     fun search(q: String) {
         if (q.isEmpty()) {
-            api.searchUsers(q, User.FIELDS, COUNT, 0)
-                    .subscribeSmart({ response ->
-                        resultLiveData.value = Wrapper(ArrayList(response.items.map { createFromUser(it) }))
-                    }, { error ->
-                        resultLiveData.value = Wrapper(error = error)
-                    })
+            if (Prefs.suggestPeople) {
+                api.searchUsers(q, User.FIELDS, COUNT, 0)
+                        .subscribeSmart({ response ->
+                            resultLiveData.value = Wrapper(ArrayList(response.items.map { createFromUser(it) }))
+                        }, { error ->
+                            resultLiveData.value = Wrapper(error = error)
+                        })
+            } else {
+                resultLiveData.value = Wrapper(arrayListOf())
+            }
         } else {
             Flowable.zip(
                     api.searchFriends(q, User.FIELDS, COUNT, 0),

@@ -7,11 +7,12 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rlHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.twoeightnine.root.xvii.uikit.XviiAvatar
             android:id="@+id/civAvatar"
             android:layout_width="45dp"
             android:layout_height="45dp" />
@@ -26,7 +27,7 @@
 
             <TextView
                 android:id="@+id/tvTitle"
-                style="@style/MainBoldText"
+                style="@style/MainMediumText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
@@ -53,9 +54,9 @@
         style="@style/OtherText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:textSize="16sp" />
+        android:padding="16dp"
+        android:textSize="16sp"
+        tools:text="post text post text post text post text post text post text"/>
 
     <LinearLayout
         android:id="@+id/llContainer"

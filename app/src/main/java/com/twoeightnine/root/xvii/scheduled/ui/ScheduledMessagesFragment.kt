@@ -7,8 +7,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.AppBarLifter
+import com.twoeightnine.root.xvii.utils.showConfirm
+import com.twoeightnine.root.xvii.utils.showToast
+import global.msnthrp.xvii.data.scheduled.ScheduledMessage
+import global.msnthrp.xvii.uikit.extensions.EndAnimatorListener
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_scheduled_messages.*
 
 class ScheduledMessagesFragment : BaseFragment() {
@@ -17,7 +23,7 @@ class ScheduledMessagesFragment : BaseFragment() {
         ViewModelProviders.of(this)[ScheduledMessagesViewModel::class.java]
     }
     private val adapter by lazy {
-        ScheduledMessagesAdapter(contextOrThrow, ::onClicked)
+        ScheduledMessagesAdapter(requireContext(), ::onClicked)
     }
     private val translateHorizontal by lazy {
         context?.resources
@@ -40,15 +46,15 @@ class ScheduledMessagesFragment : BaseFragment() {
 
         rvMessages.layoutManager = LinearLayoutManager(context)
         rvMessages.adapter = adapter
+        rvMessages.addOnScrollListener(AppBarLifter(xviiToolbar))
         adapter.emptyView = rlHint
 
-        ivSend.stylizeAnyway(tag = ColorManager.MAIN_TAG)
-        rvMessages.setBottomInsetPadding()
+        ivSend.paint(Munch.color.color)
+        rvMessages.applyBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setTitle(getString(R.string.scheduled_messages_title))
         viewModel.scheduledMessages
                 .observe(viewLifecycleOwner, Observer(this::onScheduledMessagesLoaded))
         viewModel.peersMap
@@ -76,7 +82,7 @@ class ScheduledMessagesFragment : BaseFragment() {
                 ?.translationX(-translateHorizontal)
                 ?.translationY(-translateVertical)
                 ?.setDuration(DURATION)
-                ?.setListener(EndListener {
+                ?.setListener(EndAnimatorListener {
                     ivFinger?.animate()
                             ?.setStartDelay(DELAY)
                             ?.setDuration(DURATION)

@@ -11,7 +11,7 @@ import io.reactivex.subjects.PublishSubject
 class DocAttachFragment : BaseAttachFragment<Doc>() {
 
     override val adapter by lazy {
-        DocAttachmentsAdapter(contextOrThrow, ::loadMore, ::onClick)
+        DocAttachmentsAdapter(requireContext(), ::loadMore, ::onClick)
     }
 
     override fun getLayoutManager() = LinearLayoutManager(context)

@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.adapters.BaseAdapter
-import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.model.Emoji
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.load
-import com.twoeightnine.root.xvii.utils.setVisible
+import global.msnthrp.xvii.data.stickersemoji.model.Emoji
+import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_emoji.view.*
 
 class EmojisAdapter(

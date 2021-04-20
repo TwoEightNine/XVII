@@ -10,7 +10,6 @@ import com.twoeightnine.root.xvii.background.messaging.MessageDestructionService
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiRepository
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
-import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
@@ -22,12 +21,15 @@ import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.attachments.isWallPost
 import com.twoeightnine.root.xvii.model.messages.Message
+import com.twoeightnine.root.xvii.model.messages.WrappedMessage
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.MessagesHistoryResponse
-import com.twoeightnine.root.xvii.scheduled.core.ScheduledMessage
 import com.twoeightnine.root.xvii.scheduled.core.SendMessageWorker
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.data.db.AppDb
+import global.msnthrp.xvii.data.scheduled.ScheduledMessage
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -81,7 +83,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
             field = value
             if (field) {
-                val message = messages.lastOrNull() ?: return
+                val message = messages.lastOrNull()?.message ?: return
 
                 if (message.id != lastMarkedAsReadId) {
                     markAsRead(message.id)
@@ -112,7 +114,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     fun getCanWrite() = canWriteLiveData as LiveData<CanWrite>
 
-    fun getActivity() = activityLiveData as LiveData<String>
+    fun getActivity() = (activityLiveData as LiveData<String>)
 
     protected fun setOffline() {
         if (Prefs.beOffline) {
@@ -162,7 +164,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     fun markAsRead(messageIds: List<Int>) {
         api.markAsRead(messageIds.joinToString(separator = ",") { it.toString() })
                 .subscribeSmart({ _ ->
-                    messageIds.max()?.also {
+                    messageIds.maxOrNull()?.also {
                         lastMarkedAsReadId = it
                     }
                 }, {})
@@ -179,6 +181,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     fun editMessage(messageId: Int, text: String) {
         val attachments = messages
+                .map { it.message }
                 .find { it.id == messageId }
                 ?.attachments
                 ?.map(Attachment::toString)
@@ -192,11 +195,20 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                     replyTo: Int? = null, forwardedMessages: String? = null,
                     timeToLive: Int? = null
     ) {
+        val randomId = getRandomId()
+        val textOut = prepareTextOut(text)
+        val sendAsReply = text.isNullOrEmpty() && replyTo != null
+        val fwdMessages = when {
+            sendAsReply -> "$replyTo"
+            else -> forwardedMessages
+        }
+        val hasAttachmentsOrForwarded = !attachments.isNullOrBlank() || !fwdMessages.isNullOrBlank()
+        addWrappedNotSentMessage(peerId, randomId, textOut, hasAttachmentsOrForwarded)
         // reply with empty message is prohibited. send it as forwarded
-        if (text.isNullOrEmpty() && replyTo != null) {
-            api.sendMessage(peerId, getRandomId(), prepareTextOut(text), "$replyTo", attachments)
+        if (sendAsReply) {
+            api.sendMessage(peerId, randomId, textOut, fwdMessages, attachments)
         } else {
-            api.sendMessage(peerId, getRandomId(), prepareTextOut(text), forwardedMessages, attachments, replyTo)
+            api.sendMessage(peerId, randomId, textOut, fwdMessages, attachments, replyTo)
         }
                 .subscribeSmart({ messageId ->
                     setOffline()
@@ -318,7 +330,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 })
     }
 
-    fun attachDoc(path: String, onAttached: (String, Attachment) -> Unit) {
+    open fun attachDoc(path: String, onAttached: (String, Attachment) -> Unit) {
         api.getDocUploadServer("doc")
                 .subscribeSmart({ uploadServer ->
                     val file = File(path)
@@ -353,7 +365,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
      * if not the same invokes interaction to update ui
      */
     fun invalidateMessages(message: Message) {
-        val lastMessage = messages.lastOrNull() ?: return
+        val lastMessage = messages.lastOrNull()?.message ?: return
 
         if (lastMessage.id != message.id || message.read != lastMessage.read) {
             lw("invalidate messages: last was ${message.id}")
@@ -373,12 +385,25 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 }, ::onErrorOccurred)
     }
 
+    fun onResume(lastMessage: Message? = null) {
+        isShown = true
+        activityLiveData.value = ACTIVITY_NONE
+        lastMessage?.also(::invalidateMessages)
+        l("onResume")
+    }
+
+    fun onPause() {
+        isShown = false
+        activityLiveData.value = ACTIVITY_NONE
+        l("onPause")
+    }
+
     private fun readOutgoingMessages() {
-        val firstUnreadPos = messages.indexOfFirst { !it.read }
+        val firstUnreadPos = messages.indexOfFirst { !it.message.read }
         if (firstUnreadPos == -1) return
 
         val unreadMessages = messages.subList(firstUnreadPos, messages.size)
-        unreadMessages.forEach { it.read = true }
+        unreadMessages.forEach { it.message.read = true }
         interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.UPDATE, firstUnreadPos, unreadMessages))
     }
 
@@ -410,29 +435,56 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     private fun addNewMessage(message: Message) {
+        if (updateNotSentIfNeeded(message)) return
+
         // check if [message] is not the latest
-        if ((messages.lastOrNull()?.id ?: 0) >= message.id) return
+        val lastMessage = messages.lastOrNull()?.message ?: return
+        val wrappedMessage = WrappedMessage(message)
+        if (lastMessage.id > message.id) return
+
+        if (lastMessage.id == message.id) {
+            updateMessage(message, overrideUpdateTime = false)
+            // update being sent
+            return
+        }
 
         val count = messages.size
-        messages.add(message)
-        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, count, arrayListOf(message)))
+        messages.add(wrappedMessage)
+        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, count, arrayListOf(wrappedMessage)))
         markAsRead(message.id)
     }
 
+    /**
+     * @return true if the deal is done
+     */
+    private fun updateNotSentIfNeeded(message: Message): Boolean {
+        val messageIndex = messages
+                .indexOfFirst { it.message.randomId == message.randomId }
+                .takeIf { it != -1 }
+                ?.takeUnless { messages[it].sent }
+                ?: return false
+
+        val wrappedMessage = WrappedMessage(message)
+        messages[messageIndex] = wrappedMessage
+        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.UPDATE, messageIndex, arrayListOf(wrappedMessage)))
+        return true
+    }
+
     private fun updateMessage(message: Message, overrideUpdateTime: Boolean = true) {
-        val pos = messages.indexOfFirst { it.id == message.id }
+        val pos = messages.indexOfFirst { it.message.id == message.id }
         if (pos == -1) return
 
+        val wrappedMessage = WrappedMessage(message)
         if (overrideUpdateTime) {
             message.updateTime = time()
         }
-        message.read = messages[pos].read
-        messages[pos] = message
-        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.UPDATE, pos, arrayListOf(message)))
+        message.read = messages[pos].message.read
+        messages[pos] = wrappedMessage
+        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.UPDATE, pos, arrayListOf(wrappedMessage)))
     }
 
     private fun deleteMessage(messageId: Int) {
-        val pos = messages.indexOfFirst { it.id == messageId }
+        val pos = messages.indexOfFirst { it.message.id == messageId }
         if (pos == -1) return
 
         messages.removeAt(pos)
@@ -532,18 +584,45 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         }
     }
 
+    private fun addWrappedNotSentMessage(peerId: Int, randomId: Int, text: String, hasAttachmentsOrForwarded: Boolean) {
+        val message = Message(
+                peerId = peerId,
+                text = text,
+                date = time(),
+                fromId = SessionProvider.userId,
+                out = 1,
+                randomId = randomId
+        )
+        val wrappedMessage = WrappedMessage(
+                message = message,
+                sent = false,
+                hasAttachmentsOrForwarded = hasAttachmentsOrForwarded
+        )
+        val count = messages.size
+        messages.add(wrappedMessage)
+        interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.ADD, count, arrayListOf(wrappedMessage)))
+    }
+
     override fun onCleared() {
         super.onCleared()
-        eventsDisposable?.dispose()
+        eventsDisposable.dispose()
         repo.destroy()
     }
 
     protected fun getRandomId() = Random.nextInt()
 
     protected open fun lw(s: String, throwable: Throwable? = null) {
-        L.tag("chat")
+        L.tag(TAG)
                 .throwable(throwable)
                 .log(s)
+    }
+
+    protected open fun ld(s: String) {
+        L.tag(TAG).debug().log(s)
+    }
+
+    protected open fun l(s: String) {
+        L.tag(TAG).log(s)
     }
 
     companion object {
@@ -564,5 +643,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         const val ACTIVITY_TYPING = "typing"
         const val ACTIVITY_VOICE = "audiomessage"
         const val ACTIVITY_NONE = "none"
+
+        private const val TAG = "chat"
     }
 }

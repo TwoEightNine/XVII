@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar" />
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <View
         android:id="@+id/vShadow"

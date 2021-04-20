@@ -2,19 +2,20 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-//apply plugin: 'realm-android'
-
-def appCompat = '1.0.0-beta01'
+apply from: "$project.rootDir/dependencies.gradle"
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion appCompat
+    compileSdkVersion androidVersions.compileSdkVersion
+    buildToolsVersion androidVersions.buildToolsVersion
+
     defaultConfig {
-        applicationId "com.twoeightnine.root.xvii"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 175
-        versionName "5.22.3"
+        applicationId androidApp.applicationId
+        minSdkVersion androidVersions.minSdkVersion
+        targetSdkVersion androidVersions.targetSdkVersion
+
+        versionCode androidApp.versionCode
+        versionName androidApp.versionName
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         project.ext.set("archivesBaseName", "xvii" + defaultConfig.versionName)
 
@@ -23,8 +24,7 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
-        manifestPlaceholders = [adAppId:getLocalProperty("advertising.appId")]
-        resConfigs "en", "fr", "ru"
+        resConfigs "en", "fr", "ru", "de"
     }
     testOptions {
         unitTests.returnDefaultValues = true
@@ -35,14 +35,12 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BUILD_TIME", "\"${getDate()}\"")
-            buildConfigField("String", "AD_ID", "\"${getLocalProperty('advertising.id')}\"")
         }
         debug {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BUILD_TIME", "\"${getDate()}\"")
-            buildConfigField("String", "AD_ID", "\"${getLocalProperty('advertising.id')}\"")
         }
     }
     lintOptions {
@@ -51,7 +49,6 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
-    buildToolsVersion '28.0.3'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -61,73 +58,67 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    implementation "androidx.appcompat:appcompat:$appCompat"
-    implementation "com.google.android.material:material:$appCompat"
-    implementation "androidx.recyclerview:recyclerview:$appCompat"
+    implementation project(':core')
+    implementation project(':data')
+    implementation project(':uikit')
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation kotlin.kotlin
 
-    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation androidUi.appCompat
+    implementation androidUi.material
+    implementation androidUi.recyclerView
+    implementation androidUi.coreKtx
+    implementation androidUi.fragmentKtx
+    implementation androidUi.browser
+    implementation androidUi.constraint
 
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation lifecycle.extensions
+    implementation lifecycle.viewModel
+    implementation lifecycle.liveData
 
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
-    implementation 'com.jakewharton.rxbinding:rxbinding:1.0.1'
+    implementation room.runtime
+    implementation room.rxJava
+    kapt room.compiler
 
-    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation workManager.runtime
+    implementation workManager.runtimeKtx
 
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    compileOnly "javax.annotation:jsr250-api:$jsrVersion"
+    implementation retrofit.retrofit
+    implementation retrofit.gsonConverter
+    implementation retrofit.rxAdapter
 
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
-    implementation "com.squareup.picasso:picasso:$picassoVersion"
-    implementation "de.hdodenhof:circleimageview:$circleImageViewVersion"
-    implementation "com.github.orangegangsters:swipy:$swipyVersion"
-    testImplementation "junit:junit:$junitVersion"
-    implementation "com.github.QuadFlask:colorpicker:$colorpickerVersion"
-    implementation 'io.github.inflationx:calligraphy3:3.1.1'
-    implementation 'io.github.inflationx:viewpump:2.0.3'
+    implementation okHttp.okHttp
+    implementation okHttp.logging
 
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation reactiveX.rxJava
+    implementation reactiveX.rxAndroid
+    implementation reactiveX.rxBinding
 
-    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    kapt dagger.compiler
+    implementation dagger.dagger
+    compileOnly dagger.jsr
 
-    implementation 'com.google.android.gms:play-services-ads:19.1.0'
+    implementation utils.gson
+    implementation utils.glide
 
-    room()
-    workManager()
-}
+    implementation externalUi.circleImageView
+    implementation externalUi.swipy
+    implementation externalUi.colorPicker
+    implementation externalUi.calligraphy
+    implementation externalUi.viewPump
+    implementation externalUi.imageCropper
+    implementation externalUi.roundedImageView
 
-def room() {
-    dependencies {
-        def room_version = "2.1.0-alpha06"
-
-        implementation "androidx.room:room-runtime:$room_version"
-        kapt "androidx.room:room-compiler:$room_version"
-        implementation "androidx.room:room-rxjava2:$room_version"
-    }
-}
-
-def workManager() {
-    dependencies {
-        def work_version = "2.4.0"
-
-        implementation "androidx.work:work-runtime:$work_version"
-        implementation "androidx.work:work-runtime-ktx:$work_version"
-
-    }
+    testImplementation androidTests.jUnit
+    androidTestImplementation androidTests.jUnit
+    androidTestImplementation androidTests.espresso
 }
 
 kapt {

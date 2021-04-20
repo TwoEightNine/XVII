@@ -3,10 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="8dp"
-    android:paddingTop="4dp"
-    android:paddingEnd="8dp"
-    android:paddingBottom="4dp">
+    android:padding="4dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,17 +11,17 @@
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="@dimen/chat_message_doc_size"
+            android:layout_height="@dimen/chat_message_doc_size"
             android:background="@drawable/doc_shape"
             android:tag="dark">
 
             <TextView
                 android:id="@+id/tvExt"
+                style="@style/MainBoldText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:fontFamily="sans-serif-light"
                 android:maxLines="1"
                 android:textColor="@color/icons"
                 android:textSize="14sp"
@@ -42,7 +39,7 @@
 
             <TextView
                 android:id="@+id/tvTitle"
-                style="@style/MainBoldText"
+                style="@style/MainMediumText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"

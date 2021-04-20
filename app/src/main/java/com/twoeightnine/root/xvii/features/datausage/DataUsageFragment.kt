@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_data_usage.*
 class DataUsageFragment : BaseFragment() {
 
     private val adapter by lazy {
-        DataUsageAdapter(contextOrThrow)
+        DataUsageAdapter(requireContext())
     }
 
     override fun getLayoutId() = R.layout.fragment_data_usage

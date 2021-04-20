@@ -4,14 +4,13 @@
     android:id="@+id/rlMultiAction"
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
-    android:layout_alignBottom="@+id/toolbar"
-    android:background="@color/popup"
+    android:layout_alignBottom="@+id/xviiToolbar"
+    android:background="@drawable/shape_rounded_rect"
     android:clickable="true"
     android:elevation="4.1dp"
     android:focusable="true"
     android:tag="extraLight"
     android:visibility="gone"
-    tools:background="#f8b"
     tools:parentTag="android.widget.RelativeLayout"
     tools:visibility="visible">
 
@@ -26,7 +25,7 @@
 
     <TextView
         android:id="@+id/tvSelectedCount"
-        style="@style/MainBoldText"
+        style="@style/MainMediumText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

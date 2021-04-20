@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chatowner.model.ChatOwner
-import com.twoeightnine.root.xvii.utils.getLastSeenText
+import com.twoeightnine.root.xvii.utils.LastSeenUtils
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -133,9 +133,10 @@ data class User(
 
     override fun getTitle() = fullName
 
-    override fun getInfoText(context: Context): String =
-            getLastSeenText(
-                    context.resources, isOnline,
+    override fun getInfoText(context: Context): CharSequence =
+            LastSeenUtils.getFull(
+                    context,
+                    isOnline,
                     lastSeen?.time ?: 0,
                     lastSeen?.platform ?: 0
             )

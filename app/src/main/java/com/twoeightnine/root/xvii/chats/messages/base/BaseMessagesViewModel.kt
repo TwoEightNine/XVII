@@ -15,6 +15,7 @@ import com.twoeightnine.root.xvii.model.WrappedMutableLiveData
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
+import com.twoeightnine.root.xvii.model.messages.WrappedMessage
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import javax.inject.Inject
@@ -24,7 +25,7 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
     /**
      * stored in natural ui order: eldest first
      */
-    protected val messages = arrayListOf<Message>()
+    protected val messages = arrayListOf<WrappedMessage>()
 
     protected val interactionsLiveData = WrappedMutableLiveData<Interaction>()
 
@@ -55,7 +56,7 @@ abstract class BaseMessagesViewModel(protected val api: ApiService) : ViewModel(
     }
 
     protected fun onMessagesLoaded(items: ArrayList<Message>, offset: Int = 0) {
-        val newMessages = items.reversed()
+        val newMessages = items.reversed().map(::WrappedMessage)
         if (offset == 0) {
             messages.clear()
             interactionsLiveData.value = Wrapper(Interaction(Interaction.Type.CLEAR))

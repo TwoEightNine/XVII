@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:animateLayoutChanges="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar" />
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/pin_settings_title"/>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/svContent"
-        android:layout_below="@+id/toolbar"
         android:clipToPadding="false"
         android:animateLayoutChanges="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:id="@+id/llContainer"
@@ -23,25 +28,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight">
-
-                <TextView
-                    style="@style/OtherText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="28dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/pin_settings_pin_title"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
+                android:text="@string/pin" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchPin"
@@ -57,36 +47,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <Button
+                <com.twoeightnine.root.xvii.uikit.XviiButton
                     android:id="@+id/btnChange"
-                    style="@style/AccentButton"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="end"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="16dp"
                     android:text="@string/pin_settings_change_pin"/>
 
-                <LinearLayout
+                <com.twoeightnine.root.xvii.uikit.XviiLabel
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/toolbar"
-                    android:orientation="vertical"
-                    android:tag="extraLight">
-
-                    <TextView
-                        style="@style/OtherText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingTop="8dp"
-                        android:paddingEnd="28dp"
-                        android:paddingBottom="8dp"
-                        android:text="@string/pin_settings_invaders_title"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
+                    android:text="@string/pin_settings_invaders_title" />
 
                 <com.twoeightnine.root.xvii.views.XviiSwitch
                     android:id="@+id/switchNotifyAboutInvader"
@@ -103,25 +77,10 @@
                     android:hint="@string/pin_settings_invader_photo_hint"
                     android:text="@string/pin_settings_invader_photo" />
 
-                <LinearLayout
+                <com.twoeightnine.root.xvii.uikit.XviiLabel
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/toolbar"
-                    android:orientation="vertical"
-                    android:tag="extraLight">
-
-                    <TextView
-                        style="@style/OtherText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingTop="8dp"
-                        android:paddingEnd="28dp"
-                        android:paddingBottom="8dp"
-                        android:text="@string/pin_settings_mixture_title"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
+                    android:text="@string/pin_settings_mixture_title" />
 
                 <com.twoeightnine.root.xvii.views.XviiSwitch
                     android:id="@+id/switchMixture"
@@ -211,25 +170,10 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
-                android:orientation="vertical"
-                android:tag="extraLight">
-
-                <TextView
-                    style="@style/OtherText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="28dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/pin_settings_fake_app_title"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
+                android:text="@string/pin_settings_fake_app_title" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchFakeApp"
@@ -298,6 +242,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/tvName"
-            style="@style/MainBoldText"
+            style="@style/MainMediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
@@ -36,13 +36,12 @@
 
     </LinearLayout>
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.twoeightnine.root.xvii.uikit.XviiAvatar
         android:id="@+id/civPhoto"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_margin="@dimen/item_margin"
-        app:civ_border_color="@color/icons"
-        app:civ_border_width="0dp" />
+        app:avatarNameSize="@dimen/avatar_name_size_message" />
 
 
 </RelativeLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Label">
+        <item name="android:textColor">@color/main_text</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingStart">16dp</item>
+    </style>
+
+    <style name="Label.Other">
+        <item name="android:textColor">@color/other_text</item>
+    </style>
+
+    <style name="Label.BigPadding">
+        <item name="android:paddingStart">40dp</item>
+    </style>
+
+    <style name="FloatingText" parent="MainText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:background">@drawable/shape_message_system</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="FloatingText.Time">
+        <item name="android:paddingTop">2.5dp</item>
+        <item name="android:paddingBottom">2.5dp</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:textColor">@color/other_text</item>
+        <item name="android:textSize">@dimen/chat_date_text_size</item>
+    </style>
+
+    <style name="FloatingText.Time.Overlay">
+        <item name="android:textColor">@color/main_text_dark</item>
+        <item name="android:background">@drawable/shape_time_overlay</item>
+    </style>
+
+    <!-- set the rounded drawable as background to your bottom sheet -->
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/shape_bottom_sheet</item>
+    </style>
+
+    <style name="BottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/popup</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+</resources>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -26,9 +25,8 @@
         android:visibility="gone"
         android:orientation="horizontal">
 
-        <Button
+        <com.twoeightnine.root.xvii.uikit.XviiButton
             android:id="@+id/btnCamera"
-            style="@style/AccentButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -36,9 +34,8 @@
             android:drawableStart="@drawable/ic_camera_white"
             android:text="@string/take_photo" />
 
-        <Button
+        <com.twoeightnine.root.xvii.uikit.XviiButton
             android:id="@+id/btnDoc"
-            style="@style/AccentButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -85,7 +82,7 @@
 
     </RelativeLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.twoeightnine.root.xvii.uikit.XviiFab
         android:id="@+id/fabDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,10 +90,9 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="12dp"
         android:src="@drawable/ic_check"
-        android:visibility="gone"
-        app:backgroundTint="@color/fab" />
+        android:visibility="gone" />
 
-    <ProgressBar
+    <com.twoeightnine.root.xvii.uikit.XviiLoader
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

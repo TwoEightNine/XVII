@@ -1,14 +1,12 @@
 package com.twoeightnine.root.xvii.web
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.utils.setBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import kotlinx.android.synthetic.main.fragment_web.*
 
 class WebFragment : BaseFragment() {
@@ -33,13 +31,8 @@ class WebFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateTitle(title ?: url ?: getString(R.string.app_name))
-        webView.setBottomInsetPadding()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
+        xviiToolbar.title = title ?: url ?: getString(R.string.app_name)
+        webView.applyBottomInsetPadding()
     }
 
     companion object {

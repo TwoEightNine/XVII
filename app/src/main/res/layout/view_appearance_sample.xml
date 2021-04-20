@@ -20,10 +20,11 @@
         android:id="@+id/rlToolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/toolbar">
+        android:background="@color/toolbar"
+        android:elevation="4dp">
 
         <ImageView
-            android:id="@+id/ivBack"
+            android:id="@+id/ivBackSample"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -34,7 +35,7 @@
             android:id="@+id/rlCustom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toEndOf="@+id/ivBack">
+            android:layout_toEndOf="@+id/ivBackSample">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvAvatar"
@@ -48,7 +49,7 @@
                     android:id="@+id/ivAvatar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/xvii_dark_logo_128" />
+                    android:src="@drawable/xvii_logo_128_circle" />
 
             </androidx.cardview.widget.CardView>
 
@@ -62,13 +63,13 @@
 
                 <TextView
                     android:id="@+id/tvTitle"
-                    fontPath="fonts/medium.ttf"
+                    fontPath="fonts/bold.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_view_top_margin"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/toolbar_text"
+                    android:textColor="@color/main_text"
                     android:textSize="@dimen/user_name_text_size"
                     tools:ignore="MissingPrefix"
                     tools:text="mista sinista" />
@@ -78,10 +79,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_view_top_margin"
-                    android:fontFamily="sans-serif-light"
                     android:maxLines="1"
                     android:text="@string/offline"
-                    android:textColor="@color/toolbar_subtext"
+                    android:textColor="@color/minor_text"
                     android:textSize="@dimen/user_info_text_size" />
 
             </LinearLayout>
@@ -95,7 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlToolbar"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="24dp"
         android:minHeight="@dimen/chat_shape_min_height"
         android:paddingEnd="@dimen/chat_shape_side_padding">
 

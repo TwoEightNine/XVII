@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="276dp"
-    android:layout_height="wrap_content">
+    android:layout_width="@dimen/chat_message_content_width"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/ivPhoto"
         android:layout_width="@dimen/chat_wall_post_image_width"
         android:layout_height="@dimen/chat_wall_post_image_height"
         android:layout_below="@+id/tvText"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
         android:visibility="gone"
+        app:riv_corner_radius="@dimen/default_radius"
         tools:src="@tools:sample/backgrounds/scenic"
         tools:visibility="visible" />
 
     <TextView
         android:id="@+id/tvName"
-        style="@style/MainBoldText"
+        style="@style/MainMediumText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/civPhoto"
         android:layout_alignBottom="@+id/civPhoto"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
         android:layout_toEndOf="@+id/civPhoto"
         android:ellipsize="end"
         android:gravity="center_vertical"
@@ -39,9 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/civPhoto"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:ellipsize="end"
         android:maxLines="4"
         android:textSize="13sp"
@@ -59,13 +59,13 @@
         android:textSize="24sp"
         tools:visibility="gone" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.twoeightnine.root.xvii.uikit.XviiAvatar
         android:id="@+id/civPhoto"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:visibility="gone"
         tools:src="@tools:sample/avatars"

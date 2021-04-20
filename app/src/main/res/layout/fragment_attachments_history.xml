@@ -1,43 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical">
+    android:background="@color/background">
 
-    <LinearLayout
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        app:withTabs="true"
+        app:alwaysLifted="true"
+        app:title="@string/attachments" />
 
-        <include layout="@layout/toolbar" />
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/tabs_height"
-            android:background="@color/toolbar"
-            android:elevation="4dp"
-            android:tag="main"
-            app:tabMode="scrollable"
-            app:tabIndicatorColor="@color/toolbar_text"
-            app:tabSelectedTextColor="@color/toolbar_text"
-            app:tabTextAppearance="@style/TabTextAppearance"
-            app:tabTextColor="@color/toolbar_subtext" />
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
-
-    <ProgressBar
+    <com.twoeightnine.root.xvii.uikit.XviiLoader
         android:id="@+id/loader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:visibility="invisible" />
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

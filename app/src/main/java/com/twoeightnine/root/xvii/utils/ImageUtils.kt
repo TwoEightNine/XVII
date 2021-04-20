@@ -250,6 +250,8 @@ class ImageUtils(private val activity: Activity) {
             Log.e("File Size", "Size " + file.length())
         } catch (e: Exception) {
             Log.e("Exception", e.message ?: "message is null")
+        } finally {
+            returnCursor.close()
         }
 
         return file.path

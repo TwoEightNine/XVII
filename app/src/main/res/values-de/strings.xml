@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_app">über</string>
+    <string name="settings">einstellungen</string>
+    <string name="addons">add-ons</string>
+    <string name="share_on_wall">xvii auf meiner pinnwand teilen</string>
+    <string name="share">teilen</string>
+    <string name="share_image">das bild teilen</string>
+
+    <string name="last_seen">gesehen: %s</string>
+    <string name="online_seen">online: %s</string>
+    <string name="status">status</string>
+    <string name="write_message">schreiben sie eine nachricht</string>
+    <string name="doenloaded">%s wurde heruntergeladen</string>
+    <string name="unable_to_write">sie können diesem benutzer nicht schreiben</string>
+    <string name="keys_not_set">schlüssel sind nicht gesetzt</string>
+    <string name="feedback">unterstützung</string>
+    <string name="copied">%s wurde in zwischenablage kopieren</string>
+    <string name="friends">freunde</string>
+    <string name="dialogs">chats</string>
+    <string name="mphone">handy</string>
+    <string name="hphone">telefon</string>
+    <string name="site">seite</string>
+    <string name="logout">abmelden</string>
+    <string name="error">fehler</string>
+    <string name="bytes">%d b</string>
+    <string name="kilobytes">%s kb</string>
+    <string name="megabytes">%s mb</string>
+    <string name="link">link</string>
+    <string name="add_shortcut">eine abkürzung hinzufügen</string>
+    <string name="wall_post">pinnwandeintrag</string>
+    <string name="poll_public">öffentliche umfrage</string>
+    <string name="poll_anon">anonyme umfrage</string>
+    <string name="poll">umfrage</string>
+    <string name="copy">kopieren</string>
+    <string name="reply">antworten</string>
+    <string name="decrypted">decrypt: %s</string>
+    <string name="wanna_change_theme">sie haben das thema verändert. die anwendung werden neu gestartet</string>
+    <string name="accounts">konten</string>
+    <string name="rate">bewerten</string>
+    <string name="contribute">contribute</string>
+    <string name="gallery">galerie</string>
+    <string name="delete">löschen</string>
+    <string name="pin">stecken</string>
+    <string name="unpin">unstecken</string>
+    <string name="alias">alias</string>
+    <string name="unmark">unmarkieren</string>
+    <string name="join_us">folgen sie die offizielle gruppe von xvii, um die frischeste neuigkeiten über die anwendung zu bekommen</string>
+    <string name="download">herunterladen</string>
+    <string name="add_to_saved">in fotos speichern</string>
+    <string name="added_to_saved">das foto wurde ins album heruntergeladen</string>
+    <string name="notifications">benachrichtigungen</string>
+    <string name="general">allgemein</string>
+    <string name="analyse">analysator</string>
+    <string name="in_future_versions">coming soon..</string>
+    <string name="not_found">oops.. nichts gefunden!\nversuchen sie ihre abfrage zu verändern</string>
+    <string name="cannot_delete_acc">you cannot delete running account</string>
+    <string name="already_acc">this account is already in use</string>
+    <string name="error_message">anhänge</string>
+    <string name="voice_message">sprachnachricht</string>
+    <string name="choose_dialog">gespräch wählen</string>
+    <string name="theme_changed">das theme ist verändert. die anwendung wurde neu gestartet..</string>
+    <string name="incorrect_pin">falsch</string>
+    <string name="confirm_pin">bestätigen sie ihr pin</string>
+    <string name="enter_pin">eingeben sie ein pin</string>
+    <string name="enter_new_pin">eingeben sie ein neuer pin</string>
+    <string name="reset">zurücksetzen</string>
+    <string name="edit">bearbeiten</string>
+    <string name="updated_succ">erfolgreich aktualisiert</string>
+    <string name="reset_succ">erfolgreich zurückgesetzt</string>
+    <string name="dont_match">die pins entsprechen nicht</string>
+    <string name="have_pin">sie haben schon der pin</string>
+    <string name="attachments">anhänge</string>
+    <string name="attach">anhängen..</string>
+    <string name="important">favoriten</string>
+    <string name="markasimportant">als favoriten markieren</string>
+    <string name="not_playable_video">das video ist nicht spielbar</string>
+    <string name="mark_as_read">als gelesen markieren</string>
+    <string name="docs">dateien</string>
+    <string name="photos">fotos</string>
+    <string name="videos">videos</string>
+    <string name="links">links</string>
+    <string name="forward">vorwärts</string>
+    <string name="appearance">aussehen</string>
+    <string name="privacy_policy">datenschutzerklärung und kredite</string>
+    <string name="source_code">quellcode</string>
+    <string name="new_title">new title</string>
+    <string name="chat_created">%s hat das gespräch erstellt</string>
+    <string name="chat_title_updated">%s hat der gesprächstitel aktualisiert: \"%s\"</string>
+    <string name="chat_photo_updated">%s hat das gesprächsfoto aktualisiert</string>
+    <string name="chat_photo_removed">%s hat das gesprächsfoto gelöscht</string>
+    <string name="user_leaved_chat">%s hat das gespräch verlassen</string>
+    <string name="user_invited_user">%s hat %s eingeladen</string>
+    <string name="user_entered_chat">%s hat das gespräch eingegangen</string>
+    <string name="user_entered_chat_via_link">%s hat das gespräch mit link eingegangen</string>
+    <string name="user_kicked_user">%s hat %s aus dem gespräch rausgeworfenkicked</string>
+    <string name="user_pinned_message">%s hat die nachricht fixiert: \"%s\"</string>
+    <string name="user_unpinned_message">%s hat die nachricht unfixiert: \"%s\"</string>
+    <string name="ten_attachments">sie können mehr als 10 anhängen nicht hinzufügen</string>
+    <string name="led_lights">led farbe</string>
+    <string name="change_keys">schlüssel ändern</string>
+    <string name="random_key">zufällig erzeugen</string>
+    <string name="user_key">eigenen schlüssel eingeben</string>
+    <string name="key_set">schlüssel sind erfolgreich angesetzt</string>
+    <string name="empty_user_key">der schlüssel darf leer nicht sein</string>
+    <string name="messages">nachrichten</string>
+    <string name="encryption">geheimes gespräch</string>
+    <string name="attach_logs">protokolle anhängen</string>
+    <string name="block_user">benutzer blockieren</string>
+    <string name="unblock_user">benutzer deblockieren</string>
+    <string name="block_user_confirmation">möchten sie natürlich diesen benutzer blockieren?</string>
+    <string name="restart_app">neustart..</string>
+    <string name="hidden_message">nachricht</string>
+    <string name="shared">erfolgreich geteilt</string>
+    <string name="audios">audio</string>
+    <string name="conversation">gespräch</string>
+    <string name="community">gemeinschaft</string>
+    <string name="want_delete">möchten natürlich %s löschen?</string>
+    <string name="uncaught_exception">etwas geht schief..</string>
+    <string name="send_report">bericht senden</string>
+    <string name="take_photo">kamera</string>
+    <string name="add_doc">datei</string>
+    <string name="report_sent">der bericht ist gesendet</string>
+    <string name="describe_actions">beschreiben sie was passiert ist</string>
+    <string name="add_to_docs">zur deteien hinzufügen</string>
+    <string name="added_to_docs">zur deteien erfolgreich hinzugefügt</string>
+    <string name="clear_cache">cache löschen</string>
+    <string name="refresh_stickers">aufkleber aktualisieren</string>
+    <string name="stickers_refreshed">aufkleber ist aktualisiert</string>
+    <string name="wanna_logout">really want to log out?</string>
+    <string name="not_now">nicht jetzt</string>
+    <string name="never">nie</string>
+    <string name="private_messages_notifs">private nachrichten</string>
+    <string name="chats_notifs">andere nachrichten</string>
+    <string name="delete_for_all">für alle benutzer löschen</string>
+    <string name="delete_only_for_me">nur für mich löschen</string>
+    <string name="wanna_delete_messages">do you really want to delete these messages?</string>
+    <string name="unable_to_add_to_gallery">unable to add to gallery. it will be added automatically later</string>
+    <string name="generation_dh_hint">make sure your interlocutor has installed xvii and opened the secret chat with you. it is necessary for key exchange</string>
+    <string name="fingerprint">fingerabdruck</string>
+    <string name="decrypting_image">image is being decrypted</string>
+    <string name="invalid_file">unable to decrypt this file</string>
+    <string name="key_type">key type: %s</string>
+    <string name="default_key_type">default</string>
+    <string name="custom_key_type">custom</string>
+    <string name="random_key_type">random (dhe)</string>
+    <string name="fingerprint_hint">this image and this text were generated from the encryption key. if they look the same on your interlocutor\'s device and the keys were set, be sure that no one breaks your privacy. otherwise your conversation is not secure!</string>
+
+    <string name="sticker">aufkleber</string>
+    <string name="graffiti">graffiti</string>
+    <string name="you_sender">sie:</string>
+    <string name="device_photos">gerät</string>
+    <string name="mic_hint">slide left to cancel\nslide up to lock</string>
+    <string name="details">details</string>
+    <string name="report_hint">it will help us to solve the problem faster</string>
+    <string name="accounts_hint">you can add as much accounts as you want. only one account can be active at a time. only active account can receive notifications</string>
+    <string name="search_hint">suche</string>
+    <string name="join">folgen</string>
+    <string name="cancel">abbrechen</string>
+    <string name="too_deep_forwarding">tippen sie alles zu ziegen</string>
+    <string name="request">request</string>
+    <string name="summary">summary</string>
+    <string name="outgoing">outgoing\ndata</string>
+    <string name="incoming">incoming\ndata</string>
+    <string name="forwarded_message">nachricht</string>
+    <string name="forwarded_messages">weitegeleiteten machrichten</string>
+    <string name="edited">(bearb.)</string>
+    <string name="profile_deactivated">das profil ist deaktiviert</string>
+    <string name="profile_closed">das profil ist geschlossen</string>
+    <string name="profile_blacklisted_you">sie sind in nutzers schwarzen liste</string>
+    <string name="group_closed">das gemeinschaft ist geschlossen</string>
+    <string name="wanna_rate">möchten sie die app bewerten</string>
+
+    <string name="no_access_to_storage">kein zugang zum speicher</string>
+    <string name="need_access_to_storage">xvii needs an access to the storage to provide the feature of attaching and saving media files</string>
+    <string name="tap_to_provide_permissions">tap here to allow xvii to use your storage</string>
+    <string name="vote">das votum senden</string>
+    <string name="unable_to_vote">unfähig das votum zu hinzufügen</string>
+    <string name="vote_added">das votum ist hinzufügt</string>
+
+    <string name="be_offline">offline sein</string>
+    <string name="be_offline_hint">offline-status automatisch setzen</string>
+    <string name="be_online">online sein</string>
+    <string name="be_online_hint">online sein während die app geöffnet ist</string>
+    <string name="hide_status">meinen status verstecken</string>
+    <string name="hide_status_hint">people will only see that you were online recently</string>
+    <string name="show_chat_activity">gesprächenaktivität zeigen</string>
+    <string name="show_chat_activity_hint">die leute kann sehen ob du tippt oder eine sprachnachricht aufzunimmst</string>
+    <string name="mark_messages_as_read">nachrichten als gelesen markieren</string>
+    <string name="mark_messages_as_read_hint">die leute können sehen ob du nachrichten liest</string>
+    <string name="send_by_enter">\'eingabe\' drucken zu senden</string>
+    <string name="send_by_enter_hint">\'eingabe\' zu drucken ist eine nahcricht zu senden</string>
+    <string name="sticker_suggestions">vorgeschlagene aufkleber zeigen</string>
+    <string name="sticker_suggestions_hint">vorgeschlagene aufkleber werden scheinen während du tippt</string>
+    <string name="show_seconds">sekunden zeigen</string>
+    <string name="show_seconds_hint">der zeit wird mit sekunden</string>
+    <string name="use_lowercase">kleinbuchstabe nutzen</string>
+    <string name="use_lowercase_hint">namen und eingaben werden mit kleinbuchstabe</string>
+    <string name="use_apples_emojis">apples emojis nutzen</string>
+    <string name="use_apples_emojis_hint">use the most common and recognizable emojis</string>
+    <string name="show_stickers">show stickers/emojis icon</string>
+    <string name="show_stickers_hint">you will be able to send them</string>
+    <string name="show_voice">show voice messaging icon</string>
+    <string name="show_voice_hint">you will be able to send voice messages</string>
+    <string name="store_custom_keys">store custom keys</string>
+    <string name="store_custom_keys_hint">keys will not be cleared after exit</string>
+    <string name="swipe_to_back">enable swipe-to-finish gesture</string>
+    <string name="swipe_to_back_hint">finishing screens using swipe from the left edge</string>
+    <string name="lift_keyboards">lift the stickers keyboard</string>
+    <string name="lift_keyboards_hint">turn on if there are a gap between keyboard and input</string>
+
+    <string name="show_notifications">show notifications</string>
+    <string name="show_notifications_private_hint">from private chats</string>
+    <string name="show_notifications_chats_hint">from public conversations</string>
+    <string name="show_senders_name">show sender\'s name</string>
+    <string name="show_senders_name_hint">sender\'s name will appear in notification</string>
+    <string name="show_message_content">show content</string>
+    <string name="show_message_content_hint">the content of message will appear in notification</string>
+    <string name="use_styled_notifications">use stylish notifications</string>
+    <string name="use_styled_notifications_hint">notifications will be painted according to users\' avatars</string>
+    <string name="vibrate">enable vibration</string>
+    <string name="make_sound">enable sound</string>
+
+    <string name="light_theme">light theme</string>
+    <string name="theme_color">theme color</string>
+    <string name="restart_required">restart required to apply changes</string>
+    <string name="appearance_sample">this is the sample of how the chats will look like. change appearance according to your preferences</string>
+
+    <string name="cache_size">cache size: %s</string>
+    <string name="gift_for_you">geschenk</string>
+    <string name="unable_to_pick_file">unable to pick this file. try to select other one or write in support</string>
+
+    <string name="xvii_longpoll">xvii background service</string>
+    <string name="longpoll_hint">tap here to hide this notification</string>
+    <string name="longpoll_explanation">since android 8 (oreo) the os doesn\'t allow to run background services and the only exception is firebase services. but vk administration didn\'t publish api for its own firebase cloud messaging. vk\'s longpoll requires a custom service and xvii needs to show this notification all the time to keep the background service running</string>
+
+    <string name="longpoll_guide_title">how to remove this notification</string>
+    <string name="longpoll_guide_button_settings">open notification settings</string>
+    <string name="longpoll_guide_button_support">open support</string>
+    <string name="longpoll_guide_step1">press \'open notification settings\' button</string>
+    <string name="longpoll_guide_step2">in opened screen turn off notifications (as in picture below)</string>
+    <string name="longpoll_guide_step3">that\'s all! if it doesn\'t help, contact support to get help</string>
+
+    <string name="kick_user">kick</string>
+    <string name="wanna_kick_user">do you really want to kick %s?</string>
+    <string name="leave_conversation">leave</string>
+    <string name="wanna_leave_conversation">do you really want to leave this conversation?</string>
+    <string name="clear_vote">clear my vote</string>
+    <string name="open_in_browser">open in browser</string>
+    <string name="unable_to_crop">unable to crop this image as a background. try to select other one</string>
+    <string name="unable_to_pick_color">unable to pick this color. try to pick other one or do it later</string>
+    <string name="close">schließen</string>
+    <string name="playback_speed">tempo %sx</string>
+
+    <string name="assist_prompt">you are about to watch a fullscreen advertising. it is absolutely free to you but watching this is your opportunity to thank the developer for this app. do you want to continue and watch?</string>
+    <string name="assist_yes">yes, i\'m in</string>
+    <string name="assist_no">no, get back</string>
+    <string name="assist_hint">ad is being loaded\nand will be shown soon..</string>
+    <string name="assist_thank_you">thank you for contributing!</string>
+
+    <string name="general_stealth">stealth</string>
+    <string name="general_chatting">chatting</string>
+    <string name="general_other">anderes</string>
+
+    <string name="appearance_visual">visual</string>
+    <string name="appearance_functional">functional</string>
+    <string name="appearance_chat_back_title">custom chat background</string>
+    <string name="appearance_chat_back_hint">color or photo instead of blank screen</string>
+    <string name="appearance_pick_from_gallery">pick photo</string>
+    <string name="appearance_pick_from_color_picker">pick color</string>
+    <string name="appearance_message_text_size">size of message text</string>
+    <string name="appearance_message_text_size_hint">adjust size of message and input text</string>
+
+    <string name="this_account">dieses konto</string>
+    <string name="this_dialog">dieses gespräch</string>
+    <string name="this_message">diese nachricht</string>
+    <string name="these_messages">diese nachrichten</string>
+
+
+    <string name="destructor_title">message will be deleted in %d seconds</string>
+    <string name="destructor_process_title">deleting..</string>
+    <string name="destructor_hint">keep the internet and the application turned on</string>
+    <string name="destructor_send">send as self-deleting</string>
+    <string name="destructor_ttl_1">1 second</string>
+    <string name="destructor_ttl_2">2 seconds</string>
+    <string name="destructor_ttl_3">3 seconds</string>
+    <string name="destructor_ttl_5">5 seconds</string>
+    <string name="destructor_ttl_10">10 seconds</string>
+    <string name="destructor_ttl_15">15 seconds</string>
+    <string name="destructor_ttl_20">20 seconds</string>
+    <string name="destructor_ttl_30">30 seconds</string>
+    <string name="destructor_ttl_60">1 minute</string>
+    <string name="destructor_ttl_120">2 minutes</string>
+
+    <string name="scheduled_messages_title">scheduled messages</string>
+    <string name="scheduled_hint_list">to create a scheduled message, press and hold \'send\' icon</string>
+    <string name="scheduled_hint_internet">keep the internet turned on</string>
+    <string name="scheduled_hint_success">scheduled message was sent</string>
+    <string name="scheduled_hint_failure">scheduled message wasn\'t send</string>
+    <string name="scheduled_messages_cancel_prompt">do you really want to cancel sending this message?</string>
+    <string name="scheduled_messages_has_fwd_messages">has forwarded messages</string>
+    <string name="scheduled_messages_send">schedule the message</string>
+    <string name="scheduled_messages_not_here">in a chat, not here</string>
+    <string name="scheduled_messages_disclaimer">delays up to 1 hour are possible due to system background restrictions. be careful!</string>
+
+    <string name="login_no_internet">you have to be connected to the internet to perform logging in</string>
+    <string name="login_unable_to_log_in">unable to log in. check if your account is valid and try again later</string>
+
+    <string name="pin_without_mixture">without mixture</string>
+    <string name="pin_brute_force">brute-force detected\naccess denied</string>
+    <string name="pin_incident_report">this incident will be reported</string>
+    <string name="pin_not_secure_general">entered pin is too weak</string>
+    <string name="pin_not_secure_length">pin must consist of 4 digits at least</string>
+    <string name="pin_not_secure_pattern">pin mustn\'t have any recognizable patterns</string>
+    <string name="pin_not_secure_year">pin mustn\'t represent a year in nearest past</string>
+    <string name="pin_not_secure_date">pin mustn\'t represent a date</string>
+    <string name="pin_invader_notification">⚠️⚠️⚠️⚠️⚠️\nsomeone tried to guess your pin!</string>
+
+    <string name="pin_settings_title">security</string>
+    <string name="pin_settings_enable">enable pin</string>
+    <string name="pin_settings_enable_hint">enter pin when you open app after inactivity</string>
+    <string name="pin_settings_notify_about_invader">notify about invaders</string>
+    <string name="pin_settings_notify_about_invader_hint">you will receive a message about invasion</string>
+    <string name="pin_settings_change_pin">change pin</string>
+    <string name="pin_settings_mixture">enable pin mixtures</string>
+    <string name="pin_settings_mixture_hint">append dynamic values to pin for better security</string>
+    <string name="pin_settings_fake_app">start with fake app</string>
+    <string name="pin_settings_fake_app_hint">at start fake app will be opened instead of messenger</string>
+    <string name="pin_settings_invader_photo">take photo of invader</string>
+    <string name="pin_settings_invader_photo_hint">attach photo from front camera (permission required)</string>
+
+    <string name="pin_settings_pin_title">pin</string>
+    <string name="pin_settings_invaders_title">invasion</string>
+    <string name="pin_settings_mixture_title">mixture</string>
+    <string name="pin_settings_fake_app_title">fake app</string>
+
+    <string name="pin_settings_mixture_explanation_current">current value of minutes is %s\ncurrent battery percentage is %s</string>
+    <string name="pin_settings_mixture_explanation_enter">to enter:\n\t\tfirst, type %s,\n\t\tthen, type %s</string>
+    <string name="pin_settings_mixture_your_pin">your pin</string>
+    <string name="pin_settings_mixture_minutes">value of minutes</string>
+    <string name="pin_settings_mixture_battery">battery percentage</string>
+    <string name="pin_settings_mixture_start">before pin</string>
+    <string name="pin_settings_mixture_end">after pin</string>
+
+    <string name="pin_settings_fake_alarms">alarms</string>
+    <string name="pin_settings_fake_alarms_hint">enable all alarms to enter</string>
+    <string name="pin_settings_fake_diagnostics">diagnostics tool</string>
+    <string name="pin_settings_fake_diagnostics_hint">press and hold on \'rerun battery test\' to enter</string>
+
+    <string name="camera_permissions_title">camera access</string>
+    <string name="camera_permissions_message">app needs a permission to access camera</string>
+
+    <string name="channel_new_messages">neue nachrichten</string>
+    <string name="channel_other">anderes</string>
+
+    <string name="channel_private_messages">private messages</string>
+    <string name="channel_other_messages">other messages</string>
+    <string name="channel_background_service">background service</string>
+    <string name="channel_player">spieler</string>
+    <string name="channel_message_destructor">self-destructing messages</string>
+    <string name="channel_scheduled_messages">scheduled messages</string>
+
+    <string name="notifications_open_settings_private">change settings of private messages</string>
+    <string name="notifications_open_settings_other">change settings of other messages</string>
+    <string name="notifications_open_settings">open notification settings</string>
+
+    <string-array name="relations">
+        <item>single</item>
+        <item>in a relationship</item>
+        <item>engaged</item>
+        <item>married</item>
+        <item>complicated</item>
+        <item>actively searching</item>
+        <item>in love</item>
+        <item>in civil union</item>
+    </string-array>
+
+    <string-array name="devices">
+        <item>(handy)</item>
+        <item>(iphone)</item>
+        <item>(ipad)</item>
+        <item>(android)</item>
+        <item>(winphone)</item>
+        <item>(win8)</item>
+        <item> </item>
+    </string-array>
+
+    <plurals name="attachments">
+        <item quantity="one">%d anhang</item>
+        <item quantity="other">%d anhänge</item>
+    </plurals>
+
+    <plurals name="attachments_photos">
+        <item quantity="one">%d foto</item>
+        <item quantity="other">%d fotos</item>
+    </plurals>
+
+    <plurals name="attachments_audios">
+        <item quantity="one">%d audiodatei</item>
+        <item quantity="other">%d audiodateien</item>
+    </plurals>
+
+    <plurals name="attachments_videos">
+        <item quantity="one">%d videodatei</item>
+        <item quantity="other">%d videodateien</item>
+    </plurals>
+
+    <plurals name="attachments_docs">
+        <item quantity="one">%d datei</item>
+        <item quantity="other">%d dateien</item>
+    </plurals>
+
+    <plurals name="messages">
+        <item quantity="one">%d nachricht</item>
+        <item quantity="other">%d nachrichten</item>
+    </plurals>
+
+    <plurals name="friends">
+        <item quantity="one">%s freund</item>
+        <item quantity="other">%s freunde</item>
+    </plurals>
+
+    <plurals name="mutual_friends">
+        <item quantity="one">%d gegenseitig freund</item>
+        <item quantity="other">%d gegenseitigen freunde</item>
+    </plurals>
+
+    <plurals name="followers">
+        <item quantity="one">%s nachfolger</item>
+        <item quantity="other">%s nachfolger</item>
+    </plurals>
+
+    <plurals name="participants">
+        <item quantity="one">%s teilnehmer</item>
+        <item quantity="other">%s teilnehmer</item>
+    </plurals>
+
+    <plurals name="votes">
+        <item quantity="one">%s stimme</item>
+        <item quantity="other">%s stimmen</item>
+    </plurals>
+
+    <string name="aboutbig">xvii messenger (von twoeightnine)\nver. %s seit %s</string>
+
+    <string name="other">anderes</string>
+    <string name="recent">neuestes</string>
+
+
+    <string name="offline">offline</string>
+
+    <string name="error_1">unknown method passed</string>
+    <string name="error_5">user authorisation failed</string>
+    <string name="error_6">too many requests per second</string>
+    <string name="error_7">permission to perform this action is denied</string>
+    <string name="error_9">flood control</string>
+    <string name="error_10">internal server error</string>
+    <string name="error_14">captcha needed</string>
+    <string name="error_15">access denied</string>
+    <string name="error_17">validation required</string>
+    <string name="error_200plus">access denied</string>
+    <string name="error_500plus">permission denied</string>
+
+    <string name="no_color">keine farbe</string>
+    <string name="red">rot</string>
+    <string name="green">grün</string>
+    <string name="blue">blau</string>
+    <string name="cyan">zyan</string>
+    <string name="yellow">gelb</string>
+    <string name="magenta">magenta</string>
+    <string name="white">weiß</string>
+    <string name="more_title">mehr</string>
+    <string name="suggest_people">leute im suche vorschlagen</string>
+    <string name="show_notifications_user">von diesem benutzer</string>
+    <string name="show_notifications_group">von dieser gruppe</string>
+    <string name="show_notifications_conversation">von diesem gespräch</string>
+    <string name="journal_title">zeitschrift (beta)</string>
+    <string name="journal_event_online">ist online gegangen %s</string>
+    <string name="journal_event_offline">ist offline gegangen</string>
+    <string name="journal_event_read">hat eine nachricht gelesen</string>
+    <string name="journal_event_delete">hat eine nachricht gelöscht</string>
+    <string name="journal_event_new">hat die nachricht gesendet:</string>
+    <string name="journal_event_edited">hat die nachricht bearbeitet</string>
+    <string name="journal_event_typing">tippte eine nachricht</string>
+    <string name="journal_message_deleted">nachricht gelöscht</string>
+    <string name="journal_event_online_hint">ist online gegangen</string>
+    <string name="journal_event_offline_hint">ist offline gegangen</string>
+    <string name="journal_event_last_action_hint">hat die letzten aktion gemacht</string>
+    <string name="journal_event_recording">aufnahm eine sprachnachricht</string>
+    <string name="attachment_open_doc_prompt_download">herunterladen</string>
+    <string name="suggest_people_hint">leute, die sie wissen können, zeigen, wenn die suchanfrage leer ist</string>
+    <string name="attachment_open_doc_prompt_browser">im browser öffen</string>
+    <string name="key_exchange_accept">akzeptieren</string>
+    <string name="key_exchange_deny">leugnen</string>
+    <string name="attachment_open_doc_prompt">wie wollen sie diese datei öffen?</string>
+    <string name="attachment_open_link_prompt">sie gehen %s öffen. weiterhin?</string>
+    <string name="key_exchange_title">"%s will ein geheimes gespräch mit sie anfangen "</string>
+    <string name="key_exchange_hint">leugnen sie wenn sie es verdächtig finden</string>
+    <string name="channel_key_exchanges">schlüsselaustauschen</string>
+    <string name="accounts_manage">konten</string>
+    <string name="accounts_activate">aktivieren</string>
+    <string name="accounts_active">aktive konten</string>
+    <string name="accounts_add_new_account">ein konto hinzufügen</string>
+    <string name="accounts_log_out_all">"möchten sie natürlich alle konten abmelden? "</string>
+    <string name="accounts_log_out_all_accounts">abmelden alle konten</string>
+    <string name="accounts_other">andere konten</string>
+    <string name="accounts_view">anzeigen</string>
+    <string name="journal_filter">filter</string>
+    <string name="journal_filter_all">alle</string>
+    <string name="journal_filter_deleted_messages">gelöschte nachrichten</string>
+    <string name="journal_filter_edited_messages">bearbeitete nachrichten</string>
+    <string name="journal_filter_statuses">status</string>
+</resources>

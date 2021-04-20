@@ -16,7 +16,10 @@ import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.start
 import com.twoeightnine.root.xvii.egg.EggFragment
 import com.twoeightnine.root.xvii.features.notifications.color.ColorAlertDialog
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.NotificationChannels
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
 /**
@@ -99,8 +102,7 @@ class NotificationsFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.notifications))
-        svContent.setBottomInsetPadding()
+        svContent.applyBottomInsetPadding()
     }
 
     private fun saveSwitches() {
@@ -148,10 +150,6 @@ class NotificationsFragment : BaseFragment() {
                 openSettingsPreOreo()
             }
         }
-
-        listOf(btnSettingsPrivate, btnSettingsOther, btnSettings)
-                .forEach { it.stylize() }
-        llContainer.stylizeAll()
     }
 
     private fun initEgg() {
@@ -165,7 +163,7 @@ class NotificationsFragment : BaseFragment() {
                             eggState = -2
                             handler.postDelayed({ switchEgg.isChecked = false }, 500L)
                             handler.postDelayed({
-                                startFragment<EggFragment>(EggFragment.createArgs(EggFragment.MODE_LETOV_AGAINST))
+                                startFragment<EggFragment>()
                             }, 1000L)
                         }
                         else -> {

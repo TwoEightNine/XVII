@@ -2,14 +2,12 @@ package com.twoeightnine.root.xvii.chats.attachments.audios
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.background.music.models.Track
 import com.twoeightnine.root.xvii.background.music.services.MusicService
 import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsFragment
-import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.utils.equalsDevUids
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.showDeleteDialog
 
 class AudioAttachmentsFragment : BaseAttachmentsFragment<Track>() {
@@ -18,8 +16,8 @@ class AudioAttachmentsFragment : BaseAttachmentsFragment<Track>() {
         get() = viewModel as AudioAttachmentsViewModel
 
     override val adapter by lazy {
-        AudioAttachmentsAdapter(contextOrThrow, ::loadMore, ::onClick,
-                ::onLongClick, audioViewModel::download, equalsDevUids(Session.uid))
+        AudioAttachmentsAdapter(requireContext(), ::loadMore, ::onClick,
+                ::onLongClick, audioViewModel::download, SessionProvider.isDevUserId())
     }
 
     override fun getLayoutManager() = LinearLayoutManager(context)
@@ -32,10 +30,14 @@ class AudioAttachmentsFragment : BaseAttachmentsFragment<Track>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        audioViewModel.getPlayedTrack().observe(this, Observer { adapter.played = it })
         if (MusicService.isPlaying()) {
             adapter.played = MusicService.getPlayedTrack()
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        audioViewModel.getPlayedTrack().observe(viewLifecycleOwner) { adapter.played = it }
     }
 
     private fun onClick(track: Track) {

@@ -12,7 +12,12 @@ import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.getBatteryLevel
+import com.twoeightnine.root.xvii.utils.getMinutes
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_pin_settings.*
 
 class SecurityFragment : BaseFragment() {
@@ -31,13 +36,10 @@ class SecurityFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
         initViews()
-        llContainer.stylizeAll()
-        svContent.setBottomInsetPadding()
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.pin_settings_title))
+        listOf(rbMinutesStart, rbMinutesEnd, rbBatteryStart, rbBatteryEnd, rbAlarms, rbDiagnostics)
+                .forEach { it.paint(Munch.color.color) }
+        svContent.applyBottomInsetPadding()
     }
 
     override fun onResume() {

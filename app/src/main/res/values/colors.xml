@@ -2,47 +2,55 @@
 <resources>
 
 
-    <color name="primary">#fff</color>
-    <color name="primary_dark">#fff</color>
-    <color name="secondary_text">#656565</color>
+    <color name="primary">@color/background_light</color>
+    <color name="primary_dark">@color/background_light</color>
     <color name="link_color">#55f</color>
-    <color name="status_bar">#bfff</color>
-    <color name="navigation_bar">#bfff</color>
-    <color name="navigation_bar_chat_owner">#bfff</color>
+    <color name="status_bar">@color/background_light</color>
+    <color name="navigation_bar">@color/background_light</color>
+    <color name="navigation_bar_chat_owner">@color/background_light</color>
 
-    <color name="splash_background">#0e0c13</color>
-    <color name="background">#fff</color>
-    <color name="background_accented">#f7f7f7</color>
-    <color name="popup">#fff</color>
+    <color name="splash_background">@color/background_dark</color>
+    <color name="background">@color/background_light</color>
+    <color name="background_transparent">@color/background_light_alpha_bb</color>
+    <color name="popup">@color/background_light</color>
     <color name="popup_error">#B93952</color>
-    <color name="poll_background">#afff</color>
-    <color name="toolbar">#15121c</color>
-    <color name="divider">#ddd</color>
+    <color name="toolbar">@color/background_dark_lighter</color>
+    <color name="divider">@color/divider_light</color>
     <color name="icons">#fff</color>
     <color name="online">#8e30d8</color>
-    <color name="main_text">#222</color>
-    <color name="other_text">#444</color>
-    <color name="minor_text">#888</color>
+    <color name="main_text">@color/main_text_light</color>
+    <color name="other_text">@color/other_text_light</color>
+    <color name="minor_text">@color/minor_text_light</color>
     <color name="warn_text">#D62929</color>
     <color name="fab">#92b</color>
     <color name="accent">#666</color>
-    <color name="shape">#1c1826</color>
-    <color name="shape_selected">#51447A</color>
+    <color name="shape">@color/background_dark_lighter</color>
     <color name="selected_mess">#7ccc</color>
-    <color name="black_transparent">#a00a090e</color>
+    <color name="black_transparent">@color/background_dark_alpha_bb</color>
 
     <color name="toolbar_text">#fff</color>
     <color name="toolbar_subtext">#e3e3e3</color>
 
-    <color name="splash_color">#0e0c13</color>
+    <color name="splash_color">@color/background_dark</color>
     <color name="error">#85252B</color>
     <color name="placeholder">#4777</color>
-    <color name="input_panel">#fff</color>
+    <color name="input_panel">@color/background_light</color>
     <color name="avatar">#341B4B</color>
-    <color name="bottom_nav_view">#dfff</color>
+    <color name="bottom_nav_view">@color/background_light</color>
     <color name="mic_record_indicator">#E43D3D</color>
 
     <color name="bottom_icon_enabled">#7C43B8</color>
     <color name="bottom_icon_disabled">#bbb</color>
+
+    <color name="switch_thumb_disabled">#bbb</color>
+    <color name="switch_track_disabled">#ddd</color>
+
+    <color name="bottom_nav_non_active">#ccc</color>
+
+    <color name="text_diff_insert">#488A56</color>
+    <color name="text_diff_remove">#9A2A2A</color>
+
+    <color name="text_diff_insert_background">#F1FFF4</color>
+    <color name="text_diff_remove_background">#FDEBEB</color>
 
 </resources>

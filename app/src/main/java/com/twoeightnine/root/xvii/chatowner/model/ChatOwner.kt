@@ -13,6 +13,6 @@ interface ChatOwner {
     fun getPeerId(): Int
     fun getAvatar(): String?
     fun getTitle(): String
-    fun getInfoText(context: Context): String
+    fun getInfoText(context: Context): CharSequence
     fun getPrivacyInfo(context: Context): String?
 }

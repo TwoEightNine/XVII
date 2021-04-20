@@ -2,14 +2,16 @@ package com.twoeightnine.root.xvii.chats.attachments.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.showError
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetMargin
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_attachments.*
 import javax.inject.Inject
 
@@ -18,10 +20,6 @@ abstract class BaseAttachFragment<T : Any> : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: BaseAttachViewModel.Factory
     protected lateinit var viewModel: BaseAttachViewModel<T>
-
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
-    }
 
     abstract val adapter: BaseAttachmentsAdapter<T, out BaseAttachmentsAdapter.BaseAttachmentViewHolder<T>>
 
@@ -38,9 +36,6 @@ abstract class BaseAttachFragment<T : Any> : BaseFragment() {
         inject()
         viewModel = ViewModelProviders.of(this, viewModelFactory)[getViewModelClass()]
         initRecycler()
-
-        viewModel.getAttach().observe(this, Observer { updateList(it) })
-        viewModel.loadAttach()
         adapter.startLoading()
 
         progressBar.show()
@@ -49,16 +44,16 @@ abstract class BaseAttachFragment<T : Any> : BaseFragment() {
             adapter.reset()
             adapter.startLoading()
         }
-        progressBar.stylize()
+
+        rvAttachments.applyBottomInsetPadding()
+        fabDone.applyBottomInsetMargin()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
-            rvAttachments.setBottomPadding(bottom)
-            val fabMargin = context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin) ?: 0
-            fabDone.setBottomMargin(bottom + fabMargin)
-        })
+
+        viewModel.getAttach().observe(viewLifecycleOwner, ::updateList)
+        viewModel.loadAttach()
     }
 
     private fun updateList(data: Wrapper<ArrayList<T>>) {

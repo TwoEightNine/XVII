@@ -7,11 +7,13 @@ import androidx.core.app.NotificationCompat
 import androidx.work.*
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.db.AppDb
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.NotificationChannels
+import global.msnthrp.xvii.data.db.AppDb
+import global.msnthrp.xvii.data.scheduled.ScheduledMessage
+import global.msnthrp.xvii.uikit.extensions.lowerIf
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.random.Random
@@ -70,10 +72,7 @@ class SendMessageWorker(
             appDb.dialogsDao()
                     .getDialogs(peerId)
                     .subscribe({ dialog ->
-                        var peer = dialog.alias ?: dialog.title
-                        if (Prefs.lowerTexts) {
-                            peer = peer.toLowerCase()
-                        }
+                        val peer = dialog.aliasOrTitle.lowerIf(Prefs.lowerTexts)
                         showNotification(success, peerId, peer)
                     }, { throwable ->
                         lw("error fetching peer id", throwable)

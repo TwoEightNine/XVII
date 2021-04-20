@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar" />
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/forwarded_messages"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvForwarded"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar" />
+        android:layout_below="@+id/xviiToolbar" />
 
-    <ProgressBar
+    <com.twoeightnine.root.xvii.uikit.XviiLoader
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_gravity="center" />
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/vCenter"
+        android:layout_centerVertical="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <View
+        android:id="@+id/vPastLine"
+        android:layout_above="@+id/vCenter"
+        android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/journal_online_line_padding"
+        android:layout_marginEnd="@dimen/journal_online_line_padding"
+        android:layout_alignStart="@+id/ivDot"
+        android:layout_alignEnd="@+id/ivDot"
+        android:layout_height="match_parent"
+        tools:background="#000" />
+
+    <View
+        android:id="@+id/vFutureLine"
+        android:layout_below="@+id/vCenter"
+        android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/journal_online_line_padding"
+        android:layout_marginEnd="@dimen/journal_online_line_padding"
+        android:layout_alignStart="@+id/ivDot"
+        android:layout_alignEnd="@+id/ivDot"
+        android:layout_height="match_parent"
+        tools:background="#000" />
+
+    <ImageView
+        android:id="@+id/ivDot"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_width="@dimen/journal_online_dot_size"
+        android:layout_height="@dimen/journal_online_dot_size"
+        android:src="@drawable/shape_circle" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        style="@style/MainText"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/ivDot"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:gravity="center_horizontal"
+        tools:text="17:53:00"/>
+
+    <TextView
+        android:id="@+id/tvHint"
+        style="@style/MinorText"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/tvTime"
+        android:layout_alignTop="@+id/ivDot"
+        android:gravity="bottom"
+        android:layout_alignBottom="@+id/ivDot"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:text="@string/journal_event_online_hint"/>
+
+</RelativeLayout>

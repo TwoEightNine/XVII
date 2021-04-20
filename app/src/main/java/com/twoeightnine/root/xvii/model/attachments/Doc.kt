@@ -3,7 +3,7 @@ package com.twoeightnine.root.xvii.model.attachments
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.twoeightnine.root.xvii.crypto.CryptoEngine
+import global.msnthrp.xvii.core.crypto.CryptoConsts
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -62,7 +62,19 @@ data class Doc(
                 preview.audioMsg != null
 
     val isEncrypted: Boolean
-        get() = ".$ext" == CryptoEngine.EXTENSION
+        get() = ".$ext" == CryptoConsts.EXTENSION
+
+    val fileName: String
+        get() {
+            val safeExt = when (ext) {
+                null -> ""
+                else -> ".$ext"
+            }
+            return when {
+                title?.endsWith(safeExt) == true -> title
+                else -> "${title}${ext}"
+            }
+        }
 
     override fun getId() = "doc${ownerId}_$id"
 }
@@ -100,12 +112,21 @@ data class PhotoPreview(
         @SerializedName("sizes")
         @Expose
         val sizes: List<PreviewSize> = arrayListOf()
-) : Parcelable
+) : Parcelable {
+
+    fun getSmallPreview(): PreviewSize? = sizes.minByOrNull { it.height }
+}
 
 @Parcelize
 data class PreviewSize(
 
         @SerializedName("src")
         @Expose
-        val src: String? = null
+        val src: String? = null,
+
+        @SerializedName("width")
+        val width: Int = 0,
+
+        @SerializedName("height")
+        val height: Int = 0
 ) : Parcelable

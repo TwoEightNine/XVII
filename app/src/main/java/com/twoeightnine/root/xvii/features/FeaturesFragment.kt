@@ -1,37 +1,36 @@
 package com.twoeightnine.root.xvii.features
 
-import android.graphics.Paint
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
-import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
+import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.features.appearance.AppearanceActivity
-import com.twoeightnine.root.xvii.features.assist.AssistActivity
 import com.twoeightnine.root.xvii.features.general.GeneralFragment
 import com.twoeightnine.root.xvii.features.notifications.NotificationsFragment
+import com.twoeightnine.root.xvii.journal.JournalFragment
 import com.twoeightnine.root.xvii.lg.LgAlertDialog
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.pin.PinActivity
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.scheduled.ui.ScheduledMessagesFragment
+import com.twoeightnine.root.xvii.storage.SessionProvider
+import com.twoeightnine.root.xvii.uikit.Munch
+import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.web.WebFragment
+import global.msnthrp.xvii.core.accounts.model.Account
+import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.fragment_features.*
 import java.util.*
 import javax.inject.Inject
@@ -42,10 +41,6 @@ class FeaturesFragment : BaseFragment() {
     lateinit var viewModelFactory: FeaturesViewModel.Factory
     private lateinit var viewModel: FeaturesViewModel
 
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
-    }
-
     override fun getLayoutId() = R.layout.fragment_features
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,95 +48,68 @@ class FeaturesFragment : BaseFragment() {
         setHasOptionsMenu(true)
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[FeaturesViewModel::class.java]
-        viewModel.getAccount().observe(this, Observer { updateAccount(it) })
-        viewModel.loadAccount()
 
-        tvSwitchAccount.paintFlags = tvSwitchAccount.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-        tvSwitchAccount.stylize()
+        xiAnalyze.setOnClickListener { showToast(context, R.string.in_future_versions) }
+        xiStarred.setOnClickListener { startFragment<StarredMessagesFragment>() }
+        xiScheduledMessages.setOnClickListener { startFragment<ScheduledMessagesFragment>() }
+        xiJournal.setOnClickListener { startFragment<JournalFragment>() }
 
-        rlAnalyse.setOnClickListener { showToast(context, R.string.in_future_versions) }
-        rlStarred.setOnClickListener { startFragment<StarredMessagesFragment>() }
-        rlScheduledMessages.setOnClickListener { startFragment<ScheduledMessagesFragment>() }
-
-        rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, Session.uid) }
-        tvSwitchAccount.setOnClickListener { startFragment<AccountsFragment>() }
-        rlGeneral.setOnClickListener {
+        ivProfileEdit.paint(Munch.color.color50)
+        ivProfileEdit.setOnClickListener { BrowsingUtils.openUrl(context, EDIT_PROFILE_URL) }
+        rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, SessionProvider.userId) }
+        xiAccounts.setOnClickListener { startFragment<AccountsFragment>() }
+        xiGeneral.setOnClickListener {
             startFragment<GeneralFragment>()
             suggestJoin()
         }
-        rlNotifications.setOnClickListener {
+        xiNotifications.setOnClickListener {
             startFragment<NotificationsFragment>()
             suggestJoin()
         }
-        rlAppearance.setOnClickListener {
+        xiAppearance.setOnClickListener {
             AppearanceActivity.launch(context)
             suggestJoin()
         }
-        rlPin.setOnClickListener {
-//            onPinClicked()
-            startFragment<SecurityFragment>()
-        }
+        xiSecurity.setOnClickListener { startFragment<SecurityFragment>() }
 
-        rlFeedback.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }
-        rlRate.setOnClickListener { context?.also { rate(it) } }
-        rlContribute.setOnClickListener { AssistActivity.launch(context) }
-        rlShare.setOnClickListener { share() }
-        rlPrivacy.setOnClickListener { resolvePrivacyPolicy() }
-        rlSourceCode.setOnClickListener { simpleUrlIntent(context, GITHUB_URL) }
+        xiSupport.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }
+        xiRate.setOnClickListener { context?.also { rate(it) } }
+        xiShare.setOnClickListener { share() }
+        xiPrivacy.setOnClickListener { resolvePrivacyPolicy() }
+        xiSourceCode.setOnClickListener { BrowsingUtils.openUrl(context, GITHUB_URL) }
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
         tvAbout.setOnClickListener { showLogDialog() }
 
-        rlRoot.stylizeAll()
+//        rlRoot.stylizeAll()
+        svContent.setOnScrollChangeListener(ContentScrollListener())
+        svContent.applyHorizontalInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        insetViewModel?.topInset?.observe(viewLifecycleOwner, Observer { top ->
-            rlAccounts.setTopMargin(top)
-        })
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
-            val bottomNavHeight = context?.resources?.getDimensionPixelSize(R.dimen.bottom_navigation_height) ?: 0
-            svContent.setBottomPadding(bottom + bottomNavHeight)
-        })
+        viewModel.getAccount().observe(viewLifecycleOwner, ::updateAccount)
+        viewModel.lastSeen.observe(viewLifecycleOwner) { (isOnline, timeStamp, deviceCode) ->
+            tvLastSeen.text = LastSeenUtils.getFull(context, isOnline, timeStamp, deviceCode)
+        }
+        viewModel.loadAccount()
     }
 
     override fun onResume() {
         super.onResume()
-        rlContribute.setVisible(time() - Prefs.lastAssistance > ASSISTANCE_DELAY)
+        viewModel.updateLastSeen()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
+        menu.clear()
     }
 
     private fun updateAccount(account: Account) {
-        ivPhoto.load(account.photo)
-        tvName.text = account.name
-        if (Prefs.lowerTexts) tvName.lower()
-    }
-
-    private fun onPinClicked() {
-        val context = context ?: return
-
-        val pin = Prefs.pin
-        if (TextUtils.isEmpty(pin)) {
-            PinActivity.launch(context, PinActivity.Action.SET)
-            suggestJoin()
-        } else {
-            val dialog = AlertDialog.Builder(context)
-                    .setMessage(R.string.have_pin)
-                    .setPositiveButton(R.string.edit) { _, _ ->
-                        PinActivity.launch(context, PinActivity.Action.EDIT)
-                    }
-                    .setNegativeButton(R.string.reset) { _, _ ->
-                        PinActivity.launch(context, PinActivity.Action.RESET)
-                    }
-                    .create()
-
-            dialog.show()
-            dialog.stylize()
+        civPhoto.load(account.photo)
+        account.name.lowerIf(Prefs.lowerTexts).also { userName ->
+            tvName.text = userName
+            xviiToolbar.title = userName
         }
     }
 
@@ -159,7 +127,7 @@ class FeaturesFragment : BaseFragment() {
         if (time() - Prefs.joinShownLast <= SHOW_JOIN_DELAY) return // one week
 
         Prefs.joinShownLast = time()
-        if (!equalsDevUids(Session.uid)) {
+        if (!SessionProvider.isDevUserId()) {
             viewModel.checkMembership { inGroup ->
                 if (!inGroup) {
                     val dialog = AlertDialog.Builder(context ?: return@checkMembership)
@@ -175,14 +143,12 @@ class FeaturesFragment : BaseFragment() {
     }
 
     private fun resolvePrivacyPolicy() {
-        val url = if (Locale.getDefault() == Locale("ru", "RU")) {
+        val url = if (Locale.getDefault() == Locale("ru")) {
             PRIVACY_RU
         } else {
             PRIVACY_WORLD
         }
-        startFragment<WebFragment>(
-                WebFragment.createArgs(url, getString(R.string.privacy_policy))
-        )
+        BrowsingUtils.openUrl(context, url)
     }
 
     companion object {
@@ -192,10 +158,35 @@ class FeaturesFragment : BaseFragment() {
 
         const val GITHUB_URL = "https://github.com/twoeightnine/xvii"
 
+        const val EDIT_PROFILE_URL = "https://m.vk.com/edit"
+
         const val SHOW_JOIN_DELAY = 3600 * 24 * 7 // one week
 
-        const val ASSISTANCE_DELAY = 60 * 2 // two minutes
-
         fun newInstance() = FeaturesFragment()
+    }
+
+    private inner class ContentScrollListener : NestedScrollView.OnScrollChangeListener {
+
+        private val toolbarHeight by lazy {
+            xviiToolbar.height
+        }
+        private val accountsHolderHeight by lazy {
+            rlAccounts.height
+        }
+        private val threshold by lazy { accountsHolderHeight - toolbarHeight }
+
+        private var lastHandledY = 0
+
+        override fun onScrollChange(v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {
+            val shouldShowToolbar = threshold in (lastHandledY + 1) until scrollY
+            val shouldHideToolbar = threshold in (scrollY + 1) until lastHandledY
+
+            if (shouldShowToolbar) {
+                xviiToolbar.fadeIn(200L)
+            } else if (shouldHideToolbar) {
+                xviiToolbar.fadeOut(200L)
+            }
+            lastHandledY = scrollY
+        }
     }
 }

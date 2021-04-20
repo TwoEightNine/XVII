@@ -1,69 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical">
 
-    <ScrollView
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:forChat="true" />
+
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/svContent"
         android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar">
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/llRoot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" />
 
-            <LinearLayout
-                android:id="@+id/llRoot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
+    </androidx.core.widget.NestedScrollView>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="12dp">
-
-                <ImageView
-                    android:id="@+id/ivLike"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_favorite"
-                    android:tag="main" />
-
-                <TextView
-                    android:id="@+id/tvLikes"
-                    style="@style/OtherText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="6dp"
-                    android:layout_toLeftOf="@+id/ivLike"
-                    android:text="17/53"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
-    <include layout="@layout/toolbar" />
-
-    <ProgressBar
+    <com.twoeightnine.root.xvii.uikit.XviiLoader
         android:id="@+id/loader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:visibility="gone" />
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

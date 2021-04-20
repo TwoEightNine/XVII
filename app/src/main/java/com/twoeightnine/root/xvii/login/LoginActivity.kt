@@ -3,30 +3,31 @@ package com.twoeightnine.root.xvii.login
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.base.BaseActivity
-import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.managers.Session
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.pin.fake.alarm.AlarmActivity
 import com.twoeightnine.root.xvii.pin.fake.diagnostics.DiagnosticsActivity
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.storage.SessionProvider
+import com.twoeightnine.root.xvii.utils.isOnline
+import com.twoeightnine.root.xvii.utils.showAlert
+import com.twoeightnine.root.xvii.utils.startNotificationService
+import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
+import global.msnthrp.xvii.uikit.utils.DisplayUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -36,15 +37,9 @@ class LoginActivity : BaseActivity() {
     @Inject
     lateinit var longPollStorage: LongPollStorage
 
-    private val viewModel by lazy {
-        ViewModelProviders.of(this)[LoginViewModel::class.java]
-    }
+    private val viewModel by viewModels<LoginViewModel>()
     private val addNewAccount by lazy {
         intent?.extras?.getBoolean(ARG_NEW_ACCOUNT) == true
-    }
-
-    private val fakeAppTouchListener by lazy {
-        FakeAppTouchListener()
     }
 
     private var isWebViewShown = false
@@ -52,44 +47,29 @@ class LoginActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        rlLoader.setOnTouchListener(fakeAppTouchListener)
-        App.appComponent?.inject(this)
+        DisplayUtils.init(this)
 
         viewModel.accountCheckResult.observe(this, Observer(::onAccountChecked))
         viewModel.accountUpdated.observe(this, Observer(::onAccountUpdated))
 
-        if (!addNewAccount) {
-            startPrimeGenerator(this)
-        }
-        if (addNewAccount || !hasToken()) {
+        if (addNewAccount || !SessionProvider.hasToken()) {
             logIn()
         } else {
             checkTokenAndStart()
         }
 
-        progressBar.stylize()
-        webView.setTopInsetMargin()
+        webView.applyTopInsetMargin()
     }
 
-    override fun getStatusBarColor() = if (isWebViewShown) {
-        Color.WHITE
-    } else {
-        ContextCompat.getColor(this, R.color.splash_background)
-    }
+    override fun getStatusBarColor() = ContextCompat.getColor(this, R.color.splash_background)
 
-    override fun getNavigationBarColor() = if (isWebViewShown) {
-        Color.WHITE
-    } else{
-        ContextCompat.getColor(this, R.color.splash_background)
-    }
+    override fun getNavigationBarColor() = ContextCompat.getColor(this, R.color.splash_background)
 
-    override fun styleScreen(container: ViewGroup) {}
-
-    private fun hasToken() = Session.token.isNotBlank()
+    override fun shouldRunService() = false
 
     private fun checkTokenAndStart() {
         if (isOnline()) {
-            viewModel.checkAccount(Session.token, Session.uid)
+            viewModel.checkAccount(SessionProvider.token, SessionProvider.userId)
         } else {
             startApp()
         }
@@ -108,8 +88,7 @@ class LoginActivity : BaseActivity() {
         with(webView) {
             hide()
             CookieSyncManager.createInstance(this@LoginActivity).sync()
-            CookieManager.getInstance()
-                    .removeAllCookie()
+            CookieManager.getInstance().removeAllCookie()
             settings.javaScriptEnabled = true
             settings.javaScriptCanOpenWindowsAutomatically = true
             webViewClient = ParsingWebClient { token, userId ->
@@ -123,6 +102,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun startApp() {
+        App.appComponent?.inject(this)
         longPollStorage.clear()
         startNotificationService(this)
         when (Prefs.fakeAppType) {
@@ -150,15 +130,9 @@ class LoginActivity : BaseActivity() {
         val token = accountCheckResult.token
         when {
             accountCheckResult.success && user != null && token != null -> {
-                if (!addNewAccount) {
-                    Session.token = token
-                    Session.uid = user.id
-                    Session.fullName = user.fullName
-                    Session.photo = user.photo100 ?: ""
-                }
                 viewModel.updateAccount(user, token, isRunning = !addNewAccount)
             }
-            hasToken() -> showWebView()
+            SessionProvider.hasToken() -> showWebView()
             else -> finishWithAlert(getString(R.string.login_unable_to_log_in))
         }
     }
@@ -219,21 +193,6 @@ class LoginActivity : BaseActivity() {
                 return ""
             }
             return matcher.toMatchResult().group(1)
-        }
-    }
-
-    private inner class FakeAppTouchListener : View.OnTouchListener {
-
-        var passed = false
-            private set
-
-        @SuppressLint("ClickableViewAccessibility")
-        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-            if (event?.action == MotionEvent.ACTION_DOWN) {
-                passed = true
-                L.tag("fake app").log("passed")
-            }
-            return true
         }
     }
 }

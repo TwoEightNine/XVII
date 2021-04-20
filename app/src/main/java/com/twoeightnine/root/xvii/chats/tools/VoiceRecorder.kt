@@ -3,8 +3,8 @@ package com.twoeightnine.root.xvii.chats.tools
 import android.content.Context
 import android.media.MediaRecorder
 import android.os.CountDownTimer
-import android.os.Vibrator
 import com.twoeightnine.root.xvii.lg.L
+import com.twoeightnine.root.xvii.utils.VibrationHelper
 import java.io.File
 import kotlin.math.sqrt
 
@@ -66,10 +66,7 @@ class VoiceRecorder(
         }
     }
 
-    private fun vibrate() {
-        val vibrate = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        vibrate.vibrate(20L)
-    }
+    private fun vibrate() = VibrationHelper.vibrateHaptic()
 
     companion object {
 

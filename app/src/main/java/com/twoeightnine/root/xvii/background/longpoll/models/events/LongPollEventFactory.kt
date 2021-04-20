@@ -22,7 +22,8 @@ object LongPollEventFactory {
                         update.asInt(3),
                         update.asInt(4),
                         Html.fromHtml(update.asString(5)).toString(),
-                        BaseMessageEvent.MessageInfo.fromLinkedTreeMap(update[6] as LinkedTreeMap<String, Any>)
+                        BaseMessageEvent.MessageInfo.fromLinkedTreeMap(update[6] as LinkedTreeMap<String, Any>),
+                        update.asInt(7)
                 )
                 BaseLongPollEvent.TYPE_EDIT_MESSAGE -> EditMessageEvent(
                         update.asInt(1),

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.twoeightnine.root.xvii.App
@@ -17,9 +16,12 @@ import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.cropper.ImageCropperFragment
 import com.twoeightnine.root.xvii.lg.L
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.ImageUtils
+import com.twoeightnine.root.xvii.utils.PermissionHelper
+import com.twoeightnine.root.xvii.utils.showError
+import com.twoeightnine.root.xvii.utils.time
+import global.msnthrp.xvii.uikit.extensions.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_gallery_new.*
@@ -32,9 +34,6 @@ class GalleryFragment : BaseFragment() {
     lateinit var viewModelFactory: BaseAttachViewModel.Factory
     private lateinit var viewModel: GalleryViewModel
 
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
-    }
     private val onlyPhotos by lazy {
         arguments?.getBoolean(ARG_ONLY_PHOTOS) == true
     }
@@ -44,7 +43,7 @@ class GalleryFragment : BaseFragment() {
     }
 
     private val adapter by lazy {
-        GalleryAdapter(contextOrThrow, ::loadMore, ::onItemClick)
+        GalleryAdapter(requireContext(), ::loadMore, ::onItemClick)
     }
 
     private val permissionHelper by lazy {
@@ -61,17 +60,14 @@ class GalleryFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[GalleryViewModel::class.java]
         viewModel.onlyPhotos = onlyPhotos
         initRecycler()
-        viewModel.getAttach().observe(this, Observer { updateList(it) })
         reloadData()
         adapter.startLoading()
 
         progressBar.show()
         swipeRefresh.setOnRefreshListener { reloadData() }
 
-        with(fabDone) {
-            setOnClickListener { onDoneClicked() }
-            stylize()
-        }
+        fabDone.setOnClickListener { onDoneClicked() }
+
         rlPermissions.setVisible(!permissionHelper.hasStoragePermissions())
         rlPermissions.setOnClickListener {
             permissionHelper.request(arrayOf(PermissionHelper.READ_STORAGE, PermissionHelper.WRITE_STORAGE)) {
@@ -80,7 +76,6 @@ class GalleryFragment : BaseFragment() {
                 reloadData()
             }
         }
-        progressBar.stylize()
 
         if (!onlyPhotos) {
             llButtons.show()
@@ -90,20 +85,16 @@ class GalleryFragment : BaseFragment() {
             btnDoc.setOnClickListener {
                 imageUtils.dispatchSelectFile(this)
             }
-            btnDoc.stylize()
-            btnCamera.stylize()
             rvAttachments.setPadding(0, resources.getDimensionPixelOffset(R.dimen.toolbar_height), 0, 0)
         }
+
+        rvAttachments.applyBottomInsetPadding()
+        fabDone.applyBottomInsetMargin()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
-            rvAttachments.setPadding(0, rvAttachments.paddingTop, 0, bottom)
-            val fabMargin = context?.resources?.getDimensionPixelSize(R.dimen.attach_fab_done_margin)
-                    ?: 0
-            fabDone.setBottomMargin(bottom + fabMargin)
-        })
+        viewModel.getAttach().observe(viewLifecycleOwner, ::updateList)
     }
 
     private fun onDoneClicked() {

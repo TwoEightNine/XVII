@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rlBack"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingEnd="@dimen/chat_shape_side_padding"
-    tools:background="@color/background">
+    tools:background="#567">
+
+    <RelativeLayout
+        android:id="@+id/rlDateSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tvDateSeparator"
+            style="@style/FloatingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="@dimen/chat_message_floating_margin_horiz"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="@dimen/chat_message_floating_margin_horiz"
+            android:gravity="center"
+            tools:text="23 jan 2017" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rlName"
@@ -13,73 +38,122 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="6dp"
-        android:layout_marginBottom="2dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rlDateSeparator"
+        app:layout_constraintWidth_max="@dimen/chat_message_max_width">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.twoeightnine.root.xvii.uikit.XviiAvatar
             android:id="@+id/civPhoto"
             android:layout_width="@dimen/chat_photo_size"
-            android:layout_height="@dimen/chat_photo_size" />
+            android:layout_height="@dimen/chat_photo_size"
+            app:avatarNameSize="@dimen/avatar_name_size_message" />
 
         <TextView
             android:id="@+id/tvName"
-            style="@style/MainBoldText"
+            style="@style/MainMediumText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="4dp"
             android:layout_toEndOf="@+id/civPhoto"
             android:maxLines="2"
-            android:paddingEnd="@dimen/chat_shape_side_padding"
             android:textSize="15sp"
             tools:text="Misdsdsdta Sisdsdsdnista" />
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rlName"
         android:layout_marginStart="@dimen/chat_shape_margin_horiz"
-        android:layout_marginTop="@dimen/chat_shape_margin_vert"
+        android:layout_marginTop="@dimen/chat_shape_margin_horiz"
         android:layout_marginBottom="@dimen/chat_shape_margin_vert"
         android:background="@drawable/shape_message"
         android:clickable="false"
-        android:elevation="0.5dp"
-        android:minWidth="110dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvDate"
-            style="@style/OtherText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp"
-            android:maxLines="1"
-            android:textSize="10sp"
-            tools:text="26.12.2923 32.19" />
-
+        android:elevation="@dimen/chat_message_elevation"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rlName"
+        app:layout_constraintWidth_max="@dimen/chat_message_max_width">
 
         <TextView
             android:id="@+id/tvBody"
             style="@style/MainText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginStart="@dimen/chat_message_text_margin"
+            android:layout_marginEnd="@dimen/chat_message_text_margin"
+            android:layout_marginTop="@dimen/chat_message_text_margin"
+            android:layout_marginBottom="@dimen/chat_message_text_margin"
             android:autoLink="web"
+            android:gravity="start"
             android:textColorLink="@color/link_color"
             android:textSize="@dimen/chat_message_text_size"
-            tools:text="mgae" />
+            tools:text="all my life i wanted" />
+
+        <TextView
+            android:id="@+id/tvDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvBody"
+            android:maxLines="1"
+            android:layout_marginTop="@dimen/chat_date_text_margin_top"
+            android:layout_alignEnd="@+id/tvBody"
+            android:textColor="@color/other_text"
+            android:visibility="gone"
+            android:textSize="@dimen/chat_date_text_size"
+            tools:text="19:02:31" />
+
+        <TextView
+            android:id="@+id/tvDateTextInlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tvBody"
+            android:maxLines="1"
+            android:layout_marginEnd="@dimen/chat_date_text_margin_end"
+            android:layout_alignBottom="@+id/tvBody"
+            android:textColor="@color/other_text"
+            android:visibility="visible"
+            android:textSize="@dimen/chat_date_text_size"
+            tools:text="19:02:31" />
 
         <LinearLayout
             android:id="@+id/llMessageContainer"
+            android:layout_below="@+id/tvBody"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/tvDateAttachmentsOverlay"
+        style="@style/FloatingText.Time.Overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/chat_date_overlay_margin"
+        android:layout_marginBottom="@dimen/chat_date_overlay_margin"
+        android:maxLines="1"
+        android:textSize="@dimen/chat_date_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/llMessage"
+        app:layout_constraintEnd_toEndOf="@+id/llMessage"
+        android:visibility="gone"
+        tools:text="19:02:31" />
+
+    <TextView
+        android:id="@+id/tvDateAttachmentsEmbedded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/chat_date_embedded_margin"
+        android:layout_marginBottom="@dimen/chat_date_embedded_margin"
+        android:maxLines="1"
+        android:textColor="@color/other_text"
+        android:textSize="@dimen/chat_date_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/llMessage"
+        app:layout_constraintEnd_toEndOf="@+id/llMessage"
+        android:visibility="gone"
+        tools:text="19:02:31" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

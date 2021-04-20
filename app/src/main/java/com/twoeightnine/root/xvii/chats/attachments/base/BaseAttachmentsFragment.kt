@@ -2,14 +2,15 @@ package com.twoeightnine.root.xvii.chats.attachments.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.main.InsetViewModel
 import com.twoeightnine.root.xvii.model.Wrapper
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.showError
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_attachments.*
 import javax.inject.Inject
 
@@ -18,10 +19,6 @@ abstract class BaseAttachmentsFragment<T : Any> : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: BaseAttachmentsViewModel.Factory
     protected lateinit var viewModel: BaseAttachmentsViewModel<T>
-
-    private val insetViewModel by lazy {
-        ViewModelProviders.of(activity ?: return@lazy null)[InsetViewModel::class.java]
-    }
 
     private val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
 
@@ -42,8 +39,6 @@ abstract class BaseAttachmentsFragment<T : Any> : BaseFragment() {
         viewModel.peerId = peerId
         initRecycler()
 
-        viewModel.getAttachments().observe(this, Observer { updateList(it) })
-        viewModel.loadAttachments()
         adapter.startLoading()
 
         progressBar.show()
@@ -53,14 +48,14 @@ abstract class BaseAttachmentsFragment<T : Any> : BaseFragment() {
             adapter.reset()
             adapter.startLoading()
         }
-        progressBar.stylize()
+
+        rvAttachments.applyBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        insetViewModel?.bottomInset?.observe(viewLifecycleOwner, Observer { bottom ->
-            rvAttachments.setBottomPadding(bottom)
-        })
+        viewModel.getAttachments().observe(viewLifecycleOwner, ::updateList)
+        viewModel.loadAttachments()
     }
 
     private fun updateList(data: Wrapper<ArrayList<T>>) {

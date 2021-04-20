@@ -5,6 +5,7 @@
     android:id="@+id/rlBack"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="48dp"
     android:background="@drawable/selector_rect"
     android:clickable="true"
     android:focusable="true">
@@ -16,7 +17,6 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="12dp"
         android:tag="main" />
 
@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/ivIcon"
         android:maxLines="1"
         android:textSize="16sp"

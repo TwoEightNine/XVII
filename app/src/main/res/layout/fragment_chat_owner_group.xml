@@ -6,7 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/popup">
 
-    <include layout="@layout/toolbar" />
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <View
         android:id="@+id/vShadow"
@@ -37,6 +40,13 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/profile_avatar_height"
         android:background="#3000" />
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_height="@dimen/toolbar_height"
+        android:src="@drawable/ic_back" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvContent"
@@ -76,11 +86,26 @@
                     tools:text="volodimer soloviev" />
 
                 <TextView
+                    android:id="@+id/tvAlias"
+                    style="@style/MainText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/profile_margin_start"
+                    android:layout_marginEnd="@dimen/profile_margin_end"
+                    android:layout_marginTop="0dp"
+                    android:layout_below="@+id/tvTitle"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="20sp"
+                    android:visibility="gone"
+                    tools:text="aka " />
+
+                <TextView
                     android:id="@+id/tvInfo"
                     style="@style/OtherText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvTitle"
+                    android:layout_below="@+id/tvAlias"
                     android:layout_marginStart="@dimen/profile_margin_start"
                     android:layout_marginEnd="@dimen/profile_margin_end"
                     tools:text="last seen 13:37 via ipad" />
@@ -116,55 +141,29 @@
                     android:layout_marginTop="12dp"
                     android:orientation="vertical" />
 
-                <View
-                    android:id="@+id/vNotificationsTop"
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_below="@+id/llContainer"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/divider" />
-
-                <TextView
-                    android:id="@+id/tvNotifications"
-                    style="@style/MainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_below="@+id/vNotificationsTop"
-                    android:layout_marginStart="@dimen/profile_margin_start"
-                    android:gravity="center_vertical"
-                    android:text="@string/notifications"
-                    android:textSize="17sp" />
-
-                <Switch
+                <com.twoeightnine.root.xvii.views.XviiSwitch
                     android:id="@+id/swNotifications"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/tvNotifications"
-                    android:layout_alignBottom="@+id/tvNotifications"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/profile_margin_end" />
-
-                <View
-                    android:id="@+id/vNotificationsBottom"
+                    android:layout_below="@+id/llContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_below="@+id/tvNotifications"
-                    android:background="@color/divider" />
+                    android:layout_height="wrap_content"
+                    android:hint="@string/show_notifications_group"
+                    android:text="@string/show_notifications"/>
 
                 <View
                     android:id="@+id/vBottom"
                     android:layout_width="match_parent"
                     android:layout_height="16dp"
-                    android:layout_below="@+id/vNotificationsBottom" />
+                    android:layout_below="@+id/swNotifications" />
 
                 <RelativeLayout
                     android:id="@+id/rlLoader"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/profile_bottom_peek_height"
                     android:background="@color/popup"
+                    tools:visibility="gone"
                     android:clickable="true">
 
-                    <ProgressBar
+                    <com.twoeightnine.root.xvii.uikit.XviiLoader
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true" />
@@ -177,14 +176,13 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.twoeightnine.root.xvii.uikit.XviiFab
         android:id="@+id/fabOpenChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:src="@drawable/ic_envelope"
         android:visibility="gone"
-        app:backgroundTint="@color/fab"
         app:layout_anchor="@id/nsvContent"
         app:layout_anchorGravity="end" />
 

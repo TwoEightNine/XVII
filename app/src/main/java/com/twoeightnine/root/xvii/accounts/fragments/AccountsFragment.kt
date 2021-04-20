@@ -1,23 +1,24 @@
 package com.twoeightnine.root.xvii.accounts.fragments
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.adapters.AccountsAdapter
-import com.twoeightnine.root.xvii.accounts.models.Account
 import com.twoeightnine.root.xvii.accounts.viewmodel.AccountsViewModel
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.login.LoginActivity
-import com.twoeightnine.root.xvii.managers.Session
-import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.restartApp
+import com.twoeightnine.root.xvii.utils.showDeleteDialog
+import com.twoeightnine.root.xvii.utils.showWarnConfirm
+import global.msnthrp.xvii.core.accounts.model.Account
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
+import global.msnthrp.xvii.uikit.extensions.fadeIn
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_accounts.*
 import javax.inject.Inject
 
@@ -28,10 +29,8 @@ class AccountsFragment : BaseFragment() {
     private lateinit var viewModel: AccountsViewModel
 
     private val adapter by lazy {
-        AccountsAdapter(contextOrThrow, ::onClick, ::onLongClick)
+        AccountsAdapter(requireContext(), ::onDeleteClick, ::onViewClick, ::onActivateClick)
     }
-
-    private var selectedAccount: Account? = null
 
     override fun getLayoutId() = R.layout.fragment_accounts
 
@@ -42,16 +41,18 @@ class AccountsFragment : BaseFragment() {
         App.appComponent?.inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[AccountsViewModel::class.java]
 
-        fabAdd.setOnClickListener {
+        btnAddAccount.setOnClickListener {
             LoginActivity.launchForNewAccount(context)
         }
-        fabAdd.stylize()
-        fabAdd.setBottomInsetMargin(context?.resources?.getDimensionPixelSize(R.dimen.accounts_fab_add_margin) ?: 0)
+        btnLogOutAll.setOnClickListener { onLogOutAll() }
+        nsvContent.applyBottomInsetPadding()
     }
 
-    private fun updateAccounts(accounts: ArrayList<Account>) {
+    private fun updateAccounts(accounts: List<Account>) {
         adapter.update(accounts)
 //        adapter.update(FakeData.accounts)
+        llContent.show()
+        llContent.fadeIn(200L)
     }
 
     private fun initRecyclerView() {
@@ -61,8 +62,10 @@ class AccountsFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateTitle(getString(R.string.accounts))
-        viewModel.getAccounts().observe(viewLifecycleOwner, Observer { updateAccounts(it) })
+        viewModel.getAccounts().observe(::updateAccounts)
+        viewModel.getAccountSwitched().observe {
+            restartApp(context, getString(R.string.restart_app))
+        }
     }
 
     override fun onResume() {
@@ -70,41 +73,31 @@ class AccountsFragment : BaseFragment() {
         viewModel.loadAccounts()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu?.clear()
-        inflater?.inflate(R.menu.menu_accounts, menu)
+    private fun onDeleteClick(account: Account) {
+        if (account.isActive) return
+
+        showDeleteDialog(context, getString(R.string.this_account)) { viewModel.deleteAccount(account) }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
-        R.id.menu_log_out -> {
-            showWarnConfirm(context, getString(R.string.wanna_logout), getString(R.string.logout)) { logout ->
-                if (logout) {
-                    NotificationService.stop(context)
-                    viewModel.logOut()
-                    restartApp(context, getString(R.string.restart_app))
-                }
+    private fun onViewClick(account: Account) {
+        if (account.isActive) return
+
+        ChatOwnerActivity.launch(context, account.userId)
+    }
+
+    private fun onActivateClick(account: Account) {
+        if (account.isActive) return
+
+        viewModel.switchTo(account)
+    }
+
+    private fun onLogOutAll() {
+        showWarnConfirm(context, getString(R.string.accounts_log_out_all_accounts), getString(R.string.logout)) { logout ->
+            if (logout) {
+                NotificationService.stop(context)
+                viewModel.logOutAll()
+                restartApp(context, getString(R.string.restart_app))
             }
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
-    }
-
-    private fun onClick(account: Account) {
-        if (account.isRunning) {
-            showError(activity, R.string.already_acc)
-        } else {
-            selectedAccount = account
-            viewModel.switchTo(account)
-            restartApp(context, getString(R.string.restart_app))
-        }
-    }
-
-    private fun onLongClick(account: Account) {
-        if (account.isRunning) {
-            showError(activity, R.string.cannot_delete_acc)
-        } else {
-            showDeleteDialog(context, getString(R.string.this_account)) { viewModel.deleteAccount(account) }
         }
     }
 

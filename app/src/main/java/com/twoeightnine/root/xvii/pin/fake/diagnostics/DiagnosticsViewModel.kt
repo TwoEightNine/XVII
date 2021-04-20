@@ -7,7 +7,7 @@ import android.util.DisplayMetrics
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.twoeightnine.root.xvii.managers.Session
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.getTotalRAM
 import io.reactivex.Single
@@ -114,7 +114,7 @@ class DiagnosticsViewModel : ViewModel() {
     }
 
     fun getStability(): Int {
-        return 60 + Session.uid % 30
+        return 60 + SessionProvider.userId % 30
     }
 
     override fun onCleared() {

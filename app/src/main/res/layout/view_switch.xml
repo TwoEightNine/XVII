@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:parentTag="RelativeLayout">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchCompat"
         android:layout_width="wrap_content"
-        android:layout_height="?actionBarSize"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:minHeight="?actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/llSwitchText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/switchCompat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/vSwitchDivider"
         android:layout_toStartOf="@+id/switchCompat"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/tvTitle"
-            style="@style/MainBoldText"
+            style="@style/MainMediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
@@ -35,16 +44,19 @@
             style="@style/OtherText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="2"
             android:textSize="12sp"
-            tools:text="and why and why and why\nfggfg" />
+            tools:text="and why and why and why\nsecond line\ndfdfdfd" />
 
     </LinearLayout>
 
     <View
+        android:id="@+id/vSwitchDivider"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/llSwitchText"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/divider" />
 
 </merge>

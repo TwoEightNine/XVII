@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.twoeightnine.root.xvii.uikit.XviiToolbar
+        android:id="@+id/xviiToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="ui kit sample" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/svContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llColors"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
+                style="@style/Label"
+                android:text="label label"
+                android:paddingStart="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
+                style="@style/Label.Other"
+                android:text="other label"
+                android:paddingStart="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

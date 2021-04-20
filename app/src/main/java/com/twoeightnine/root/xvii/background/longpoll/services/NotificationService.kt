@@ -4,7 +4,8 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.twoeightnine.root.xvii.background.longpoll.LongPollCore
+import android.os.IBinder
+import com.twoeightnine.root.xvii.background.longpoll.core.LongPollCore
 
 
 class NotificationService : Service() {
@@ -42,5 +43,5 @@ class NotificationService : Service() {
         launch(applicationContext)
     }
 
-    override fun onBind(intent: Intent?) = null
+    override fun onBind(intent: Intent?): IBinder? = null
 }

@@ -2,12 +2,14 @@ package com.twoeightnine.root.xvii.chatowner.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_chat_owner_user.*
 
 class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
@@ -33,21 +35,19 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
         btnUnblockUser.setOnClickListener {
             viewModel.unblockUser(getChatOwner()?.getPeerId() ?: 0)
         }
-        btnSecretChat.stylize()
-
     }
 
     override fun getBottomPaddableView(): View = vBottom
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.blocked.observe(viewLifecycleOwner, Observer(::onBlockedChanged))
-        viewModel.foaf.observe(viewLifecycleOwner, Observer { foaf ->
+        viewModel.blocked.observe(::onBlockedChanged)
+        viewModel.foaf.observe { foaf ->
             foaf.data?.also { registrationDate ->
                 val registrationTs = (registrationDate.time / 1000L).toInt()
-                addValue(R.drawable.ic_id_card, getDate(registrationTs))
+                addValue(R.drawable.ic_registration_date, getDate(registrationTs))
             }
-        })
+        }
     }
 
     override fun bindChatOwner(chatOwner: User?) {
@@ -74,7 +74,7 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
                 addValue(R.drawable.ic_followers, resources.getQuantityString(R.plurals.followers, count, number))
             }
         }
-        addValue(R.drawable.ic_calendar, formatDate(formatBdate(user.bdate)).toLowerCase())
+        addValue(R.drawable.ic_birth_date, formatDate(formatBdate(user.bdate)).toLowerCase())
         addValue(R.drawable.ic_pin_home, user.city?.title)
         addValue(R.drawable.ic_home, user.hometown)
         addValue(R.drawable.ic_phone, user.mobilePhone, { callIntent(context, user.mobilePhone) }) {
@@ -101,6 +101,11 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
             copy(user.facebook, R.string.facebook)
         }
         viewModel.loadFoaf(chatOwner.getPeerId())
+
+        if (SessionProvider.isUserIdTheSame(user.id)) {
+            btnBlockUser.hide()
+            btnUnblockUser.hide()
+        }
     }
 
     private fun onBlockedChanged(data: Wrapper<Boolean>) {
