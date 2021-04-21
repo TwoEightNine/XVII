@@ -95,8 +95,11 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
             chatOwner = data.data
             chatOwner?.apply {
                 ivAvatar?.load(getAvatar())
-                tvTitle.text = getTitle()
-                xviiToolbar?.title = getTitle()
+
+                val title = getTitle().lowerIf(Prefs.lowerTexts)
+                tvTitle.text = title
+                xviiToolbar?.title = title
+
                 context?.also {
                     tvInfo.text = getInfoText(it)
                     getPrivacyInfo(it).also { privacyInfo ->
@@ -105,7 +108,7 @@ abstract class BaseChatOwnerFragment<T : ChatOwner> : BaseFragment() {
                         privacyInfo?.also { tvPrivacy.text = it }
                     }
                 }
-                tvTitle.lowerIf(Prefs.lowerTexts)
+
                 tvInfo.lowerIf(Prefs.lowerTexts)
                 swNotifications.isChecked = viewModel.getShowNotifications(getPeerId())
                 resetValues()
