@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.PopupWindow
+import com.twoeightnine.root.xvii.managers.Prefs
 
 abstract class KeyboardWindow(
         private val rootView: View,
@@ -60,7 +61,8 @@ abstract class KeyboardWindow(
 
      */
     private fun showAtBottom() {
-        showAtLocation(rootView, Gravity.BOTTOM, 0, BOTTOM_MARGIN)
+        val y = if (Prefs.liftKeyboard) BOTTOM_MARGIN else BOTTOM_MARGIN / 2
+        showAtLocation(rootView, Gravity.BOTTOM, 0, y)
     }
 
     /**

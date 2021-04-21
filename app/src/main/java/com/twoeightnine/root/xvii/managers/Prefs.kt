@@ -36,7 +36,7 @@ object Prefs {
     private const val EXACT_SUGGESTIONS = "exactSuggestions"
     private const val JOIN_SHOWN_LAST = "joinShownLast"
     private const val ENABLE_SWIPE_TO_BACK = "enableSwipeToBack"
-    private const val LIFT_KEYBOARD_WINDOW = "liftKeyboardWindow"
+    private const val LIFT_KEYBOARD_WINDOW = "liftKeyboard"
     private const val SUGGEST_PEOPLE = "suggestPeople"
 
     //notifications
@@ -141,7 +141,7 @@ object Prefs {
         set(value) = data.edit().putBoolean(ENABLE_SWIPE_TO_BACK, value).apply()
 
     var liftKeyboard
-        get() = data.getBoolean(LIFT_KEYBOARD_WINDOW, false)
+        get() = data.getBoolean(LIFT_KEYBOARD_WINDOW, true)
         set(value) = data.edit().putBoolean(LIFT_KEYBOARD_WINDOW, value).apply()
 
     var suggestPeople: Boolean
