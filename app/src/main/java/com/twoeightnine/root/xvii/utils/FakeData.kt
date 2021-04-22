@@ -5,8 +5,10 @@ import global.msnthrp.xvii.data.dialogs.Dialog
 
 object FakeData {
 
-    val name = "din läkare"
-    val avatar = "https://www.fondren.com/images/uday-v-doctor-md-profile.jpg"
+    const val ENABLED = true
+
+    const val NAME = "michelle bakunin"
+    const val AVATAR = "https://i.pinimg.com/236x/14/ee/01/14ee015a8fde1a5d41f3f4536ff2ecd6.jpg"
 
     val dialogs = arrayListOf(Dialog(
             title = "joe omaewamo",
@@ -25,6 +27,7 @@ object FakeData {
             isOnline = true,
             isPinned = false
     ), Dialog(
+            peerId = 16,
             title = "kevin mittagessen",
             timeStamp = time() - 666,
             photo = "https://vk.com/images/camera_400.png",
@@ -44,6 +47,7 @@ object FakeData {
             isOnline = false,
             isPinned = false
     ), Dialog(
+            peerId = 777,
             title = "fkdplc сходка #289",
             timeStamp = time() - 1112,
             text = "bien sûr ахахахха",

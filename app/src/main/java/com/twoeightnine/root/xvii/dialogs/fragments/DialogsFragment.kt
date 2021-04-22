@@ -72,8 +72,11 @@ open class DialogsFragment : BaseFragment() {
         swipeRefresh.isRefreshing = false
         progressBar.hide()
         if (data.data != null) {
-            adapter.update(data.data)
-//            adapter.update(FakeData.dialogs)
+            if (FakeData.ENABLED) {
+                adapter.update(FakeData.dialogs)
+            } else {
+                adapter.update(data.data)
+            }
         } else {
             showError(context, data.error ?: getString(R.string.error))
         }

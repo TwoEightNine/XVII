@@ -1,14 +1,10 @@
 package com.twoeightnine.root.xvii.extensions
 
-fun String.getInitials(): String {
+import global.msnthrp.xvii.uikit.extensions.upperIf
+
+fun String.getInitials(uppercase: Boolean = true): String {
     return when {
         isBlank() -> ""
-        else -> first().toString()
+        else -> first().toString().upperIf(uppercase)
     }
-//    val words = split(' ')
-//    return if (words.size < 2) {
-//        first().toString()
-//    } else {
-//        "${words.first()[0]}${words.last()[0]}"
-//    }
 }

@@ -12,6 +12,7 @@ import com.twoeightnine.root.xvii.background.longpoll.services.NotificationServi
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
 import com.twoeightnine.root.xvii.login.LoginActivity
+import com.twoeightnine.root.xvii.utils.FakeData
 import com.twoeightnine.root.xvii.utils.restartApp
 import com.twoeightnine.root.xvii.utils.showDeleteDialog
 import com.twoeightnine.root.xvii.utils.showWarnConfirm
@@ -49,8 +50,11 @@ class AccountsFragment : BaseFragment() {
     }
 
     private fun updateAccounts(accounts: List<Account>) {
-        adapter.update(accounts)
-//        adapter.update(FakeData.accounts)
+        if (FakeData.ENABLED) {
+            adapter.update(FakeData.accounts)
+        } else {
+            adapter.update(accounts)
+        }
         llContent.show()
         llContent.fadeIn(200L)
     }
