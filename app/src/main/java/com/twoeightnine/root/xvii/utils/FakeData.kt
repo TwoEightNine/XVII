@@ -5,14 +5,17 @@ import global.msnthrp.xvii.data.dialogs.Dialog
 
 object FakeData {
 
-    const val ENABLED = true
+    const val ENABLED = false
+    const val ENABLED_DIALOGS = false
 
     const val NAME = "michelle bakunin"
     const val AVATAR = "https://i.pinimg.com/236x/14/ee/01/14ee015a8fde1a5d41f3f4536ff2ecd6.jpg"
+    
+    private const val TIME = 1619074800
 
     val dialogs = arrayListOf(Dialog(
             title = "joe omaewamo",
-            timeStamp = time() - 863,
+            timeStamp = TIME - 863,
             photo = "https://i.pinimg.com/474x/e0/9c/04/e09c04bceeff6f2ff2f7797186ceb704.jpg",
             text = "пока искусство будет ориентироваться на зрителя, оно будет в жопе",
             isOut = true,
@@ -20,7 +23,7 @@ object FakeData {
             isPinned = true
     ), Dialog(
             title = "lil' sandra go brrr \uD83D\uDE0F",
-            timeStamp = time() - 163,
+            timeStamp = TIME - 163,
             photo = "https://upload.wikimedia.org/wikipedia/commons/5/58/Sandra_Palermo.jpg",
             text = "стикер",
             isOut = false,
@@ -29,7 +32,7 @@ object FakeData {
     ), Dialog(
             peerId = 16,
             title = "kevin mittagessen",
-            timeStamp = time() - 666,
+            timeStamp = TIME - 666,
             photo = "https://vk.com/images/camera_400.png",
             text = "ничего нового, в общем-то",
             isOut = true,
@@ -37,7 +40,7 @@ object FakeData {
             isPinned = false
     ), Dialog(
             title = "fresno yummy",
-            timeStamp = time() - 1000,
+            timeStamp = TIME - 1000,
             photo = "https://cf-images.us-east-1.prod.boltdns.net/v1/static/5596404782001/2f9f5225-e3d4-4f07-8d01-fd37440cd1ef/0676f989-2150-4292-8050-bb460dd77843/1280x720/match/image.jpg",
             text = "эй, ты чего?",
             unreadCount = 3,
@@ -49,7 +52,7 @@ object FakeData {
     ), Dialog(
             peerId = 777,
             title = "fkdplc сходка #289",
-            timeStamp = time() - 1112,
+            timeStamp = TIME - 1112,
             text = "bien sûr ахахахха",
             unreadCount = 17,
             isRead = false,
@@ -59,7 +62,7 @@ object FakeData {
             isPinned = false
     ), Dialog(
             title = "yela tricks",
-            timeStamp = time() - 1313,
+            timeStamp = TIME - 1313,
             photo = "https://upload.wikimedia.org/wikipedia/commons/5/52/Madame_Fortuna.png",
             text = "большое спасибо тебе!",
             isRead = false,
@@ -68,7 +71,7 @@ object FakeData {
             isPinned = false
     ), Dialog(
             title = "alan smithee",
-            timeStamp = time() - 2411,
+            timeStamp = TIME - 2411,
             photo = "https://you-anime.ru/anime-images/characters/106157.jpg",
             text = "да я так и подумал, хорошо",
             isRead = true,
