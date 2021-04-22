@@ -5,55 +5,57 @@ import global.msnthrp.xvii.data.dialogs.Dialog
 
 object FakeData {
 
-    const val ENABLED = false
+    const val ENABLED = true
     const val ENABLED_DIALOGS = false
 
-    const val NAME = "michelle bakunin"
-    const val AVATAR = "https://i.pinimg.com/236x/14/ee/01/14ee015a8fde1a5d41f3f4536ff2ecd6.jpg"
-    
+    const val NAME_MINE = "mikhaïl bakounine"
+    const val NAME_PERSON = "herzen"
+
+    const val AVATAR_MINE = "https://i.pinimg.com/236x/14/ee/01/14ee015a8fde1a5d41f3f4536ff2ecd6.jpg"
+    const val AVATAR_PERSON = "https://cdni.rbth.com/rbthmedia/images/web/en-rbth/images/2012-04/big/RIA-Novosti-gerzen-468.jpg"
+
     private const val TIME = 1619074800
 
     val dialogs = arrayListOf(Dialog(
-            title = "joe omaewamo",
+            title = NAME_PERSON,
             timeStamp = TIME - 863,
-            photo = "https://i.pinimg.com/474x/e0/9c/04/e09c04bceeff6f2ff2f7797186ceb704.jpg",
-            text = "пока искусство будет ориентироваться на зрителя, оно будет в жопе",
+            photo = AVATAR_PERSON,
+            text = "life has taught me to think, but thinking has not taught me to live",
             isOut = true,
             isOnline = true,
             isPinned = true
     ), Dialog(
-            title = "lil' sandra go brrr \uD83D\uDE0F",
+            peerId = 16,
+            title = "philipp \uD83C\uDDE9\uD83C\uDDEA",
             timeStamp = TIME - 163,
-            photo = "https://upload.wikimedia.org/wikipedia/commons/5/58/Sandra_Palermo.jpg",
-            text = "стикер",
+            photo = "https://vk.com/images/camera_400.png",
+            text = "sticker",
             isOut = false,
             isOnline = true,
             isPinned = false
     ), Dialog(
-            peerId = 16,
+            peerId = 18,
             title = "kevin mittagessen",
             timeStamp = TIME - 666,
-            photo = "https://vk.com/images/camera_400.png",
-            text = "ничего нового, в общем-то",
+            photo = "https://live.staticflickr.com/3080/3140160186_7fc2e77eb3_b.jpg",
+            text = "nothing new btw",
             isOut = true,
             isOnline = true,
             isPinned = false
     ), Dialog(
-            title = "fresno yummy",
+            title = NAME_MINE,
             timeStamp = TIME - 1000,
-            photo = "https://cf-images.us-east-1.prod.boltdns.net/v1/static/5596404782001/2f9f5225-e3d4-4f07-8d01-fd37440cd1ef/0676f989-2150-4292-8050-bb460dd77843/1280x720/match/image.jpg",
-            text = "эй, ты чего?",
-            unreadCount = 3,
+            photo = AVATAR_MINE,
+            text = "3 photos",
             isRead = false,
-            isMute = true,
             isOut = false,
             isOnline = false,
             isPinned = false
     ), Dialog(
             peerId = 777,
-            title = "fkdplc сходка #289",
+            title = "IWA 289",
             timeStamp = TIME - 1112,
-            text = "bien sûr ахахахха",
+            text = "bien sûr",
             unreadCount = 17,
             isRead = false,
             isMute = true,
@@ -61,22 +63,13 @@ object FakeData {
             isOnline = false,
             isPinned = false
     ), Dialog(
-            title = "yela tricks",
+            title = "first international",
             timeStamp = TIME - 1313,
-            photo = "https://upload.wikimedia.org/wikipedia/commons/5/52/Madame_Fortuna.png",
-            text = "большое спасибо тебе!",
+            photo = "https://i.redd.it/uuaz0o89pf541.png",
+            text = "and the United States of America was represented by Cameron",
             isRead = false,
             isOut = true,
             isOnline = false,
-            isPinned = false
-    ), Dialog(
-            title = "alan smithee",
-            timeStamp = TIME - 2411,
-            photo = "https://you-anime.ru/anime-images/characters/106157.jpg",
-            text = "да я так и подумал, хорошо",
-            isRead = true,
-            isOut = false,
-            isOnline = true,
             isPinned = false
     )
     )
@@ -84,8 +77,8 @@ object FakeData {
     val accounts = arrayListOf(Account(
             userId = 1753175317,
             token = "stub",
-            name = "fresno yummy",
-            photo = "https://cf-images.us-east-1.prod.boltdns.net/v1/static/5596404782001/2f9f5225-e3d4-4f07-8d01-fd37440cd1ef/0676f989-2150-4292-8050-bb460dd77843/1280x720/match/image.jpg",
+            name = NAME_MINE,
+            photo = AVATAR_MINE,
             isActive = true
     ), Account(
             userId = 1753171753,

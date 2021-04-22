@@ -109,7 +109,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (FakeData.ENABLED) {
-            chatToolbarController.setData(FakeData.NAME, FakeData.AVATAR, id = peerId)
+            chatToolbarController.setData(FakeData.NAME_PERSON, FakeData.AVATAR_PERSON, id = peerId)
         } else {
             chatToolbarController.setData(title, photo, id = peerId)
         }
