@@ -5,7 +5,7 @@
     android:id="@+id/rlBack"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="#627">
+    tools:background="#fff">
 
     <RelativeLayout
         android:id="@+id/rlDateSeparator"

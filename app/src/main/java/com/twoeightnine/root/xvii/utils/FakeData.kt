@@ -5,7 +5,7 @@ import global.msnthrp.xvii.data.dialogs.Dialog
 
 object FakeData {
 
-    const val ENABLED = true
+    const val ENABLED = false
     const val ENABLED_DIALOGS = false
 
     const val NAME_MINE = "mikhaïl bakounine"

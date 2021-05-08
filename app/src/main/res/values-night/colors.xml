@@ -47,4 +47,6 @@
     <color name="text_diff_insert_background">#293328</color>
     <color name="text_diff_remove_background">#372A2A</color>
 
+    <color name="message_background_gray">@color/background_message_dark</color>
+
 </resources>

@@ -55,6 +55,12 @@ class AppearanceFragment : BaseFragment() {
     private val backgroundDarkLighter by lazy {
         ContextCompat.getColor(requireContext(), R.color.background_dark_lighter)
     }
+    private val messageBackgroundLight by lazy {
+        ContextCompat.getColor(requireContext(), R.color.background_message_light)
+    }
+    private val messageBackgroundDark by lazy {
+        ContextCompat.getColor(requireContext(), R.color.background_message_dark)
+    }
 
     private lateinit var bottomSheetHelper: BottomSheetHelper
     private lateinit var permissionHelper: PermissionHelper
@@ -120,7 +126,7 @@ class AppearanceFragment : BaseFragment() {
 
             arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorWhite(50)) }
             (llMessageIn.background as? GradientDrawable)
-                    ?.setColor(color.color(Munch.UseCase.MESSAGES_IN, Munch.Theme.WHITE))
+                    ?.setColor(messageBackgroundLight)
             (llMessageOut.background as? GradientDrawable)
                     ?.setColor(color.color(Munch.UseCase.MESSAGES_OUT, Munch.Theme.WHITE))
         } else {
@@ -135,7 +141,7 @@ class AppearanceFragment : BaseFragment() {
 
             arrayOf(ivKeyboard, ivAttach).forEach { it.paint(color.colorDark(50)) }
             (llMessageIn.background as? GradientDrawable)
-                    ?.setColor(color.color(Munch.UseCase.MESSAGES_IN, Munch.Theme.DARK))
+                    ?.setColor(messageBackgroundDark)
             (llMessageOut.background as? GradientDrawable)
                     ?.setColor(color.color(Munch.UseCase.MESSAGES_OUT, Munch.Theme.DARK))
         }

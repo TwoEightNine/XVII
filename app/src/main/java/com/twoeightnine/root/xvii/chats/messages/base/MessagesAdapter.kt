@@ -76,6 +76,9 @@ class MessagesAdapter(context: Context,
     private val levelPadding by lazy {
         context.resources.getDimensionPixelSize(R.dimen.chat_message_level_padding)
     }
+    private val messageBackground by lazy {
+        ContextCompat.getColor(context, R.color.message_background_gray)
+    }
 
     override fun createHolder(parent: ViewGroup, viewType: Int) = MessageViewHolder(inflater.inflate(
             when (viewType) {
@@ -443,7 +446,7 @@ class MessagesAdapter(context: Context,
             (background as GradientDrawable).setColor(
                     when {
                         hide -> Color.TRANSPARENT
-                        level % 2 == 0 -> Munch.color.color(Munch.UseCase.MESSAGES_IN)
+                        level % 2 == 0 -> messageBackground
                         else -> Munch.color.color(Munch.UseCase.MESSAGES_OUT)
                     })
         }

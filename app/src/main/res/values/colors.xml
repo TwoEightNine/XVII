@@ -53,4 +53,6 @@
     <color name="text_diff_insert_background">#F1FFF4</color>
     <color name="text_diff_remove_background">#FDEBEB</color>
 
+    <color name="message_background_gray">@color/background_message_light</color>
+
 </resources>
