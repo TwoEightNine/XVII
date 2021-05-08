@@ -1,10 +1,12 @@
 package global.msnthrp.xvii.uikit.utils.color
 
+import kotlin.math.sign
+
 object AvatarColors {
 
     private val colors = createColors().map { it or 0xff000000.toInt() }
 
-    fun getColor(any: Any) = colors[any.hashCode() % colors.size]
+    fun getColor(any: Any) = colors[any.hashCode() mod colors.size]
 
     private fun createColors() = listOf(
             0x39375B,
@@ -35,4 +37,8 @@ object AvatarColors {
             0xF58A07,
             0x909CC2
     )
+
+    private infix fun Int.mod(num: Int): Int {
+        return (this % num).run { this * sign }
+    }
 }
