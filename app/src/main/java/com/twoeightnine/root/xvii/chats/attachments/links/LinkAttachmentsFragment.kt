@@ -25,7 +25,7 @@ class LinkAttachmentsFragment : BaseAttachmentsFragment<Link>() {
 
     private fun onClick(link: Link) {
         // TODO mark link
-        val url = link.url
+        val url = link.caption
         val message = context?.getString(R.string.attachment_open_link_prompt, url) ?: return
         showConfirm(context, message) { yes ->
             if (yes) {

@@ -434,7 +434,7 @@ class AttachmentsInflater(
 
         override fun onLinkClicked(link: Link) {
             // TODO mark link
-            val url = link.url
+            val url = link.caption
             val message = context.getString(R.string.attachment_open_link_prompt, url)
             showConfirm(context, message) { yes ->
                 if (yes) {
