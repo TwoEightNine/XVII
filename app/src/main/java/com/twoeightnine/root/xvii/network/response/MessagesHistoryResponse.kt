@@ -39,14 +39,14 @@ data class MessagesHistoryResponse(
 
     fun getNameForMessage(message: Message) = when {
         message.fromId.matchesUserId() -> getProfileById(message.fromId)?.fullName
-        message.peerId.matchesGroupId() -> getGroupById(-message.peerId)?.name
+        message.fromId.matchesGroupId() -> getGroupById(-message.fromId)?.name
         message.peerId.matchesChatId() -> getConversationById(message.peerId)?.chatSettings?.title
         else -> null
     }
 
     fun getPhotoForMessage(message: Message) = when {
         message.fromId.matchesUserId() -> getProfileById(message.fromId)?.photo100
-        message.peerId.matchesGroupId() -> getGroupById(-message.peerId)?.photo100
+        message.fromId.matchesGroupId() -> getGroupById(-message.fromId)?.photo100
         message.peerId.matchesChatId() -> getConversationById(message.peerId)?.chatSettings?.photo?.photo100
         else -> null
     }
