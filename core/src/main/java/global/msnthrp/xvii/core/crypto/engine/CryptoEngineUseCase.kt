@@ -36,7 +36,12 @@ class CryptoEngineUseCase(
     /**
      * used to check if [CryptoEngineUseCase] can be used
      */
-    fun isKeyRequired(peerId: Int) = peerId !in keysMap
+    fun isKeyRequired(peerId: Int): Boolean = try {
+        getKeyOrThrow(peerId)
+        false
+    } catch (e: IllegalStateException) {
+        true
+    }
 
     fun isExchangeStarted(peerId: Int) = peerId in pendingExchanges
 
