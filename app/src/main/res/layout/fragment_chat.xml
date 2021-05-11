@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/key_pattern"
+        android:alpha="0.3"
         android:visibility="gone" />
 
     <RelativeLayout
