@@ -33,18 +33,18 @@ class KeyExchangeHandler {
 
     fun handleKeyExchange(context: Context, event: NewMessageEvent) {
         val peerId = event.peerId
+        val exchange = event.text
         if (!event.isOut()) {
-            if (crypto.isExchangeStarted(peerId)) {
-                l("receive exchange support")
-                ld(event.text)
-                crypto.finishExchange(peerId, event.text)
+            if (!crypto.isNewExchange(exchange)) {
+                l("receive exchange support: ${exchange.takeLast(8)}")
+                crypto.finishExchange(peerId, exchange)
             } else {
-                l("receive exchange")
-                ld(event.text)
+                l("receive exchange: ${exchange.takeLast(8)}")
 
                 val callback = { peer: PeerResolver.ResolvedPeer? ->
+                    ld("peer resolved: $peer")
                     NotificationUtils.showKeyExchangeNotification(
-                            context, peer?.peerName ?: "id$peerId", peerId, event.text
+                            context, peer?.peerName ?: "id$peerId", peerId, exchange
                     )
                 }
 
@@ -96,6 +96,7 @@ class KeyExchangeHandler {
 
             val ownKeys = CryptoEngine.common.supportExchange(peerId, exchangeText)
             sendData(peerId, ownKeys)
+            context?.also(NotificationUtils::hideAllExchangeNotifications)
         }
 
         private fun sendData(peerId: Int, data: String) {

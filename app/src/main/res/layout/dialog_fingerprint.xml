@@ -16,14 +16,6 @@
         android:text="@string/fingerprint"
         android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/tvKeyType"
-        style="@style/MainText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/key_type" />
-
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/ivGravatar"
         android:layout_width="180dp"

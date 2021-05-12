@@ -1,12 +1,12 @@
 package com.twoeightnine.root.xvii.background.longpoll.receivers
 
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.ApiUtils
+import com.twoeightnine.root.xvii.utils.notifications.NotificationUtils
 import javax.inject.Inject
 
 class MarkAsReadBroadcastReceiver : BroadcastReceiver() {
@@ -26,8 +26,9 @@ class MarkAsReadBroadcastReceiver : BroadcastReceiver() {
 
             if (action == ACTION_MARK_AS_READ) {
                 apiUtils.markAsRead("$messageId")
-                (context?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)
-                        ?.cancel(peerId)
+                context?.also {
+                    NotificationUtils.hideMessageNotification(context, peerId)
+                }
             }
         } catch (e: Exception) {
             L.tag(TAG).throwable(e).log("unable to mark message\ndata: ${intent.extras}")

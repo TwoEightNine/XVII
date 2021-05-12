@@ -33,6 +33,15 @@ class CryptoEngineUseCase(
      */
     private val pendingExchanges = arrayListOf<Int>()
 
+    fun isNewExchange(keyEx: String): Boolean {
+        return try {
+            unwrapKey(keyEx).deserialize()
+            true
+        } catch (e: java.lang.Exception) {
+            false
+        }
+    }
+
     /**
      * used to check if [CryptoEngineUseCase] can be used
      */

@@ -19,6 +19,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.security.MessageDigest
+import java.util.concurrent.TimeUnit
 
 class SecretChatViewModel(
         api: ApiService,
@@ -43,8 +44,7 @@ class SecretChatViewModel(
 
     fun startExchange() {
         AsyncUtils.onIoThread(crypto::startExchange) { keyEx ->
-            l("start exchange")
-            ld(keyEx)
+            l("start exchange: ${keyEx.takeLast(8)}")
             sendData(keyEx)
         }
     }
@@ -178,6 +178,8 @@ class SecretChatViewModel(
 
 
     companion object {
+
+        private val EXCHANGE_FAILURE_THRESHOLD = TimeUnit.SECONDS.toMillis(10L)
         private const val TAG = "secret chat"
     }
 }

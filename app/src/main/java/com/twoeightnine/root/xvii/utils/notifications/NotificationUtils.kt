@@ -31,6 +31,33 @@ object NotificationUtils {
     private val RING_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     private val VIBRATE_PATTERN = longArrayOf(0L, 200L)
 
+    private val shownMessageNotificationIds = mutableListOf<Int>()
+    private val shownExchangeNotificationIds = mutableListOf<Int>()
+
+    fun hideAllMessageNotifications(context: Context) {
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
+            shownMessageNotificationIds.forEach { id ->
+                cancel(id)
+            }
+        }
+        shownMessageNotificationIds.clear()
+    }
+
+    fun hideAllExchangeNotifications(context: Context) {
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
+            shownExchangeNotificationIds.forEach { id ->
+                cancel(id)
+            }
+        }
+        shownExchangeNotificationIds.clear()
+    }
+
+    fun hideMessageNotification(context: Context, peerId: Int) {
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+                .cancel(peerId)
+        shownMessageNotificationIds.remove(peerId)
+    }
+
     fun showLongPollNotification(service: Service) {
         val explainIntent = Intent(service, LongPollExplanationActivity::class.java)
         val explainPendingIntent = PendingIntent.getActivity(service, 0, explainIntent, 0)
@@ -76,8 +103,10 @@ object NotificationUtils {
                         getExchangeIntent(context, peerId, exchangeText, KeyExchangeHandler.ACTION_ACCEPT_EXCHANGE))
                 .build()
 
+        val notificationId = Random.nextInt()
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)
-                ?.notify(Random.nextInt(), notification)
+                ?.notify(notificationId, notification)
+        shownExchangeNotificationIds.add(notificationId)
     }
 
     fun showNewMessageNotification(
@@ -203,6 +232,7 @@ object NotificationUtils {
         if (isPeerIdStillActual(peerId)) {
             (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
                     .notify(peerId, notification)
+            shownMessageNotificationIds.add(peerId)
         }
     }
 

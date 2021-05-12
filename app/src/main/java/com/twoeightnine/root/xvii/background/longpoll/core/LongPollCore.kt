@@ -1,7 +1,6 @@
 package com.twoeightnine.root.xvii.background.longpoll.core
 
 import android.annotation.SuppressLint
-import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -39,9 +38,6 @@ class LongPollCore(private val context: Context) {
     private val coreId = Random.nextLong().run { this * sign }
 
     private val vibrator by lazy { context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator }
-    private val notificationManager by lazy {
-        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
 
     private val journalUseCase by lazy {
         JournalUseCase(DbJournalDataSource(appDb.journalDao()))
@@ -155,7 +151,7 @@ class LongPollCore(private val context: Context) {
      */
     private fun processReadIncoming(event: ReadIncomingEvent) {
         unreadMessages[event.peerId]?.clear()
-        notificationManager.cancel(event.peerId)
+        NotificationUtils.hideMessageNotification(context, event.peerId)
     }
 
     /**
@@ -165,7 +161,7 @@ class LongPollCore(private val context: Context) {
         if (event.unreadCount == 0) {
             unreadMessages.clear()
             try {
-                notificationManager.cancelAll()
+                NotificationUtils.hideAllMessageNotifications(context)
             } catch (e: SecurityException) {
                 lw("error cancelling all", e)
             }
