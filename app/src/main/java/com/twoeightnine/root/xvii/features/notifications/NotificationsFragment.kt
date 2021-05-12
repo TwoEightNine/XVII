@@ -146,6 +146,8 @@ class NotificationsFragment : BaseFragment() {
                 openChannelSettings()
             }
         } else {
+            listOf(btnSettingsPrivate, btnSettingsOther)
+                    .forEach { it.hide() }
             btnSettings.setOnClickListener {
                 openSettingsPreOreo()
             }
