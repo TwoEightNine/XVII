@@ -58,7 +58,7 @@ class LoginActivity : BaseActivity() {
             checkTokenAndStart()
         }
 
-        webView.applyTopInsetMargin()
+        webView?.applyTopInsetMargin()
     }
 
     override fun getStatusBarColor() = ContextCompat.getColor(this, R.color.splash_background)
