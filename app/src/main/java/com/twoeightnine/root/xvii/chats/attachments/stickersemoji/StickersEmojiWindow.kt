@@ -7,6 +7,7 @@ import com.twoeightnine.root.xvii.model.attachments.Sticker
 import com.twoeightnine.root.xvii.views.KeyboardWindow
 import global.msnthrp.xvii.data.stickersemoji.model.Emoji
 import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.isValidForGlide
 import kotlinx.android.synthetic.main.window_stickers.view.*
 
 
@@ -29,17 +30,19 @@ class StickersEmojiWindow(
 
     override fun onViewCreated() {
         super.onViewCreated()
-        loadStickers(forceLoad = false)
+        loadEmojisAndStickers(forceLoad = false)
         setOnDismissListener {
             repo.destroy()
         }
     }
 
-    private fun loadStickers(forceLoad: Boolean) {
+    private fun loadEmojisAndStickers(forceLoad: Boolean) {
         repo.loadEmojis { emojiPacks ->
             val hasRecentEmoji = emojiPacks.find { it.name == null }?.emojis?.isNotEmpty()
                     ?: false
             repo.loadStickers(forceLoad = forceLoad) { stickerPacks ->
+                if (!context.isValidForGlide()) return@loadStickers
+
                 val hasRecentStickers = stickerPacks.find { it.name == null }?.stickers?.isNotEmpty()
                         ?: false
                 with(contentView) {
