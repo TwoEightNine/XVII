@@ -102,9 +102,17 @@ class VoiceRecorder(
                 recorderCallback.onVoiceTimeUpdated(spent)
             }
 
-            var amplitude = (recorder?.maxAmplitude ?: 0).toFloat() / MAX_AMPLITUDE
+            var amplitude = recorder.getMaxAmplitude() / MAX_AMPLITUDE
             if (amplitude > 1) amplitude = 1f
             recorderCallback.onAmplitudeChanged(sqrt(amplitude)) // amplify weak
+        }
+
+        private fun MediaRecorder?.getMaxAmplitude(): Float {
+            return try {
+                this?.maxAmplitude?.toFloat() ?: 0f
+            } catch (e: Exception) {
+                0f
+            }
         }
     }
 }
