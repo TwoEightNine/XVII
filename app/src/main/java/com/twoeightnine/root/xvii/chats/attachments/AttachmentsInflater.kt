@@ -43,6 +43,16 @@ class AttachmentsInflater(
         private val callback: Callback
 ) {
 
+    /**
+     * lambda to fetch a list of actual audios to play sequentially
+     */
+    var audiosFetcher: (() -> List<Audio>)? = null
+
+    /**
+     * lambda to fetch a list of actual audio messages to play sequentially
+     */
+    var audioMessagesFetcher: (() -> List<AudioMessage>)? = null
+
     private val resources = context.resources
     private val inflater: LayoutInflater =
             context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -146,8 +156,10 @@ class AttachmentsInflater(
 
     private fun createViewFor(attachment: Attachment, attachments: List<Attachment>, level: Int = 0): View? {
         return when (attachment.type) {
-            Attachment.TYPE_AUDIO -> attachment.audio
-                    ?.let { audio -> createAudio(audio, attachments.getAudios().filterNotNull()) }
+            Attachment.TYPE_AUDIO -> {
+                val audios = audiosFetcher?.invoke() ?: attachments.getAudios().filterNotNull()
+                attachment.audio?.let { audio -> createAudio(audio, audios) }
+            }
             Attachment.TYPE_LINK -> attachment.link?.let(::createLink)
             Attachment.TYPE_VIDEO -> attachment.video?.let(::createVideo)
             Attachment.TYPE_POLL -> attachment.poll?.let(::createPoll)
@@ -230,12 +242,15 @@ class AttachmentsInflater(
                 root
             }
 
-    //TODO pass all audio messages
-    private fun createAudioMessage(audioMessage: AudioMessage): View =
-            createAudio(
-                    audio = Audio(audioMessage, context.getString(R.string.voice_message)),
-                    text = audioMessage.transcript
-            )
+    private fun createAudioMessage(audioMessage: AudioMessage): View {
+        val audioMessages = audioMessagesFetcher?.invoke() ?: listOf(audioMessage)
+        val audios = audioMessages.map { Audio(it, context.getString(R.string.voice_message)) }
+        return createAudio(
+                audio = Audio(audioMessage, context.getString(R.string.voice_message)),
+                audios = audios,
+                text = audioMessage.transcript
+        )
+    }
 
     private fun createAudio(audio: Audio, audios: List<Audio> = listOf(audio), text: String? = null): View {
         val binding = ContainerAudioBinding.inflate(inflater)

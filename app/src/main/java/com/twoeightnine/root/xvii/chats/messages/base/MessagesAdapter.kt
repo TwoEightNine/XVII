@@ -20,6 +20,8 @@ import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
 import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.model.attachments.getAudioMessage
+import com.twoeightnine.root.xvii.model.attachments.getAudios
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.model.messages.WrappedMessage
 import com.twoeightnine.root.xvii.uikit.Munch
@@ -78,6 +80,18 @@ class MessagesAdapter(context: Context,
     }
     private val messageBackground by lazy {
         ContextCompat.getColor(context, R.color.message_background_gray)
+    }
+
+    init {
+        messageInflater.audiosFetcher = {
+            items.mapNotNull { it.message.attachments }
+                    .flatten()
+                    .getAudios()
+                    .filterNotNull()
+        }
+        messageInflater.audioMessagesFetcher = {
+            items.mapNotNull { it.message.attachments?.getAudioMessage() }
+        }
     }
 
     override fun createHolder(parent: ViewGroup, viewType: Int) = MessageViewHolder(inflater.inflate(
