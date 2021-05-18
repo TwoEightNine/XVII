@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import kotlinx.android.synthetic.main.fragment_ui_kit.*
@@ -33,14 +34,31 @@ abstract class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        l("onViewCreated")
         ViewCompat.requestApplyInsets(view)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        l("onActivityCreated")
         xviiToolbar?.apply {
             baseActivity?.also(::setupWith)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        l("onResume")
+    }
+
+    override fun onPause() {
+        l("onPause")
+        super.onPause()
+    }
+
+    override fun onDestroyView() {
+        l("onDestroyView")
+        super.onDestroyView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -71,5 +89,9 @@ abstract class BaseFragment : Fragment() {
 
     protected fun <T> LiveData<T>.observe(observer: (T) -> Unit) {
         observe(viewLifecycleOwner, Observer(observer))
+    }
+
+    private fun l(event: String) {
+        L.tag("lifecycle").log("${javaClass.simpleName} $event")
     }
 }
