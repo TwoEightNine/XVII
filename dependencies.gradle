@@ -1,7 +1,7 @@
 ext {
     androidApp = [
-            versionCode  : 177,
-            versionName  : "6.0",
+            versionCode  : 178,
+            versionName  : "6.0.1",
             applicationId: "com.twoeightnine.root.xvii"
     ]
 
