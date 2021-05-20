@@ -32,9 +32,9 @@ import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
@@ -106,7 +106,7 @@ class SecretChatViewModel(
                     val encryptFile = { crypto.encryptFile(plainFile) }
                     AsyncUtils.onIoThreadNullable(encryptFile) { encFile ->
                         encFile ?: return@onIoThreadNullable
-                        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), encFile)
+                        val requestFile = encFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                         val body = MultipartBody.Part.createFormData("file", encFile.name, requestFile)
                         api.uploadDoc(uploadServer.uploadUrl ?: "", body)
                                 .compose(applySchedulers())

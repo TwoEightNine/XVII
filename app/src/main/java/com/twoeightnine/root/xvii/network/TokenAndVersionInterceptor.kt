@@ -30,7 +30,7 @@ class TokenAndVersionInterceptor: Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-        val builder = request.url().newBuilder()
+        val builder = request.url.newBuilder()
         if (needParameters(request)) {
             val version = if (isNewVersion(request)) VERSION_NEW else VERSION_OLD
             builder.addQueryParameter(ACCESS_TOKEN, SessionProvider.token)

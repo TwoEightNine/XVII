@@ -24,9 +24,9 @@ import com.twoeightnine.root.xvii.model.attachments.Attachment
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.applySchedulers
 import com.twoeightnine.root.xvii.utils.subscribeSmart
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 class ChatMessagesViewModel(
@@ -38,7 +38,7 @@ class ChatMessagesViewModel(
         api.getPhotoUploadServer()
                 .subscribeSmart({ uploadServer ->
                     val file = File(path)
-                    val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                     val body = MultipartBody.Part.createFormData("photo", file.name, requestFile)
                     api.uploadPhoto(uploadServer.uploadUrl ?: "", body)
                             .compose(applySchedulers())
