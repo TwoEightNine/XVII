@@ -459,7 +459,10 @@ class AttachmentsInflater(
         TEXT
     }
 
-    abstract class DefaultCallback(private val context: Context) : Callback {
+    abstract class DefaultCallback(
+            private val context: Context,
+            private val permissionHelper: PermissionHelper
+    ) : Callback {
 
         override fun onPhotoClicked(position: Int, photos: List<Photo>) {
             ImageViewerActivity.viewImages(context, photos, position)
@@ -486,7 +489,11 @@ class AttachmentsInflater(
             val dialog = AlertDialog.Builder(context)
                     .setMessage(R.string.attachment_open_doc_prompt)
                     .setPositiveButton(R.string.attachment_open_doc_prompt_download) { _, _ ->
-                        DownloadUtils.download(context, file, doc.url)
+                        permissionHelper.doOrRequest(
+                                arrayOf(PermissionHelper.WRITE_STORAGE, PermissionHelper.READ_STORAGE),
+                                R.string.no_access_to_storage,
+                                R.string.need_access_to_storage
+                        ) { DownloadUtils.download(context, file, doc.url) }
                     }
                     .setNeutralButton(R.string.attachment_open_doc_prompt_browser) { _, _ ->
                         BrowsingUtils.openUrl(context, doc.url)

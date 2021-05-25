@@ -37,6 +37,7 @@ import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.utils.AppBarLifter
 import com.twoeightnine.root.xvii.utils.BrowsingUtils
+import com.twoeightnine.root.xvii.utils.PermissionHelper
 import com.twoeightnine.root.xvii.utils.showError
 import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.fragment_deep_forwarded.*
@@ -124,7 +125,7 @@ class DeepForwardedFragment : BaseFragment() {
     }
 
     private inner class ForwardedAttachmentsCallback(context: Context)
-        : AttachmentsInflater.DefaultCallback(context) {
+        : AttachmentsInflater.DefaultCallback(context, PermissionHelper(this)) {
 
         override fun onVideoClicked(video: Video) {
             context?.also {

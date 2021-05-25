@@ -166,7 +166,8 @@ class WallPostFragment : BaseFragment() {
         val llContainer: LinearLayout = view.llContainer
     }
 
-    private inner class WallPostCallback(context: Context) : AttachmentsInflater.DefaultCallback(context) {
+    private inner class WallPostCallback(context: Context)
+        : AttachmentsInflater.DefaultCallback(context, PermissionHelper(this)) {
 
         override fun onEncryptedDocClicked(doc: Doc) {
         }
