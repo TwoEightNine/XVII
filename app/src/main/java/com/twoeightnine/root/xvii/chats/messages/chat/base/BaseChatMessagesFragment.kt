@@ -488,7 +488,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
     }
 
-    inner class AttachmentsCallback(context: Context) : AttachmentsInflater.DefaultCallback(context) {
+    inner class AttachmentsCallback(context: Context)
+        : AttachmentsInflater.DefaultCallback(context, PermissionHelper(this)) {
 
         override fun onVideoClicked(video: Video) {
             viewModel.loadVideo(context ?: return, video, { playerUrl ->

@@ -36,6 +36,7 @@ import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.BrowsingUtils
+import com.twoeightnine.root.xvii.utils.PermissionHelper
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.utils.copyToClip
@@ -103,7 +104,8 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
 
     }
 
-    override fun getAttachmentsCallback() = object : AttachmentsInflater.DefaultCallback(requireContext()) {
+    override fun getAttachmentsCallback() = object
+        : AttachmentsInflater.DefaultCallback(requireContext(), PermissionHelper(this)) {
 
         override fun onEncryptedDocClicked(doc: Doc) {
         }
