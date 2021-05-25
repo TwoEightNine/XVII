@@ -110,13 +110,10 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun shouldRunService() = true
 
     private fun updateConfig() {
-        AppCompatDelegate.setDefaultNightMode(
-                if (Prefs.isLightTheme) {
-                    AppCompatDelegate.MODE_NIGHT_NO
-                } else {
-                    AppCompatDelegate.MODE_NIGHT_YES
-                }
-        )
+        AppCompatDelegate.setDefaultNightMode(when {
+            Prefs.isLightTheme -> AppCompatDelegate.MODE_NIGHT_NO
+            else -> AppCompatDelegate.MODE_NIGHT_YES
+        })
     }
 
     private fun runServiceIfDown() {
