@@ -21,7 +21,6 @@ package com.twoeightnine.root.xvii.web
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
-import com.bumptech.glide.Glide
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
@@ -32,6 +31,7 @@ import com.twoeightnine.root.xvii.utils.PermissionHelper
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import global.msnthrp.xvii.uikit.extensions.applyTopInsetPadding
 import global.msnthrp.xvii.uikit.extensions.toggle
+import global.msnthrp.xvii.uikit.utils.GlideApp
 import kotlinx.android.synthetic.main.activity_gif_viewer.*
 import java.io.File
 import javax.inject.Inject
@@ -78,7 +78,7 @@ class GifViewerFragment : BaseFragment() {
         }
         ivBack.setOnClickListener { onBackPressed() }
 
-        Glide.with(ivGif)
+        GlideApp.with(ivGif)
                 .load(url)
                 .into(ivGif)
 

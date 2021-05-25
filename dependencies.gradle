@@ -38,7 +38,8 @@ ext {
             workManagerVersion: "2.4.0",
             retrofitVersion   : "2.5.0",
             okHttpVersion     : "3.14.6",
-            lifecycleVersion  : "2.2.0"
+            lifecycleVersion  : "2.2.0",
+            glideVersion      : "4.11.0"
     ]
 
     kotlin = [
@@ -118,9 +119,12 @@ ext {
     ]
 
     utils = [
-            gson   : "com.google.code.gson:gson:2.8.5",
-            glide  : "com.github.bumptech.glide:glide:4.11.0",
-            picasso: "com.squareup.picasso:picasso:2.71828",
-            crypto : "androidx.security:security-crypto:1.0.0-rc04"
+            gson         : "com.google.code.gson:gson:2.8.5",
+
+            glide        : "com.github.bumptech.glide:glide:${toolsVersions.glideVersion}",
+            glideCompiler: "com.github.bumptech.glide:compiler:${toolsVersions.glideVersion}",
+
+            picasso      : "com.squareup.picasso:picasso:2.71828",
+            crypto       : "androidx.security:security-crypto:1.0.0-rc04"
     ]
 }

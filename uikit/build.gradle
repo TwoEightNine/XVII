@@ -19,6 +19,8 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+
 }
 apply from: "$project.rootDir/dependencies.gradle"
 
@@ -61,6 +63,7 @@ dependencies {
     implementation androidUi.fragmentKtx
 
     implementation utils.glide
+    kapt utils.glideCompiler
 
     testImplementation androidTests.jUnit
     androidTestImplementation androidTests.espresso
