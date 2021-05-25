@@ -21,10 +21,12 @@ package com.twoeightnine.root.xvii
 import android.app.Application
 import android.content.Context
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import com.twoeightnine.root.xvii.dagger.AppComponent
 import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.lg.L
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.data.utils.ContextHolder
 import global.msnthrp.xvii.data.utils.ContextProvider
@@ -40,6 +42,13 @@ class App : Application() {
         ContextHolder.contextProvider = object : ContextProvider {
             override val applicationContext: Context = context
         }
+
+        // here to prevent relaunch of the first activity
+        AppCompatDelegate.setDefaultNightMode(when {
+            Prefs.isLightTheme -> AppCompatDelegate.MODE_NIGHT_NO
+            else -> AppCompatDelegate.MODE_NIGHT_YES
+        })
+
         VibrationHelper.initVibrator(context)
         appComponent = DaggerAppComponent.builder()
                 .contextModule(ContextModule(this))
