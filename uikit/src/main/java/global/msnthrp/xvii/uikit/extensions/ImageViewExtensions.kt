@@ -23,10 +23,10 @@ import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import global.msnthrp.xvii.uikit.utils.GlideApp
 
 
 fun ImageView.load(
@@ -49,7 +49,7 @@ fun ImageView.load(
             rb
         }
     }
-    Glide.with(this)
+    GlideApp.with(this)
             .load(urlOrStub)
 //            .let(placeholderIfNeeded)
             .block()
@@ -61,7 +61,7 @@ fun SimpleBitmapTarget.load(
         url: String,
         block: RequestBuilder<Bitmap>.() -> RequestBuilder<Bitmap> = { this }
 ) {
-    Glide.with(context)
+    GlideApp.with(context)
             .asBitmap()
             .load(url)
             .block()
