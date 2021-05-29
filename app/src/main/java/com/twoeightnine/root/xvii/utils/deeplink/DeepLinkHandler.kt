@@ -19,12 +19,14 @@
 package com.twoeightnine.root.xvii.utils.deeplink
 
 import android.content.Intent
+import com.twoeightnine.root.xvii.utils.deeplink.cases.ChatCase
 import com.twoeightnine.root.xvii.utils.deeplink.cases.ChatOwnerCase
 
 class DeepLinkHandler {
 
     private val cases = listOf(
-        ChatOwnerCase
+            ChatOwnerCase,
+            ChatCase
     )
 
     private var lastHandledIntent: Intent? = null
@@ -47,6 +49,8 @@ class DeepLinkHandler {
     sealed class Result {
 
         data class ChatOwner(val peerId: Int) : Result()
+
+        data class Chat(val peerId: Int) : Result()
 
         object Unknown : Result()
     }
