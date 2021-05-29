@@ -30,6 +30,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
@@ -39,6 +40,7 @@ import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.deeplink.DeepLinkHandler
 import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
 import global.msnthrp.xvii.uikit.extensions.isVisible
 import global.msnthrp.xvii.uikit.extensions.setVisible
@@ -53,6 +55,7 @@ class MainActivity : BaseActivity() {
     private val bottomNavViewHeight by lazy {
         resources.getDimensionPixelSize(R.dimen.bottom_navigation_height)
     }
+    private val deepLinkHandler by lazy { DeepLinkHandler() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +92,14 @@ class MainActivity : BaseActivity() {
                 view.layoutParams = this
             }
             insets
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        when (val result = deepLinkHandler.handle(intent)) {
+            is DeepLinkHandler.Result.ChatOwner -> ChatOwnerFactory.launch(this, result.peerId)
+            else -> Unit
         }
     }
 

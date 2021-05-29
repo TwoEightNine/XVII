@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.Interaction
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesViewModel
@@ -120,7 +120,7 @@ class DeepForwardedFragment : BaseFragment() {
         }
 
         override fun onUserClicked(userId: Int) {
-            ChatOwnerActivity.launch(context, userId)
+            ChatOwnerFactory.launch(context, userId)
         }
     }
 

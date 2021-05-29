@@ -25,9 +25,22 @@ import com.twoeightnine.root.xvii.utils.deeplink.DeepLinkHandler
 
 object ChatOwnerCase : DeepLinkHandler.Case<Int> {
 
+    private const val PATH_PREFIX_USER = "id"
+
     override fun parseIntent(intent: Intent): Int? {
         return when (intent.action) {
-            Intent.ACTION_VIEW -> intent.data?.lastPathSegment?.replace("id", "")?.toIntOrNull()
+            Intent.ACTION_VIEW -> {
+                intent.data?.lastPathSegment?.let { lastPath ->
+                    val isUser = PATH_PREFIX_USER in lastPath
+
+                    getChatOwnerIdFromLastPath(lastPath)?.let { chatOwnerId ->
+                        when {
+                            isUser -> chatOwnerId
+                            else -> -chatOwnerId
+                        }
+                    }
+                }
+            }
             else -> intent.extras?.getIntOrNull(BaseChatOwnerFragment.ARG_PEER_ID)
         }
     }
@@ -37,4 +50,12 @@ object ChatOwnerCase : DeepLinkHandler.Case<Int> {
                 null -> DeepLinkHandler.Result.Unknown
                 else -> DeepLinkHandler.Result.ChatOwner(peerId)
             }
+
+    private fun getChatOwnerIdFromLastPath(lastPath: String): Int? {
+        return lastPath
+                .replace(PATH_PREFIX_USER, "")
+                .replace("club", "")
+                .replace("public", "")
+                .toIntOrNull()
+    }
 }

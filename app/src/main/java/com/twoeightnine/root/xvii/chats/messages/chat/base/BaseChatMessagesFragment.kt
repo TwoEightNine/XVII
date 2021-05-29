@@ -32,7 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragmentForResult
-import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.attachments.attach.AttachFragment
 import com.twoeightnine.root.xvii.chats.attachments.attached.AttachedAdapter
@@ -139,7 +139,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
         xviiToolbar?.onClick = {
             activity?.let { hideKeyboard(it) }
-            ChatOwnerActivity.launch(context, peerId)
+            ChatOwnerFactory.launch(context, peerId)
         }
 
         viewModel.getLastSeen().observe(viewLifecycleOwner, ::onOnlineChanged)
@@ -484,7 +484,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         }
 
         override fun onUserClicked(userId: Int) {
-            ChatOwnerActivity.launch(context, userId)
+            ChatOwnerFactory.launch(context, userId)
         }
     }
 

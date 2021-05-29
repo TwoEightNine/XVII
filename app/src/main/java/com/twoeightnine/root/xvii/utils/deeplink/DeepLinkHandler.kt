@@ -27,7 +27,14 @@ class DeepLinkHandler {
         ChatOwnerCase
     )
 
+    private var lastHandledIntent: Intent? = null
+
     fun handle(intent: Intent): Result {
+        if (lastHandledIntent == intent) {
+            return Result.Unknown
+        }
+        lastHandledIntent = intent
+
         for (case in cases) {
             val result = case.getResult(intent)
             if (result != Result.Unknown) {

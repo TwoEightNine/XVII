@@ -26,7 +26,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
@@ -86,7 +86,7 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun onClick(dialog: Dialog) {
-        ChatOwnerActivity.launch(context, dialog.peerId)
+        ChatOwnerFactory.launch(context, dialog.peerId)
     }
 
     private fun onLongClick(dialog: Dialog) {
