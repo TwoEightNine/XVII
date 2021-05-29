@@ -160,6 +160,10 @@
                     android:host="vk.com"
                     android:pathPrefix="/public"
                     android:scheme="https" />
+                <data
+                    android:host="vk.com"
+                    android:pathPrefix="/im"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity

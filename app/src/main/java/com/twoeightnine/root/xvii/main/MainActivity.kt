@@ -99,7 +99,15 @@ class MainActivity : BaseActivity() {
         super.onResume()
         when (val result = deepLinkHandler.handle(intent)) {
             is DeepLinkHandler.Result.ChatOwner -> ChatOwnerFactory.launch(this, result.peerId)
-            else -> Unit
+            is DeepLinkHandler.Result.Chat -> AsyncUtils.onIoThreadNullable({
+                val peerId = result.peerId
+                DefaultPeerResolver().resolvePeers(listOf(peerId))[peerId]
+            }) { resolvedPeer ->
+                resolvedPeer?.also {
+                    ChatActivity.launch(this, it.peerId, it.peerName, it.peerPhoto)
+                }
+            }
+            DeepLinkHandler.Result.Unknown -> Unit
         }
     }
 
