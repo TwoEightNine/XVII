@@ -50,7 +50,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.receivers.RestarterBroadcastReceiver
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
-import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.lg.L
 import global.msnthrp.xvii.uikit.extensions.SimpleBitmapTarget
@@ -315,7 +315,7 @@ fun wrapMentions(context: Context, text: CharSequence, addClickable: Boolean = f
         if (userId != null && addClickable) {
             ssb.setSpan(object : ClickableSpan() {
                 override fun onClick(widget: View) {
-                    ChatOwnerActivity.launch(context, userId)
+                    ChatOwnerFactory.launch(context, userId)
                 }
             }, tmp.length - mentionUi.length, tmp.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }

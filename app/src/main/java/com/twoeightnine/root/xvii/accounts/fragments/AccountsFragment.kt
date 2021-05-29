@@ -28,7 +28,7 @@ import com.twoeightnine.root.xvii.accounts.adapters.AccountsAdapter
 import com.twoeightnine.root.xvii.accounts.viewmodel.AccountsViewModel
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.base.BaseFragment
-import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.login.LoginActivity
 import com.twoeightnine.root.xvii.utils.FakeData
 import com.twoeightnine.root.xvii.utils.restartApp
@@ -104,7 +104,7 @@ class AccountsFragment : BaseFragment() {
     private fun onViewClick(account: Account) {
         if (account.isActive) return
 
-        ChatOwnerActivity.launch(context, account.userId)
+        ChatOwnerFactory.launch(context, account.userId)
     }
 
     private fun onActivateClick(account: Account) {
