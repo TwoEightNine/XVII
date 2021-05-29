@@ -21,13 +21,19 @@ package com.twoeightnine.root.xvii.utils.deeplink.cases
 import android.content.Intent
 import com.twoeightnine.root.xvii.chatowner.fragments.BaseChatOwnerFragment
 import com.twoeightnine.root.xvii.extensions.getIntOrNull
-import com.twoeightnine.root.xvii.utils.deeplink.DeepLinkHandler
+import com.twoeightnine.root.xvii.utils.deeplink.DeepLinkParser
 
-object ChatOwnerCase : DeepLinkHandler.Case<Int> {
+object ChatOwnerCaseParser : DeepLinkParser.CaseParser {
 
     private const val PATH_PREFIX_USER = "id"
 
-    override fun parseIntent(intent: Intent): Int? {
+    override fun getResult(intent: Intent): DeepLinkParser.Result =
+            when (val peerId = parseIntent(intent)) {
+                null -> DeepLinkParser.Result.Unknown
+                else -> DeepLinkParser.Result.ChatOwner(peerId)
+            }
+
+    private fun parseIntent(intent: Intent): Int? {
         return when (intent.action) {
             Intent.ACTION_VIEW -> {
                 intent.data?.lastPathSegment?.let { lastPath ->
@@ -44,12 +50,6 @@ object ChatOwnerCase : DeepLinkHandler.Case<Int> {
             else -> intent.extras?.getIntOrNull(BaseChatOwnerFragment.ARG_PEER_ID)
         }
     }
-
-    override fun getResult(intent: Intent): DeepLinkHandler.Result =
-            when (val peerId = parseIntent(intent)) {
-                null -> DeepLinkHandler.Result.Unknown
-                else -> DeepLinkHandler.Result.ChatOwner(peerId)
-            }
 
     private fun getChatOwnerIdFromLastPath(lastPath: String): Int? {
         return lastPath

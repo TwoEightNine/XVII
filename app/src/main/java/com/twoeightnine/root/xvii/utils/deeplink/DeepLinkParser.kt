@@ -19,19 +19,19 @@
 package com.twoeightnine.root.xvii.utils.deeplink
 
 import android.content.Intent
-import com.twoeightnine.root.xvii.utils.deeplink.cases.ChatCase
-import com.twoeightnine.root.xvii.utils.deeplink.cases.ChatOwnerCase
+import com.twoeightnine.root.xvii.utils.deeplink.cases.ChatCaseParser
+import com.twoeightnine.root.xvii.utils.deeplink.cases.ChatOwnerCaseParser
 
-class DeepLinkHandler {
+class DeepLinkParser {
 
     private val cases = listOf(
-            ChatOwnerCase,
-            ChatCase
+            ChatOwnerCaseParser,
+            ChatCaseParser
     )
 
     private var lastHandledIntent: Intent? = null
 
-    fun handle(intent: Intent): Result {
+    fun parse(intent: Intent): Result {
         if (lastHandledIntent == intent) {
             return Result.Unknown
         }
@@ -49,14 +49,11 @@ class DeepLinkHandler {
     sealed class Result {
 
         data class ChatOwner(val peerId: Int) : Result()
-
         data class Chat(val peerId: Int) : Result()
-
         object Unknown : Result()
     }
 
-    interface Case<T : Any> {
-        fun parseIntent(intent: Intent): T?
+    interface CaseParser {
 
         fun getResult(intent: Intent): Result
     }

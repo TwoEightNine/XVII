@@ -20,11 +20,17 @@ package com.twoeightnine.root.xvii.utils.deeplink.cases
 
 import android.content.Intent
 import com.twoeightnine.root.xvii.utils.asChatPeerId
-import com.twoeightnine.root.xvii.utils.deeplink.DeepLinkHandler
+import com.twoeightnine.root.xvii.utils.deeplink.DeepLinkParser
 
-object ChatCase : DeepLinkHandler.Case<Int> {
+object ChatCaseParser : DeepLinkParser.CaseParser {
 
-    override fun parseIntent(intent: Intent): Int? {
+    override fun getResult(intent: Intent): DeepLinkParser.Result =
+            when (val peerId = parseIntent(intent)) {
+                null -> DeepLinkParser.Result.Unknown
+                else -> DeepLinkParser.Result.Chat(peerId)
+            }
+
+    private fun parseIntent(intent: Intent): Int? {
         return when (intent.action) {
             Intent.ACTION_VIEW -> {
                 val peerIdRaw = intent.data?.getQueryParameter("sel")
@@ -39,10 +45,4 @@ object ChatCase : DeepLinkHandler.Case<Int> {
             else -> null
         }
     }
-
-    override fun getResult(intent: Intent): DeepLinkHandler.Result =
-            when (val peerId = parseIntent(intent)) {
-                null -> DeepLinkHandler.Result.Unknown
-                else -> DeepLinkHandler.Result.Chat(peerId)
-            }
 }
