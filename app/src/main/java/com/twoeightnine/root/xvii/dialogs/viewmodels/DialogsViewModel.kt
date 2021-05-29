@@ -288,25 +288,12 @@ class DialogsViewModel(
     private fun notifyDialogsChanged() {
         val dialogs = dialogsLiveData.value?.data ?: return
         dialogsLiveData.value = Wrapper(ArrayList(dialogs.sortedByDescending(DIALOGS_COMPARATOR)))
-        l("value updated: ${dialogsLiveData.value?.error} ${dialogsLiveData.value?.data?.map { it.title }}")
-        Thread.currentThread().stackTrace
-                .drop(2)
-                .take(8)
-                .joinToString(separator = "\n") { "${it.className} ${it.methodName} ${it.lineNumber}" }
-                .also(::l)
-//        Exception("vktag").printStackTrace()
     }
 
     private fun onErrorOccurred(error: String) {
         isLoadingNewConversations.set(false)
         isLoadingDialogs.set(false)
         dialogsLiveData.value = Wrapper(error = error)
-        l("error occurred: $error")
-        Thread.currentThread().stackTrace
-                .drop(2)
-                .take(8)
-                .joinToString(separator = "\n") { "${it.className} ${it.methodName} ${it.lineNumber}" }
-                .also(::l)
     }
 
     @SuppressLint("CheckResult")
