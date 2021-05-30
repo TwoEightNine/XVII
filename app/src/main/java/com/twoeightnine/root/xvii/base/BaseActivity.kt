@@ -46,6 +46,13 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper
  */
 abstract class BaseActivity : AppCompatActivity() {
 
+    private val almostTransparent by lazy {
+        ContextCompat.getColor(this, R.color.almost_transparent)
+    }
+    private val navBarColor by lazy {
+        ContextCompat.getColor(this, R.color.navigation_bar)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler(this))
@@ -87,7 +94,7 @@ abstract class BaseActivity : AppCompatActivity() {
         runServiceIfDown()
         window.statusBarColor = getStatusBarColor()
         window.navigationBarColor = if (isAndroid10OrHigher()) {
-            Color.TRANSPARENT
+            almostTransparent
         } else {
             getNavigationBarColor()
         }
@@ -105,7 +112,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected open fun getStatusBarColor() = Color.TRANSPARENT
 
-    protected open fun getNavigationBarColor() = ContextCompat.getColor(this, R.color.navigation_bar)
+    protected open fun getNavigationBarColor() = navBarColor
 
     protected open fun shouldRunService() = true
 

@@ -23,8 +23,8 @@
     <color name="primary_dark">@color/primary</color>
     <color name="link_color">#79f</color>
     <color name="status_bar">@color/background_dark</color>
-    <color name="navigation_bar">@color/background_dark</color>
-    <color name="navigation_bar_chat_owner">@color/background_dark_lighter</color>
+    <color name="navigation_bar">@color/background_dark_alpha_bb</color>
+    <color name="navigation_bar_chat_owner">@color/background_dark_lighter_alpha_bb</color>
 
     <color name="background">@color/background_dark</color>
     <color name="background_transparent">@color/background_dark_alpha_bb</color>
