@@ -142,7 +142,31 @@
             android:name=".main.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Main"
-            android:windowSoftInputMode="adjustNothing" />
+            android:windowSoftInputMode="adjustNothing">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="vk.com"
+                    android:pathPrefix="/id"
+                    android:scheme="https" />
+                <data
+                    android:host="vk.com"
+                    android:pathPrefix="/club"
+                    android:scheme="https" />
+                <data
+                    android:host="vk.com"
+                    android:pathPrefix="/public"
+                    android:scheme="https" />
+                <data
+                    android:host="vk.com"
+                    android:pathPrefix="/im"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".dialogs.activities.DialogsForwardActivity"
             android:theme="@style/AppTheme.Transparent">
@@ -163,21 +187,6 @@
         <activity
             android:name=".background.longpoll.LongPollExplanationActivity"
             android:theme="@style/AppTheme.Transparent" />
-        <activity
-            android:name=".chatowner.ChatOwnerActivity"
-            android:theme="@style/AppTheme.Transparent">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="vk.com"
-                    android:pathPrefix="/id"
-                    android:scheme="https" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".pin.fake.alarm.AlarmActivity"
             android:theme="@style/AppTheme.Transparent"/>

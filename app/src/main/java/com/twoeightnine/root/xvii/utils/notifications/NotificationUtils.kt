@@ -27,6 +27,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.text.Html
 import android.widget.RemoteViews
@@ -38,7 +39,6 @@ import com.twoeightnine.root.xvii.background.longpoll.LongPollExplanationActivit
 import com.twoeightnine.root.xvii.background.longpoll.receivers.KeyExchangeHandler
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.music.services.MusicBroadcastReceiver
-import com.twoeightnine.root.xvii.main.MainActivity
 import com.twoeightnine.root.xvii.model.attachments.Audio
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.data.dialogs.Dialog
@@ -322,11 +322,16 @@ object NotificationUtils {
     )
 
     private fun getOpenAppIntent(context: Context, peerId: Int, userName: String, photo: String?): PendingIntent {
-        val openAppIntent = Intent(context, MainActivity::class.java).apply {
-            putExtra(MainActivity.USER_ID, peerId)
-            putExtra(MainActivity.TITLE, userName)
-            putExtra(MainActivity.PHOTO, photo)
+//        val openAppIntent = Intent(context, MainActivity::class.java).apply {
+//            putExtra(MainActivity.USER_ID, peerId)
+//            putExtra(MainActivity.TITLE, userName)
+//            putExtra(MainActivity.PHOTO, photo)
+//            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+//        }
+        val openAppIntent = Intent(Intent.ACTION_VIEW).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            setPackage(context.packageName)
+            data = Uri.parse("https://vk.com/im?sel=$peerId")
         }
         return PendingIntent.getActivity(
                 context,

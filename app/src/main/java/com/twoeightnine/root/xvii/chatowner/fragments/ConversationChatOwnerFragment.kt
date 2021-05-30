@@ -24,7 +24,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
-import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.chatowner.MembersAdapter
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
 import com.twoeightnine.root.xvii.managers.Prefs
@@ -82,7 +82,7 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
     }
 
     private fun onUserClick(user: User) {
-        ChatOwnerActivity.launch(context, user.id)
+        ChatOwnerFactory.launch(context, user.id)
     }
 
     private fun onUserLongClick(user: User) {

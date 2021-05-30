@@ -30,6 +30,7 @@ import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
@@ -39,6 +40,7 @@ import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
+import com.twoeightnine.root.xvii.utils.deeplink.DeepLinkParser
 import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
 import global.msnthrp.xvii.uikit.extensions.isVisible
 import global.msnthrp.xvii.uikit.extensions.setVisible
@@ -53,6 +55,7 @@ class MainActivity : BaseActivity() {
     private val bottomNavViewHeight by lazy {
         resources.getDimensionPixelSize(R.dimen.bottom_navigation_height)
     }
+    private val deepLinkHandler by lazy { DeepLinkHandler() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,15 +65,6 @@ class MainActivity : BaseActivity() {
         bottomNavView.setOnNavigationItemSelectedListener(BottomViewListener())
         bottomNavView.selectedItemId = R.id.menu_dialogs
 
-        intent?.extras?.apply {
-            val userId = getInt(USER_ID)
-            if (userId != 0) {
-                val title = getString(TITLE) ?: ""
-                val photo = getString(PHOTO)
-                ChatActivity.launch(this@MainActivity, userId, title, photo)
-                L.def().log("open chat $userId")
-            }
-        }
         startNotificationAlarm(this)
         apiUtils.trackVisitor()
         bottomNavView.paint(Munch.color.color)
@@ -90,6 +84,11 @@ class MainActivity : BaseActivity() {
             }
             insets
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        deepLinkHandler.handle()
     }
 
     private fun initFragments() {
@@ -128,10 +127,6 @@ class MainActivity : BaseActivity() {
 
     companion object {
 
-        const val USER_ID = "userId"
-        const val TITLE = "title"
-        const val PHOTO = "photo"
-
         fun launch(context: Context?) {
             launchActivity(context, MainActivity::class.java)
         }
@@ -143,5 +138,33 @@ class MainActivity : BaseActivity() {
             return true
         }
 
+    }
+
+    private inner class DeepLinkHandler {
+
+        private val parser by lazy { DeepLinkParser() }
+
+        fun handle() {
+            when (val result = parser.parse(intent)) {
+                is DeepLinkParser.Result.ChatOwner -> {
+                    ChatOwnerFactory.launch(this@MainActivity, result.peerId)
+                }
+                is DeepLinkParser.Result.Chat -> {
+                    openChatByPeer(result.peerId)
+                }
+                DeepLinkParser.Result.Unknown -> Unit
+            }
+        }
+
+        private fun openChatByPeer(peerId: Int) {
+            val resolveCallable = {
+                DefaultPeerResolver().resolvePeers(listOf(peerId))[peerId]
+            }
+            AsyncUtils.onIoThreadNullable(resolveCallable) { resolvedPeer ->
+                resolvedPeer?.also {
+                    ChatActivity.launch(this@MainActivity, it.peerId, it.peerName, it.peerPhoto)
+                }
+            }
+        }
     }
 }

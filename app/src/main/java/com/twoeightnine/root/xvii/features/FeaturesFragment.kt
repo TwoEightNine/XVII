@@ -31,7 +31,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.accounts.fragments.AccountsFragment
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
-import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.chats.messages.starred.StarredMessagesFragment
 import com.twoeightnine.root.xvii.extensions.load
@@ -74,7 +74,7 @@ class FeaturesFragment : BaseFragment() {
 
         ivProfileEdit.paint(Munch.color.color50)
         ivProfileEdit.setOnClickListener { BrowsingUtils.openUrl(context, EDIT_PROFILE_URL) }
-        rlAccounts.setOnClickListener { ChatOwnerActivity.launch(context, SessionProvider.userId) }
+        rlAccounts.setOnClickListener { ChatOwnerFactory.launch(context, SessionProvider.userId) }
         xiAccounts.setOnClickListener { startFragment<AccountsFragment>() }
         xiGeneral.setOnClickListener {
             startFragment<GeneralFragment>()

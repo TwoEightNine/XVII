@@ -25,7 +25,7 @@ import android.view.View
 import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
-import com.twoeightnine.root.xvii.chatowner.ChatOwnerActivity
+import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
@@ -99,7 +99,7 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
         }
 
         override fun onUserClicked(userId: Int) {
-            ChatOwnerActivity.launch(context, userId)
+            ChatOwnerFactory.launch(context, userId)
         }
 
     }
