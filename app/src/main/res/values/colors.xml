@@ -24,8 +24,8 @@
     <color name="primary_dark">@color/background_light</color>
     <color name="link_color">#55f</color>
     <color name="status_bar">@color/background_light</color>
-    <color name="navigation_bar">@color/background_light</color>
-    <color name="navigation_bar_chat_owner">@color/background_light</color>
+    <color name="navigation_bar">@color/background_light_alpha_bb</color>
+    <color name="navigation_bar_chat_owner">@color/background_light_alpha_bb</color>
 
     <color name="splash_background">@color/background_dark</color>
     <color name="background">@color/background_light</color>

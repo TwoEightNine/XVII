@@ -18,12 +18,16 @@
   -->
 
 <resources>
+
+    <color name="almost_transparent">#01000000</color>
+
     <color name="background_light">#ffffff</color>
     <color name="background_dark">#1C1A22</color>
 
     <color name="background_dark_lighter">#221F29</color>
     <color name="background_dark_popup">#2F2C39</color>
 
+    <color name="background_dark_lighter_alpha_bb">#bb221F29</color>
     <color name="background_light_alpha_bb">#bbffffff</color>
     <color name="background_dark_alpha_bb">#bb1C1A22</color>
     <color name="background_dark_alpha_99">#991C1A22</color>
