@@ -73,7 +73,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     protected val photo by lazy { arguments?.getString(ARG_PHOTO) ?: "" }
     private val forwardedMessages by lazy { arguments?.getString(ARG_FORWARDED) }
     private val shareText by lazy { arguments?.getString(ARG_SHARE_TEXT) }
-    private val shareImage by lazy { arguments?.getString(ARG_SHARE_IMAGE) }
+    private val shareImages by lazy { arguments?.getStringArrayList(ARG_SHARE_IMAGE) }
 
     private val permissionHelper by lazy { PermissionHelper(this) }
     private val attachedAdapter by lazy {
@@ -234,21 +234,13 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
     }
 
     private fun initContent() {
-        forwardedMessages?.also {
-            handler.postDelayed({
+        handler.postDelayed({
+            forwardedMessages?.also {
                 attachedAdapter.fwdMessages = it
-            }, 500L)
-        }
-        shareText?.also {
-            handler.postDelayed({
-                etInput.setText(it)
-            }, 500L)
-        }
-        shareImage?.also {
-            handler.postDelayed({
-                onImageSelected(it)
-            }, 500L)
-        }
+            }
+            shareText?.also(etInput::setText)
+            shareImages?.forEach(::onImageSelected)
+        }, 500L)
     }
 
     private fun showDeleteMessagesDialog(callback: (Boolean) -> Unit) {

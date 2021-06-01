@@ -36,13 +36,13 @@ class ChatActivity : ContentActivity() {
         val args = intent?.extras
         val forwarded = args?.getString(FORWARDED)
         val shareText = args?.getString(SHARE_TEXT)
-        val shareImage = args?.getString(SHARE_IMAGE)
+        val shareImages = args?.getStringArrayList(SHARE_IMAGE) ?: emptyList<String>()
         val dialog = args?.getParcelable(DIALOG) ?: Dialog(
                 peerId = args?.getInt(PEER_ID) ?: 0,
                 title = args?.getString(TITLE) ?: "",
                 photo = args?.getString(AVATAR)
         )
-        return ChatMessagesFragment.newInstance(dialog, forwarded, shareText, shareImage)
+        return ChatMessagesFragment.newInstance(dialog, forwarded, shareText, shareImages)
     }
 
     override fun getDraggableBottomMargin(): Int = 200
@@ -77,7 +77,7 @@ class ChatActivity : ContentActivity() {
 
         fun launch(context: Context?, dialog: Dialog,
                    forwarded: String? = null, shareText: String? = null,
-                   shareImage: String? = null) {
+                   shareImages: List<String> = emptyList()) {
             context ?: return
 
             context.startActivity(Intent(context, ChatActivity::class.java).apply {
@@ -87,8 +87,8 @@ class ChatActivity : ContentActivity() {
                 if (!shareText.isNullOrEmpty()) {
                     putExtra(SHARE_TEXT, shareText)
                 }
-                if (!shareImage.isNullOrEmpty()) {
-                    putExtra(SHARE_IMAGE, shareImage)
+                if (shareImages.isNotEmpty()) {
+                    putStringArrayListExtra(SHARE_IMAGE, ArrayList(shareImages))
                 }
                 putExtra(DIALOG, dialog)
                 flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TOP

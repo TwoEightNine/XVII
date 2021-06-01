@@ -30,7 +30,7 @@ class DialogsForwardFragment : DialogsFragment() {
 
     private val forwarded by lazy { arguments?.getString(ARG_FORWARDED) }
     private val shareText by lazy { arguments?.getString(ARG_SHARE_TEXT) }
-    private val shareImage by lazy { arguments?.getString(ARG_SHARE_IMAGE) }
+    private val shareImages by lazy { arguments?.getStringArrayList(ARG_SHARE_IMAGE) ?: emptyList() }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -44,7 +44,7 @@ class DialogsForwardFragment : DialogsFragment() {
     }
 
     override fun onClick(dialog: Dialog) {
-        ChatActivity.launch(context, dialog, forwarded, shareText, shareImage)
+        ChatActivity.launch(context, dialog, forwarded, shareText, shareImages)
         activity?.finish()
     }
 
@@ -55,7 +55,7 @@ class DialogsForwardFragment : DialogsFragment() {
         const val ARG_SHARE_TEXT = "shareText"
         const val ARG_SHARE_IMAGE = "shareImage"
 
-        fun createArgs(forwarded: String? = null, shareText: String? = null, shareImage: String? = null): Bundle {
+        fun createArgs(forwarded: String? = null, shareText: String? = null, shareImage: List<String> = emptyList()): Bundle {
             return Bundle().apply {
                 if (!forwarded.isNullOrEmpty()) {
                     putString(ARG_FORWARDED, forwarded)
@@ -63,8 +63,8 @@ class DialogsForwardFragment : DialogsFragment() {
                 if (!shareText.isNullOrEmpty()) {
                     putString(ARG_SHARE_TEXT, shareText)
                 }
-                if (!shareImage.isNullOrEmpty()) {
-                    putString(ARG_SHARE_IMAGE, shareImage)
+                if (shareImage.isNotEmpty()) {
+                    putStringArrayList(ARG_SHARE_IMAGE, ArrayList(shareImage))
                 }
             }
         }

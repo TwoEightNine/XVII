@@ -101,7 +101,7 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
     companion object {
 
         fun newInstance(dialog: Dialog, forwarded: String? = null,
-                        shareText: String? = null, shareImage: String? = null): ChatMessagesFragment {
+                        shareText: String? = null, shareImages: List<String> = emptyList()): ChatMessagesFragment {
             val fragment = ChatMessagesFragment()
             fragment.arguments = Bundle().apply {
                 putInt(ARG_PEER_ID, dialog.peerId)
@@ -113,8 +113,8 @@ class ChatMessagesFragment : BaseChatMessagesFragment<ChatMessagesViewModel>() {
                 if (!shareText.isNullOrEmpty()) {
                     putString(ARG_SHARE_TEXT, shareText)
                 }
-                if (!shareImage.isNullOrEmpty()) {
-                    putString(ARG_SHARE_IMAGE, shareImage)
+                if (shareImages.isNotEmpty()) {
+                    putStringArrayList(ARG_SHARE_IMAGE, ArrayList(shareImages))
                 }
             }
             return fragment
