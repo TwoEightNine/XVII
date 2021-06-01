@@ -58,7 +58,7 @@ object FileUtils {
         context ?: return null
 
         val fileExtension = getFileExtension(context, uri)
-        val file = File.createTempFile("from_content_uri", ".$fileExtension")
+        val file = File.createTempFile("1753" /* why 1753? */, ".$fileExtension")
         val written = writeToFileFromContentUri(context, file, uri)
         return when {
             written -> file
