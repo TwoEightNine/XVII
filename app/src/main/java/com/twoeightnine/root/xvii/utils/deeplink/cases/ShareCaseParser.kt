@@ -34,13 +34,11 @@ object ShareCaseParser : DeepLinkParser.CaseParser {
             intent.action == Intent.ACTION_SEND && intent.type == "text/plain" -> {
                 shareText = intent.getStringExtra(Intent.EXTRA_TEXT)
             }
-            intent.action == Intent.ACTION_SEND
-                    && intent.type?.startsWith("image/") == true -> {
+            intent.action == Intent.ACTION_SEND -> {
                 intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
                         ?.also(shareMediaUris::add)
             }
-            intent.action == Intent.ACTION_SEND_MULTIPLE
-                    && intent.type?.startsWith("image/") == true -> {
+            intent.action == Intent.ACTION_SEND_MULTIPLE -> {
                 intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)
                         ?.forEach(shareMediaUris::add)
             }

@@ -62,6 +62,7 @@ import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import global.msnthrp.xvii.uikit.extensions.*
+import global.msnthrp.xvii.uikit.utils.ExtensionUtils
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.view_chat_multiselect.*
@@ -239,7 +240,13 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                 attachedAdapter.fwdMessages = it
             }
             shareText?.also(etInput::setText)
-            shareImages?.forEach(::onImageSelected)
+            shareImages?.forEach { path ->
+                when {
+                    ExtensionUtils.isImage(path) -> onImageSelected(path)
+                    ExtensionUtils.isVideo(path) -> onVideoSelected(path)
+                    else -> onDocSelected(path)
+                }
+            }
         }, 500L)
     }
 
@@ -355,6 +362,14 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
     private fun onImageSelected(path: String) {
         viewModel.attachPhoto(path) { pathAttached, attachment ->
+            inputController?.removeItemAsLoaded(pathAttached)
+            attachedAdapter.addWithOrder(attachment, attachedAdapter.maxOrder)
+        }
+        inputController?.addItemAsBeingLoaded(path)
+    }
+
+    private fun onVideoSelected(path: String) {
+        viewModel.attachVideo(path) { pathAttached, attachment ->
             inputController?.removeItemAsLoaded(pathAttached)
             attachedAdapter.addWithOrder(attachment, attachedAdapter.maxOrder)
         }

@@ -23,10 +23,15 @@ import global.msnthrp.xvii.uikit.extensions.lower
 object ExtensionUtils {
 
     private val imageExtensions = listOf("jpg", "jpeg", "png")
+    private val videoExtensions = listOf("mp4", "3gp", "mov")
 
-    fun isImage(path: String): Boolean {
+    fun isImage(path: String) = matches(path, imageExtensions)
+
+    fun isVideo(path: String) = matches(path, videoExtensions)
+
+    private fun matches(path: String, extensions: List<String>): Boolean {
         val lowerPath = path.lower()
-        for (ext in imageExtensions) {
+        for (ext in extensions) {
             if (lowerPath.endsWith(".$ext")) {
                 return true
             }
