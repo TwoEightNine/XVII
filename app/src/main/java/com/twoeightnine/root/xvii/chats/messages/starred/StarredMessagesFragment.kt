@@ -25,11 +25,12 @@ import android.view.View
 import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.base.BaseMessagesFragment
 import com.twoeightnine.root.xvii.chats.messages.base.MessagesAdapter
-import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
+import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.model.messages.Message
@@ -93,7 +94,9 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
                         viewModel.unmarkMessage(message)
                     },
                     ContextPopupItem(R.drawable.ic_transfer_popup, R.string.forward) {
-                        DialogsForwardActivity.launch(context, message.id.toString())
+                        startFragment<DialogsForwardFragment>(
+                                DialogsForwardFragment.createArgs(forwarded = message.id.toString())
+                        )
                     }
             )).show()
         }

@@ -129,15 +129,12 @@
         <activity
             android:name=".chats.messages.chat.usual.ChatActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.Transparent">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.Transparent" />
+
         <activity
             android:name=".features.appearance.AppearanceActivity"
             android:theme="@style/AppTheme.Transparent" />
+
         <activity
             android:name=".main.MainActivity"
             android:screenOrientation="portrait"
@@ -166,33 +163,36 @@
                     android:pathPrefix="/im"
                     android:scheme="https" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".dialogs.activities.DialogsForwardActivity"
-            android:theme="@style/AppTheme.Transparent">
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".chats.messages.chat.secret.SecretChatActivity"
             android:theme="@style/AppTheme.Transparent" />
+
         <activity
             android:name=".background.longpoll.LongPollExplanationActivity"
             android:theme="@style/AppTheme.Transparent" />
+
         <activity
             android:name=".pin.fake.alarm.AlarmActivity"
             android:theme="@style/AppTheme.Transparent"/>
+
         <activity
             android:name=".pin.fake.diagnostics.DiagnosticsActivity"
             android:theme="@style/AppTheme.Transparent"/>
+
         <activity
             android:name=".base.FragmentPlacementActivity"
             android:theme="@style/AppTheme.Transparent"/>

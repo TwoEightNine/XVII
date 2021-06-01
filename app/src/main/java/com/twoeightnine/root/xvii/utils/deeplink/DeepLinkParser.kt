@@ -19,14 +19,17 @@
 package com.twoeightnine.root.xvii.utils.deeplink
 
 import android.content.Intent
+import android.net.Uri
 import com.twoeightnine.root.xvii.utils.deeplink.cases.ChatCaseParser
 import com.twoeightnine.root.xvii.utils.deeplink.cases.ChatOwnerCaseParser
+import com.twoeightnine.root.xvii.utils.deeplink.cases.ShareCaseParser
 
 class DeepLinkParser {
 
     private val cases = listOf(
             ChatOwnerCaseParser,
-            ChatCaseParser
+            ChatCaseParser,
+            ShareCaseParser
     )
 
     private var lastHandledIntent: Intent? = null
@@ -50,6 +53,7 @@ class DeepLinkParser {
 
         data class ChatOwner(val peerId: Int) : Result()
         data class Chat(val peerId: Int) : Result()
+        data class Share(val shareText: String? = null, val shareMediaUris: List<Uri> = emptyList()) : Result()
         object Unknown : Result()
     }
 
