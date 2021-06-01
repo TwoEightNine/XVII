@@ -39,6 +39,11 @@ object ShareCaseParser : DeepLinkParser.CaseParser {
                 intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
                         ?.also(shareMediaUris::add)
             }
+            intent.action == Intent.ACTION_SEND_MULTIPLE
+                    && intent.type?.startsWith("image/") == true -> {
+                intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)
+                        ?.forEach(shareMediaUris::add)
+            }
             else -> Unit
         }
         L.tag(TAG).log("contains ${shareMediaUris.size} files")

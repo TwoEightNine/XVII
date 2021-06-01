@@ -159,7 +159,7 @@ class MainActivity : BaseActivity() {
                     copyFilesAsync(result.shareMediaUris) { sharedMediaPaths ->
                         val args = DialogsForwardFragment.createArgs(
                                 shareText = result.shareText,
-                                shareImage = sharedMediaPaths.firstOrNull()
+                                shareImage = sharedMediaPaths
                         )
                         startFragment<DialogsForwardFragment>(args)
                     }
