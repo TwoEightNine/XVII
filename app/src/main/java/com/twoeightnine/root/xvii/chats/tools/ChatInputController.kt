@@ -52,6 +52,7 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
 import global.msnthrp.xvii.data.stickersemoji.model.Emoji
+import global.msnthrp.xvii.data.utils.FileUtils
 import global.msnthrp.xvii.uikit.extensions.asText
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.setVisible
@@ -247,7 +248,7 @@ class ChatInputController(
                     .getExtensionFromMimeType(description.getMimeType(0)) ?: return
 
             val richContentFile = File(context.cacheDir, "richContent.$fileExtension")
-            if (!writeToFileFromContentUri(context, richContentFile, uri)) {
+            if (!FileUtils.writeToFileFromContentUri(context, richContentFile, uri)) {
                 L.tag("rich content").warn().log("error adding rich content")
             } else {
                 callback.onRichContentAdded(richContentFile.absolutePath)

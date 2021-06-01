@@ -25,9 +25,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.Interaction
-import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
+import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.utils.applyCompletableSchedulers
 import com.twoeightnine.root.xvii.utils.getDate
@@ -187,7 +188,9 @@ abstract class BaseMessagesFragment<VM : BaseMessagesViewModel> : BaseFragment()
         ivForwardMulti.setOnClickListener {
             val messageIds = getSelectedMessageIds()
             adapter.multiSelectMode = false
-            DialogsForwardActivity.launch(context, forwarded = messageIds)
+            startFragment<DialogsForwardFragment>(
+                    DialogsForwardFragment.createArgs(forwarded = messageIds)
+            )
         }
     }
 

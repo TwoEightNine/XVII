@@ -20,6 +20,7 @@ package com.twoeightnine.root.xvii.main
 
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
@@ -32,6 +33,7 @@ import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
+import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
@@ -41,6 +43,7 @@ import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.utils.deeplink.DeepLinkParser
+import global.msnthrp.xvii.data.utils.FileUtils
 import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
 import global.msnthrp.xvii.uikit.extensions.isVisible
 import global.msnthrp.xvii.uikit.extensions.setVisible
@@ -152,6 +155,15 @@ class MainActivity : BaseActivity() {
                 is DeepLinkParser.Result.Chat -> {
                     openChatByPeer(result.peerId)
                 }
+                is DeepLinkParser.Result.Share -> {
+                    copyFilesAsync(result.shareMediaUris) { sharedMediaPaths ->
+                        val args = DialogsForwardFragment.createArgs(
+                                shareText = result.shareText,
+                                shareImage = sharedMediaPaths.firstOrNull()
+                        )
+                        startFragment<DialogsForwardFragment>(args)
+                    }
+                }
                 DeepLinkParser.Result.Unknown -> Unit
             }
         }
@@ -165,6 +177,33 @@ class MainActivity : BaseActivity() {
                     ChatActivity.launch(this@MainActivity, it.peerId, it.peerName, it.peerPhoto)
                 }
             }
+        }
+
+        private fun copyFilesAsync(uris: List<Uri>, onCopied: (List<String>) -> Unit) {
+            if (uris.isEmpty()) {
+                onCopied(emptyList())
+                return
+            }
+
+            val copyCallable = {
+                val filePaths = mutableListOf<String>()
+                uris.forEach { uri ->
+                    val tempFile = FileUtils.writeToTempFileFromContentUri(this@MainActivity, uri)
+                    when {
+                        tempFile != null -> tempFile.absolutePath
+                        else -> uri.path
+                    }?.let(filePaths::add)
+                }
+                L.tag("share").log(filePaths.joinToString { it.split('.').lastOrNull() ?: "null" })
+
+                filePaths
+            }
+            val errorCallable = { throwable: Throwable ->
+                L.tag("share").throwable(throwable).log("unable to copy shared media")
+                onCopied(emptyList())
+            }
+
+            AsyncUtils.onIoThread(copyCallable, errorCallable, onCopied)
         }
     }
 }

@@ -258,30 +258,6 @@ fun writeBytesToFile(context: Context, bytes: ByteArray, fileName: String): Stri
     return file.absolutePath
 }
 
-fun writeToFileFromContentUri(context: Context?, file: File, uri: Uri): Boolean {
-    if (context == null) return false
-    try {
-        val stream = context.contentResolver.openInputStream(uri)
-        val output = FileOutputStream(file)
-        if (stream == null) return false
-
-        val buffer = ByteArray(4096)
-        var read: Int
-        while (true) {
-            read = stream.read(buffer)
-            if (read == -1) break
-
-            output.write(buffer, 0, read)
-        }
-        output.flush()
-        output.close()
-        stream.close()
-        return true
-    } catch (e: java.lang.Exception) {
-        L.def().throwable(e).log("unable to write to file from uri")
-    }
-    return false
-}
 
 fun equalsDevUids(userId: Int) = App.ID_SALTS
         .map { md5(userId.toString() + it) }

@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragmentForResult
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
 import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
@@ -44,7 +45,7 @@ import com.twoeightnine.root.xvii.chats.messages.chat.MentionedMembersAdapter
 import com.twoeightnine.root.xvii.chats.messages.chat.StickersSuggestionAdapter
 import com.twoeightnine.root.xvii.chats.tools.ChatInputController
 import com.twoeightnine.root.xvii.chats.tools.ChatToolbarController
-import com.twoeightnine.root.xvii.dialogs.activities.DialogsForwardActivity
+import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.CanWrite
 import com.twoeightnine.root.xvii.model.User
@@ -444,7 +445,9 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
                         attachedAdapter.isReply = true
                     },
                     ContextPopupItem(R.drawable.ic_transfer_popup, R.string.forward) {
-                        DialogsForwardActivity.launch(context, forwarded = "${message.id}")
+                        startFragment<DialogsForwardFragment>(
+                                DialogsForwardFragment.createArgs(forwarded = "${message.id}")
+                        )
                     },
                     ContextPopupItem(R.drawable.ic_delete_popup, R.string.delete) {
                         val callback = { forAll: Boolean ->

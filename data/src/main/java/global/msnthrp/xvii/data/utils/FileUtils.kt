@@ -18,7 +18,12 @@
 
 package global.msnthrp.xvii.data.utils
 
+import android.content.ContentResolver
+import android.content.Context
+import android.net.Uri
+import android.webkit.MimeTypeMap
 import java.io.*
+
 
 object FileUtils {
 
@@ -47,6 +52,58 @@ object FileUtils {
             return false
         }
         return true
+    }
+
+    fun writeToTempFileFromContentUri(context: Context?, uri: Uri): File? {
+        context ?: return null
+
+        val fileExtension = getFileExtension(context, uri)
+        val file = File.createTempFile("from_content_uri", ".$fileExtension")
+        val written = writeToFileFromContentUri(context, file, uri)
+        return when {
+            written -> file
+            else -> null
+        }
+    }
+
+    fun writeToFileFromContentUri(context: Context?, file: File, uri: Uri): Boolean {
+        if (context == null) return false
+        try {
+            val stream = context.contentResolver.openInputStream(uri)
+            val output = FileOutputStream(file)
+            if (stream == null) return false
+
+            val buffer = ByteArray(4096)
+            var read: Int
+            while (true) {
+                read = stream.read(buffer)
+                if (read == -1) break
+
+                output.write(buffer, 0, read)
+            }
+            output.flush()
+            output.close()
+            stream.close()
+            return true
+        } catch (e: java.lang.Exception) {
+            // TODO
+//            L.def().throwable(e).log("unable to write to file from uri")
+        }
+        return false
+    }
+
+
+    fun getFileExtension(context: Context, uri: Uri): String? {
+        //Check uri format to avoid null
+        return if (uri.scheme.equals(ContentResolver.SCHEME_CONTENT)) {
+            //If scheme is a content
+            val mime = MimeTypeMap.getSingleton()
+            mime.getExtensionFromMimeType(context.contentResolver.getType(uri))
+        } else {
+            //If scheme is a File
+            //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
+            MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
+        }
     }
 
 }
