@@ -469,12 +469,12 @@ class AttachmentsInflater(
         }
 
         override fun onLinkClicked(link: Link) {
-            // TODO mark link
-            val url = link.caption
-            val message = context.getString(R.string.attachment_open_link_prompt, url)
+            val fullUrl = link.url
+            val shortUrl = link.caption
+            val message = context.getString(R.string.attachment_open_link_prompt, shortUrl)
             showConfirm(context, message) { yes ->
                 if (yes) {
-                    BrowsingUtils.openUrl(context, url)
+                    BrowsingUtils.openUrl(context, fullUrl)
                 }
             }
         }
