@@ -522,5 +522,6 @@
     <string name="journal_filter_deleted_messages">удалённые сообщения</string>
     <string name="journal_filter_edited_messages">изменённые сообщения</string>
     <string name="journal_filter_statuses">статусы</string>
+    <string name="date_yesterday">вчера</string>
 
 </resources>

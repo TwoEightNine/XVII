@@ -25,7 +25,7 @@
     <string name="share">share</string>
     <string name="share_image">share the image</string>
 
-    <string name="last_seen">seen: %s</string>
+    <string name="last_seen">seen %s</string>
     <string name="online_seen">online: %s</string>
     <string name="status">status</string>
     <string name="write_message">write message</string>
@@ -448,6 +448,8 @@
     <string name="accounts_log_out_all">do you really want to log out all accounts?</string>
 
     <string name="egg_poverty">Two yearly military budgets of all countries are enough to end poverty. We just don\'t want to</string>
+
+    <string name="date_yesterday">yesterday</string>
 
     <string-array name="relations">
         <item>single</item>
