@@ -38,7 +38,6 @@ import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.chats.messages.deepforwarded.DeepForwardedFragment
 import com.twoeightnine.root.xvii.extensions.getInitials
 import com.twoeightnine.root.xvii.managers.Prefs
-import com.twoeightnine.root.xvii.model.attachments.getAudioMessage
 import com.twoeightnine.root.xvii.model.attachments.getAudios
 import com.twoeightnine.root.xvii.model.messages.Message
 import com.twoeightnine.root.xvii.model.messages.WrappedMessage
@@ -108,7 +107,7 @@ class MessagesAdapter(context: Context,
                     .filterNotNull()
         }
         messageInflater.audioMessagesFetcher = {
-            items.mapNotNull { it.message.attachments?.getAudioMessage() }
+            items.flatMap { it.message.getAllAudioMessages() }
         }
     }
 

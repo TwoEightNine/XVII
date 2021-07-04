@@ -69,7 +69,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener,
         this.tracks.clear()
         this.tracks.addAll(tracks)
         playedPosition = position
-        if (nowPlayed == getPlayedTrack()) {
+        if (nowPlayed === getPlayedTrack()) {
             playOrPause()
         } else {
             requestFocus()
