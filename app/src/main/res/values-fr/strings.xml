@@ -20,7 +20,7 @@
     <string name="about_app">à propos</string>
     <string name="settings">paramètres</string>
 
-    <string name="last_seen">vu: %s</string>
+    <string name="last_seen">vu %s</string>
     <string name="status">statut</string>
     <string name="write_message">écrire un message</string>
     <string name="doenloaded">%s a été téléchargé</string>
@@ -474,6 +474,7 @@
     <string name="journal_filter_deleted_messages">messages supprimés</string>
     <string name="journal_filter_edited_messages">messages modifiés</string>
     <string name="journal_filter_statuses">statuts</string>
+    <string name="date_yesterday">hier</string>
 
 </resources>
 

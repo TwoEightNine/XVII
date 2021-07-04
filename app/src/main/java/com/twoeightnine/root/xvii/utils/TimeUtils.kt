@@ -19,9 +19,12 @@
 package com.twoeightnine.root.xvii.utils
 
 import android.annotation.SuppressLint
+import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.lg.L
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 const val SS = ":ss"
@@ -35,21 +38,29 @@ const val DD_MMM_YYYY = "dd MMM yyyy"
 fun getTime(ts: Int, shortened: Boolean = false, withSeconds: Boolean = false, noDate: Boolean = false, format: String? = null): String {
     val date = Date(ts * 1000L)
     val today = Date()
+    val yesterday = Date(today.time - TimeUnit.DAYS.toMillis(1))
     if (format != null) {
         return SimpleDateFormat(format).format(date)
     }
+
+    val isToday = today.isTheSameDay(date)
+    val isYesterday = yesterday.isTheSameDay(date)
+    val isThisYear = today.year == date.year
+
     val seconds = if (withSeconds) SS else ""
     val fmt = when {
-        noDate ||
-                today.day == date.day &&
-                today.month == date.month &&
-                today.year == date.year -> "$HH_MM$seconds"
-        !shortened && today.year == date.year -> "$HH_MM$seconds $DD_MMM"
+        noDate || isToday -> "$HH_MM$seconds"
+        !shortened && isYesterday -> "$HH_MM$seconds"
+        !shortened && isThisYear -> "$HH_MM$seconds $DD_MMM"
         !shortened -> "$HH_MM$seconds $DD_MMM_YYYY"
         today.year == date.year -> DD_MMM
         else -> DD_MMM_YYYY
     }
-    return SimpleDateFormat(fmt).format(date).toLowerCase()
+    val formatted = SimpleDateFormat(fmt).format(date).toLowerCase()
+    return when {
+        !shortened && isYesterday -> "${App.context.getString(R.string.date_yesterday)} $formatted"
+        else -> formatted
+    }
 }
 
 @SuppressLint("SimpleDateFormat")
@@ -103,3 +114,9 @@ fun getMinutes(): String {
 }
 
 fun time() = (System.currentTimeMillis() / 1000L).toInt()
+
+private fun Date.isTheSameDay(date: Date): Boolean {
+    return day == date.day &&
+            month == date.month &&
+            year == date.year
+}
