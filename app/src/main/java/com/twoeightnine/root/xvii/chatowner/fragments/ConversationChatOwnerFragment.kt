@@ -33,10 +33,16 @@ import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.showWarnConfirm
+import com.twoeightnine.root.xvii.utils.wrapMentions
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
+import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.fabOpenChat
+import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.llContainer
+import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.vBottom
+import kotlinx.android.synthetic.main.fragment_chat_owner_user.*
+import kotlinx.android.synthetic.main.item_chat_owner_field.view.*
 
 class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
 
@@ -52,11 +58,8 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
         val conversation = chatOwner ?: return
 
         fabOpenChat.setVisible(conversation.canWrite?.allowed != false)
-        addValue(R.drawable.ic_pinned, conversation.chatSettings?.pinnedMessage?.text, {
-            conversation.chatSettings?.pinnedMessage?.id?.also { id ->
-                startFragment<DeepForwardedFragment>(DeepForwardedFragment.createArgs(id))
-            }
-        })
+
+        showPinnedMessage(conversation)
         viewModel.loadChatMembers(conversation.getPeerId())
         btnLeave.setOnClickListener { onLeaveGroupClick() }
     }
@@ -101,6 +104,25 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
             if (confirmed) {
                 viewModel.leaveConversation(peerId)
             }
+        }
+    }
+
+    private fun showPinnedMessage(conversation: Conversation) {
+
+        val pinnedMessage = conversation.chatSettings?.pinnedMessage?.text?.let {
+            wrapMentions(requireContext(), it, addClickable = true)
+        } ?: return
+
+        with(View.inflate(context, R.layout.item_chat_owner_field, null)) {
+            ivIcon.setImageResource(R.drawable.ic_pinned)
+            ivIcon.paint(Munch.color.color)
+            tvValue.text = pinnedMessage
+            rlItem.setOnClickListener {
+                conversation.chatSettings.pinnedMessage.id.also { id ->
+                    startFragment<DeepForwardedFragment>(DeepForwardedFragment.createArgs(id))
+                }
+            }
+            llContainer.addView(this)
         }
     }
 
