@@ -62,7 +62,7 @@
     <string name="join_us">подписывайтесь на официальную группу xvii вконтакте, чтобы получать свежие новости о приложении</string>
     <string name="key_set">ключи установлены успешно</string>
     <string name="kilobytes">%s кб</string>
-    <string name="last_seen">был(а) %s</string>
+    <string name="last_seen">был(а): %s</string>
     <string name="light_theme">светлая тема</string>
     <string name="link">ссылка</string>
     <string name="links">ссылки</string>

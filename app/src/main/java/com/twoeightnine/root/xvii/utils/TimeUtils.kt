@@ -58,7 +58,7 @@ fun getTime(ts: Int, shortened: Boolean = false, withSeconds: Boolean = false, n
     }
     val formatted = SimpleDateFormat(fmt).format(date).toLowerCase()
     return when {
-        !shortened && isYesterday -> "${App.context.getString(R.string.date_yesterday)} $formatted"
+        !shortened && isYesterday && !noDate -> "${App.context.getString(R.string.date_yesterday)} $formatted"
         else -> formatted
     }
 }
