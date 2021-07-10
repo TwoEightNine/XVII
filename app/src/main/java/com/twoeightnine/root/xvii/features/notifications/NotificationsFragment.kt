@@ -173,14 +173,14 @@ class NotificationsFragment : BaseFragment() {
     }
 
     private fun initEgg() {
-        if (Math.random() > 0.85 || BuildConfig.DEBUG) {
+        if (Math.random() > 0.8 || BuildConfig.DEBUG) {
             val handler = Handler(Looper.getMainLooper())
             switchEgg.show()
             switchEgg.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     when (eggState) {
                         1 -> {
-                            eggState = -2
+                            eggState = -1
                             handler.postDelayed({ switchEgg.isChecked = false }, 500L)
                             handler.postDelayed({
                                 startFragment<EggFragment>()
