@@ -160,6 +160,7 @@ data class Message(
                 attachments.isPoll() -> context.getString(R.string.poll)
                 attachments.isLink() -> context.getString(R.string.link)
                 attachments.isWallPost() -> context.getString(R.string.wall_post)
+                attachments.isCall() -> context.getString(R.string.call_unknown)
 
                 attachments.photosCount() != 0 ->
                     context.resources.getQuantityString(R.plurals.attachments_photos, count, count)
