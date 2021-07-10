@@ -25,7 +25,7 @@
     <string name="share">share</string>
     <string name="share_image">share the image</string>
 
-    <string name="last_seen">seen %s</string>
+    <string name="last_seen">seen: %s</string>
     <string name="online_seen">online: %s</string>
     <string name="status">status</string>
     <string name="write_message">write message</string>
