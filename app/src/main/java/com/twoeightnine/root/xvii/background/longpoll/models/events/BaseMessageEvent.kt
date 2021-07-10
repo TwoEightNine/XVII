@@ -71,6 +71,7 @@ abstract class BaseMessageEvent(
                 info.attachments.isPoll -> context.getString(R.string.poll)
                 info.attachments.isLink -> context.getString(R.string.link)
                 info.attachments.isWallPost -> context.getString(R.string.wall_post)
+                info.attachments.isCall -> context.getString(R.string.call_unknown)
 
                 info.attachments.photosCount != 0 ->
                     context.resources.getQuantityString(R.plurals.attachments_photos, count, count)
@@ -131,6 +132,7 @@ abstract class BaseMessageEvent(
             val isPoll: Boolean = false,
             val isGift: Boolean = false,
             val isWallPost: Boolean = false,
+            val isCall: Boolean = false,
 
             val photosCount: Int = 0,
             val videosCount: Int = 0,
@@ -159,6 +161,7 @@ abstract class BaseMessageEvent(
                             Attachment.TYPE_LINK -> return AttachmentsInfo(isLink = true)
                             Attachment.TYPE_GRAFFITI -> return AttachmentsInfo(isGraffiti = true)
                             Attachment.TYPE_WALL -> return AttachmentsInfo(isWallPost = true)
+                            Attachment.TYPE_CALL -> return AttachmentsInfo(isCall = true)
 
                             Attachment.TYPE_PHOTO -> photosCount++
                             Attachment.TYPE_VIDEO -> videosCount++
