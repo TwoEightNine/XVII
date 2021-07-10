@@ -528,4 +528,8 @@
     <string name="journal_filter_edited_messages">bearbeitete nachrichten</string>
     <string name="journal_filter_statuses">status</string>
     <string name="date_yesterday">gestern</string>
+    <string name="call_reached">anruf (%s)</string>
+    <string name="call_missed">verpasster anruf</string>
+    <string name="call_declined">ablehnter anruf</string>
+    <string name="call_unknown">anruf</string>
 </resources>
