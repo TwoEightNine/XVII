@@ -159,6 +159,7 @@ class AttachmentsInflater(
             Attachment.TYPE_WALL -> attachment.wall?.let(::createWallPost)
             Attachment.TYPE_GRAFFITI -> attachment.graffiti?.let(::createGraffiti)
             Attachment.TYPE_AUDIO_MESSAGE -> attachment.audioMessage?.let(::createAudioMessage)
+            Attachment.TYPE_CALL -> attachment.call?.let(::createCall)
             else -> createViewFor(attachment, attachments, level)
         }
     }
@@ -260,6 +261,20 @@ class AttachmentsInflater(
                 root
             }
 
+    private fun createCall(call: Call): View = ContainerCallBinding.inflate(inflater).run {
+        relativeLayout.background.paint(Munch.color.color)
+        tvCall.text = when (call.state) {
+            Call.State.MISSED -> context.getString(R.string.call_missed)
+            Call.State.UNKNOWN -> context.getString(R.string.call_unknown)
+            Call.State.DECLINED -> context.getString(R.string.call_declined)
+            Call.State.REACHED -> {
+                val duration = secToTime(call.duration)
+                context.getString(R.string.call_reached, duration)
+            }
+        }
+        root
+    }
+
     private fun createAudioMessage(audioMessage: AudioMessage): View {
         val audioMessages = audioMessagesFetcher?.invoke() ?: listOf(audioMessage)
         val audios = audioMessages.map { Audio(it, context.getString(R.string.voice_message)) }
@@ -346,7 +361,7 @@ class AttachmentsInflater(
     private fun createPoll(poll: Poll): View =
             ContainerPollBinding.inflate(inflater).run {
                 tvQuestion.text = poll.question
-                ivPhoto.paint(Munch.color.color)
+                relativeLayout.background.paint(Munch.color.color)
                 root.setOnClickListener {
                     callback.onPollClicked(poll)
                 }

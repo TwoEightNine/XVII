@@ -38,19 +38,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_poll" />
+                android:src="@drawable/ic_phone_white" />
 
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tvQuestion"
+            android:id="@+id/tvCall"
             style="@style/MainMediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="6dp"
             android:layout_toEndOf="@+id/relativeLayout"
-            android:maxLines="2"
+            android:maxLines="1"
             android:textSize="17sp"
             tools:text="werwerewr\nrtytyrtyrt\njhjfhdjfdhf" />
 

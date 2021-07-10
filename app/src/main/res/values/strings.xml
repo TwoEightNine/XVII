@@ -451,6 +451,11 @@
 
     <string name="date_yesterday">yesterday</string>
 
+    <string name="call_reached">call (%s)</string>
+    <string name="call_missed">missed call</string>
+    <string name="call_declined">declined call</string>
+    <string name="call_unknown">call</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>

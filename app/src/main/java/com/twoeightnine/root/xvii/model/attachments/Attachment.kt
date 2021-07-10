@@ -74,7 +74,11 @@ data class Attachment(
 
         @SerializedName("graffiti")
         @Expose
-        val graffiti: Graffiti? = null
+        val graffiti: Graffiti? = null,
+
+        @SerializedName("call")
+        @Expose
+        val call: Call? = null
 ) : Parcelable {
 
     val isGraphical: Boolean
@@ -137,6 +141,7 @@ data class Attachment(
         const val TYPE_AUDIO_MSG = "audiomsg"
         const val TYPE_POLL = "poll"
         const val TYPE_GRAFFITI = "graffiti"
+        const val TYPE_CALL = "call"
     }
 }
 
@@ -171,3 +176,5 @@ fun ArrayList<Attachment>.isPoll() = isNotEmpty() && this[0].poll != null
 fun ArrayList<Attachment>.isLink() = isNotEmpty() && this[0].link != null
 
 fun ArrayList<Attachment>.isWallPost() = isNotEmpty() && this[0].wall != null
+
+fun ArrayList<Attachment>.isCall() = isNotEmpty() && this[0].call != null
