@@ -20,7 +20,10 @@ package com.twoeightnine.root.xvii.background.longpoll.models
 
 import com.twoeightnine.root.xvii.storage.SessionProvider
 
-object MentionsCache {
+object MentionsHelper {
+
+    const val MENTION_ALL = "@all"
+    const val MENTION_ONLINE = "@online"
 
     // userId to substring
     private val cache: MutableMap<Int, String> by lazy { mutableMapOf() }
