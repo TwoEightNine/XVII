@@ -402,11 +402,17 @@
     <string name="channel_message_destructor">self-destructing messages</string>
     <string name="channel_scheduled_messages">scheduled messages</string>
     <string name="channel_key_exchanges">key exchanges</string>
+    <string name="channel_mentions">mentions</string>
 
     <string name="key_exchange_title">%s wants to start a secret chat with you</string>
     <string name="key_exchange_hint">deny if you find it suspicious</string>
     <string name="key_exchange_accept">accept</string>
     <string name="key_exchange_deny">deny</string>
+
+    <string name="mention_message">someone mentioned %s in chat</string>
+    <string name="mention_target_you">you</string>
+    <string name="mention_target_all">\@all</string>
+    <string name="mention_target_online">\@online</string>
 
     <string name="notifications_open_settings_private">change settings of private messages</string>
     <string name="notifications_open_settings_other">change settings of other messages</string>

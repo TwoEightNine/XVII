@@ -99,6 +99,15 @@ object NotificationChannels {
             vibrate = true
     )
 
+    val mentionsChannel = Channel(
+            id = "xvii.mentions",
+            name = R.string.channel_mentions,
+            description = 0,
+            importance = NotificationManager.IMPORTANCE_DEFAULT,
+            sound = false,
+            vibrate = true
+    )
+
     private val newMessages = Group(
             id = "xvii.group.new_messages",
             name = R.string.channel_new_messages

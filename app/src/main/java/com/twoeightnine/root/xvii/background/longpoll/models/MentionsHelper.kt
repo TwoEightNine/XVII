@@ -31,6 +31,20 @@ object MentionsHelper {
     val mentionSubstring: String
         get() = cache.getOrPut(SessionProvider.userId, ::createMentionSubstring)
 
+    fun getMentionTypeIfAny(messageText: String): MentionType? {
+        return when {
+            MENTION_ALL in messageText -> MentionType.ALL
+            MENTION_ONLINE in messageText -> MentionType.ONLINE
+            mentionSubstring in messageText -> MentionType.YOU
+            else -> null
+        }
+    }
+
     private fun createMentionSubstring(): String = "[id${SessionProvider.userId}|"
 
+    enum class MentionType {
+        YOU,
+        ALL,
+        ONLINE
+    }
 }
