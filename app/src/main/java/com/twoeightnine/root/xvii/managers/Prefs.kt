@@ -73,6 +73,10 @@ object Prefs {
 
     private const val MUTE_LIST = "muteList"
 
+    private const val MENTIONS_YOU = "mentionsYou"
+    private const val MENTIONS_ALL = "mentionsAll"
+    private const val MENTIONS_ONLINE = "mentionsOnline"
+
     //appearance
     private const val NIGHT = "night"
     private const val COLOR = "color"
@@ -238,6 +242,19 @@ object Prefs {
             }
             data.edit().putString(MUTE_LIST, sb.toString()).apply()
         }
+
+    var mentionsYou: Boolean
+        get() = data.getBoolean(MENTIONS_YOU, false)
+        set(show) = data.edit().putBoolean(MENTIONS_YOU, show).apply()
+
+    var mentionsAll: Boolean
+        get() = data.getBoolean(MENTIONS_ALL, false)
+        set(show) = data.edit().putBoolean(MENTIONS_ALL, show).apply()
+
+    var mentionsOnline: Boolean
+        get() = data.getBoolean(MENTIONS_ONLINE, false)
+        set(show) = data.edit().putBoolean(MENTIONS_ONLINE, show).apply()
+
 
     //appearance
     var color: Int

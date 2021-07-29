@@ -36,6 +36,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.LongPollExplanationActivity
+import com.twoeightnine.root.xvii.background.longpoll.models.MentionsHelper
 import com.twoeightnine.root.xvii.background.longpoll.receivers.KeyExchangeHandler
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
 import com.twoeightnine.root.xvii.background.music.services.MusicBroadcastReceiver
@@ -50,6 +51,7 @@ object NotificationUtils {
     private val VIBRATE_PATTERN = longArrayOf(0L, 200L)
 
     private val shownMessageNotificationIds = mutableListOf<Int>()
+    private val shownMentionNotificationIds = mutableListOf<Int>()
     private val shownExchangeNotificationIds = mutableListOf<Int>()
 
     fun hideAllMessageNotifications(context: Context) {
@@ -68,6 +70,15 @@ object NotificationUtils {
             }
         }
         shownExchangeNotificationIds.clear()
+    }
+
+    fun hideAllMentionNotifications(context: Context) {
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
+            shownMentionNotificationIds.forEach { id ->
+                cancel(id)
+            }
+        }
+        shownMentionNotificationIds.clear()
     }
 
     fun hideMessageNotification(context: Context, peerId: Int) {
@@ -125,6 +136,30 @@ object NotificationUtils {
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)
                 ?.notify(notificationId, notification)
         shownExchangeNotificationIds.add(notificationId)
+    }
+
+    fun showMentionNotification(context: Context, peerName: String, peerId: Int, mentionType: MentionsHelper.MentionType) {
+        val mentionTargetString = when (mentionType) {
+            MentionsHelper.MentionType.YOU -> R.string.mention_target_you
+            MentionsHelper.MentionType.ALL -> R.string.mention_target_all
+            MentionsHelper.MentionType.ONLINE -> R.string.mention_target_online
+        }.let(context::getString)
+        val contentText = context.getString(R.string.mention_message, mentionTargetString)
+
+        val notification = NotificationCompat.Builder(context, NotificationChannels.mentionsChannel.id)
+                .setContentTitle(peerName)
+                .setContentText(contentText)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setSmallIcon(R.drawable.ic_envelope)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentIntent(getOpenAppIntent(context, peerId))
+                .build()
+
+        val notificationId = Random.nextInt()
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)
+                ?.notify(notificationId, notification)
+        shownMentionNotificationIds.add(notificationId)
     }
 
     fun showNewMessageNotification(
@@ -225,7 +260,7 @@ object NotificationUtils {
                 .setWhen(timeStamp)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setContentIntent(getOpenAppIntent(context, peerId, userName, photo))
+                .setContentIntent(getOpenAppIntent(context, peerId))
         if (ledColor != Color.BLACK) {
             builder.setLights(ledColor, 500, 500)
         }
@@ -321,13 +356,7 @@ object NotificationUtils {
             PendingIntent.FLAG_UPDATE_CURRENT
     )
 
-    private fun getOpenAppIntent(context: Context, peerId: Int, userName: String, photo: String?): PendingIntent {
-//        val openAppIntent = Intent(context, MainActivity::class.java).apply {
-//            putExtra(MainActivity.USER_ID, peerId)
-//            putExtra(MainActivity.TITLE, userName)
-//            putExtra(MainActivity.PHOTO, photo)
-//            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-//        }
+    private fun getOpenAppIntent(context: Context, peerId: Int): PendingIntent {
         val openAppIntent = Intent(Intent.ACTION_VIEW).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             setPackage(context.packageName)

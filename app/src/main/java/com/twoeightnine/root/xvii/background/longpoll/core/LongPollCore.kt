@@ -30,6 +30,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.background.longpoll.LongPollStorage
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
+import com.twoeightnine.root.xvii.background.longpoll.models.MentionsHelper
 import com.twoeightnine.root.xvii.background.longpoll.models.events.*
 import com.twoeightnine.root.xvii.background.longpoll.receivers.KeyExchangeHandler
 import com.twoeightnine.root.xvii.lg.L
@@ -155,6 +156,7 @@ class LongPollCore(private val context: Context) {
                         EventBus.publishExchangeEventReceived(event)
                     } else {
                         processNewMessage(event)
+                        processMention(event)
                     }
                 }
             }
@@ -184,6 +186,26 @@ class LongPollCore(private val context: Context) {
                 lw("error cancelling all", e)
             }
         }
+    }
+
+    private fun processMention(event: NewMessageEvent) {
+        if (event.isOut()
+                || event.peerId in Prefs.muteList) return
+
+        val mentionType = MentionsHelper.getMentionTypeIfAny(event.text) ?: return
+
+        val allowed = when (mentionType) {
+            MentionsHelper.MentionType.ALL -> Prefs.mentionsAll
+            MentionsHelper.MentionType.YOU -> Prefs.mentionsYou
+            MentionsHelper.MentionType.ONLINE -> Prefs.mentionsOnline
+        }
+
+        if (!allowed) return
+
+        getDialog(event.peerId, { dialog ->
+            val peerName = dialog.aliasOrTitle.lowerIf(Prefs.lowerTexts)
+            NotificationUtils.showMentionNotification(context, peerName, event.peerId, mentionType)
+        }, {})
     }
 
     /**
