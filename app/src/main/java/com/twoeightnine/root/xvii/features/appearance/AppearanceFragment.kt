@@ -39,6 +39,7 @@ import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
+import global.msnthrp.xvii.uikit.utils.color.ColorUtils
 import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_appearance.*
 import kotlinx.android.synthetic.main.view_appearance_sample.*
@@ -340,6 +341,7 @@ class AppearanceFragment : BaseFragment() {
         showConfirm(context, getString(R.string.wanna_change_theme)) { yes ->
             if (yes) {
                 Prefs.color = currentColor
+                Prefs.colorBetterWithWhite = ColorUtils.isColorBetterWithWhite(currentColor)
                 Prefs.isLightTheme = switchLightTheme.isChecked
                 savePreferences()
                 restartApp(context, getString(R.string.theme_changed))
