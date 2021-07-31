@@ -146,7 +146,7 @@ object NotificationUtils {
         }.let(context::getString)
         val contentText = context.getString(R.string.mention_message, mentionTargetString)
 
-        val notification = NotificationCompat.Builder(context, NotificationChannels.mentionsChannel.id)
+        val notification = NotificationCompat.Builder(context, NotificationChannels.mentions.id)
                 .setContentTitle(peerName)
                 .setContentText(contentText)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

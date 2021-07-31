@@ -99,13 +99,14 @@ object NotificationChannels {
             vibrate = true
     )
 
-    val mentionsChannel = Channel(
+    val mentions = Channel(
             id = "xvii.mentions",
             name = R.string.channel_mentions,
             description = 0,
             importance = NotificationManager.IMPORTANCE_DEFAULT,
             sound = false,
-            vibrate = true
+            vibrate = true,
+            isNewMessages = true
     )
 
     private val newMessages = Group(
@@ -121,6 +122,8 @@ object NotificationChannels {
     private val channels = listOf(
             privateMessages,
             otherMessages,
+            mentions,
+
             backgroundService,
             musicPlayer,
             messageDestructor,
@@ -166,10 +169,9 @@ object NotificationChannels {
                     channel.sound -> RING_URI
                     else -> null
                 }, null)
-                group = if (channel.isNewMessages) {
-                    newMessages.id
-                } else {
-                    other.id
+                group = when {
+                    channel.isNewMessages -> newMessages.id
+                    else -> other.id
                 }
                 notificationManager.createNotificationChannel(this)
             }

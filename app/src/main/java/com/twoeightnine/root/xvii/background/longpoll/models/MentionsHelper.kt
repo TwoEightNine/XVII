@@ -22,20 +22,20 @@ import com.twoeightnine.root.xvii.storage.SessionProvider
 
 object MentionsHelper {
 
-    const val MENTION_ALL = "@all"
-    const val MENTION_ONLINE = "@online"
+    private const val MENTION_ALL = "@all"
+    private const val MENTION_ONLINE = "@online"
 
     // userId to substring
     private val cache: MutableMap<Int, String> by lazy { mutableMapOf() }
 
-    val mentionSubstring: String
+    private val mentionSubstring: String
         get() = cache.getOrPut(SessionProvider.userId, ::createMentionSubstring)
 
     fun getMentionTypeIfAny(messageText: String): MentionType? {
         return when {
+            mentionSubstring in messageText -> MentionType.YOU
             MENTION_ALL in messageText -> MentionType.ALL
             MENTION_ONLINE in messageText -> MentionType.ONLINE
-            mentionSubstring in messageText -> MentionType.YOU
             else -> null
         }
     }

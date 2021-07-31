@@ -244,11 +244,11 @@ object Prefs {
         }
 
     var mentionsYou: Boolean
-        get() = data.getBoolean(MENTIONS_YOU, false)
+        get() = data.getBoolean(MENTIONS_YOU, true)
         set(show) = data.edit().putBoolean(MENTIONS_YOU, show).apply()
 
     var mentionsAll: Boolean
-        get() = data.getBoolean(MENTIONS_ALL, false)
+        get() = data.getBoolean(MENTIONS_ALL, true)
         set(show) = data.edit().putBoolean(MENTIONS_ALL, show).apply()
 
     var mentionsOnline: Boolean

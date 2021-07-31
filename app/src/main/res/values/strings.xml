@@ -411,8 +411,15 @@
 
     <string name="mention_message">someone mentioned %s in chat</string>
     <string name="mention_target_you">you</string>
-    <string name="mention_target_all">\@all</string>
-    <string name="mention_target_online">\@online</string>
+    <string name="mention_target_all" translatable="false">\@all</string>
+    <string name="mention_target_online" translatable="false">\@online</string>
+
+    <string name="mentions_title">mentions</string>
+    <string name="mentions_mention_me">mentions of me</string>
+    <string name="mentions_mention_me_hint">notify if someone mentions me</string>
+    <string name="mentions_mention_all">mentions of \@all participants</string>
+    <string name="mentions_mention_all_hint">notify if someone mentions all participants</string>
+    <string name="mentions_notification_settings">change settings of mentions</string>
 
     <string name="notifications_open_settings_private">change settings of private messages</string>
     <string name="notifications_open_settings_other">change settings of other messages</string>

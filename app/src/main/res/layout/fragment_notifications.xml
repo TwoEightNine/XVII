@@ -50,10 +50,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/private_messages_notifs" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical">-->
 
                 <com.twoeightnine.root.xvii.views.XviiSwitch
                     android:id="@+id/switchShowNotification"
@@ -106,17 +106,17 @@
                     android:layout_marginBottom="12dp"
                     android:text="@string/notifications_open_settings_private" />
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
             <com.twoeightnine.root.xvii.uikit.XviiLabel
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/chats_notifs" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical">-->
 
                 <com.twoeightnine.root.xvii.views.XviiSwitch
                     android:id="@+id/switchNotifsChats"
@@ -161,6 +161,36 @@
                     android:layout_marginBottom="12dp"
                     android:text="@string/notifications_open_settings_other" />
 
+        <com.twoeightnine.root.xvii.uikit.XviiLabel
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mentions_title" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchMentionsMe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/mentions_mention_me_hint"
+                android:text="@string/mentions_mention_me" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchMentionsAll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/mentions_mention_all_hint"
+                android:text="@string/mentions_mention_all" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiButton
+                android:id="@+id/btnSettingsMentions"
+                style="@style/AccentButton"
+                android:layout_width="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="12dp"
+                android:text="@string/mentions_notification_settings" />
+
                 <com.twoeightnine.root.xvii.uikit.XviiLabel
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -194,7 +224,7 @@
                     android:layout_marginBottom="10dp"
                     android:visibility="invisible" />
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
         </LinearLayout>
 
