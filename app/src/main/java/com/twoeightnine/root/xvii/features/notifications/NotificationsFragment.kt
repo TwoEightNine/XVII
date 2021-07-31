@@ -75,7 +75,11 @@ class NotificationsFragment : BaseFragment() {
             switchSoundChats.isEnabled = false
             switchContentChats.isEnabled = false
         }
+
+        switchMentionsMe.isChecked = Prefs.mentionsYou
+        switchMentionsAll.isChecked = Prefs.mentionsAll
         switchStylizeNotifications.isChecked = Prefs.useStyledNotifications
+
         switchShowNotification.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, b ->
             switchShowName.isEnabled = b
             switchVibrate.isEnabled = b
@@ -135,6 +139,8 @@ class NotificationsFragment : BaseFragment() {
         Prefs.soundChats = switchSoundChats.isEnabled && switchSoundChats.isChecked
         Prefs.showContentChats = switchContentChats.isEnabled && switchContentChats.isChecked
 
+        Prefs.mentionsYou = switchMentionsMe.isChecked
+        Prefs.mentionsAll = switchMentionsAll.isChecked
         Prefs.useStyledNotifications = switchStylizeNotifications.isChecked
     }
 
@@ -152,7 +158,7 @@ class NotificationsFragment : BaseFragment() {
             listOf(switchVibrate, switchSound, csLed,
                     switchVibrateChats, switchSoundChats, csLedChats)
                     .forEach { it.hide() }
-            listOf(btnSettingsPrivate, btnSettings)
+            listOf(btnSettingsPrivate, btnSettings, btnSettingsMentions)
                     .forEach { it.show() }
             btnSettingsPrivate.setOnClickListener {
                 openChannelSettings(NotificationChannels.privateMessages.id)
@@ -160,11 +166,14 @@ class NotificationsFragment : BaseFragment() {
             btnSettingsOther.setOnClickListener {
                 openChannelSettings(NotificationChannels.otherMessages.id)
             }
+            btnSettingsMentions.setOnClickListener {
+                openChannelSettings(NotificationChannels.mentions.id)
+            }
             btnSettings.setOnClickListener {
                 openChannelSettings()
             }
         } else {
-            listOf(btnSettingsPrivate, btnSettingsOther)
+            listOf(btnSettingsPrivate, btnSettingsOther, btnSettingsMentions)
                     .forEach { it.hide() }
             btnSettings.setOnClickListener {
                 openSettingsPreOreo()

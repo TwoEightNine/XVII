@@ -527,5 +527,14 @@
     <string name="call_missed">пропущенный звонок</string>
     <string name="call_declined">сброшенный звонок</string>
     <string name="call_unknown">звонок</string>
+    <string name="mentions_title">упоминания</string>
+    <string name="mention_message">кто-то упомянул %s в беседе</string>
+    <string name="mention_target_you">вас</string>
+    <string name="mentions_mention_me">упоминания меня</string>
+    <string name="mentions_mention_me_hint">уведомлять, если кто-то упомянет меня</string>
+    <string name="mentions_mention_all">упоминания @all</string>
+    <string name="mentions_mention_all_hint">уведомлять, если кто-то упомянет всех</string>
+    <string name="mentions_notification_settings">изменить настройки упоминаний</string>
+    <string name="channel_mentions">упоминания</string>
 
 </resources>
