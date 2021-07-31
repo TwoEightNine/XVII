@@ -80,6 +80,7 @@ object Prefs {
     //appearance
     private const val NIGHT = "night"
     private const val COLOR = "color"
+    private const val COLOR_BETTER_WITH_WHITE = "colorBetterWithWhite"
     private const val CHAT_BACK = "chatBack"
     private const val MESSAGE_TEXT_SIZE = "messageTextSize"
     private const val DEFAULT_COLOR = 0xff7b7be2
@@ -261,6 +262,10 @@ object Prefs {
         get() = data.getInt(COLOR, DEFAULT_COLOR.toInt())
         set(value) = data.edit().putInt(COLOR, value).apply()
 
+    var colorBetterWithWhite: Boolean
+        get() = data.getBoolean(COLOR_BETTER_WITH_WHITE, true)
+        set(value) = data.edit().putBoolean(COLOR_BETTER_WITH_WHITE, value).apply()
+
     var isLightTheme: Boolean
         get() = data.getBoolean(NIGHT, false)
         set(value) = data.edit().putBoolean(NIGHT, value).apply()
@@ -323,6 +328,7 @@ object Prefs {
 
             "isLightTheme" to isLightTheme,
             COLOR to Integer.toHexString(color),
+            COLOR_BETTER_WITH_WHITE to colorBetterWithWhite,
             USE_STYLED_NOTIFICATIONS to useStyledNotifications,
 
             "hasPin" to (pin != ""),

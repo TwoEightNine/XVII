@@ -24,6 +24,15 @@ import kotlin.math.min
 import kotlin.math.pow
 
 object ColorUtils {
+
+    fun isColorBetterWithWhite(color: Int): Boolean {
+        val contrastWithWhite = getContrastRatio(color, Color.WHITE)
+        val contrastWithBlack = getContrastRatio(color, Color.BLACK)
+
+        return contrastWithWhite > contrastWithBlack
+    }
+
+
     fun getContrastRatio(c1: Int, c2: Int): Double {
         val rl1 = c1.relativeLuminance()
         val rl2 = c2.relativeLuminance()

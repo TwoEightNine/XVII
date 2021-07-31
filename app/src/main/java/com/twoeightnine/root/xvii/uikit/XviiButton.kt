@@ -19,12 +19,14 @@
 package com.twoeightnine.root.xvii.uikit
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
 import android.util.TypedValue
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.managers.Prefs
 
 class XviiButton(context: Context, attributeSet: AttributeSet) : AppCompatButton(context, attributeSet) {
 
@@ -41,7 +43,14 @@ class XviiButton(context: Context, attributeSet: AttributeSet) : AppCompatButton
             Munch.color.color
         })
         background = backgroundDrawable
-        setTextColor(Color.WHITE)
+
+        val infoColor = when {
+            warn -> Color.WHITE
+            Prefs.colorBetterWithWhite -> Color.WHITE
+            else -> ContextCompat.getColor(context, R.color.main_text_light)
+        }
+        setTextColor(infoColor)
+        compoundDrawableTintList = ColorStateList.valueOf(infoColor)
 
         stateListAnimator = null
         elevation = 1f
