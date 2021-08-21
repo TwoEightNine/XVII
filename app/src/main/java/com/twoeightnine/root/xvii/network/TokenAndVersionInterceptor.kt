@@ -49,8 +49,8 @@ class TokenAndVersionInterceptor: Interceptor {
     private fun needParameters(request: Request) = request.header(ApiService.NO_TOKEN_HEADER_KEY).isNullOrEmpty()
 
     companion object {
-        private const val VERSION_OLD = "5.63"
-        private const val VERSION_NEW = "5.92"
+        private const val VERSION_OLD = "5.63" // TODO
+        private const val VERSION_NEW = "5.131"
 
         private const val ACCESS_TOKEN = "access_token"
         private const val VERSION = "v"

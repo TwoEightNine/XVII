@@ -48,4 +48,7 @@ data class AudioMessage(
 
         @SerializedName("transcript")
         val transcript: String? = null
-): Parcelable
+): Parcelable, IdTypeable {
+
+        override fun getId(): String = "doc${ownerId}_$id"
+}
