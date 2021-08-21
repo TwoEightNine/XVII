@@ -18,6 +18,7 @@
 
 package com.twoeightnine.root.xvii.network
 
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.storage.SessionProvider
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -32,9 +33,8 @@ class TokenAndVersionInterceptor: Interceptor {
         var request = chain.request()
         val builder = request.url().newBuilder()
         if (needParameters(request)) {
-            val version = if (isNewVersion(request)) VERSION_NEW else VERSION_OLD
             builder.addQueryParameter(ACCESS_TOKEN, SessionProvider.token)
-                    .addQueryParameter(VERSION, version)
+                    .addQueryParameter(VERSION, App.VERSION)
         }
         val url = builder.build()
         request = request.newBuilder()
@@ -44,13 +44,9 @@ class TokenAndVersionInterceptor: Interceptor {
         return chain.proceed(request)
     }
 
-    private fun isNewVersion(request: Request) = !request.header(ApiService.NEW_VERSION_HEADER_KEY).isNullOrEmpty()
-
     private fun needParameters(request: Request) = request.header(ApiService.NO_TOKEN_HEADER_KEY).isNullOrEmpty()
 
     companion object {
-        private const val VERSION_OLD = "5.63" // TODO
-        private const val VERSION_NEW = "5.131"
 
         private const val ACCESS_TOKEN = "access_token"
         private const val VERSION = "v"
