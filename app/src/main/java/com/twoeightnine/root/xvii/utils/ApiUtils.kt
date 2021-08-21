@@ -27,8 +27,8 @@ import javax.inject.Inject
 @Deprecated("Move api calls into ViewModel")
 class ApiUtils @Inject constructor(val api: ApiService) {
 
-    fun markAsRead(messageIds: String) {
-        api.markAsRead(messageIds)
+    fun markAsRead(peerId: Int) {
+        api.markAsRead(peerId)
                 .subscribeSmart({}, {})
     }
 

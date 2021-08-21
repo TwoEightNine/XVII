@@ -43,7 +43,7 @@ class MarkAsReadBroadcastReceiver : BroadcastReceiver() {
             L.tag(TAG).log("received $action with message $messageId for peer $peerId")
 
             if (action == ACTION_MARK_AS_READ) {
-                apiUtils.markAsRead("$messageId")
+                apiUtils.markAsRead(peerId)
                 context?.also {
                     NotificationUtils.hideMessageNotification(context, peerId)
                 }

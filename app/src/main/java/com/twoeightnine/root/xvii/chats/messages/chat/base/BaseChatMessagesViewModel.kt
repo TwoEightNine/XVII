@@ -180,7 +180,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
     }
 
     fun markAsRead(messageIds: List<Int>) {
-        api.markAsRead(messageIds.joinToString(separator = ",") { it.toString() })
+        api.markAsRead(peerId)
                 .subscribeSmart({ _ ->
                     messageIds.maxOrNull()?.also {
                         lastMarkedAsReadId = it
@@ -190,7 +190,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
 
     private fun markAsRead(messageId: Int) {
         if (Prefs.markAsRead && isShown) {
-            api.markAsRead("$messageId")
+            api.markAsRead(peerId)
                     .subscribeSmart({
                         lastMarkedAsReadId = messageId
                     }, {})
