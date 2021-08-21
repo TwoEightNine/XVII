@@ -307,10 +307,10 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                             .compose(applySchedulers())
                             .subscribe({ response ->
                                 api.saveDoc(response.file ?: return@subscribe)
-                                        .subscribeSmart({
-                                            if (it.size > 0) {
+                                        .subscribeSmart({ attachment ->
+                                            attachment.audioMessage?.also { audioMessage ->
                                                 onAttached(path)
-                                                sendMessage(attachments = it[0].getId())
+                                                sendMessage(attachments = audioMessage.getId())
                                             }
                                         }, { error ->
                                             lw("saving voice error: $error")
@@ -359,10 +359,8 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                             .compose(applySchedulers())
                             .subscribe({ response ->
                                 api.saveDoc(response.file ?: return@subscribe)
-                                        .subscribeSmart({
-                                            if (it.size > 0) {
-                                                onAttached(path, Attachment(it[0]))
-                                            }
+                                        .subscribeSmart({ attachment ->
+                                            onAttached(path, attachment)
                                         }, { error ->
                                             lw("saving voice error: $error")
                                             onErrorOccurred(error)

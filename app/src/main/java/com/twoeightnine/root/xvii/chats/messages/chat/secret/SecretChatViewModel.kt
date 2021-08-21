@@ -112,8 +112,8 @@ class SecretChatViewModel(
                                 .compose(applySchedulers())
                                 .subscribe({ uploaded ->
                                     api.saveDoc(uploaded.file ?: return@subscribe)
-                                            .subscribeSmart({
-                                                onAttached(path, Attachment(it[0]))
+                                            .subscribeSmart({ attachment ->
+                                                onAttached(path, attachment)
                                             }, { error ->
                                                 onErrorOccurred(error)
                                                 lw("save uploaded $what error: $error")

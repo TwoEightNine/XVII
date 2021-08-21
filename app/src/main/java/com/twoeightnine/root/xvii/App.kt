@@ -86,7 +86,7 @@ class App : Application() {
         lateinit var context: Context
         var appComponent: AppComponent? = null
 
-        const val VERSION = "5.63"
+        const val VERSION = "5.63" // TODO
         const val APP_ID = 6079611
         const val SCOPE_ALL = 471062
         const val REDIRECT_URL = "https://oauth.vk.com/blank.html"

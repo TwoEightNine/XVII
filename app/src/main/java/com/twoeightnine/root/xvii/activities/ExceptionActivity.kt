@@ -93,8 +93,8 @@ class ExceptionActivity : AppCompatActivity() {
                             .compose(applySchedulers())
                             .subscribe({ response ->
                                 api.saveDoc(response.file ?: return@subscribe)
-                                        .subscribeSmart({
-                                            val doc = it.getOrNull(0) ?: return@subscribeSmart
+                                        .subscribeSmart({ attachment ->
+                                            val doc = attachment.doc ?: return@subscribeSmart
 
                                             api.sendMessage(-App.GROUP, getRandomId(), attachments = doc.getId())
                                                     .subscribeSmart({ response ->

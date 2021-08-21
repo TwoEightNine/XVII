@@ -23,10 +23,7 @@ import com.twoeightnine.root.xvii.background.longpoll.models.LongPollUpdate
 import com.twoeightnine.root.xvii.chatowner.model.api.MembersResponse
 import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.Pack
 import com.twoeightnine.root.xvii.model.*
-import com.twoeightnine.root.xvii.model.attachments.Doc
-import com.twoeightnine.root.xvii.model.attachments.Photo
-import com.twoeightnine.root.xvii.model.attachments.Poll
-import com.twoeightnine.root.xvii.model.attachments.Video
+import com.twoeightnine.root.xvii.model.attachments.*
 import com.twoeightnine.root.xvii.network.response.*
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -159,6 +156,7 @@ interface ApiService {
             @Query("start_from") startFrom: String?
     ): Flowable<BaseResponse<AttachmentsResponse>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.searchConversations?extended=1")
     fun searchConversations(
             @Query("q") q: String,
@@ -166,6 +164,7 @@ interface ApiService {
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<BaseResponse<SearchConversationsResponse>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.getConversationMembers?fields=last_seen,photo_100,online,domain")
     fun getConversationMembers(
             @Query("peer_id") peerId: Int
@@ -187,6 +186,7 @@ interface ApiService {
     @GET("store.getProducts?extended=1&filters=active&type=stickers")
     fun getStickers(): Flowable<BaseResponse<ListResponse<Pack>>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.setActivity")
     fun setActivity(
             @Query("peer_id") peerId: Int,
@@ -204,21 +204,24 @@ interface ApiService {
     fun checkUser(
             @Query("user_ids") userIds: String,
             @Query("access_token") token: String?,
-            @Query("v") version: String = "5.92",
+            @Query("v") version: String = "5.131", // TODO
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<BaseResponse<List<User>>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("users.search")
     fun searchUsers(@Query("q") q: String,
                     @Query("fields") fields: String,
                     @Query("count") count: Int,
                     @Query("offset") offset: Int): Flowable<BaseResponse<ListResponse<User>>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("account.ban")
     fun blockUser(
             @Query("owner_id") ownerId: Int
     ): Flowable<BaseResponse<Int>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("account.unban")
     fun unblockUser(
             @Query("owner_id") ownerId: Int
@@ -232,6 +235,7 @@ interface ApiService {
     ): Flowable<BaseResponse<Any>>
 
     //friends
+    @Headers(NEW_VERSION_HEADER)
     @GET("friends.get?order=hints")
     fun getFriends(
             @Query("count") count: Int,
@@ -239,6 +243,7 @@ interface ApiService {
             @Query("fields") fields: String = User.FIELDS
     ): Flowable<BaseResponse<ListResponse<User>>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("friends.search")
     fun searchFriends(@Query("q") q: String,
                       @Query("fields") fields: String,
@@ -246,6 +251,7 @@ interface ApiService {
                       @Query("offset") offset: Int): Flowable<BaseResponse<ListResponse<User>>>
 
     //photos
+    @Headers(NEW_VERSION_HEADER)
     @GET("photos.copy")
     fun copyPhoto(@Query("owner_id") ownerId: Int,
                   @Query("photo_id") photoId: Int,
@@ -258,6 +264,7 @@ interface ApiService {
                   @Query("count") count: Int,
                   @Query("offset") offset: Int = 0): Flowable<BaseResponse<ListResponse<Photo>>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("photos.getMessagesUploadServer")
     fun getPhotoUploadServer(): Flowable<BaseResponse<UploadServer>>
 
@@ -274,23 +281,28 @@ interface ApiService {
                          @Query("server") server: Int): Flowable<BaseResponse<MutableList<Photo>>>
 
     //groups
+    @Headers(NEW_VERSION_HEADER)
     @GET("groups.getById")
     fun getGroups(
             @Query("group_ids") groupIds: String,
             @Query("fields") fields: String = Group.FIELDS
     ): Flowable<BaseResponse<MutableList<Group>>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("groups.join")
     fun joinGroup(@Query("group_id") groupId: Int): Flowable<BaseResponse<Int>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("groups.isMember")
     fun isGroupMember(@Query("group_id") groupId: Int,
                       @Query("user_id") userId: Int): Flowable<BaseResponse<Int>>
 
     //account
+    @Headers(NEW_VERSION_HEADER)
     @GET("account.setOffline")
     fun setOffline(): Flowable<BaseResponse<Int>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("account.setOnline")
     fun setOnline(): Flowable<BaseResponse<Int>>
 
@@ -318,6 +330,7 @@ interface ApiService {
     ): Flowable<BaseResponse<Int>>
 
     //video
+    @Headers(NEW_VERSION_HEADER)
     @GET("video.get")
     fun getVideos(@Query("videos") videos: String,
                   @Query("access_key") accessKey: String?,
@@ -336,9 +349,11 @@ interface ApiService {
                     @Part file: MultipartBody.Part): Flowable<UploadedVideo>
 
     //docs
+    @Headers(NEW_VERSION_HEADER)
     @GET("docs.getMessagesUploadServer")
     fun getDocUploadServer(@Query("type") type: String): Flowable<BaseResponse<UploadServer>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("docs.delete")
     fun deleteDoc(
             @Query("owner_id") ownerId: Int,
@@ -351,13 +366,16 @@ interface ApiService {
     fun uploadDoc(@Url url: String,
                   @Part file: MultipartBody.Part): Flowable<Uploaded>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("docs.save")
-    fun saveDoc(@Query("file") file: String): Flowable<BaseResponse<MutableList<Doc>>>
+    fun saveDoc(@Query("file") file: String): Flowable<BaseResponse<Attachment>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("docs.get")
     fun getDocs(@Query("count") count: Int,
                 @Query("offset") offset: Int): Flowable<BaseResponse<ListResponse<Doc>>>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("docs.add")
     fun addDoc(@Query("owner_id") ownerId: Int,
                @Query("doc_id") docId: Int,
@@ -368,14 +386,7 @@ interface ApiService {
     @GET("wall.getById?extended=1")
     fun getWallPostById(@Query("posts") posts: String): Flowable<BaseResponse<WallPostResponse>>
 
-    @GET("likes.add?type=post")
-    fun like(@Query("owner_id") ownerId: Int,
-             @Query("item_id") itemId: Int): Flowable<BaseResponse<LikesResponse>>
-
-    @GET("likes.delete?type=post")
-    fun unlike(@Query("owner_id") ownerId: Int,
-               @Query("item_id") itemId: Int): Flowable<BaseResponse<LikesResponse>>
-
+    @Headers(NEW_VERSION_HEADER)
     @GET("wall.repost")
     fun repost(@Query("object") obj: String): Flowable<BaseResponse<JSONObject>>
 
@@ -392,10 +403,12 @@ interface ApiService {
             @Query("version") version: Int = 2
     ): Single<LongPollUpdate>
 
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.getLongPollServer")
     fun getLongPollServer(): Flowable<BaseResponse<LongPollServer>>
 
     //stats
+    @Headers(NEW_VERSION_HEADER)
     @GET("stats.trackVisitor")
     fun trackVisitor(): Flowable<BaseResponse<Int>>
 
