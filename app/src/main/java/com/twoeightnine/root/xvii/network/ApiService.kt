@@ -80,12 +80,10 @@ interface ApiService {
             @Query("offset") offset: Int = 0
     ): Flowable<BaseResponse<MessagesHistoryResponse>>
 
-    /**
-     * since 5.80 it's not documented and doesn't support [messageIds]
-     */
+    @Headers(NEW_VERSION_HEADER)
     @GET("messages.markAsRead")
     fun markAsRead(
-            @Query("message_ids") messageIds: String
+            @Query("peer_id") peerId: Int
     ): Flowable<BaseResponse<Int>>
 
     @Headers(NEW_VERSION_HEADER)

@@ -107,7 +107,7 @@ class DialogsViewModel(
     }
 
     fun readDialog(dialog: Dialog) {
-        api.markAsRead("${dialog.messageId}")
+        api.markAsRead(dialog.peerId)
                 .subscribeSmart({}, ::onErrorOccurred)
     }
 
