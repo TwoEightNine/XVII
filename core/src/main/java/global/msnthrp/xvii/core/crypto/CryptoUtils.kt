@@ -23,13 +23,11 @@ import java.security.SecureRandom
 
 object CryptoUtils {
 
-    fun md5(plain: ByteArray): ByteArray = MessageDigest
-            .getInstance("MD5")
-            .digest(plain)
-
     fun sha256(plain: ByteArray): ByteArray = MessageDigest
             .getInstance("SHA-256")
             .digest(plain)
+
+    fun sha256TruncatedAs128(plain: ByteArray): ByteArray = sha256(plain).copyOf(16)
 
     fun getRandomBytes(numBytes: Int): ByteArray {
         val sr = SecureRandom()
