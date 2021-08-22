@@ -103,14 +103,11 @@ class AccountsViewModel(
         private const val TAG = "accounts"
     }
 
-    class Factory @Inject constructor(
-            private val longPollStorage: LongPollStorage,
-            private val appDb: AppDb
-    ) : ViewModelProvider.Factory {
+    class Factory @Inject constructor(private val appDb: AppDb) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(AccountsViewModel::class.java)) {
-                return AccountsViewModel(longPollStorage, appDb) as T
+                return AccountsViewModel(LongPollStorage, appDb) as T
             }
             throw IllegalArgumentException("Unknown class $modelClass")
         }

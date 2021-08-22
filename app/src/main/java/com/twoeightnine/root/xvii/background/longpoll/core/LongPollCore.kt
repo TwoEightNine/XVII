@@ -70,9 +70,6 @@ class LongPollCore(private val context: Context) {
     private var isRunning = false
 
     @Inject
-    lateinit var longPollStorage: LongPollStorage
-
-    @Inject
     lateinit var api: ApiService
 
     @Inject
@@ -99,10 +96,10 @@ class LongPollCore(private val context: Context) {
     private fun getUpdates() {
         isRunning = true
         lastRun = time()
-        longPollStorage.getLongPollServer() ?: updateLongPollServer()
+        LongPollStorage.getLongPollServer() ?: updateLongPollServer()
 
-        l("on ${longPollStorage.getLongPollServer()?.ts}")
-        getConnectSingle(longPollStorage.getLongPollServer() ?: return)
+        l("on ${LongPollStorage.getLongPollServer()?.ts}")
+        getConnectSingle(LongPollStorage.getLongPollServer() ?: return)
                 .subscribe({ longPollUpdate: LongPollUpdate ->
                     onUpdateReceived(longPollUpdate)
                 }, {
@@ -114,7 +111,7 @@ class LongPollCore(private val context: Context) {
     private fun updateLongPollServer() {
         api.getLongPollServer()
                 .subscribeSmart({
-                    longPollStorage.saveLongPoll(it)
+                    LongPollStorage.saveLongPoll(it)
                     isRunning = false
                 }, { msg ->
                     lw("error during updating: $msg")
@@ -130,7 +127,7 @@ class LongPollCore(private val context: Context) {
         when {
             longPollUpdate.shouldUpdateServer() -> updateLongPollServer()
             else -> {
-                updateTs(longPollStorage.getLongPollServer() ?: return, longPollUpdate.ts)
+                updateTs(LongPollStorage.getLongPollServer() ?: return, longPollUpdate.ts)
                 deliverUpdate(longPollUpdate.updates)
                 isRunning = false
             }
@@ -380,7 +377,7 @@ class LongPollCore(private val context: Context) {
                 longPollServer.server,
                 ts
         )
-        longPollStorage.saveLongPoll(newServer)
+        LongPollStorage.saveLongPoll(newServer)
     }
 
     fun showForeground(service: Service) {
