@@ -30,7 +30,7 @@ object Cipher {
         val key2 = CryptoUtils.sha256(key.copyOfRange(key.size / 2, key.size))
 
         val iv = when {
-            deterministic -> CryptoUtils.md5(key)
+            deterministic -> CryptoUtils.sha256TruncatedAs128(key)
             else -> CryptoUtils.getRandomBytes(IV_LENGTH)
         }
         val encrypted = Aes256.encrypt(iv, key1, bytes)
