@@ -18,40 +18,31 @@
 
 package com.twoeightnine.root.xvii.background.longpoll
 
-import android.content.Context
-import android.content.SharedPreferences
-import com.google.gson.Gson
 import com.twoeightnine.root.xvii.background.longpoll.models.LongPollServer
-import javax.inject.Inject
 
-class LongPollStorage @Inject constructor(private val context: Context) {
-
-    private val prefs: SharedPreferences by lazy {
-        context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
-    }
-
-    private val gson = Gson()
+// just a bridge between old implementation (was here) and new one (Encrypted..)
+// TODO to be removed
+object LongPollStorage {
 
     fun saveLongPoll(longPollServer: LongPollServer) {
-        val serialized = gson.toJson(longPollServer)
-        prefs.edit().putString(SERVER, serialized).apply()
+        EncryptedLongPollStorage.longPollServer = global.msnthrp.xvii.core.longpoll.LongPollServer(
+                key = longPollServer.key,
+                server = longPollServer.server,
+                ts = longPollServer.ts
+        )
     }
 
     fun clear() {
-        prefs.edit().putString(SERVER, "").apply()
+        EncryptedLongPollStorage.clear()
     }
 
     fun getLongPollServer(): LongPollServer? {
-        val serialized = prefs.getString(SERVER, "")
-        if (serialized.isNullOrEmpty()) return null
+        val internal = EncryptedLongPollStorage.longPollServer ?: return null
 
-        return gson.fromJson(serialized, LongPollServer::class.java)
-    }
-
-    companion object {
-        const val NAME = "longPoll"
-
-        const val SERVER = "server"
-
+        return LongPollServer(
+                key = internal.key,
+                server = internal.server,
+                ts = internal.ts
+        )
     }
 }

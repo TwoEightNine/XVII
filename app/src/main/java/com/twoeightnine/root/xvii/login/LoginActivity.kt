@@ -48,12 +48,8 @@ import global.msnthrp.xvii.uikit.extensions.show
 import global.msnthrp.xvii.uikit.utils.DisplayUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
-import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
-
-    @Inject
-    lateinit var longPollStorage: LongPollStorage
 
     private val viewModel by viewModels<LoginViewModel>()
     private val addNewAccount by lazy {
@@ -121,7 +117,7 @@ class LoginActivity : BaseActivity() {
 
     private fun startApp() {
         App.appComponent?.inject(this)
-        longPollStorage.clear()
+        LongPollStorage.clear()
         startNotificationService(this)
         when (Prefs.fakeAppType) {
             SecurityFragment.FakeAppType.ALARMS ->
