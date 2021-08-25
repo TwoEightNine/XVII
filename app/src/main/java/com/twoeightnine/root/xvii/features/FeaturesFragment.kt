@@ -115,7 +115,7 @@ class FeaturesFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateLastSeen()
+        viewModel.setOfflineIfNeededAndUpdateLastSeen()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
