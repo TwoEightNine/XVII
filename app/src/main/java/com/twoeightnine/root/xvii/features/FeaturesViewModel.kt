@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.lg.L
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.AsyncUtils
@@ -82,6 +83,15 @@ class FeaturesViewModel(
     fun joinGroup() {
         api.joinGroup(App.GROUP)
                 .subscribeSmart({}, {})
+    }
+
+    fun setOfflineIfNeededAndUpdateLastSeen() {
+        if (Prefs.beOffline) {
+            api.setOffline()
+                    .subscribeSmart({ updateLastSeen() }, { updateLastSeen() })
+        } else {
+            updateLastSeen()
+        }
     }
 
     fun updateLastSeen() {
