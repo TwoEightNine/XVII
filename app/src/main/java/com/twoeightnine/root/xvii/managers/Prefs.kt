@@ -36,6 +36,7 @@ object Prefs {
     private const val NOTIFY_ABOUT_INVADERS = "notifyAboutInvadres"
     private const val TAKE_INVADER_PICTURE = "takeInvaderPicture"
     private const val FAKE_APP_TYPE = "fakeAppType"
+    private const val MASK_VOICE = "maskVoice"
 
     //general
     private const val BE_OFFLINE = "beOffline"
@@ -308,6 +309,11 @@ object Prefs {
                 ?.let { SecurityFragment.FakeAppType.valueOf(it) }
                 ?: SecurityFragment.FakeAppType.NONE
         set(value) = data.edit().putString(FAKE_APP_TYPE, value.name).apply()
+
+    var maskVoice: Boolean
+        get() = data.getBoolean(MASK_VOICE, false)
+        set(value) = data.edit().putBoolean(MASK_VOICE, value).apply()
+
 
     fun getSettings() = mapOf<String, Any>(
             BE_OFFLINE to beOffline,

@@ -15,8 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-include ':utils'
-include ':uikit'
-include ':data'
-include ':core'
-include ':app'
+
+package com.twoeightnine.root.xvii.lg
+
+import global.msnthrp.utils.TimeUtils
+
+data class LgEvent(
+        val text: String,
+        val tag: String? = null,
+        val throwable: Throwable? = null,
+        val warn: Boolean = false,
+        val ts: Int = TimeUtils.time()
+)

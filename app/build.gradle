@@ -86,6 +86,7 @@ dependencies {
     implementation project(':core')
     implementation project(':data')
     implementation project(':uikit')
+    implementation project(':utils')
 
     implementation kotlin.kotlin
 

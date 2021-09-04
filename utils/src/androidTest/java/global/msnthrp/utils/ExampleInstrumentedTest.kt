@@ -16,17 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.twoeightnine.root.xvii.lg
+package global.msnthrp.utils
 
-import android.os.Parcelable
-import com.twoeightnine.root.xvii.utils.time
-import kotlinx.android.parcel.Parcelize
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.*
+import org.junit.Test
+import org.junit.runner.RunWith
 
-@Parcelize
-data class LgEvent(
-        val text: String,
-        val tag: String? = null,
-        val throwable: Throwable? = null,
-        val warn: Boolean = false,
-        val ts: Int = time()
-) : Parcelable
+/**
+ * Instrumented test, which will execute on an Android device.
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+@RunWith(AndroidJUnit4::class)
+class ExampleInstrumentedTest {
+    @Test
+    fun useAppContext() {
+        // Context of the app under test.
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        assertEquals("global.msnthrp.utils.test", appContext.packageName)
+    }
+}

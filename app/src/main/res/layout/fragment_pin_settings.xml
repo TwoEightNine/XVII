@@ -258,6 +258,18 @@
 
             </LinearLayout>
 
+            <com.twoeightnine.root.xvii.uikit.XviiLabel
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/other" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchMaskVoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/security_mask_voice_hint"
+                android:text="@string/security_mask_voice" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

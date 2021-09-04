@@ -55,17 +55,9 @@ android {
 
 dependencies {
 
-    implementation project(':utils')
-
     implementation kotlin.kotlin
 
-    implementation androidUi.appCompat
-    implementation androidUi.material
-    implementation androidUi.coreKtx
-    implementation androidUi.fragmentKtx
-
-    implementation utils.glide
-    kapt utils.glideCompiler
+    implementation utils.apacheMath
 
     testImplementation androidTests.jUnit
     androidTestImplementation androidTests.espresso

@@ -65,6 +65,11 @@ class SecurityFragment : BaseFragment() {
         initSwitches()
     }
 
+    override fun onPause() {
+        super.onPause()
+        Prefs.maskVoice = switchMaskVoice.isChecked
+    }
+
     private fun initSwitches() {
         switchPin.onCheckedListener = null
 
@@ -74,6 +79,8 @@ class SecurityFragment : BaseFragment() {
         switchNotifyAboutInvader.isChecked = Prefs.notifyAboutInvaders
         switchInvaderPhoto.setVisible(switchNotifyAboutInvader.isChecked)
         switchInvaderPhoto.isChecked = Prefs.takeInvaderPicture
+
+        switchMaskVoice.isChecked = Prefs.maskVoice
 
         switchPin.onCheckedListener = pinCheckedListener
     }

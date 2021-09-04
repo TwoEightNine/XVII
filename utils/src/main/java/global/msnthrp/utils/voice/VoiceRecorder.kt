@@ -15,8 +15,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-include ':utils'
-include ':uikit'
-include ':data'
-include ':core'
-include ':app'
+
+package global.msnthrp.utils.voice
+
+import java.io.File
+
+interface VoiceRecorder {
+
+    fun setupRecorder(outputFile: File)
+
+    fun start()
+    fun stop()
+
+    fun release()
+
+    fun doOnRecordReady(onReady: () -> Unit)
+
+    fun getMaxAmplitude(): Float
+
+}
