@@ -125,6 +125,8 @@ ext {
             glideCompiler: "com.github.bumptech.glide:compiler:${toolsVersions.glideVersion}",
 
             picasso      : "com.squareup.picasso:picasso:2.71828",
-            crypto       : "androidx.security:security-crypto:1.0.0-rc04"
+            crypto       : "androidx.security:security-crypto:1.0.0-rc04",
+
+            apacheMath   : "org.apache.commons:commons-math3:3.0"
     ]
 }

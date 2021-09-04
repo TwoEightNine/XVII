@@ -19,10 +19,13 @@
 package com.twoeightnine.root.xvii.chats.tools
 
 import android.content.Context
-import android.media.MediaRecorder
 import android.os.CountDownTimer
 import com.twoeightnine.root.xvii.lg.L
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.utils.VibrationHelper
+import global.msnthrp.utils.voice.MaskingVoiceRecorder
+import global.msnthrp.utils.voice.MediaVoiceRecorder
+import global.msnthrp.utils.voice.VoiceRecorder
 import java.io.File
 import kotlin.math.sqrt
 
@@ -30,12 +33,12 @@ import kotlin.math.sqrt
  * Created by twoeightnine on 1/18/18.
  */
 
-class VoiceRecorder(
-        private val context: Context,
+class ChatVoiceController(
+        context: Context,
         private val recorderCallback: RecorderCallback
 ) {
 
-    private var recorder: MediaRecorder? = null
+    private var recorder: VoiceRecorder? = null
     private val file = File(context.cacheDir, RECORD_NAME)
     private val timer = RecordTimer()
 
@@ -47,26 +50,31 @@ class VoiceRecorder(
 
         recorderCallback.onVoiceVisibilityChanged(true)
         timer.start()
-        recorder = MediaRecorder()
-        recorder?.apply {
-            setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB)
-            setOutputFile(file.absolutePath)
-            try {
-                prepare()
-                start()
-                vibrate()
-            } catch (e: Exception) {
-                recorderCallback.onVoiceError(e.message ?: "null")
-            }
+        val recorder = createVoiceRecorder()
+        this.recorder = recorder
+
+        recorder.setupRecorder(file)
+        try {
+            recorder.start()
+            vibrate()
+        } catch (e: Exception) {
+            recorderCallback.onVoiceError(e.message ?: "null")
         }
+
     }
 
     fun stopRecording(cancelled: Boolean = false) {
         recorderCallback.onVoiceVisibilityChanged(false)
         timer.cancel()
-        val successfully = try {
+        var success = false
+
+        recorder?.doOnRecordReady {
+            if (timer.lastDuration >= RECORD_MIN_DURATION && !cancelled && success) {
+                recorderCallback.onVoiceRecorded(file.absolutePath)
+            }
+        }
+
+        success = try {
             recorder?.apply {
                 stop()
                 release()
@@ -79,18 +87,22 @@ class VoiceRecorder(
             false
         }
         recorder = null
-        if (timer.lastDuration >= RECORD_MIN_DURATION && !cancelled && successfully) {
-            recorderCallback.onVoiceRecorded(file.absolutePath)
-        }
     }
 
     private fun vibrate() = VibrationHelper.vibrateHaptic()
+
+    private fun createVoiceRecorder(): VoiceRecorder {
+        return when {
+            Prefs.maskVoice -> MaskingVoiceRecorder()
+            else -> MediaVoiceRecorder()
+        }
+    }
 
     companion object {
 
         const val AMPLITUDE_UPDATE_DELAY = 50L
 
-        private const val RECORD_NAME = "voice.amr"
+        private const val RECORD_NAME = "voice.wav"
         private const val RECORD_MIN_DURATION = 1
         private const val IMPLICIT_DURATION = 60 * 15 * 1000L // 15 minutes
         private const val MAX_AMPLITUDE = 16384
@@ -120,17 +132,10 @@ class VoiceRecorder(
                 recorderCallback.onVoiceTimeUpdated(spent)
             }
 
-            var amplitude = recorder.getMaxAmplitude() / MAX_AMPLITUDE
+            val realAmplitude = recorder?.getMaxAmplitude() ?: 0f
+            var amplitude = realAmplitude / MAX_AMPLITUDE
             if (amplitude > 1) amplitude = 1f
             recorderCallback.onAmplitudeChanged(sqrt(amplitude)) // amplify weak
-        }
-
-        private fun MediaRecorder?.getMaxAmplitude(): Float {
-            return try {
-                this?.maxAmplitude?.toFloat() ?: 0f
-            } catch (e: Exception) {
-                0f
-            }
         }
     }
 }

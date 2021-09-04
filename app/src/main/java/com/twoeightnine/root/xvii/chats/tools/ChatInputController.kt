@@ -76,7 +76,7 @@ class ChatInputController(
 
     private val loadingQueue = arrayListOf<Any>()
     private val stickerKeyboard = StickersEmojiWindow(rootView, context, ::onKeyboardClosed, callback::onStickerClicked, ::addEmoji)
-    private val voiceRecorder = VoiceRecorder(context, InputRecorderCallback())
+    private val voiceRecorder = ChatVoiceController(context, InputRecorderCallback())
     private val repo by lazy { StickersEmojiRepository() }
     private val stickers = arrayListOf<global.msnthrp.xvii.data.stickersemoji.model.Sticker>()
 
@@ -531,7 +531,7 @@ class ChatInputController(
         fun onMention(query: String?)
     }
 
-    private inner class InputRecorderCallback : VoiceRecorder.RecorderCallback {
+    private inner class InputRecorderCallback : ChatVoiceController.RecorderCallback {
 
         private var lastVoiceInvoke = -5
 
@@ -570,7 +570,7 @@ class ChatInputController(
                     PropertyValuesHolder.ofFloat(View.SCALE_Y, currentScale, newScale)
             ).apply {
                 interpolator = LinearInterpolator()
-                duration = VoiceRecorder.AMPLITUDE_UPDATE_DELAY
+                duration = ChatVoiceController.AMPLITUDE_UPDATE_DELAY
                 start()
             }
         }

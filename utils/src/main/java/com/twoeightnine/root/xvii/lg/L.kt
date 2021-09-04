@@ -19,7 +19,7 @@
 package com.twoeightnine.root.xvii.lg
 
 import android.util.Log
-import com.twoeightnine.root.xvii.BuildConfig
+import global.msnthrp.utils.BuildConfig
 import java.util.concurrent.locks.ReentrantLock
 
 class L private constructor() {

@@ -15,8 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-include ':utils'
-include ':uikit'
-include ':data'
-include ':core'
-include ':app'
+
+package global.msnthrp.utils
+
+object TimeUtils {
+
+    fun time() = (System.currentTimeMillis() / 1000L).toInt()
+}
