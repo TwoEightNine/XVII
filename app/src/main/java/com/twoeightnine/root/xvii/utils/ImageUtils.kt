@@ -239,11 +239,11 @@ class ImageUtils(private val activity: Activity) {
      *     * and display it.
      * */
         val nameIndex = returnCursor!!.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-        val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
         returnCursor.moveToFirst()
         val name = returnCursor.getString(nameIndex)
-        val size = java.lang.Long.toString(returnCursor.getLong(sizeIndex))
-        val file = File(context.filesDir, name)
+        val dir = File(context.cacheDir, CacheFileUtils.DIR_FILES)
+        dir.mkdir()
+        val file = File(dir, name)
         try {
             val inputStream = context.contentResolver.openInputStream(uri)
             val outputStream = FileOutputStream(file)

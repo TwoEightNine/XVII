@@ -22,6 +22,7 @@ import android.content.Context
 import android.os.CountDownTimer
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.utils.CacheFileUtils
 import com.twoeightnine.root.xvii.utils.VibrationHelper
 import global.msnthrp.utils.voice.MaskingVoiceRecorder
 import global.msnthrp.utils.voice.MediaVoiceRecorder
@@ -97,8 +98,8 @@ class ChatVoiceController(
 
     private fun createRecordFile(): File {
         val fileName = when {
-            Prefs.maskVoice -> "voice.wav"
-            else -> "voice.amr"
+            Prefs.maskVoice -> CacheFileUtils.FILE_VOICE_WAV
+            else -> CacheFileUtils.FILE_VOICE_AMR
         }
         val recordFile = File(recordFileDir, fileName)
         if (recordFile.exists()) {

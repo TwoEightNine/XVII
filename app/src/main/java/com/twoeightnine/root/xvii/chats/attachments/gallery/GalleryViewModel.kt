@@ -27,6 +27,7 @@ import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachViewModel
 import com.twoeightnine.root.xvii.chats.attachments.gallery.model.DeviceItem
 import com.twoeightnine.root.xvii.crypto.md5
 import com.twoeightnine.root.xvii.lg.L
+import com.twoeightnine.root.xvii.utils.CacheFileUtils
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.saveBmp
 import io.reactivex.Single
@@ -223,7 +224,7 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
 
     companion object {
         private const val TAG = "gallery"
-        private const val CACHE_DIR = "gallery_cache"
+        private const val CACHE_DIR = CacheFileUtils.DIR_GALLERY
 
         const val COUNT = 30
         const val OPTIMAL_SIZE = 400

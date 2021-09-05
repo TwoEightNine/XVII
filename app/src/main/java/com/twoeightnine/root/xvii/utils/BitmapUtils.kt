@@ -48,7 +48,7 @@ object BitmapNotification {
 
     private fun getOrCreateNotificationBackground(context: Context, avatar: Bitmap): NotificationBackground {
         val hash = avatar.hash()
-        val dir = File(context.cacheDir, DIR_NOTIFICATIONS)
+        val dir = File(context.cacheDir, CacheFileUtils.DIR_NOTIFICATIONS)
         dir.mkdir()
 
         val file = File(dir, "${hash + 1}.png")
