@@ -25,6 +25,8 @@ class MediaVoiceRecorder : VoiceRecorder {
 
     private val recorder = MediaRecorder()
 
+    private var onReady: (() -> Unit)? = null
+
     override fun setupRecorder(outputFile: File) {
         recorder.apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -43,6 +45,7 @@ class MediaVoiceRecorder : VoiceRecorder {
 
     override fun stop() {
         recorder.stop()
+        onReady?.invoke()
     }
 
     override fun release() {
@@ -50,7 +53,7 @@ class MediaVoiceRecorder : VoiceRecorder {
     }
 
     override fun doOnRecordReady(onReady: () -> Unit) {
-        onReady()
+        this.onReady = onReady
     }
 
     override fun getMaxAmplitude(): Float {
