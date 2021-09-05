@@ -38,6 +38,7 @@ import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
 import com.twoeightnine.root.xvii.features.FeaturesFragment
 import com.twoeightnine.root.xvii.friends.fragments.FriendsFragment
 import com.twoeightnine.root.xvii.lg.L
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.search.SearchFragment
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
@@ -92,6 +93,10 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         deepLinkHandler.handle()
+        // TODO remove after 2-3 releases
+        Thread {
+            CacheFileUtils.deleteFilesCompat(this, listOf(Prefs.chatBack))
+        }.start()
     }
 
     private fun initFragments() {

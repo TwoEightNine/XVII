@@ -27,8 +27,8 @@ import com.twoeightnine.root.xvii.chats.attachments.stickersemoji.StickersEmojiR
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.model.Wrapper
 import com.twoeightnine.root.xvii.network.ApiService
+import com.twoeightnine.root.xvii.utils.CacheFileUtils
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
-import com.twoeightnine.root.xvii.utils.getCacheSize
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import global.msnthrp.xvii.data.db.AppDb
 import io.reactivex.Single
@@ -80,7 +80,7 @@ class GeneralViewModel : ViewModel() {
     fun calculateCacheSize() {
         disposable?.dispose()
         disposable = Single.fromCallable {
-            getCacheSize(applicationContext)
+            CacheFileUtils.getCacheSize(applicationContext)
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -93,7 +93,7 @@ class GeneralViewModel : ViewModel() {
     fun clearCache() {
         disposable?.dispose()
         disposable = Single.fromCallable {
-            com.twoeightnine.root.xvii.utils.clearCache(applicationContext)
+            CacheFileUtils.clearCache(applicationContext)
             true
         }
                 .compose(applySingleSchedulers())

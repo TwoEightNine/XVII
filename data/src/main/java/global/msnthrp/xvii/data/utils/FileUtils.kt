@@ -23,6 +23,7 @@ import android.content.Context
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import java.io.*
+import java.security.SecureRandom
 
 
 object FileUtils {
@@ -58,7 +59,9 @@ object FileUtils {
         context ?: return null
 
         val fileExtension = getFileExtension(context, uri)
-        val file = File.createTempFile("1753" /* why 1753? */, ".$fileExtension")
+        val dir = File(context.cacheDir, "files")
+        dir.mkdir()
+        val file = File(dir, "1753${SecureRandom().nextLong()}.$fileExtension")
         val written = writeToFileFromContentUri(context, file, uri)
         return when {
             written -> file

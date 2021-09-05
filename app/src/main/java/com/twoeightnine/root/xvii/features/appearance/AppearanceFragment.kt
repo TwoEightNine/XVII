@@ -44,6 +44,7 @@ import kotlinx.android.synthetic.main.chat_input_panel.*
 import kotlinx.android.synthetic.main.fragment_appearance.*
 import kotlinx.android.synthetic.main.view_appearance_sample.*
 import kotlinx.android.synthetic.main.view_appearance_sample.view.*
+import java.io.File
 
 class AppearanceFragment : BaseFragment() {
 
@@ -290,6 +291,7 @@ class AppearanceFragment : BaseFragment() {
 
     private fun deletePhoto() {
         ivBackground.setImageBitmap(null)
+        deleteOldChatBack(Prefs.chatBack)
         Prefs.chatBack = ""
     }
 
@@ -298,6 +300,7 @@ class AppearanceFragment : BaseFragment() {
 
         val newPath = getCroppedImagePath(activity, path)
         if (newPath != null) {
+            deleteOldChatBack(Prefs.chatBack)
             Prefs.chatBack = newPath
             updatePhoto(newPath)
         } else {
@@ -310,6 +313,7 @@ class AppearanceFragment : BaseFragment() {
 
         val newPath = createColoredBitmap(activity, color)
         if (newPath != null) {
+            deleteOldChatBack(Prefs.chatBack)
             Prefs.chatBack = newPath
             updatePhoto(newPath)
         } else {
@@ -319,6 +323,12 @@ class AppearanceFragment : BaseFragment() {
 
     private fun updatePhoto(path: String) {
         ivBackground.load("file://$path")
+    }
+
+    private fun deleteOldChatBack(prevChatBackPath: String) {
+        Thread {
+            File(prevChatBackPath).delete()
+        }.start()
     }
 
     override fun onStop() {

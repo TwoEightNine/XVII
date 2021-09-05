@@ -28,6 +28,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.uikit.Munch
 import com.twoeightnine.root.xvii.uikit.paint
+import com.twoeightnine.root.xvii.utils.CacheFileUtils
 import com.twoeightnine.root.xvii.utils.applySingleSchedulers
 import com.twoeightnine.root.xvii.utils.saveBmp
 import com.twoeightnine.root.xvii.utils.time
@@ -75,7 +76,9 @@ class ImageCropperFragment : BaseFragment() {
         cropperDisposable?.dispose()
         cropperDisposable = Single.fromCallable {
             val croppedImage = cropImageView.croppedImage
-            val croppedFileName = File(requireContext().cacheDir, "cropped_${time()}.png")
+            val cacheDir = requireContext().cacheDir
+            val croppedDir = File(cacheDir, CacheFileUtils.DIR_CROPPED)
+            val croppedFileName = File(croppedDir, "cropped_${time()}.png")
             saveBmp(croppedFileName.absolutePath, croppedImage)
             croppedFileName.absolutePath
         }
