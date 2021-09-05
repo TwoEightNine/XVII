@@ -28,6 +28,7 @@ const val DIR_IMAGE_MANAGER = "image_manager_disk_cache"
 const val DIR_WEB_VIEW = "WebView"
 
 const val FILE_VOICE = "voice.amr"
+const val FILE_VOICE_2 = "voice.wav"
 const val FILE_SHARE = "share.jpg"
 const val FILE_RICH_CONTENT = "richContent.gif"
 
@@ -44,6 +45,7 @@ fun getCacheSize(context: Context?): Long {
     size += getSizeOfDir(File(cacheDir, DIR_WEB_VIEW))
     // files
     size += File(cacheDir, FILE_VOICE).length()
+    size += File(cacheDir, FILE_VOICE_2).length()
     size += File(cacheDir, FILE_SHARE).length()
     size += File(cacheDir, FILE_RICH_CONTENT).length()
 
@@ -60,6 +62,7 @@ fun clearCache(context: Context?) {
     emptyDir(File(cacheDir, DIR_WEB_VIEW))
 
     File(cacheDir, FILE_VOICE).delete()
+    File(cacheDir, FILE_VOICE_2).delete()
     File(cacheDir, FILE_SHARE).delete()
     File(cacheDir, FILE_RICH_CONTENT).delete()
 }

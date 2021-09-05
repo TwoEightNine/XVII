@@ -39,21 +39,21 @@ class ChatVoiceController(
 ) {
 
     private var recorder: VoiceRecorder? = null
-    private val file = File(context.cacheDir, RECORD_NAME)
+    private val recordFileDir = context.cacheDir
+    private var recordFile: File? = null
     private val timer = RecordTimer()
 
     fun startRecording() {
 
-        if (file.exists()) {
-            file.delete()
-        }
+        val recordFile = createRecordFile()
+        this.recordFile = recordFile
 
         recorderCallback.onVoiceVisibilityChanged(true)
         timer.start()
         val recorder = createVoiceRecorder()
         this.recorder = recorder
 
-        recorder.setupRecorder(file)
+        recorder.setupRecorder(recordFile)
         try {
             recorder.start()
             vibrate()
@@ -66,25 +66,22 @@ class ChatVoiceController(
     fun stopRecording(cancelled: Boolean = false) {
         recorderCallback.onVoiceVisibilityChanged(false)
         timer.cancel()
-        var success = false
 
         recorder?.doOnRecordReady {
-            if (timer.lastDuration >= RECORD_MIN_DURATION && !cancelled && success) {
-                recorderCallback.onVoiceRecorded(file.absolutePath)
+            if (timer.lastDuration >= RECORD_MIN_DURATION && !cancelled) {
+                recordFile?.absolutePath?.also(recorderCallback::onVoiceRecorded)
             }
         }
 
-        success = try {
+        try {
             recorder?.apply {
                 stop()
                 release()
             }
-            true
         } catch (e: Exception) {
             L.tag("voice recorder")
                     .throwable(e)
                     .log("stopping error")
-            false
         }
         recorder = null
     }
@@ -98,11 +95,22 @@ class ChatVoiceController(
         }
     }
 
+    private fun createRecordFile(): File {
+        val fileName = when {
+            Prefs.maskVoice -> "voice.wav"
+            else -> "voice.amr"
+        }
+        val recordFile = File(recordFileDir, fileName)
+        if (recordFile.exists()) {
+            recordFile.delete()
+        }
+        return recordFile
+    }
+
     companion object {
 
         const val AMPLITUDE_UPDATE_DELAY = 50L
 
-        private const val RECORD_NAME = "voice.wav"
         private const val RECORD_MIN_DURATION = 1
         private const val IMPLICIT_DURATION = 60 * 15 * 1000L // 15 minutes
         private const val MAX_AMPLITUDE = 16384
