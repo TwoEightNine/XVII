@@ -30,9 +30,9 @@ import org.apache.commons.math3.transform.FastCosineTransformer
 import org.apache.commons.math3.transform.TransformType
 import java.io.File
 import java.nio.ByteBuffer
+import java.security.SecureRandom
 import java.util.*
 import kotlin.math.roundToInt
-import kotlin.random.Random
 
 
 class MaskingVoiceRecorder : VoiceRecorder {
@@ -141,8 +141,9 @@ class MaskingVoiceRecorder : VoiceRecorder {
             val offsetMin = 32
             val offsetMax = 128
 
+            val random = SecureRandom()
             val newFrames = performBatchDctTransform(frames, batchSize) { spec ->
-                val offset = Random.nextInt(offsetMin, offsetMax)
+                val offset = random.nextInt(offsetMax - offsetMin + 1) + offsetMin
                 for (i in offset until batchSize) {
                     spec[i - offset] = spec[i]
                 }
