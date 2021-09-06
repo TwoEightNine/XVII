@@ -112,7 +112,7 @@ class DialogsViewModel(
     }
 
     fun deleteDialog(dialog: Dialog) {
-        api.deleteConversation(dialog.peerId, COUNT_DELETE)
+        api.deleteConversation(dialog.peerId)
                 .subscribeSmart({
                     dialogsLiveData.value?.data?.removeAll { it.peerId == dialog.peerId }
                     notifyDialogsChanged()
@@ -388,7 +388,6 @@ class DialogsViewModel(
 
         const val COUNT_NEW_CONVERSATION = 3
         const val COUNT_CONVERSATIONS = 60
-        const val COUNT_DELETE = 10000
     }
 
     class Factory @Inject constructor(
