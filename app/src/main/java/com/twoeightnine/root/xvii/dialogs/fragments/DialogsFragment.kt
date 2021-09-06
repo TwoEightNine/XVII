@@ -117,11 +117,6 @@ open class DialogsFragment : BaseFragment() {
                 ContextPopupItem(R.drawable.ic_eye, R.string.mark_as_read) {
                     viewModel.readDialog(dialog)
                 },
-                ContextPopupItem(R.drawable.ic_delete_popup, R.string.delete) {
-                    showDeleteDialog(context, getString(R.string.this_dialog)) {
-                        viewModel.deleteDialog(dialog)
-                    }
-                },
                 ContextPopupItem(R.drawable.ic_alias, R.string.alias) {
                     TextInputAlertDialog(
                             requireContext(),
@@ -151,6 +146,12 @@ open class DialogsFragment : BaseFragment() {
                 NotificationUtils.showTestMessageNotification(requireContext(), dialog)
             })
         }
+
+        items.add(ContextPopupItem(R.drawable.ic_delete_popup, R.string.delete) {
+            showDeleteDialog(context, getString(R.string.this_dialog)) {
+                viewModel.deleteDialog(dialog)
+            }
+        })
 
         createContextPopup(context ?: return, items).show()
     }
