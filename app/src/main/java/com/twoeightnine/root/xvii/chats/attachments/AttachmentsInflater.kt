@@ -289,36 +289,58 @@ class AttachmentsInflater(
         val binding = ContainerAudioBinding.inflate(inflater)
         val dPlay = ContextCompat.getDrawable(context, R.drawable.ic_play)
         val dPause = ContextCompat.getDrawable(context, R.drawable.ic_pause)
+
         dPlay?.paint(Munch.color.color)
         dPause?.paint(Munch.color.color)
-        binding.ivButton.setImageDrawable(dPlay)
-        binding.tvTitle.text = audio.title
-        binding.tvArtist.text = audio.artist
-        if (MusicService.getPlayedTrack()?.audio == audio && MusicService.isPlaying()) {
-            binding.ivButton.setImageDrawable(dPause)
+
+        binding.apply {
+            ivButton.setImageDrawable(dPlay)
+            tvTitle.text = audio.title
+            tvArtist.text = audio.artist
+
+            if (MusicService.getPlayedTrack()?.audio == audio && MusicService.isPlaying()) {
+                ivButton.setImageDrawable(dPause)
+            }
         }
         if (!text.isNullOrBlank()) {
-            binding.ivSubtitles.show()
-            binding.tvText.text = text
-            binding.tvText.lowerIf(Prefs.lowerTexts)
-            binding.ivSubtitles.setOnClickListener {
-                binding.tvText.show()
-                binding.ivSubtitles.hide()
-            }
-        }
-        binding.ivButton.setOnClickListener {
-            // TODO
-            binding.ivButton.setImageDrawable(dPause)
-            val position = audios.indexOf(audio)
-            val tracks = ArrayList(audios.map { Track(it) })
-            MusicService.launch(context.applicationContext, tracks, position)
-            MusicService.subscribeOnAudioPlaying { track ->
-                if (audio == track.audio) {
-                    binding.ivButton.setImageDrawable(dPause)
+            binding.apply {
+                ivSubtitles.show()
+                tvText.text = text
+                tvText.lowerIf(Prefs.lowerTexts)
+                ivSubtitles.setOnClickListener {
+                    tvText.show()
+                    ivSubtitles.hide()
                 }
             }
-            MusicService.subscribeOnAudioPausing {
-                binding.ivButton.setImageDrawable(dPlay)
+        }
+        MusicService.subscribeOnAudioPlaying { track ->
+            val image = when (audio) {
+                track.audio -> dPause
+                else -> dPlay
+            }
+            binding.ivButton.setImageDrawable(image)
+        }
+        MusicService.subscribeOnAudioPausing {
+            binding.ivButton.setImageDrawable(dPlay)
+        }
+        binding.ivButton.setOnClickListener {
+            val sameAudio = MusicService.getPlayedTrack()?.audio == audio
+            val isPlaying = MusicService.isPlaying()
+
+            val image = when {
+                sameAudio && isPlaying -> dPlay
+                else -> dPause
+            }
+            binding.ivButton.setImageDrawable(image)
+            when {
+                sameAudio -> MusicService.playPause()
+                else -> {
+                    MusicService.launch(
+                            applicationContext = context.applicationContext,
+                            tracks = ArrayList(audios.map { Track(it) }),
+                            position = audios.indexOf(audio)
+                    )
+                }
             }
         }
         return binding.root
