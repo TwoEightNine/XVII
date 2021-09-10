@@ -77,7 +77,10 @@ class ImageCropperFragment : BaseFragment() {
         cropperDisposable = Single.fromCallable {
             val croppedImage = cropImageView.croppedImage
             val cacheDir = requireContext().cacheDir
+
             val croppedDir = File(cacheDir, CacheFileUtils.DIR_CROPPED)
+            croppedDir.mkdir()
+
             val croppedFileName = File(croppedDir, "cropped_${time()}.png")
             saveBmp(croppedFileName.absolutePath, croppedImage)
             croppedFileName.absolutePath
