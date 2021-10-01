@@ -40,7 +40,7 @@ object DisplayUtils {
         }
     }
 
-    fun init(activity: Activity) {
+    fun initIfNot(activity: Activity) {
         if (!::windowManager.isInitialized) {
             windowManager = activity.windowManager
         }
