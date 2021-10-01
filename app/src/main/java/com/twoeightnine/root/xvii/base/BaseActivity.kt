@@ -39,6 +39,7 @@ import com.twoeightnine.root.xvii.utils.ExceptionHandler
 import com.twoeightnine.root.xvii.utils.getTime
 import com.twoeightnine.root.xvii.utils.isAndroid10OrHigher
 import com.twoeightnine.root.xvii.utils.startNotificationService
+import global.msnthrp.xvii.uikit.utils.DisplayUtils
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 /**
@@ -56,6 +57,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler(this))
+        DisplayUtils.initIfNot(this)
 
         window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or

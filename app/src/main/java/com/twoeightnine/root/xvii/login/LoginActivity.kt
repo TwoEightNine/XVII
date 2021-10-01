@@ -45,7 +45,6 @@ import com.twoeightnine.root.xvii.utils.startNotificationService
 import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.show
-import global.msnthrp.xvii.uikit.utils.DisplayUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
 
@@ -61,7 +60,6 @@ class LoginActivity : BaseActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        DisplayUtils.init(this)
 
         viewModel.accountCheckResult.observe(this, Observer(::onAccountChecked))
         viewModel.accountUpdated.observe(this, Observer(::onAccountUpdated))
