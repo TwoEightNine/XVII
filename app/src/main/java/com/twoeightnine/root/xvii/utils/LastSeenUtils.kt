@@ -35,19 +35,19 @@ object LastSeenUtils {
     const val SPAN_TEMPLATE = "\u2004 "
 
     private const val SPAN_SIZE_FACTOR = 0.8f
-    private const val TEXT_SIZE_DEFAULT = 28
 
     fun getFull(
             context: Context?,
             isOnline: Boolean,
             timeStamp: Int,
             deviceCode: Int,
-            textSizePx: Int = TEXT_SIZE_DEFAULT,
+            textSizePx: Int? = null,
             withSeconds: Boolean = Prefs.showSeconds
     ): CharSequence {
         if (context == null) return ""
 
-        val deviceIconSpan = createDeviceIconSpan(context, deviceCode, textSizePx)
+        val textSize = getTextSizeOrDefault(context, textSizePx)
+        val deviceIconSpan = createDeviceIconSpan(context, deviceCode, textSize)
 
         val time = when (timeStamp) {
             0 -> time() - (if (isOnline) 0 else 300)
@@ -59,7 +59,7 @@ object LastSeenUtils {
         return if (deviceIconSpan != null) {
             val text = "$lastSeen$SPAN_TEMPLATE"
             val position = text.length - 1
-            getSpannedWithDeviceIcon(context, text, position, deviceCode, textSizePx)
+            getSpannedWithDeviceIcon(context, text, position, deviceCode, textSize)
         } else {
             lastSeen
         }
@@ -70,9 +70,10 @@ object LastSeenUtils {
             text: CharSequence,
             position: Int,
             deviceCode: Int,
-            textSizePx: Int = TEXT_SIZE_DEFAULT
+            textSizePx: Int? = null
     ): CharSequence {
-        val deviceIconSpan = createDeviceIconSpan(context, deviceCode, textSizePx)
+        val textSize = getTextSizeOrDefault(context, textSizePx)
+        val deviceIconSpan = createDeviceIconSpan(context, deviceCode, textSize)
         return SpannableStringBuilder()
                 .append(text)
                 .apply {
@@ -95,12 +96,19 @@ object LastSeenUtils {
     private fun getDeviceIconRes(deviceCode: Int): Int {
         if (deviceCode !in 1..7) return 0
 
-        return when(deviceCode) {
+        return when (deviceCode) {
             1 -> R.drawable.ic_mobile
             2, 3 -> R.drawable.ic_apple
             4 -> R.drawable.ic_android
             5, 6 -> R.drawable.ic_windows
             else -> R.drawable.ic_desktop
+        }
+    }
+
+    private fun getTextSizeOrDefault(context: Context, textSizePx: Int?): Int {
+        return when (textSizePx) {
+            null -> context.resources.getDimensionPixelSize(R.dimen.user_info_text_size)
+            else -> textSizePx
         }
     }
 }
