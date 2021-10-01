@@ -1,8 +1,19 @@
 # xvii messenger for vk
 
-<a href="https://play.google.com/store/apps/details?id=com.twoeightnine.root.xvii" target="_blank">
-  <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="60"/>
-</a>
+<table>
+    <tr>
+        <td>
+            <a href="https://play.google.com/store/apps/details?id=com.twoeightnine.root.xvii" target="_blank">
+                <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="60"/>
+            </a>
+        </td>
+        <td>
+            <a href="https://vk.com/xvii_app" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/VK.com-logo.svg" height="40" />
+            </a>
+        </td>
+    </tr>
+</table>
 
 <br>
 
