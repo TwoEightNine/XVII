@@ -33,6 +33,10 @@ class XviiButton(context: Context, attributeSet: AttributeSet) : AppCompatButton
     var warn: Boolean = false
         private set
 
+    private val buttonHeight by lazy {
+        context.resources.getDimensionPixelSize(R.dimen.button_accent_height)
+    }
+
     init {
         initAttributes(attributeSet)
 
@@ -62,7 +66,7 @@ class XviiButton(context: Context, attributeSet: AttributeSet) : AppCompatButton
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val modifiedHeightMeasureSpec = MeasureSpec.makeMeasureSpec(88, MeasureSpec.EXACTLY)
+        val modifiedHeightMeasureSpec = MeasureSpec.makeMeasureSpec(buttonHeight, MeasureSpec.EXACTLY)
         super.onMeasure(widthMeasureSpec, modifiedHeightMeasureSpec)
     }
 
