@@ -33,14 +33,14 @@ import com.twoeightnine.root.xvii.utils.saveBmp
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.min
 
 class GalleryViewModel(private val context: Context) : BaseAttachViewModel<DeviceItem>() {
 
     private var disposable: Disposable? = null
-    private val preloadedItems = arrayListOf<DeviceItem>()
-
-    private var nLogged = 0
+    private val preloadedItems = Collections.synchronizedList(mutableListOf<DeviceItem>())
 
     /**
      * to change behavior
@@ -119,7 +119,7 @@ class GalleryViewModel(private val context: Context) : BaseAttachViewModel<Devic
     /**
      * loads photos and videos, sorts them by date descending, filter for non-empty paths
      */
-    private fun preloadMedia(items: ArrayList<DeviceItem>): Single<ArrayList<DeviceItem>> =
+    private fun preloadMedia(items: MutableList<DeviceItem>): Single<MutableList<DeviceItem>> =
             Single.fromCallable {
                 if (items.isEmpty()) {
                     items.addAll(loadAllPhotos())

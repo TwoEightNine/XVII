@@ -43,6 +43,7 @@ import com.twoeightnine.root.xvii.background.music.services.MusicBroadcastReceiv
 import com.twoeightnine.root.xvii.model.attachments.Audio
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.data.dialogs.Dialog
+import java.util.*
 import kotlin.random.Random
 
 object NotificationUtils {
@@ -50,9 +51,9 @@ object NotificationUtils {
     private val RING_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     private val VIBRATE_PATTERN = longArrayOf(0L, 200L)
 
-    private val shownMessageNotificationIds = mutableListOf<Int>()
-    private val shownMentionNotificationIds = mutableListOf<Int>()
-    private val shownExchangeNotificationIds = mutableListOf<Int>()
+    private val shownMessageNotificationIds = Collections.synchronizedList(mutableListOf<Int>())
+    private val shownMentionNotificationIds = Collections.synchronizedList(mutableListOf<Int>())
+    private val shownExchangeNotificationIds = Collections.synchronizedList(mutableListOf<Int>())
 
     fun hideAllMessageNotifications(context: Context) {
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
