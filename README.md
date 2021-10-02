@@ -1,22 +1,14 @@
 # xvii messenger for vk
 
-<table>
-    <tr>
-        <td>
-            <a href="https://play.google.com/store/apps/details?id=com.twoeightnine.root.xvii" target="_blank">
-                <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="60"/>
-            </a>
-        </td>
-        <td>
-            <a href="https://vk.com/xvii_app" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/VK.com-logo.svg" height="40" />
-            </a>
-        </td>
-    </tr>
-</table>
+xvii is a messenger for those who want to be online on the go!
 
-<br>
-
+main features:
+ - secret chats
+ - custom appearance
+-  stealth features
+-  multiple accounts
+-  self-destructing and scheduled messages
+-  no ads, no trackers
 
 <table
 border="0" cellpadding="0" cellspacing="0">
@@ -32,7 +24,28 @@ border="0" cellpadding="0" cellspacing="0">
 </tr>
 </table>
 
-### License
+### download now
+
+<table>
+    <tr>
+        <td>
+            <a href="https://play.google.com/store/apps/details?id=com.twoeightnine.root.xvii" target="_blank">
+                <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="60"/>
+            </a>
+        </td>
+        <td>
+            <a href="https://github.com/TwoEightNine/XVII/releases" target="_blank">
+                <img src="https://user-images.githubusercontent.com/663460/26973090-f8fdc986-4d14-11e7-995a-e7c5e79ed925.png" height="60"/>
+            </a>
+        </td>
+    </tr>
+</table>
+
+### useful links
+ - [privacy policy](https://github.com/TwoEightNine/XVII/blob/master/privacy.md)
+ - [official vk group](https://vk.com/xvii_app)
+
+### license
 ```
 xvii - messenger for vk
 Copyright (C) 2021  TwoEightNine

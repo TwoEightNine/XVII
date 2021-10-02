@@ -24,37 +24,20 @@ ability of reading/writing data is needed to allow you send photos in instant me
 photos from xvii or store temporary files like stickers, voice messages etc. be sure that accessing
 to your data is not performed in any other cases
 
+#### camera
+xvii uses camera for attaching photos to conversations and in case of regular entering wrong pin (if enabled).
+app does not use camera in any other cases and for any other goals.
+
 #### crash report
 clicking 'send report' you send application log to our group private messages. be sure that these
-logs do not break your privacy
+logs do not break your privacy. for better debugging and better understanding of problems, the application log can
+contain user's preferences and settings (like notification settings, appearance settings, etc.). this
+information is never sent to third parties and is never used for other purposes than app maintenance.
 
 #### anonymous statistics
-xvii uses anonymous statistics to improve the quality of app and to make accents on what really matters to
-you. anonymous statistics can contain information about your chatting behaviour like quantity of messages,
-their length. xvii may also use the values of app settings like theme, color, notifications preferences.
-please notice that xvii never uses any information that may identify you as person or even touch your
-personal interests. this information is not being sent to third parties
+xvii does not collect any statistics and does not contain third-party trackers
 
 #### claims, wishes or suggestions
 you can contact us in community messages in [our vk group](https://vk.com/xvii_app)
 
-## credits
-
-all icons that are (or were) in xvii are from [www.flaticon.com](https://www.flaticon.com/) and licensed 
-by [cc 3.0 by](http://creativecommons.org/licenses/by/3.0/). their authors are:
-
-* [elegant themes](https://www.flaticon.com/authors/elegant-themes)  
-* [freepik](https://www.freepik.com/)
-* [vectors market](https://www.flaticon.com/authors/vectors-market)
-* [smashicons](https://www.flaticon.com/authors/smashicons)
-* [amit jakhu](https://www.flaticon.com/authors/amit-jakhu)
-* [robin kylander](https://www.flaticon.com/authors/robin-kylander)
-* [gregor cresnar](https://www.flaticon.com/authors/gregor-cresnar)
-* [hanan](https://www.flaticon.com/authors/hanan)
-* [egor rumyantsev](https://www.flaticon.com/authors/egor-rumyantsev)
-* [appzgear](https://www.flaticon.com/authors/appzgear)
-* [chanut](https://www.flaticon.com/authors/chanut)
-
-great thanks to vecteezy for its [Smartphone vector art](https://www.vecteezy.com/free-vector/smartphone)
-
-##### xvii, 2020
+##### xvii, 2021
