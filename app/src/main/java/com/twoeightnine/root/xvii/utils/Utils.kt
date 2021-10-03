@@ -25,14 +25,16 @@ import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.*
-import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.net.ConnectivityManager
 import android.net.Uri
-import android.os.*
+import android.os.BatteryManager
+import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -207,55 +209,6 @@ fun getSize(resources: Resources, bytes: Int): String {
             resources.getString(R.string.megabytes, twoDecimalForm.format(bytes.toDouble() / 1048576))
         }
     }
-}
-
-fun streamToBytes(input: InputStream): ByteArray {
-    try {
-        val byteBuffer = ByteArrayOutputStream()
-        val buffer = ByteArray(32768)
-        var len: Int
-        do {
-            len = input.read(buffer)
-            if (len != -1) {
-                byteBuffer.write(buffer, 0, len)
-            }
-        } while (len != -1)
-
-        return byteBuffer.toByteArray()
-    } catch (e: IOException) {
-        L.def().throwable(e).log("stream to bytes error")
-        return "".toByteArray()
-    }
-
-}
-
-fun getBytesFromFile(context: Context, fileName: String): ByteArray {
-    val file = File(fileName)
-    val size = file.length().toInt()
-    val bytes = ByteArray(size)
-    try {
-        val buf = BufferedInputStream(FileInputStream(file))
-        buf.read(bytes, 0, bytes.size)
-        buf.close()
-    } catch (e: IOException) {
-        showError(context, "${e.message}")
-        e.printStackTrace()
-    }
-
-    return bytes
-}
-
-fun writeBytesToFile(context: Context, bytes: ByteArray, fileName: String): String {
-    val dir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) //context.cacheDir
-    val file = File(dir, fileName)
-    try {
-        val out = FileOutputStream(file.absolutePath)
-        out.write(bytes)
-        out.close()
-    } catch (e: IOException) {
-        e.printStackTrace()
-    }
-    return file.absolutePath
 }
 
 
@@ -660,18 +613,6 @@ fun getUriForFile(context: Context?, file: File): Uri? {
         L.def().throwable(e).log("unable to get uri for file ${file.absolutePath}")
         null
     }
-}
-
-fun isMiui(): Boolean {
-    val pm = App.context.packageManager
-    val packages = pm.getInstalledApplications(PackageManager.GET_META_DATA)
-
-    for (packageInfo in packages) {
-        if (packageInfo.packageName.startsWith("com.miui.")) {
-            return true
-        }
-    }
-    return false
 }
 
 fun isAndroid10OrHigher() = Build.VERSION.SDK_INT >= 29

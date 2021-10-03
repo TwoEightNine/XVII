@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ResolveInfo
 import android.net.Uri
+import android.os.Build
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
 import androidx.core.content.ContextCompat
@@ -113,7 +114,10 @@ object BrowsingUtils {
         try {
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = uri
-                packageName?.also { `package` = it }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    flags = Intent.FLAG_ACTIVITY_REQUIRE_NON_BROWSER
+                }
+                packageName?.also(::setPackage)
             }
             context.startActivity(intent)
         } catch (e: Exception) {
@@ -155,6 +159,7 @@ object BrowsingUtils {
     }
 
     private fun getNativeAppPackage(context: Context, uri: Uri, browserPackages: Set<String>? = null): String? {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) return null
 
         // Get default VIEW intent handler that can view a web url.
         val activityIntent = Intent(Intent.ACTION_VIEW, uri)

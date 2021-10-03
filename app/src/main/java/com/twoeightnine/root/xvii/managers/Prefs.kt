@@ -24,7 +24,6 @@ import android.graphics.Color
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.utils.isAndroid10OrHigher
-import com.twoeightnine.root.xvii.utils.isMiui
 import java.util.*
 
 object Prefs {
@@ -272,7 +271,7 @@ object Prefs {
         set(value) = data.edit().putBoolean(NIGHT, value).apply()
 
     var useStyledNotifications: Boolean
-        get() = data.getBoolean(USE_STYLED_NOTIFICATIONS, !isMiui())
+        get() = data.getBoolean(USE_STYLED_NOTIFICATIONS, true)
         set(value) = data.edit().putBoolean(USE_STYLED_NOTIFICATIONS, value).apply()
 
     var chatBack: String

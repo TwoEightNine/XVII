@@ -20,34 +20,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.twoeightnine.root.xvii">
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-
     <application
         android:name="com.twoeightnine.root.xvii.App"
         android:allowBackup="false"
+        android:hasFragileUserData="true"
         android:icon="@drawable/xvii_logo_128_circle"
         android:label="@string/app_name"
-        android:hasFragileUserData="true"
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -55,9 +33,9 @@
 
         <activity
             android:name=".login.LoginActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
+            android:theme="@style/SplashTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,18 +46,18 @@
 
         <activity
             android:name=".pin.PinActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".photoviewer.ImageViewerActivity"
-            android:theme="@style/AppTheme.Transparent.Photo"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent.Photo" />
 
         <activity
             android:name=".activities.ExceptionActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".chats.messages.chat.usual.ChatActivity"
@@ -90,8 +68,8 @@
 
         <activity
             android:name=".features.appearance.AppearanceActivity"
-            android:theme="@style/AppTheme.Transparent"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent" />
 
         <activity
             android:name=".main.MainActivity"
@@ -142,28 +120,28 @@
         </activity>
         <activity
             android:name=".chats.messages.chat.secret.SecretChatActivity"
-            android:theme="@style/AppTheme.Transparent"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent" />
 
         <activity
             android:name=".background.longpoll.LongPollExplanationActivity"
-            android:theme="@style/AppTheme.Transparent"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent" />
 
         <activity
             android:name=".pin.fake.alarm.AlarmActivity"
-            android:theme="@style/AppTheme.Transparent"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent" />
 
         <activity
             android:name=".pin.fake.diagnostics.DiagnosticsActivity"
-            android:theme="@style/AppTheme.Transparent"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent" />
 
         <activity
             android:name=".base.FragmentPlacementActivity"
-            android:theme="@style/AppTheme.Transparent"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -208,22 +186,52 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".background.longpoll.services.NotificationService" />
-
         <service
-            android:name=".background.longpoll.services.NotificationJobIntentService"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+            android:name=".background.longpoll.services.NotificationService"
+            android:exported="false" />
 
         <service
             android:name=".background.music.services.MusicService"
-            android:permission="android.permission.WAKE_LOCK"
-            android:exported="false" />
+            android:exported="false"
+            android:permission="android.permission.WAKE_LOCK" />
 
         <service
             android:name=".background.messaging.MessageDestructionService"
             android:exported="false" />
 
     </application>
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
 </manifest>
