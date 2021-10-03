@@ -1,6 +1,8 @@
 /build
 /app/build
 /.idea
+/.gradle
+/app/release
 
 gradlew
 gradlew.bat
