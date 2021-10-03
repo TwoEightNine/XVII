@@ -90,8 +90,8 @@ class EmojiEditText : AppCompatEditText {
         })
     }
 
-    override fun onCreateInputConnection(editorInfo: EditorInfo): InputConnection {
-        val ic = super.onCreateInputConnection(editorInfo)
+    override fun onCreateInputConnection(editorInfo: EditorInfo): InputConnection? {
+        val ic = super.onCreateInputConnection(editorInfo) ?: return null
         EditorInfoCompat.setContentMimeTypes(editorInfo, MIME_TYPES)
         return InputConnectionCompat.createWrapper(ic, editorInfo,
                 InputConnectionCompat.OnCommitContentListener { inputContentInfo, flags, opts ->

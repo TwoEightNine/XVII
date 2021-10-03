@@ -31,15 +31,15 @@ ext {
     ]
 
     toolsVersions = [
-            kotlinVersion     : "1.4.10",
+            kotlinVersion     : "1.5.0",
             javaVersion       : "1.8",
 
             roomVersion       : "2.2.5",
-            workManagerVersion: "2.4.0",
-            retrofitVersion   : "2.5.0",
+            workManagerVersion: "2.6.0",
+            retrofitVersion   : "2.9.0",
             okHttpVersion     : "4.9.0",
             lifecycleVersion  : "2.2.0",
-            glideVersion      : "4.11.0",
+            glideVersion      : "4.12.0",
     ]
 
     kotlin = [
@@ -47,13 +47,13 @@ ext {
     ]
 
     androidUi = [
-            appCompat   : "androidx.appcompat:appcompat:1.0.0",
-            recyclerView: "androidx.recyclerview:recyclerview:1.1.0",
-            coreKtx     : "androidx.core:core-ktx:1.2.0",
-            material    : "com.google.android.material:material:1.3.0",
-            fragmentKtx : "androidx.fragment:fragment-ktx:1.2.5",
-            browser     : "androidx.browser:browser:1.2.0",
-            constraint  : "androidx.constraintlayout:constraintlayout:2.0.4"
+            appCompat   : "androidx.appcompat:appcompat:1.3.1",
+            recyclerView: "androidx.recyclerview:recyclerview:1.2.1",
+            coreKtx     : "androidx.core:core-ktx:1.6.0",
+            material    : "com.google.android.material:material:1.4.0",
+            fragmentKtx : "androidx.fragment:fragment-ktx:1.3.6",
+            browser     : "androidx.browser:browser:1.3.0",
+            constraint  : "androidx.constraintlayout:constraintlayout:2.1.1"
     ]
 
     androidTests = [
@@ -67,7 +67,7 @@ ext {
     ]
 
     reactiveX = [
-            rxJava   : "io.reactivex.rxjava2:rxjava:2.2.9",
+            rxJava   : "io.reactivex.rxjava2:rxjava:2.2.21",
             rxAndroid: "io.reactivex.rxjava2:rxandroid:2.1.1",
             rxBinding: "com.jakewharton.rxbinding:rxbinding:1.0.1"
     ]
@@ -119,7 +119,7 @@ ext {
     ]
 
     utils = [
-            gson         : "com.google.code.gson:gson:2.8.5",
+            gson         : "com.google.code.gson:gson:2.8.8",
 
             glide        : "com.github.bumptech.glide:glide:${toolsVersions.glideVersion}",
             glideCompiler: "com.github.bumptech.glide:compiler:${toolsVersions.glideVersion}",
