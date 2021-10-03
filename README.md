@@ -1,14 +1,16 @@
 # xvii messenger for vk
 
-xvii is a messenger for those who want to be online on the go!
+xvii is a messenger for those who want to be online on the go! no feed, no stories, no walls, no likes, no clips. only messaging and features that are necessary!
 
-main features:
- - secret chats
- - custom appearance
--  stealth features
--  multiple accounts
--  self-destructing and scheduled messages
--  no ads, no trackers
+extra features:
+
+ * secret chats
+ * custom appearance
+ * stealth features
+ * multiple accounts
+ * self-destructing and scheduled messages
+ * journal of events
+ * no ads, no trackers
 
 <table
 border="0" cellpadding="0" cellspacing="0">
