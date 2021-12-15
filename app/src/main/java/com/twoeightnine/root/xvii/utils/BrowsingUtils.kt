@@ -72,7 +72,7 @@ object BrowsingUtils {
         }
     }
 
-    fun openUrl(context: Context?, url: String?) {
+    fun openUrl(context: Context?, url: String?, ignoreNative: Boolean = false) {
         context ?: return
         url ?: return
 
@@ -80,7 +80,11 @@ object BrowsingUtils {
         val uri = Uri.parse(fixedUrl)
 
         val browserPackages = getBrowserAppPackages(context)
-        val nativePackageName = getNativeAppPackage(context, uri, browserPackages)
+        val nativePackageName = when {
+            ignoreNative -> null
+            else -> getNativeAppPackage(context, uri, browserPackages)
+        }
+
         if (nativePackageName != null) {
             openUriIntent(context, uri, nativePackageName)
         } else {

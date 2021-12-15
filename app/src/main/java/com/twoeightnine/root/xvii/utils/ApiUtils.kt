@@ -41,7 +41,7 @@ class ApiUtils @Inject constructor(val api: ApiService) {
                 .subscribeSmart({
                     response ->
                     if (response.items.size > 0 && response.items[0].player != null) {
-                        BrowsingUtils.openUrl(context, response.items[0].player)
+                        BrowsingUtils.openUrl(context, response.items[0].player, ignoreNative = true)
                     } else {
                         showError(context, context.getString(R.string.not_playable_video))
                     }

@@ -130,7 +130,7 @@ class DeepForwardedFragment : BaseFragment() {
         override fun onVideoClicked(video: Video) {
             context?.also {
                 viewModel.loadVideo(it, video, { player ->
-                    BrowsingUtils.openUrl(it, player)
+                    BrowsingUtils.openUrl(it, player, ignoreNative = true)
                 }, { error ->
                     showError(it, error)
                 })

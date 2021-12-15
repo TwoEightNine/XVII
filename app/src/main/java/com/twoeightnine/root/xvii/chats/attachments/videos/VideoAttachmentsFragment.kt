@@ -43,7 +43,7 @@ class VideoAttachmentsFragment : BaseAttachmentsFragment<Video>() {
 
     private fun onClick(video: Video) {
         (viewModel as? VideoAttachmentsViewModel)?.loadVideoPlayer(video, { player ->
-            BrowsingUtils.openUrl(context, player)
+            BrowsingUtils.openUrl(context, player, ignoreNative = true)
         }) { error ->
             showError(context, error ?: getString(R.string.error))
         }

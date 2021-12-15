@@ -503,7 +503,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
 
         override fun onVideoClicked(video: Video) {
             viewModel.loadVideo(context ?: return, video, { playerUrl ->
-                BrowsingUtils.openUrl(context, playerUrl)
+                BrowsingUtils.openUrl(context, playerUrl, ignoreNative = true)
             }, { error ->
                 showError(context, error)
             })
