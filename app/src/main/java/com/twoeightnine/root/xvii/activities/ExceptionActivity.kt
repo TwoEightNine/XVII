@@ -32,9 +32,9 @@ import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.activity_exception.*
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -86,7 +86,7 @@ class ExceptionActivity : AppCompatActivity() {
         api.getDocUploadServer("doc")
                 .subscribeSmart({ uploadServer ->
                     val file = File(path)
-                    val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                     val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
                     api.uploadDoc(uploadServer.uploadUrl ?: return@subscribeSmart, body)

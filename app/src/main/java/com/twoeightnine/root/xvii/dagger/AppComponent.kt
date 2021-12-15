@@ -24,7 +24,6 @@ import com.twoeightnine.root.xvii.analyzer.dialog.AnalyzeDialogFragment
 import com.twoeightnine.root.xvii.background.longpoll.core.LongPollCore
 import com.twoeightnine.root.xvii.background.longpoll.receivers.KeyExchangeHandler
 import com.twoeightnine.root.xvii.background.longpoll.receivers.MarkAsReadBroadcastReceiver
-import com.twoeightnine.root.xvii.background.longpoll.services.NotificationJobIntentService
 import com.twoeightnine.root.xvii.background.longpoll.services.NotificationService
 import com.twoeightnine.root.xvii.background.messaging.MessageDestructionService
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerViewModel
@@ -110,7 +109,6 @@ interface AppComponent {
     fun inject(notificationService: NotificationService)
     fun inject(destructionService: MessageDestructionService)
     fun inject(sendMessageWorker: SendMessageWorker)
-    fun inject(notfJobIntentService: NotificationJobIntentService)
     fun inject(longPollCore: LongPollCore)
     fun inject(markAsReadBroadcastReceiver: MarkAsReadBroadcastReceiver)
     fun inject(stickersWindow: StickersWindow)

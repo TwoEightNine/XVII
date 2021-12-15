@@ -48,9 +48,9 @@ import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.data.db.AppDb
 import global.msnthrp.xvii.data.scheduled.ScheduledMessage
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import javax.inject.Inject
 import kotlin.random.Random
@@ -300,7 +300,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         api.getDocUploadServer("audio_message")
                 .subscribeSmart({ uploadServer ->
                     val file = File(path)
-                    val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                     val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
                     api.uploadDoc(uploadServer.uploadUrl ?: return@subscribeSmart, body)
@@ -330,7 +330,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         api.getVideoUploadServer()
                 .subscribeSmart({ uploadServer ->
                     val file = File(path)
-                    val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                     val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
                     api.uploadVideo(uploadServer.uploadUrl ?: return@subscribeSmart, body)
@@ -352,7 +352,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
         api.getDocUploadServer("doc")
                 .subscribeSmart({ uploadServer ->
                     val file = File(path)
-                    val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                     val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
                     api.uploadDoc(uploadServer.uploadUrl ?: return@subscribeSmart, body)

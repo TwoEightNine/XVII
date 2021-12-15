@@ -42,9 +42,9 @@ import com.twoeightnine.root.xvii.utils.*
 import com.twoeightnine.root.xvii.views.PinPadView
 import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.activity_pin.*
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import javax.inject.Inject
 import kotlin.random.Random
@@ -247,7 +247,7 @@ class PinActivity : BaseActivity() {
     private fun uploadPhoto(file: File) {
         api.getPhotoUploadServer()
                 .subscribeSmart({ uploadServer ->
-                    val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                     val body = MultipartBody.Part.createFormData("photo", file.name, requestFile)
                     api.uploadPhoto(uploadServer.uploadUrl ?: "", body)
                             .compose(applySchedulers())

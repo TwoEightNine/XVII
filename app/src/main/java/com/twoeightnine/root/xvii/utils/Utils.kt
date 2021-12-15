@@ -25,14 +25,16 @@ import android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.*
-import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.net.ConnectivityManager
 import android.net.Uri
-import android.os.*
+import android.os.BatteryManager
+import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -660,18 +662,6 @@ fun getUriForFile(context: Context?, file: File): Uri? {
         L.def().throwable(e).log("unable to get uri for file ${file.absolutePath}")
         null
     }
-}
-
-fun isMiui(): Boolean {
-    val pm = App.context.packageManager
-    val packages = pm.getInstalledApplications(PackageManager.GET_META_DATA)
-
-    for (packageInfo in packages) {
-        if (packageInfo.packageName.startsWith("com.miui.")) {
-            return true
-        }
-    }
-    return false
 }
 
 fun isAndroid10OrHigher() = Build.VERSION.SDK_INT >= 29
