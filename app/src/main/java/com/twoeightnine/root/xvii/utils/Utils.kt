@@ -247,19 +247,6 @@ fun getBytesFromFile(context: Context, fileName: String): ByteArray {
     return bytes
 }
 
-fun writeBytesToFile(context: Context, bytes: ByteArray, fileName: String): String {
-    val dir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) //context.cacheDir
-    val file = File(dir, fileName)
-    try {
-        val out = FileOutputStream(file.absolutePath)
-        out.write(bytes)
-        out.close()
-    } catch (e: IOException) {
-        e.printStackTrace()
-    }
-    return file.absolutePath
-}
-
 
 fun equalsDevUids(userId: Int) = App.ID_SALTS
         .map { md5(userId.toString() + it) }

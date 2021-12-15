@@ -20,28 +20,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.twoeightnine.root.xvii">
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-
     <application
         android:name="com.twoeightnine.root.xvii.App"
         android:allowBackup="false"
@@ -56,9 +34,9 @@
 
         <activity
             android:name=".login.LoginActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
+            android:theme="@style/SplashTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,18 +47,18 @@
 
         <activity
             android:name=".pin.PinActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".photoviewer.ImageViewerActivity"
-            android:theme="@style/AppTheme.Transparent.Photo"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent.Photo" />
 
         <activity
             android:name=".activities.ExceptionActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".chats.messages.chat.usual.ChatActivity"
@@ -91,8 +69,8 @@
 
         <activity
             android:name=".features.appearance.AppearanceActivity"
-            android:theme="@style/AppTheme.Transparent"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent" />
 
         <activity
             android:name=".main.MainActivity"
@@ -153,8 +131,8 @@
 
         <activity
             android:name=".pin.fake.alarm.AlarmActivity"
-            android:theme="@style/AppTheme.Transparent"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme.Transparent" />
 
         <activity
             android:name=".pin.fake.diagnostics.DiagnosticsActivity"
@@ -165,65 +143,6 @@
             android:name=".base.FragmentPlacementActivity"
             android:exported="false"
             android:theme="@style/AppTheme.Transparent" />
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.twoeightnine.root.xvii.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>
-
-        <receiver
-            android:name=".background.longpoll.receivers.RestarterBroadcastReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="restartAction" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".background.longpoll.receivers.MarkAsReadBroadcastReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="markAsReadAction" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".background.music.services.MusicBroadcastReceiver"
-            android:exported="false" />
-
-        <receiver
-            android:name=".background.longpoll.receivers.KeyExchangeHandler$Receiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="actionDenyExchange" />
-                <action android:name="actionAcceptExchange" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name=".background.longpoll.services.NotificationService" />
-
-        <service
-            android:name=".background.longpoll.services.NotificationJobIntentService"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
-        <service
-            android:name=".background.music.services.MusicService"
-            android:permission="android.permission.WAKE_LOCK"
-            android:exported="false" />
-
-        <service
-            android:name=".background.messaging.MessageDestructionService"
-            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
