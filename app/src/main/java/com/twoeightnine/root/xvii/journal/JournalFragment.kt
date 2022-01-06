@@ -33,6 +33,7 @@ import com.twoeightnine.root.xvii.journal.online.model.OnlineInfo
 import com.twoeightnine.root.xvii.utils.AppBarLifter
 import com.twoeightnine.root.xvii.utils.contextpopup.ContextPopupItem
 import com.twoeightnine.root.xvii.utils.contextpopup.createContextPopup
+import com.twoeightnine.root.xvii.utils.showError
 import global.msnthrp.xvii.core.journal.model.JournalEvent
 import global.msnthrp.xvii.core.journal.model.JournalEventWithPeer
 import global.msnthrp.xvii.core.journal.model.JournalFilter
@@ -61,6 +62,7 @@ class JournalFragment : BaseFragment() {
         viewModel.events.observe(::onEventsLoaded)
         viewModel.onlineEvents.observe(::openOnlineBottomSheet)
         viewModel.messageEvents.observe(::openMessageBottomSheet)
+        viewModel.error.observe { errorMessage -> showError(context, errorMessage) }
     }
 
     override fun getMenu(): Int = R.menu.menu_journal

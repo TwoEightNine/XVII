@@ -23,6 +23,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.twoeightnine.root.xvii.App
+import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.utils.AsyncUtils
 
 open class BaseViewModel : ViewModel() {
@@ -51,6 +52,9 @@ open class BaseViewModel : ViewModel() {
 
     protected open fun onErrorOccurred(throwable: Throwable?) {
         errorLiveData.value = throwable?.message
+        L.tag(javaClass.simpleName)
+                .throwable(throwable)
+                .log("error in worker thread")
     }
 
     private fun AsyncUtils.Cancellable.watch() {
