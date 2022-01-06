@@ -83,9 +83,11 @@ class GeneralFragment : BaseFragment() {
         switchStoreKeys.isChecked = Prefs.storeCustomKeys
         switchLiftKeyboard.isChecked = Prefs.liftKeyboard
         switchSuggestPeople.isChecked = Prefs.suggestPeople
+        tvStealthCommonHint.setVisible(Prefs.beOffline)
 
         switchOffline.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             if (isChecked) switchOnline.isChecked = false
+            tvStealthCommonHint.setVisible(isChecked)
         }
         switchOnline.onCheckedListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
             if (isChecked) switchOffline.isChecked = false

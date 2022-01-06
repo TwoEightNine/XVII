@@ -51,20 +51,6 @@
                 android:text="@string/general_stealth" />
 
             <com.twoeightnine.root.xvii.views.XviiSwitch
-                android:id="@+id/switchOffline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/be_offline_hint"
-                android:text="@string/be_offline" />
-
-            <com.twoeightnine.root.xvii.views.XviiSwitch
-                android:id="@+id/switchOnline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/be_online_hint"
-                android:text="@string/be_online" />
-
-            <com.twoeightnine.root.xvii.views.XviiSwitch
                 android:id="@+id/switchHideStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,6 +71,34 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/mark_messages_as_read_hint"
                 android:text="@string/mark_messages_as_read" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchOnline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/be_online_hint"
+                android:text="@string/be_online" />
+
+            <com.twoeightnine.root.xvii.views.XviiSwitch
+                android:id="@+id/switchOffline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/be_offline_hint"
+                android:text="@string/be_offline" />
+
+            <TextView
+                android:id="@+id/tvStealthCommonHint"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin16"
+                android:layout_marginTop="@dimen/margin8"
+                android:layout_marginEnd="@dimen/margin16"
+                android:layout_marginBottom="@dimen/margin16"
+                android:drawablePadding="@dimen/margin8"
+                android:text="@string/stealth_common_hint"
+                android:visibility="gone"
+                app:drawableEndCompat="@drawable/ic_info" />
 
 
             <com.twoeightnine.root.xvii.uikit.XviiLabel

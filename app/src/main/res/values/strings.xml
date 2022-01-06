@@ -210,6 +210,7 @@
     <string name="be_offline_hint">set offline status automatically</string>
     <string name="be_online">be online</string>
     <string name="be_online_hint">be online while the app is opened</string>
+    <string name="stealth_common_hint">if \'offline\' mode is enabled, other users will still be able to see your \'last seen\' time. the \'last seen\' time will be updated after sending a message</string>
     <string name="hide_status">hide my status</string>
     <string name="hide_status_hint">people will only see that you were online recently</string>
     <string name="show_chat_activity">show chat activity</string>

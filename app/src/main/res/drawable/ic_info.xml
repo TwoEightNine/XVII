@@ -1,0 +1,27 @@
+<!--
+  ~ xvii - messenger for vk
+  ~ Copyright (C) 2021  TwoEightNine
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="6.35"
+    android:viewportHeight="6.35">
+  <path
+      android:pathData="M3.175,0A3.175,3.175 0,0 0,0 3.175A3.175,3.175 0,0 0,3.175 6.35A3.175,3.175 0,0 0,6.35 3.175A3.175,3.175 0,0 0,3.175 0zM3.16983,0.52917A2.64583,2.64583 108.36546,0 1,3.175 0.52917A2.64583,2.64583 0,0 1,5.82083 3.175A2.64583,2.64583 0,0 1,3.175 5.82083A2.64583,2.64583 0,0 1,0.52917 3.175A2.64583,2.64583 71.63454,0 1,3.16983 0.52917zM3.17603,1.05885A0.26458,0.26458 0,0 0,2.9099 1.3224L2.9099,3.96875A0.26458,0.26458 0,0 0,3.17603 4.2323A0.26458,0.26458 45.04712,0 0,3.43958 3.96875L3.43958,1.3224A0.26458,0.26458 0,0 0,3.17603 1.05885zM3.175,4.7625A0.26458,0.26458 0,0 0,2.91042 5.02708A0.26458,0.26458 0,0 0,3.175 5.29167A0.26458,0.26458 0,0 0,3.43958 5.02708A0.26458,0.26458 0,0 0,3.175 4.7625z"
+      android:fillColor="@color/minor_text"/>
+</vector>

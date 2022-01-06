@@ -536,5 +536,6 @@
     <string name="mentions_mention_all_hint">уведомлять, если кто-то упомянет всех</string>
     <string name="mentions_notification_settings">изменить настройки упоминаний</string>
     <string name="channel_mentions">упоминания</string>
+    <string name="stealth_common_hint">в режиме \"быть не в сети\" другие люди всё ещё смогут видеть время последнего действия. время последнего действия будет обновляться после отправки сообщения</string>
 
 </resources>
