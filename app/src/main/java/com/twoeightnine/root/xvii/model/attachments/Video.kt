@@ -61,15 +61,40 @@ data class Video(
         @Expose
         val player: String? = null,
 
+        @SerializedName("image")
+        val thumbs: List<VideoThumb> = emptyList(),
+
         @SerializedName("link")
         @Expose
         val link: String? = null
 ) : Parcelable, IdTypeable {
+
     val maxPhoto: String
-        get() = photo320 ?: photo130 ?: ""
+        get() = getMaxThumb()?.url ?: photo320 ?: photo130 ?: ""
 
     val videoId: String
         get() = "${ownerId}_$id"
 
+    private val sortedThumbs by lazy {
+        thumbs.sortedBy { it.width }
+    }
+
     override fun getId() = "video$videoId"
+
+    private fun getMaxThumb(): VideoThumb? {
+        return getThumbWithWidthAtLeast(320)
+                ?: getThumbWithWidthAtLeast(160)
+                ?: getThumbWithWidthAtLeast(80)
+    }
+
+    private fun getThumbWithWidthAtLeast(minWidth: Int): VideoThumb? {
+        return sortedThumbs.firstOrNull { it.width >= minWidth }
+    }
 }
+
+@Parcelize
+data class VideoThumb(
+        val url: String?,
+        val width: Int,
+        val height: Int,
+) : Parcelable
