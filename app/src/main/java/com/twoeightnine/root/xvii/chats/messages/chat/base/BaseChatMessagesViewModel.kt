@@ -204,7 +204,7 @@ abstract class BaseChatMessagesViewModel(api: ApiService) : BaseMessagesViewMode
                 ?.attachments
                 ?.map(Attachment::toString)
                 ?.filterNot("null"::equals)
-                ?.joinToString()
+                ?.joinToString(separator = ",")
         api.editMessage(peerId, prepareTextOut(text), messageId, attachments)
                 .subscribeSmart({}, ::onErrorOccurred)
     }
