@@ -66,7 +66,7 @@
     <string name="unpin">unpin</string>
     <string name="alias">alias</string>
     <string name="unmark">unmark</string>
-    <string name="join_us">follow xvii official group in vk for getting the freshest news about app</string>
+    <string name="join_us">follow xvii official group in vk for latest news about the app</string>
     <string name="download">download</string>
     <string name="add_to_saved">save to album</string>
     <string name="added_to_saved">photo has been saved to album</string>
@@ -138,7 +138,7 @@
     <string name="audios">audio</string>
     <string name="conversation">conversation</string>
     <string name="community">community</string>
-    <string name="want_delete">really want to delete %s?</string>
+    <string name="want_delete">do you really want to delete %s?</string>
     <string name="uncaught_exception">something went wrong..</string>
     <string name="send_report">send report</string>
     <string name="take_photo">camera</string>
@@ -150,7 +150,7 @@
     <string name="clear_cache">clear cache</string>
     <string name="refresh_stickers">refresh stickers</string>
     <string name="stickers_refreshed">stickers have been refreshed</string>
-    <string name="wanna_logout">really want to log out?</string>
+    <string name="wanna_logout">do you really want to log out?</string>
     <string name="not_now">not now</string>
     <string name="never">never</string>
     <string name="private_messages_notifs">private messages</string>
@@ -200,7 +200,7 @@
     <string name="need_access_to_storage">xvii needs an access to the storage to provide the feature of attaching and saving media files</string>
     <string name="tap_to_provide_permissions">tap here to allow xvii to use your storage</string>
     <string name="want_to_scream" translatable="false">you want to scream?</string>
-    <string name="really_want_to_scream" translatable="false">really want to scream out loud?</string>
+    <string name="really_want_to_scream" translatable="false">do you really want to scream out loud?</string>
     <string name="scream_now" translatable="false">so be ready for aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</string>
     <string name="vote">send vote</string>
     <string name="unable_to_vote">unable to add vote</string>
@@ -269,7 +269,7 @@
 
     <string name="cache_size">cache size: %s</string>
     <string name="gift_for_you">gift</string>
-    <string name="unable_to_pick_file">unable to pick this file. try to select other one or write in support</string>
+    <string name="unable_to_pick_file">unable to pick this file. try to select other one or contact support</string>
 
     <string name="xvii_longpoll">xvii background service</string>
     <string name="longpoll_hint">tap here to hide this notification</string>
