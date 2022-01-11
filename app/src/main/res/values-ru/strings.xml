@@ -226,7 +226,7 @@
     <string name="error_10">внутренняя ошибка сервера</string>
     <string name="error_14">требуется капча</string>
     <string name="error_15">доступ ограничен</string>
-    <string name="error_17">необходимо подтвердить профиля</string>
+    <string name="error_17">необходимо подтвердить профиль</string>
     <string name="error_200plus">доступ ограничен</string>
     <string name="error_500plus">не разрешено</string>
     <string name="delete_for_all">удалить для всех</string>
