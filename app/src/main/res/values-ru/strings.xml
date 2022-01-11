@@ -24,7 +24,7 @@
     <string name="added_to_saved">фото было сохранено в альбом</string>
     <string name="already_acc">этот аккаунт используется в данный момент</string>
     <string name="appearance">оформление</string>
-    <string name="attachments">прикрепления</string>
+    <string name="attachments">вложения</string>
     <string name="bytes">%d б</string>
     <string name="cannot_delete_acc">вы не можете удалить действующий аккаунт</string>
     <string name="change_keys">изменить ключи</string>
@@ -49,7 +49,7 @@
     <string name="enter_new_pin">введите новый pin</string>
     <string name="enter_pin">введите pin</string>
     <string name="error">ошибка</string>
-    <string name="error_message">прикрепления</string>
+    <string name="error_message">вложения</string>
     <string name="feedback">поддержка</string>
     <string name="forward">переслать</string>
     <string name="friends">друзья</string>
@@ -88,7 +88,7 @@
     <string name="led_lights">цвет led</string>
     <string name="site">сайт</string>
     <string name="status">статус</string>
-    <string name="ten_attachments">вы не можете добавить более 10 прикреплений</string>
+    <string name="ten_attachments">вы не можете добавить более 10 вложений</string>
     <string name="theme_changed">тема изменена. приложение перезапускается..</string>
     <string name="updated_succ">обновлено успешно</string>
     <string name="user_key">ввести свой ключ</string>
@@ -96,7 +96,7 @@
     <string name="videos">видео</string>
     <string name="voice_message">голосовое</string>
     <string name="wall_post">запись со стены</string>
-    <string name="want_delete">действительно хотите удалить %s?</string>
+    <string name="want_delete">вы действительно хотите удалить %s?</string>
     <string name="write_message">сообщение..</string>
 
     <string name="uncaught_exception">что-то пошло не так..</string>
@@ -106,25 +106,25 @@
     <string name="add_to_docs">добавить в документы</string>
 
     <string name="clear_cache">очистить кэш</string>
-    <string name="wanna_logout">действительно хотите выйти?</string>
+    <string name="wanna_logout">вы действительно хотите выйти?</string>
     <string name="generation_dh_hint">убедитесь, что ваш собеседник установил и открыл xvii. это необходимо для обмена ключами</string>
     <string name="decrypting_image">изображение расшифровывается</string>
     <string name="invalid_file">невозможно расшифровать файл</string>
     <string name="fingerprint">отпечаток</string>
     <string name="fingerprint_hint">это изображение и этот текст были получены из ключей шифрования. если они выглядят также на устройстве собеседника, и ключи были установлены, будьте уверены в приватности. в противном случае ваш диалог небезопасен!</string>
-    <string name="longpoll_explanation">начиная с android 8 (oreo), ос не позволяет запускать фоновые сервисы, единственным исключением являются сервисы google firebase. но api вконтакте не описывает собственный firebase, только longpoll. и этот longpoll требует постоянной работы фонового сервиса, и xvii приходится постоянно показывать уведомление, чтобы сервис работал</string>
+    <string name="longpoll_explanation">начиная с android 8 (oreo), ос не позволяет запускать фоновые сервисы, за исключением сервисов google firebase. но api вконтакте не описывает собственный firebase, только longpoll, который требует постоянной работы фонового сервиса. xvii приходится постоянно показывать уведомление, чтобы сервис работал</string>
 
     <string name="longpoll_guide_title">как убрать это уведомление</string>
     <string name="longpoll_guide_step1">нажмите на кнопку \"открыть настройки уведомлений\"</string>
     <string name="longpoll_guide_step2">на открывшемся экране отключите уведомления (как на рисунке ниже)</string>
-    <string name="longpoll_guide_step3">вот и все! если это не поможет, свяжитесь с поддержкой</string>
+    <string name="longpoll_guide_step3">вот и всё! если это не поможет, свяжитесь с поддержкой</string>
 
     <string name="not_now">не сейчас</string>
     <string name="never">никогда</string>
-    <string name="unable_to_add_to_gallery">невозможно добавть в галерею. будет автоматически добавлена позже</string>
+    <string name="unable_to_add_to_gallery">невозможно добавить в галерею. будет автоматически добавлена позже</string>
 
     <string-array name="relations">
-        <item>один</item>
+        <item>без пары</item>
         <item>в отношениях</item>
         <item>помолвлен(а)</item>
         <item>в браке</item>
@@ -135,10 +135,10 @@
     </string-array>
 
     <plurals name="attachments">
-        <item quantity="one">%d прикрепление</item>
-        <item quantity="few">%d прикрепления</item>
-        <item quantity="many">%d прикреплений</item>
-        <item quantity="other">%d прикреплений</item>
+        <item quantity="one">%d вложение</item>
+        <item quantity="few">%d вложения</item>
+        <item quantity="many">%d вложений</item>
+        <item quantity="other">%d вложений</item>
     </plurals>
 
     <plurals name="attachments_photos">
@@ -221,12 +221,12 @@
     <string name="error_1">неизвестный метод</string>
     <string name="error_5">ошибка авторизации</string>
     <string name="error_6">слишком много запросов</string>
-    <string name="error_7">совершение действия не разрешено</string>
+    <string name="error_7">действие не разрешено</string>
     <string name="error_9">флуд-контроль</string>
     <string name="error_10">внутренняя ошибка сервера</string>
     <string name="error_14">требуется капча</string>
     <string name="error_15">доступ ограничен</string>
-    <string name="error_17">необходимо подтверждение профиля</string>
+    <string name="error_17">необходимо подтвердить профиль</string>
     <string name="error_200plus">доступ ограничен</string>
     <string name="error_500plus">не разрешено</string>
     <string name="delete_for_all">удалить для всех</string>
@@ -254,10 +254,10 @@
     <string name="private_messages_notifs">личные сообщения</string>
     <string name="no_color">без цвета</string>
     <string name="red">красный</string>
-    <string name="green">зеленый</string>
+    <string name="green">зелёный</string>
     <string name="blue">синий</string>
     <string name="cyan">лазурный</string>
-    <string name="yellow">желтый</string>
+    <string name="yellow">жёлтый</string>
     <string name="magenta">пурпурный</string>
     <string name="white">белый</string>
     <string name="accounts_hint">"вы можете добавить столько аккаунтов, сколько хотите. одновременно активным может быть только один аккаунт. только активный аккаунт получает уведомления"</string>
@@ -279,8 +279,8 @@
     <string name="longpoll_hint">нажмите здесь, чтобы скрыть уведомление</string>
     <string name="xvii_longpoll">фоновый сервис xvii</string>
     <string name="summary">всего</string>
-    <string name="show_voice">показывать иконку голосовых сообщений</string>
-    <string name="show_stickers">показывать иконку смайликов/стикеров</string>
+    <string name="show_voice">показывать значок голосовых сообщений</string>
+    <string name="show_stickers">показывать значок смайликов/стикеров</string>
     <string name="request">запрос</string>
     <string name="outgoing">исходящие\nданные</string>
     <string name="incoming">входящие\nданные</string>
@@ -308,7 +308,7 @@
     <string name="chat_photo_removed">%s удалил фото чата</string>
     <string name="new_title">новое название</string>
     <string name="block_user">заблокировать</string>
-    <string name="block_user_confirmation">действительно хотите заблокировать пользователя?</string>
+    <string name="block_user_confirmation">вы действительно хотите заблокировать пользователя?</string>
     <string name="unblock_user">разблокировать</string>
     <string name="add_doc">документ</string>
     <string name="appearance_sample">это пример того, как будут выглядеть чаты. измените оформление в соответствии со своими предпочтениями</string>
@@ -352,7 +352,7 @@
     <string name="send_by_enter_hint">нажатие на \'enter\' отправит сообщение</string>
     <string name="gift_for_you">подарок</string>
     <string name="sticker_suggestions">показывать стикеры</string>
-    <string name="sticker_suggestions_hint">рекомендованные стикеры появятся во время печатания</string>
+    <string name="sticker_suggestions_hint">рекомендованные стикеры будут появляться, когда вы печатаете</string>
     <string name="unable_to_pick_file">невозможно выбрать этот файл. попробуйте выбрать другой или связаться с поддержкой</string>
     <string name="join">подписаться</string>
     <string name="leave_conversation">выйти</string>
@@ -383,7 +383,7 @@
     <string name="unable_to_pick_color">невозможно выбрать этот цвет. попробуйте выбрать другой или сделать это позже</string>
     <string name="appearance_visual">визуальные</string>
     <string name="appearance_functional">функциональные</string>
-    <string name="appearance_chat_back_title">кастомный фон чатов</string>
+    <string name="appearance_chat_back_title">свой фон чатов</string>
     <string name="appearance_chat_back_hint">цвет или фото вместо пустого экрана</string>
     <string name="appearance_pick_from_gallery">фото</string>
     <string name="appearance_pick_from_color_picker">цвет</string>
@@ -404,8 +404,8 @@
     <string name="scheduled_messages_send">отложить сообщение</string>
     <string name="scheduled_messages_not_here">в чате, не здесь</string>
     <string name="scheduled_messages_disclaimer">возможны задержки до 1 часа в связи с системными ограничениями на работу в фоне. будьте внимательны!</string>
-    <string name="login_no_internet">вы должны быть подключены к интернеты для того, чтобы войти</string>
-    <string name="login_unable_to_log_in">не получается войти. проверьте, валиден ли ваш аккаунт и попробуйте снова позже</string>
+    <string name="login_no_internet">вы должны быть подключены к интернету для того, чтобы войти</string>
+    <string name="login_unable_to_log_in">не получается войти. проверьте, действителен ли ваш аккаунт и попробуйте снова позже</string>
     <string name="pin_brute_force">обнаружен перебор\nдоступ запрещён</string>
     <string name="pin_incident_report">об этом инциденте будет сообщено</string>
     <string name="source_code">исходный код</string>
@@ -427,8 +427,8 @@
     <string name="pin_not_secure_general">введённый пин слишком слабый</string>
     <string name="pin_not_secure_length">пин должен состоять минимум из 4 цифр</string>
     <string name="pin_not_secure_pattern">пин не должен содержать распознаваемые шаблоны</string>
-    <string name="pin_not_secure_year">пин не должен представлять год в ближайшем прошлом</string>
-    <string name="pin_not_secure_date">пин не должен представлять дату</string>
+    <string name="pin_not_secure_year">пин не должен быть годом из ближайшего прошлого</string>
+    <string name="pin_not_secure_date">пин не должен быть датой</string>
     <string name="pin_settings_title">безопасность</string>
     <string name="pin_settings_enable">включить пин</string>
     <string name="pin_settings_enable_hint">вводить пин перед возвратом в приложение</string>
@@ -475,7 +475,7 @@
     <string name="longpoll_guide_button_settings">открыть настройки уведомлений</string>
     <string name="longpoll_guide_button_support">открыть поддержку</string>
     <string name="wanna_rate">не хотели бы вы оценить приложение?</string>
-    <string name="more_title">еще</string>
+    <string name="more_title">ещё</string>
     <string name="suggest_people">рекомендовать людей в поиске</string>
     <string name="show_notifications_user">от этого пользователя</string>
     <string name="show_notifications_group">от этой группы</string>
@@ -496,7 +496,7 @@
     <string name="journal_event_online_hint">появился в сети</string>
     <string name="journal_event_last_action_hint">сделал последнее действие</string>
     <string name="journal_event_offline_hint">пропал из сети</string>
-    <string name="journal_disclaimer">время может отличаться от реальности из-за сетевых задержек</string>
+    <string name="journal_disclaimer">время может отличаться от реального из-за сетевых задержек</string>
     <string name="recent_stickers">недавние стикеры</string>
     <string name="recent_emojis">недавние смайлы</string>
     <string name="key_exchange_accept">принять</string>
@@ -536,6 +536,6 @@
     <string name="mentions_mention_all_hint">уведомлять, если кто-то упомянет всех</string>
     <string name="mentions_notification_settings">изменить настройки упоминаний</string>
     <string name="channel_mentions">упоминания</string>
-    <string name="stealth_common_hint">в режиме \"быть не в сети\" другие люди всё ещё смогут видеть время последнего действия. время последнего действия будет обновляться после отправки сообщения</string>
+    <string name="stealth_common_hint">в режиме \"быть не в сети\" другие люди всё ещё смогут видеть время последнего действия, которое будет обновляться после отправки сообщения</string>
 
 </resources>
