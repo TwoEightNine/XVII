@@ -40,6 +40,11 @@ border="0" cellpadding="0" cellspacing="0">
                 <img src="https://user-images.githubusercontent.com/663460/26973090-f8fdc986-4d14-11e7-995a-e7c5e79ed925.png" height="60"/>
             </a>
         </td>
+        <td>
+            <a href="https://f-droid.org/packages/com.twoeightnine.root.xvii" target="_blank">
+                <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="60"/>
+            </a>
+        </td>
     </tr>
 </table>
 
