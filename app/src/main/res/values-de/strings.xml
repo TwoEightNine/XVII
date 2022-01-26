@@ -100,7 +100,7 @@
     <string name="links">links</string>
     <string name="forward">vorwärts</string>
     <string name="appearance">aussehen</string>
-    <string name="privacy_policy">datenschutzerklärung und kredite</string>
+    <string name="privacy_policy">datenschutzerklärung</string>
     <string name="source_code">quellcode</string>
     <string name="new_title">new title</string>
     <string name="chat_created">%s hat das gespräch erstellt</string>

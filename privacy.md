@@ -1,5 +1,7 @@
 ## privacy policy of xvii
 
+***by agreeing with privacy policy of xvii, you agree with [privacy policy of vk](https://m.vk.com/privacy?api_view=1)***
+
 the privacy of our visitors to xvii is important to us.
 at xvii, we recognize that privacy of your personal information is important. here is information on
 what types of personal information we receive and collect when you use xvii, and how we safeguard

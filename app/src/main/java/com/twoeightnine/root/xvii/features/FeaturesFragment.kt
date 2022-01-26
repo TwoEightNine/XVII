@@ -94,6 +94,7 @@ class FeaturesFragment : BaseFragment() {
         xiRate.setOnClickListener { context?.also { rate(it) } }
         xiShare.setOnClickListener { share() }
         xiPrivacy.setOnClickListener { resolvePrivacyPolicy() }
+        xiToS.setOnClickListener { BrowsingUtils.openUrl(context, VK_TOS) }
         xiSourceCode.setOnClickListener { BrowsingUtils.openUrl(context, GITHUB_URL) }
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
@@ -161,10 +162,9 @@ class FeaturesFragment : BaseFragment() {
     }
 
     private fun resolvePrivacyPolicy() {
-        val url = if (Locale.getDefault() == Locale("ru")) {
-            PRIVACY_RU
-        } else {
-            PRIVACY_WORLD
+        val url = when (Locale.getDefault()) {
+            Locale("ru") -> PRIVACY_RU
+            else -> PRIVACY_WORLD
         }
         BrowsingUtils.openUrl(context, url)
     }
@@ -174,6 +174,7 @@ class FeaturesFragment : BaseFragment() {
         const val PRIVACY_WORLD = "https://github.com/TwoEightNine/XVII/blob/master/privacy.md"
         const val PRIVACY_RU = "https://github.com/TwoEightNine/XVII/blob/master/privacy_ru.md"
 
+        const val VK_TOS = "https://m.vk.com/terms"
         const val GITHUB_URL = "https://github.com/twoeightnine/xvii"
 
         const val EDIT_PROFILE_URL = "https://m.vk.com/edit"
@@ -199,10 +200,9 @@ class FeaturesFragment : BaseFragment() {
             val shouldShowToolbar = threshold in (lastHandledY + 1) until scrollY
             val shouldHideToolbar = threshold in (scrollY + 1) until lastHandledY
 
-            if (shouldShowToolbar) {
-                xviiToolbar.fadeIn(200L)
-            } else if (shouldHideToolbar) {
-                xviiToolbar.fadeOut(200L)
+            when {
+                shouldShowToolbar -> xviiToolbar.fadeIn(200L)
+                shouldHideToolbar -> xviiToolbar.fadeOut(200L)
             }
             lastHandledY = scrollY
         }

@@ -105,7 +105,8 @@
     <string name="links">links</string>
     <string name="forward">forward</string>
     <string name="appearance">appearance</string>
-    <string name="privacy_policy">privacy policy and credits</string>
+    <string name="privacy_policy">privacy policy</string>
+    <string name="terms_of_service">terms of service</string>
     <string name="source_code">source code</string>
     <string name="new_title">new title</string>
     <string name="chat_created">%s created the chat</string>

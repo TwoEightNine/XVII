@@ -219,6 +219,13 @@
                 app:itemIcon="@drawable/ic_privacy" />
 
             <com.twoeightnine.root.xvii.uikit.XviiItem
+                android:id="@+id/xiToS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemTitle="@string/terms_of_service"
+                app:itemIcon="@drawable/ic_subtitles" />
+
+            <com.twoeightnine.root.xvii.uikit.XviiItem
                 android:id="@+id/xiSourceCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
