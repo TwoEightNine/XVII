@@ -22,11 +22,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
 import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.view.View
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
 import android.webkit.WebView
@@ -127,6 +123,7 @@ class LoginActivity : BaseActivity() {
         } else {
             finishWithAlert(getString(R.string.login_no_internet))
         }
+        Prefs.legalAccepted = true
     }
 
     @Suppress("SameParameterValue")
@@ -190,41 +187,13 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun invalidatePrivacyToS() {
-        val privacyPolicy = getString(R.string.privacy_policy)
-        val termsOfService = getString(R.string.terms_of_service)
-        val fullText = getString(R.string.login_privacy_and_tos, privacyPolicy, termsOfService)
-
-        val privacyPolicyStart = fullText.indexOf(privacyPolicy)
-        val privacyPolicyEnd = privacyPolicyStart + privacyPolicy.length
-
-        val termsOfServiceStart = fullText.indexOf(termsOfService)
-        val termsOfServiceEnd = termsOfServiceStart + termsOfService.length
-
-        val spannable = SpannableString(fullText).apply {
-            setSpan(
-                    SimpleClickableSpan(::onPrivacyPolicyClicked),
-                    privacyPolicyStart,
-                    privacyPolicyEnd,
-                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+        tvPrivacyToS.apply {
+            text = LegalLinksUtils.formatLegalText(
+                    this@LoginActivity,
+                    R.string.login_privacy_and_tos
             )
-            setSpan(
-                    SimpleClickableSpan(::onTermsOfServiceClicked),
-                    termsOfServiceStart,
-                    termsOfServiceEnd,
-                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-            )
+            movementMethod = LinkMovementMethod.getInstance()
         }
-
-        tvPrivacyToS.text = spannable
-        tvPrivacyToS.movementMethod = LinkMovementMethod.getInstance()
-    }
-
-    private fun onPrivacyPolicyClicked() {
-        BrowsingUtils.openUrl(this, LegalLinksUtils.getPrivacyPolicyUrl())
-    }
-
-    private fun onTermsOfServiceClicked() {
-        BrowsingUtils.openUrl(this, LegalLinksUtils.getTermsOfServiceUrl())
     }
 
     private fun startApp() {
@@ -290,12 +259,6 @@ class LoginActivity : BaseActivity() {
             context?.startActivity(Intent(context, LoginActivity::class.java).apply {
                 putExtra(ARG_NEW_ACCOUNT, true)
             })
-        }
-    }
-
-    private class SimpleClickableSpan(private val onClick: () -> Unit) : ClickableSpan() {
-        override fun onClick(widget: View) {
-            onClick()
         }
     }
 

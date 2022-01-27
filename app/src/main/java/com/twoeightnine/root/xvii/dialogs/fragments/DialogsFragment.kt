@@ -78,6 +78,8 @@ open class DialogsFragment : BaseFragment() {
         viewModel.getTypingPeerIds().observe(viewLifecycleOwner) { adapter.typingPeerIds = it }
         viewModel.loadDialogs()
         adapter.startLoading()
+
+        LegalAlertDialog(requireContext()).showIfNotAccepted()
     }
 
     private fun initRecycler() {

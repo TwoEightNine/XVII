@@ -88,6 +88,7 @@ object Prefs {
 
     //other
     private const val SHOW_RATE = "showRate"
+    private const val LEGAL_ACCEPTED = "legalAccepted"
 
     private val data: SharedPreferences by lazy {
         App.context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
@@ -286,6 +287,10 @@ object Prefs {
     var showRate: Boolean
         get() = data.getBoolean(SHOW_RATE, true)
         set(value) = data.edit().putBoolean(SHOW_RATE, false).apply()
+
+    var legalAccepted: Boolean
+        get() = data.getBoolean(LEGAL_ACCEPTED, false)
+        set(value) = data.edit().putBoolean(LEGAL_ACCEPTED, value).apply()
 
     var notifyAboutInvaders: Boolean
         get() = data.getBoolean(NOTIFY_ABOUT_INVADERS, true)

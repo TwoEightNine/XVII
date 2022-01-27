@@ -18,6 +18,13 @@
 
 package com.twoeightnine.root.xvii.utils
 
+import android.content.Context
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ClickableSpan
+import android.view.View
+import androidx.annotation.StringRes
+import com.twoeightnine.root.xvii.R
 import java.util.*
 
 object LegalLinksUtils {
@@ -33,6 +40,47 @@ object LegalLinksUtils {
         return when (Locale.getDefault()) {
             Locale("ru") -> PRIVACY_RU
             else -> PRIVACY_WORLD
+        }
+    }
+
+    fun formatLegalText(context: Context, @StringRes fullTextRes: Int): CharSequence {
+        val privacyPolicy = context.getString(R.string.privacy_policy)
+        val termsOfService = context.getString(R.string.terms_of_service)
+        val fullText = context.getString(fullTextRes, privacyPolicy, termsOfService)
+
+        val privacyPolicyStart = fullText.indexOf(privacyPolicy)
+        val privacyPolicyEnd = privacyPolicyStart + privacyPolicy.length
+
+        val termsOfServiceStart = fullText.indexOf(termsOfService)
+        val termsOfServiceEnd = termsOfServiceStart + termsOfService.length
+
+        return SpannableString(fullText).apply {
+            setSpan(
+                    SimpleClickableSpan { onPrivacyPolicyClicked(context) },
+                    privacyPolicyStart,
+                    privacyPolicyEnd,
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+            )
+            setSpan(
+                    SimpleClickableSpan { onTermsOfServiceClicked(context) },
+                    termsOfServiceStart,
+                    termsOfServiceEnd,
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+            )
+        }
+    }
+
+    private fun onPrivacyPolicyClicked(context: Context) {
+        BrowsingUtils.openUrl(context, getPrivacyPolicyUrl())
+    }
+
+    private fun onTermsOfServiceClicked(context: Context) {
+        BrowsingUtils.openUrl(context, getTermsOfServiceUrl())
+    }
+
+    private class SimpleClickableSpan(private val onClick: () -> Unit) : ClickableSpan() {
+        override fun onClick(widget: View) {
+            onClick()
         }
     }
 
