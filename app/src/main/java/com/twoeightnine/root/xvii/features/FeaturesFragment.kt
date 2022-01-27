@@ -93,8 +93,8 @@ class FeaturesFragment : BaseFragment() {
         xiSupport.setOnClickListener { ChatActivity.launch(context, -App.GROUP, getString(R.string.app_name)) }
         xiRate.setOnClickListener { context?.also { rate(it) } }
         xiShare.setOnClickListener { share() }
-        xiPrivacy.setOnClickListener { resolvePrivacyPolicy() }
-        xiToS.setOnClickListener { BrowsingUtils.openUrl(context, VK_TOS) }
+        xiPrivacy.setOnClickListener { BrowsingUtils.openUrl(context, LegalLinksUtils.getPrivacyPolicyUrl()) }
+        xiToS.setOnClickListener { BrowsingUtils.openUrl(context, LegalLinksUtils.getTermsOfServiceUrl()) }
         xiSourceCode.setOnClickListener { BrowsingUtils.openUrl(context, GITHUB_URL) }
 
         tvAbout.text = getString(R.string.aboutbig, BuildConfig.VERSION_NAME, BuildConfig.BUILD_TIME)
@@ -161,20 +161,9 @@ class FeaturesFragment : BaseFragment() {
         }
     }
 
-    private fun resolvePrivacyPolicy() {
-        val url = when (Locale.getDefault()) {
-            Locale("ru") -> PRIVACY_RU
-            else -> PRIVACY_WORLD
-        }
-        BrowsingUtils.openUrl(context, url)
-    }
-
     companion object {
 
-        const val PRIVACY_WORLD = "https://github.com/TwoEightNine/XVII/blob/master/privacy.md"
-        const val PRIVACY_RU = "https://github.com/TwoEightNine/XVII/blob/master/privacy_ru.md"
 
-        const val VK_TOS = "https://m.vk.com/terms"
         const val GITHUB_URL = "https://github.com/twoeightnine/xvii"
 
         const val EDIT_PROFILE_URL = "https://m.vk.com/edit"

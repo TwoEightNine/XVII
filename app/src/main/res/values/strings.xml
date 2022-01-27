@@ -474,6 +474,10 @@
     <string name="call_declined">declined call</string>
     <string name="call_unknown">call</string>
 
+    <string name="login_privacy_and_tos">by logging in, you agree with %s and %s</string>
+    <string name="login_oauth_hint">for your security, xvii uses default vk form for logging in, which means it does not receive your login and password</string>
+    <string name="login_log_in">log in</string>
+
     <string-array name="relations">
         <item>single</item>
         <item>in a relationship</item>

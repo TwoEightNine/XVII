@@ -20,14 +20,90 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/splash_background"
     android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clLoginContainer"
+        android:visibility="gone"
+        android:background="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.twoeightnine.root.xvii.uikit.XviiToolbar
+            android:id="@+id/xviiToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:backArrow="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showLogo="true" />
+
+        <com.twoeightnine.root.xvii.uikit.XviiLoader
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/btnLogIn"
+            app:layout_constraintEnd_toEndOf="@id/btnLogIn"
+            app:layout_constraintStart_toStartOf="@id/btnLogIn"
+            app:layout_constraintTop_toTopOf="@id/btnLogIn" />
+
+        <com.twoeightnine.root.xvii.uikit.XviiButton
+            android:id="@+id/btnLogIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin16"
+            android:layout_marginEnd="@dimen/margin16"
+            android:layout_marginBottom="@dimen/margin8"
+            android:text="@string/login_log_in"
+            app:layout_constraintBottom_toTopOf="@id/tvOAuthHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvOAuthHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin16"
+            android:layout_marginEnd="@dimen/margin16"
+            android:layout_marginBottom="48dp"
+            android:gravity="center_horizontal"
+            android:text="@string/login_oauth_hint"
+            android:textColor="@color/other_text"
+            app:layout_constraintBottom_toTopOf="@id/tvPrivacyToS"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvPrivacyToS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/other_text"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorLink="@color/link_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/login_privacy_and_tos" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
+
+    <View
+        android:id="@+id/vWebViewOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/rlLoader"

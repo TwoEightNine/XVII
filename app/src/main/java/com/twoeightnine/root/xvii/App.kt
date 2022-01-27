@@ -89,7 +89,7 @@ class App : Application() {
         const val VERSION = "5.131"
         const val APP_ID = 6079611
         const val SCOPE_ALL = 471062
-        const val REDIRECT_URL = "https://oauth.vk.com/blank.html"
+        const val REDIRECT_URL_WEB_VIEW = "https://oauth.vk.com/blank.html"
         const val API_URL = "https://api.vk.com/method/"
         const val SHARE_POST = "wall-137238289_390"
 

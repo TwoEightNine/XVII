@@ -22,6 +22,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.view.View
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
 import android.webkit.WebView
@@ -39,12 +44,8 @@ import com.twoeightnine.root.xvii.pin.SecurityFragment
 import com.twoeightnine.root.xvii.pin.fake.alarm.AlarmActivity
 import com.twoeightnine.root.xvii.pin.fake.diagnostics.DiagnosticsActivity
 import com.twoeightnine.root.xvii.storage.SessionProvider
-import com.twoeightnine.root.xvii.utils.isOnline
-import com.twoeightnine.root.xvii.utils.showAlert
-import com.twoeightnine.root.xvii.utils.startNotificationService
-import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
-import global.msnthrp.xvii.uikit.extensions.hide
-import global.msnthrp.xvii.uikit.extensions.show
+import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
 
@@ -55,8 +56,6 @@ class LoginActivity : BaseActivity() {
         intent?.extras?.getBoolean(ARG_NEW_ACCOUNT) == true
     }
 
-    private var isWebViewShown = false
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -64,10 +63,15 @@ class LoginActivity : BaseActivity() {
         viewModel.accountCheckResult.observe(this, Observer(::onAccountChecked))
         viewModel.accountUpdated.observe(this, Observer(::onAccountUpdated))
 
-        if (addNewAccount || !SessionProvider.hasToken()) {
-            logIn()
-        } else {
-            checkTokenAndStart()
+        initLoginView()
+
+        when {
+            addNewAccount -> {
+                switchToLoader()
+                onLogInClicked()
+            }
+            !SessionProvider.hasToken() -> switchToLoginView()
+            else -> checkTokenAndStart()
         }
 
         webView?.applyTopInsetMargin()
@@ -80,6 +84,7 @@ class LoginActivity : BaseActivity() {
     override fun shouldRunService() = false
 
     private fun checkTokenAndStart() {
+        switchToLoader()
         if (isOnline()) {
             viewModel.checkAccount(SessionProvider.token, SessionProvider.userId)
         } else {
@@ -87,30 +92,139 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private fun logIn() {
-        if (isOnline()) {
-            showWebView()
-        } else {
-            finishWithAlert(getString(R.string.login_no_internet))
-        }
-    }
-
     @SuppressLint("SetJavaScriptEnabled")
-    private fun showWebView() {
-        with(webView) {
-            hide()
+    private fun initLoginView() {
+        btnLogIn.setOnClickListener { onLogInClicked() }
+
+        invalidatePrivacyToS()
+        webView?.apply {
             CookieSyncManager.createInstance(this@LoginActivity).sync()
             CookieManager.getInstance().removeAllCookie()
             settings.javaScriptEnabled = true
             settings.javaScriptCanOpenWindowsAutomatically = true
             webViewClient = ParsingWebClient { token, userId ->
+                switchToLoader()
                 viewModel.checkAccount(token, userId)
             }
-
-            loadUrl(LOGIN_URL)
-            show()
-            isWebViewShown = true
+            applyTopInsetMargin()
         }
+
+        tvPrivacyToS.applyBottomInsetMargin()
+    }
+
+    override fun onBackPressed() {
+        if (webView.isVisible() && !addNewAccount) {
+            hideWebView()
+            showLoginView()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    private fun onLogInClicked() {
+        if (isOnline()) {
+            openWebView(LOGIN_URL)
+        } else {
+            finishWithAlert(getString(R.string.login_no_internet))
+        }
+    }
+
+    @Suppress("SameParameterValue")
+    private fun openWebView(url: String) {
+        btnLogIn.hideInvis()
+        webView.apply {
+            loadUrl(url)
+        }
+    }
+
+    private fun switchToLoader() {
+        showLoader()
+        hideLoginView()
+        hideWebView()
+    }
+
+    private fun switchToWebView() {
+        hideLoader()
+        showWebView()
+        hideLoginView()
+    }
+
+    private fun switchToLoginView() {
+        hideWebView()
+        showLoginView()
+        hideLoader()
+    }
+
+    private fun showLoader() {
+        rlLoader.show()
+    }
+
+    private fun hideLoader() {
+        rlLoader.hide()
+    }
+
+    private fun showWebView() {
+        webView?.apply {
+            alpha = 0f
+            show()
+            webView.fadeIn(200L)
+        }
+    }
+
+    private fun hideWebView() {
+        vWebViewOverlay.show()
+        webView.hide()
+        vWebViewOverlay.fadeOut(200L) {
+            vWebViewOverlay.hide()
+            vWebViewOverlay.alpha = 1f
+        }
+    }
+
+    private fun showLoginView() {
+        clLoginContainer.show()
+        btnLogIn.show()
+    }
+
+    private fun hideLoginView() {
+        clLoginContainer.hide()
+    }
+
+    private fun invalidatePrivacyToS() {
+        val privacyPolicy = getString(R.string.privacy_policy)
+        val termsOfService = getString(R.string.terms_of_service)
+        val fullText = getString(R.string.login_privacy_and_tos, privacyPolicy, termsOfService)
+
+        val privacyPolicyStart = fullText.indexOf(privacyPolicy)
+        val privacyPolicyEnd = privacyPolicyStart + privacyPolicy.length
+
+        val termsOfServiceStart = fullText.indexOf(termsOfService)
+        val termsOfServiceEnd = termsOfServiceStart + termsOfService.length
+
+        val spannable = SpannableString(fullText).apply {
+            setSpan(
+                    SimpleClickableSpan(::onPrivacyPolicyClicked),
+                    privacyPolicyStart,
+                    privacyPolicyEnd,
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+            )
+            setSpan(
+                    SimpleClickableSpan(::onTermsOfServiceClicked),
+                    termsOfServiceStart,
+                    termsOfServiceEnd,
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+            )
+        }
+
+        tvPrivacyToS.text = spannable
+        tvPrivacyToS.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun onPrivacyPolicyClicked() {
+        BrowsingUtils.openUrl(this, LegalLinksUtils.getPrivacyPolicyUrl())
+    }
+
+    private fun onTermsOfServiceClicked() {
+        BrowsingUtils.openUrl(this, LegalLinksUtils.getTermsOfServiceUrl())
     }
 
     private fun startApp() {
@@ -164,7 +278,7 @@ class LoginActivity : BaseActivity() {
         private const val LOGIN_URL = "https://oauth.vk.com/authorize?" +
                 "client_id=${App.APP_ID}&" +
                 "scope=${App.SCOPE_ALL}&" +
-                "redirect_uri=${App.REDIRECT_URL}&" +
+                "redirect_uri=${App.REDIRECT_URL_WEB_VIEW}&" +
                 "display=touch&" +
                 "v=${App.VERSION}&" +
                 "response_type=token"
@@ -179,6 +293,12 @@ class LoginActivity : BaseActivity() {
         }
     }
 
+    private class SimpleClickableSpan(private val onClick: () -> Unit) : ClickableSpan() {
+        override fun onClick(widget: View) {
+            onClick()
+        }
+    }
+
     /**
      * handles redirect and calls token parsing
      * @param onLoggedIn callback
@@ -189,9 +309,9 @@ class LoginActivity : BaseActivity() {
 
         override fun onPageFinished(view: WebView, url: String) {
             super.onPageFinished(view, url)
-            rlLoader.hide()
-            if (url.startsWith(App.REDIRECT_URL)) {
-                view.hide()
+            switchToWebView()
+            if (url.startsWith(App.REDIRECT_URL_WEB_VIEW)) {
+                switchToLoader()
                 val token = extract(url, "access_token=(.*?)&")
                 val uid = extract(url, "user_id=(\\d*)").toIntOrNull() ?: 0
                 onLoggedIn(token, uid)
