@@ -28,4 +28,8 @@ class ReportUseCase(
         reportDataSource.reportUser(userId, reason, comment)
     }
 
+    fun reportWallPost(ownerId: Int, postId: Int, reason: ReportReason) {
+        reportDataSource.reportWallPost(ownerId, postId, reason)
+    }
+
 }

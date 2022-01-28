@@ -29,6 +29,7 @@ import android.widget.TextView
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Group
@@ -37,6 +38,7 @@ import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Video
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.WallPostResponse
+import com.twoeightnine.root.xvii.report.ReportFragment
 import com.twoeightnine.root.xvii.uikit.XviiAvatar
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
@@ -78,6 +80,15 @@ class WallPostFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.menu_open_url -> {
             BrowsingUtils.openUrl(context, "$WALL_POST_URL$postId")
+            true
+        }
+        R.id.menu_report -> {
+            if (::postResponse.isInitialized) {
+                postResponse.items.firstOrNull()?.also { wallPost ->
+                    val args = ReportFragment.createArgs(wallPost = wallPost)
+                    startFragment<ReportFragment>(args)
+                }
+            }
             true
         }
         else -> super.onOptionsItemSelected(item)

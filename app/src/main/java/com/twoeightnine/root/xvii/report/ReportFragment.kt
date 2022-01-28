@@ -32,12 +32,14 @@ import androidx.fragment.app.viewModels
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.model.User
+import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.utils.showAlert
 import com.twoeightnine.root.xvii.utils.showToast
 import global.msnthrp.xvii.core.report.model.ReportReason
 import global.msnthrp.xvii.uikit.extensions.applyBottomInsetMargin
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import global.msnthrp.xvii.uikit.extensions.setVisibleWithInvis
+import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.fragment_report.*
 import kotlin.math.PI
 import kotlin.math.sin
@@ -54,6 +56,7 @@ class ReportFragment : BaseFragment() {
     }
 
     private var animator: ViewPropertyAnimator? = null
+    private var reportBlock: ((reason: ReportReason, comment: String) -> Unit)? = null
 
     override fun getLayoutId(): Int = R.layout.fragment_report
 
@@ -62,23 +65,39 @@ class ReportFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val user: User? = arguments?.getParcelable(ARG_USER)
+        val wallPost: WallPost? = arguments?.getParcelable(ARG_WALL_POST)
+
         when {
             user != null -> bindUser(user)
+            wallPost != null -> bindWallPost(wallPost)
         }
 
         viewModel.loading.observe(::onLoadingChanged)
         viewModel.sent.observe { isSent -> if (isSent) onSent() }
         viewModel.error.observe { showAlert(context, it) }
 
+        btnReport.setOnClickListener {
+            withSelectedReason { reason, comment ->
+                reportBlock?.invoke(reason, comment)
+            }
+        }
+
         btnReport.applyBottomInsetMargin()
     }
 
     private fun bindUser(user: User) {
         setReasons(ReportReason.forUser)
-        btnReport.setOnClickListener {
-            withSelectedReason { reason, comment ->
-                viewModel.reportUser(user, reason, comment)
-            }
+        reportBlock = { reason, comment ->
+            viewModel.reportUser(user, reason, comment)
+        }
+        tvCommentHint.show()
+        etComment.show()
+    }
+
+    private fun bindWallPost(wallPost: WallPost) {
+        setReasons(ReportReason.forContent)
+        reportBlock = { reason, _ ->
+            viewModel.reportWallPost(wallPost, reason)
         }
     }
 
@@ -158,10 +177,15 @@ class ReportFragment : BaseFragment() {
     companion object {
 
         private const val ARG_USER = "user"
+        private const val ARG_WALL_POST = "wallPost"
 
-        fun createArgs(user: User? = null): Bundle {
+        fun createArgs(
+                user: User? = null,
+                wallPost: WallPost? = null
+        ): Bundle {
             return bundleOf(
-                    ARG_USER to user
+                    ARG_USER to user,
+                    ARG_WALL_POST to wallPost,
             )
         }
     }

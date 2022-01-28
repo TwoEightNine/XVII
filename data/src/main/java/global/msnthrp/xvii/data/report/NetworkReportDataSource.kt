@@ -36,6 +36,10 @@ class NetworkReportDataSource : ReportDataSource {
         api.reportUser(userId, reason.asUserReason(), comment).execute().body()
     }
 
+    override fun reportWallPost(ownerId: Int, postId: Int, reason: ReportReason) {
+        api.reportWallPost(ownerId, postId, reason.asContentReason()).execute().body()
+    }
+
     private fun ReportReason.asUserReason(): String {
         return when (this) {
             ReportReason.PORN -> "porn"
@@ -43,6 +47,20 @@ class NetworkReportDataSource : ReportDataSource {
             ReportReason.ABUSE -> "insult"
             ReportReason.ADS -> "advertisement"
             else -> ""
+        }
+    }
+
+    private fun ReportReason.asContentReason(): Int {
+        return when (this) {
+            ReportReason.SPAM -> 0
+            ReportReason.CP -> 1
+            ReportReason.VIOLENCE -> 3
+            ReportReason.DRUGS -> 4
+            ReportReason.ADULT -> 5
+            ReportReason.ABUSE -> 6
+
+            ReportReason.PORN -> 5
+            ReportReason.ADS -> 0
         }
     }
 
@@ -54,6 +72,13 @@ class NetworkReportDataSource : ReportDataSource {
                 @Query("user_id") userId: Int,
                 @Query("type") type: String,
                 @Query("comment") comment: String
+        ): Call<BaseResponse<Int>>
+
+        @GET("wall.reportPost")
+        fun reportWallPost(
+                @Query("owner_id") ownerId: Int,
+                @Query("post_id") postId: Int,
+                @Query("reason") reason: Int
         ): Call<BaseResponse<Int>>
     }
 }

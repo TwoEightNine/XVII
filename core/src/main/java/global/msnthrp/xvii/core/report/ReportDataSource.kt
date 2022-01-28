@@ -23,4 +23,6 @@ import global.msnthrp.xvii.core.report.model.ReportReason
 interface ReportDataSource {
 
     fun reportUser(userId: Int, reason: ReportReason, comment: String)
+
+    fun reportWallPost(ownerId: Int, postId: Int, reason: ReportReason)
 }

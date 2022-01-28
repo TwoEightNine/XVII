@@ -61,6 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin16"
+        android:visibility="gone"
         android:layout_marginStart="@dimen/margin16"
         android:text="additional comment"/>
 
@@ -79,6 +80,7 @@
         android:textColor="@color/main_text"
         android:textColorHint="@color/minor_text"
         android:textSize="17sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCommentHint" />
