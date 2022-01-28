@@ -24,7 +24,7 @@ import global.msnthrp.xvii.data.network.Retrofit
 
 class RetrofitSafePrimeDataSource : DefaultSafePrimeRepo.ReadOnlySafePrimeDataSource {
 
-    private val apiService = Retrofit.safePrimeApiService
+    private val apiService by lazy { Retrofit.safePrimeApiService }
 
     override fun getSafePrime(): SafePrime {
         val safePrimeResponse = apiService.getSafePrime().execute().body()

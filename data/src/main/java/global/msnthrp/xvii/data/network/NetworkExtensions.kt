@@ -18,11 +18,16 @@
 
 package global.msnthrp.xvii.data.network
 
-enum class Host(val baseUrl: String, val clientType: ClientType) {
-    SAFE_PRIME("https://2ton.com.au/", ClientType.UNSAFE)
-}
+import global.msnthrp.xvii.data.network.model.BaseResponse
+import global.msnthrp.xvii.data.network.model.Error
+import retrofit2.Call
 
-enum class ClientType {
-    DEFAULT,
-    UNSAFE
+fun <T> Call<BaseResponse<T>>.perform(): BaseResponse<T> {
+    val response = execute().body()
+    return response ?: throw
+    return try {
+        execute().body() ?: BaseResponse(error = Error(-1))
+    } catch (e: Exception) {
+        BaseResponse(error = Error(-2))
+    }
 }

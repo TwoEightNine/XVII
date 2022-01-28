@@ -133,6 +133,18 @@
     <string name="block_user">block user</string>
     <string name="unblock_user">unblock user</string>
     <string name="block_user_confirmation">do you really want to block this user?</string>
+
+    <string name="report_title">report</string>
+    <string name="report_reported">successfully reported</string>
+    <string name="report_reason_porn">pornography</string>
+    <string name="report_reason_cp">child pornography</string>
+    <string name="report_reason_violence">violence</string>
+    <string name="report_reason_drugs">drug propaganda</string>
+    <string name="report_reason_adult">adult material</string>
+    <string name="report_reason_spam">spamming</string>
+    <string name="report_reason_insult">abusive behavior</string>
+    <string name="report_reason_advertisement">disruptive advertisements</string>
+
     <string name="restart_app">restarting app..</string>
     <string name="hidden_message">message</string>
     <string name="shared">shared successfully</string>

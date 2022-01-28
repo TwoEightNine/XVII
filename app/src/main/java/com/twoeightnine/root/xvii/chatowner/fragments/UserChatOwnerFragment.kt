@@ -19,18 +19,26 @@
 package com.twoeightnine.root.xvii.chatowner.fragments
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.secret.SecretChatActivity
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.Wrapper
+import com.twoeightnine.root.xvii.report.ReportFragment
 import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.*
-import global.msnthrp.xvii.uikit.extensions.hide
+import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_chat_owner_user.*
 
 class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
+
+    private var menuItemBlock: MenuItem? = null
+    private var menuItemUnblock: MenuItem? = null
 
     override fun getLayoutId() = R.layout.fragment_chat_owner_user
 
@@ -38,20 +46,14 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ivOverflow.apply {
+            setOnClickListener { xviiToolbar.showOverflowMenu() }
+            applyTopInsetMargin()
+        }
         btnSecretChat.setOnClickListener {
             getChatOwner()?.also {
                 SecretChatActivity.launch(context, it)
             }
-        }
-        btnBlockUser.setOnClickListener {
-            showWarnConfirm(context, getString(R.string.block_user_confirmation), getString(R.string.block_user)) { confirmed ->
-                if (confirmed) {
-                    viewModel.blockUser(getChatOwner()?.getPeerId() ?: 0)
-                }
-            }
-        }
-        btnUnblockUser.setOnClickListener {
-            viewModel.unblockUser(getChatOwner()?.getPeerId() ?: 0)
         }
     }
 
@@ -65,6 +67,37 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
                 val registrationTs = (registrationDate.time / 1000L).toInt()
                 addValue(R.drawable.ic_registration_date, getDate(registrationTs))
             }
+        }
+    }
+
+    override fun getMenu(): Int = R.menu.menu_user
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menuItemBlock = menu.findItem(R.id.menu_block)
+        menuItemUnblock = menu.findItem(R.id.menu_unblock)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_block -> {
+                showWarnConfirm(context, getString(R.string.block_user_confirmation), getString(R.string.block_user)) { confirmed ->
+                    if (confirmed) {
+                        viewModel.blockUser(getChatOwner()?.getPeerId() ?: 0)
+                    }
+                }
+                true
+            }
+            R.id.menu_unblock -> {
+                viewModel.unblockUser(getChatOwner()?.getPeerId() ?: 0)
+                true
+            }
+            R.id.menu_report -> {
+                val user = getChatOwner()
+                startFragment<ReportFragment>(ReportFragment.createArgs(user = user))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -121,15 +154,16 @@ class UserChatOwnerFragment : BaseChatOwnerFragment<User>() {
         viewModel.loadFoaf(chatOwner.getPeerId())
 
         if (SessionProvider.isUserIdTheSame(user.id)) {
-            btnBlockUser.hide()
-            btnUnblockUser.hide()
+            menuItemBlock?.isVisible = false
+            menuItemUnblock?.isVisible = false
         }
     }
 
     private fun onBlockedChanged(data: Wrapper<Boolean>) {
-        if (data.data != null) {
-            btnBlockUser.setVisible(!data.data)
-            btnUnblockUser.setVisible(data.data)
+        val isBlocked = data.data
+        if (isBlocked != null) {
+            menuItemBlock?.isVisible = !isBlocked
+            menuItemUnblock?.isVisible = isBlocked
         } else {
             showError(context, data.error ?: "")
         }

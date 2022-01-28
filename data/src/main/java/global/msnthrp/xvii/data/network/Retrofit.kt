@@ -28,20 +28,25 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object Retrofit {
 
-    val safePrimeApiService by lazy {
-        createApiService(Host.SAFE_PRIME, SafePrimeApiService::class.java)
+    val safePrimeApiService: SafePrimeApiService by lazy {
+        createRetrofitForSafePrime().create(SafePrimeApiService::class.java)
     }
 
 
     private val defaultGson by lazy {
         createGson()
     }
-    private val defaultOkHttpClient by lazy {
-        OkHttp.createOkHttpClient()
+    private val vkAuthorizedOkHttpClient by lazy {
+        OkHttp.createVkAuthorizedOkHttpClient()
     }
     private val unsafeOkHttpClient by lazy {
         OkHttp.createUnsafeOkHttpClient()
     }
+
+    private val retrofitForVk by lazy { createRetrofitForVk() }
+
+
+    fun <T> createVkApiService(apiServiceClass: Class<T>): T = retrofitForVk.create(apiServiceClass)
 
     private fun createGson(): Gson = GsonBuilder()
             .setExclusionStrategies(object : ExclusionStrategy {
@@ -49,19 +54,20 @@ object Retrofit {
                 override fun shouldSkipField(f: FieldAttributes) = false
             }).create()
 
-    private fun createRetrofit(host: Host) =
-            Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create(defaultGson))
-                    .baseUrl(host.baseUrl)
-                    .client(host.clientType.getMatchingClient())
-                    .build()
+    private fun createRetrofitForVk(): Retrofit {
+        return Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create(defaultGson))
+                .baseUrl("https://api.vk.com/method/")
+                .client(vkAuthorizedOkHttpClient)
+                .build()
+    }
 
-    private fun <T> createApiService(host: Host, apiServiceClass: Class<T>): T =
-            createRetrofit(host).create(apiServiceClass)
-
-    private fun ClientType.getMatchingClient() = when (this) {
-        ClientType.UNSAFE -> unsafeOkHttpClient
-        ClientType.DEFAULT -> defaultOkHttpClient
+    private fun createRetrofitForSafePrime(): Retrofit {
+        return Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create(defaultGson))
+                .baseUrl("https://2ton.com.au/")
+                .client(unsafeOkHttpClient)
+                .build()
     }
 
 }

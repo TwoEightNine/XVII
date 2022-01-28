@@ -94,6 +94,10 @@ class XviiToolbar(context: Context, attributeSet: AttributeSet) : AppBarLayout(c
         applyTopInsetPadding()
     }
 
+    fun showOverflowMenu() {
+        toolbar.showOverflowMenu()
+    }
+
     private fun initAttributes(attributeSet: AttributeSet) {
         val attrs = context.theme.obtainStyledAttributes(attributeSet, R.styleable.XviiToolbar, 0, 0)
         title = attrs.getString(R.styleable.XviiToolbar_title)

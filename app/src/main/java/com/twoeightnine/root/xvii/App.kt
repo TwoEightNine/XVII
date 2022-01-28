@@ -27,7 +27,9 @@ import com.twoeightnine.root.xvii.dagger.DaggerAppComponent
 import com.twoeightnine.root.xvii.dagger.modules.ContextModule
 import com.twoeightnine.root.xvii.lg.L
 import com.twoeightnine.root.xvii.managers.Prefs
+import com.twoeightnine.root.xvii.storage.SessionProvider
 import com.twoeightnine.root.xvii.utils.*
+import global.msnthrp.xvii.data.network.TokenAndVersionInterceptor
 import global.msnthrp.xvii.data.utils.ContextHolder
 import global.msnthrp.xvii.data.utils.ContextProvider
 import io.github.inflationx.calligraphy3.CalligraphyConfig
@@ -39,8 +41,14 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+
+        // TODO replace with fine di
         ContextHolder.contextProvider = object : ContextProvider {
             override val applicationContext: Context = context
+        }
+        TokenAndVersionInterceptor.tokenProvider = object : TokenAndVersionInterceptor.TokenProvider {
+            override val token: String
+                get() = SessionProvider.token.orEmpty()
         }
 
         // here to prevent relaunch of the first activity

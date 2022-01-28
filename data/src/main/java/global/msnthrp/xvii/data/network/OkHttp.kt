@@ -37,7 +37,10 @@ object OkHttp {
         createLoggingInterceptor()
     }
 
-    fun createOkHttpClient(): OkHttpClient = createDefaultBuilder().build()
+    fun createVkAuthorizedOkHttpClient(): OkHttpClient =
+            createDefaultBuilder()
+                    .addInterceptor(TokenAndVersionInterceptor)
+                    .build()
 
     fun createUnsafeOkHttpClient(): OkHttpClient =
             try {
