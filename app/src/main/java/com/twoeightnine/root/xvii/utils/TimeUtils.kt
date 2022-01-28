@@ -37,11 +37,13 @@ const val DD_MMM_YYYY = "dd MMM yyyy"
 @SuppressLint("SimpleDateFormat")
 fun getTime(ts: Int, shortened: Boolean = false, withSeconds: Boolean = false, noDate: Boolean = false, format: String? = null): String {
     val date = Date(ts * 1000L)
-    val today = Date()
-    val yesterday = Date(today.time - TimeUnit.DAYS.toMillis(1))
+
     if (format != null) {
         return SimpleDateFormat(format).format(date)
     }
+
+    val today = Date()
+    val yesterday = Date(today.time - TimeUnit.DAYS.toMillis(1))
 
     val isToday = today.isTheSameDay(date)
     val isYesterday = yesterday.isTheSameDay(date)
@@ -116,7 +118,7 @@ fun getMinutes(): String {
 fun time() = (System.currentTimeMillis() / 1000L).toInt()
 
 private fun Date.isTheSameDay(date: Date): Boolean {
-    return day == date.day &&
+    return this.date == date.date &&
             month == date.month &&
             year == date.year
 }
