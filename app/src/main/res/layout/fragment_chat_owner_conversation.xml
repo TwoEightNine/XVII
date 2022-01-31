@@ -58,6 +58,15 @@
         android:layout_height="@dimen/toolbar_height"
         android:src="@drawable/ic_back" />
 
+    <ImageView
+        android:id="@+id/ivOverflow"
+        android:layout_width="wrap_content"
+        android:layout_gravity="end"
+        android:paddingEnd="10.5dp"
+        android:paddingStart="22dp"
+        android:layout_height="@dimen/toolbar_height"
+        android:src="@drawable/ic_overflow_white" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvContent"
         android:layout_width="match_parent"
@@ -169,23 +178,11 @@
                     android:hint="@string/show_notifications_conversation"
                     android:text="@string/show_notifications"/>
 
-                <com.twoeightnine.root.xvii.uikit.XviiButton
-                    android:id="@+id/btnLeave"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/swNotifications"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginEnd="@dimen/profile_margin_start"
-                    android:drawableStart="@drawable/ic_logout"
-                    app:warn="true"
-                    android:text="@string/leave_conversation" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvUsers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btnLeave"
+                    android:layout_below="@+id/swNotifications"
                     android:layout_marginTop="12dp" />
 
                 <View

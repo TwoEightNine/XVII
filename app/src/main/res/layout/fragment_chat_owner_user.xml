@@ -192,8 +192,7 @@
                     android:id="@+id/vBottom"
                     android:layout_width="match_parent"
                     android:layout_height="22dp"
-                    android:layout_below="@+id/btnSecretChat"
-                    android:layout_marginTop="@dimen/button_accent_height" />
+                    android:layout_below="@+id/btnSecretChat" />
 
                 <RelativeLayout
                     android:id="@+id/rlLoader"

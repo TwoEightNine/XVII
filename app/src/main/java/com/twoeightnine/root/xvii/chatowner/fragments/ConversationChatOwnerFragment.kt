@@ -19,6 +19,7 @@
 package com.twoeightnine.root.xvii.chatowner.fragments
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,13 +36,10 @@ import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.showWarnConfirm
 import com.twoeightnine.root.xvii.utils.wrapMentions
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
+import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
 import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
-import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.fabOpenChat
-import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.llContainer
-import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.vBottom
-import kotlinx.android.synthetic.main.fragment_chat_owner_user.*
 import kotlinx.android.synthetic.main.item_chat_owner_field.view.*
 
 class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
@@ -61,7 +59,8 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
 
         showPinnedMessage(conversation)
         viewModel.loadChatMembers(conversation.getPeerId())
-        btnLeave.setOnClickListener { onLeaveGroupClick() }
+        ivOverflow.setOnClickListener { xviiToolbar.showOverflowMenu() }
+        ivOverflow.applyTopInsetMargin()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,6 +77,18 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.conversationMembers.observe(viewLifecycleOwner, Observer(::onMembersLoaded))
+    }
+
+    override fun getMenu(): Int = R.menu.menu_conversation
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_leave -> {
+                onLeaveGroupClick()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun onMembersLoaded(profiles: List<User>) {
