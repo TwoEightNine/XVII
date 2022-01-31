@@ -41,6 +41,9 @@ import global.msnthrp.xvii.uikit.extensions.lowerIf
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
 import kotlinx.android.synthetic.main.item_chat_owner_field.view.*
+import kotlinx.android.synthetic.main.item_chat_owner_field.view.ivIcon
+import kotlinx.android.synthetic.main.item_chat_owner_field.view.tvValue
+import kotlinx.android.synthetic.main.item_pinned_message_field.view.*
 
 class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
 
@@ -124,11 +127,10 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
             wrapMentions(requireContext(), it, addClickable = true)
         } ?: return
 
-        with(View.inflate(context, R.layout.item_chat_owner_field, null)) {
-            ivIcon.setImageResource(R.drawable.ic_pinned)
+        with(View.inflate(context, R.layout.item_pinned_message_field, null)) {
             ivIcon.paint(Munch.color.color)
             tvValue.text = pinnedMessage
-            rlItem.setOnClickListener {
+            clItem.setOnClickListener {
                 conversation.chatSettings.pinnedMessage.id.also { id ->
                     startFragment<DeepForwardedFragment>(DeepForwardedFragment.createArgs(id))
                 }

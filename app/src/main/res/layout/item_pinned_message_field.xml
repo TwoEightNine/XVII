@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ xvii - messenger for vk
+  ~ Copyright (C) 2021  TwoEightNine
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/popup"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/ic_pinned"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:tag="main" />
+
+    <TextView
+        android:id="@+id/tvValue"
+        style="@style/MainText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="@dimen/profile_margin_end"
+        android:layout_toEndOf="@+id/ivIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivIcon"
+        android:maxLines="5"
+        android:ellipsize="end"
+        android:textSize="15sp"
+        tools:text="value dfdfd fdfdfd fdfdfd df fdf dfd fd fdf dfvdfdfd fdfdfd df fdf dfd fd fdf dfValue dfdfd fdfdfd fdfdfd df fdf dfd fd fdf dfValue dfdfd fdfdfd fdfdfd df fdf dfd fd fdf df" />
+
+    <!--suppress AndroidUnknownAttribute -->
+    <TextView
+        android:id="@+id/tvMore"
+        style="@style/MainText"
+        android:layout_below="@+id/tvValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/link_color"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintTop_toBottomOf="@id/tvValue"
+        app:layout_constraintStart_toEndOf="@id/ivIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/profile_margin_end"
+        android:layout_toEndOf="@+id/ivIcon"
+        android:maxLines="5"
+        fontPath="fonts/medium.ttf"
+        android:ellipsize="end"
+        android:textSize="15sp"
+        android:text="@string/too_deep_forwarding"
+        tools:ignore="MissingPrefix" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

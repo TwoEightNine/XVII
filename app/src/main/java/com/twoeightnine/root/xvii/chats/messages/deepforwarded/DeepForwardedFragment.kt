@@ -39,6 +39,7 @@ import com.twoeightnine.root.xvii.utils.AppBarLifter
 import com.twoeightnine.root.xvii.utils.BrowsingUtils
 import com.twoeightnine.root.xvii.utils.PermissionHelper
 import com.twoeightnine.root.xvii.utils.showError
+import global.msnthrp.xvii.uikit.extensions.applyBottomInsetPadding
 import global.msnthrp.xvii.uikit.extensions.hide
 import kotlinx.android.synthetic.main.fragment_deep_forwarded.*
 import javax.inject.Inject
@@ -70,6 +71,7 @@ class DeepForwardedFragment : BaseFragment() {
         rvForwarded.layoutManager = LinearLayoutManager(context)
         rvForwarded.adapter = adapter
         rvForwarded.addOnScrollListener(AppBarLifter(xviiToolbar))
+        rvForwarded.applyBottomInsetPadding()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
