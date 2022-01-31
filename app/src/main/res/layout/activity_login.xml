@@ -22,25 +22,26 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/splash_background"
+    android:background="@color/background_dark"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clLoginContainer"
         android:visibility="gone"
-        android:background="@color/background"
+        tools:visibility="visible"
+        android:background="@color/background_dark"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.twoeightnine.root.xvii.uikit.XviiToolbar
-            android:id="@+id/xviiToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:backArrow="false"
-            app:layout_constraintEnd_toEndOf="parent"
+        <ImageView
+            android:id="@+id/ivLoginLogo"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showLogo="true" />
+            app:layout_constraintBottom_toTopOf="@id/btnLogIn"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/ic_x_logo_white" />
 
         <com.twoeightnine.root.xvii.uikit.XviiLoader
             android:layout_width="wrap_content"
@@ -71,7 +72,7 @@
             android:layout_marginBottom="48dp"
             android:gravity="center_horizontal"
             android:text="@string/login_oauth_hint"
-            android:textColor="@color/other_text"
+            android:textColor="@color/other_text_dark"
             app:layout_constraintBottom_toTopOf="@id/tvPrivacyToS"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -82,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
             android:gravity="center_horizontal"
-            android:textColor="@color/other_text"
+            android:textColor="@color/other_text_dark"
             android:textColorHighlight="@android:color/transparent"
             android:textColorLink="@color/link_color"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -107,6 +108,7 @@
 
     <RelativeLayout
         android:id="@+id/rlLoader"
+        tools:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

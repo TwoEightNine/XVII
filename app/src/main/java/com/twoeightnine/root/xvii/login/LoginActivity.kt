@@ -74,10 +74,10 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun getStatusBarColor() = ContextCompat.getColor(this, R.color.splash_background)
-
     override fun getNavigationBarColor() = ContextCompat.getColor(this, R.color.splash_background)
-
     override fun shouldRunService() = false
+    override fun shouldUpdateStatusBarTheme() = false
+    override fun shouldUpdateNavBarTheme() = false
 
     private fun checkTokenAndStart() {
         switchToLoader()
@@ -91,6 +91,12 @@ class LoginActivity : BaseActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     private fun initLoginView() {
         btnLogIn.setOnClickListener { onLogInClicked() }
+
+//        ivLoginLogo.setOnLongClickListener {
+//            ivLoginLogo.setOnLongClickListener(null)
+//            ivLoginLogo.setOnTouchListener(RotatingTouchListener())
+//            true
+//        }
 
         invalidatePrivacyToS()
         webView?.apply {
@@ -290,4 +296,37 @@ class LoginActivity : BaseActivity() {
             return matcher.toMatchResult().group(1)
         }
     }
+
+//    private inner class RotatingTouchListener : View.OnTouchListener {
+//
+//        private var lastX = 0f
+//        private var lastY = 0f
+//        private var lastTs = 0L
+//
+//        private var w = 0f
+//
+//
+//        @SuppressLint("ClickableViewAccessibility")
+//        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+//            event ?: return true
+//            when (event.action) {
+//                MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+//                    lastX = event.x
+//                    lastY = event.y
+//                    lastTs = System.currentTimeMillis()
+//                }
+//                MotionEvent.ACTION_UP -> {
+//                    val dx = event.x - lastX
+//                    val dy = event.y - lastY
+//                    val dist = hypot(dx, dy)
+//
+//                    val dt = System.currentTimeMillis() - lastTs
+//                    val v = dist / dt
+//                    val a =
+//
+//                }
+//            }
+//            return true
+//        }
+//    }
 }

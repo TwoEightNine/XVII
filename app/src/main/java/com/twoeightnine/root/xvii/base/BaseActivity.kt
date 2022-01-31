@@ -63,13 +63,13 @@ abstract class BaseActivity : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 
-        if (Prefs.isLightTheme) {
+        if (Prefs.isLightTheme && shouldUpdateStatusBarTheme()) {
             window.decorView.systemUiVisibility =
                     window.decorView.systemUiVisibility or
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Prefs.isLightTheme) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Prefs.isLightTheme && shouldUpdateNavBarTheme()) {
             window.decorView.systemUiVisibility =
                     window.decorView.systemUiVisibility or
                             View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
@@ -117,6 +117,9 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun getNavigationBarColor() = navBarColor
 
     protected open fun shouldRunService() = true
+
+    protected open fun shouldUpdateStatusBarTheme() = true
+    protected open fun shouldUpdateNavBarTheme() = true
 
     private fun updateConfig() {
         AppCompatDelegate.setDefaultNightMode(when {

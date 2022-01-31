@@ -1,0 +1,27 @@
+<!--
+  ~ xvii - messenger for vk
+  ~ Copyright (C) 2021  TwoEightNine
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="512dp"
+    android:height="512dp"
+    android:viewportWidth="135.46666"
+    android:viewportHeight="135.46667">
+  <path
+      android:pathData="M25.832,0 L0,25.832 41.895,67.739 0,109.634 25.832,135.467 67.739,93.56 109.634,135.467 135.467,109.634 93.56,67.739 135.467,25.832 109.634,0 67.739,41.895Z"
+      android:fillColor="#fff"/>
+</vector>

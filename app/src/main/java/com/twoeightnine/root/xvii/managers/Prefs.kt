@@ -264,7 +264,7 @@ object Prefs {
         set(value) = data.edit().putInt(COLOR, value).apply()
 
     var colorBetterWithWhite: Boolean
-        get() = data.getBoolean(COLOR_BETTER_WITH_WHITE, true)
+        get() = data.getBoolean(COLOR_BETTER_WITH_WHITE, false)
         set(value) = data.edit().putBoolean(COLOR_BETTER_WITH_WHITE, value).apply()
 
     var isLightTheme: Boolean
