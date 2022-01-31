@@ -27,6 +27,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Size
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
@@ -50,7 +51,7 @@ class ImageViewerActivity : AppCompatActivity() {
     private val photos = arrayListOf<Photo>()
     private val permissionHelper by lazy { PermissionHelper(this) }
     private val adapter by lazy {
-        FullScreenImageAdapter(this, getUrlList(), ImageInteractionCallback())
+        FullScreenImageAdapter(this, getUrlList(), ImageInteractionCallback(), getSizesOrNull())
     }
 
     private val downloadingQueue = hashMapOf<Long, String>()
@@ -187,6 +188,11 @@ class ImageViewerActivity : AppCompatActivity() {
         MODE_PHOTOS_LIST -> getUrlsFromPhotos(photos)
         MODE_ONE_PATH -> arrayListOf(filePath!!)
         else -> arrayListOf()
+    }
+
+    private fun getSizesOrNull(): List<Size>? = when (mode) {
+        MODE_PHOTOS_LIST -> photos.mapNotNull { it.getMaxPhoto()?.run { Size(width, height) } }
+        else -> null
     }
 
     private fun setPosition(position: Int) {

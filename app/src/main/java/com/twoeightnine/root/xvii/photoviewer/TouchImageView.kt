@@ -213,8 +213,8 @@ class TouchImageView : AppCompatImageView {
 
     companion object {
 
-        private const val MIN_SCALE = 1f
-        private const val MAX_SCALE = 3f
+        const val MIN_SCALE = 1f
+        const val MAX_SCALE = 3f
 
         // We can be in one of these 3 states
         private const val NONE = 0

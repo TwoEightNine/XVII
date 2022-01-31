@@ -18,20 +18,25 @@
 
 package com.twoeightnine.root.xvii.photoviewer
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.extensions.load
+import com.twoeightnine.root.xvii.lg.L
+import global.msnthrp.xvii.uikit.utils.DisplayUtils
 
 class FullScreenImageAdapter(
         private val activity: Activity,
         private val urls: ArrayList<String>,
-        private val callback: TouchImageView.InteractionCallback
+        private val callback: TouchImageView.InteractionCallback,
+        private val sizes: List<Size>? = null
 ) : androidx.viewpager.widget.PagerAdapter() {
 
     private lateinit var inflater: LayoutInflater
@@ -41,14 +46,35 @@ class FullScreenImageAdapter(
 
     override fun isViewFromObject(view: View, any: Any) = view === any
 
+    @SuppressLint("CheckResult")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val viewLayout = inflater.inflate(R.layout.item_fullscreen_image, container, false)
         val imgDisplay = viewLayout.findViewById<TouchImageView>(R.id.tivImage)
-        tivManager.saveTiv(position, imgDisplay)
-        imgDisplay.callback = callback
+
         val url = urls[position]
         val fromFile = url.startsWith("file://")
+
+        var optimalViewWidth: Int? = null
+        sizes?.getOrNull(position)?.also { size ->
+            val imageRatio = size.height.toFloat() / size.width
+            val screenHeight = DisplayUtils.screenHeight
+            val displayedWidth = screenHeight.toFloat() / imageRatio
+            val maxDisplayedWidth = (TouchImageView.MAX_SCALE * displayedWidth).toInt() + 1
+            if (maxDisplayedWidth < DisplayUtils.screenWidth) {
+                optimalViewWidth = maxDisplayedWidth
+            }
+            L.tag(TAG).log("ir = $imageRatio, sh = $screenHeight, iw = $displayedWidth, optw = $optimalViewWidth")
+        }
+        optimalViewWidth?.also { newWidth ->
+            imgDisplay?.layoutParams?.apply {
+                width = newWidth
+                imgDisplay.layoutParams = this
+            }
+        }
+
+        tivManager.saveTiv(position, imgDisplay)
+        imgDisplay.callback = callback
 
         imgDisplay.load(urls[position], placeholder = false) {
             if (fromFile) {
@@ -63,8 +89,6 @@ class FullScreenImageAdapter(
                 }
 
                 override(width, height)
-//                apply(RequestOptions().downsample(DownsampleStrategy.AT_MOST))
-//                onlyScaleDown()
             }
             skipMemoryCache(true)
         }
@@ -86,5 +110,9 @@ class FullScreenImageAdapter(
 
     override fun destroyItem(container: ViewGroup, position: Int, any: Any) {
         container.removeView(any as RelativeLayout)
+    }
+
+    companion object {
+        private const val TAG = "fullscreen"
     }
 }
