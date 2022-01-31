@@ -23,6 +23,7 @@ import androidx.lifecycle.MutableLiveData
 import com.twoeightnine.root.xvii.base.BaseViewModel
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.WallPost
+import com.twoeightnine.root.xvii.model.attachments.Photo
 import global.msnthrp.xvii.core.report.ReportUseCase
 import global.msnthrp.xvii.core.report.model.ReportReason
 import global.msnthrp.xvii.data.report.NetworkReportDataSource
@@ -53,6 +54,13 @@ class ReportViewModel : BaseViewModel() {
         loadingLiveData.postValue(true)
         onIoThread({
             reportUseCase.reportWallPost(wallPost.ownerId, wallPost.id, reason)
+        }, ::onReported)
+    }
+
+    fun reportPhoto(photo: Photo, reason: ReportReason) {
+        loadingLiveData.postValue(true)
+        onIoThread({
+            reportUseCase.reportPhoto(photo.ownerId, photo.id, reason)
         }, ::onReported)
     }
 

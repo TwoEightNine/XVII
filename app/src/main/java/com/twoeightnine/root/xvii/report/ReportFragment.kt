@@ -33,6 +33,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseFragment
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.WallPost
+import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.utils.showAlert
 import com.twoeightnine.root.xvii.utils.showToast
 import global.msnthrp.xvii.core.report.model.ReportReason
@@ -66,10 +67,12 @@ class ReportFragment : BaseFragment() {
 
         val user: User? = arguments?.getParcelable(ARG_USER)
         val wallPost: WallPost? = arguments?.getParcelable(ARG_WALL_POST)
+        val photo: Photo? = arguments?.getParcelable(ARG_PHOTO)
 
         when {
             user != null -> bindUser(user)
             wallPost != null -> bindWallPost(wallPost)
+            photo != null -> bindPhoto(photo)
         }
 
         viewModel.loading.observe(::onLoadingChanged)
@@ -98,6 +101,13 @@ class ReportFragment : BaseFragment() {
         setReasons(ReportReason.forContent)
         reportBlock = { reason, _ ->
             viewModel.reportWallPost(wallPost, reason)
+        }
+    }
+
+    private fun bindPhoto(photo: Photo) {
+        setReasons(ReportReason.forContent)
+        reportBlock = { reason, _ ->
+            viewModel.reportPhoto(photo, reason)
         }
     }
 
@@ -178,14 +188,17 @@ class ReportFragment : BaseFragment() {
 
         private const val ARG_USER = "user"
         private const val ARG_WALL_POST = "wallPost"
+        private const val ARG_PHOTO = "photo"
 
         fun createArgs(
                 user: User? = null,
-                wallPost: WallPost? = null
+                wallPost: WallPost? = null,
+                photo: Photo? = null
         ): Bundle {
             return bundleOf(
                     ARG_USER to user,
                     ARG_WALL_POST to wallPost,
+                    ARG_PHOTO to photo
             )
         }
     }

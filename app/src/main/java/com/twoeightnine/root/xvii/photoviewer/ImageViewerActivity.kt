@@ -32,8 +32,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Photo
+import com.twoeightnine.root.xvii.report.ReportFragment
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.uikit.extensions.*
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
@@ -102,7 +104,8 @@ class ImageViewerActivity : AppCompatActivity() {
                     R.string.no_access_to_storage,
                     R.string.need_access_to_storage
             ) {
-                val url = tryToGetUrl(currentPhoto()) ?: return@doOrRequest
+                val photo = currentPhoto() ?: return@doOrRequest
+                val url = tryToGetUrl(photo) ?: return@doOrRequest
 
                 var fileName = url.getUriName().toLowerCase()
                 if ('?' in fileName) {
@@ -117,13 +120,19 @@ class ImageViewerActivity : AppCompatActivity() {
         btnSaveToAlbum.setOnClickListener {
             if (photos.isEmpty()) return@setOnClickListener
 
-            val photo = currentPhoto()
+            val photo = currentPhoto() ?: return@setOnClickListener
             apiUtils.saveToAlbum(this, photo.ownerId, photo.id, photo.accessKey)
         }
         btnShare.setOnClickListener {
             if (photos.isEmpty()) return@setOnClickListener
 
-            shareImage(this, tryToGetUrl(currentPhoto()))
+            val photo = currentPhoto() ?: return@setOnClickListener
+            shareImage(this, tryToGetUrl(photo))
+        }
+        btnReport.setOnClickListener {
+            if (photos.isEmpty()) return@setOnClickListener
+
+            reportCurrentPhoto()
         }
     }
 
@@ -167,6 +176,13 @@ class ImageViewerActivity : AppCompatActivity() {
         }.load(context, url)
     }
 
+    private fun reportCurrentPhoto() {
+        val photo = currentPhoto() ?: return
+
+        val args = ReportFragment.createArgs(photo = photo)
+        startFragment<ReportFragment>(args)
+    }
+
     private fun getUrlList() = when (mode) {
         MODE_PHOTOS_LIST -> getUrlsFromPhotos(photos)
         MODE_ONE_PATH -> arrayListOf(filePath!!)
@@ -175,15 +191,16 @@ class ImageViewerActivity : AppCompatActivity() {
 
     private fun setPosition(position: Int) {
         tvPosition.text = "${position + 1}/${photos.size}"
-        if (mode == MODE_PHOTOS_LIST) {
-            val text = currentPhoto().text
+        val currentPhoto = currentPhoto()
+        if (mode == MODE_PHOTOS_LIST && currentPhoto != null) {
+            val text = currentPhoto.text
             tvText.setVisible(!text.isNullOrEmpty())
             tvText.text = text
-            tvDate.text = getTime(currentPhoto().date, withSeconds = Prefs.showSeconds)
+            tvDate.text = getTime(currentPhoto.date, withSeconds = Prefs.showSeconds)
         }
     }
 
-    private fun currentPhoto() = photos[vpImage.currentItem]
+    private fun currentPhoto(): Photo? = photos.getOrNull(vpImage.currentItem)
 
     private fun getUrlsFromPhotos(photos: ArrayList<Photo>) = ArrayList(photos.mapNotNull { tryToGetUrl(it) })
 

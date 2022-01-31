@@ -32,4 +32,8 @@ class ReportUseCase(
         reportDataSource.reportWallPost(ownerId, postId, reason)
     }
 
+    fun reportPhoto(ownerId: Int, photoId: Int, reason: ReportReason) {
+        reportDataSource.reportPhoto(ownerId, photoId, reason)
+    }
+
 }

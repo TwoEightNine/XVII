@@ -21,6 +21,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/black"
     android:orientation="vertical">
 
@@ -34,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/rlTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,18 +43,24 @@
 
             <ImageView
                 android:id="@+id/ivBack"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="16dp"
+                android:padding="16dp"
                 android:layout_height="@dimen/toolbar_height"
                 android:src="@drawable/ic_back" />
 
             <TextView
                 android:id="@+id/tvPosition"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivBack"
+                app:layout_constraintBottom_toTopOf="@id/tvDate"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/toolbar_height"
-                android:layout_marginStart="16dp"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:fontFamily="sans-serif-light"
+                android:fontFamily="sans-serif-medium"
+                app:layout_constraintVertical_chainStyle="packed"
                 android:layout_toEndOf="@+id/ivBack"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -61,17 +68,21 @@
 
             <TextView
                 android:id="@+id/tvDate"
+                app:layout_constraintStart_toEndOf="@id/ivBack"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPosition"
+                android:layout_below="@id/tvPosition"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/toolbar_height"
-                android:layout_alignParentEnd="true"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif-light"
+                android:alpha="0.7"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="13sp"
                 tools:text="13:37 13 mars" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
             android:id="@+id/rlBottom"
@@ -95,47 +106,39 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvText"
                 android:orientation="horizontal"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
+                android:padding="12dp">
 
-                <Button
+                <ImageView
+                    android:id="@+id/btnReport"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_warning_white" />
+
+                <ImageView
                     android:id="@+id/btnSaveToAlbum"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/ic_copy"
-                    android:text="@string/add_to_saved"
-                    android:textAllCaps="false"
-                    android:textColor="@color/icons"
-                    android:textSize="16sp" />
+                    android:padding="12dp"
+                    android:src="@drawable/ic_copy" />
 
-                <Button
+                <ImageView
                     android:id="@+id/btnDownload"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/ic_download"
-                    android:text="@string/download"
-                    android:textAllCaps="false"
-                    android:textColor="@color/icons"
-                    android:textSize="16sp" />
+                    android:padding="12dp"
+                    android:src="@drawable/ic_download" />
 
-                <Button
+                <ImageView
                     android:id="@+id/btnShare"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/ic_share_white"
-                    android:text="@string/share"
-                    android:textAllCaps="false"
-                    android:textColor="@color/icons"
-                    android:textSize="16sp" />
+                    android:padding="12dp"
+                    android:src="@drawable/ic_share_white" />
 
             </LinearLayout>
 

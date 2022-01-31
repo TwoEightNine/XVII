@@ -25,4 +25,6 @@ interface ReportDataSource {
     fun reportUser(userId: Int, reason: ReportReason, comment: String)
 
     fun reportWallPost(ownerId: Int, postId: Int, reason: ReportReason)
+
+    fun reportPhoto(ownerId: Int, photoId: Int, reason: ReportReason)
 }

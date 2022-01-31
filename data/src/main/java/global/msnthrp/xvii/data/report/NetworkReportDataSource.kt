@@ -40,6 +40,10 @@ class NetworkReportDataSource : ReportDataSource {
         api.reportWallPost(ownerId, postId, reason.asContentReason()).execute().body()
     }
 
+    override fun reportPhoto(ownerId: Int, photoId: Int, reason: ReportReason) {
+        api.reportPhoto(ownerId, photoId, reason.asContentReason()).execute().body()
+    }
+
     private fun ReportReason.asUserReason(): String {
         return when (this) {
             ReportReason.PORN -> "porn"
@@ -78,6 +82,13 @@ class NetworkReportDataSource : ReportDataSource {
         fun reportWallPost(
                 @Query("owner_id") ownerId: Int,
                 @Query("post_id") postId: Int,
+                @Query("reason") reason: Int
+        ): Call<BaseResponse<Int>>
+
+        @GET("photos.report")
+        fun reportPhoto(
+                @Query("owner_id") ownerId: Int,
+                @Query("photo_id") photoId: Int,
                 @Query("reason") reason: Int
         ): Call<BaseResponse<Int>>
     }
