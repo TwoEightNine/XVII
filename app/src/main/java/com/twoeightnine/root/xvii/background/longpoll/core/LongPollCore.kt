@@ -186,8 +186,7 @@ class LongPollCore(private val context: Context) {
     }
 
     private fun processMention(event: NewMessageEvent) {
-        if (event.isOut()
-                || event.peerId in Prefs.muteList) return
+        if (event.isOut()) return
 
         val mentionType = MentionsHelper.getMentionTypeIfAny(event.text) ?: return
 
