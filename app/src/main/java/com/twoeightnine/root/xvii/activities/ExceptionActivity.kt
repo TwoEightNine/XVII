@@ -18,17 +18,19 @@
 
 package com.twoeightnine.root.xvii.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.BuildConfig
 import com.twoeightnine.root.xvii.R
+import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.utils.*
-import com.twoeightnine.root.xvii.views.TextInputAlertDialog
 import global.msnthrp.xvii.uikit.extensions.hide
 import global.msnthrp.xvii.uikit.extensions.show
 import kotlinx.android.synthetic.main.activity_exception.*
@@ -59,28 +61,29 @@ class ExceptionActivity : AppCompatActivity() {
             error = extras.getString(ERROR) ?: ""
             tvStack.text = error
         }
-        btnReport.setOnClickListener {
-            showDialog(error)
+        switchSend.isChecked = Prefs.sendCrashDetails
+        btnRestart.setOnClickListener {
+            Prefs.sendCrashDetails = switchSend.isChecked
+            if (switchSend.isChecked) {
+                val file = generateReport(error)
+                sendError(file.absolutePath)
+            } else {
+                restartApp()
+            }
         }
-        window.statusBarColor = ContextCompat.getColor(this, R.color.background_dark)
-        window.navigationBarColor = ContextCompat.getColor(this, R.color.background_dark)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.background)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
     }
 
-    private fun showDialog(error: String) {
-        val dialog = TextInputAlertDialog(
-                this,
-                getString(R.string.describe_actions)
-        ) {
-            val file = File(cacheDir, "crash_in_${BuildConfig.VERSION_NAME}_${getTime(time())}.txt")
-            val writer = BufferedWriter(FileWriter(file))
-            writer.write("$it\n$error")
-            writer.close()
-            sendError(file.absolutePath)
-        }
-
-        dialog.show()
+    private fun generateReport(error: String): File {
+        val file = File(cacheDir, "crash_in_${BuildConfig.VERSION_NAME}_${getTime(time())}.txt")
+        val writer = BufferedWriter(FileWriter(file))
+        writer.write(error)
+        writer.close()
+        return file
     }
 
+    @SuppressLint("CheckResult")
     private fun sendError(path: String) {
         rlLoader.show()
         api.getDocUploadServer("doc")
@@ -102,7 +105,7 @@ class ExceptionActivity : AppCompatActivity() {
                                                         deleteReport(response)
                                                         deleteDoc(doc)
                                                         showToast(this, R.string.report_sent)
-                                                        Handler().postDelayed({ onBackPressed() }, 400L)
+                                                        restartApp()
                                                     }, { error ->
                                                         showError(this, error)
                                                     })
@@ -130,7 +133,12 @@ class ExceptionActivity : AppCompatActivity() {
                 .subscribeSmart({}, {})
     }
 
+    private fun restartApp() {
+        Handler(Looper.getMainLooper()).postDelayed({ onBackPressed() }, 400L)
+    }
+
     override fun onBackPressed() {
+        Prefs.sendCrashDetails = switchSend.isChecked
         super.onBackPressed()
         restartApp(this)
     }

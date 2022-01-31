@@ -243,7 +243,7 @@
     <string name="no_access_to_storage">нет доступа к хранилищу</string>
     <string name="need_access_to_storage">xvii необходим доступ к хранилищу для прикрепления и скачивания файлов</string>
     <string name="details">подробнее</string>
-    <string name="report_hint">это поможет нам решить проблему быстрее</string>
+    <string name="report_hint">это поможет решить проблему быстрее</string>
     <string name="mark_as_read">отметить прочитанным</string>
     <string name="online_seen">в сети: %s</string>
     <string name="sticker">стикер</string>
@@ -556,5 +556,7 @@
     <string name="alert_privacy_and_tos">чтобы продолжить пользоваться xvii, вы должны согласиться с %s и %s</string>
     <string name="alert_privacy_and_tos_agree">согласиться и продолжить</string>
     <string name="alert_privacy_and_tos_disagree">не согласиться и выйти</string>
+    <string name="restart">перезапустить</string>
+    <string name="restart_send_crash">отправить детали разработчику</string>
 
 </resources>

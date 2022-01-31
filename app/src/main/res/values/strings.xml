@@ -146,6 +146,8 @@
     <string name="report_reason_advertisement">disruptive advertisements</string>
 
     <string name="restart_app">restarting app..</string>
+    <string name="restart">restart app</string>
+    <string name="restart_send_crash">send details to developer</string>
     <string name="hidden_message">message</string>
     <string name="shared">shared successfully</string>
     <string name="audios">audio</string>
@@ -189,7 +191,7 @@
     <string name="device_photos">device</string>
     <string name="mic_hint">slide left to cancel\nslide up to lock</string>
     <string name="details">details</string>
-    <string name="report_hint">it will help us to solve the problem faster</string>
+    <string name="report_hint">it will help to solve the problem faster</string>
     <string name="search_hint">search</string>
     <string name="ok" translatable="false">ok</string>
     <string name="join">follow</string>

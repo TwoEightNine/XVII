@@ -207,7 +207,7 @@
     <string name="no_access_to_storage">aucun accès au storage</string>
     <string name="need_access_to_storage">xvii veut avoir un accès au storage pour attacher ou sauvegarder des fichiers</string>
     <string name="details">détails</string>
-    <string name="report_hint">il nous aidera à résoudre le problème plus vite</string>
+    <string name="report_hint">il aidera à résoudre le problème plus vite</string>
     <string name="mark_as_read">marquer comme lu</string>
     <string name="online_seen">en ligne: %s</string>
     <string name="sticker">autocollant</string>
@@ -475,6 +475,7 @@
     <string name="journal_filter_edited_messages">messages modifiés</string>
     <string name="journal_filter_statuses">statuts</string>
     <string name="date_yesterday">hier</string>
+    <string name="restart">rédemarrer l\'app</string>
 
 </resources>
 

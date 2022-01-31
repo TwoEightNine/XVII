@@ -170,7 +170,7 @@
     <string name="device_photos">gerät</string>
     <string name="mic_hint">slide left to cancel\nslide up to lock</string>
     <string name="details">details</string>
-    <string name="report_hint">it will help us to solve the problem faster</string>
+    <string name="report_hint">it will help to solve the problem faster</string>
     <string name="accounts_hint">you can add as much accounts as you want. only one account can be active at a time. only active account can receive notifications</string>
     <string name="search_hint">suche</string>
     <string name="join">folgen</string>
@@ -544,4 +544,5 @@
     <string name="report_reason_insult">missbräuchliches verhalten</string>
     <string name="report_reason_advertisement">werbungen</string>
     <string name="login_log_in">anmelden</string>
+    <string name="restart">app neustarten</string>
 </resources>
