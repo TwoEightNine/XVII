@@ -537,5 +537,24 @@
     <string name="mentions_notification_settings">изменить настройки упоминаний</string>
     <string name="channel_mentions">упоминания</string>
     <string name="stealth_common_hint">в режиме \"быть не в сети\" другие люди всё ещё смогут видеть время последнего действия, которое будет обновляться после отправки сообщения</string>
+    <string name="terms_of_service">условия использования</string>
+    <string name="report_title">пожаловаться</string>
+    <string name="report_reported">отправлено успешно</string>
+    <string name="report_reason_porn">порнография</string>
+    <string name="report_reason_cp">детская порнография</string>
+    <string name="report_reason_violence">насилие</string>
+    <string name="report_reason_drugs">пропаганда наркотиков</string>
+    <string name="report_reason_adult">материалы для взрослых</string>
+    <string name="report_reason_spam">спам</string>
+    <string name="report_reason_insult">оскорбительное поведение</string>
+    <string name="report_reason_advertisement">разрушительная реклама</string>
+    <string name="security_mask_voice">изменить мой голос (бета)</string>
+    <string name="security_mask_voice_hint">ваш голос будет изменен в голосовых сообщениях</string>
+    <string name="login_privacy_and_tos">входя, вы соглашаетесь с %s и %s</string>
+    <string name="login_oauth_hint">для вашей безопасности xvii использует стандартную форму входа вконтакте, что означает, что приложение не получит ваши логин и пароль</string>
+    <string name="login_log_in">войти</string>
+    <string name="alert_privacy_and_tos">чтобы продолжить пользоваться xvii, вы должны согласиться с %s и %s</string>
+    <string name="alert_privacy_and_tos_agree">согласиться и продолжить</string>
+    <string name="alert_privacy_and_tos_disagree">не согласиться и выйти</string>
 
 </resources>

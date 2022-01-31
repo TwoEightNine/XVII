@@ -532,4 +532,16 @@
     <string name="call_missed">verpasster anruf</string>
     <string name="call_declined">ablehnter anruf</string>
     <string name="call_unknown">anruf</string>
+    <string name="terms_of_service">nutzungsbedingungen</string>
+    <string name="report_reported">erfolgreich berichtet</string>
+    <string name="report_title">berichten</string>
+    <string name="report_reason_porn">pornografie</string>
+    <string name="report_reason_cp">kinderpornografie</string>
+    <string name="report_reason_violence">gewalt</string>
+    <string name="report_reason_drugs">drogenpropaganda</string>
+    <string name="report_reason_adult">erwachsenenmaterial</string>
+    <string name="report_reason_spam">spam</string>
+    <string name="report_reason_insult">missbräuchliches verhalten</string>
+    <string name="report_reason_advertisement">werbungen</string>
+    <string name="login_log_in">anmelden</string>
 </resources>
