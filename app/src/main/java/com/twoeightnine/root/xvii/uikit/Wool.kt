@@ -26,11 +26,7 @@ object Wool {
     private const val DIR = "fonts/"
     private const val EXT = ".ttf"
 
-    private val fonts = mutableMapOf<Font, Typeface>()
-
-    fun get(context: Context, font: Font): Typeface = fonts.getOrPut(font) {
-        createTypeface(context, font)
-    }
+    fun get(context: Context, font: Font): Typeface = createTypeface(context, font)
 
     private fun createTypeface(context: Context, font: Font): Typeface =
             Typeface.createFromAsset(context.resources.assets, "$DIR${font.fontName}$EXT")
