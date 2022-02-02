@@ -56,19 +56,36 @@ class FullScreenImageAdapter(
         val fromFile = url.startsWith("file://")
 
         var optimalViewWidth: Int? = null
+        var optimalViewHeight: Int? = null
+
         sizes?.getOrNull(position)?.also { size ->
             val imageRatio = size.height.toFloat() / size.width
             val screenHeight = DisplayUtils.screenHeight
+            val screenWidth = DisplayUtils.screenWidth
+
             val displayedWidth = screenHeight.toFloat() / imageRatio
             val maxDisplayedWidth = (TouchImageView.MAX_SCALE * displayedWidth).toInt() + 1
-            if (maxDisplayedWidth < DisplayUtils.screenWidth) {
+            if (maxDisplayedWidth < screenWidth) {
                 optimalViewWidth = maxDisplayedWidth
             }
-            L.tag(TAG).log("ir = $imageRatio, sh = $screenHeight, iw = $displayedWidth, optw = $optimalViewWidth")
+
+            val displayedHeight = imageRatio * screenWidth
+            val maxDisplayedHeight = (TouchImageView.MAX_SCALE * displayedHeight).toInt() + 1
+            if (maxDisplayedHeight < screenHeight) {
+                optimalViewHeight = maxDisplayedHeight
+            }
+
+            L.tag(TAG).log("screen=${screenWidth}x$screenHeight, ir=$imageRatio, " +
+                    "optw=$optimalViewWidth, opth=$optimalViewHeight")
         }
-        optimalViewWidth?.also { newWidth ->
+        if (optimalViewWidth != null || optimalViewHeight != null) {
             imgDisplay?.layoutParams?.apply {
-                width = newWidth
+                optimalViewWidth?.also { newWidth ->
+                    width = newWidth
+                }
+                optimalViewHeight?.also { newHeight ->
+                    height = newHeight
+                }
                 imgDisplay.layoutParams = this
             }
         }
