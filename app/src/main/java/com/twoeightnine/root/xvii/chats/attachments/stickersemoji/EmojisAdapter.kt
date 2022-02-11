@@ -27,6 +27,7 @@ import com.twoeightnine.root.xvii.extensions.load
 import com.twoeightnine.root.xvii.managers.Prefs
 import global.msnthrp.xvii.data.stickersemoji.model.Emoji
 import global.msnthrp.xvii.uikit.base.adapters.BaseAdapter
+import global.msnthrp.xvii.uikit.extensions.isValidForGlide
 import global.msnthrp.xvii.uikit.extensions.setVisible
 import kotlinx.android.synthetic.main.item_emoji.view.*
 
@@ -46,6 +47,8 @@ class EmojisAdapter(
     inner class EmojiViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(emoji: Emoji) {
+            if (!itemView.context.isValidForGlide()) return
+
             with(itemView) {
 
                 ivKeyboard.setVisible(Prefs.appleEmojis)
