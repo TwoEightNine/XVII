@@ -39,7 +39,7 @@ class DefaultPeerResolver : PeerResolver {
 
     override fun resolvePeers(peerIds: List<Int>): Map<Int, PeerResolver.ResolvedPeer> {
         val peers = appDb.dialogsDao()
-                .getDialogsByPeerIds(peerIds)
+                .getLargeListOfDialogs(peerIds)
                 .blockingGet()
                 .toResolvedPeers()
         val missingIds = peerIds.subtract(peers.map { it.peerId })

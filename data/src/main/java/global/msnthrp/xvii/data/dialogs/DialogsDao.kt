@@ -32,7 +32,7 @@ interface DialogsDao {
     fun getDialogs(peerId: Int): Single<Dialog>
 
     @Query("SELECT * FROM dialogs WHERE peerId IN (:peerIds)")
-    fun getDialogsByPeerIds(peerIds: List<Int>): Single<List<Dialog>>
+    fun getDialogs(peerIds: List<Int>): Single<List<Dialog>>
 
     @Query("SELECT peerId FROM dialogs WHERE isPinned = 1")
     fun getPinned(): Single<List<Int>>
@@ -48,4 +48,14 @@ interface DialogsDao {
 
     @Query("DELETE FROM dialogs where isPinned = 0 and alias = ''")
     fun removeAll(): Completable
+
+    fun getLargeListOfDialogs(peerIds: List<Int>): Single<List<Dialog>> {
+        return if (peerIds.size < 1000) {
+            getDialogs(peerIds)
+        } else {
+            getDialogs().map { allDialogs ->
+                allDialogs.filter { it.peerId in peerIds }
+            }
+        }
+    }
 }
