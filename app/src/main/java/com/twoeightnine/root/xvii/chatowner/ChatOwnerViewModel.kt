@@ -96,8 +96,8 @@ class ChatOwnerViewModel : ViewModel() {
 
     fun loadChatMembers(peerId: Int) {
         api.getConversationMembers(peerId)
-                .subscribeSmart({
-                    conversationMembersLiveData.value = it.profiles
+                .subscribeSmart({ membersResponse ->
+                    conversationMembersLiveData.value = membersResponse.profiles
                 }, { error ->
                     L.tag(TAG).warn().log("cant load members for $peerId: $error")
                 })

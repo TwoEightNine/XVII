@@ -558,5 +558,6 @@
     <string name="alert_privacy_and_tos_disagree">не согласиться и выйти</string>
     <string name="restart">перезапустить</string>
     <string name="restart_send_crash">отправить детали разработчику</string>
+    <string name="show_all_users">показать всех %s</string>
 
 </resources>

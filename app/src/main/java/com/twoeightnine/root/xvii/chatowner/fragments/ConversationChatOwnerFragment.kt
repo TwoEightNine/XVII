@@ -36,9 +36,7 @@ import com.twoeightnine.root.xvii.uikit.paint
 import com.twoeightnine.root.xvii.utils.showWarnConfirm
 import com.twoeightnine.root.xvii.utils.wrapMentions
 import com.twoeightnine.root.xvii.views.TextInputAlertDialog
-import global.msnthrp.xvii.uikit.extensions.applyTopInsetMargin
-import global.msnthrp.xvii.uikit.extensions.lowerIf
-import global.msnthrp.xvii.uikit.extensions.setVisible
+import global.msnthrp.xvii.uikit.extensions.*
 import kotlinx.android.synthetic.main.fragment_chat_owner_conversation.*
 import kotlinx.android.synthetic.main.item_chat_owner_field.view.*
 import kotlinx.android.synthetic.main.item_chat_owner_field.view.ivIcon
@@ -95,7 +93,24 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
     }
 
     private fun onMembersLoaded(profiles: List<User>) {
-        adapter?.update(profiles)
+        adapter?.update(profiles.take(PROFILES_LIMIT))
+
+        val participantsCount = profiles.size
+        if (participantsCount > PROFILES_LIMIT) {
+            tvShowAllUsers.apply {
+                show()
+
+                val participantsFormatted = requireContext().resources
+                        .getQuantityString(R.plurals.participants, participantsCount, participantsCount)
+                text = getString(R.string.show_all_users, participantsFormatted)
+
+                paint(Munch.color.color)
+                setOnClickListener {
+                    adapter?.update(profiles)
+                    hide()
+                }
+            }
+        }
     }
 
     private fun onUserClick(user: User) {
@@ -104,7 +119,7 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
 
     private fun onUserLongClick(user: User) {
         val peerId = getChatOwner()?.getPeerId() ?: 0
-        var name = user.fullName.lowerIf(Prefs.lowerTexts)
+        val name = user.fullName.lowerIf(Prefs.lowerTexts)
         showWarnConfirm(context, getString(R.string.wanna_kick_user, name), getString(R.string.kick_user)) { confirmed ->
             if (confirmed) {
                 viewModel.kickUser(peerId, user.id)
@@ -150,6 +165,9 @@ class ConversationChatOwnerFragment : BaseChatOwnerFragment<Conversation>() {
     }
 
     companion object {
+
+        private const val PROFILES_LIMIT = 50
+
         fun newInstance(peerId: Int): ConversationChatOwnerFragment {
             val fragment = ConversationChatOwnerFragment()
             fragment.arguments = Bundle().apply {

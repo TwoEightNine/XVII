@@ -545,4 +545,5 @@
     <string name="report_reason_advertisement">werbungen</string>
     <string name="login_log_in">anmelden</string>
     <string name="restart">app neustarten</string>
+    <string name="show_all_users">alle %s zeigen</string>
 </resources>

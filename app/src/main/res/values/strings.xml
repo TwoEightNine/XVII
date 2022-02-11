@@ -301,6 +301,7 @@
     <string name="wanna_kick_user">do you really want to kick %s?</string>
     <string name="leave_conversation">leave</string>
     <string name="wanna_leave_conversation">do you really want to leave this conversation?</string>
+    <string name="show_all_users">show all %s</string>
     <string name="clear_vote">clear my vote</string>
     <string name="open_in_browser">open in browser</string>
     <string name="unable_to_crop">unable to crop this image as a background. try to select other one</string>
