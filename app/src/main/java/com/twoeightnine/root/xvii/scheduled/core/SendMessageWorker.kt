@@ -53,31 +53,39 @@ class SendMessageWorker(
     lateinit var appDb: AppDb
 
     override fun doWork(): Result {
-        val peerId = inputData.getInt(ARG_MESSAGE_PEER_ID, 0)
-        val text = inputData.getString(ARG_MESSAGE_TEXT)
-        val attachments = inputData.getString(ARG_MESSAGE_ATTACHMENTS)
-        val fwdMessages = inputData.getString(ARG_MESSAGE_FWD_MESSAGES)
-        if (peerId == 0 || text == null) {
+        val scheduledMessageId = inputData.getInt(ARG_MESSAGE_ID, NO_ID)
+
+        if (scheduledMessageId == NO_ID) {
             showNotificationForPeer(success = false)
-            lw("received peerId = $peerId, text = $text")
+            lw("received scheduledMessageId = -1")
             return Result.failure()
         }
 
         App.appComponent?.inject(this)
+        val scheduledMessage = appDb.scheduledMessagesDao()
+                .getScheduledMessage(scheduledMessageId)
+                .blockingGet()
+
+        if (scheduledMessage.peerId == 0) {
+            showNotificationForPeer(success = false)
+            lw("received $scheduledMessage")
+            return Result.failure()
+        }
+
         val response = api.sendMessage(
-                peerId = peerId,
+                peerId = scheduledMessage.peerId,
                 randomId = Random.nextInt(),
-                text = text,
-                forwardedMessages = fwdMessages,
-                attachments = attachments
+                text = scheduledMessage.text,
+                forwardedMessages = scheduledMessage.forwardedMessages,
+                attachments = scheduledMessage.attachments
         ).blockingFirst()
 
         l("message sent: $response")
         return if (response.response != null) {
-            showNotificationForPeer(peerId = peerId, success = true)
+            showNotificationForPeer(peerId = scheduledMessage.peerId, success = true)
             Result.success()
         } else {
-            showNotificationForPeer(peerId = peerId, success = false)
+            showNotificationForPeer(peerId = scheduledMessage.peerId, success = false)
             Result.retry()
         }
     }
@@ -118,13 +126,9 @@ class SendMessageWorker(
         private const val TAG = "message scheduler"
 
         const val NOTIFICATION_ID = Int.MAX_VALUE
+        private const val NO_ID = -1
 
         const val ARG_MESSAGE_ID = "scheduledMessage_id"
-        const val ARG_MESSAGE_PEER_ID = "scheduledMessage_peerId"
-        const val ARG_MESSAGE_WHEN = "scheduledMessage_whenMs"
-        const val ARG_MESSAGE_TEXT = "scheduledMessage_text"
-        const val ARG_MESSAGE_ATTACHMENTS = "scheduledMessage_attachments"
-        const val ARG_MESSAGE_FWD_MESSAGES = "scheduledMessage_forwardedMessages"
 
         fun enqueueWorker(context: Context, scheduledMessage: ScheduledMessage) {
             val constraints = Constraints.Builder()
@@ -153,12 +157,7 @@ class SendMessageWorker(
                 "send_${scheduledMessageId}"
 
         private fun createInputData(scheduledMessage: ScheduledMessage) = workDataOf(
-                ARG_MESSAGE_ID to scheduledMessage.id,
-                ARG_MESSAGE_PEER_ID to scheduledMessage.peerId,
-                ARG_MESSAGE_WHEN to scheduledMessage.whenMs,
-                ARG_MESSAGE_TEXT to scheduledMessage.text,
-                ARG_MESSAGE_ATTACHMENTS to scheduledMessage.attachments,
-                ARG_MESSAGE_FWD_MESSAGES to scheduledMessage.forwardedMessages
+                ARG_MESSAGE_ID to scheduledMessage.id
         )
 
         private fun l(s: String) {

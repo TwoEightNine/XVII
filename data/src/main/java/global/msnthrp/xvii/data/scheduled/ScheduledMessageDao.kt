@@ -32,6 +32,9 @@ interface ScheduledMessageDao {
     @Query("SELECT * FROM scheduled_messages ORDER BY id DESC LIMIT 1")
     fun getLastScheduledMessage(): Single<List<ScheduledMessage>>
 
+    @Query("SELECT * FROM scheduled_messages WHERE id = :id")
+    fun getScheduledMessage(id: Int): Single<ScheduledMessage>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addScheduledMessage(scheduledMessage: ScheduledMessage): Completable
 
