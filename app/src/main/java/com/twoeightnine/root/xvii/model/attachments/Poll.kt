@@ -68,7 +68,7 @@ data class Poll(
 
         @SerializedName("answer_ids")
         @Expose
-        val answerIds: List<Int> = arrayListOf(),
+        val answerIds: List<Long> = arrayListOf(),
 
         @SerializedName("photo")
         val photo: PollPhoto?,
@@ -85,7 +85,7 @@ data class PollAnswer(
 
         @SerializedName("id")
         @Expose
-        val id: Int,
+        val id: Long,
 
         @SerializedName("text")
         @Expose

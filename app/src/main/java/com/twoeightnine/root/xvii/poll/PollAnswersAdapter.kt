@@ -47,7 +47,7 @@ class PollAnswersAdapter(
         holder.bind(items[position])
     }
 
-    fun invalidateSelected(answerIds: List<Int>) {
+    fun invalidateSelected(answerIds: List<Long>) {
         items.filter { it.id in answerIds }
                 .forEach { item ->
                     multiSelect(item)
