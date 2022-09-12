@@ -39,6 +39,7 @@ import com.twoeightnine.root.xvii.model.attachments.Photo
 import com.twoeightnine.root.xvii.report.ReportFragment
 import com.twoeightnine.root.xvii.utils.*
 import global.msnthrp.xvii.uikit.extensions.*
+import global.msnthrp.xvii.uikit.utils.DisplayUtils
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.activity_image_viewer.*
 import java.io.File
@@ -69,9 +70,10 @@ class ImageViewerActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-
+        DisplayUtils.initIfNot(this)
         setContentView(R.layout.activity_image_viewer)
         App.appComponent?.inject(this)
+
         initData()
         setPosition(position)
         with(vpImage) {
