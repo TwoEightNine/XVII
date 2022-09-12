@@ -152,7 +152,7 @@ object BrowsingUtils {
         // Now packagesSupportingCustomTabs contains all apps that can handle both VIEW intents
         // and service calls.
         mPackageNameToUse = when {
-            packagesSupportingCustomTabs.size == 1 -> packagesSupportingCustomTabs[0]
+            packagesSupportingCustomTabs.isNotEmpty() -> packagesSupportingCustomTabs.first()
             STABLE_PACKAGE in packagesSupportingCustomTabs -> STABLE_PACKAGE
             BETA_PACKAGE in packagesSupportingCustomTabs -> BETA_PACKAGE
             DEV_PACKAGE in packagesSupportingCustomTabs -> DEV_PACKAGE
