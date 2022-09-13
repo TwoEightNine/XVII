@@ -20,7 +20,6 @@ package global.msnthrp.xvii.uikit.extensions
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.RequestBuilder
@@ -40,20 +39,12 @@ fun ImageView.load(
         url.isNullOrBlank() -> stubColorUrl
         else -> url
     }
-    val placeholderIfNeeded = { rb: RequestBuilder<Drawable> ->
-        if (placeholder) {
-            val placeholderDrawable = ColorDrawable(placeholderColor)
-            rb.placeholder(placeholderDrawable)
-                    .error(placeholderDrawable)
-        } else {
-            rb
-        }
+    if (context.isValidForGlide()) {
+        GlideApp.with(this)
+                .load(urlOrStub)
+                .block()
+                .into(this)
     }
-    GlideApp.with(this)
-            .load(urlOrStub)
-//            .let(placeholderIfNeeded)
-            .block()
-            .into(this)
 }
 
 fun SimpleBitmapTarget.load(
