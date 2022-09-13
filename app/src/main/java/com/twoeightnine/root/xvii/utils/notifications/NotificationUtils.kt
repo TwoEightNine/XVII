@@ -57,7 +57,7 @@ object NotificationUtils {
 
     fun hideAllMessageNotifications(context: Context) {
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
-            shownMessageNotificationIds.forEach { id ->
+            shownMessageNotificationIds.synchronizedForEach { id ->
                 cancel(id)
             }
         }
@@ -66,7 +66,7 @@ object NotificationUtils {
 
     fun hideAllExchangeNotifications(context: Context) {
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
-            shownExchangeNotificationIds.forEach { id ->
+            shownExchangeNotificationIds.synchronizedForEach { id ->
                 cancel(id)
             }
         }
@@ -75,7 +75,7 @@ object NotificationUtils {
 
     fun hideAllMentionNotifications(context: Context) {
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
-            shownMentionNotificationIds.forEach { id ->
+            shownMentionNotificationIds.synchronizedForEach { id ->
                 cancel(id)
             }
         }
@@ -419,5 +419,9 @@ object NotificationUtils {
                     isPeerIdStillActual = { true }
             )
         }
+    }
+
+    private fun <T> List<T>.synchronizedForEach(block: (item: T) -> Unit) {
+        synchronized(this) { forEach(block) }
     }
 }
