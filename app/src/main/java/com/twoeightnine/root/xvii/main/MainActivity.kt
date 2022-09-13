@@ -124,7 +124,7 @@ class MainActivity : BaseActivity() {
         if (flDialogs.isVisible()) {
             try {
                 goHome(this)
-            } catch (e: IllegalStateException) {
+            } catch (e: Exception) {
                 L.def().throwable(e).log("unable to go home")
                 super.onBackPressed()
             }
