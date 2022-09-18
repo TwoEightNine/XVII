@@ -18,6 +18,7 @@
 
 package global.msnthrp.xvii.core.journal
 
+import android.database.sqlite.SQLiteFullException
 import global.msnthrp.xvii.core.journal.model.JournalEvent
 import global.msnthrp.xvii.core.journal.model.JournalEventWithPeer
 import global.msnthrp.xvii.core.journal.model.JournalFilter
@@ -32,11 +33,11 @@ class JournalUseCase(
 ) {
 
     fun addUserOnline(userId: Int, deviceCode: Int, timeStamp: Long = System.currentTimeMillis()) {
-        journalDataSource.addJournalEvent(JournalEvent.StatusJE.OnlineStatusJE(userId, timeStamp, deviceCode))
+        addEventSafely(JournalEvent.StatusJE.OnlineStatusJE(userId, timeStamp, deviceCode))
     }
 
     fun addUserOffline(userId: Int, lastSeen: Long, timeStamp: Long = System.currentTimeMillis()) {
-        journalDataSource.addJournalEvent(JournalEvent.StatusJE.OfflineStatusJE(userId, timeStamp, lastSeen))
+        addEventSafely(JournalEvent.StatusJE.OfflineStatusJE(userId, timeStamp, lastSeen))
     }
 
     fun addActivity(peerId: Int, isVoice: Boolean, fromId: Int = peerId, timeStamp: Long = System.currentTimeMillis()) {
@@ -45,11 +46,11 @@ class JournalUseCase(
         } else {
             JournalEvent.ActivityJE.TypingActivityJE(peerId, timeStamp, fromId)
         }
-        journalDataSource.addJournalEvent(event)
+        addEventSafely(event)
     }
 
     fun addMessageDeleted(peerId: Int, messageId: Int, timeStamp: Long = System.currentTimeMillis()) {
-        journalDataSource.addJournalEvent(JournalEvent.MessageJE.DeletedMessageJE(peerId, timeStamp, messageId))
+        addEventSafely(JournalEvent.MessageJE.DeletedMessageJE(peerId, timeStamp, messageId))
     }
 
     fun addMessage(peerId: Int, messageId: Int, messageText: String, isEdited: Boolean, fromId: Int = peerId, timeStamp: Long = System.currentTimeMillis()) {
@@ -58,11 +59,11 @@ class JournalUseCase(
         } else {
             JournalEvent.MessageJE.NewMessageJE(peerId, timeStamp, messageId, fromId, messageText)
         }
-        journalDataSource.addJournalEvent(event)
+        addEventSafely(event)
     }
 
     fun addReadMessage(peerId: Int, messageId: Int, timeStamp: Long = System.currentTimeMillis()) {
-        journalDataSource.addJournalEvent(JournalEvent.MessageJE.ReadMessageJE(peerId, timeStamp, messageId))
+        addEventSafely(JournalEvent.MessageJE.ReadMessageJE(peerId, timeStamp, messageId))
     }
 
     fun getEvents(filter: JournalFilter = JournalFilter.ALL): List<JournalEventWithPeer> {
@@ -120,8 +121,17 @@ class JournalUseCase(
         return result
     }
 
+    private fun addEventSafely(event: JournalEvent) {
+        try {
+            journalDataSource.addJournalEvent(event)
+        } catch (e: SQLiteFullException) {
+            clearObsoleteEvents()
+            journalDataSource.addJournalEvent(event)
+        }
+    }
+
     private fun getAllJournalEvents(): List<JournalEvent> {
-        journalDataSource.clearAllExceptRecent(System.currentTimeMillis() - RECENT_THRESHOLD)
+        clearObsoleteEvents()
         return journalDataSource.getJournalEvents()
     }
 
@@ -134,6 +144,10 @@ class JournalUseCase(
                     peerPhoto = peers[event.peerId]?.peerPhoto ?: ""
             )
         }
+    }
+
+    private fun clearObsoleteEvents() {
+        journalDataSource.clearAllExceptRecent(System.currentTimeMillis() - RECENT_THRESHOLD)
     }
 
     companion object {
