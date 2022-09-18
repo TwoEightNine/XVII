@@ -32,7 +32,7 @@ object Session {
     private const val PIN_LAST_FAILED_PROMPT = "pinLastFailedPrompt"
     private const val PIN_BRUTE_FORCED = "pinBruteForced"
 
-    private const val PIN_THRESHOLD = 20
+    private const val PIN_THRESHOLD = 6
     private const val PIN_RETRY_THRESHOLD = 60
 
     private val pref: SharedPreferences by lazy {
@@ -55,8 +55,4 @@ object Session {
 
     fun needToWaitAfterFailedPin() = pinBruteForced && Prefs.pin.isNotEmpty()
             && time() - pinLastFailedPrompt <= PIN_RETRY_THRESHOLD
-
-    fun clearAll() {
-        pref.edit().clear().apply()
-    }
 }

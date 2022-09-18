@@ -53,8 +53,10 @@ class EncryptedSessionProvider(context: Context) : SessionProvider {
     override val encryptionKey256: ByteArray by EncryptionKeyDelegate()
 
     override fun clearAll() {
-        prefs.edit {
-            clear()
+        kotlin.runCatching {
+            prefs.edit {
+                clear()
+            }
         }
     }
 
