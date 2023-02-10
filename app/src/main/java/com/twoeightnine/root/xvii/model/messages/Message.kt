@@ -80,6 +80,10 @@ data class Message(
         @Expose
         val attachments: ArrayList<Attachment>? = arrayListOf(),
 
+        @SerializedName("conversation_message_id")
+        @Expose
+        val conversationMessageId: Int = 0,
+
         @SerializedName("reply_message")
         @Expose
         var replyMessage: Message? = null,
@@ -108,6 +112,7 @@ data class Message(
     constructor(event: BaseMessageEvent, prepareText: (String) -> String = { it }) : this(
             id = event.id,
             peerId = event.peerId,
+            //conversationMessageId = event.peerId,
             date = event.timeStamp,
             fromId = event.info.from,
             text = prepareText(event.text),

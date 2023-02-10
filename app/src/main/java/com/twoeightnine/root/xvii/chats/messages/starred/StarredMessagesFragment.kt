@@ -83,6 +83,8 @@ class StarredMessagesFragment : BaseMessagesFragment<StarredMessagesViewModel>()
             isImportant = true
     )
 
+    override fun getSearchMessageId() = 0
+
     override fun getAdapterCallback() = object : MessagesAdapter.Callback {
 
         override fun onClicked(message: Message) {

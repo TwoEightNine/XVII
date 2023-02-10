@@ -19,6 +19,7 @@
 package com.twoeightnine.root.xvii.main
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -32,6 +33,7 @@ import com.twoeightnine.root.xvii.R
 import com.twoeightnine.root.xvii.base.BaseActivity
 import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.startFragment
 import com.twoeightnine.root.xvii.chatowner.ChatOwnerFactory
+import com.twoeightnine.root.xvii.chats.attachments.base.BaseAttachmentsFragment
 import com.twoeightnine.root.xvii.chats.messages.chat.usual.ChatActivity
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsForwardFragment
 import com.twoeightnine.root.xvii.dialogs.fragments.DialogsFragment
@@ -75,7 +77,10 @@ class MainActivity : BaseActivity() {
         StatTool.get()?.incLaunch()
 
         ivSearch.setOnClickListener {
-            startFragment<SearchFragment>()
+            var arguments = Bundle().apply {
+                putBoolean(SELECTED_FRIENDS, bottomNavView.selectedItemId==R.id.menu_friends)
+            }
+            startFragment<SearchFragment>(arguments)
         }
         ivSearch.paint(Munch.color.color)
         ivSearch.applyTopInsetMargin()
@@ -87,6 +92,17 @@ class MainActivity : BaseActivity() {
                 view.layoutParams = this
             }
             insets
+        }
+
+        intent.extras?.let{
+            it.getString(SEARCH_TEXT)?.let{
+                val search = it;
+                var arguments = Bundle().apply {
+                    putBoolean(SELECTED_FRIENDS, bottomNavView.selectedItemId==R.id.menu_friends)
+                    putString(SEARCH_TEXT, search)
+                }
+                startFragment<SearchFragment>(arguments)
+            }
         }
     }
 
@@ -135,8 +151,17 @@ class MainActivity : BaseActivity() {
 
     companion object {
 
-        fun launch(context: Context?) {
-            launchActivity(context, MainActivity::class.java)
+        const val SEARCH_TEXT = "searchText"
+        const val SELECTED_FRIENDS = "selectedFriends"
+
+        fun launch(context: Context?, search:String?= null) {
+            if(search==null) {
+                launchActivity(context, MainActivity::class.java)
+            }else{
+                context?.startActivity(Intent(context, MainActivity::class.java).apply {
+                    putExtra(MainActivity.SEARCH_TEXT, search)
+                })
+            }
         }
     }
 

@@ -146,6 +146,13 @@ interface ApiService {
             @Query("start_from") startFrom: String?
     ): Flowable<BaseResponse<AttachmentsResponse>>
 
+    @GET("messages.search?extended=1")
+    fun search(
+        @Query("q") q: String,
+        @Query("count") count: Int,
+        @Query("offset") offset: Int,
+        @Query("fields") fields: String = User.FIELDS
+    ): Flowable<BaseResponse<SearchResponse>>
 
     @GET("messages.searchConversations?extended=1")
     fun searchConversations(

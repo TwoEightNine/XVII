@@ -37,7 +37,7 @@
             app:civ_border_color="@color/icons" />
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvTitleSingle"
             style="@style/MainMediumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,8 +45,34 @@
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@+id/civPhoto"
             android:singleLine="true"
-            android:text="name name name"
+            android:text=""
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/MainMediumText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/civPhoto"
+            android:singleLine="true"
+            android:text=""
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/tvBody"
+            style="@style/MainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitle"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/civPhoto"
+            android:singleLine="true"
+            android:text=""
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/ivOnlineDot"
