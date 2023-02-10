@@ -114,13 +114,13 @@ class WallPostFragment : BaseFragment() {
 
     private fun putViews(holder: WallViewHolder, post: WallPost, level: Int = 0) {
 
-        var (title, avatar) = when{
+        val (title, avatar) = when{
             post.fromId < 0 -> {
                 val group = getGroup(-post.fromId)
                 Pair(group.name, group.photo100)
             }
             else -> {
-                var user = getUser(post.fromId)
+                val user = getUser(post.fromId)
                 Pair(user.getTitle(), user.photo100)
             }
         }
