@@ -70,6 +70,7 @@ import kotlinx.android.synthetic.main.view_chat_multiselect.*
 abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMessagesFragment<VM>() {
 
     protected val peerId by lazy { arguments?.getInt(ARG_PEER_ID) ?: 0 }
+    protected val messageId by lazy { arguments?.getInt(ARG_MESSAGE_ID) ?: 0 }
     protected val title by lazy { arguments?.getString(ARG_TITLE) ?: "" }
     protected val photo by lazy { arguments?.getString(ARG_PHOTO) ?: "" }
     private val forwardedMessages by lazy { arguments?.getString(ARG_FORWARDED) }
@@ -423,6 +424,8 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
             isImportant = false
     )
 
+    override fun getSearchMessageId() = messageId
+
     override fun getAdapterCallback() = MessageCallback()
 
     override fun getAttachmentsCallback() = AttachmentsCallback(requireContext())
@@ -432,6 +435,7 @@ abstract class BaseChatMessagesFragment<VM : BaseChatMessagesViewModel> : BaseMe
         const val MEMBERS_MAX = 5
 
         const val ARG_PEER_ID = "peerId"
+        const val ARG_MESSAGE_ID = "messageId"
         const val ARG_TITLE = "title"
         const val ARG_FORWARDED = "forwarded"
         const val ARG_PHOTO = "photo"

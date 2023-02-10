@@ -20,6 +20,7 @@ package com.twoeightnine.root.xvii.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.twoeightnine.root.xvii.App
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.WrappedLiveData
@@ -29,19 +30,27 @@ import com.twoeightnine.root.xvii.network.ApiService
 import com.twoeightnine.root.xvii.network.response.BaseResponse
 import com.twoeightnine.root.xvii.network.response.ListResponse
 import com.twoeightnine.root.xvii.network.response.SearchConversationsResponse
+import com.twoeightnine.root.xvii.network.response.SearchResponse
 import com.twoeightnine.root.xvii.utils.subscribeSmart
 import global.msnthrp.xvii.data.dialogs.Dialog
 import io.reactivex.Flowable
 import io.reactivex.functions.Function3
+import java.lang.StrictMath.min
 import javax.inject.Inject
 
 class SearchViewModel(private val api: ApiService) : ViewModel() {
 
-    private val resultLiveData = WrappedMutableLiveData<ArrayList<Dialog>>()
+    var fromFriendsPage = false
 
-    fun getResult() = resultLiveData as WrappedLiveData<ArrayList<Dialog>>
+    private val resultLiveData = WrappedMutableLiveData<ArrayList<SearchDialog>>()
 
-    fun search(q: String) {
+    fun getResult() = resultLiveData as WrappedLiveData<ArrayList<SearchDialog>>
+
+    fun setFrom(fromFriends:Boolean){
+        fromFriendsPage = fromFriends
+    }
+
+    fun search(q: String, offset: Int =0) {
         if (q.isEmpty()) {
             if (Prefs.suggestPeople) {
                 api.searchUsers(q, User.FIELDS, COUNT, 0)
@@ -54,22 +63,59 @@ class SearchViewModel(private val api: ApiService) : ViewModel() {
                 resultLiveData.value = Wrapper(arrayListOf())
             }
         } else {
-            Flowable.zip(
-                    api.searchFriends(q, User.FIELDS, COUNT, 0),
-                    api.searchUsers(q, User.FIELDS, COUNT, 0),
+            if (!fromFriendsPage) {
+                api.search(q, COUNT, offset).subscribeSmart({ response ->
+                    val dialogs = arrayListOf<SearchDialog>()
+                    val mResp = response
+                    mResp?.items?.forEach { msg ->
+                        var dlg = SearchDialog(
+                            peerId = msg.peerId ?: 0,
+                            messageId = msg.id ?: 0,
+                            text = msg.text ?: "",
+                            title = mResp.getTitleFor(msg) ?: "",
+                            photo = mResp.getPhotoFor(msg) ?: "",
+                            isOnline = mResp.isOnline(msg),
+                            isOut = msg.isOut(),
+                            isChat = true
+                        )
+                        dialogs.add(dlg)
+                    }
+                    if(offset > 0) {
+                        resultLiveData.value?.data?.addAll(ArrayList(dialogs.distinctBy { it.messageId }))
+                        resultLiveData.value = Wrapper(resultLiveData.value?.data)
+                    }else {
+                        resultLiveData.value =
+                            Wrapper(ArrayList(dialogs.distinctBy { it.messageId }))
+                    }
+                }, { error ->
+                    resultLiveData.value = Wrapper(error = error)
+                })
+            }else{
+                Flowable.zip(
+                    api.searchFriends(q, User.FIELDS, COUNT, offset),
+                    api.searchUsers(q, User.FIELDS, COUNT, offset),
                     api.searchConversations(q, COUNT),
                     ResponseCombinerFunction()
-            )
+                )
                     .subscribeSmart({ response ->
-                        resultLiveData.value = Wrapper(ArrayList(response.distinctBy { it.peerId }))
+                        if(offset > 0) {
+                            resultLiveData.value?.data?.addAll(ArrayList(response.distinctBy { it.peerId }))
+                            resultLiveData.value = Wrapper(resultLiveData.value?.data)
+                        }else {
+                            resultLiveData.value = Wrapper(ArrayList(response.distinctBy { it.peerId }))
+                        }
+
                     }, { error ->
                         resultLiveData.value = Wrapper(error = error)
                     })
+
+            }
         }
     }
 
-    private fun createFromUser(user: User) = Dialog(
+    private fun createFromUser(user: User) = SearchDialog(
             peerId = user.id,
+            messageId = user.id,
             title = user.fullName,
             photo = user.photo100,
             isOnline = user.isOnline
@@ -84,27 +130,29 @@ class SearchViewModel(private val api: ApiService) : ViewModel() {
             Function3<BaseResponse<ListResponse<User>>,
                     BaseResponse<ListResponse<User>>,
                     BaseResponse<SearchConversationsResponse>,
-                    BaseResponse<ArrayList<Dialog>>> {
+                    BaseResponse<ArrayList<SearchDialog>>> {
 
         override fun apply(
                 friends: BaseResponse<ListResponse<User>>,
                 users: BaseResponse<ListResponse<User>>,
                 conversations: BaseResponse<SearchConversationsResponse>
-        ): BaseResponse<ArrayList<Dialog>> {
-            val dialogs = arrayListOf<Dialog>()
+        ): BaseResponse<ArrayList<SearchDialog>> {
+            val dialogs = arrayListOf<SearchDialog>()
 
-            val cResp = conversations.response
+            // @TODO: может, убрать  conversation? В диалогах и так работает
+            // поиск по имени беседы, а на вкладке пользователей это не вполне надо
+             val cResp = conversations.response
             friends.response?.items?.forEach { dialogs.add(createFromUser(it)) }
             cResp?.items?.forEach { conversation ->
-                dialogs.add(Dialog(
+                dialogs.add(SearchDialog(
                         peerId = conversation.peer?.id ?: 0,
+                        messageId = conversation.peer?.id ?: 0,
                         title = cResp.getTitleFor(conversation) ?: "",
                         photo = cResp.getPhotoFor(conversation) ?: "",
                         isOnline = cResp.isOnline(conversation)
                 ))
             }
             users.response?.items?.forEach { dialogs.add(createFromUser(it)) }
-
             return BaseResponse(dialogs)
         }
     }
