@@ -33,6 +33,7 @@ import com.twoeightnine.root.xvii.base.FragmentPlacementActivity.Companion.start
 import com.twoeightnine.root.xvii.chats.attachments.AttachmentsInflater
 import com.twoeightnine.root.xvii.managers.Prefs
 import com.twoeightnine.root.xvii.model.Group
+import com.twoeightnine.root.xvii.model.User
 import com.twoeightnine.root.xvii.model.WallPost
 import com.twoeightnine.root.xvii.model.attachments.Doc
 import com.twoeightnine.root.xvii.model.attachments.Video
@@ -112,19 +113,30 @@ class WallPostFragment : BaseFragment() {
     }
 
     private fun putViews(holder: WallViewHolder, post: WallPost, level: Int = 0) {
-        val group = getGroup(-post.fromId)
+
+        var (title, avatar) = when{
+            post.fromId < 0 -> {
+                val group = getGroup(-post.fromId)
+                Pair(group.name, group.photo100)
+            }
+            else -> {
+                var user = getUser(post.fromId)
+                Pair(user.getTitle(), user.photo100)
+            }
+        }
+
         if (level == 0) {
-            xviiToolbar.tvChatTitle.text = group.name
+            xviiToolbar.tvChatTitle.text = title
             xviiToolbar.tvChatTitle.lowerIf(Prefs.lowerTexts)
 
-            xviiToolbar.civAvatar.load(group.photo100)
+            xviiToolbar.civAvatar.load(avatar)
             xviiToolbar.tvSubtitle.text = getTime(post.date, withSeconds = Prefs.showSeconds)
             holder.rlHeader.hide()
         } else {
-            holder.tvTitle.text = group.name
+            holder.tvTitle.text = title
             holder.tvTitle.lowerIf(Prefs.lowerTexts)
 
-            holder.civAvatar.load(group.photo100)
+            holder.civAvatar.load(avatar)
             holder.tvDate.text = getTime(post.date, withSeconds = Prefs.showSeconds)
         }
         holder.tvPost.text = post.text
@@ -135,6 +147,15 @@ class WallPostFragment : BaseFragment() {
             fillContent(holder.llContainer)
             putViews(WallViewHolder(holder.llContainer), post.copyHistory[0], level + 1)
         }
+    }
+
+    private fun getUser(fromId: Int): User {
+        for (user in postResponse.profiles) {
+            if (user.id == fromId) {
+                return user
+            }
+        }
+        return User()
     }
 
     private fun getGroup(fromId: Int): Group {

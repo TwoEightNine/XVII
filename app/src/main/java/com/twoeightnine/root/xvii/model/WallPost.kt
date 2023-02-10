@@ -90,7 +90,7 @@ data class WallPost(
 ) : Parcelable {
 
     val stringId: String
-        get() = "${fromId}_$id"
+        get() = "${ownerId}_$id"
 
     fun getPhoto() = attachments?.mapNotNull { it.photo } ?: arrayListOf()
 
