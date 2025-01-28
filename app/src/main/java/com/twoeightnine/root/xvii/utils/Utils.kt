@@ -67,7 +67,7 @@ import java.text.DecimalFormat
 import java.util.regex.Pattern
 
 
-private const val REGEX_MENTION = "(\\[id\\d{1,9}\\|[^\\]]+\\])"
+private const val REGEX_MENTION = "(\\[(id|club)\\d{1,9}\\|[^\\]]+\\])"
 
 fun isOnline(): Boolean {
     val cm = App.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -272,15 +272,18 @@ fun wrapMentions(context: Context, text: CharSequence, addClickable: Boolean = f
 
         val divider = mention.indexOf('|')
         val mentionUi = mention.substring(divider + 1, mention.length - 1)
-        val userId = mention.substring(3, divider).toIntOrNull()
+        val userOrGroupId = when (mention.substring(1,2)){
+            "i"-> mention.substring(3, divider).toIntOrNull()
+            else -> ("-"+mention.substring(5, divider)).toIntOrNull()
+        }
 
         ssb.append(text.substring(globalStart, start))
                 .append(mentionUi)
         val tmp = ssb.toString()
-        if (userId != null && addClickable) {
+        if (userOrGroupId != null && addClickable) {
             ssb.setSpan(object : ClickableSpan() {
                 override fun onClick(widget: View) {
-                    ChatOwnerFactory.launch(context, userId)
+                    ChatOwnerFactory.launch(context, userOrGroupId)
                 }
             }, tmp.length - mentionUi.length, tmp.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
